@@ -1,0 +1,1795 @@
+#
+# Russian translation for Flush
+#
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: konishchev@gmail.com\n"
+"POT-Creation-Date: 2009-03-22 20:26+0300\n"
+"Last-Translator: Konishchev Dmitry <konishchev@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/mlib/gtk/tree_view.hh:176
+#, qt-format
+msgid "No such column: '%1'."
+msgstr "Нет такой колонки: '%1'."
+
+#: src/mlib/async_fs.cpp:251
+msgid ""
+"Asynchronous filesystem finished it's work, but not all tasks are processed."
+msgstr ""
+"Асинхронная файловая система завершила свою работу, но при этом остались "
+"необработанные задачи."
+
+#: src/mlib/errors.cpp:99
+#, qt-format
+msgid "%1 at line %2"
+msgstr "%1 в строке %2"
+
+#: src/mlib/errors.cpp:108
+msgid "torrent is already exists in this session"
+msgstr "торрент уже существует в текущей сессии"
+
+#: src/mlib/errors.cpp:115
+msgid "bad torrent data"
+msgstr "испорченные данные торрента"
+
+#: src/mlib/errors.cpp:122
+msgid "this is not a torrent file"
+msgstr "это не файл торрента"
+
+#: src/mlib/errors.cpp:166 src/mlib/errors.cpp:175
+#, qt-format
+msgid "Exception: '%1'."
+msgstr "Исключение: '%1'."
+
+#: src/mlib/fs.cpp:169
+#, qt-format
+msgid "Can't copy file '%1' to '%2': %3."
+msgstr "Не удалось скопировать файл '%1' в '%2': %3."
+
+#: src/mlib/fs.cpp:202
+#, qt-format
+msgid ""
+"Error while changing directory '%1' access and modification times. Can't "
+"stat directory '%2': %3."
+msgstr ""
+"При изменении времени последнего доступа и времени модификации для "
+"директории '%1' произошла ошибка. Не удалось получить информацию (stat) для "
+"директории '%2': %3."
+
+#: src/mlib/fs.cpp:216
+#, qt-format
+msgid "Error while changing directory '%1' access and modification times: %2."
+msgstr ""
+"При изменении времени последнего доступа и времени модификации для "
+"директории '%1' произошла ошибка: %2."
+
+#: src/mlib/fs.cpp:231 src/mlib/fs.cpp:841 src/daemon_fs.cpp:41
+#, qt-format
+msgid "Can't create directory '%1': %2."
+msgstr "Не удалось создать директорию '%1': %2."
+
+#: src/mlib/fs.cpp:262
+#, qt-format
+msgid "Invalid file path '%1'."
+msgstr "Недопустимый путь файла: %1."
+
+#: src/mlib/fs.cpp:311
+#, qt-format
+msgid "Invalid file path '%1' - file with such path is already exists."
+msgstr "Недопустимый путь файла '%1': файл с таким именем уже существует."
+
+#: src/mlib/fs.cpp:320
+#, qt-format
+msgid "Invalid file path '%1' - file '%2' is already exits."
+msgstr "Недопустимый путь файла '%1': файл '%2' уже существует."
+
+#: src/mlib/fs.cpp:364 src/mlib/fs.cpp:797 src/mlib/fs.cpp:807
+#, qt-format
+msgid "Can't stat '%1': %2."
+msgstr "Не удалось получить информацию (stat) о '%1': %2."
+
+#: src/mlib/fs.cpp:378
+#, qt-format
+msgid "Can't remove file '%1': %2."
+msgstr "Не удалось удалить файл '%1': %2."
+
+#: src/mlib/fs.cpp:402
+#, qt-format
+msgid "Can't read directory '%1': %2."
+msgstr "Не удалось прочитать директорию '%1': %2."
+
+#: src/mlib/fs.cpp:406
+#, qt-format
+msgid "Can't remove directory '%1': %2."
+msgstr "Не удалось удалить директорию '%1': %2."
+
+#: src/mlib/fs.cpp:444
+msgid "parent directory is not exists"
+msgstr "родительской директории не существует"
+
+#: src/mlib/fs.cpp:761
+msgid "file is already exists"
+msgstr "файл уже существует"
+
+#: src/mlib/fs.cpp:778
+msgid "it is a directory"
+msgstr "это директория"
+
+#: src/mlib/fs.cpp:782
+msgid "it is a special file"
+msgstr "это специальный файл"
+
+#: src/mlib/fs.cpp:793 src/mlib/fs.cpp:803
+#, qt-format
+msgid "No such file or directory ('%1')."
+msgstr "Нет такого файла или директории ('%1')."
+
+#: src/mlib/fs.cpp:872
+#, qt-format
+msgid "Error while copying '%1' to '%2': %3."
+msgstr "Ошибка при копировании '%1' в '%2': %3."
+
+#: src/mlib/fs.cpp:878 src/mlib/fs.cpp:1040
+#, qt-format
+msgid "Error while reading '%1': %2."
+msgstr "Ошибка при чтении '%1': %2."
+
+#: src/mlib/fs.cpp:914
+msgid "Can't get user home path."
+msgstr "Не удалось получить путь к домашнему каталогу пользователя."
+
+#: src/mlib/fs.cpp:961
+#, qt-format
+msgid "file '%1' is already exists"
+msgstr "файл '%1' уже существует"
+
+#: src/mlib/fs.cpp:1033
+#, qt-format
+msgid "Can't delete directory '%1': %2."
+msgstr "Не удалось создать директорию '%1': %2."
+
+#: src/mlib/fs.cpp:1047
+#, qt-format
+msgid "file or directory '%1' is not exists"
+msgstr "файл или директория '%1' не существуют"
+
+#: src/mlib/fs.cpp:1051
+#, qt-format
+msgid "Can't delete file '%1': %2."
+msgstr "Не удалось удалить файл '%1': %2."
+
+#: src/mlib/fs.cpp:1142
+msgid "too big link target path"
+msgstr "слишком длинный адрес ссылки"
+
+#: src/mlib/libtorrent.cpp:74
+#, qt-format
+msgid "Invalid torrent file path '%1'."
+msgstr "Недопустимый путь к файлу торрента: '%1'."
+
+#: src/mlib/libtorrent.cpp:176 src/mlib/libtorrent.cpp:180
+#: src/mlib/libtorrent.cpp:184
+#, qt-format
+msgid "Error while reading torrent file '%1': %2."
+msgstr "Ошибка при чтении торрент файла '%1': %2."
+
+#: src/mlib/messages.cpp:149
+msgid "Logical error"
+msgstr "Логическая ошибка"
+
+#: src/mlib/misc.cpp:106
+msgid "[[gettimeofday time getting error]]"
+msgstr "[[ошибка gettimeofday]]"
+
+#: src/mlib/misc.cpp:164 src/mlib/misc.cpp:223
+msgid "Buffer positioning error."
+msgstr "Ошибка позиционирования буфера."
+
+#: src/mlib/misc.cpp:185
+msgid "file too big"
+msgstr "файл слишком большой"
+
+#: src/mlib/misc.cpp:294
+#, qt-format
+msgid "Copyright (C) %1-%2 %3."
+msgstr "Copyright (C) %1-%2 %3."
+
+#: src/mlib/misc.cpp:297
+#, qt-format
+msgid "Copyright (C) %1 %2."
+msgstr "Copyright (C) %1 %2."
+
+#: src/mlib/misc.cpp:314
+#, qt-format
+msgid "Realloc failed: %1."
+msgstr "Ошибка realloc: %1."
+
+#: src/mlib/misc.cpp:334
+#, qt-format
+msgid ""
+"Running command '%1' failed. Can't get max opened file descriptors limit: %2."
+msgstr ""
+"Запуск команды '%1' завершился неудачей. Не удалось определить предел на "
+"максимальное количество открытых файловых дескрипторов: %2."
+
+#: src/mlib/misc.cpp:364
+#, qt-format
+msgid "Running command '%1' failed: %2."
+msgstr "Запуск команды '%1' завершился неудачей: %2."
+
+#: src/mlib/misc.cpp:372
+#, qt-format
+msgid "Can't fork process: %1."
+msgstr "Не удалось клонировать процесс: %1."
+
+#: src/mlib/string.cpp:33
+msgid "0m"
+msgstr "0м"
+
+#: src/mlib/string.cpp:47 src/mlib/string.cpp:85
+msgid "M"
+msgstr "М"
+
+#: src/mlib/string.cpp:50 src/mlib/string.cpp:88 src/mlib/string.cpp:97
+msgid "d"
+msgstr "д"
+
+#: src/mlib/string.cpp:53 src/mlib/string.cpp:100 src/mlib/string.cpp:108
+msgid "h"
+msgstr "ч"
+
+#: src/mlib/string.cpp:56 src/mlib/string.cpp:111 src/mlib/string.cpp:119
+msgid "m"
+msgstr "м"
+
+#: src/mlib/string.cpp:122 src/mlib/string.cpp:128
+msgid "s"
+msgstr "с"
+
+#: src/mlib/string.cpp:169 src/mlib/string.cpp:331
+msgid "[[Invalid encoding]]"
+msgstr "[[Неверная кодировка]]"
+
+#: src/mlib/string.cpp:187
+msgid "GB"
+msgstr "ГБ"
+
+#: src/mlib/string.cpp:194 src/mlib/string.cpp:204
+#: src/create_torrent_dialog.cpp:629 src/create_torrent_dialog.cpp:633
+#: src/create_torrent_dialog.cpp:637 src/create_torrent_dialog.cpp:641
+msgid "MB"
+msgstr "МБ"
+
+#: src/mlib/string.cpp:211 src/mlib/string.cpp:221
+#: src/create_torrent_dialog.cpp:609 src/create_torrent_dialog.cpp:613
+#: src/create_torrent_dialog.cpp:617 src/create_torrent_dialog.cpp:621
+#: src/create_torrent_dialog.cpp:625
+msgid "KB"
+msgstr "КБ"
+
+#: src/mlib/string.cpp:228 src/mlib/string.cpp:235
+msgid "B"
+msgstr "Б"
+
+#: src/mlib/string.cpp:250
+msgid "/s"
+msgstr "/с"
+
+#: src/mlib/string.cpp:256
+msgid "0 B/s"
+msgstr "0 Б/с"
+
+#: src/mlib/string.hh:64 src/mlib/string.hh:93 src/mlib/string.hh:111
+msgid "[[ Invalid format string ]]"
+msgstr "[[ Ошибка форматирования строки ]]"
+
+#: src/mlib/string.hh:66 src/mlib/string.hh:95 src/mlib/string.hh:113
+msgid "Invalid format string."
+msgstr "Ошибка форматирования строки"
+
+#: src/add_torrent_dialog.cpp:47
+msgid "Adding torrent"
+msgstr "Добавление торрента"
+
+#: src/add_torrent_dialog.cpp:54
+msgid "Please select torrent download directory"
+msgstr "Пожалуйста, выберите директорию для скачивания торрента"
+
+#: src/add_torrent_dialog.cpp:61 src/settings_window.cpp:84
+msgid "Please select directory for finished downloads copying"
+msgstr ""
+"Пожалуйста, выберите директорию, в которую будут скопированы файлы торрента "
+"по завершении скачивания"
+
+#: src/add_torrent_dialog.cpp:81
+msgid "Torrent"
+msgstr "Торрент"
+
+#: src/add_torrent_dialog.cpp:86
+msgid "Path:"
+msgstr "Путь:"
+
+#: src/add_torrent_dialog.cpp:89
+msgid "Name:"
+msgstr "Имя:"
+
+#: src/add_torrent_dialog.cpp:91
+msgid "Start torrent"
+msgstr "Запустить торрент"
+
+#: src/add_torrent_dialog.cpp:101
+msgid "Paths"
+msgstr "Пути"
+
+#: src/add_torrent_dialog.cpp:108
+msgid "Downloads path:"
+msgstr "Сохранять закачки в:"
+
+#: src/add_torrent_dialog.cpp:112 src/torrent_options_view.cpp:81
+msgid "Copy when finished to:"
+msgstr "Скопировать файлы по завершении скачивания в:"
+
+#: src/add_torrent_dialog.cpp:210
+msgid "Invalid torrent name"
+msgstr "Недопустимое имя торрента"
+
+#: src/add_torrent_dialog.cpp:211
+msgid ""
+"You have entered invalid torrent name. Please enter non-empty torrent name."
+msgstr ""
+"Вы ввели недопустимое имя торрента. Пожалуйста, введите допустимое имя "
+"торрента (дожно содержать хотя бы один непробельный символ)."
+
+#: src/add_torrent_dialog.cpp:239 src/main_window.cpp:694
+msgid "Opening torrent failed"
+msgstr "Открытие торрента завершилось неудачей"
+
+#: src/add_torrent_dialog.cpp:241 src/main_window.cpp:694
+#, qt-format
+msgid "Opening torrent '%1' failed. %2"
+msgstr "Открытие торрента '%1' завершилось неудачей. %2"
+
+#: src/application.cpp:63
+msgid "Silent warning"
+msgstr "Ненавязчивое предупреждение"
+
+#: src/application.cpp:365
+#, qt-format
+msgid "Running open command failed. %1."
+msgstr "Запуск программы просмотра файлов завершился неудачей. %1"
+
+#: src/application.cpp:383
+msgid "Error while saving settings"
+msgstr "Ошибка при сохранении настроек"
+
+#: src/client_cmd_options.cpp:64
+#, qt-format
+msgid "Bad option '%1' value '%2'."
+msgstr "Неверное значение '%2' опции '%1'."
+
+#: src/client_cmd_options.cpp:72
+msgid "torrent_path"
+msgstr "путь_к_файлу_торрента"
+
+#: src/client_cmd_options.cpp:81
+msgid "Main options"
+msgstr "Основные опции"
+
+#: src/client_cmd_options.cpp:87
+msgid "Show program version"
+msgstr "Показать версию программы"
+
+#: src/client_cmd_options.cpp:103
+#, qt-format
+msgid "Configuration directory path (default: ~/%1)"
+msgstr "Путь к директории с конфигурационными файлами (по умолчанию - ~/%1)"
+
+#: src/client_cmd_options.cpp:104
+msgid "DIRECTORY"
+msgstr "ДИРЕКТОРИЯ"
+
+#: src/client_cmd_options.cpp:111
+msgid "Set download rate limit (KB/s)"
+msgstr "Задать максимальную скорость скачивания (КБ/с)"
+
+#: src/client_cmd_options.cpp:112 src/client_cmd_options.cpp:120
+msgid "SPEED"
+msgstr "СКОРОСТЬ"
+
+#: src/client_cmd_options.cpp:119
+msgid "Set upload rate limit (KB/s)"
+msgstr "Задать максимальная скорость отдачи (КБ/с)"
+
+#: src/client_cmd_options.cpp:127
+msgid "Set maximum uploads"
+msgstr "Задать максимальное количество слотов для раздачи"
+
+#: src/client_cmd_options.cpp:128 src/client_cmd_options.cpp:136
+msgid "NUMBER"
+msgstr "ЧИСЛО"
+
+#: src/client_cmd_options.cpp:135
+msgid "Set maximum connections"
+msgstr "Задать максимальное количество открытых соединений"
+
+#: src/client_cmd_options.cpp:144
+msgid "Start torrents"
+msgstr "Запустить торренты"
+
+#: src/client_cmd_options.cpp:145 src/client_cmd_options.cpp:154
+msgid "{all,downloads,uploads}"
+msgstr "{all,downloads,uploads}"
+
+#: src/client_cmd_options.cpp:153
+msgid "Stop torrents"
+msgstr "Приостановить торренты"
+
+#: src/client_cmd_options.cpp:163
+#, qt-format
+msgid ""
+"Only pass commands to already running %1 instance. Does not start new "
+"instance if it is not running yet"
+msgstr ""
+"Только передать команды уже запущенной копии %1 и не запускать новую копию, "
+"даже если программа еще не запущена."
+
+#: src/client_cmd_options.cpp:193 src/main_window.cpp:558
+#: src/main_window.cpp:569
+msgid "Konishchev Dmitry"
+msgstr "Конищев Дмитрий"
+
+#: src/client_cmd_options.cpp:230
+#, qt-format
+msgid "Error while processing torrent '%1'"
+msgstr "Ошибка при обработке торрента '%1'"
+
+#: src/client_cmd_options.cpp:231
+#, qt-format
+msgid "Can't get '%1' absolute path: %2."
+msgstr "Не удалось получить абсолютный путь '%1': %2."
+
+#: src/client_cmd_options.cpp:250
+#, qt-format
+msgid "Bad option '%1' value '%2'. Allowed values: all, downloads, uploads."
+msgstr ""
+"Неверное значение '%2' опции '%1'. Допустимые значения: all, downloads, "
+"uploads."
+
+#: src/client_settings.cpp:36
+#, qt-format
+msgid "Client config: Bad option '%1' type at line %2."
+msgstr ""
+"Конфигурационный файл клиента: Неправильный тип опции '%1' в строке %2."
+
+#: src/client_settings.cpp:62
+#, qt-format
+msgid "Client config: Bad option '%1' value '%2' at line %3."
+msgstr ""
+"Конфигурационный файл клиента: Неверное значение '%2' опции '%1' в строке %3"
+
+#: src/client_settings.cpp:72
+#, qt-format
+msgid "Client config: Invalid option '%1' UTF-8 value at line %2."
+msgstr ""
+"Конфигурационный файл клиента: Неверное UTF-8 значение опции '%1' в строке %"
+"2."
+
+#: src/client_settings.cpp:82
+#, qt-format
+msgid "Client config: Unknown option '%1' at line %2."
+msgstr "Конфигурационный файл клиента: Неизвестная опция '%1' в строке %2."
+
+#: src/client_settings.cpp:794 src/daemon_settings.cpp:196
+#, qt-format
+msgid "Reading configuration file '%1' failed. %2"
+msgstr "Чтение конфигурационного файла '%1' завершилось неудачей. %2"
+
+#: src/client_settings.cpp:800
+#, qt-format
+msgid "Can't read configuration file '%1': %2."
+msgstr "Ошибка при чтении конфигурационного файла '%1': %2."
+
+#: src/client_settings.cpp:804
+#, qt-format
+msgid "Can't parse configuration file '%1': %2."
+msgstr "Ошибка при чтении конфигурационного файла '%1': %2."
+
+#: src/client_settings.cpp:879 src/daemon_settings.cpp:548
+#, qt-format
+msgid "Writing configuration file '%1' failed. %2"
+msgstr "Запись конфигурационного файла '%1' завершилась неудачей. %2"
+
+#: src/client_settings.cpp:886
+#, qt-format
+msgid "Can't write configuration file '%1': %2."
+msgstr "Ошибка при записи конфигурационного файла '%1': %2."
+
+#: src/create_torrent_dialog.cpp:181
+msgid "Hashing files..."
+msgstr "Хэширование файлов..."
+
+#: src/create_torrent_dialog.cpp:195
+msgid "Hashing files. Please wait..."
+msgstr "Производится хэширование файлов. Пожалуйста, подождите..."
+
+#: src/create_torrent_dialog.cpp:302
+msgid "Torrent created"
+msgstr "Торрент создан"
+
+#: src/create_torrent_dialog.cpp:304
+#, qt-format
+msgid "Torrent '%1' has been created successfully."
+msgstr "Торрент '%1' создан."
+
+#: src/create_torrent_dialog.cpp:316
+msgid "Creating torrent failed"
+msgstr "Создание торрента завершилось неудачей"
+
+#: src/create_torrent_dialog.cpp:318
+#, qt-format
+msgid "Creating torrent '%1' failed. %2"
+msgstr "Создание торрента '%1' завершилось неудачей. %2"
+
+#: src/create_torrent_dialog.cpp:364 src/create_torrent_dialog.cpp:411
+#, qt-format
+msgid "Error while reading torrent files. File '%1': %2."
+msgstr "Ошибка при чтении файлов торрента. Файл '%1': %2."
+
+#: src/create_torrent_dialog.cpp:370
+msgid "Libtorrent internal error happened while reading torrent files."
+msgstr "При чтении файлов торрента произошла внутренняя ошибка libtorrent."
+
+#: src/create_torrent_dialog.cpp:387
+msgid "Libtorrent internal error happened while creating torrent."
+msgstr "При создании торрента произошла внутренняя ошибка libtorrent."
+
+#: src/create_torrent_dialog.cpp:417
+msgid "Libtorrent internal error happened while hashing torrent files."
+msgstr ""
+"При хешировании файлов торрента произошла внутренняя ошибка libtorrent."
+
+#: src/create_torrent_dialog.cpp:466
+msgid "Libtorrent return invalid torrent file."
+msgstr "Libtorrent создала торрент файл неизвестного формата."
+
+#: src/create_torrent_dialog.cpp:492
+#, qt-format
+msgid "Can't write torrent file '%1': %2."
+msgstr "Не удалось сохранить файл торрента '%1': %2."
+
+#: src/create_torrent_dialog.cpp:499
+#, qt-format
+msgid "Libtorrent internal error happened while creating torrent file '%1'."
+msgstr "При создании торрента '%1' произошла внутренняя ошибка libtorrent."
+
+#: src/create_torrent_dialog.cpp:539
+msgid "Creating torrent"
+msgstr "Создание торрента"
+
+#: src/create_torrent_dialog.cpp:557
+msgid "File or directory to create torrent from:"
+msgstr "Файл или директория, из которых необходимо создать торрент:"
+
+#: src/create_torrent_dialog.cpp:592
+msgid "Private torrent (DHT is not allowed)"
+msgstr "Приватный торрент (DHT не разрешен)"
+
+#: src/create_torrent_dialog.cpp:650
+msgid "Piece size:"
+msgstr "Размер одной части:"
+
+#: src/create_torrent_dialog.cpp:657 src/torrent_options_view.cpp:109
+msgid "Trackers"
+msgstr "Трекеры"
+
+#: src/create_torrent_dialog.cpp:721
+msgid "File or directory to create torrent from is not setted"
+msgstr "Файл или директория, из которых необходимо создать торрент:"
+
+#: src/create_torrent_dialog.cpp:722
+msgid "Please choose file or directory to create torrent from."
+msgstr ""
+"Пожалуйста, выберите файл или директорию, из которых необходимо создать "
+"торрент."
+
+#: src/create_torrent_dialog.cpp:731
+msgid "Please choose a file to save the torrent"
+msgstr "Пожалуйста, выберите файл, в который необходимо сохранить торрент"
+
+#: src/create_torrent_dialog.cpp:750 src/main_window.cpp:463
+msgid "Torrent files"
+msgstr "*.torrent файлы"
+
+#: src/create_torrent_dialog.cpp:755 src/main_window.cpp:468
+msgid "Any files"
+msgstr "Все файлы"
+
+#: src/create_torrent_dialog.cpp:792
+msgid "Please choose a directory to create torrent from"
+msgstr ""
+"Пожалуйста, выберите директорию, из которой необходимо создать торрент."
+
+#: src/create_torrent_dialog.cpp:794
+msgid "Please choose a file to create torrent from"
+msgstr "Пожалуйста, выберите файл, из которого необходимо создать торрент."
+
+#: src/common.cpp:136
+msgid "normal"
+msgstr "нормальный"
+
+#: src/common.cpp:140
+msgid "high"
+msgstr "высокий"
+
+#: src/common.cpp:176
+#, qt-format
+msgid "Invalid file priority name: '%1'."
+msgstr "Неправильное имя приоритета: '%1'."
+
+#: src/common.cpp:295
+msgid "[Invalid encoding]"
+msgstr "[Неверная кодировка]"
+
+#: src/common.cpp:426 src/common.cpp:466
+msgid "Paused"
+msgstr "Приостановлен"
+
+#: src/common.cpp:433
+msgid "Queued for checking"
+msgstr "В очереди на проверку"
+
+#: src/common.cpp:437
+msgid "Checking files"
+msgstr "Проверка файлов"
+
+#: src/common.cpp:441
+msgid "Downloading metadata"
+msgstr "Скачивание метаданных"
+
+#: src/common.cpp:445 src/torrent_options_view.cpp:65
+msgid "Downloading"
+msgstr "Скачивание"
+
+#: src/common.cpp:449
+msgid "Seeding"
+msgstr "Раздача"
+
+#: src/common.cpp:453
+msgid "Allocating"
+msgstr "Выделение места на жестком диске"
+
+#: src/common.cpp:457
+msgid "Unknown"
+msgstr "Неизвестно"
+
+#: src/daemon.cpp:176
+#, qt-format
+msgid "Can't start daemon. Creating config directories failed. %1"
+msgstr ""
+"Не удалось запустить демон. Создание директорий для конфигурационных файлов "
+"завершилось неудачей. %1"
+
+#: src/daemon_session.cpp:216 src/daemon_session.cpp:972
+msgid "Saving session failed"
+msgstr "Сохранение настроек сессии завершилось неудачей"
+
+#: src/daemon_session.cpp:216 src/daemon_session.cpp:972
+#, qt-format
+msgid "Saving session failed. %1"
+msgstr "Сохранение сессии завершилось неудачей. %1"
+
+#: src/daemon_session.cpp:287
+msgid "This torrent is already exists in the current session."
+msgstr "Этот торрент уже присутствует в текущей сессии"
+
+#: src/daemon_session.cpp:299
+#, qt-format
+msgid "Can't create torrent configuration directory '%1': %2."
+msgstr ""
+"Ошибка при создании директории '%1' для конфигурационных файлов торрента: %"
+"2%."
+
+#: src/daemon_session.cpp:317
+#, qt-format
+msgid "Can't copy torrent file '%1' to '%2': %3."
+msgstr "Не удалось скопировать файл торрента '%1' в '%2': %3."
+
+#: src/daemon_session.cpp:341 src/daemon_session.cpp:346
+#, qt-format
+msgid "Torrent file '%1' has been changed while it's been processed."
+msgstr "Торрент файл '%1' был изменен во время его обработки."
+
+#: src/daemon_session.cpp:513 src/daemon_session.cpp:558
+msgid "Automatic torrent removing failed"
+msgstr "Автоматическое удаление торрента завершилось неудачей"
+
+#: src/daemon_session.cpp:514 src/daemon_session.cpp:559
+#, qt-format
+msgid "Automatic removing of torrent '%1' failed. %2"
+msgstr "Автоматическое удаление торрента '%1' завершилось неудачей. %2"
+
+#: src/daemon_session.cpp:597
+msgid "Copying finished torrent failed"
+msgstr "Копирование скачанного торрента завершилось неудачей"
+
+#: src/daemon_session.cpp:599
+#, qt-format
+msgid "Copying finished torrent '%1' from '%2' to '%3' failed."
+msgstr ""
+"Копирование скачанного торрента '%1' из '%2' в '%3' завершилось неудачей."
+
+#: src/daemon_session.cpp:683 src/daemon_session.cpp:696
+#, qt-format
+msgid "Bad torrent id '%1'."
+msgstr "Неверный идентификатор торрента: '%1'."
+
+#: src/daemon_session.cpp:898
+#, qt-format
+msgid "Restoring torrent '%1' [%2] previous session settings failed. %3"
+msgstr ""
+"Восстановление настроек из прошлой сессии для торрента '%1' [%2] завершилось "
+"неудачей. %3"
+
+#: src/daemon_session.cpp:937
+msgid "Loading torrent failed"
+msgstr "Загрузка торрента завершилась неудачей"
+
+#: src/daemon_session.cpp:937
+#, qt-format
+msgid "Loading of the torrent '%1' failed. %2"
+msgstr "Загрузка торрента '%1' завершилась неудачей. %2"
+
+#: src/daemon_session.cpp:943
+#, qt-format
+msgid "Can't read directory with torrents configs '%1': %2."
+msgstr ""
+"Ошибка при чтении директории с конфигурационными файлами торрентов '%1': %2."
+
+#: src/daemon_session.cpp:949
+#, qt-format
+msgid "Loading torrents from previous session failed. %1"
+msgstr "Загрузка торрентов из прошлой сессии завершилась неудачей. %1"
+
+#: src/daemon_session.cpp:1185
+#, qt-format
+msgid "Bad torrent id: '%1'."
+msgstr "Неверный идентификатор торрента: '%1'."
+
+#: src/daemon_session.cpp:1229 src/daemon_session.cpp:1245
+msgid "Deleting torrent data failed"
+msgstr "Удаление данных торрента завершилось неудачей"
+
+#: src/daemon_session.cpp:1230 src/daemon_session.cpp:1246
+#, qt-format
+msgid "Deleting torrent '%1' data failed."
+msgstr "Удаление данных торрента '%1' завершилось неудачей."
+
+#: src/daemon_session.cpp:1326
+msgid "Saving torrent settings failed"
+msgstr "Сохранение настроек торрента завершилось неудачей."
+
+#: src/daemon_session.cpp:1328
+#, qt-format
+msgid "Saving torrent '%1' settings failed. %2"
+msgstr "Сохранение настроек для торрента '%1' завершилось неудачей. %2"
+
+#: src/daemon_session.cpp:1359
+#, qt-format
+msgid "Invalid copy when finished to path '%1'."
+msgstr "Недопустимый путь для копирования файлов скачанного торрента: '%1'."
+
+#: src/daemon_session.cpp:1381 src/daemon_session.cpp:1432
+#, qt-format
+msgid "Bad file id: %1."
+msgstr "Неверный идентификатор файла: %1."
+
+#: src/daemon_session.cpp:1609
+msgid "Setting torrent trackers failed: libtorrent internal error."
+msgstr ""
+"Задание списка трекеров торрента завершилось неудачей: произошла внутренняя "
+"ошибка libtorrent."
+
+#: src/daemon_settings.cpp:41
+#, qt-format
+msgid "Daemon config: Bad option '%1' type at line %2."
+msgstr "Конфигурационный файл демона: Неверный тип опции '%1' в строке %2."
+
+#: src/daemon_settings.cpp:67
+#, qt-format
+msgid "Daemon config: Bad option '%1' value '%2' at line %3."
+msgstr ""
+"Конфигурационный файл демона: Неверное значение '%2' опции '%1' в строке %3."
+
+#: src/daemon_settings.cpp:77
+#, qt-format
+msgid "Daemon config: Invalid option '%1' UTF-8 value at line %2."
+msgstr ""
+"Конфигурационный файл демона: Неверное UTF-8 значение опции '%1' в строке %2."
+
+#: src/daemon_settings.cpp:87
+#, qt-format
+msgid "Daemon config: Unknown option '%1' at line %2."
+msgstr "Конфигурационный файл демона: Неизвестная опция '%1' в строке %2."
+
+#: src/daemon_settings.cpp:200
+#, qt-format
+msgid "Error while reading configuration file '%1': %2."
+msgstr "Ошибка при чтении конфигурационного файла '%1': %2."
+
+#: src/daemon_settings.cpp:204
+#, qt-format
+msgid "Error while parsing configuration file '%1': %2."
+msgstr "Ошибка при чтении конфигурационного файла '%1': %2."
+
+#: src/daemon_settings.cpp:450
+msgid "invalid DHT state data"
+msgstr "сохраненные данные DHT сессии повреждены"
+
+#: src/daemon_settings.cpp:456
+#, qt-format
+msgid "Error while reading DHT state from file '%1': %2."
+msgstr "Ошибка при чтении данных DHT сессии из файла '%1': %2."
+
+#: src/daemon_settings.cpp:552
+#, qt-format
+msgid "Can't write configuration file %1: %2."
+msgstr "Ошибка при записи конфигурационного файла %1: %2."
+
+#: src/daemon_settings.cpp:570 src/daemon_settings.cpp:604
+#, qt-format
+msgid "Writing DHT state to file '%1' failed. %2"
+msgstr "Запись DHT сессии в файл '%1' завершилась неудачей. %2"
+
+#: src/daemon_settings.cpp:595
+#, qt-format
+msgid "Can't write DHT state to file '%1': %2."
+msgstr "Не удалось записать DHT сессию в файл '%1': %2."
+
+#: src/daemon_settings.cpp:730
+#, qt-format
+msgid "Reading torrent configuration file '%1' failed. %2"
+msgstr ""
+"Чтение конфигурационного файла торрента ('%1') завершилось неудачей. %2"
+
+#: src/daemon_settings.cpp:734
+#, qt-format
+msgid "Error while reading torrent configuration file '%1': %2."
+msgstr "Ошибка при чтении конфигурационного файла торрента '%1': %2."
+
+#: src/daemon_settings.cpp:738
+#, qt-format
+msgid "Error while parsing torrent configuration file '%1': %2."
+msgstr "Ошибка при чтении конфигурационного файла торрента '%1': %2."
+
+#: src/daemon_settings.cpp:871 src/daemon_settings.cpp:889
+#, qt-format
+msgid "Bad files number: %1 vs %2."
+msgstr "Неверное количество файлов: %1 вместо %2."
+
+#: src/daemon_settings.cpp:947
+#, qt-format
+msgid "Daemon config: %1"
+msgstr "Конфигурационный файл демона: %1"
+
+#: src/daemon_settings.cpp:1040 src/daemon_settings.cpp:1051
+#, qt-format
+msgid "Can't read torrent resume data from file '%1': %2."
+msgstr ""
+"Ошибка при чтении файла '%1' с информацией для восстановления сессии "
+"торрента: %2."
+
+#: src/daemon_settings.cpp:1061 src/daemon_settings.cpp:1067
+#, qt-format
+msgid "Error while reading torrent resume data from file '%1': file broken."
+msgstr ""
+"Ошибка при чтении данных сессии торрента из файла '%1': файл поврежден."
+
+#: src/daemon_settings.cpp:1093
+#, qt-format
+msgid "Can't read torrent resume data from file '%1': bad resume data."
+msgstr ""
+"Ошибка при чтении файла '%1' с информацией для восстановления сессии "
+"торрента: неверные данные."
+
+#: src/daemon_settings.cpp:1196
+#, qt-format
+msgid "Writing torrent configuration file '%1' failed. %2"
+msgstr "Запись конфигурационного файла '%1' завершилась неудачей. %2"
+
+#: src/daemon_settings.cpp:1200
+#, qt-format
+msgid "Can't write torrent configuration file %1: %2."
+msgstr "Ошибка при записи конфигурационного файла торрента '%1': %2."
+
+#: src/daemon_settings.cpp:1218
+#, qt-format
+msgid "Removing old resume data '%1' failed. %2"
+msgstr "Удаление старых данных сессии '%1' завершилось неудачей. %2"
+
+#: src/daemon_settings.cpp:1234 src/daemon_settings.cpp:1265
+#, qt-format
+msgid "Writing torrent resume data to file '%1' failed. %2"
+msgstr ""
+"Запись файла '%1' с информацией для восстановления сессии торрента "
+"завершилась неудачей. %2"
+
+#: src/daemon_settings.cpp:1256
+#, qt-format
+msgid "Can't write torrent resume data to file '%1': %2."
+msgstr ""
+"Ошибка при записи файла '%1' с информацией для восстановления сессии "
+"торрента: %2."
+
+#: src/main.cpp:119
+#, qt-format
+msgid "%1: Error"
+msgstr "%1: Ошибка"
+
+#: src/main.cpp:121
+#, qt-format
+msgid "Starting %1 failed:"
+msgstr "Запуск %1 завершился неудачей:"
+
+#: src/main.cpp:161
+msgid "Error at"
+msgstr "Ошибка произошла в: "
+
+#: src/main.cpp:162
+msgid ""
+"\n"
+"Locale settings:\n"
+msgstr ""
+"\n"
+"Настройки локали:\n"
+
+#: src/main.cpp:175
+msgid ""
+"\n"
+"Compiled with native language support.\n"
+msgstr ""
+"\n"
+"Скомпилирован с поддержкой национальных языков.\n"
+
+#: src/main.cpp:177
+msgid ""
+"\n"
+"Compiled without native language support.\n"
+msgstr ""
+"\n"
+"Скомпилирован без поддержки национальных языков.\n"
+
+#: src/main.cpp:203
+msgid "Logical error."
+msgstr "Логическая ошибка."
+
+#: src/main.cpp:209
+#, qt-format
+msgid "%1: Critical error"
+msgstr "%1: Критическая ошибка"
+
+#: src/main.cpp:227
+msgid "Critical error"
+msgstr "Критическая ошибка"
+
+#: src/main.cpp:245 src/main.cpp:293
+msgid "Debug info:"
+msgstr "Отладочная информация:"
+
+#: src/main.cpp:327
+msgid "Warning"
+msgstr "Предупреждение"
+
+#: src/main.cpp:333
+msgid "Information"
+msgstr "Информация"
+
+#: src/main.cpp:637
+#, qt-format
+msgid "Can't create config directory '%1': %2."
+msgstr "Ошибка при создании директории для конфигурационных файлов '%1': %2."
+
+#: src/main.cpp:657
+#, qt-format
+msgid "Error while opening config directory '%1': %2."
+msgstr "Не удалось открыть директорию с конфигурационными файлами '%1': %2."
+
+#: src/main.cpp:669
+#, qt-format
+msgid "Error! Can't stat config directory '%1': %2."
+msgstr ""
+"Ошибка! Не удается получить информацию о директории с конфигурационными "
+"файлами '%1': %2."
+
+#: src/main.cpp:675
+#, qt-format
+msgid "Error! Config path '%1' is not a directory."
+msgstr ""
+"Ошибка! Путь к директории с конфигурационными файлами '%1' ссылается не на "
+"директорию."
+
+#: src/main.cpp:681
+#, qt-format
+msgid "Error! Can't change current directory to config directory '%1': %2."
+msgstr ""
+"Ошибка! Не удалось сменить текущую директорию в директорию с "
+"конфигурационными файлами '%1': %2."
+
+#: src/main.cpp:706 src/main.cpp:722
+#, qt-format
+msgid ""
+"Can't communicate with running %1 instance. Error while reading link '%2' "
+"target path: %3."
+msgstr ""
+"Не удалось связаться с запущенной копией %1. Ошибка при чтении ссылки '%2': %"
+"3."
+
+#: src/main.cpp:734
+#, qt-format
+msgid "Can't set environment variable '%1'='%2': %3."
+msgstr "Не удалось установить переменную окружения '%1'='%2': %3."
+
+#: src/main.cpp:740 src/main.cpp:943
+#, qt-format
+msgid "Can't communicate with running %1 instance. It is not running."
+msgstr "Не удалось связаться с запущенной копией %1. %1 не запущен."
+
+#: src/main.cpp:780
+msgid "Unexpected DBus behavior"
+msgstr "Неожиданное поведение DBus"
+
+#: src/main.cpp:781
+msgid "Name request has been added to queue, but queuing has been forbidden."
+msgstr ""
+"Запрос на захват имени был добавлен в очередь несмотря на то, что это было "
+"запрещено."
+
+#: src/main.cpp:787 src/main.cpp:794
+msgid "Unexpected DBus behavior while requesting name"
+msgstr "Неожиданное поведение DBus при запросе на захват имени"
+
+#: src/main.cpp:788
+msgid ""
+"DBus saying that application is already name owner, but name request has not "
+"been sent yet."
+msgstr ""
+"DBus утверждает, что приложение уже захватило имя, несмотря на то, что "
+"запрос на захват имени не отправлялся."
+
+#: src/main.cpp:795
+msgid "Unknown reply has been gotten."
+msgstr "Был получен ответ неизвестного типа."
+
+#: src/main.cpp:806
+msgid "DBus error"
+msgstr "Ошибка DBus."
+
+#: src/main.cpp:833
+#, qt-format
+msgid "Creating %1 session failed. Can't remove DBus session link '%2'. %3"
+msgstr ""
+"Создание сессии %1 завершилось неудачей. Ошибка при удалении ссылки '%2' на "
+"сессию DBus. %3"
+
+#: src/main.cpp:842
+#, qt-format
+msgid ""
+"Creating %1 session failed. Error while reading link '%2' target path: %3."
+msgstr ""
+"Создание сессии %1 завершилось неудачей. Ошибка при чтении ссылки '%2': %3."
+
+#: src/main.cpp:850
+#, qt-format
+msgid "Creating %1 session failed. Can't get DBus session bus address."
+msgstr ""
+"Создание сессии %1 завершилось неудачей. Не удалось получить адрес DBus "
+"сессии."
+
+#: src/main.cpp:860
+#, qt-format
+msgid "Creating %1 session failed. Can't create DBus session link '%2': %3."
+msgstr ""
+"Создание сессии %1 завершилось неудачей. Не удалось создать ссылку на DBus "
+"сессию '%2': %3."
+
+#: src/main.cpp:890 src/main.cpp:906
+#, qt-format
+msgid "Closing %1 session failed. Can't remove DBus session link '%2': %3."
+msgstr ""
+"Закрытие сессии %1 завершилось ошибкой. Не удалось удалить ссылку на DBus "
+"сессию '%2': %3."
+
+#: src/main.cpp:925
+msgid "Nothing to process. Exiting..."
+msgstr "Нет действий, которые следовало бы обработать. Завершение работы..."
+
+#: src/main.cpp:928
+msgid "Delivering command line options to working copy..."
+msgstr "Пересылаем опции командной строки работающей копии..."
+
+#: src/main.cpp:938
+#, qt-format
+msgid "Can't communicate with running %1 instance via DBus: %2."
+msgstr "Не удалось связаться с запущенной копией %1 посредством DBus: %2."
+
+#: src/main_window.cpp:84
+msgid "Set download rate limit"
+msgstr "Максимальная скорость скачивания"
+
+#: src/main_window.cpp:84
+msgid "Set upload rate limit"
+msgstr "Максимальная скорость отдачи"
+
+#: src/main_window.cpp:113
+msgid "KB/s"
+msgstr "КБ/с"
+
+#: src/main_window.cpp:135
+msgid "Getting current rate limit failed"
+msgstr "Не удалось получить текущее ограничение на скорость"
+
+#: src/main_window.cpp:147
+msgid "Setting current rate limit failed"
+msgstr "Не удалось установить текущее ограничение на скорость"
+
+#: src/main_window.cpp:191
+msgid "_File"
+msgstr "_Файл"
+
+#: src/main_window.cpp:193
+msgid "_Create"
+msgstr "_Создать"
+
+#: src/main_window.cpp:197
+msgid "_Open"
+msgstr "_Открыть"
+
+#: src/main_window.cpp:201
+msgid "_Quit"
+msgstr "_Выход"
+
+#: src/main_window.cpp:206
+msgid "_Edit"
+msgstr "_Правка"
+
+#: src/main_window.cpp:208
+msgid "_Statistics"
+msgstr "_Статистика"
+
+#: src/main_window.cpp:212
+msgid "_Preferences"
+msgstr "_Настройки"
+
+#: src/main_window.cpp:217 src/main_window.cpp:218
+msgid "_Torrents"
+msgstr "_Торренты"
+
+#: src/main_window.cpp:219
+msgid "_Resume"
+msgstr "_Возобновить"
+
+#: src/main_window.cpp:221 src/main_window.cpp:245
+msgid "_All"
+msgstr "_Все"
+
+#: src/main_window.cpp:228 src/main_window.cpp:252
+msgid "_Downloads"
+msgstr "_Закачки"
+
+#: src/main_window.cpp:235 src/main_window.cpp:259
+msgid "_Uploads"
+msgstr "_Раздачи"
+
+#: src/main_window.cpp:243
+msgid "_Pause"
+msgstr "_Приостановить"
+
+#: src/main_window.cpp:268
+msgid "_Set download rate limit"
+msgstr "_Максимальная скорость скачивания"
+
+#: src/main_window.cpp:275
+msgid "_Set upload rate limit"
+msgstr "_Максимальная скорость отдачи"
+
+#: src/main_window.cpp:283
+msgid "_Help"
+msgstr "_Помощь"
+
+#: src/main_window.cpp:285
+msgid "_About"
+msgstr "_О Программе"
+
+#: src/main_window.cpp:445
+msgid "Please choose a torrent file"
+msgstr "Пожалуйста, выберите *.torrent файл"
+
+#: src/main_window.cpp:513 src/main_window.cpp:538
+msgid "Pausing torrents failed"
+msgstr "Приостановка торрента(ов) завершилось неудачей"
+
+#: src/main_window.cpp:567
+msgid "GTK-based BitTorrent client"
+msgstr "GTK BitTorrent клиент"
+
+#: src/main_window.cpp:815 src/settings_window.cpp:322
+#: src/torrent_details_view.cpp:221 src/torrent_peers_view.cpp:77
+#: src/torrents_view.cpp:142
+msgid "Download speed"
+msgstr "Скорость скачивания"
+
+#: src/main_window.cpp:818 src/settings_window.cpp:325
+#: src/torrent_peers_view.cpp:78 src/torrents_view.cpp:143
+msgid "Download speed (payload)"
+msgstr "Скорость скачивания данных"
+
+#: src/main_window.cpp:821 src/settings_window.cpp:329
+#: src/torrent_details_view.cpp:223 src/torrent_peers_view.cpp:79
+#: src/torrents_view.cpp:144
+msgid "Upload speed"
+msgstr "Скорость отдачи"
+
+#: src/main_window.cpp:824 src/settings_window.cpp:332
+#: src/torrent_peers_view.cpp:80 src/torrents_view.cpp:145
+msgid "Upload speed (payload)"
+msgstr "Скорость отдачи данных"
+
+#: src/main_window.cpp:827 src/settings_window.cpp:336
+#: src/statistics_window.cpp:134
+msgid "Downloaded"
+msgstr "Скачано"
+
+#: src/main_window.cpp:830
+msgid "Download (payload)"
+msgstr "Скачано данных"
+
+#: src/main_window.cpp:833 src/settings_window.cpp:343
+#: src/statistics_window.cpp:139
+msgid "Uploaded"
+msgstr "Отдано"
+
+#: src/main_window.cpp:836
+msgid "Upload (payload)"
+msgstr "Отдано данных"
+
+#: src/main_window.cpp:839 src/settings_window.cpp:357
+#: src/statistics_window.cpp:144 src/torrent_details_view.cpp:203
+#: src/torrents_view.cpp:147
+msgid "Share ratio"
+msgstr "Рейтинг"
+
+#: src/main_window.cpp:842 src/settings_window.cpp:350
+#: src/statistics_window.cpp:147
+msgid "Failed"
+msgstr "Ошибки"
+
+#: src/main_window.cpp:845 src/settings_window.cpp:353
+#: src/statistics_window.cpp:149
+msgid "Redundant"
+msgstr "Избыточные данные"
+
+#: src/settings_window.cpp:60 src/torrent_files_view.cpp:176
+#: src/torrents_view.cpp:127
+msgid "Name"
+msgstr "Имя"
+
+#: src/settings_window.cpp:70
+msgid "Preferences"
+msgstr "Настройки"
+
+#: src/settings_window.cpp:77
+msgid "Please select torrents download directory"
+msgstr "Пожалуйста, выберите директорию для скачивания торрентов"
+
+#: src/settings_window.cpp:122 src/settings_window.cpp:177
+#: src/torrent_peers_view.cpp:76
+msgid "Client"
+msgstr "Клиент"
+
+#: src/settings_window.cpp:128 src/settings_window.cpp:186
+msgid "Main"
+msgstr "Основные"
+
+#: src/settings_window.cpp:134 src/settings_window.cpp:203
+msgid "GUI"
+msgstr "GUI"
+
+#: src/settings_window.cpp:140 src/settings_window.cpp:374
+msgid "Daemon"
+msgstr "Демон"
+
+#: src/settings_window.cpp:146 src/settings_window.cpp:383
+msgid "Network"
+msgstr "Сеть"
+
+#: src/settings_window.cpp:152 src/settings_window.cpp:400
+msgid "Automation"
+msgstr "Автоматизация"
+
+#: src/settings_window.cpp:224
+msgid "Client::Main"
+msgstr "Клиент::Основные"
+
+#: src/settings_window.cpp:227
+msgid "Show add torrent dialog when opening torrent file"
+msgstr "Отображать окно добавления торрента при открытии *.torrent файла"
+
+#: src/settings_window.cpp:232
+msgid "Start torrent on adding"
+msgstr "Запускать торрент при добавлении"
+
+#: src/settings_window.cpp:240
+msgid "Download to:"
+msgstr "Скачивать в:"
+
+#: src/settings_window.cpp:248
+msgid "Copy finished to:"
+msgstr "Копировать файлы по завершении скачивания в:"
+
+#: src/settings_window.cpp:261
+msgid "Open command:"
+msgstr "Команда просмотра файлов:"
+
+#: src/settings_window.cpp:271
+msgid "Client::GUI"
+msgstr "Клиент::GUI"
+
+#: src/settings_window.cpp:275
+msgid "Miscellaneous"
+msgstr "Разное"
+
+#: src/settings_window.cpp:278
+msgid "Show tray icon"
+msgstr "Отображать иконку в трее"
+
+#: src/settings_window.cpp:293
+msgid "GUI update interval (ms):"
+msgstr "Интервал обновления GUI (мсек):"
+
+#: src/settings_window.cpp:302
+msgid "Max log lines:"
+msgstr "Максимальное количество строк в логе:"
+
+#: src/settings_window.cpp:314
+msgid "Status bar"
+msgstr "Строка статуса"
+
+#: src/settings_window.cpp:339
+msgid "Downloaded (payload)"
+msgstr "Скачано данных"
+
+#: src/settings_window.cpp:346
+msgid "Uploaded (payload)"
+msgstr "Отдано данных"
+
+#: src/settings_window.cpp:421
+msgid "Daemon::Network"
+msgstr "Демон::Сеть"
+
+#: src/settings_window.cpp:425
+msgid "Listen port range"
+msgstr "Диапазон портов для прослушивания"
+
+#: src/settings_window.cpp:432
+msgid "From"
+msgstr "От"
+
+#: src/settings_window.cpp:441
+msgid "to"
+msgstr "до"
+
+#: src/settings_window.cpp:453
+msgid "Currently listen port:"
+msgstr "Прослушиваемый в данный момент порт:"
+
+#: src/settings_window.cpp:461
+msgid "Extras"
+msgstr "Дополнительные возможности"
+
+#: src/settings_window.cpp:487
+msgid "Ban peers that sends bad data with very high accuracy"
+msgstr "Банить пиров, регулярно посылающих битые данные"
+
+#: src/settings_window.cpp:502
+msgid "Bandwidth"
+msgstr "Пропускная способность канала"
+
+#: src/settings_window.cpp:508
+msgid "Download rate limit (KB/s):"
+msgstr "Максимальная скорость скачивания (КБ/с):"
+
+#: src/settings_window.cpp:517
+msgid "Upload rate limit (KB/s):"
+msgstr "Максимальная скорость отдачи (КБ/с):"
+
+#: src/settings_window.cpp:526
+msgid "Max uploads:"
+msgstr "Максимальное количество слотов для раздачи:"
+
+#: src/settings_window.cpp:535
+msgid "Max connections:"
+msgstr "Максимальное количество открытых соединений:"
+
+#: src/settings_window.cpp:550
+msgid "Daemon::Automation"
+msgstr "Демон::Автоматизация"
+
+#: src/settings_window.cpp:553
+msgid "Delete torrents:"
+msgstr "Удалять торренты:"
+
+#: src/settings_window.cpp:568
+msgid "Delete with data"
+msgstr "Удалять вместе с данными"
+
+#: src/settings_window.cpp:584
+msgid "Max seeding time (m):"
+msgstr "Максимальное время раздачи (мин):"
+
+#: src/settings_window.cpp:593
+msgid "Max seeding torrents:"
+msgstr "Максимальное количество раздаваемых торрентов:"
+
+#: src/settings_window.cpp:704
+msgid "none"
+msgstr "нет"
+
+#: src/statistics_window.cpp:41 src/statistics_window.cpp:110
+msgid "Statistics"
+msgstr "Статистика"
+
+#: src/statistics_window.cpp:93
+msgid "Reset statistics?"
+msgstr "Сбросить статистику?"
+
+#: src/statistics_window.cpp:93
+msgid "Are you sure want to reset statistics?"
+msgstr "Вы уверены, что хотите сбросить статистику?"
+
+#: src/statistics_window.cpp:131
+msgid "Session start time"
+msgstr "Время начала сессии"
+
+#: src/statistics_window.cpp:132
+msgid "Statistics start time"
+msgstr "Время начала сбора статистики"
+
+#: src/statistics_window.cpp:135
+msgid "Payload download"
+msgstr "Скачано данных"
+
+#: src/statistics_window.cpp:136 src/torrent_details_view.cpp:214
+#: src/torrents_view.cpp:135
+msgid "Total download"
+msgstr "Всего скачано"
+
+#: src/statistics_window.cpp:137 src/torrent_details_view.cpp:215
+msgid "Total payload download"
+msgstr "Всего скачано данных"
+
+#: src/statistics_window.cpp:140
+msgid "Payload upload"
+msgstr "Отдано данных"
+
+#: src/statistics_window.cpp:141 src/torrent_details_view.cpp:216
+#: src/torrents_view.cpp:137
+msgid "Total upload"
+msgstr "Всего отдано"
+
+#: src/statistics_window.cpp:142 src/torrent_details_view.cpp:217
+msgid "Total payload upload"
+msgstr "Всего отдано данных"
+
+#: src/statistics_window.cpp:145
+msgid "Total share ratio"
+msgstr "Общий рейтинг"
+
+#: src/statistics_window.cpp:148 src/torrent_details_view.cpp:218
+#: src/torrents_view.cpp:139
+msgid "Total failed"
+msgstr "Всего ошибок"
+
+#: src/statistics_window.cpp:150 src/torrent_details_view.cpp:219
+#: src/torrents_view.cpp:140
+msgid "Total redundant"
+msgstr "Всего избыточных данных"
+
+#: src/statistics_window.cpp:159
+msgid "Reset"
+msgstr "Сбросить"
+
+#: src/torrent_details_view.cpp:198 src/torrent_files_view.cpp:177
+#: src/torrents_view.cpp:130
+msgid "Size"
+msgstr "Размер"
+
+#: src/torrent_details_view.cpp:199 src/torrents_view.cpp:131
+msgid "Requested size"
+msgstr "Запрошенный размер"
+
+#: src/torrent_details_view.cpp:200 src/torrents_view.cpp:132
+msgid "Downloaded requested size"
+msgstr "Скачано из запрошенного размера"
+
+#: src/torrent_details_view.cpp:201 src/torrents_view.cpp:133
+#, c-format
+msgid "%% Complete"
+msgstr "Завершено (%%)"
+
+#: src/torrent_details_view.cpp:205 src/torrents_view.cpp:149
+#: src/torrents_viewport.cpp:116
+msgid "Peers"
+msgstr "Пиры"
+
+#: src/torrent_details_view.cpp:206 src/torrents_view.cpp:150
+msgid "Seeds"
+msgstr "Сиды"
+
+#: src/torrent_details_view.cpp:208 src/torrents_view.cpp:152
+msgid "Time added"
+msgstr "Время добавления"
+
+#: src/torrent_details_view.cpp:209 src/torrents_view.cpp:153
+msgid "Time left"
+msgstr "Оставшееся время"
+
+#: src/torrent_details_view.cpp:210 src/torrents_view.cpp:154
+msgid "Time seeding"
+msgstr "Время раздачи"
+
+#: src/torrent_details_view.cpp:222
+msgid "Download payload speed"
+msgstr "Скорость скачивания данных"
+
+#: src/torrent_details_view.cpp:224
+msgid "Upload payload speed"
+msgstr "Скорость отдачи данных"
+
+#: src/torrent_files_view.cpp:78 src/torrent_files_view.cpp:89
+msgid "Change file or directory path"
+msgstr "Изменение расположения файла или директории"
+
+#: src/torrent_files_view.cpp:121 src/torrent_files_view.cpp:529
+#: src/torrent_files_view.cpp:546
+msgid "Changing file or directory path failed"
+msgstr "Изменение расположения файла или директории завершилось неудачей"
+
+#: src/torrent_files_view.cpp:122
+msgid ""
+"Changing file or directory path failed. Invalid path has been gotten. Please "
+"enter a valid path."
+msgstr ""
+"Изменение расположения файла или директории завершилось неудачей. Был задан "
+"недопустимый путь. Пожалуйста, введите подходящий путь."
+
+#: src/torrent_files_view.cpp:178
+msgid "Priority"
+msgstr "Приоритет"
+
+#: src/torrent_files_view.cpp:179
+msgid "Progress"
+msgstr "Прогресс"
+
+#: src/torrent_files_view.cpp:237
+msgid "Download"
+msgstr "Скачивать"
+
+#: src/torrent_files_view.cpp:243
+msgid "Do not download"
+msgstr "Не скачивать"
+
+#: src/torrent_files_view.cpp:249
+msgid "Normal priority"
+msgstr "Нормальный приоритет"
+
+#: src/torrent_files_view.cpp:255
+msgid "High priority"
+msgstr "Высокий приоритет"
+
+#: src/torrent_files_view.cpp:261
+msgid "Change path"
+msgstr "Изменить путь"
+
+#: src/torrent_files_view.cpp:391
+#, qt-format
+msgid "Changing torrent files download status failed. %1"
+msgstr ""
+"Изменение статуса скачивания для файлов торрента завершилось неудачей. %1"
+
+#: src/torrent_files_view.cpp:430
+#, qt-format
+msgid "Changing torrent files priorities failed. %1"
+msgstr "Задание приоритета для файлов торрента завершилось неудачей. %1"
+
+#: src/torrent_files_view.cpp:498
+msgid "Changing file path failed"
+msgstr "Изменение расположения файла завершилось неудачей"
+
+#: src/torrent_files_view.cpp:499
+msgid ""
+"Changing file path failed. Invalid file path has been gotten. Please enter a "
+"valid path."
+msgstr ""
+"Изменение расположения файла завершилось неудачей. Был задан недопустимый "
+"путь. Пожалуйста, введите подходящий путь."
+
+#: src/torrent_files_view.cpp:530 src/torrent_files_view.cpp:547
+#, qt-format
+msgid "Changing file or directory path failed. %1"
+msgstr "Изменение расположения файла или директории завершилось неудачей. %1"
+
+#: src/torrent_files_view.cpp:626
+#, qt-format
+msgid "Changing download status for '%1' failed. %2"
+msgstr "Изменение статуса скачивания для '%1' завершилось неудачей. %2"
+
+#: src/torrent_options_view.cpp:73
+msgid "Sequential download"
+msgstr "Последовательное скачивание"
+
+#: src/torrent_options_view.cpp:154 src/torrent_options_view.cpp:198
+#, qt-format
+msgid "Error while setting torrent download settings. %1"
+msgstr "Ошибка при задании настроек скачивания торрента. %1."
+
+#: src/torrent_options_view.cpp:165
+msgid "Please choose a directory for torrent finished files copying"
+msgstr ""
+"Пожалуйста, выберите директорию, в которую будут скопированы файлы торрента "
+"по завершении скачивания"
+
+#: src/torrent_options_view.cpp:214
+#, qt-format
+msgid "Can't set torrent trackers. %1"
+msgstr "Не удалось задать список трекеров торрента. %1."
+
+#: src/torrent_options_view.cpp:261
+#, qt-format
+msgid "Error while getting torrent download settings. %1"
+msgstr "Ошибка при получении настроек скачивания торрента. %1."
+
+#: src/torrent_peers_view.cpp:75
+msgid "IP"
+msgstr "IP"
+
+#: src/torrent_peers_view.cpp:81 src/torrents_view.cpp:136
+msgid "Total download (payload)"
+msgstr "Всего скачано данных"
+
+#: src/torrent_peers_view.cpp:82 src/torrents_view.cpp:138
+msgid "Total upload (payload)"
+msgstr "Всего отдано данных"
+
+#: src/torrent_peers_view.cpp:83
+msgid "Availability"
+msgstr "Доступность"
+
+#: src/torrent_peers_view.cpp:84
+msgid "Hash fails"
+msgstr "Ошибки проверки хэша"
+
+#: src/torrents_view.cpp:128
+msgid "Status"
+msgstr "Состояние"
+
+#: src/torrents_view.cpp:204
+msgid "Resume"
+msgstr "Возобновить"
+
+#: src/torrents_view.cpp:209
+msgid "Pause"
+msgstr "Приостановить"
+
+#: src/torrents_view.cpp:215
+msgid "Remove"
+msgstr "Удалить"
+
+#: src/torrents_view.cpp:219
+msgid "Remove with data"
+msgstr "Удалить вместе с данными"
+
+#: src/torrents_view.cpp:296
+#, qt-format
+msgid "Opening torrent '%1' file(s) failed. %2"
+msgstr "Не удалось отобразить файл(ы) торрента ('%1'). %2"
+
+#: src/torrents_view.cpp:342
+msgid "Remove torrent(s)"
+msgstr "Удалить торрент(ы)"
+
+#: src/torrents_view.cpp:343
+msgid "Are you sure want to remove selected torrent(s)?"
+msgstr "Вы действительно хотите удалить выделенные торренты?"
+
+#: src/torrents_view.cpp:352
+msgid "Remove torrent(s) with data"
+msgstr "Удалить торрент(ы) вместе с данными"
+
+#: src/torrents_view.cpp:353
+msgid "Are you sure want to remove selected torrent(s) with data?"
+msgstr "Вы действительно хотите удалить выделенные торренты вместе с данными?"
+
+#: src/torrents_view.cpp:412
+msgid "Removing torrent(s) failed."
+msgstr "Удаление торрента(ов) завершилось неудачей."
+
+#: src/torrents_view.cpp:412
+#, qt-format
+msgid "Removing torrent(s) failed. %1"
+msgstr "Удаление торрента(ов) завершилось неудачей. %1"
+
+#: src/torrents_view.cpp:416
+msgid "Removing torrent(s) with data failed."
+msgstr "Удаление торрента(ов) вместе с данными завершилось неудачей."
+
+#: src/torrents_view.cpp:416
+#, qt-format
+msgid "Removing torrent(s) with data failed. %1"
+msgstr "Удаление торрента(ов) с данными завершилось неудачей. %1"
+
+#: src/torrents_view.cpp:420
+msgid "Pausing torrent(s) failed."
+msgstr "Приостановка торрента(ов) завершилось неудачей."
+
+#: src/torrents_view.cpp:420
+#, qt-format
+msgid "Pausing torrent(s) failed. %1"
+msgstr "Приостановка торрента(ов) завершилось неудачей. %1"
+
+#: src/torrents_view.cpp:424
+msgid "Resuming torrent(s) failed."
+msgstr "Возобновление скачивания торрента(ов) завершилось неудачей."
+
+#: src/torrents_view.cpp:424
+#, qt-format
+msgid "Resuming torrent(s) failed. %1"
+msgstr "Возобновление торрента(ов) завершилось неудачей. %1"
+
+#: src/torrents_viewport.cpp:82
+msgid "Details"
+msgstr "Детали"
+
+#: src/torrents_viewport.cpp:99
+msgid "Files"
+msgstr "Файлы"
+
+#: src/torrents_viewport.cpp:132
+msgid "Options"
+msgstr "Опции"
+
+#: src/torrents_viewport.cpp:149
+msgid "Log"
+msgstr "Лог"
+
+#: src/trackers_view.cpp:168
+#, qt-format
+msgid ""
+"Gotten invalid tracker URL ('%1'). Please inter a valid URL started from "
+"'http://'."
+msgstr ""
+"Получен недопустимый URL трекера ('%1'). Пожалуйста, введите допустимый URL "
+"(должен начинаться с 'http://')."
+
+#: src/trackers_view.cpp:186
+#, qt-format
+msgid ""
+"Gotten invalid tracker URL ('%1'). This URL is already exists in the tracker "
+"list."
+msgstr ""
+"Получен недопустимый URL трекера ('%1'). Этот URL уже присутствует в списке "
+"трекеров торрента."
+
+#: src/trackers_view.cpp:233 src/trackers_view.cpp:235
+msgid "Invalid tracker URL"
+msgstr "Недопустимый URL трекера"
+
+#~ msgid "Torrent creating failed"
+#~ msgstr "Создание торрента завершилось неудачей"
+
+#~ msgid "Error while creating torrent '%1'. %2"
+#~ msgstr "При создании торрента '%1' произошла ошибка. %2."
+
+#~ msgid "Error while reading torrent files: %1."
+#~ msgstr "Ошибка при чтении файлов торрента: %1."

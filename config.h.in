@@ -1,0 +1,120 @@
+/* config.h.in.  Generated from configure.ac by autoheader.  */
+
+
+#ifndef HEADER_CONFIG
+#define HEADER_CONFIG
+	
+
+/* Application major version number */
+#undef APP_MAJOR_VERSION
+
+/* Application minor version number */
+#undef APP_MINOR_VERSION
+
+/* Application name */
+#undef APP_NAME
+
+/* Application sub-minor version number */
+#undef APP_SUB_MINOR_VERSION
+
+/* Application UNIX name */
+#undef APP_UNIX_NAME
+
+/* Application version string */
+#undef APP_VERSION_STRING
+
+/* Is application compiling in debug mode */
+#undef DEBUG_MODE
+
+/* Is application compiling in develop mode */
+#undef DEVELOP_MODE
+
+/* Define to 1 if translation of program messages to the user's native
+   language is requested. */
+#undef ENABLE_NLS
+
+/* define if the Boost library is available */
+#undef HAVE_BOOST
+
+/* define if the Boost::Filesystem library is available */
+#undef HAVE_BOOST_FILESYSTEM
+
+/* define if the Boost::Thread library is available */
+#undef HAVE_BOOST_THREAD
+
+/* Define to 1 if you have the MacOS X function CFLocaleCopyCurrent in the
+   CoreFoundation framework. */
+#undef HAVE_CFLOCALECOPYCURRENT
+
+/* Define to 1 if you have the MacOS X function CFPreferencesCopyAppValue in
+   the CoreFoundation framework. */
+#undef HAVE_CFPREFERENCESCOPYAPPVALUE
+
+/* Define if the GNU dcgettext() function is already present or preinstalled.
+   */
+#undef HAVE_DCGETTEXT
+
+/* Define if the GNU gettext() function is already present or preinstalled. */
+#undef HAVE_GETTEXT
+
+/* Define if you have the iconv() function and it works. */
+#undef HAVE_ICONV
+
+/* Define if you have POSIX threads libraries and header files. */
+#undef HAVE_PTHREAD
+
+/* Is mlib compiling in debug mode */
+#undef MLIB_DEBUG_MODE
+
+/* Is mlib compiling in develop mode */
+#undef MLIB_DEVELOP_MODE
+
+/* Enable short functions and classes names from mlib */
+#undef MLIB_ENABLE_ALIASES
+
+/* Enable DBus support for mlib */
+#undef MLIB_ENABLE_DBUS
+
+/* Enable GTK support for mlib */
+#undef MLIB_ENABLE_GTK
+
+/* Enable libconfig support for mlib */
+#undef MLIB_ENABLE_LIBCONFIG
+
+/* Enable libtorrent support for mlib */
+#undef MLIB_ENABLE_LIBTORRENT
+
+/* Name of package */
+#undef PACKAGE
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* Define to the necessary symbol if this constant uses a non-standard name on
+   your system. */
+#undef PTHREAD_CREATE_JOINABLE
+
+/* Version number of package */
+#undef VERSION
+
+/* Large files support */
+#undef _FILE_OFFSET_BITS
+
+/* Large files support */
+#undef _LARGEFILE_SOURCE
+
+
+#endif
+	

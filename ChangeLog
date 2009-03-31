@@ -1,0 +1,80 @@
+0.4 (2009.03.23)
+-----
+[+] Torrent creating feature.
+[+] Torrent renaming in add torrent dialog.
+[+] Torrent options tab (setting sequential download, setting directory for
+finished torrent files copying and editing torrent trackers list).
+[+] Restoring DHT state from previous session.
+[+] Added man pages (en, ru).
+[+] Now source package is building in two versions: ordinary and bundle.
+Bundle version include libconfig and libtorrent-rasterbar libraries that makes
+building binary package more simple if this libraries is not exists in user
+distributive.
+[+] Some other small enhancements.
+[*] Small bugs fixes.
+[*] configure.ac fixes for supporting custom boost libraries.
+
+
+0.3 (2009.02.17)
+-----
+[+] Details tab.
+[+] Status bar.
+[+] Sessions statistics.
+[+] Added "Open", "{Resume, Pause} {all, downloads, uploads}", "Set {download,
+upload} rate limit" options to tray menu.
+[+] Added ability to set custom download path for each file of torrent.
+[+] Now automatic finished torrent files copying system copy only downloaded
+at this time files and skipping not downloaded files.
+[+] Added support of non-UTF-8 locales by some tricks with libtorrent which is
+not support them.
+[+] Improved displaying warning messages with multiple lines. Warnings with
+many lines are now inserting into GtkScrolledWindow.
+[+] Added new version of dbus-c++ [04.02.2009].
+[+] Plain Makefile has been changed to autotools.
+[*] Download and upload rate limits are now setted (in GUI and CLI) in KB/s
+instead of B/s.
+[*] Some other small enhancements.
+
+
+0.2 (2009.01.15)
+-----
+[+] "DHT", "LSD", "Peer exchange", "UPnP", "NAT-PMP" and "Smart ban" settings.
+[+] "Open command" setting.
+[+] Files priorities.
+[+] Time left column.
+[+] Some other small enhancements.
+[-] Removed support of libtorrent < 0.14.
+[*] Fixed a small bug causing writting default settings for GUI widgets to
+config instead of current settings, when main window has not been shown any
+time. It's happened because settings are taken out from GTK and if window has
+not been shown any time, GTK returns, for example, invalid zero values for
+TreeView columns width.
+[*] Fixed bug because of bug in libtorrent documentation. "Total download",
+"Total download (payload)", "Total upload", "Total upload (payload)" columns
+was reseted after resuming torrent that was in downloading progress.
+[*] Deprecated in libtorrent 0.14 method
+libtorrent::torrent_handle::save_resume_data() has been removed from code.
+
+
+0.1.3 (2009.01.05)
+-----
+[*] Libtorrent Rasterbar 0.14 support.
+
+
+0.1.2 (2009.01.03)
+-----
+[*] Fixed few bugs which receive/send data in invalid charset.
+[*] Flush has been compiled with boost 1.34.1, 1.35, 1.36 and 1.37 headers.
+All conflicts has been fixed.
+
+
+0.1.1 (2009.01.03)
+-----
+[*] Small changes has been maded to remove conflicts with boost 1.37.
+[*] Minor makefile changes (CFLAGS and CXXFLAGS not gotten from environment).
+
+
+0.1 (2009.01.01)
+-----
+[+] Initial release.
+

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+CXXFLAGS=-O3 dpkg-buildpackage -rfakeroot
+

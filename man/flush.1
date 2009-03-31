@@ -1,0 +1,103 @@
+.\" Copyright (c) 2009, Konishchev Dmitry <konishchev@gmail.com>
+.\"
+.\" This is free documentation; you can redistribute it and/or
+.\" modify it under the terms of the GNU General Public License as
+.\" published by the Free Software Foundation; either version 3 of
+.\" the License, or (at your option) any later version.
+.\"
+.\" The GNU General Public License's references to "object code"
+.\" and "executables" are to be interpreted as the output of any
+.\" document formatting or typesetting system, including
+.\" intermediate and printed output.
+.\"
+.\" This manual is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public
+.\" License along with this manual; if not, write to the Free
+.\" Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+.\" Boston, MA  02111-1301  USA.
+.TH FLUSH "1" "Feb 15, 2009"
+.SH NAME
+Flush \- GTK\-based BitTorrent client
+
+.SH SYNOPSIS
+.B flush
+[\fIOPTIONS\fR] [\fITORRENT_FILE\fR]...
+
+.SH DESCRIPTION
+\fBFlush\fP is a GTK-based BitTorrent client. You can use it to download files from the BitTorrent network.
+.TP
+You can control already running instance, for example, by following commands:
+.B flush \-o \-\-download\-rate\-limit=100
+.br
+.B flush \-\-start=all
+
+.SH FEATURES
+\fB*\fP Controlling running instance by command line interface, such as:
+  \fB*\fP Starting/stopping torrents.
+.br
+  \fB*\fP Changing download/upload rate limit.
+.br
+  \fB*\fP Changing maximum connections limit.
+.br
+\fB*\fP Running many instances with different configs from the same user.
+.br
+\fB*\fP Automatic copying finished downloads to specified directory.
+.br
+\fB*\fP Setting custom download path for each file of torrent.
+.br
+\fB*\fP Automatic removing old torrents.
+.br
+\fB*\fP Overall and current session statistics.
+.br
+\fB*\fP Creating your own torrent files.
+
+.SH OPTIONS
+.TP
+.B \-\-version
+Show program version and exit.
+.TP
+.B \-\-help
+Show help options and exit.
+.TP
+.B \-\-config=\fIDIRECTORY\fR
+Configuration directory path (default: ~/.flush).
+.TP
+.B \-\-download\-rate\-limit=\fISPEED\fR
+Set download rate limit (KB/s).
+.TP
+.B \-\-upload\-rate\-limit=\fISPEED\fR
+Set upload rate limit (KB/s).
+.TP
+.B \-\-max\-uploads=\fINUMBER\fR
+Set maximum uploads.
+.TP
+.B \-\-max\-connections=\fINUMBER\fR
+Set maximum connections.
+.TP
+.B \-\-start=\fI{all,downloads,uploads}\fR
+Start torrents.
+.TP
+.B \-\-stop=\fI{all,downloads,uploads}\fR
+Stop torrents.
+.TP
+.B \-o, \-\-only-pass
+Only pass commands to already running Flush instance. Does not start new instance if it is not running yet.
+
+.SH FILES
+.TP
+.B ~/.flush
+Default configuration directory.
+
+.SH BUGS
+On startup Flush finds already running instances via DBus session bus. Therefore it is necessary to run Flush in a single session bus (usual in X session bus) to prevent running several instances with one configuration path. 
+.PP
+Please notice that when you are running Flush from console or by cron, when DISPLAY environment variable is not available, Flush finds already running GUI instance without problems via ${config_path}/dbus_session link, which all GUI instances are creating when they have owned DBus name. This makes it possible to control running Flush GUI instances from cron.
+
+.SH AUTHOR
+Flush was written by Konishchev Dmitry <konishchev@gmail.com>.
+.br
+This manual page was written by Konishchev Dmitry <konishchev@gmail.com>.

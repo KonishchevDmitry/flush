@@ -1,0 +1,103 @@
+.\" Copyright (c) 2009, Konishchev Dmitry <konishchev@gmail.com>
+.\"
+.\" This is free documentation; you can redistribute it and/or
+.\" modify it under the terms of the GNU General Public License as
+.\" published by the Free Software Foundation; either version 3 of
+.\" the License, or (at your option) any later version.
+.\"
+.\" The GNU General Public License's references to "object code"
+.\" and "executables" are to be interpreted as the output of any
+.\" document formatting or typesetting system, including
+.\" intermediate and printed output.
+.\"
+.\" This manual is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public
+.\" License along with this manual; if not, write to the Free
+.\" Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+.\" Boston, MA  02111-1301  USA.
+.TH FLUSH "1" "Feb 15, 2009"
+.SH ИМЯ
+Flush \- GTK\-based BitTorrent клиент
+
+.SH ОБЗОР
+.B flush
+[\fIОПЦИИ\fR] [\fIТОРРЕНТ_ФАЙЛ\fR]...
+
+.SH ОПИСАНИЕ
+\fBFlush\fP - GTK-based BitTorrent клиент. Вы можете использовать его для скачивания файлов из сети BitTorrent.
+.TP
+Вы можете управлять уже запущенной копией, к примеру, посредством следующих команд:
+.B flush \-o \-\-download\-rate\-limit=100
+.br
+.B flush \-\-start=all
+
+.SH ВОЗМОЖНОСТИ
+\fB*\fP Управление уже запущенной копией при помощи интерфейса командной строки:
+  \fB*\fP Приостановка и запуск торрентов.
+.br
+  \fB*\fP Изменение максимальной скорости скачивания и отдачи.
+.br
+  \fB*\fP Изменение максимально-разрешенного количества сетевых соединений.
+.br
+\fB*\fP Запуск нескольких копий с разными конфигурационными файлами от одного пользователя.
+.br
+\fB*\fP Автоматическое копирование торрентов в указанную директорию по завершении скачивания.
+.br
+\fB*\fP Возможность задавать для каждого файла торрента собственный путь, в который будет производиться скачивание.
+.br
+\fB*\fP Автоматическое удаление старых торрентов.
+.br
+\fB*\fP Общая статистика и статистика по текущей сессии.
+.br
+\fB*\fP Создание собственных *.torrent файлов.
+
+.SH ОПЦИИ
+.TP
+.B \-\-version
+Отобразить текущую версию программы и завершить работу.
+.TP
+.B \-\-help
+Отобразить текст справки и завершить работу.
+.TP
+.B \-\-config=\fIДИРЕКТОРИЯ\fR
+Путь к директории с конфигурационными файлами (по умолчанию \- ~/.flush).
+.TP
+.B \-\-download\-rate\-limit=\fIСКОРОСТЬ\fR
+Установить максимальную скорость скачивания (КБ/с).
+.TP
+.B \-\-upload\-rate\-limit=\fIСКОРОСТЬ\fR
+Установить максимальную скорость отдачи (КБ/с).
+.TP
+.B \-\-max\-uploads=\fIЧИСЛО\fR
+Установить максимальное количество слотов для раздачи.
+.TP
+.B \-\-max\-connections=\fIЧИСЛО\fR
+Установить максимальное количество открытых соединений.
+.TP
+.B \-\-start=\fI{all,downloads,uploads}\fR
+Запустить торренты.
+.TP
+.B \-\-stop=\fI{all,downloads,uploads}\fR
+Приостановить торренты.
+.TP
+.B \-o, \-\-only-pass
+Только передать команды уже запущенной копии и не запускать новую копию, если программа еще не запущена.
+
+.SH ФАЙЛЫ
+.TP
+.B ~/.flush
+Директория с конфигурационными файлами по умолчанию.
+
+.SH ОШИБКИ И НЕДОРАБОТКИ
+При запуске Flush ищет уже запущенные копии посредством DBus в текущей пользовательской шине (session bus). Поэтому необходимо запускать Flush в пределах одной и той же пользовательской шины (лучше всего, если это будет пользовательская шина, которую создает Xorg), чтобы предотвратить запуск нескольких копий Flush с одними и теми же конфигурационными файлами.
+.PP
+Несмотря на это, в случае, когда Flush запускается из консоли или посредством cron (или в любом другом случае, когда недоступна переменная окружения DISPLAY), он находит уже запущенную GUI копию без каких-либо проблем при помощи ссылки ${config_path}/dbus_session, которую создает каждая запущенная GUI копия Flush, как только ей удается завладеть именем на пользовательской шине DBus. Это делает возможным управлять работой уже запущенных копий, к примеру, через cron.
+
+.SH АВТОР
+Flush написал Конищев Дмитрий <konishchev@gmail.com>.
+.br
+Данную страницу руководства написал Конищев Дмитрий <konishchev@gmail.com>.

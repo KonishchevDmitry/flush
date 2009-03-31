@@ -1,0 +1,14 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=@PACKAGE_NAME@
+GenericName=BitTorrent client
+GenericName[ru]=BitTorrent клиент
+Comment=Downloading files by BitTorrent protocol
+Comment[ru]=Скачивание файлов по BitTorrent протоколу
+Icon=@PACKAGE@
+Exec=@PACKAGE@ %F
+MimeType=application/x-bittorrent
+Categories=GTK;Network;FileTransfer;P2P;
+Version=1.0
+
