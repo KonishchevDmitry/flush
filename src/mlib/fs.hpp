@@ -41,6 +41,15 @@
 
 
 
+	namespace error_string
+	{
+		/// Возвращает строку с ошибкой, которая соответствует данному
+		/// исключению.
+		/// Используется функцией EE().
+		std::string		get(const boost::fs::basic_filesystem_error<boost::fs::path>& error);
+	}
+
+
 	namespace m
 	{
 	namespace fs

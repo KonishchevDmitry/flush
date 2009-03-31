@@ -1,3 +1,13 @@
+0.4.1
+[*] Fixed bug which caused program terminating on x86-64 architectures with
+following output:
+	terminate called after throwing an instance of 'libconfig::SettingTypeException' 
+	what(): SettingTypeException 
+	Aborted
+[*] Fixed compatibility bug, due to which program compilation fails under
+glibmm-2.16.
+
+
 0.4 (2009.03.23)
 -----
 [+] Torrent creating feature.

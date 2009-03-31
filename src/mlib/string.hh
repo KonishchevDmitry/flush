@@ -42,6 +42,40 @@ namespace boost
 
 
 
+// В glibmm-2.16.4 замечено, что программа не компилируется, когда
+// Glib::ustring::compose() в качестве одного из параметров передать const
+// char* (кроме параметра со строкой форматирования). Это проиходит из-за того,
+// что в шаблонах возникает неопределенность. В glibmm-2.18.1 такой проблемы
+// уже нет.
+// -->
+	namespace
+	{
+		M_LIBRARY_COMPATIBILITY
+
+		template<class T> inline
+		const T&		correct_glib_format_value(const T& value);
+
+		Glib::ustring	correct_glib_format_value(const char* value);
+
+
+
+		template<class T>
+		const T& correct_glib_format_value(const T& value)
+		{
+			return value;
+		}
+
+
+
+		Glib::ustring correct_glib_format_value(const char* value)
+		{
+			return Glib::ustring(value);
+		}
+	}
+// <--
+
+
+
 namespace m
 {
 
@@ -151,7 +185,7 @@ std::string _(const char* string)
 
 Glib::ustring __(const char* fmt)
 {
-	return Glib::ustring::compose(_(fmt) + "%1", "");
+	return Glib::ustring::compose(_(fmt) + "%1", correct_glib_format_value(""));
 }
 
 
@@ -159,7 +193,7 @@ Glib::ustring __(const char* fmt)
 template<class T1>
 Glib::ustring __(const char* fmt, const T1& a1)
 {
-	return Glib::ustring::compose(_(fmt), a1);
+	return Glib::ustring::compose(_(fmt), correct_glib_format_value(a1));
 }
 
 
@@ -167,7 +201,7 @@ Glib::ustring __(const char* fmt, const T1& a1)
 template<class T1, class T2>
 Glib::ustring __(const char* fmt, const T1& a1, const T2& a2)
 {
-	return Glib::ustring::compose(_(fmt), a1, a2);
+	return Glib::ustring::compose(_(fmt), correct_glib_format_value(a1), correct_glib_format_value(a2));
 }
 
 
@@ -175,7 +209,7 @@ Glib::ustring __(const char* fmt, const T1& a1, const T2& a2)
 template<class T1, class T2, class T3>
 Glib::ustring __(const char* fmt, const T1& a1, const T2& a2, const T3& a3)
 {
-	return Glib::ustring::compose(_(fmt), a1, a2, a3);
+	return Glib::ustring::compose(_(fmt), correct_glib_format_value(a1), correct_glib_format_value(a2), correct_glib_format_value(a3));
 }
 
 
@@ -183,7 +217,7 @@ Glib::ustring __(const char* fmt, const T1& a1, const T2& a2, const T3& a3)
 template<class T1>
 Glib::ustring _C(const char* fmt, const T1& a1)
 {
-	return Glib::ustring::compose(fmt, a1);
+	return Glib::ustring::compose(fmt, correct_glib_format_value(a1));
 }
 
 
@@ -191,7 +225,7 @@ Glib::ustring _C(const char* fmt, const T1& a1)
 template<class T1, class T2>
 Glib::ustring _C(const char* fmt, const T1& a1, const T2& a2)
 {
-	return Glib::ustring::compose(fmt, a1, a2);
+	return Glib::ustring::compose(fmt, correct_glib_format_value(a1), correct_glib_format_value(a2));
 }
 
 
@@ -199,7 +233,7 @@ Glib::ustring _C(const char* fmt, const T1& a1, const T2& a2)
 template<class T1, class T2, class T3>
 Glib::ustring _C(const char* fmt, const T1& a1, const T2& a2, const T3& a3)
 {
-	return Glib::ustring::compose(fmt, a1, a2, a3);
+	return Glib::ustring::compose(fmt, correct_glib_format_value(a1), correct_glib_format_value(a2), correct_glib_format_value(a3));
 }
 
 
@@ -207,7 +241,7 @@ Glib::ustring _C(const char* fmt, const T1& a1, const T2& a2, const T3& a3)
 template<class T1>
 Glib::ustring _F(const T1& a1)
 {
-	return Glib::ustring::format(a1);
+	return Glib::ustring::format(correct_glib_format_value(a1));
 }
 
 
@@ -215,7 +249,7 @@ Glib::ustring _F(const T1& a1)
 template<class T1, class T2>
 Glib::ustring _F(const T1& a1, const T2& a2)
 {
-	return Glib::ustring::format(a1, a2);
+	return Glib::ustring::format(correct_glib_format_value(a1), correct_glib_format_value(a2));
 }
 
 
@@ -223,7 +257,7 @@ Glib::ustring _F(const T1& a1, const T2& a2)
 template<class T1, class T2, class T3>
 Glib::ustring _F(const T1& a1, const T2& a2, const T3& a3)
 {
-	return Glib::ustring::format(a1, a2, a3);
+	return Glib::ustring::format(correct_glib_format_value(a1), correct_glib_format_value(a2), correct_glib_format_value(a3));
 }
 
 

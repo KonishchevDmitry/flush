@@ -4,6 +4,11 @@
 	#include <stdint.h>
 
 
+	/// Этим символом будет помечаться весь код, который написан
+	/// для совместимости с предыдущими версиями библиотек - просто, чтобы его
+	/// было легко найти.
+	#define M_LIBRARY_COMPATIBILITY
+
 	// libconfig -->
 		#ifdef MLIB_ENABLE_LIBCONFIG
 			#include <libconfig.h++>

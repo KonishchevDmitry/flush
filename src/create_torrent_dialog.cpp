@@ -362,8 +362,8 @@ namespace
 					{
 						M_THROW(__(
 							"Error while reading torrent files. File '%1': %2.",
-							e.path1().string(), strerror(e.system_error()))
-						);
+							e.path1().string(), EE(e)
+						));
 					}
 					catch(...)
 					{
@@ -409,8 +409,14 @@ namespace
 					{
 						M_THROW(__(
 							"Error while reading torrent files. File '%1': %2.",
-							e.path1().string(), strerror(e.system_error()))
-						);
+							e.path1().string(),
+							#if M_BOOST_GET_VERSION() < M_GET_VERSION(1, 35, 0)
+								M_LIBRARY_COMPATIBILITY
+								strerror(e.system_error())
+							#else
+								strerror(e.code().value())
+							#endif
+						));
 					}
 					catch(...)
 					{

@@ -35,9 +35,29 @@
 
 #include "fs.hpp"
 #include "messages.hpp"
+#include "misc.hpp"
 #include "string.hpp"
 
 #define M_FILE_PATH_MAX_SIZE 1024
+
+
+
+namespace m
+{
+namespace error_string
+{
+	std::string get(const boost::fs::basic_filesystem_error<boost::fs::path>& error)
+	{
+		#if M_BOOST_GET_VERSION() < M_GET_VERSION(1, 35, 0)
+			M_LIBRARY_COMPATIBILITY
+			return strerror(error.system_error());
+		#else
+			return strerror(error.code().value());
+		#endif
+	}
+}
+}
+
 
 
 namespace m

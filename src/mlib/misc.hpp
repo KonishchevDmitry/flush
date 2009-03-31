@@ -27,9 +27,11 @@
 #include <vector>
 
 #include <boost/noncopyable.hpp>
+#include <boost/version.hpp>
 
 #include "errors.hpp"
 #include "types.hpp"
+
 
 
 /// Макроопределение для обхода контейнеров.
@@ -61,6 +63,9 @@
 /// версии используется не в условиях препроцессора, лучше использовать
 /// m::get_major_minor_version().
 #define M_GET_MAJOR_MINOR_VERSION(version) ( (version) / 1000 * 1000 )
+
+/// Возвращает версию boost.
+#define M_BOOST_GET_VERSION() M_GET_VERSION(BOOST_VERSION / 100000, BOOST_VERSION / 100 % 1000, BOOST_VERSION % 100)
 
 #ifdef MLIB_ENABLE_LIBTORRENT
 	#include <libtorrent/version.hpp>
