@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2009-03-22 20:26+0300\n"
+"POT-Creation-Date: 2009-04-01 00:15+0400\n"
 "Last-Translator: Konishchev Dmitry <konishchev@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,12 +44,12 @@ msgstr "это не файл торрента"
 msgid "Exception: '%1'."
 msgstr "Исключение: '%1'."
 
-#: src/mlib/fs.cpp:169
+#: src/mlib/fs.cpp:189
 #, qt-format
 msgid "Can't copy file '%1' to '%2': %3."
 msgstr "Не удалось скопировать файл '%1' в '%2': %3."
 
-#: src/mlib/fs.cpp:202
+#: src/mlib/fs.cpp:222
 #, qt-format
 msgid ""
 "Error while changing directory '%1' access and modification times. Can't "
@@ -59,109 +59,109 @@ msgstr ""
 "директории '%1' произошла ошибка. Не удалось получить информацию (stat) для "
 "директории '%2': %3."
 
-#: src/mlib/fs.cpp:216
+#: src/mlib/fs.cpp:236
 #, qt-format
 msgid "Error while changing directory '%1' access and modification times: %2."
 msgstr ""
 "При изменении времени последнего доступа и времени модификации для "
 "директории '%1' произошла ошибка: %2."
 
-#: src/mlib/fs.cpp:231 src/mlib/fs.cpp:841 src/daemon_fs.cpp:41
+#: src/mlib/fs.cpp:251 src/mlib/fs.cpp:861 src/daemon_fs.cpp:41
 #, qt-format
 msgid "Can't create directory '%1': %2."
 msgstr "Не удалось создать директорию '%1': %2."
 
-#: src/mlib/fs.cpp:262
+#: src/mlib/fs.cpp:282
 #, qt-format
 msgid "Invalid file path '%1'."
 msgstr "Недопустимый путь файла: %1."
 
-#: src/mlib/fs.cpp:311
+#: src/mlib/fs.cpp:331
 #, qt-format
 msgid "Invalid file path '%1' - file with such path is already exists."
 msgstr "Недопустимый путь файла '%1': файл с таким именем уже существует."
 
-#: src/mlib/fs.cpp:320
+#: src/mlib/fs.cpp:340
 #, qt-format
 msgid "Invalid file path '%1' - file '%2' is already exits."
 msgstr "Недопустимый путь файла '%1': файл '%2' уже существует."
 
-#: src/mlib/fs.cpp:364 src/mlib/fs.cpp:797 src/mlib/fs.cpp:807
+#: src/mlib/fs.cpp:384 src/mlib/fs.cpp:817 src/mlib/fs.cpp:827
 #, qt-format
 msgid "Can't stat '%1': %2."
 msgstr "Не удалось получить информацию (stat) о '%1': %2."
 
-#: src/mlib/fs.cpp:378
+#: src/mlib/fs.cpp:398
 #, qt-format
 msgid "Can't remove file '%1': %2."
 msgstr "Не удалось удалить файл '%1': %2."
 
-#: src/mlib/fs.cpp:402
+#: src/mlib/fs.cpp:422
 #, qt-format
 msgid "Can't read directory '%1': %2."
 msgstr "Не удалось прочитать директорию '%1': %2."
 
-#: src/mlib/fs.cpp:406
+#: src/mlib/fs.cpp:426
 #, qt-format
 msgid "Can't remove directory '%1': %2."
 msgstr "Не удалось удалить директорию '%1': %2."
 
-#: src/mlib/fs.cpp:444
+#: src/mlib/fs.cpp:464
 msgid "parent directory is not exists"
 msgstr "родительской директории не существует"
 
-#: src/mlib/fs.cpp:761
+#: src/mlib/fs.cpp:781
 msgid "file is already exists"
 msgstr "файл уже существует"
 
-#: src/mlib/fs.cpp:778
+#: src/mlib/fs.cpp:798
 msgid "it is a directory"
 msgstr "это директория"
 
-#: src/mlib/fs.cpp:782
+#: src/mlib/fs.cpp:802
 msgid "it is a special file"
 msgstr "это специальный файл"
 
-#: src/mlib/fs.cpp:793 src/mlib/fs.cpp:803
+#: src/mlib/fs.cpp:813 src/mlib/fs.cpp:823
 #, qt-format
 msgid "No such file or directory ('%1')."
 msgstr "Нет такого файла или директории ('%1')."
 
-#: src/mlib/fs.cpp:872
+#: src/mlib/fs.cpp:892
 #, qt-format
 msgid "Error while copying '%1' to '%2': %3."
 msgstr "Ошибка при копировании '%1' в '%2': %3."
 
-#: src/mlib/fs.cpp:878 src/mlib/fs.cpp:1040
+#: src/mlib/fs.cpp:898 src/mlib/fs.cpp:1060
 #, qt-format
 msgid "Error while reading '%1': %2."
 msgstr "Ошибка при чтении '%1': %2."
 
-#: src/mlib/fs.cpp:914
+#: src/mlib/fs.cpp:934
 msgid "Can't get user home path."
 msgstr "Не удалось получить путь к домашнему каталогу пользователя."
 
-#: src/mlib/fs.cpp:961
+#: src/mlib/fs.cpp:981
 #, qt-format
 msgid "file '%1' is already exists"
 msgstr "файл '%1' уже существует"
 
-#: src/mlib/fs.cpp:1033
+#: src/mlib/fs.cpp:1053
 #, qt-format
 msgid "Can't delete directory '%1': %2."
 msgstr "Не удалось создать директорию '%1': %2."
 
-#: src/mlib/fs.cpp:1047
+#: src/mlib/fs.cpp:1067
 #, qt-format
 msgid "file or directory '%1' is not exists"
 msgstr "файл или директория '%1' не существуют"
 
-#: src/mlib/fs.cpp:1051
+#: src/mlib/fs.cpp:1071
 #, qt-format
 msgid "Can't delete file '%1': %2."
 msgstr "Не удалось удалить файл '%1': %2."
 
-#: src/mlib/fs.cpp:1142
+#: src/mlib/fs.cpp:1162
 msgid "too big link target path"
 msgstr "слишком длинный адрес ссылки"
 
@@ -258,15 +258,15 @@ msgid "GB"
 msgstr "ГБ"
 
 #: src/mlib/string.cpp:194 src/mlib/string.cpp:204
-#: src/create_torrent_dialog.cpp:629 src/create_torrent_dialog.cpp:633
-#: src/create_torrent_dialog.cpp:637 src/create_torrent_dialog.cpp:641
+#: src/create_torrent_dialog.cpp:635 src/create_torrent_dialog.cpp:639
+#: src/create_torrent_dialog.cpp:643 src/create_torrent_dialog.cpp:647
 msgid "MB"
 msgstr "МБ"
 
 #: src/mlib/string.cpp:211 src/mlib/string.cpp:221
-#: src/create_torrent_dialog.cpp:609 src/create_torrent_dialog.cpp:613
-#: src/create_torrent_dialog.cpp:617 src/create_torrent_dialog.cpp:621
-#: src/create_torrent_dialog.cpp:625
+#: src/create_torrent_dialog.cpp:615 src/create_torrent_dialog.cpp:619
+#: src/create_torrent_dialog.cpp:623 src/create_torrent_dialog.cpp:627
+#: src/create_torrent_dialog.cpp:631
 msgid "KB"
 msgstr "КБ"
 
@@ -282,11 +282,11 @@ msgstr "/с"
 msgid "0 B/s"
 msgstr "0 Б/с"
 
-#: src/mlib/string.hh:64 src/mlib/string.hh:93 src/mlib/string.hh:111
+#: src/mlib/string.hh:98 src/mlib/string.hh:127 src/mlib/string.hh:145
 msgid "[[ Invalid format string ]]"
 msgstr "[[ Ошибка форматирования строки ]]"
 
-#: src/mlib/string.hh:66 src/mlib/string.hh:95 src/mlib/string.hh:113
+#: src/mlib/string.hh:100 src/mlib/string.hh:129 src/mlib/string.hh:147
 msgid "Invalid format string."
 msgstr "Ошибка форматирования строки"
 
@@ -546,73 +546,73 @@ msgstr "При чтении файлов торрента произошла в�
 msgid "Libtorrent internal error happened while creating torrent."
 msgstr "При создании торрента произошла внутренняя ошибка libtorrent."
 
-#: src/create_torrent_dialog.cpp:417
+#: src/create_torrent_dialog.cpp:423
 msgid "Libtorrent internal error happened while hashing torrent files."
 msgstr ""
 "При хешировании файлов торрента произошла внутренняя ошибка libtorrent."
 
-#: src/create_torrent_dialog.cpp:466
+#: src/create_torrent_dialog.cpp:472
 msgid "Libtorrent return invalid torrent file."
 msgstr "Libtorrent создала торрент файл неизвестного формата."
 
-#: src/create_torrent_dialog.cpp:492
+#: src/create_torrent_dialog.cpp:498
 #, qt-format
 msgid "Can't write torrent file '%1': %2."
 msgstr "Не удалось сохранить файл торрента '%1': %2."
 
-#: src/create_torrent_dialog.cpp:499
+#: src/create_torrent_dialog.cpp:505
 #, qt-format
 msgid "Libtorrent internal error happened while creating torrent file '%1'."
 msgstr "При создании торрента '%1' произошла внутренняя ошибка libtorrent."
 
-#: src/create_torrent_dialog.cpp:539
+#: src/create_torrent_dialog.cpp:545
 msgid "Creating torrent"
 msgstr "Создание торрента"
 
-#: src/create_torrent_dialog.cpp:557
+#: src/create_torrent_dialog.cpp:563
 msgid "File or directory to create torrent from:"
 msgstr "Файл или директория, из которых необходимо создать торрент:"
 
-#: src/create_torrent_dialog.cpp:592
+#: src/create_torrent_dialog.cpp:598
 msgid "Private torrent (DHT is not allowed)"
 msgstr "Приватный торрент (DHT не разрешен)"
 
-#: src/create_torrent_dialog.cpp:650
+#: src/create_torrent_dialog.cpp:656
 msgid "Piece size:"
 msgstr "Размер одной части:"
 
-#: src/create_torrent_dialog.cpp:657 src/torrent_options_view.cpp:109
+#: src/create_torrent_dialog.cpp:663 src/torrent_options_view.cpp:109
 msgid "Trackers"
 msgstr "Трекеры"
 
-#: src/create_torrent_dialog.cpp:721
+#: src/create_torrent_dialog.cpp:727
 msgid "File or directory to create torrent from is not setted"
 msgstr "Файл или директория, из которых необходимо создать торрент:"
 
-#: src/create_torrent_dialog.cpp:722
+#: src/create_torrent_dialog.cpp:728
 msgid "Please choose file or directory to create torrent from."
 msgstr ""
 "Пожалуйста, выберите файл или директорию, из которых необходимо создать "
 "торрент."
 
-#: src/create_torrent_dialog.cpp:731
+#: src/create_torrent_dialog.cpp:737
 msgid "Please choose a file to save the torrent"
 msgstr "Пожалуйста, выберите файл, в который необходимо сохранить торрент"
 
-#: src/create_torrent_dialog.cpp:750 src/main_window.cpp:463
+#: src/create_torrent_dialog.cpp:756 src/main_window.cpp:463
 msgid "Torrent files"
 msgstr "*.torrent файлы"
 
-#: src/create_torrent_dialog.cpp:755 src/main_window.cpp:468
+#: src/create_torrent_dialog.cpp:761 src/main_window.cpp:468
 msgid "Any files"
 msgstr "Все файлы"
 
-#: src/create_torrent_dialog.cpp:792
+#: src/create_torrent_dialog.cpp:798
 msgid "Please choose a directory to create torrent from"
 msgstr ""
 "Пожалуйста, выберите директорию, из которой необходимо создать торрент."
 
-#: src/create_torrent_dialog.cpp:794
+#: src/create_torrent_dialog.cpp:800
 msgid "Please choose a file to create torrent from"
 msgstr "Пожалуйста, выберите файл, из которого необходимо создать торрент."
 

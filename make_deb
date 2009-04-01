@@ -1,4 +1,4 @@
 #!/bin/bash
 
-CXXFLAGS=-O3 dpkg-buildpackage -rfakeroot
+CFLAGS='-g -O2 -pipe' CXXFLAGS='-g -O3 -pipe' dpkg-buildpackage -rfakeroot
 
