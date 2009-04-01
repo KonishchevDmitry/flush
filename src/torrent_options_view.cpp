@@ -129,10 +129,76 @@ Torrent_options_view::~Torrent_options_view(void)
 
 void Torrent_options_view::clear(void)
 {
-	this->gui->sequential_download_check_button.set_active(false);
-	this->gui->copy_when_finished_check_button.set_active(false);
-	this->gui->copy_when_finished_to_entry.set_text("");
-	this->gui->trackers_view.set( std::vector<std::string>() );
+	this->gui_updating = true;
+
+		this->torrent_id = Torrent_id();
+
+		this->set_sensitive(false);
+
+		this->gui->sequential_download_check_button.set_active(false);
+		this->gui->copy_when_finished_check_button.set_active(false);
+		this->gui->copy_when_finished_to_entry.set_text("");
+		this->gui->trackers_view.set( std::vector<std::string>() );
+
+	this->gui_updating = false;
+}
+
+
+
+void Torrent_options_view::custom_update(bool force)
+{
+	if(this->torrent_id)
+	{
+		Download_settings download_settings;
+		std::vector<std::string> trackers;
+
+		if(force)
+		{
+			this->download_settings_revision = INIT_REVISION;
+			this->trackers_revision = INIT_REVISION;
+		}
+
+		this->set_sensitive(true);
+
+		try
+		{
+			if(get_daemon_proxy().get_torrent_new_download_settings(this->torrent_id, &this->download_settings_revision, &download_settings))
+			{
+				this->gui_updating = true;
+
+					this->gui->sequential_download_check_button.set_active(
+						download_settings.sequential_download
+					);
+
+					this->gui->copy_when_finished_check_button.set_active(
+						download_settings.copy_when_finished
+					);
+
+					this->gui->copy_when_finished_to_entry.set_text(
+						download_settings.copy_when_finished_to
+					);
+
+				this->gui_updating = false;
+			}
+
+			if(get_daemon_proxy().get_torrent_new_trackers(this->torrent_id, &this->trackers_revision, &trackers))
+			{
+				this->gui_updating = true;
+					this->gui->trackers_view.set(trackers);
+				this->gui_updating = false;
+			}
+		}
+		catch(m::Exception& e)
+		{
+			MLIB_W(__("Error while getting torrent download settings. %1", EE(e)));
+			this->clear();
+		}
+	}
+	else
+	{
+		if(force)
+			this->clear();
+	}
 }
 
 
@@ -154,7 +220,9 @@ void Torrent_options_view::on_copy_when_finished_toggled_callback(void)
 		MLIB_W(__("Error while setting torrent download settings. %1", EE(e)));
 	}
 
-	this->update(this->torrent_id);
+	// Чтобы в случае ошибки отобразить то, что действительно хранится в
+	// настройках демона.
+	this->custom_update(true);
 }
 
 
@@ -198,7 +266,9 @@ void Torrent_options_view::on_sequential_download_toggled_callback(void)
 		MLIB_W(__("Error while setting torrent download settings. %1", EE(e)));
 	}
 
-	this->update(this->torrent_id);
+	// Чтобы в случае ошибки отобразить то, что действительно хранится в
+	// настройках демона.
+	this->custom_update(true);
 }
 
 
@@ -214,64 +284,29 @@ void Torrent_options_view::on_trackers_changed_callback(void)
 		MLIB_W(__("Can't set torrent trackers. %1", EE(e)));
 	}
 
-	this->update(this->torrent_id);
+	// Чтобы в случае ошибки отобразить то, что действительно хранится в
+	// настройках демона.
+	this->custom_update(true);
 }
 
 
 
 void Torrent_options_view::update(const Torrent_id& torrent_id)
 {
-	this->gui_updating = true;
-		if(torrent_id)
+	if(torrent_id)
+	{
+		if(this->torrent_id != torrent_id)
 		{
-			Download_settings download_settings;
-			std::vector<std::string> trackers;
-
-			if(this->torrent_id != torrent_id)
-			{
-				this->torrent_id = torrent_id;
-				this->download_settings_revision = INIT_REVISION;
-				this->trackers_revision = INIT_REVISION;
-			}
-
-			this->set_sensitive(true);
-
-			try
-			{
-				if(get_daemon_proxy().get_torrent_new_download_settings(this->torrent_id, &this->download_settings_revision, &download_settings))
-				{
-					this->gui->sequential_download_check_button.set_active(
-						download_settings.sequential_download
-					);
-
-					this->gui->copy_when_finished_check_button.set_active(
-						download_settings.copy_when_finished
-					);
-
-					this->gui->copy_when_finished_to_entry.set_text(
-						download_settings.copy_when_finished_to
-					);
-				}
-
-				if(get_daemon_proxy().get_torrent_new_trackers(this->torrent_id, &this->trackers_revision, &trackers))
-					this->gui->trackers_view.set(trackers);
-			}
-			catch(m::Exception& e)
-			{
-				MLIB_W(__("Error while getting torrent download settings. %1", EE(e)));
-				this->set_sensitive(false);
-				this->clear();
-			}
+			this->torrent_id = torrent_id;
+			this->custom_update(true);
 		}
 		else
-		{
-			if(this->torrent_id)
-			{
-				this->torrent_id = torrent_id;
-				this->set_sensitive(false);
-				this->clear();
-			}
-		}
-	this->gui_updating = false;
+			this->custom_update();
+	}
+	else
+	{
+		if(this->torrent_id)
+			this->clear();
+	}
 }
 

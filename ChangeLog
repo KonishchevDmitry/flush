@@ -1,4 +1,4 @@
-0.4.1
+0.4.1 (2009.04.01)
 [*] Fixed bug which caused program terminating on x86-64 architectures with
 following output:
 	terminate called after throwing an instance of 'libconfig::SettingTypeException' 
@@ -6,6 +6,11 @@ following output:
 	Aborted
 [*] Fixed compatibility bug, due to which program compilation fails under
 glibmm-2.16.
+[*] Fixed compatibility bug, due to which program compilation fails under
+boost >= 1.35.
+[*] Fixed small bug in torrent options tab: "Copy when finished to"
+CheckButton was not updated when it was toggled at that time, when it can't be
+toggled (when "Copy when finished to" Gtk::Entry is empty).
 
 
 0.4 (2009.03.23)

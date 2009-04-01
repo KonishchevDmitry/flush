@@ -846,9 +846,7 @@ int main(int argc, char *argv[])
 
 			const char *dbus_session_address = getenv(DBUS_SESSION_ENV_NAME);
 			if(!dbus_session_address)
-			{
 				MLIB_W(__("Creating %1 session failed. Can't get DBus session bus address.", APP_NAME));
-			}
 
 			try
 			{
