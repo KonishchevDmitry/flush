@@ -96,7 +96,7 @@
 
 	namespace m
 	{
-		typedef int64_t		Size;
+		typedef long long	Size;
 		typedef long double	Size_float;
 		typedef int32_t		Speed;
 

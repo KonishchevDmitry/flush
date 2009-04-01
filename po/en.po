@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: flush 0.4\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2009-04-01 00:15+0400\n"
+"POT-Creation-Date: 2009-04-01 21:21+0400\n"
 "PO-Revision-Date: 2009-03-22 20:26+0300\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -991,7 +991,7 @@ msgstr ""
 msgid "Can't set environment variable '%1'='%2': %3."
 msgstr "Can't set environment variable '%1'='%2': %3."
 
-#: src/main.cpp:740 src/main.cpp:943
+#: src/main.cpp:740 src/main.cpp:941
 #, qt-format
 msgid "Can't communicate with running %1 instance. It is not running."
 msgstr "Can't communicate with running %1 instance. It is not running."
@@ -1036,30 +1036,30 @@ msgid ""
 msgstr ""
 "Creating %1 session failed. Error while reading link '%2' target path: %3."
 
-#: src/main.cpp:850
+#: src/main.cpp:849
 #, qt-format
 msgid "Creating %1 session failed. Can't get DBus session bus address."
 msgstr "Creating %1 session failed. Can't get DBus session bus address."
 
-#: src/main.cpp:860
+#: src/main.cpp:858
 #, qt-format
 msgid "Creating %1 session failed. Can't create DBus session link '%2': %3."
 msgstr "Creating %1 session failed. Can't create DBus session link '%2': %3."
 
-#: src/main.cpp:890 src/main.cpp:906
+#: src/main.cpp:888 src/main.cpp:904
 #, qt-format
 msgid "Closing %1 session failed. Can't remove DBus session link '%2': %3."
 msgstr "Closing %1 session failed. Can't remove DBus session link '%2': %3."
 
-#: src/main.cpp:925
+#: src/main.cpp:923
 msgid "Nothing to process. Exiting..."
 msgstr "Nothing to process. Exiting..."
 
-#: src/main.cpp:928
+#: src/main.cpp:926
 msgid "Delivering command line options to working copy..."
 msgstr "Delivering command line options to working copy..."
 
-#: src/main.cpp:938
+#: src/main.cpp:936
 #, qt-format
 msgid "Can't communicate with running %1 instance via DBus: %2."
 msgstr "Can't communicate with running %1 instance via DBus: %2."
@@ -1578,24 +1578,24 @@ msgstr "Changing download status for '%1' failed. %2"
 msgid "Sequential download"
 msgstr "Sequential download"
 
-#: src/torrent_options_view.cpp:154 src/torrent_options_view.cpp:198
+#: src/torrent_options_view.cpp:193
+#, qt-format
+msgid "Error while getting torrent download settings. %1"
+msgstr "Error while getting torrent download settings. %1"
+
+#: src/torrent_options_view.cpp:220 src/torrent_options_view.cpp:266
 #, qt-format
 msgid "Error while setting torrent download settings. %1"
 msgstr "Error while setting torrent download settings. %1"
 
-#: src/torrent_options_view.cpp:165
+#: src/torrent_options_view.cpp:233
 msgid "Please choose a directory for torrent finished files copying"
 msgstr "Please choose a directory for torrent finished files copying"
 
-#: src/torrent_options_view.cpp:214
+#: src/torrent_options_view.cpp:284
 #, qt-format
 msgid "Can't set torrent trackers. %1"
 msgstr "Can't set torrent trackers. %1"
-
-#: src/torrent_options_view.cpp:261
-#, qt-format
-msgid "Error while getting torrent download settings. %1"
-msgstr "Error while getting torrent download settings. %1"
 
 #: src/torrent_peers_view.cpp:75
 msgid "IP"

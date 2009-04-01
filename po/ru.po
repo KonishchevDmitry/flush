@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2009-04-01 00:15+0400\n"
+"POT-Creation-Date: 2009-04-01 21:21+0400\n"
 "Last-Translator: Konishchev Dmitry <konishchev@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1031,7 +1031,7 @@ msgstr ""
 msgid "Can't set environment variable '%1'='%2': %3."
 msgstr "Не удалось установить переменную окружения '%1'='%2': %3."
 
-#: src/main.cpp:740 src/main.cpp:943
+#: src/main.cpp:740 src/main.cpp:941
 #, qt-format
 msgid "Can't communicate with running %1 instance. It is not running."
 msgstr "Не удалось связаться с запущенной копией %1. %1 не запущен."
@@ -1080,36 +1080,36 @@ msgid ""
 msgstr ""
 "Создание сессии %1 завершилось неудачей. Ошибка при чтении ссылки '%2': %3."
 
-#: src/main.cpp:850
+#: src/main.cpp:849
 #, qt-format
 msgid "Creating %1 session failed. Can't get DBus session bus address."
 msgstr ""
 "Создание сессии %1 завершилось неудачей. Не удалось получить адрес DBus "
 "сессии."
 
-#: src/main.cpp:860
+#: src/main.cpp:858
 #, qt-format
 msgid "Creating %1 session failed. Can't create DBus session link '%2': %3."
 msgstr ""
 "Создание сессии %1 завершилось неудачей. Не удалось создать ссылку на DBus "
 "сессию '%2': %3."
 
-#: src/main.cpp:890 src/main.cpp:906
+#: src/main.cpp:888 src/main.cpp:904
 #, qt-format
 msgid "Closing %1 session failed. Can't remove DBus session link '%2': %3."
 msgstr ""
 "Закрытие сессии %1 завершилось ошибкой. Не удалось удалить ссылку на DBus "
 "сессию '%2': %3."
 
-#: src/main.cpp:925
+#: src/main.cpp:923
 msgid "Nothing to process. Exiting..."
 msgstr "Нет действий, которые следовало бы обработать. Завершение работы..."
 
-#: src/main.cpp:928
+#: src/main.cpp:926
 msgid "Delivering command line options to working copy..."
 msgstr "Пересылаем опции командной строки работающей копии..."
 
-#: src/main.cpp:938
+#: src/main.cpp:936
 #, qt-format
 msgid "Can't communicate with running %1 instance via DBus: %2."
 msgstr "Не удалось связаться с запущенной копией %1 посредством DBus: %2."
@@ -1629,26 +1629,26 @@ msgstr "Изменение статуса скачивания для '%1' за�
 msgid "Sequential download"
 msgstr "Последовательное скачивание"
 
-#: src/torrent_options_view.cpp:154 src/torrent_options_view.cpp:198
+#: src/torrent_options_view.cpp:193
+#, qt-format
+msgid "Error while getting torrent download settings. %1"
+msgstr "Ошибка при получении настроек скачивания торрента. %1."
+
+#: src/torrent_options_view.cpp:220 src/torrent_options_view.cpp:266
 #, qt-format
 msgid "Error while setting torrent download settings. %1"
-msgstr "Ошибка при задании настроек скачивания торрента. %1."
+msgstr "Ошибка при задании настроек скачивания торрента. %1"
 
-#: src/torrent_options_view.cpp:165
+#: src/torrent_options_view.cpp:233
 msgid "Please choose a directory for torrent finished files copying"
 msgstr ""
 "Пожалуйста, выберите директорию, в которую будут скопированы файлы торрента "
 "по завершении скачивания"
 
-#: src/torrent_options_view.cpp:214
+#: src/torrent_options_view.cpp:284
 #, qt-format
 msgid "Can't set torrent trackers. %1"
 msgstr "Не удалось задать список трекеров торрента. %1."
-
-#: src/torrent_options_view.cpp:261
-#, qt-format
-msgid "Error while getting torrent download settings. %1"
-msgstr "Ошибка при получении настроек скачивания торрента. %1."
 
 #: src/torrent_peers_view.cpp:75
 msgid "IP"
