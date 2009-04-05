@@ -33,16 +33,15 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 subdir = .
-DIST_COMMON = $(am__configure_deps) $(dist_desktop_DATA) \
-	$(dist_icons_16_DATA) $(dist_icons_22_DATA) \
-	$(dist_icons_24_DATA) $(dist_icons_32_DATA) \
-	$(dist_icons_48_DATA) $(dist_icons_72_DATA) \
-	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(srcdir)/config.h.in $(srcdir)/flush.desktop.in \
-	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL \
-	build-aux/config.guess build-aux/config.rpath \
-	build-aux/config.sub build-aux/depcomp build-aux/install-sh \
-	build-aux/missing
+DIST_COMMON = $(am__configure_deps) $(dist_icons_16_DATA) \
+	$(dist_icons_22_DATA) $(dist_icons_24_DATA) \
+	$(dist_icons_32_DATA) $(dist_icons_48_DATA) \
+	$(dist_icons_72_DATA) $(srcdir)/Makefile.am \
+	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
+	$(srcdir)/flush.desktop.in $(top_srcdir)/configure AUTHORS \
+	COPYING ChangeLog INSTALL build-aux/config.guess \
+	build-aux/config.rpath build-aux/config.sub build-aux/depcomp \
+	build-aux/install-sh build-aux/missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/acx_pthread.m4 \
 	$(top_srcdir)/m4/ax_boost_base.m4 \
@@ -79,17 +78,16 @@ am__installdirs = "$(DESTDIR)$(desktopdir)" "$(DESTDIR)$(icons_16dir)" \
 	"$(DESTDIR)$(icons_22dir)" "$(DESTDIR)$(icons_24dir)" \
 	"$(DESTDIR)$(icons_32dir)" "$(DESTDIR)$(icons_48dir)" \
 	"$(DESTDIR)$(icons_72dir)"
-dist_desktopDATA_INSTALL = $(INSTALL_DATA)
+desktopDATA_INSTALL = $(INSTALL_DATA)
 dist_icons_16DATA_INSTALL = $(INSTALL_DATA)
 dist_icons_22DATA_INSTALL = $(INSTALL_DATA)
 dist_icons_24DATA_INSTALL = $(INSTALL_DATA)
 dist_icons_32DATA_INSTALL = $(INSTALL_DATA)
 dist_icons_48DATA_INSTALL = $(INSTALL_DATA)
 dist_icons_72DATA_INSTALL = $(INSTALL_DATA)
-DATA = $(dist_desktop_DATA) $(dist_icons_16_DATA) \
-	$(dist_icons_22_DATA) $(dist_icons_24_DATA) \
-	$(dist_icons_32_DATA) $(dist_icons_48_DATA) \
-	$(dist_icons_72_DATA)
+DATA = $(desktop_DATA) $(dist_icons_16_DATA) $(dist_icons_22_DATA) \
+	$(dist_icons_24_DATA) $(dist_icons_32_DATA) \
+	$(dist_icons_48_DATA) $(dist_icons_72_DATA)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
   distclean-recursive maintainer-clean-recursive
 ETAGS = etags
@@ -258,7 +256,7 @@ EXTRA_DIST = build-aux/config.rpath debian/changelog debian/compat \
 	debian/control debian/copyright debian/docs debian/rules \
 	make_deb
 desktopdir = $(datadir)/applications
-dist_desktop_DATA = @PACKAGE@.desktop
+desktop_DATA = @PACKAGE@.desktop
 icons_16dir = $(datadir)/icons/hicolor/16x16/apps
 icons_22dir = $(datadir)/icons/hicolor/22x22/apps
 icons_24dir = $(datadir)/icons/hicolor/24x24/apps
@@ -330,19 +328,19 @@ distclean-hdr:
 	-rm -f config.h stamp-h1
 flush.desktop: $(top_builddir)/config.status $(srcdir)/flush.desktop.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
-install-dist_desktopDATA: $(dist_desktop_DATA)
+install-desktopDATA: $(desktop_DATA)
 	@$(NORMAL_INSTALL)
 	test -z "$(desktopdir)" || $(MKDIR_P) "$(DESTDIR)$(desktopdir)"
-	@list='$(dist_desktop_DATA)'; for p in $$list; do \
+	@list='$(desktop_DATA)'; for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  f=$(am__strip_dir) \
-	  echo " $(dist_desktopDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(desktopdir)/$$f'"; \
-	  $(dist_desktopDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(desktopdir)/$$f"; \
+	  echo " $(desktopDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(desktopdir)/$$f'"; \
+	  $(desktopDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(desktopdir)/$$f"; \
 	done
 
-uninstall-dist_desktopDATA:
+uninstall-desktopDATA:
 	@$(NORMAL_UNINSTALL)
-	@list='$(dist_desktop_DATA)'; for p in $$list; do \
+	@list='$(desktop_DATA)'; for p in $$list; do \
 	  f=$(am__strip_dir) \
 	  echo " rm -f '$(DESTDIR)$(desktopdir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(desktopdir)/$$f"; \
@@ -779,7 +777,7 @@ info: info-recursive
 
 info-am:
 
-install-data-am: install-dist_desktopDATA install-dist_icons_16DATA \
+install-data-am: install-desktopDATA install-dist_icons_16DATA \
 	install-dist_icons_22DATA install-dist_icons_24DATA \
 	install-dist_icons_32DATA install-dist_icons_48DATA \
 	install-dist_icons_72DATA
@@ -820,7 +818,7 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-dist_desktopDATA uninstall-dist_icons_16DATA \
+uninstall-am: uninstall-desktopDATA uninstall-dist_icons_16DATA \
 	uninstall-dist_icons_22DATA uninstall-dist_icons_24DATA \
 	uninstall-dist_icons_32DATA uninstall-dist_icons_48DATA \
 	uninstall-dist_icons_72DATA
@@ -835,7 +833,7 @@ uninstall-am: uninstall-dist_desktopDATA uninstall-dist_icons_16DATA \
 	distclean-generic distclean-hdr distclean-tags distcleancheck \
 	distdir distuninstallcheck dvi dvi-am html html-am info \
 	info-am install install-am install-data install-data-am \
-	install-data-hook install-dist_desktopDATA \
+	install-data-hook install-desktopDATA \
 	install-dist_icons_16DATA install-dist_icons_22DATA \
 	install-dist_icons_24DATA install-dist_icons_32DATA \
 	install-dist_icons_48DATA install-dist_icons_72DATA \
@@ -846,7 +844,7 @@ uninstall-am: uninstall-dist_desktopDATA uninstall-dist_icons_16DATA \
 	installdirs installdirs-am maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
 	pdf-am ps ps-am tags tags-recursive uninstall uninstall-am \
-	uninstall-dist_desktopDATA uninstall-dist_icons_16DATA \
+	uninstall-desktopDATA uninstall-dist_icons_16DATA \
 	uninstall-dist_icons_22DATA uninstall-dist_icons_24DATA \
 	uninstall-dist_icons_32DATA uninstall-dist_icons_48DATA \
 	uninstall-dist_icons_72DATA

@@ -1,3 +1,7 @@
+0.4.2 ()
+[-] Removed debian directory. Packages are now available at the launchpad.net.
+
+
 0.4.1 (2009.04.01)
 [*] Fixed bug which caused program terminating on x86-64 architectures with
 following output:

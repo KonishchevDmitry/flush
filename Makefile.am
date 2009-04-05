@@ -15,7 +15,7 @@ EXTRA_DIST += \
 	make_deb
 
 desktopdir = $(datadir)/applications
-dist_desktop_DATA = @PACKAGE@.desktop
+desktop_DATA = @PACKAGE@.desktop
 
 icons_16dir = $(datadir)/icons/hicolor/16x16/apps
 icons_22dir = $(datadir)/icons/hicolor/22x22/apps
