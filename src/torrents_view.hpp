@@ -174,28 +174,36 @@
 
 
 		public:
+			/// Возвращает маску действий, которые можно совершить над
+			/// выбранным(ми) тореентом(ами).
+			Torrent_process_actions	get_available_actions(void);
+
+			/// Выполняет требуемое действие над выбранными в данный момент
+			/// торрентами.
+			void					process_torrents(Torrent_process_action action);
+
 			/// Сохраняет настройки виджета.
-			void			save_settings(Torrents_view_settings& settings) const;
+			void					save_settings(Torrents_view_settings& settings) const;
 
 			/// Иницииурет обновление виджета.
-			void			update(std::vector<Torrent_info>::iterator infos_it, const std::vector<Torrent_info>::iterator& infos_end_it);
+			void					update(std::vector<Torrent_info>::iterator infos_it, const std::vector<Torrent_info>::iterator& infos_end_it);
 
 		private:
 			/// Обработчик сигнала на нажатие правой кнопки мыши.
-			virtual void	on_mouse_right_button_click(const GdkEventButton* const event);
+			virtual void			on_mouse_right_button_click(const GdkEventButton* const event);
 
 			/// Обработчик сигнала на активацию строки TreeView.
-			void			on_row_activated_callback(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
+			void					on_row_activated_callback(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
 
 			/// Обработчик сигнала на изменение списка выделенных торрентов.
-			void			on_selection_changed_callback(void);
+			void					on_selection_changed_callback(void);
 
 			/// Обработчик сигнала на выбор пользователем действия, которое
 			/// он хочет совершить над торрентом(ами) (остановить, запустить, удалить и т. п.).
-			void			torrents_process_callback(Torrent_process_action action);
+			void					torrents_process_callback(Torrent_process_action action);
 
 			/// Обновляет строку TreeView.
-			void			update_row(Gtk::TreeModel::iterator &iter, const Torrent_info& torrent_info, bool is_new_row);
+			void					update_row(Gtk::TreeModel::iterator &iter, const Torrent_info& torrent_info, bool is_new_row);
 	};
 #endif
 

@@ -52,6 +52,12 @@
 			Torrents_viewport(const Torrents_viewport_settings& settings);
 
 
+		public:
+			/// Сигнал на изменение списка действий, которые можно выполнить над
+			/// торрентом(ами), выделенным(ми) в данный момент.
+			sigc::signal<void,
+				Torrent_process_actions>		torrent_process_actions_changed_signal;
+
 		private:
 			/// Содержит либо только список торрентов, либо список торрентов
 			/// с информационными виджетами.
@@ -119,6 +125,10 @@
 
 			/// Обработчик сигнала на изменение списка выделенных торрентов.
 			void			on_torrent_selected_callback(const Torrent_id& torrent_id);
+
+			/// Выполняет требуемое действие над выбранными в данный момент
+			/// торрентами.
+			void			process_torrents(Torrent_process_action action);
 
 			/// Инициирует обновление виджета.
 			void			update(std::vector<Torrent_info>::iterator infos_it, const std::vector<Torrent_info>::iterator& infos_end_it);

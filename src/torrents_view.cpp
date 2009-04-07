@@ -243,30 +243,43 @@
 
 
 
-	void Torrents_view::on_mouse_right_button_click(const GdkEventButton* event)
+	Torrent_process_actions Torrents_view::get_available_actions(void)
 	{
-		// Получаем список выделенных строк
+		Torrent_process_actions actions = 0;
+
 		std::deque<Gtk::TreeModel::iterator> iters = this->get_selected_rows();
 
 		if(iters.size())
 		{
-			// Определяем, какие элементы меню необходимо отобразить -->
+			actions |= REMOVE | REMOVE_WITH_DATA;
+
+			for(std::deque<Gtk::TreeModel::iterator>::iterator it = iters.begin(); it < iters.end(); it++)
 			{
-				bool is_paused_torrents_exists = false;
-				bool is_started_torrents_exists = false;
+				if( (*it)->get_value(this->model_columns.paused) )
+					actions |= RESUME;
+				else
+					actions |= PAUSE;
 
-				for(std::deque<Gtk::TreeModel::iterator>::iterator it = iters.begin(); it < iters.end(); it++)
-				{
-					if( (*it)->get_value(this->model_columns.paused) )
-						is_paused_torrents_exists = true;
-					else
-						is_started_torrents_exists = true;
-				}
-
-				this->pause_action->set_visible(is_started_torrents_exists);
-				this->resume_action->set_visible(is_paused_torrents_exists);
+				if(actions & RESUME && actions & PAUSE)
+					break;
 			}
-			// Определяем, какие элементы меню необходимо отобразить <--
+		}
+
+		return actions;
+	}
+
+
+
+	void Torrents_view::on_mouse_right_button_click(const GdkEventButton* event)
+	{
+		Torrent_process_actions actions = this->get_available_actions();
+
+		// Если есть, что делать с данными торрентами
+		if(actions)
+		{
+			// Определяем, какие элементы меню необходимо отобразить
+			this->pause_action->set_visible(actions & PAUSE);
+			this->resume_action->set_visible(actions & RESUME);
 
 			// Отображаем меню
 			dynamic_cast<Gtk::Menu*>(this->ui_manager->get_widget("/popup_menu"))->popup(event->button, event->time);
@@ -331,7 +344,7 @@
 
 
 
-	void Torrents_view::torrents_process_callback(Torrent_process_action action)
+	void Torrents_view::process_torrents(Torrent_process_action action)
 	{
 		// Запрашиваем подтверждение у пользователя, если это необходимо -->
 			switch(action)
@@ -439,6 +452,13 @@
 				update_gui();
 			}
 		// Получаем идентификаторы выделенных торрентов и отправляем их на обработку <--
+	}
+
+
+
+	void Torrents_view::torrents_process_callback(Torrent_process_action action)
+	{
+		this->process_torrents(action);
 	}
 
 

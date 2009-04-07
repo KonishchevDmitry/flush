@@ -20,6 +20,7 @@
 
 
 #include <deque>
+#include <map>
 #include <vector>
 
 #include <gdkmm/pixbuf.h>
@@ -30,8 +31,18 @@
 #include <gtkmm/dialog.h>
 #include <gtkmm/filechooserdialog.h>
 #include <gtkmm/main.h>
+#include <gtkmm/radioaction.h>
+#include <gtkmm/radiobuttongroup.h>
+#include <gtkmm/separatortoolitem.h>
+#include <gtkmm/statusbar.h>
+#include <gtkmm/statusicon.h>
 #include <gtkmm/stock.h>
+#include <gtkmm/toggleaction.h>
+#include <gtkmm/toolbar.h>
+#include <gtkmm/toolbutton.h>
+#include <gtkmm/uimanager.h>
 
+#include <mlib/gtk/toolbar.hpp>
 #include <mlib/gtk/vbox.hpp>
 
 #include "add_torrent_dialog.hpp"
@@ -53,6 +64,54 @@
 
 
 
+// Gui -->
+	class Main_window::Gui
+	{
+		public:
+			Gui(void);
+
+
+		public:
+			/// Определяет, было ли хотя бы один раз отображено окно, или за
+			/// все время работы программы пользоватьель его так и не видел.
+			bool								has_been_showed;
+
+			// Меню
+			Glib::RefPtr<Gtk::ToggleAction>		menu_show_toolbar_action;
+
+			// Панель инструментов -->
+				Gtk::Toolbar					toolbar;
+				Gtk::ToolButton*				toolbar_resume_button;
+				Gtk::ToolButton*				toolbar_pause_button;
+				Gtk::ToolButton*				toolbar_remove_button;
+				Gtk::ToolButton*				toolbar_remove_with_data_button;
+			// Панель инструментов <--
+
+			/// Status bar.
+			Gtk::Statusbar						status_bar;
+
+			/// Иконка в трее
+			Glib::RefPtr<Gtk::StatusIcon>		tray;
+
+			Torrents_viewport*					torrents_viewport;
+
+			Glib::RefPtr<Gtk::UIManager>		ui_manager;
+
+			/// Текущая "привязка" сигнала на обновление GUI.
+			sigc::connection					update_timeout_connection;
+	};
+
+
+
+	Main_window::Gui::Gui(void)
+	:
+		has_been_showed(false)
+	{
+	}
+// Gui <--
+
+
+
 // Change_rate_limit_dialog -->
 	/// Диалог изменения скорости скачивания/раздачи.
 	class Change_rate_limit_dialog: public Gtk::Dialog
@@ -65,7 +124,7 @@
 			const Traffic_type	traffic_type;
 			Gtk::SpinButton*	rate_limit_button;
 
-		
+
 		public:
 			void	run(void);
 
@@ -172,8 +231,7 @@ Main_window::Main_window(const Main_window_settings& settings)
 		settings.window,
 		800, 600, m::gtk::WINDOW_BORDER_WIDTH / 2
 	),
-	has_been_showed(false),
-	settings_window(NULL)
+	gui(new Gui)
 {
 	Client_settings& client_settings = get_client_settings();
 	Main_window_settings& main_window_settings = client_settings.gui.main_window;
@@ -184,7 +242,7 @@ Main_window::Main_window(const Main_window_settings& settings)
 	// Меню -->
 		Glib::RefPtr<Gtk::ActionGroup> action_group;
 
-		this->ui_manager = Gtk::UIManager::create();
+		this->gui->ui_manager = Gtk::UIManager::create();
 
 		action_group = Gtk::ActionGroup::create();
 
@@ -213,6 +271,77 @@ Main_window::Main_window(const Main_window_settings& settings)
 				sigc::mem_fun(*this, &Main_window::on_show_settings_window_callback)
 			);
 
+
+			action_group->add(Gtk::Action::create("view", _("_View")));
+			this->gui->menu_show_toolbar_action = Gtk::ToggleAction::create(
+				"show_toolbar", _("Show _toolbar"), "",
+				get_client_settings().gui.show_toolbar
+			);
+			action_group->add(
+				this->gui->menu_show_toolbar_action,
+				sigc::mem_fun(*this, &Main_window::on_show_toolbar_toggled_callback)
+			);
+
+			// Стиль панели инструментов -->
+			{
+				Gtk::RadioButtonGroup radio_group;
+				std::map< m::gtk::toolbar::Style, Glib::RefPtr<Gtk::RadioAction> > toolbar_style_buttons;
+
+				action_group->add(Gtk::Action::create("toolbar_style", _("Toolbar _style")));
+
+				action_group->add(
+					toolbar_style_buttons[m::gtk::toolbar::DEFAULT] = Gtk::RadioAction::create(
+						radio_group, "toolbar_style_default", _("_Desktop default")
+					),
+					sigc::bind<m::gtk::toolbar::Style>(
+						sigc::mem_fun(*this, &Main_window::change_toolbar_style),
+						m::gtk::toolbar::DEFAULT
+					)
+				);
+
+				action_group->add(
+					toolbar_style_buttons[m::gtk::toolbar::ICONS] = Gtk::RadioAction::create(
+						radio_group, "toolbar_style_icons", _("_Icons")
+					),
+					sigc::bind<m::gtk::toolbar::Style>(
+						sigc::mem_fun(*this, &Main_window::change_toolbar_style),
+						m::gtk::toolbar::ICONS
+					)
+				);
+
+				action_group->add(
+					toolbar_style_buttons[m::gtk::toolbar::TEXT] = Gtk::RadioAction::create(
+						radio_group, "toolbar_style_text", _("_Text")
+					),
+					sigc::bind<m::gtk::toolbar::Style>(
+						sigc::mem_fun(*this, &Main_window::change_toolbar_style),
+						m::gtk::toolbar::TEXT
+					)
+				);
+
+				action_group->add(
+					toolbar_style_buttons[m::gtk::toolbar::BOTH] = Gtk::RadioAction::create(
+						radio_group, "toolbar_style_both", _("_Both")
+					),
+					sigc::bind<m::gtk::toolbar::Style>(
+						sigc::mem_fun(*this, &Main_window::change_toolbar_style),
+						m::gtk::toolbar::BOTH
+					)
+				);
+
+				action_group->add(
+					toolbar_style_buttons[m::gtk::toolbar::BOTH_HORIZ] = Gtk::RadioAction::create(
+						radio_group, "toolbar_style_both_horiz", _("Both _horizontal")
+					),
+					sigc::bind<m::gtk::toolbar::Style>(
+						sigc::mem_fun(*this, &Main_window::change_toolbar_style),
+						m::gtk::toolbar::BOTH_HORIZ
+					)
+				);
+
+				toolbar_style_buttons[get_client_settings().gui.toolbar_style]->set_active();
+			}
+			// Стиль панели инструментов <--
 
 			action_group->add(Gtk::Action::create("torrents", _("_Torrents")));
 			action_group->add(Gtk::Action::create("tray_torrents", Gtk::Stock::DND_MULTIPLE, _("_Torrents")));
@@ -286,7 +415,7 @@ Main_window::Main_window(const Main_window_settings& settings)
 				sigc::mem_fun(*this, &Main_window::on_show_about_dialog_callback)
 			);
 
-		this->ui_manager->insert_action_group(action_group);
+		this->gui->ui_manager->insert_action_group(action_group);
 
 		Glib::ustring ui_info =
 			"<ui>"
@@ -299,6 +428,16 @@ Main_window::Main_window(const Main_window_settings& settings)
 			"		<menu action='edit'>"
 			"			<menuitem action='statistics'/>"
 			"			<menuitem action='preferences'/>"
+			"		</menu>"
+			"		<menu action='view'>"
+			"			<menuitem action='show_toolbar'/>"
+			"				<menu action='toolbar_style'>"
+			"					<menuitem action='toolbar_style_default'/>"
+			"					<menuitem action='toolbar_style_icons'/>"
+			"					<menuitem action='toolbar_style_text'/>"
+			"					<menuitem action='toolbar_style_both'/>"
+			"					<menuitem action='toolbar_style_both_horiz'/>"
+			"				</menu>"
 			"		</menu>"
 			"		<menu action='torrents'>"
 			"			<menu action='resume'>"
@@ -339,24 +478,27 @@ Main_window::Main_window(const Main_window_settings& settings)
 			"	</popup>"
 			"</ui>";
 
-		this->ui_manager->add_ui_from_string(ui_info);
-		this->add_accel_group(this->ui_manager->get_accel_group());
+		this->gui->ui_manager->add_ui_from_string(ui_info);
+		this->add_accel_group(this->gui->ui_manager->get_accel_group());
 	// Меню <--
 
 	Gtk::VBox* main_vbox = Gtk::manage(new Gtk::VBox());
 	this->add(*main_vbox);
 
 	// Панель меню -->
-		Gtk::Widget* menu_bar = this->ui_manager->get_widget("/menu_bar");
+		Gtk::Widget* menu_bar = this->gui->ui_manager->get_widget("/menu_bar");
 		main_vbox->pack_start(*menu_bar, false, true);
 	// Панель меню <--
 
+	// Панель инструментов
+	main_vbox->pack_start(this->gui->toolbar, false, false);
+
 	// Список торрентов -->
-		this->torrents_viewport = Gtk::manage(new Torrents_viewport(main_window_settings.torrents_viewport));
-		main_vbox->pack_start(*this->torrents_viewport, true, true);
+		this->gui->torrents_viewport = Gtk::manage(new Torrents_viewport(main_window_settings.torrents_viewport));
+		main_vbox->pack_start(*this->gui->torrents_viewport, true, true);
 
 		// Настройки отдельных виджетов
-		this->torrents_viewport->get_log_view().set_max_lines(client_settings.gui.max_log_lines);
+		this->gui->torrents_viewport->get_log_view().set_max_lines(client_settings.gui.max_log_lines);
 	// Список торрентов <--
 
 	// status bar -->
@@ -365,18 +507,125 @@ Main_window::Main_window(const Main_window_settings& settings)
 		alignment->property_top_padding() = m::gtk::VBOX_SPACING / 2;
 		main_vbox->pack_start(*alignment, false, false);
 
-		alignment->add(this->status_bar);
-		this->status_bar.push("");
+		alignment->add(this->gui->status_bar);
+		this->gui->status_bar.push("");
 	}
 	// status bar <--
 
-	// Устанавливаем интервал обновления GUI.
+
+	// Панель инструментов -->
+	{
+		// Заполнять ее лучше в самом конце, когда уже созданы все необходимые
+		// виджеты.
+
+		Gtk::ToolButton* button;
+
+
+		button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::NEW));
+		button->set_label(_("Create"));
+		this->gui->toolbar.append(
+			*button,
+			sigc::mem_fun(*this, &Main_window::on_create_callback)
+		);
+
+		button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::OPEN));
+		button->set_label(_("Open"));
+		this->gui->toolbar.append(
+			*button,
+			sigc::mem_fun(*this, &Main_window::on_open_callback)
+		);
+
+
+		this->gui->toolbar.append(
+			*Gtk::manage(new Gtk::SeparatorToolItem())
+		);
+
+
+		this->gui->toolbar_resume_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::MEDIA_PLAY));
+		this->gui->toolbar_resume_button->set_label(_("Resume"));
+		this->gui->toolbar.append(
+			*this->gui->toolbar_resume_button,
+			sigc::bind<Torrent_process_action>(
+				sigc::mem_fun(*this->gui->torrents_viewport, &Torrents_viewport::process_torrents),
+				RESUME
+			)
+		);
+
+		this->gui->toolbar_pause_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::MEDIA_PAUSE));
+		this->gui->toolbar_pause_button->set_label(_("Pause"));
+		this->gui->toolbar.append(
+			*this->gui->toolbar_pause_button,
+			sigc::bind<Torrent_process_action>(
+				sigc::mem_fun(*this->gui->torrents_viewport, &Torrents_viewport::process_torrents),
+				PAUSE
+			)
+		);
+
+		this->gui->toolbar_remove_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::REMOVE));
+		this->gui->toolbar_remove_button->set_label(_("Remove"));
+		this->gui->toolbar.append(
+			*this->gui->toolbar_remove_button,
+			sigc::bind<Torrent_process_action>(
+				sigc::mem_fun(*this->gui->torrents_viewport, &Torrents_viewport::process_torrents),
+				REMOVE
+			)
+		);
+
+		this->gui->toolbar_remove_with_data_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::DELETE));
+		this->gui->toolbar_remove_with_data_button->set_label(_("Remove with data"));
+		this->gui->toolbar.append(
+			*this->gui->toolbar_remove_with_data_button,
+			sigc::bind<Torrent_process_action>(
+				sigc::mem_fun(*this->gui->torrents_viewport, &Torrents_viewport::process_torrents),
+				REMOVE_WITH_DATA
+			)
+		);
+
+
+		this->gui->toolbar.append(
+			*Gtk::manage(new Gtk::SeparatorToolItem())
+		);
+
+
+		button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::INDEX));
+		button->set_label(_("Statistics"));
+		this->gui->toolbar.append(
+			*button,
+			sigc::mem_fun(*this, &Main_window::on_show_statistics_callback)
+		);
+
+		button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::PREFERENCES));
+		button->set_label(_("Preferences"));
+		this->gui->toolbar.append(
+			*button,
+			sigc::mem_fun(*this, &Main_window::on_show_settings_window_callback)
+		);
+
+
+		this->gui->toolbar.show_all_children();
+		if(get_client_settings().gui.show_toolbar)
+			this->gui->toolbar.show();
+
+		this->gui->toolbar.set_no_show_all();
+	}
+	// Панель инструментов <--
+
+
+	// Устанавливаем интервал обновления GUI
 	this->set_gui_update_interval(client_settings.gui.update_interval);
 
-	// Автоматическое сохранение настроек.
+	// Обновление доступных в данный момент кнопок -->
+		this->on_torrent_process_actions_changed_callback(0);
+
+		this->gui->torrents_viewport->torrent_process_actions_changed_signal.connect(
+			sigc::mem_fun(*this, &Main_window::on_torrent_process_actions_changed_callback)
+		);
+	// Обновление доступных в данный момент кнопок <--
+
+	// Автоматическое сохранение настроек
 	Glib::signal_timeout().connect(sigc::mem_fun(*this, &Main_window::on_save_settings_timeout), SAVE_SETTINGS_INTERVAL);
 
-	// Закрытие окна.
+	// Закрытие окна
 	this->signal_delete_event().connect(sigc::mem_fun(*this, &Main_window::on_close_callback));
 
 	#ifndef DEVELOP_MODE
@@ -391,9 +640,24 @@ Main_window::Main_window(const Main_window_settings& settings)
 
 
 
+Main_window::~Main_window(void)
+{
+	delete gui;
+}
+
+
+
 void Main_window::add_daemon_message(const Daemon_message& message) const
 {
-	this->torrents_viewport->get_log_view().add_message(message);
+	this->gui->torrents_viewport->get_log_view().add_message(message);
+}
+
+
+
+void Main_window::change_toolbar_style(m::gtk::toolbar::Style style)
+{
+	get_client_settings().gui.toolbar_style = style;
+	m::gtk::toolbar::set_style(this->gui->toolbar, style);
 }
 
 
@@ -615,7 +879,7 @@ void Main_window::on_show_settings_window_callback(void)
 			this->set_gui_update_interval(client_settings.gui.update_interval);
 
 		if(max_log_lines != client_settings.gui.max_log_lines)
-			this->torrents_viewport->get_log_view().set_max_lines(client_settings.gui.max_log_lines);
+			this->gui->torrents_viewport->get_log_view().set_max_lines(client_settings.gui.max_log_lines);
 
 		try
 		{
@@ -644,6 +908,28 @@ void Main_window::on_show_statistics_callback(void)
 
 
 
+void Main_window::on_show_toolbar_toggled_callback(void)
+{
+	if(this->gui->menu_show_toolbar_action->get_active())
+		this->gui->toolbar.show();
+	else
+		this->gui->toolbar.hide();
+
+	get_client_settings().gui.show_toolbar = this->gui->menu_show_toolbar_action->get_active();
+}
+
+
+
+void Main_window::on_torrent_process_actions_changed_callback(Torrent_process_actions actions)
+{
+	this->gui->toolbar_resume_button->set_sensitive(actions & RESUME);
+	this->gui->toolbar_pause_button->set_sensitive(actions & PAUSE);
+	this->gui->toolbar_remove_button->set_sensitive(actions & REMOVE);
+	this->gui->toolbar_remove_with_data_button->set_sensitive(actions & REMOVE_WITH_DATA);
+}
+
+
+
 void Main_window::on_tray_activated(void)
 {
 	if(this->is_visible())
@@ -656,7 +942,7 @@ void Main_window::on_tray_activated(void)
 
 void Main_window::on_tray_popup_menu(int button, int activate_time)
 {
-	Gtk::Menu* menu = dynamic_cast<Gtk::Menu*>(this->ui_manager->get_widget("/tray_popup_menu"));
+	Gtk::Menu* menu = dynamic_cast<Gtk::Menu*>(this->gui->ui_manager->get_widget("/tray_popup_menu"));
 	menu->popup(button, activate_time);
 }
 
@@ -699,9 +985,9 @@ void Main_window::open_torrent(const std::string& torrent_path)
 
 void Main_window::set_gui_update_interval(int interval)
 {
-	this->gui_update_timeout_connection.disconnect();
+	this->gui->update_timeout_connection.disconnect();
 
-	this->gui_update_timeout_connection = Glib::signal_timeout().connect(sigc::mem_fun(
+	this->gui->update_timeout_connection = Glib::signal_timeout().connect(sigc::mem_fun(
 		*this, &Main_window::on_gui_update_timeout), interval
 	);
 }
@@ -711,7 +997,7 @@ void Main_window::set_gui_update_interval(int interval)
 void Main_window::save_settings(void)
 {
 	// Получаем текущие настройки -->
-		if(this->has_been_showed)
+		if(this->gui->has_been_showed)
 		{
 			// Получаем настройки от GUI только в том случае, если окно было
 			// отображено хотя бы один раз.
@@ -727,7 +1013,7 @@ void Main_window::save_settings(void)
 			Main_window_settings& settings = get_client_settings().gui.main_window;
 
 			m::gtk::Window::save_settings(settings.window);
-			this->torrents_viewport->save_settings(settings.torrents_viewport);
+			this->gui->torrents_viewport->save_settings(settings.torrents_viewport);
 		}
 	// Получаем текущие настройки <--
 
@@ -739,7 +1025,7 @@ void Main_window::save_settings(void)
 
 void Main_window::show(void)
 {
-	this->has_been_showed = true;
+	this->gui->has_been_showed = true;
 	this->update_gui();
 	Gtk::Window::show();
 }
@@ -748,7 +1034,7 @@ void Main_window::show(void)
 
 void Main_window::show_all(void)
 {
-	this->has_been_showed = true;
+	this->gui->has_been_showed = true;
 	this->update_gui();
 	Gtk::Window::show_all();
 }
@@ -759,24 +1045,24 @@ void Main_window::show_tray_icon(bool show)
 {
 	if(show)
 	{
-		if(this->tray)
+		if(this->gui->tray)
 			return;
 
 		// Создаем иконку в трее
-		this->tray = Gtk::StatusIcon::create(APP_UNIX_NAME);
+		this->gui->tray = Gtk::StatusIcon::create(APP_UNIX_NAME);
 
 		// Обработчик нажатия левой кнопки мыши по значку в трее
-		this->tray->signal_activate().connect(sigc::mem_fun(*this, &Main_window::on_tray_activated));
+		this->gui->tray->signal_activate().connect(sigc::mem_fun(*this, &Main_window::on_tray_activated));
 
 		// Обработчик нажатия правой кнопки мыши по значку в трее
-		this->tray->signal_popup_menu().connect(sigc::mem_fun(*this, &Main_window::on_tray_popup_menu));
+		this->gui->tray->signal_popup_menu().connect(sigc::mem_fun(*this, &Main_window::on_tray_popup_menu));
 	}
 	else
 	{
-		if(!this->tray)
+		if(!this->gui->tray)
 			return;
 
-		this->tray.reset();
+		this->gui->tray.reset();
 	}
 }
 
@@ -796,7 +1082,7 @@ void Main_window::update_gui(void)
 			MLIB_W(EE(e));
 		}
 
-		torrents_viewport->update(torrents_info.begin(), torrents_info.end());
+		this->gui->torrents_viewport->update(torrents_info.begin(), torrents_info.end());
 	// Обновляем список торрентов <--
 
 	// Получаем информацию о текущей сессии
@@ -845,12 +1131,12 @@ void Main_window::update_gui(void)
 				status_string += space_string + _("Redundant") + ": " + m::size_to_string(session_status.redundant);
 
 			if(status_string.empty())
-				this->status_bar.hide();
+				this->gui->status_bar.hide();
 			else
 			{
-				this->status_bar.pop();
-				this->status_bar.push(status_string.substr(space_string.size()));
-				this->status_bar.show();
+				this->gui->status_bar.pop();
+				this->gui->status_bar.push(status_string.substr(space_string.size()));
+				this->gui->status_bar.show();
 			}
 		}
 		catch(m::Exception& e)

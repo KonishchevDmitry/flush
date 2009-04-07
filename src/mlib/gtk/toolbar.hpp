@@ -19,29 +19,49 @@
 
 
 #ifdef MLIB_ENABLE_GTK
-#ifndef HEADER_MLIB_GTK_TYPES
-	#define HEADER_MLIB_GTK_TYPES
+#ifndef HEADER_MLIB_GTK_TOOLBAR
+	#define HEADER_MLIB_GTK_TOOLBAR
 
-	namespace Gtk
-	{
-		class Button;
-		class ComboBox;
-		class Dialog;
-		class Entry;
-		class FileChooserDialog;
-		class LinkButton;
-		class ListStore;
-		class ListViewText;
-		class MessageDialog;
-		class ProgressBar;
-		class Table;
-		class Toolbar;
-		class TreeRow;
-		class TreeViewColumn;
-		class TreeView;
-		class Widget;
-		class Window;
-	}
+	/// Слегка облегчает работу с Gtk::Toolbar.
+
+	#include <string>
+
+	#include <gtkmm/toolbar.h>
+
+	#include <mlib/errors.hpp>
+	#include "types.hpp"
+
+
+	namespace m { namespace gtk { namespace toolbar {
+
+	/// Аналогичен Gtk::ToolbarStyle, за исключением того, что включает стиль
+	/// DEFAULT.
+	enum Style {
+		DEFAULT,
+		ICONS,
+		TEXT,
+		BOTH,
+		BOTH_HORIZ
+	};
+
+
+	/// Преобразовывает Style в Gtk::ToolbarStyle.
+	Gtk::ToolbarStyle	convert(Style style);
+
+	/// Преобразовывает Gtk::ToolbarStyle в Style.
+	Style				convert(Gtk::ToolbarStyle style);
+
+	/// Возвращает стиль по его строковому представлению.
+	/// В случае ошибки возвращает стиль DEFAULT.
+	Style				get_style_from_string(const std::string& string) throw(m::Exception);
+
+	/// Возвращает строковое имя типа.
+	std::string			get_style_string_representation(Style style);
+
+	/// Устанавливает для панели инструментов стиль style.
+	void				set_style(Gtk::Toolbar& toolbar, Style style);
+
+	}}}
 
 #endif
 #endif

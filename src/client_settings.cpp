@@ -24,6 +24,7 @@
 
 #include <libconfig.h++>
 
+#include <mlib/gtk/toolbar.hpp>
 #include <mlib/fs.hpp>
 
 #include "client_settings.hpp"
@@ -494,6 +495,9 @@ namespace
 // Gui_settings -->
 	Gui_settings::Gui_settings(void)
 	:
+		show_toolbar(true),
+		toolbar_style(m::gtk::toolbar::DEFAULT),
+
 		show_tray_icon(true),
 		update_interval(1000),
 		max_log_lines(100),
@@ -510,7 +514,27 @@ namespace
 			const libconfig::Setting& setting = config_root[i];
 			const char* setting_name = setting.getName();
 
-			if(m::is_eq(setting_name, "show_tray_icon"))
+			if(m::is_eq(setting_name, "show_toolbar"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				this->show_toolbar = setting;
+			}
+			else if(m::is_eq(setting_name, "toolbar_style"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeString, continue)
+
+				try
+				{
+					this->toolbar_style = m::gtk::toolbar::get_style_from_string(
+						static_cast<const char *>(setting)
+					);
+				}
+				catch(m::Exception& e)
+				{
+					bad_option_value(setting, EE(e));
+				}
+			}
+			else if(m::is_eq(setting_name, "show_tray_icon"))
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
 				this->show_tray_icon = setting;
@@ -577,6 +601,9 @@ namespace
 
 	void Gui_settings::write_config(libconfig::Setting& config_root) const
 	{
+		config_root.add("show_toolbar", libconfig::Setting::TypeBoolean) = this->show_toolbar;
+		config_root.add("toolbar_style", libconfig::Setting::TypeString) = m::gtk::toolbar::get_style_string_representation(this->toolbar_style);
+
 		config_root.add("show_tray_icon", libconfig::Setting::TypeBoolean) = this->show_tray_icon;
 		config_root.add("update_interval", libconfig::Setting::TypeInt) = this->update_interval;
 		config_root.add("max_log_lines", libconfig::Setting::TypeInt) = this->max_log_lines;

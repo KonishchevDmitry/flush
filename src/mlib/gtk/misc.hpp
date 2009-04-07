@@ -75,12 +75,12 @@
 	extern int TABLE_NAME_VALUE_COLUMNS_SPACING;
 
 
-	typedef enum {
+	enum Dialog_response {
 		RESPONSE_OK,
 		RESPONSE_CANCEL,
 		RESPONSE_YES,
 		RESPONSE_NO
-	} Dialog_response;
+	};
 
 
 

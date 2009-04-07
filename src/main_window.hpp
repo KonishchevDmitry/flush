@@ -24,11 +24,9 @@
 
 	#include <queue>
 
-	#include <gtkmm/statusbar.h>
-	#include <gtkmm/statusicon.h>
-	#include <gtkmm/uimanager.h>
 	#include <gtkmm/window.h>
 
+	#include <mlib/gtk/toolbar.hpp>
 	#include <mlib/gtk/types.hpp>
 	#include <mlib/gtk/window.hpp>
 
@@ -38,30 +36,17 @@
 
 	class Main_window: public m::gtk::Window
 	{
+		private:
+			struct Gui;
+
+
 		public:
 			Main_window(const Main_window_settings& settings);
+			~Main_window();
 
 
 		private:
-			/// Определяет, было ли хотя бы один раз отображено окно, или за
-			/// все время работы программы пользоватьель его так и не видел.
-			bool							has_been_showed;
-
-			/// Status bar
-			Gtk::Statusbar					status_bar;
-
-			/// Иконка в трее.
-			Glib::RefPtr<Gtk::StatusIcon>	tray;
-
-			Torrents_viewport*				torrents_viewport;
-
-			Glib::RefPtr<Gtk::UIManager>	ui_manager;
-
-			/// Окно редактирования настроек.
-			Settings_window*				settings_window;
-
-			/// Текущая "привязка" сигнала на обновление GUI.
-			sigc::connection				gui_update_timeout_connection;
+			Gui*				gui;
 
 
 		public:
@@ -80,6 +65,9 @@
 			void	update_gui(void);
 
 		private:
+			/// Изменяет стиль панели инструментов.
+			void	change_toolbar_style(m::gtk::toolbar::Style style);
+
 			/// При выборе пункта меню "Изменить максимальную скорость скачивания/отдачи".
 			void	on_change_rate_limit_callback(Traffic_type traffic_type);
 
@@ -119,6 +107,14 @@
 
 			/// Обработчик сигнала на отображение статистики.
 			void	on_show_statistics_callback(void);
+
+			/// Обработчик сигнала на переключение флажка меню "Отображать
+			/// панель инструментов".
+			void	on_show_toolbar_toggled_callback(void);
+
+			/// Обработчик сигнала на изменение списка действий, которые можно
+			/// выполнить над торрентом(ами), выделенным(ми) в данный момент.
+			void	on_torrent_process_actions_changed_callback(Torrent_process_actions actions);
 
 			/// Обработчик нажатия левой кнопки мыши по значку в трее.
 			void	on_tray_activated(void);

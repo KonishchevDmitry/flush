@@ -8,6 +8,8 @@ src/mlib/gtk/paned.cpp
 src/mlib/gtk/paned.hpp
 src/mlib/gtk/paned_settings.cpp
 src/mlib/gtk/paned_settings.hpp
+src/mlib/gtk/toolbar.cpp
+src/mlib/gtk/toolbar.hpp
 src/mlib/gtk/tree_view.cpp
 src/mlib/gtk/tree_view.hh
 src/mlib/gtk/tree_view.hpp

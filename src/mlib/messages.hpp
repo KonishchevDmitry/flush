@@ -25,14 +25,14 @@
 
 
 	#ifdef MLIB_DEBUG_MODE
-		#define MLIB_D(args...) m::debug(__FILE__, __LINE__, args)
+		#define MLIB_D(args...) ::m::debug(__FILE__, __LINE__, args)
 	#else
 		#define MLIB_D(args...)
 	#endif
 
 	/// Информационное сообщение.
 	/// В GUI приложениях выводится на экран.
-	#define MLIB_I(args...) m::info(__FILE__, __LINE__, args)
+	#define MLIB_I(args...) ::m::info(__FILE__, __LINE__, args)
 
 	/// Предупреждающее сообщение о какой-либо ошибке. В отличие от MLIB_W
 	/// гораздо менее навязчивое - в GUI приложениях выводится только на
@@ -40,15 +40,15 @@
 	/// для индикации о каких-то внутренних ошибках, которые не должен видеть
 	/// среднестатистический пользователь, но если заглянет в консоль, то увидит
 	/// и сможет рассказать о них разарботчику.
-	#define MLIB_SW(args...) m::silent_warning(__FILE__, __LINE__, args)
+	#define MLIB_SW(args...) ::m::silent_warning(__FILE__, __LINE__, args)
 
 	/// Предупреждающее сообщение о какой-либо ошибке.
 	/// В GUI приложениях выводится на экран.
-	#define MLIB_W(args...) m::warning(__FILE__, __LINE__, args)
+	#define MLIB_W(args...) ::m::warning(__FILE__, __LINE__, args)
 
-	#define MLIB_E(args...) m::error(__FILE__, __LINE__, args)
-	#define MLIB_A(exp)		m::assert_exp(__FILE__, __LINE__, exp)
-	#define MLIB_LE()		m::logical_error(__FILE__, __LINE__)
+	#define MLIB_E(args...) ::m::error(__FILE__, __LINE__, args)
+	#define MLIB_A(exp)		::m::assert_exp(__FILE__, __LINE__, exp)
+	#define MLIB_LE()		::m::logical_error(__FILE__, __LINE__)
 
 
 	namespace m {

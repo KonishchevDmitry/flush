@@ -31,6 +31,8 @@
 #include "torrents_view.hpp"
 #include "torrents_viewport.hpp"
 
+#include "main_window.hpp"
+#include "main.hpp"
 
 
 Torrents_viewport::Info_widget_handle::Info_widget_handle(const std::string& name, Gtk::ToggleButton& button, Info_widget& widget)
@@ -264,8 +266,21 @@ void Torrents_viewport::on_torrent_selected_callback(const Torrent_id& torrent_i
 {
 	this->cur_torrent_id = torrent_id;
 
+	// Сообщаем "наверх" о том, что действия, которые можно выполнять над
+	// выделенными в данный момент торрентами изменились.
+	this->torrent_process_actions_changed_signal(
+		this->torrents_view->get_available_actions()
+	);
+
 	if(this->current_info_widget)
 		this->current_info_widget->torrent_changed(this->cur_torrent_id);
+}
+
+
+
+void Torrents_viewport::process_torrents(Torrent_process_action action)
+{
+	this->torrents_view->process_torrents(action);
 }
 
 
@@ -273,6 +288,12 @@ void Torrents_viewport::on_torrent_selected_callback(const Torrent_id& torrent_i
 void Torrents_viewport::update(std::vector<Torrent_info>::iterator infos_it, const std::vector<Torrent_info>::iterator& infos_end_it)
 {
 	this->torrents_view->update(infos_it, infos_end_it);
+
+	// Сообщаем "наверх" о том, что действия, которые можно выполнять над
+	// выделенными в данный момент торрентами изменились.
+	this->torrent_process_actions_changed_signal(
+		this->torrents_view->get_available_actions()
+	);
 
 	if(this->current_info_widget)
 		this->current_info_widget->update(this->cur_torrent_id);

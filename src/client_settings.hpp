@@ -25,6 +25,7 @@
 	#include <string>
 
 	#include <mlib/gtk/paned_settings.hpp>
+	#include <mlib/gtk/toolbar.hpp>
 	#include <mlib/gtk/tree_view_settings.hpp>
 	#include <mlib/gtk/window_settings.hpp>
 
@@ -178,6 +179,13 @@
 
 
 		public:
+			/// Отображать панель инструментов.
+			bool							show_toolbar;
+
+			/// Стиль панели инструментов.
+			m::gtk::toolbar::Style			toolbar_style;
+
+
 			/// Отображать иконку в трее.
 			bool							show_tray_icon;
 

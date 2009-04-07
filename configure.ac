@@ -215,7 +215,7 @@ dnl compiler flags -->
 	APP_LDADD=""
 
 	dnl Including config.h anywhere
-	COMMON_CPPFLAGS="-include \$(top_builddir)/config.h"
+	COMMON_CPPFLAGS="-include \$(top_builddir)/config.h -I \$(top_srcdir)/src"
 
 	dnl libraries -->
 		dnl boost -->

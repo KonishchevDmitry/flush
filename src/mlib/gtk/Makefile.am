@@ -10,6 +10,8 @@ libmlib_gtk_a_SOURCES = \
 	paned.hpp \
 	paned_settings.cpp \
 	paned_settings.hpp \
+	toolbar.cpp \
+	toolbar.hpp \
 	tree_view.cpp \
 	tree_view.hh \
 	tree_view.hpp \
