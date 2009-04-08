@@ -274,6 +274,11 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 		{
 			m::gtk::vbox::add_header(*settings_vbox, _("Miscellaneous"));
 
+			// show_speed_in_window_title -->
+				this->show_speed_in_window_title.set_label(_("Show speed in window title"));
+				settings_vbox->pack_start(this->show_speed_in_window_title, false, false);
+			// show_speed_in_window_title <--
+
 			// show_tray_icon -->
 				this->show_tray_icon.set_label(_("Show tray icon"));
 				settings_vbox->pack_start(this->show_tray_icon, false, false);
@@ -658,7 +663,9 @@ void Settings_window::load_settings(void)
 	const Status_bar_settings& status_bar_settings = this->client_settings.gui.main_window.status_bar;
 
 	// GUI -->
+		this->show_speed_in_window_title.set_active(this->client_settings.gui.show_speed_in_window_title);
 		this->show_tray_icon.set_active(this->client_settings.gui.show_tray_icon);
+
 		this->gui_update_interval.set_value(this->client_settings.gui.update_interval);
 		this->max_log_lines.set_value(this->client_settings.gui.max_log_lines);
 
@@ -796,25 +803,27 @@ void Settings_window::save_settings(void)
 	Status_bar_settings& status_bar_settings = this->client_settings.gui.main_window.status_bar;
 
 	// GUI -->
-		this->client_settings.gui.show_tray_icon	= this->show_tray_icon.get_active();
-		this->client_settings.gui.update_interval	= this->gui_update_interval.get_value();
-		this->client_settings.gui.max_log_lines		= this->max_log_lines.get_value();
+		this->client_settings.gui.show_speed_in_window_title	= this->show_speed_in_window_title.get_active();
+		this->client_settings.gui.show_tray_icon				= this->show_tray_icon.get_active();
 
-		status_bar_settings.download_speed			= this->status_bar_download_speed.get_active();
-		status_bar_settings.payload_download_speed	= this->status_bar_payload_download_speed.get_active();
+		this->client_settings.gui.update_interval				= this->gui_update_interval.get_value();
+		this->client_settings.gui.max_log_lines					= this->max_log_lines.get_value();
 
-		status_bar_settings.upload_speed			= this->status_bar_upload_speed.get_active();
-		status_bar_settings.payload_upload_speed	= this->status_bar_payload_upload_speed.get_active();
+		status_bar_settings.download_speed						= this->status_bar_download_speed.get_active();
+		status_bar_settings.payload_download_speed				= this->status_bar_payload_download_speed.get_active();
 
-		status_bar_settings.download				= this->status_bar_download.get_active();
-		status_bar_settings.payload_download		= this->status_bar_payload_download.get_active();
+		status_bar_settings.upload_speed						= this->status_bar_upload_speed.get_active();
+		status_bar_settings.payload_upload_speed				= this->status_bar_payload_upload_speed.get_active();
 
-		status_bar_settings.upload					= this->status_bar_upload.get_active();
-		status_bar_settings.payload_upload			= this->status_bar_payload_upload.get_active();
+		status_bar_settings.download							= this->status_bar_download.get_active();
+		status_bar_settings.payload_download					= this->status_bar_payload_download.get_active();
 
-		status_bar_settings.share_ratio				= this->status_bar_share_ratio.get_active();
-		status_bar_settings.failed					= this->status_bar_failed.get_active();
-		status_bar_settings.redundant				= this->status_bar_redundant.get_active();
+		status_bar_settings.upload								= this->status_bar_upload.get_active();
+		status_bar_settings.payload_upload						= this->status_bar_payload_upload.get_active();
+
+		status_bar_settings.share_ratio							= this->status_bar_share_ratio.get_active();
+		status_bar_settings.failed								= this->status_bar_failed.get_active();
+		status_bar_settings.redundant							= this->status_bar_redundant.get_active();
 	// GUI <--
 
 	// Main -->

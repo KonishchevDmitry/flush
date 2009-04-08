@@ -111,7 +111,9 @@
 
 				// GUI -->
 					// Miscellaneous -->
+						Gtk::CheckButton	show_speed_in_window_title;
 						Gtk::CheckButton	show_tray_icon;
+
 						Gtk::SpinButton		gui_update_interval;
 						Gtk::SpinButton		max_log_lines;
 					// Miscellaneous <--

@@ -179,6 +179,9 @@
 
 
 		public:
+			/// Отображать текущую скорость в заголовке окна.
+			bool							show_speed_in_window_title;
+
 			/// Отображать панель инструментов.
 			bool							show_toolbar;
 

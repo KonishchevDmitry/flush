@@ -76,6 +76,10 @@
 			/// все время работы программы пользоватьель его так и не видел.
 			bool								has_been_showed;
 
+			/// Текст заголовка окна без дополнительной информации (текущих
+			/// скоростях скачивания).
+			std::string							orig_window_title;
+
 			// Меню
 			Glib::RefPtr<Gtk::ToggleAction>		menu_show_toolbar_action;
 
@@ -221,20 +225,22 @@
 Main_window::Main_window(const Main_window_settings& settings)
 :
 	m::gtk::Window(
-		std::string(APP_NAME) + (
-			get_application().get_config_dir_path() == get_default_config_dir_path()
-			?
-				""
-			:
-				" (" + get_application().get_config_dir_path() + ")"
-		),
-		settings.window,
+		"", settings.window,
 		800, 600, m::gtk::WINDOW_BORDER_WIDTH / 2
 	),
 	gui(new Gui)
 {
 	Client_settings& client_settings = get_client_settings();
 	Main_window_settings& main_window_settings = client_settings.gui.main_window;
+
+	// Заголовок окна -->
+		if(get_application().get_config_dir_path() == get_default_config_dir_path())
+			this->gui->orig_window_title = std::string(APP_NAME);
+		else
+			this->gui->orig_window_title = std::string(APP_NAME) + " (" + get_application().get_config_dir_path() + ")";
+
+		this->set_title(this->gui->orig_window_title);
+	// Заголовок окна <--
 
 	// Трей
 	show_tray_icon(client_settings.gui.show_tray_icon);
@@ -873,6 +879,11 @@ void Main_window::on_show_settings_window_callback(void)
 
 	if(settings_window.run() == Gtk::RESPONSE_OK)
 	{
+		// Чтобы потом можно было не обновлять каждый раз заголовок, содержимое
+		// которого будет постоянным.
+		if(!client_settings.gui.show_speed_in_window_title)
+			this->set_title(this->gui->orig_window_title);
+
 		this->show_tray_icon(client_settings.gui.show_tray_icon);
 
 		if(gui_update_interval != client_settings.gui.update_interval)
@@ -1086,12 +1097,26 @@ void Main_window::update_gui(void)
 	// Обновляем список торрентов <--
 
 	// Получаем информацию о текущей сессии
-	// и заносим ее в строку статуса и трей.
+	// и отображаем ее в элементах GUI.
 	// -->
 	{
 		try
 		{
 			Session_status session_status = get_daemon_proxy().get_session_status();
+
+			// Заголовок окна -->
+				if(get_client_settings().gui.show_speed_in_window_title)
+				{
+					this->set_title(
+						__(
+							"|Download/Upload|D: %1, U: %2 - %3",
+							m::speed_to_string(session_status.payload_download_speed),
+							m::speed_to_string(session_status.payload_upload_speed),
+							this->gui->orig_window_title
+						)
+					);
+				}
+			// Заголовок окна <--
 
 			// Строка статуса -->
 			{

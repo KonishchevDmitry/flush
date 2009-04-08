@@ -1,6 +1,7 @@
 0.4.2 ()
 [+] Added toolbar.
 [+] Tooltip over tray icon.
+[+] Current Download/Upload speed in window title.
 [+] Updated boost configure macros.
 [-] Removed debian directory. Packages are now available at the launchpad.net.
 
