@@ -27,6 +27,40 @@
 namespace m
 {
 
+std::string _(const char* string)
+{
+	const char* localized_string;
+
+	#ifdef ENABLE_NLS
+		localized_string = gettext(string);
+	#else
+		localized_string = string;
+	#endif
+
+	// Вырезаем комментарии
+	if(*localized_string == '|')
+	{
+		if( (localized_string = index(++localized_string, '|')) )
+			return localized_string + 1;
+		else
+		{
+			// Если не удалось найти парную '|', то это означает, что строка
+			// сформирована неправильно. Поэтому выводим то, что можем.
+			MLIB_SW(_C("Invalid gettext string '%1'.", string));
+
+			#ifdef ENABLE_NLS
+				return gettext(string);
+			#else
+				return string;
+			#endif
+		}
+	}
+	else
+		return localized_string;
+}
+
+
+
 std::string get_time_duration_string(time_t time)
 {
 	if(time <= 0)
@@ -246,15 +280,17 @@ std::string size_to_string(Size size)
 
 std::string speed_to_string(Speed speed)
 {
-	if(speed)
-		return size_to_string(speed) + _("/s");
-	else
+	if(speed == 0)
 	{
 		// Может сильно ускорить работу функции,
 		// т. к. нулевая скорость встречается очень
 		// часто.
 		return _("0 B/s");
 	}
+	else if(speed > 0)
+		return size_to_string(speed) + _("/s");
+	else
+		return "∞";
 }
 
 

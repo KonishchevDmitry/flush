@@ -113,12 +113,7 @@
 
 
 
-		/// Возвращает строковое представление периода времени вида
-		/// 1d 5h 50m.
-		std::string		get_time_duration_string(time_t time);
-
 		/// Обертка над gettext.
-		inline
 		std::string		_(const char* string);
 
 	#ifndef MLIB_ENABLE_FORMAT
@@ -162,6 +157,10 @@
 		template<class T1, class T2, class T3> inline
 		Glib::ustring	_F(const T1& a1, const T2& a2, const T3& a3);
 	#endif
+
+		/// Возвращает строковое представление периода времени вида
+		/// 1d 5h 50m.
+		std::string		get_time_duration_string(time_t time);
 
 		// Возвращает строку, представляющую оставшееся время в удобном для
 		// восприятия формате.

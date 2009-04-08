@@ -1086,61 +1086,87 @@ void Main_window::update_gui(void)
 	// Обновляем список торрентов <--
 
 	// Получаем информацию о текущей сессии
-	// и заносим ее в строку статуса.
+	// и заносим ее в строку статуса и трей.
 	// -->
 	{
 		try
 		{
 			Session_status session_status = get_daemon_proxy().get_session_status();
 
-			const Status_bar_settings& status_bar_settings = get_client_settings().gui.main_window.status_bar;
-			std::string space_string = "  ";
-			std::string status_string;
-
-			if(status_bar_settings.download_speed)
-				status_string += space_string + _("Download speed") + ": " + m::speed_to_string(session_status.download_speed);
-
-			if(status_bar_settings.payload_download_speed)
-				status_string += space_string + _("Download speed (payload)") + ": " + m::speed_to_string(session_status.payload_download_speed);
-
-			if(status_bar_settings.upload_speed)
-				status_string += space_string + _("Upload speed") + ": " + m::speed_to_string(session_status.upload_speed);
-
-			if(status_bar_settings.payload_upload_speed)
-				status_string += space_string + _("Upload speed (payload)") + ": " + m::speed_to_string(session_status.payload_upload_speed);
-
-			if(status_bar_settings.download)
-				status_string += space_string + _("Downloaded") + ": " + m::size_to_string(session_status.download);
-
-			if(status_bar_settings.payload_download)
-				status_string += space_string + _("Download (payload)") + ": " + m::size_to_string(session_status.payload_download);
-
-			if(status_bar_settings.upload)
-				status_string += space_string + _("Uploaded") + ": " + m::size_to_string(session_status.upload);
-
-			if(status_bar_settings.payload_upload)
-				status_string += space_string + _("Upload (payload)") + ": " + m::size_to_string(session_status.payload_upload);
-
-			if(status_bar_settings.share_ratio)
-				status_string += space_string + _("Share ratio") + ": " + get_share_ratio_string(session_status.payload_upload, session_status.payload_download);
-
-			if(status_bar_settings.failed)
-				status_string += space_string + _("Failed") + ": " + m::size_to_string(session_status.failed);
-
-			if(status_bar_settings.redundant)
-				status_string += space_string + _("Redundant") + ": " + m::size_to_string(session_status.redundant);
-
-			if(status_string.empty())
-				this->gui->status_bar.hide();
-			else
+			// Строка статуса -->
 			{
-				this->gui->status_bar.pop();
-				this->gui->status_bar.push(status_string.substr(space_string.size()));
-				this->gui->status_bar.show();
+				const Status_bar_settings& status_bar_settings = get_client_settings().gui.main_window.status_bar;
+				std::string space_string = "  ";
+				std::string status_string;
+
+				if(status_bar_settings.download_speed)
+					status_string += space_string + _("Download speed") + ": " + m::speed_to_string(session_status.download_speed);
+
+				if(status_bar_settings.payload_download_speed)
+					status_string += space_string + _("Download speed (payload)") + ": " + m::speed_to_string(session_status.payload_download_speed);
+
+				if(status_bar_settings.upload_speed)
+					status_string += space_string + _("Upload speed") + ": " + m::speed_to_string(session_status.upload_speed);
+
+				if(status_bar_settings.payload_upload_speed)
+					status_string += space_string + _("Upload speed (payload)") + ": " + m::speed_to_string(session_status.payload_upload_speed);
+
+				if(status_bar_settings.download)
+					status_string += space_string + _("Downloaded") + ": " + m::size_to_string(session_status.download);
+
+				if(status_bar_settings.payload_download)
+					status_string += space_string + _("Download (payload)") + ": " + m::size_to_string(session_status.payload_download);
+
+				if(status_bar_settings.upload)
+					status_string += space_string + _("Uploaded") + ": " + m::size_to_string(session_status.upload);
+
+				if(status_bar_settings.payload_upload)
+					status_string += space_string + _("Upload (payload)") + ": " + m::size_to_string(session_status.payload_upload);
+
+				if(status_bar_settings.share_ratio)
+					status_string += space_string + _("Share ratio") + ": " + get_share_ratio_string(session_status.payload_upload, session_status.payload_download);
+
+				if(status_bar_settings.failed)
+					status_string += space_string + _("Failed") + ": " + m::size_to_string(session_status.failed);
+
+				if(status_bar_settings.redundant)
+					status_string += space_string + _("Redundant") + ": " + m::size_to_string(session_status.redundant);
+
+				if(status_string.empty())
+					this->gui->status_bar.hide();
+				else
+				{
+					this->gui->status_bar.pop();
+					this->gui->status_bar.push(status_string.substr(space_string.size()));
+					this->gui->status_bar.show();
+				}
 			}
+			// Строка статуса <--
+
+			// Трей -->
+				this->gui->tray->set_tooltip(
+					std::string(APP_NAME) + "\n" +
+					__(
+						"|Download speed|Down: %1 (%2) / %3",
+						m::speed_to_string(session_status.download_speed),
+						m::speed_to_string(session_status.payload_download_speed),
+						m::speed_to_string(session_status.download_rate_limit)
+					)
+					+ "\n" +
+					__(
+						"|Upload speed|Up: %1 (%2) / %3",
+						m::speed_to_string(session_status.upload_speed),
+						m::speed_to_string(session_status.payload_upload_speed),
+						m::speed_to_string(session_status.upload_rate_limit)
+					)
+				);
+			// Трей <--
 		}
 		catch(m::Exception& e)
 		{
+			this->gui->status_bar.hide();
+			this->gui->tray->set_tooltip("");
+
 			MLIB_W(EE(e));
 		}
 	}

@@ -311,7 +311,11 @@
 	class Session_status
 	{
 		public:
-			Session_status(const Daemon_statistics& daemon_statistics, const lt::session_status& libtorrent_session_status);
+			Session_status(
+				const Daemon_statistics& daemon_statistics,
+				const lt::session_status& libtorrent_session_status,
+				Speed download_rate_limit, Speed upload_rate_limit
+			);
 
 
 		public:
@@ -320,6 +324,14 @@
 
 			/// Время начала сбора статистической информации.
 			Time	statistics_start_time;
+
+
+			/// Ограничение на скорость скачивания (КБ/с).
+			Speed	download_rate_limit;
+
+			/// Ограничение на скорость отдачи (КБ/с).
+			Speed	upload_rate_limit;
+
 
 			/// Скорость скачивания (включая служебную информацию).
 			Speed	download_speed;

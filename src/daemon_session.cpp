@@ -650,7 +650,10 @@ Speed Daemon_session::get_rate_limit(Traffic_type traffic_type) const
 
 Session_status Daemon_session::get_session_status(void) const throw(m::Exception)
 {
-	return Session_status(this->statistics, this->session->status());
+	return Session_status(
+		this->statistics, this->session->status(),
+		this->get_rate_limit(DOWNLOAD), this->get_rate_limit(UPLOAD)
+	);
 }
 
 
@@ -1297,7 +1300,10 @@ void Daemon_session::save_session(void) throw(m::Exception)
 			Daemon_settings settings = this->get_settings();
 			settings.write(
 				this->get_config_dir_path(),
-				Session_status(this->statistics, this->session->status())
+				Session_status(
+					this->statistics, this->session->status(),
+					this->get_rate_limit(DOWNLOAD), this->get_rate_limit(UPLOAD)
+				)
 			);
 		}
 		catch(m::Exception)

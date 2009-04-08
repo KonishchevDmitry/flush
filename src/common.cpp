@@ -79,34 +79,39 @@
 
 
 // Session_status -->
-	Session_status::Session_status(const Daemon_statistics& daemon_statistics, const lt::session_status& libtorrent_session_status)
+	Session_status::Session_status(
+		const Daemon_statistics& daemon_statistics,
+		const lt::session_status& libtorrent_session_status,
+		Speed download_rate_limit, Speed upload_rate_limit
+	)
+	:
+		upload_speed(libtorrent_session_status.upload_rate),
+		payload_upload_speed(libtorrent_session_status.payload_upload_rate),
+
+		download_rate_limit(download_rate_limit),
+		upload_rate_limit(upload_rate_limit),
+
+		download_speed(libtorrent_session_status.download_rate),
+		payload_download_speed(libtorrent_session_status.payload_download_rate),
+
+		download(libtorrent_session_status.total_download + daemon_statistics.download),
+		payload_download(libtorrent_session_status.total_payload_download + daemon_statistics.payload_download),
+
+		total_download(daemon_statistics.total_download + this->download),
+		total_payload_download(daemon_statistics.total_payload_download + this->payload_download),
+
+		upload(libtorrent_session_status.total_upload + daemon_statistics.upload),
+		payload_upload(libtorrent_session_status.total_payload_upload + daemon_statistics.payload_upload),
+
+		total_upload(daemon_statistics.total_upload + this->upload),
+		total_payload_upload(daemon_statistics.total_payload_upload + this->payload_upload),
+
+		failed(libtorrent_session_status.total_failed_bytes + daemon_statistics.failed),
+		total_failed(daemon_statistics.total_failed + this->failed),
+
+		redundant(libtorrent_session_status.total_redundant_bytes + daemon_statistics.redundant),
+		total_redundant(daemon_statistics.total_redundant + this->redundant)
 	{
-		this->session_start_time = daemon_statistics.session_start_time;
-		this->statistics_start_time = daemon_statistics.statistics_start_time;
-
-		this->upload_speed = libtorrent_session_status.upload_rate;
-		this->payload_upload_speed = libtorrent_session_status.payload_upload_rate;
-
-		this->download_speed = libtorrent_session_status.download_rate;
-		this->payload_download_speed = libtorrent_session_status.payload_download_rate;
-
-		this->download = libtorrent_session_status.total_download + daemon_statistics.download;
-		this->payload_download = libtorrent_session_status.total_payload_download + daemon_statistics.payload_download;
-
-		this->total_download = daemon_statistics.total_download + this->download;
-		this->total_payload_download = daemon_statistics.total_payload_download + this->payload_download;
-
-		this->upload = libtorrent_session_status.total_upload + daemon_statistics.upload;
-		this->payload_upload = libtorrent_session_status.total_payload_upload + daemon_statistics.payload_upload;
-
-		this->total_upload = daemon_statistics.total_upload + this->upload;
-		this->total_payload_upload = daemon_statistics.total_payload_upload + this->payload_upload;
-
-		this->failed = libtorrent_session_status.total_failed_bytes + daemon_statistics.failed;
-		this->total_failed = daemon_statistics.total_failed + this->failed;
-
-		this->redundant = libtorrent_session_status.total_redundant_bytes + daemon_statistics.redundant;
-		this->total_redundant = daemon_statistics.total_redundant + this->redundant;
 	}
 // Session_status <--
 

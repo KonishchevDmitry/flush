@@ -172,17 +172,6 @@ namespace m
 
 
 
-std::string _(const char* string)
-{
-	#ifdef ENABLE_NLS
-		return gettext(string);
-	#else
-		return string;
-	#endif
-}
-
-
-
 Glib::ustring __(const char* fmt)
 {
 	return Glib::ustring::compose(_(fmt) + "%1", correct_glib_format_value(""));
