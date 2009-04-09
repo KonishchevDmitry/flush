@@ -252,9 +252,7 @@ SUBDIRS = @PACKAGE_LIBRARIES_SUBDIRS@ man po src
 ACLOCAL_AMFLAGS = -I m4
 
 # Added by gettextize
-EXTRA_DIST = build-aux/config.rpath debian/changelog debian/compat \
-	debian/control debian/copyright debian/docs debian/rules \
-	make_deb
+EXTRA_DIST = build-aux/config.rpath
 desktopdir = $(datadir)/applications
 desktop_DATA = @PACKAGE@.desktop
 icons_16dir = $(datadir)/icons/hicolor/16x16/apps

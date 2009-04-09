@@ -59,7 +59,7 @@
 	:
 		name(_("Name"), model_columns.name)
 	{
-		M_GTK_TREE_VIEW_ADD_STRING_COLUMN(name)
+		M_GTK_TREE_VIEW_ADD_STRING_COLUMN(name, _("Name"))
 	}
 // Sections_view <--
 
@@ -477,9 +477,15 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 			table->attach(this->dht, 0, 1, 0, 1);
 
 			this->lsd.set_label("LSD");
+			this->lsd.set_tooltip_text(_(
+				"Local Service Discovery. This service will broadcast the infohashes of "
+				"all the non-private torrents on the local network to look for peers on "
+				"the same swarm within multicast reach."
+			));
 			table->attach(this->lsd, 1, 2, 0, 1);
 
 			this->pex.set_label("Peer exchange");
+			this->pex.set_tooltip_text(_("Exchanges peers between clients."));
 			table->attach(this->pex, 2, 3, 0, 1);
 
 			this->upnp.set_label("UPnP");
@@ -489,7 +495,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 			table->attach(this->natpmp, 1, 2, 1, 2);
 
 			this->smart_ban.set_label("Smart ban");
-			this->smart_ban.set_tooltip_text(_("Ban peers that sends bad data with very high accuracy"));
+			this->smart_ban.set_tooltip_text(_("Ban peers that sends bad data with very high accuracy."));
 			table->attach(this->smart_ban, 2, 3, 1, 2);
 		}
 		// Extras <--

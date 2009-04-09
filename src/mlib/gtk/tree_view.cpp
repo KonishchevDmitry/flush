@@ -59,9 +59,19 @@ namespace m { namespace gtk {
 
 
 // Tree_view_columns -->
-	void Tree_view_columns::add(const std::string& id, Gtk::TreeViewColumn* column)
+	Tree_view_columns::Column::Column(const std::string& id, Gtk::TreeViewColumn* column, const std::string& description)
+	:
+		id(id),
+		column(column),
+		description(description)
 	{
-		this->all.push_back(column);
+	}
+
+
+
+	void Tree_view_columns::add(const std::string& id, Gtk::TreeViewColumn* column, const std::string& description)
+	{
+		this->all.push_back(Column(id, column, description));
 
 		this->columns_by_ids.insert(
 			std::pair<std::string, Gtk::TreeViewColumn*>(id, column)
@@ -90,9 +100,9 @@ namespace m { namespace gtk {
 		this->ids_by_columns.erase(column);
 		this->columns_by_ids.erase(id);
 
-		M_FOR_IT(std::deque<Gtk::TreeViewColumn*>, this->all, it)
+		M_FOR_IT(std::vector<Column>, this->all, it)
 		{
-			if(*it == column)
+			if(it->column == column)
 			{
 				this->all.erase(it);
 				break;

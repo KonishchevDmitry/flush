@@ -45,14 +45,20 @@ Tree_view(const Settings& settings)
 	{
 		Gtk::Button* button;
 
-		M_FOR_IT(std::deque<Gtk::TreeViewColumn*>, this->columns.all, it)
+		for(size_t i = 0; i < this->columns.all.size(); i++)
 		{
-			// Вставляем колонку в TreeView
-			this->append_column(**it);
+			typename Tree_view_columns::Column& column = this->columns.all[i];
 
-			// Назначаем обработчик нажатия правой кнопки мыши для заголовка колонки.
-			if( (button = get_tree_view_column_header_button(**it)) )
+			// Вставляем колонку в TreeView
+			this->append_column(*column.column);
+
+			if( (button = get_tree_view_column_header_button(*column.column)) )
 			{
+				// Tooltip с расширенным описанием
+				if(column.description != "")
+					button->set_tooltip_text(column.description);
+
+				// Назначаем обработчик нажатия правой кнопки мыши для заголовка колонки.
 				button->signal_button_press_event().connect(
 					sigc::mem_fun(
 						*this,
@@ -109,7 +115,7 @@ check_columns_visibility(Gtk::TreeViewColumn* preferred_column)
 	}
 
 	if(!preferred_column)
-		preferred_column = this->columns.all[0];
+		preferred_column = this->columns.all[0].column;
 
 	preferred_column->set_visible();
 }
@@ -343,50 +349,32 @@ on_column_header_button_press_event_callback(GdkEventButton* event)
 
 	// Формируем меню -->
 	{
-		std::string column_id;
-		Gtk::TreeViewColumn* column;
-		Glib::ListHandle<Gtk::TreeViewColumn*> columns = this->get_columns();
-
-		M_FOR_IT(Glib::ListHandle<Gtk::TreeViewColumn*>, columns, it)
+		for(size_t i = 0; i < this->columns.all.size(); i++)
 		{
-			column = *it;
-
-			if(column == &this->fake_column)
-				continue;
-
-			// Получаем идентификатор колонки -->
-				try
-				{
-					column_id = this->get_column_id(column);
-				}
-				catch(m::Exception)
-				{
-					MLIB_LE();
-				}
-			// Получаем идентификатор колонки <--
+			typename Tree_view_columns::Column& column = this->columns.all[i];
 
 			// Создаем элемент меню для данной колонки -->
 				action_group->add(
 					Gtk::ToggleAction::create(
-						column_id,
-						column->get_title(),
-						"",
-						static_cast<bool>(column->get_visible())
+						column.id,
+						column.column->get_title(),
+						column.description,
+						static_cast<bool>(column.column->get_visible())
 					),
 					sigc::bind<Gtk::TreeViewColumn*>(
 						sigc::mem_fun(
 							*this,
-							column->get_visible()
+							column.column->get_visible()
 								? &Tree_view<Tree_view_columns, Model_columns, Model_type>::hide_column
 								: &Tree_view<Tree_view_columns, Model_columns, Model_type>::show_column
 						),
-						column
+						column.column
 					)
 				);
 			// Создаем элемент меню для данной колонки <--
 
 			// Добавляем элемент в меню
-			ui_info += "<menuitem action='" + column_id + "'/>";
+			ui_info += "<menuitem action='" + column.id + "'/>";
 		}
 	}
 	// Формируем меню <--

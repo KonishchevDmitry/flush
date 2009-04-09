@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: flush 0.4\n"
+"Project-Id-Version: flush 0.4.2\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2009-04-01 21:21+0400\n"
-"PO-Revision-Date: 2009-03-22 20:26+0300\n"
+"POT-Creation-Date: 2009-04-09 22:49+0400\n"
+"PO-Revision-Date: 2009-04-09 21:23+0400\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/mlib/gtk/tree_view.hh:176
+#: src/mlib/gtk/toolbar.cpp:108
+#, qt-format
+msgid "Invalid toolbar style name '%1'."
+msgstr "Invalid toolbar style name '%1'."
+
+#: src/mlib/gtk/tree_view.hh:182
 #, qt-format
 msgid "No such column: '%1'."
 msgstr "No such column: '%1'."
@@ -226,62 +231,62 @@ msgstr "Running command '%1' failed: %2."
 msgid "Can't fork process: %1."
 msgstr "Can't fork process: %1."
 
-#: src/mlib/string.cpp:33
+#: src/mlib/string.cpp:67
 msgid "0m"
 msgstr "0m"
 
-#: src/mlib/string.cpp:47 src/mlib/string.cpp:85
+#: src/mlib/string.cpp:81 src/mlib/string.cpp:119
 msgid "M"
 msgstr "M"
 
-#: src/mlib/string.cpp:50 src/mlib/string.cpp:88 src/mlib/string.cpp:97
+#: src/mlib/string.cpp:84 src/mlib/string.cpp:122 src/mlib/string.cpp:131
 msgid "d"
 msgstr "d"
 
-#: src/mlib/string.cpp:53 src/mlib/string.cpp:100 src/mlib/string.cpp:108
+#: src/mlib/string.cpp:87 src/mlib/string.cpp:134 src/mlib/string.cpp:142
 msgid "h"
 msgstr "h"
 
-#: src/mlib/string.cpp:56 src/mlib/string.cpp:111 src/mlib/string.cpp:119
+#: src/mlib/string.cpp:90 src/mlib/string.cpp:145 src/mlib/string.cpp:153
 msgid "m"
 msgstr "m"
 
-#: src/mlib/string.cpp:122 src/mlib/string.cpp:128
+#: src/mlib/string.cpp:156 src/mlib/string.cpp:162
 msgid "s"
 msgstr "s"
 
-#: src/mlib/string.cpp:169 src/mlib/string.cpp:331
+#: src/mlib/string.cpp:203 src/mlib/string.cpp:367
 msgid "[[Invalid encoding]]"
 msgstr "[[Invalid encoding]]"
 
-#: src/mlib/string.cpp:187
+#: src/mlib/string.cpp:221
 msgid "GB"
 msgstr "GB"
 
-#: src/mlib/string.cpp:194 src/mlib/string.cpp:204
+#: src/mlib/string.cpp:228 src/mlib/string.cpp:238
 #: src/create_torrent_dialog.cpp:635 src/create_torrent_dialog.cpp:639
 #: src/create_torrent_dialog.cpp:643 src/create_torrent_dialog.cpp:647
 msgid "MB"
 msgstr "MB"
 
-#: src/mlib/string.cpp:211 src/mlib/string.cpp:221
+#: src/mlib/string.cpp:245 src/mlib/string.cpp:255
 #: src/create_torrent_dialog.cpp:615 src/create_torrent_dialog.cpp:619
 #: src/create_torrent_dialog.cpp:623 src/create_torrent_dialog.cpp:627
 #: src/create_torrent_dialog.cpp:631
 msgid "KB"
 msgstr "KB"
 
-#: src/mlib/string.cpp:228 src/mlib/string.cpp:235
+#: src/mlib/string.cpp:262 src/mlib/string.cpp:269
 msgid "B"
 msgstr "B"
 
-#: src/mlib/string.cpp:250
-msgid "/s"
-msgstr "/s"
-
-#: src/mlib/string.cpp:256
+#: src/mlib/string.cpp:288
 msgid "0 B/s"
 msgstr "0 B/s"
+
+#: src/mlib/string.cpp:291
+msgid "/s"
+msgstr "/s"
 
 #: src/mlib/string.hh:98 src/mlib/string.hh:127 src/mlib/string.hh:145
 msgid "[[ Invalid format string ]]"
@@ -341,11 +346,11 @@ msgid ""
 msgstr ""
 "You have entered invalid torrent name. Please enter non-empty torrent name."
 
-#: src/add_torrent_dialog.cpp:239 src/main_window.cpp:694
+#: src/add_torrent_dialog.cpp:239 src/main_window.cpp:1009
 msgid "Opening torrent failed"
 msgstr "Opening torrent failed"
 
-#: src/add_torrent_dialog.cpp:241 src/main_window.cpp:694
+#: src/add_torrent_dialog.cpp:241 src/main_window.cpp:1009
 #, qt-format
 msgid "Opening torrent '%1' failed. %2"
 msgstr "Opening torrent '%1' failed. %2"
@@ -434,8 +439,8 @@ msgstr ""
 "Only pass commands to already running %1 instance. Does not start new "
 "instance if it is not running yet"
 
-#: src/client_cmd_options.cpp:193 src/main_window.cpp:558
-#: src/main_window.cpp:569
+#: src/client_cmd_options.cpp:193 src/main_window.cpp:846
+#: src/main_window.cpp:857
 msgid "Konishchev Dmitry"
 msgstr "Konishchev Dmitry"
 
@@ -454,47 +459,47 @@ msgstr "Can't get '%1' absolute path: %2."
 msgid "Bad option '%1' value '%2'. Allowed values: all, downloads, uploads."
 msgstr "Bad option '%1' value '%2'. Allowed values: all, downloads, uploads."
 
-#: src/client_settings.cpp:36
+#: src/client_settings.cpp:37
 #, qt-format
 msgid "Client config: Bad option '%1' type at line %2."
 msgstr "Client config: Bad option '%1' type at line %2."
 
-#: src/client_settings.cpp:62
+#: src/client_settings.cpp:63
 #, qt-format
 msgid "Client config: Bad option '%1' value '%2' at line %3."
 msgstr "Client config: Bad option '%1' value '%2' at line %3."
 
-#: src/client_settings.cpp:72
+#: src/client_settings.cpp:73
 #, qt-format
 msgid "Client config: Invalid option '%1' UTF-8 value at line %2."
 msgstr "Client config: Invalid option '%1' UTF-8 value at line %2."
 
-#: src/client_settings.cpp:82
+#: src/client_settings.cpp:83
 #, qt-format
 msgid "Client config: Unknown option '%1' at line %2."
 msgstr "Client config: Unknown option '%1' at line %2."
 
-#: src/client_settings.cpp:794 src/daemon_settings.cpp:196
+#: src/client_settings.cpp:830 src/daemon_settings.cpp:196
 #, qt-format
 msgid "Reading configuration file '%1' failed. %2"
 msgstr "Reading configuration file '%1' failed. %2"
 
-#: src/client_settings.cpp:800
+#: src/client_settings.cpp:836
 #, qt-format
 msgid "Can't read configuration file '%1': %2."
 msgstr "Can't read configuration file '%1': %2."
 
-#: src/client_settings.cpp:804
+#: src/client_settings.cpp:840
 #, qt-format
 msgid "Can't parse configuration file '%1': %2."
 msgstr "Can't parse configuration file '%1': %2."
 
-#: src/client_settings.cpp:879 src/daemon_settings.cpp:548
+#: src/client_settings.cpp:915 src/daemon_settings.cpp:548
 #, qt-format
 msgid "Writing configuration file '%1' failed. %2"
 msgstr "Writing configuration file '%1' failed. %2"
 
-#: src/client_settings.cpp:886
+#: src/client_settings.cpp:922
 #, qt-format
 msgid "Can't write configuration file '%1': %2."
 msgstr "Can't write configuration file '%1': %2."
@@ -588,11 +593,11 @@ msgstr "Please choose file or directory to create torrent from."
 msgid "Please choose a file to save the torrent"
 msgstr "Please choose a file to save the torrent"
 
-#: src/create_torrent_dialog.cpp:756 src/main_window.cpp:463
+#: src/create_torrent_dialog.cpp:756 src/main_window.cpp:751
 msgid "Torrent files"
 msgstr "Torrent files"
 
-#: src/create_torrent_dialog.cpp:761 src/main_window.cpp:468
+#: src/create_torrent_dialog.cpp:761 src/main_window.cpp:756
 msgid "Any files"
 msgstr "Any files"
 
@@ -604,52 +609,52 @@ msgstr "Please choose a directory to create torrent from"
 msgid "Please choose a file to create torrent from"
 msgstr "Please choose a file to create torrent from"
 
-#: src/common.cpp:136
+#: src/common.cpp:141
 msgid "normal"
 msgstr "normal"
 
-#: src/common.cpp:140
+#: src/common.cpp:145
 msgid "high"
 msgstr "high"
 
-#: src/common.cpp:176
+#: src/common.cpp:181
 #, qt-format
 msgid "Invalid file priority name: '%1'."
 msgstr "Invalid file priority name: '%1'."
 
-#: src/common.cpp:295
+#: src/common.cpp:300
 msgid "[Invalid encoding]"
 msgstr "[Invalid encoding]"
 
-#: src/common.cpp:426 src/common.cpp:466
+#: src/common.cpp:431 src/common.cpp:471
 msgid "Paused"
 msgstr "Paused"
 
-#: src/common.cpp:433
+#: src/common.cpp:438
 msgid "Queued for checking"
 msgstr "Queued for checking"
 
-#: src/common.cpp:437
+#: src/common.cpp:442
 msgid "Checking files"
 msgstr "Checking files"
 
-#: src/common.cpp:441
+#: src/common.cpp:446
 msgid "Downloading metadata"
 msgstr "Downloading metadata"
 
-#: src/common.cpp:445 src/torrent_options_view.cpp:65
+#: src/common.cpp:450 src/torrent_options_view.cpp:65
 msgid "Downloading"
 msgstr "Downloading"
 
-#: src/common.cpp:449
+#: src/common.cpp:454
 msgid "Seeding"
 msgstr "Seeding"
 
-#: src/common.cpp:453
+#: src/common.cpp:458
 msgid "Allocating"
 msgstr "Allocating"
 
-#: src/common.cpp:457
+#: src/common.cpp:462
 msgid "Unknown"
 msgstr "Unknown"
 
@@ -658,11 +663,11 @@ msgstr "Unknown"
 msgid "Can't start daemon. Creating config directories failed. %1"
 msgstr "Can't start daemon. Creating config directories failed. %1"
 
-#: src/daemon_session.cpp:216 src/daemon_session.cpp:972
+#: src/daemon_session.cpp:216 src/daemon_session.cpp:975
 msgid "Saving session failed"
 msgstr "Saving session failed"
 
-#: src/daemon_session.cpp:216 src/daemon_session.cpp:972
+#: src/daemon_session.cpp:216 src/daemon_session.cpp:975
 #, qt-format
 msgid "Saving session failed. %1"
 msgstr "Saving session failed. %1"
@@ -704,69 +709,69 @@ msgstr "Copying finished torrent failed"
 msgid "Copying finished torrent '%1' from '%2' to '%3' failed."
 msgstr "Copying finished torrent '%1' from '%2' to '%3' failed."
 
-#: src/daemon_session.cpp:683 src/daemon_session.cpp:696
+#: src/daemon_session.cpp:686 src/daemon_session.cpp:699
 #, qt-format
 msgid "Bad torrent id '%1'."
 msgstr "Bad torrent id '%1'."
 
-#: src/daemon_session.cpp:898
+#: src/daemon_session.cpp:901
 #, qt-format
 msgid "Restoring torrent '%1' [%2] previous session settings failed. %3"
 msgstr "Restoring torrent '%1' [%2] previous session settings failed. %3"
 
-#: src/daemon_session.cpp:937
+#: src/daemon_session.cpp:940
 msgid "Loading torrent failed"
 msgstr "Loading torrent failed"
 
-#: src/daemon_session.cpp:937
+#: src/daemon_session.cpp:940
 #, qt-format
 msgid "Loading of the torrent '%1' failed. %2"
 msgstr "Loading of the torrent '%1' failed. %2"
 
-#: src/daemon_session.cpp:943
+#: src/daemon_session.cpp:946
 #, qt-format
 msgid "Can't read directory with torrents configs '%1': %2."
 msgstr "Can't read directory with torrents configs '%1': %2."
 
-#: src/daemon_session.cpp:949
+#: src/daemon_session.cpp:952
 #, qt-format
 msgid "Loading torrents from previous session failed. %1"
 msgstr "Loading torrents from previous session failed. %1"
 
-#: src/daemon_session.cpp:1185
+#: src/daemon_session.cpp:1188
 #, qt-format
 msgid "Bad torrent id: '%1'."
 msgstr "Bad torrent id: '%1'."
 
-#: src/daemon_session.cpp:1229 src/daemon_session.cpp:1245
+#: src/daemon_session.cpp:1232 src/daemon_session.cpp:1248
 msgid "Deleting torrent data failed"
 msgstr "Deleting torrent data failed"
 
-#: src/daemon_session.cpp:1230 src/daemon_session.cpp:1246
+#: src/daemon_session.cpp:1233 src/daemon_session.cpp:1249
 #, qt-format
 msgid "Deleting torrent '%1' data failed."
 msgstr "Deleting torrent '%1' data failed."
 
-#: src/daemon_session.cpp:1326
+#: src/daemon_session.cpp:1332
 msgid "Saving torrent settings failed"
 msgstr "Saving torrent settings failed"
 
-#: src/daemon_session.cpp:1328
+#: src/daemon_session.cpp:1334
 #, qt-format
 msgid "Saving torrent '%1' settings failed. %2"
 msgstr "Saving torrent '%1' settings failed. %2"
 
-#: src/daemon_session.cpp:1359
+#: src/daemon_session.cpp:1365
 #, qt-format
 msgid "Invalid copy when finished to path '%1'."
 msgstr "Invalid copy when finished to path '%1'."
 
-#: src/daemon_session.cpp:1381 src/daemon_session.cpp:1432
+#: src/daemon_session.cpp:1387 src/daemon_session.cpp:1438
 #, qt-format
 msgid "Bad file id: %1."
 msgstr "Bad file id: %1."
 
-#: src/daemon_session.cpp:1609
+#: src/daemon_session.cpp:1615
 msgid "Setting torrent trackers failed: libtorrent internal error."
 msgstr "Setting torrent trackers failed: libtorrent internal error."
 
@@ -1064,177 +1069,278 @@ msgstr "Delivering command line options to working copy..."
 msgid "Can't communicate with running %1 instance via DBus: %2."
 msgstr "Can't communicate with running %1 instance via DBus: %2."
 
-#: src/main_window.cpp:84
+#: src/main_window.cpp:147
 msgid "Set download rate limit"
 msgstr "Set download rate limit"
 
-#: src/main_window.cpp:84
+#: src/main_window.cpp:147
 msgid "Set upload rate limit"
 msgstr "Set upload rate limit"
 
-#: src/main_window.cpp:113
+#: src/main_window.cpp:176
 msgid "KB/s"
 msgstr "KB/s"
 
-#: src/main_window.cpp:135
+#: src/main_window.cpp:198
 msgid "Getting current rate limit failed"
 msgstr "Getting current rate limit failed"
 
-#: src/main_window.cpp:147
+#: src/main_window.cpp:210
 msgid "Setting current rate limit failed"
 msgstr "Setting current rate limit failed"
 
-#: src/main_window.cpp:191
+#: src/main_window.cpp:255
 msgid "_File"
 msgstr "_File"
 
-#: src/main_window.cpp:193
+#: src/main_window.cpp:257
 msgid "_Create"
 msgstr "_Create"
 
-#: src/main_window.cpp:197
+#: src/main_window.cpp:261
 msgid "_Open"
 msgstr "_Open"
 
-#: src/main_window.cpp:201
+#: src/main_window.cpp:265
 msgid "_Quit"
 msgstr "_Quit"
 
-#: src/main_window.cpp:206
+#: src/main_window.cpp:270
 msgid "_Edit"
 msgstr "_Edit"
 
-#: src/main_window.cpp:208
+#: src/main_window.cpp:272
 msgid "_Statistics"
 msgstr "_Statistics"
 
-#: src/main_window.cpp:212
+#: src/main_window.cpp:276
 msgid "_Preferences"
 msgstr "_Preferences"
 
-#: src/main_window.cpp:217 src/main_window.cpp:218
+#: src/main_window.cpp:281
+msgid "_View"
+msgstr "_View"
+
+#: src/main_window.cpp:283
+msgid "Show _toolbar"
+msgstr "Show _toolbar"
+
+#: src/main_window.cpp:296
+msgid "Toolbar _style"
+msgstr "Toolbar _style"
+
+#: src/main_window.cpp:300
+msgid "_Desktop default"
+msgstr "_Desktop default"
+
+#: src/main_window.cpp:310
+msgid "_Icons"
+msgstr "_Icons"
+
+#: src/main_window.cpp:320
+msgid "_Text"
+msgstr "_Text"
+
+#: src/main_window.cpp:330
+msgid "_Both"
+msgstr "_Both"
+
+#: src/main_window.cpp:340
+msgid "Both _horizontal"
+msgstr "Both _horizontal"
+
+#: src/main_window.cpp:352 src/main_window.cpp:353
 msgid "_Torrents"
 msgstr "_Torrents"
 
-#: src/main_window.cpp:219
+#: src/main_window.cpp:354
 msgid "_Resume"
 msgstr "_Resume"
 
-#: src/main_window.cpp:221 src/main_window.cpp:245
+#: src/main_window.cpp:356 src/main_window.cpp:380
 msgid "_All"
 msgstr "_All"
 
-#: src/main_window.cpp:228 src/main_window.cpp:252
+#: src/main_window.cpp:363 src/main_window.cpp:387
 msgid "_Downloads"
 msgstr "_Downloads"
 
-#: src/main_window.cpp:235 src/main_window.cpp:259
+#: src/main_window.cpp:370 src/main_window.cpp:394
 msgid "_Uploads"
 msgstr "_Uploads"
 
-#: src/main_window.cpp:243
+#: src/main_window.cpp:378
 msgid "_Pause"
 msgstr "_Pause"
 
-#: src/main_window.cpp:268
+#: src/main_window.cpp:403
 msgid "_Set download rate limit"
 msgstr "_Set download rate limit"
 
-#: src/main_window.cpp:275
+#: src/main_window.cpp:410
 msgid "_Set upload rate limit"
 msgstr "_Set upload rate limit"
 
-#: src/main_window.cpp:283
+#: src/main_window.cpp:418
 msgid "_Help"
 msgstr "_Help"
 
-#: src/main_window.cpp:285
+#: src/main_window.cpp:420
 msgid "_About"
 msgstr "_About"
 
-#: src/main_window.cpp:445
+#: src/main_window.cpp:531
+msgid "Create"
+msgstr "Create"
+
+#: src/main_window.cpp:532
+msgid "Create a new torrent"
+msgstr "Create a new torrent"
+
+#: src/main_window.cpp:540
+msgid "Open"
+msgstr "Open"
+
+#: src/main_window.cpp:541
+msgid "Open a torrent"
+msgstr "Open a torrent"
+
+#: src/main_window.cpp:555 src/torrents_view.cpp:204
+msgid "Resume"
+msgstr "Resume"
+
+#: src/main_window.cpp:556
+msgid "Resume torrent(s)"
+msgstr "Resume torrent(s)"
+
+#: src/main_window.cpp:567 src/torrents_view.cpp:209
+msgid "Pause"
+msgstr "Pause"
+
+#: src/main_window.cpp:568
+msgid "Pause torrent(s)"
+msgstr "Pause torrent(s)"
+
+#: src/main_window.cpp:579 src/torrents_view.cpp:215
+msgid "Remove"
+msgstr "Remove"
+
+#: src/main_window.cpp:580 src/torrents_view.cpp:355
+msgid "Remove torrent(s)"
+msgstr "Remove torrent(s)"
+
+#: src/main_window.cpp:591 src/torrents_view.cpp:219
+msgid "Remove with data"
+msgstr "Remove with data"
+
+#: src/main_window.cpp:592 src/torrents_view.cpp:365
+msgid "Remove torrent(s) with data"
+msgstr "Remove torrent(s) with data"
+
+#: src/main_window.cpp:609 src/main_window.cpp:610
+#: src/statistics_window.cpp:41 src/statistics_window.cpp:110
+msgid "Statistics"
+msgstr "Statistics"
+
+#: src/main_window.cpp:618 src/main_window.cpp:619 src/settings_window.cpp:70
+msgid "Preferences"
+msgstr "Preferences"
+
+#: src/main_window.cpp:733
 msgid "Please choose a torrent file"
 msgstr "Please choose a torrent file"
 
-#: src/main_window.cpp:513 src/main_window.cpp:538
+#: src/main_window.cpp:801 src/main_window.cpp:826
 msgid "Pausing torrents failed"
 msgstr "Pausing torrents failed"
 
-#: src/main_window.cpp:567
+#: src/main_window.cpp:855
 msgid "GTK-based BitTorrent client"
 msgstr "GTK-based BitTorrent client"
 
-#: src/main_window.cpp:815 src/settings_window.cpp:322
-#: src/torrent_details_view.cpp:221 src/torrent_peers_view.cpp:77
-#: src/torrents_view.cpp:142
+#: src/main_window.cpp:1135
+#, qt-format
+msgid "|Download/Upload|D: %1, U: %2 - %3"
+msgstr "|Download/Upload|D: %1, U: %2 - %3"
+
+#: src/main_window.cpp:1153 src/settings_window.cpp:327
+#: src/torrent_details_view.cpp:221 src/torrent_peers_view.cpp:89
+#: src/torrents_view.cpp:175
 msgid "Download speed"
 msgstr "Download speed"
 
-#: src/main_window.cpp:818 src/settings_window.cpp:325
-#: src/torrent_peers_view.cpp:78 src/torrents_view.cpp:143
+#: src/main_window.cpp:1156 src/settings_window.cpp:330
+#: src/torrent_peers_view.cpp:90 src/torrents_view.cpp:176
 msgid "Download speed (payload)"
 msgstr "Download speed (payload)"
 
-#: src/main_window.cpp:821 src/settings_window.cpp:329
-#: src/torrent_details_view.cpp:223 src/torrent_peers_view.cpp:79
-#: src/torrents_view.cpp:144
+#: src/main_window.cpp:1159 src/settings_window.cpp:334
+#: src/torrent_details_view.cpp:223 src/torrent_peers_view.cpp:91
+#: src/torrents_view.cpp:177
 msgid "Upload speed"
 msgstr "Upload speed"
 
-#: src/main_window.cpp:824 src/settings_window.cpp:332
-#: src/torrent_peers_view.cpp:80 src/torrents_view.cpp:145
+#: src/main_window.cpp:1162 src/settings_window.cpp:337
+#: src/torrent_peers_view.cpp:92 src/torrents_view.cpp:178
 msgid "Upload speed (payload)"
 msgstr "Upload speed (payload)"
 
-#: src/main_window.cpp:827 src/settings_window.cpp:336
+#: src/main_window.cpp:1165 src/settings_window.cpp:341
 #: src/statistics_window.cpp:134
 msgid "Downloaded"
 msgstr "Downloaded"
 
-#: src/main_window.cpp:830
+#: src/main_window.cpp:1168
 msgid "Download (payload)"
 msgstr "Download (payload)"
 
-#: src/main_window.cpp:833 src/settings_window.cpp:343
+#: src/main_window.cpp:1171 src/settings_window.cpp:348
 #: src/statistics_window.cpp:139
 msgid "Uploaded"
 msgstr "Uploaded"
 
-#: src/main_window.cpp:836
+#: src/main_window.cpp:1174
 msgid "Upload (payload)"
 msgstr "Upload (payload)"
 
-#: src/main_window.cpp:839 src/settings_window.cpp:357
+#: src/main_window.cpp:1177 src/settings_window.cpp:362
 #: src/statistics_window.cpp:144 src/torrent_details_view.cpp:203
-#: src/torrents_view.cpp:147
+#: src/torrents_view.cpp:180
 msgid "Share ratio"
 msgstr "Share ratio"
 
-#: src/main_window.cpp:842 src/settings_window.cpp:350
+#: src/main_window.cpp:1180 src/settings_window.cpp:355
 #: src/statistics_window.cpp:147
 msgid "Failed"
 msgstr "Failed"
 
-#: src/main_window.cpp:845 src/settings_window.cpp:353
+#: src/main_window.cpp:1183 src/settings_window.cpp:358
 #: src/statistics_window.cpp:149
 msgid "Redundant"
 msgstr "Redundant"
 
-#: src/settings_window.cpp:60 src/torrent_files_view.cpp:176
-#: src/torrents_view.cpp:127
+#: src/main_window.cpp:1202
+#, qt-format
+msgid "|Download speed|Down: %1 (%2) / %3"
+msgstr "|Download speed|Down: %1 (%2) / %3"
+
+#: src/main_window.cpp:1209
+#, qt-format
+msgid "|Upload speed|Up: %1 (%2) / %3"
+msgstr "|Upload speed|Up: %1 (%2) / %3"
+
+#: src/settings_window.cpp:60 src/settings_window.cpp:62
+#: src/torrent_files_view.cpp:176 src/torrent_files_view.cpp:181
+#: src/torrents_view.cpp:127 src/torrents_view.cpp:156
 msgid "Name"
 msgstr "Name"
-
-#: src/settings_window.cpp:70
-msgid "Preferences"
-msgstr "Preferences"
 
 #: src/settings_window.cpp:77
 msgid "Please select torrents download directory"
 msgstr "Please select torrents download directory"
 
 #: src/settings_window.cpp:122 src/settings_window.cpp:177
-#: src/torrent_peers_view.cpp:76
+#: src/torrent_peers_view.cpp:76 src/torrent_peers_view.cpp:87
 msgid "Client"
 msgstr "Client"
 
@@ -1246,15 +1352,15 @@ msgstr "Main"
 msgid "GUI"
 msgstr "GUI"
 
-#: src/settings_window.cpp:140 src/settings_window.cpp:374
+#: src/settings_window.cpp:140 src/settings_window.cpp:379
 msgid "Daemon"
 msgstr "Daemon"
 
-#: src/settings_window.cpp:146 src/settings_window.cpp:383
+#: src/settings_window.cpp:146 src/settings_window.cpp:388
 msgid "Network"
 msgstr "Network"
 
-#: src/settings_window.cpp:152 src/settings_window.cpp:400
+#: src/settings_window.cpp:152 src/settings_window.cpp:405
 msgid "Automation"
 msgstr "Automation"
 
@@ -1291,104 +1397,118 @@ msgid "Miscellaneous"
 msgstr "Miscellaneous"
 
 #: src/settings_window.cpp:278
+msgid "Show speed in window title"
+msgstr "Show speed in window title"
+
+#: src/settings_window.cpp:283
 msgid "Show tray icon"
 msgstr "Show tray icon"
 
-#: src/settings_window.cpp:293
+#: src/settings_window.cpp:298
 msgid "GUI update interval (ms):"
 msgstr "GUI update interval (ms):"
 
-#: src/settings_window.cpp:302
+#: src/settings_window.cpp:307
 msgid "Max log lines:"
 msgstr "Max log lines:"
 
-#: src/settings_window.cpp:314
+#: src/settings_window.cpp:319
 msgid "Status bar"
 msgstr "Status bar"
 
-#: src/settings_window.cpp:339
+#: src/settings_window.cpp:344
 msgid "Downloaded (payload)"
 msgstr "Downloaded (payload)"
 
-#: src/settings_window.cpp:346
+#: src/settings_window.cpp:351
 msgid "Uploaded (payload)"
 msgstr "Uploaded (payload)"
 
-#: src/settings_window.cpp:421
+#: src/settings_window.cpp:426
 msgid "Daemon::Network"
 msgstr "Daemon::Network"
 
-#: src/settings_window.cpp:425
+#: src/settings_window.cpp:430
 msgid "Listen port range"
 msgstr "Listen port range"
 
-#: src/settings_window.cpp:432
+#: src/settings_window.cpp:437
 msgid "From"
 msgstr "From"
 
-#: src/settings_window.cpp:441
+#: src/settings_window.cpp:446
 msgid "to"
 msgstr "to"
 
-#: src/settings_window.cpp:453
+#: src/settings_window.cpp:458
 msgid "Currently listen port:"
 msgstr "Currently listen port:"
 
-#: src/settings_window.cpp:461
+#: src/settings_window.cpp:466
 msgid "Extras"
 msgstr "Extras"
 
-#: src/settings_window.cpp:487
-msgid "Ban peers that sends bad data with very high accuracy"
-msgstr "Ban peers that sends bad data with very high accuracy"
+#: src/settings_window.cpp:481
+msgid ""
+"Local Service Discovery. This service will broadcast the infohashes of all "
+"the non-private torrents on the local network to look for peers on the same "
+"swarm within multicast reach."
+msgstr ""
+"Local Service Discovery. This service will broadcast the infohashes of all "
+"the non-private torrents on the local network to look for peers on the same "
+"swarm within multicast reach."
 
-#: src/settings_window.cpp:502
+#: src/settings_window.cpp:488
+msgid "Exchanges peers between clients."
+msgstr "Exchanges peers between clients."
+
+#: src/settings_window.cpp:498
+msgid "Ban peers that sends bad data with very high accuracy."
+msgstr "Ban peers that sends bad data with very high accuracy."
+
+#: src/settings_window.cpp:513
 msgid "Bandwidth"
 msgstr "Bandwidth"
 
-#: src/settings_window.cpp:508
+#: src/settings_window.cpp:519
 msgid "Download rate limit (KB/s):"
 msgstr "Download rate limit (KB/s):"
 
-#: src/settings_window.cpp:517
+#: src/settings_window.cpp:528
 msgid "Upload rate limit (KB/s):"
 msgstr "Upload rate limit (KB/s):"
 
-#: src/settings_window.cpp:526
+#: src/settings_window.cpp:537
 msgid "Max uploads:"
 msgstr "Max uploads:"
 
-#: src/settings_window.cpp:535
+#: src/settings_window.cpp:546
 msgid "Max connections:"
 msgstr "Max connections:"
 
-#: src/settings_window.cpp:550
+#: src/settings_window.cpp:561
 msgid "Daemon::Automation"
 msgstr "Daemon::Automation"
 
-#: src/settings_window.cpp:553
+#: src/settings_window.cpp:564
 msgid "Delete torrents:"
 msgstr "Delete torrents:"
 
-#: src/settings_window.cpp:568
+#: src/settings_window.cpp:579
 msgid "Delete with data"
 msgstr "Delete with data"
 
-#: src/settings_window.cpp:584
+#: src/settings_window.cpp:595
 msgid "Max seeding time (m):"
 msgstr "Max seeding time (m):"
 
-#: src/settings_window.cpp:593
+#: src/settings_window.cpp:604
 msgid "Max seeding torrents:"
 msgstr "Max seeding torrents:"
 
-#: src/settings_window.cpp:704
+#: src/settings_window.cpp:717
 msgid "none"
 msgstr "none"
-
-#: src/statistics_window.cpp:41 src/statistics_window.cpp:110
-msgid "Statistics"
-msgstr "Statistics"
 
 #: src/statistics_window.cpp:93
 msgid "Reset statistics?"
@@ -1411,7 +1531,7 @@ msgid "Payload download"
 msgstr "Payload download"
 
 #: src/statistics_window.cpp:136 src/torrent_details_view.cpp:214
-#: src/torrents_view.cpp:135
+#: src/torrents_view.cpp:168
 msgid "Total download"
 msgstr "Total download"
 
@@ -1424,7 +1544,7 @@ msgid "Payload upload"
 msgstr "Payload upload"
 
 #: src/statistics_window.cpp:141 src/torrent_details_view.cpp:216
-#: src/torrents_view.cpp:137
+#: src/torrents_view.cpp:170
 msgid "Total upload"
 msgstr "Total upload"
 
@@ -1437,12 +1557,12 @@ msgid "Total share ratio"
 msgstr "Total share ratio"
 
 #: src/statistics_window.cpp:148 src/torrent_details_view.cpp:218
-#: src/torrents_view.cpp:139
+#: src/torrents_view.cpp:172
 msgid "Total failed"
 msgstr "Total failed"
 
 #: src/statistics_window.cpp:150 src/torrent_details_view.cpp:219
-#: src/torrents_view.cpp:140
+#: src/torrents_view.cpp:173
 msgid "Total redundant"
 msgstr "Total redundant"
 
@@ -1451,41 +1571,44 @@ msgid "Reset"
 msgstr "Reset"
 
 #: src/torrent_details_view.cpp:198 src/torrent_files_view.cpp:177
-#: src/torrents_view.cpp:130
+#: src/torrent_files_view.cpp:201 src/torrents_view.cpp:130
+#: src/torrents_view.cpp:163
 msgid "Size"
 msgstr "Size"
 
-#: src/torrent_details_view.cpp:199 src/torrents_view.cpp:131
+#: src/torrent_details_view.cpp:199 src/torrents_view.cpp:164
 msgid "Requested size"
 msgstr "Requested size"
 
-#: src/torrent_details_view.cpp:200 src/torrents_view.cpp:132
+#: src/torrent_details_view.cpp:200 src/torrents_view.cpp:165
 msgid "Downloaded requested size"
 msgstr "Downloaded requested size"
 
 #: src/torrent_details_view.cpp:201 src/torrents_view.cpp:133
+#: src/torrents_view.cpp:166
 #, c-format
 msgid "%% Complete"
 msgstr "%% Complete"
 
 #: src/torrent_details_view.cpp:205 src/torrents_view.cpp:149
-#: src/torrents_viewport.cpp:116
+#: src/torrents_view.cpp:182 src/torrents_viewport.cpp:118
 msgid "Peers"
 msgstr "Peers"
 
 #: src/torrent_details_view.cpp:206 src/torrents_view.cpp:150
+#: src/torrents_view.cpp:183
 msgid "Seeds"
 msgstr "Seeds"
 
-#: src/torrent_details_view.cpp:208 src/torrents_view.cpp:152
+#: src/torrent_details_view.cpp:208 src/torrents_view.cpp:185
 msgid "Time added"
 msgstr "Time added"
 
-#: src/torrent_details_view.cpp:209 src/torrents_view.cpp:153
+#: src/torrent_details_view.cpp:209 src/torrents_view.cpp:186
 msgid "Time left"
 msgstr "Time left"
 
-#: src/torrent_details_view.cpp:210 src/torrents_view.cpp:154
+#: src/torrent_details_view.cpp:210 src/torrents_view.cpp:187
 msgid "Time seeding"
 msgstr "Time seeding"
 
@@ -1514,11 +1637,11 @@ msgstr ""
 "Changing file or directory path failed. Invalid path has been gotten. Please "
 "enter a valid path."
 
-#: src/torrent_files_view.cpp:178
+#: src/torrent_files_view.cpp:178 src/torrent_files_view.cpp:196
 msgid "Priority"
 msgstr "Priority"
 
-#: src/torrent_files_view.cpp:179
+#: src/torrent_files_view.cpp:179 src/torrent_files_view.cpp:203
 msgid "Progress"
 msgstr "Progress"
 
@@ -1601,112 +1724,156 @@ msgstr "Can't set torrent trackers. %1"
 msgid "IP"
 msgstr "IP"
 
+#: src/torrent_peers_view.cpp:77 src/torrents_view.cpp:142
+msgid "|Download speed|Down speed"
+msgstr "|Download speed|Down speed"
+
+#: src/torrent_peers_view.cpp:78 src/torrents_view.cpp:143
+msgid "|Download speed (payload)|Down speed (data)"
+msgstr "|Download speed (payload)|Down speed (data)"
+
+#: src/torrent_peers_view.cpp:79 src/torrents_view.cpp:144
+msgid "|Upload speed|Up speed"
+msgstr "|Upload speed|Up speed"
+
+#: src/torrent_peers_view.cpp:80 src/torrents_view.cpp:145
+msgid "|Upload speed (payload)|Up speed (data)"
+msgstr "|Upload speed (payload)|Up speed (data)"
+
 #: src/torrent_peers_view.cpp:81 src/torrents_view.cpp:136
-msgid "Total download (payload)"
-msgstr "Total download (payload)"
+msgid "|Total download (payload)|Down data"
+msgstr "|Total download (payload)|Down data"
 
 #: src/torrent_peers_view.cpp:82 src/torrents_view.cpp:138
-msgid "Total upload (payload)"
-msgstr "Total upload (payload)"
+msgid "|Total upload (payload)|Up data"
+msgstr "|Total upload (payload)|Up data"
 
-#: src/torrent_peers_view.cpp:83
+#: src/torrent_peers_view.cpp:83 src/torrent_peers_view.cpp:96
 msgid "Availability"
 msgstr "Availability"
 
-#: src/torrent_peers_view.cpp:84
+#: src/torrent_peers_view.cpp:84 src/torrent_peers_view.cpp:101
 msgid "Hash fails"
 msgstr "Hash fails"
 
-#: src/torrents_view.cpp:128
+#: src/torrent_peers_view.cpp:86
+msgid "IP address"
+msgstr "IP address"
+
+#: src/torrent_peers_view.cpp:93 src/torrents_view.cpp:169
+msgid "Total download (payload)"
+msgstr "Total download (payload)"
+
+#: src/torrent_peers_view.cpp:94 src/torrents_view.cpp:171
+msgid "Total upload (payload)"
+msgstr "Total upload (payload)"
+
+#: src/torrents_view.cpp:128 src/torrents_view.cpp:158
 msgid "Status"
 msgstr "Status"
 
-#: src/torrents_view.cpp:204
-msgid "Resume"
-msgstr "Resume"
+#: src/torrents_view.cpp:131
+msgid "|Requested size|Requested"
+msgstr "|Requested size|Requested"
 
-#: src/torrents_view.cpp:209
-msgid "Pause"
-msgstr "Pause"
+#: src/torrents_view.cpp:132
+msgid "|Downloaded requested size|Downloaded"
+msgstr "|Downloaded requested size|Downloaded"
 
-#: src/torrents_view.cpp:215
-msgid "Remove"
-msgstr "Remove"
+#: src/torrents_view.cpp:135
+msgid "|Total download|Download"
+msgstr "|Total download|Download"
 
-#: src/torrents_view.cpp:219
-msgid "Remove with data"
-msgstr "Remove with data"
+#: src/torrents_view.cpp:137
+msgid "|Total upload|Upload"
+msgstr "|Total upload|Upload"
 
-#: src/torrents_view.cpp:296
+#: src/torrents_view.cpp:139
+msgid "|Total failed|Failed"
+msgstr "|Total failed|Failed"
+
+#: src/torrents_view.cpp:140
+msgid "|Total redundant|Redundant"
+msgstr "|Total redundant|Redundant"
+
+#: src/torrents_view.cpp:147
+msgid "|Share ratio|Ratio"
+msgstr "|Share ratio|Ratio"
+
+#: src/torrents_view.cpp:152
+msgid "|Time added|Added"
+msgstr "|Time added|Added"
+
+#: src/torrents_view.cpp:153
+msgid "|Time left|ETA"
+msgstr "|Time left|ETA"
+
+#: src/torrents_view.cpp:154
+msgid "|Time seeding|Seeding"
+msgstr "|Time seeding|Seeding"
+
+#: src/torrents_view.cpp:309
 #, qt-format
 msgid "Opening torrent '%1' file(s) failed. %2"
 msgstr "Opening torrent '%1' file(s) failed. %2"
 
-#: src/torrents_view.cpp:342
-msgid "Remove torrent(s)"
-msgstr "Remove torrent(s)"
-
-#: src/torrents_view.cpp:343
+#: src/torrents_view.cpp:356
 msgid "Are you sure want to remove selected torrent(s)?"
 msgstr "Are you sure want to remove selected torrent(s)?"
 
-#: src/torrents_view.cpp:352
-msgid "Remove torrent(s) with data"
-msgstr "Remove torrent(s) with data"
-
-#: src/torrents_view.cpp:353
+#: src/torrents_view.cpp:366
 msgid "Are you sure want to remove selected torrent(s) with data?"
 msgstr "Are you sure want to remove selected torrent(s) with data?"
 
-#: src/torrents_view.cpp:412
+#: src/torrents_view.cpp:425
 msgid "Removing torrent(s) failed."
 msgstr "Removing torrent(s) failed."
 
-#: src/torrents_view.cpp:412
+#: src/torrents_view.cpp:425
 #, qt-format
 msgid "Removing torrent(s) failed. %1"
 msgstr "Removing torrent(s) failed. %1"
 
-#: src/torrents_view.cpp:416
+#: src/torrents_view.cpp:429
 msgid "Removing torrent(s) with data failed."
 msgstr "Removing torrent(s) with data failed."
 
-#: src/torrents_view.cpp:416
+#: src/torrents_view.cpp:429
 #, qt-format
 msgid "Removing torrent(s) with data failed. %1"
 msgstr "Removing torrent(s) with data failed. %1"
 
-#: src/torrents_view.cpp:420
+#: src/torrents_view.cpp:433
 msgid "Pausing torrent(s) failed."
 msgstr "Pausing torrent(s) failed."
 
-#: src/torrents_view.cpp:420
+#: src/torrents_view.cpp:433
 #, qt-format
 msgid "Pausing torrent(s) failed. %1"
 msgstr "Pausing torrent(s) failed. %1"
 
-#: src/torrents_view.cpp:424
+#: src/torrents_view.cpp:437
 msgid "Resuming torrent(s) failed."
 msgstr "Resuming torrent(s) failed."
 
-#: src/torrents_view.cpp:424
+#: src/torrents_view.cpp:437
 #, qt-format
 msgid "Resuming torrent(s) failed. %1"
 msgstr "Resuming torrent(s) failed. %1"
 
-#: src/torrents_viewport.cpp:82
+#: src/torrents_viewport.cpp:84
 msgid "Details"
 msgstr "Details"
 
-#: src/torrents_viewport.cpp:99
+#: src/torrents_viewport.cpp:101
 msgid "Files"
 msgstr "Files"
 
-#: src/torrents_viewport.cpp:132
+#: src/torrents_viewport.cpp:134
 msgid "Options"
 msgstr "Options"
 
-#: src/torrents_viewport.cpp:149
+#: src/torrents_viewport.cpp:151
 msgid "Log"
 msgstr "Log"
 

@@ -529,6 +529,8 @@ Main_window::Main_window(const Main_window_settings& settings)
 
 		button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::NEW));
 		button->set_label(_("Create"));
+		button->set_tooltip_text(_("Create a new torrent"));
+		button->set_is_important();
 		this->gui->toolbar.append(
 			*button,
 			sigc::mem_fun(*this, &Main_window::on_create_callback)
@@ -536,6 +538,8 @@ Main_window::Main_window(const Main_window_settings& settings)
 
 		button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::OPEN));
 		button->set_label(_("Open"));
+		button->set_tooltip_text(_("Open a torrent"));
+		button->set_is_important();
 		this->gui->toolbar.append(
 			*button,
 			sigc::mem_fun(*this, &Main_window::on_open_callback)
@@ -547,40 +551,48 @@ Main_window::Main_window(const Main_window_settings& settings)
 		);
 
 
-		this->gui->toolbar_resume_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::MEDIA_PLAY));
-		this->gui->toolbar_resume_button->set_label(_("Resume"));
+		button = this->gui->toolbar_resume_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::MEDIA_PLAY));
+		button->set_label(_("Resume"));
+		button->set_tooltip_text(_("Resume torrent(s)"));
+		button->set_is_important();
 		this->gui->toolbar.append(
-			*this->gui->toolbar_resume_button,
+			*button,
 			sigc::bind<Torrent_process_action>(
 				sigc::mem_fun(*this->gui->torrents_viewport, &Torrents_viewport::process_torrents),
 				RESUME
 			)
 		);
 
-		this->gui->toolbar_pause_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::MEDIA_PAUSE));
-		this->gui->toolbar_pause_button->set_label(_("Pause"));
+		button = this->gui->toolbar_pause_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::MEDIA_PAUSE));
+		button->set_label(_("Pause"));
+		button->set_tooltip_text(_("Pause torrent(s)"));
+		button->set_is_important();
 		this->gui->toolbar.append(
-			*this->gui->toolbar_pause_button,
+			*button,
 			sigc::bind<Torrent_process_action>(
 				sigc::mem_fun(*this->gui->torrents_viewport, &Torrents_viewport::process_torrents),
 				PAUSE
 			)
 		);
 
-		this->gui->toolbar_remove_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::REMOVE));
-		this->gui->toolbar_remove_button->set_label(_("Remove"));
+		button = this->gui->toolbar_remove_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::REMOVE));
+		button->set_label(_("Remove"));
+		button->set_tooltip_text(_("Remove torrent(s)"));
+		button->set_is_important();
 		this->gui->toolbar.append(
-			*this->gui->toolbar_remove_button,
+			*button,
 			sigc::bind<Torrent_process_action>(
 				sigc::mem_fun(*this->gui->torrents_viewport, &Torrents_viewport::process_torrents),
 				REMOVE
 			)
 		);
 
-		this->gui->toolbar_remove_with_data_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::DELETE));
-		this->gui->toolbar_remove_with_data_button->set_label(_("Remove with data"));
+		button = this->gui->toolbar_remove_with_data_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::DELETE));
+		button->set_label(_("Remove with data"));
+		button->set_tooltip_text(_("Remove torrent(s) with data"));
+		button->set_is_important();
 		this->gui->toolbar.append(
-			*this->gui->toolbar_remove_with_data_button,
+			*button,
 			sigc::bind<Torrent_process_action>(
 				sigc::mem_fun(*this->gui->torrents_viewport, &Torrents_viewport::process_torrents),
 				REMOVE_WITH_DATA
@@ -595,6 +607,8 @@ Main_window::Main_window(const Main_window_settings& settings)
 
 		button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::INDEX));
 		button->set_label(_("Statistics"));
+		button->set_tooltip_text(_("Statistics"));
+		button->set_is_important();
 		this->gui->toolbar.append(
 			*button,
 			sigc::mem_fun(*this, &Main_window::on_show_statistics_callback)
@@ -602,6 +616,8 @@ Main_window::Main_window(const Main_window_settings& settings)
 
 		button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::PREFERENCES));
 		button->set_label(_("Preferences"));
+		button->set_tooltip_text(_("Preferences"));
+		button->set_is_important();
 		this->gui->toolbar.append(
 			*button,
 			sigc::mem_fun(*this, &Main_window::on_show_settings_window_callback)

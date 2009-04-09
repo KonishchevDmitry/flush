@@ -178,7 +178,7 @@ namespace
 		priority(_("Priority"), model_columns.priority_string),
 		progress(_("Progress"), progress_renderer)
 	{
-		this->add("name", &this->name);
+		this->add("name", &this->name, _("Name"));
 		this->name.set_sort_column(model_columns.name);
 
 		this->name.pack_start(this->download_renderer, false);
@@ -193,14 +193,14 @@ namespace
 		this->name.add_attribute(this->name_renderer.property_text(), model_columns.name);
 
 
-		this->add("priority", &this->priority);
+		this->add("priority", &this->priority, _("Priority"));
 		this->priority.set_sort_column(model_columns.priority);
 		this->priority.get_first_cell_renderer()->property_xalign().set_value(0.5);
 
 
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(size)
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(size, _("Size"))
 
-		this->add("progress", &this->progress);
+		this->add("progress", &this->progress, _("Progress"));
 		this->progress.set_sort_column(model_columns.progress);
 		this->progress.add_attribute(this->progress_renderer.property_value(), model_columns.progress);
 		this->progress.add_attribute(this->progress_renderer.property_text(), model_columns.progress_string);

@@ -74,31 +74,31 @@
 	:
 		ip(_("IP"), model_columns.ip),
 		client(_("Client"), model_columns.client),
-		download_speed(_("Download speed"), model_columns.download_speed_string),
-		payload_download_speed(_("Download speed (payload)"), model_columns.payload_download_speed_string),
-		upload_speed(_("Upload speed"), model_columns.upload_speed_string),
-		payload_upload_speed(_("Upload speed (payload)"), model_columns.payload_upload_speed_string),
-		total_payload_download(_("Total download (payload)"), model_columns.total_payload_download_string),
-		total_payload_upload(_("Total upload (payload)"), model_columns.total_payload_upload_string),
+		download_speed(_("|Download speed|Down speed"), model_columns.download_speed_string),
+		payload_download_speed(_("|Download speed (payload)|Down speed (data)"), model_columns.payload_download_speed_string),
+		upload_speed(_("|Upload speed|Up speed"), model_columns.upload_speed_string),
+		payload_upload_speed(_("|Upload speed (payload)|Up speed (data)"), model_columns.payload_upload_speed_string),
+		total_payload_download(_("|Total download (payload)|Down data"), model_columns.total_payload_download_string),
+		total_payload_upload(_("|Total upload (payload)|Up data"), model_columns.total_payload_upload_string),
 		availability(_("Availability"), availability_renderer),
 		hash_fails(_("Hash fails"), model_columns.hash_fails)
 	{
-		M_GTK_TREE_VIEW_ADD_STRING_COLUMN(ip)
-		M_GTK_TREE_VIEW_ADD_STRING_COLUMN(client)
+		M_GTK_TREE_VIEW_ADD_STRING_COLUMN(ip, _("IP address"))
+		M_GTK_TREE_VIEW_ADD_STRING_COLUMN(client, _("Client"))
 
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(download_speed)
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(payload_download_speed)
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(upload_speed)
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(payload_upload_speed)
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(total_payload_download)
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(total_payload_upload)
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(download_speed, _("Download speed"))
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(payload_download_speed, _("Download speed (payload)"))
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(upload_speed, _("Upload speed"))
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(payload_upload_speed, _("Upload speed (payload)"))
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(total_payload_download, _("Total download (payload)"))
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(total_payload_upload, _("Total upload (payload)"))
 
-		this->add("availability", &this->availability);
+		this->add("availability", &this->availability, _("Availability"));
 		this->availability.set_sort_column(model_columns.availability);
 		this->availability.add_attribute(this->availability_renderer.property_value(), model_columns.availability);
 		this->availability.add_attribute(this->availability_renderer.property_text(), model_columns.availability_string);
 
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(hash_fails)
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(hash_fails, _("Hash fails"))
 	}
 // Torrent_peers_view_columns <--
 

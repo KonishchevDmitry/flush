@@ -5,15 +5,6 @@ ACLOCAL_AMFLAGS = -I m4
 # Added by gettextize
 EXTRA_DIST = build-aux/config.rpath
 
-EXTRA_DIST += \
-	debian/changelog \
-	debian/compat \
-	debian/control \
-	debian/copyright \
-	debian/docs \
-	debian/rules \
-	make_deb
-
 desktopdir = $(datadir)/applications
 desktop_DATA = @PACKAGE@.desktop
 

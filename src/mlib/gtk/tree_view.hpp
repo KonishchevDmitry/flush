@@ -41,14 +41,18 @@
 #include "types.hpp"
 
 
-#define M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(id)								\
-	this->add(#id, &this->id);												\
+#define M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(id, description)					\
+{																			\
+	this->add(#id, &this->id, (description));								\
 	this->id.set_sort_column(model_columns.id);								\
-	this->id.get_first_cell_renderer()->property_xalign().set_value(1.0);
+	this->id.get_first_cell_renderer()->property_xalign().set_value(1.0);	\
+}
 
-#define M_GTK_TREE_VIEW_ADD_STRING_COLUMN(id)	\
-	this->add(#id, &this->id);					\
-	this->id.set_sort_column(model_columns.id);
+#define M_GTK_TREE_VIEW_ADD_STRING_COLUMN(id, description)	\
+{															\
+	this->add(#id, &this->id, (description));				\
+	this->id.set_sort_column(model_columns.id);				\
+}
 
 
 
@@ -79,7 +83,20 @@ class Tree_view_model_columns: public Gtk::TreeModel::ColumnRecord
 class Tree_view_columns
 {
 	public:
-		std::deque<Gtk::TreeViewColumn*>				all;
+		class Column
+		{
+			public:
+				Column(const std::string& id, Gtk::TreeViewColumn* column, const std::string& description);
+
+			public:
+				std::string				id;
+				Gtk::TreeViewColumn*	column;
+				std::string				description;
+		};
+
+
+	public:
+		std::vector<Column>								all;
 		std::map<std::string, Gtk::TreeViewColumn*>		columns_by_ids;
 		std::map<Gtk::TreeViewColumn*, std::string>		ids_by_columns;
 
@@ -88,7 +105,7 @@ class Tree_view_columns
 		void	remove(Gtk::TreeViewColumn* column);
 
 	protected:
-		void	add(const std::string& id, Gtk::TreeViewColumn* column);
+		void	add(const std::string& id, Gtk::TreeViewColumn* column, const std::string& description);
 };
 
 

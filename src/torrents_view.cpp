@@ -128,63 +128,63 @@
 		status(_("Status"), status_renderer),
 
 		size(_("Size"), model_columns.size_string),
-		requested_size(_("Requested size"), model_columns.requested_size_string),
-		downloaded_requested_size(_("Downloaded requested size"), model_columns.downloaded_requested_size_string),
+		requested_size(_("|Requested size|Requested"), model_columns.requested_size_string),
+		downloaded_requested_size(_("|Downloaded requested size|Downloaded"), model_columns.downloaded_requested_size_string),
 		complete_percent(__("%% Complete"), model_columns.complete_percent_string),
 
-		total_download(_("Total download"), model_columns.total_download_string),
-		total_payload_download(_("Total download (payload)"), model_columns.total_payload_download_string),
-		total_upload(_("Total upload"), model_columns.total_upload_string),
-		total_payload_upload(_("Total upload (payload)"), model_columns.total_payload_upload_string),
-		total_failed(_("Total failed"), model_columns.total_failed_string),
-		total_redundant(_("Total redundant"), model_columns.total_redundant_string),
+		total_download(_("|Total download|Download"), model_columns.total_download_string),
+		total_payload_download(_("|Total download (payload)|Down data"), model_columns.total_payload_download_string),
+		total_upload(_("|Total upload|Upload"), model_columns.total_upload_string),
+		total_payload_upload(_("|Total upload (payload)|Up data"), model_columns.total_payload_upload_string),
+		total_failed(_("|Total failed|Failed"), model_columns.total_failed_string),
+		total_redundant(_("|Total redundant|Redundant"), model_columns.total_redundant_string),
 
-		download_speed(_("Download speed"), model_columns.download_speed_string),
-		payload_download_speed(_("Download speed (payload)"), model_columns.payload_download_speed_string),
-		upload_speed(_("Upload speed"), model_columns.upload_speed_string),
-		payload_upload_speed(_("Upload speed (payload)"), model_columns.payload_upload_speed_string),
+		download_speed(_("|Download speed|Down speed"), model_columns.download_speed_string),
+		payload_download_speed(_("|Download speed (payload)|Down speed (data)"), model_columns.payload_download_speed_string),
+		upload_speed(_("|Upload speed|Up speed"), model_columns.upload_speed_string),
+		payload_upload_speed(_("|Upload speed (payload)|Up speed (data)"), model_columns.payload_upload_speed_string),
 
-		share_ratio(_("Share ratio"), model_columns.share_ratio_string),
+		share_ratio(_("|Share ratio|Ratio"), model_columns.share_ratio_string),
 
 		peers_num(_("Peers"), model_columns.peers_num),
 		seeds_num(_("Seeds"), model_columns.seeds_num),
 
-		time_added(_("Time added"), model_columns.time_added_string),
-		time_left(_("Time left"), model_columns.time_left_string),
-		time_seeding(_("Time seeding"), model_columns.time_seeding_string)
+		time_added(_("|Time added|Added"), model_columns.time_added_string),
+		time_left(_("|Time left|ETA"), model_columns.time_left_string),
+		time_seeding(_("|Time seeding|Seeding"), model_columns.time_seeding_string)
 	{
-		M_GTK_TREE_VIEW_ADD_STRING_COLUMN(name)
+		M_GTK_TREE_VIEW_ADD_STRING_COLUMN(name, _("Name"))
 
-		this->add("status", &this->status);
+		this->add("status", &this->status, _("Status"));
 		this->status.set_sort_column(model_columns.status);
 		this->status.add_attribute(this->status_renderer.property_text(), model_columns.status);
 		this->status.add_attribute(this->status_renderer.property_value(), model_columns.progress);
 
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(size)
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(requested_size)
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(downloaded_requested_size)
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(complete_percent)
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(size, _("Size"))
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(requested_size, _("Requested size"))
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(downloaded_requested_size, _("Downloaded requested size"))
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(complete_percent, __("%% Complete"))
 
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(total_download)
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(total_payload_download)
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(total_upload)
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(total_payload_upload)
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(total_failed)
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(total_redundant)
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(total_download, _("Total download"))
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(total_payload_download, _("Total download (payload)"))
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(total_upload, _("Total upload"))
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(total_payload_upload, _("Total upload (payload)"))
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(total_failed, _("Total failed"))
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(total_redundant, _("Total redundant"))
 
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(download_speed)
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(payload_download_speed)
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(upload_speed)
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(payload_upload_speed)
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(download_speed, _("Download speed"))
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(payload_download_speed, _("Download speed (payload)"))
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(upload_speed, _("Upload speed"))
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(payload_upload_speed, _("Upload speed (payload)"))
 
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(share_ratio)
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(share_ratio, _("Share ratio"))
 
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(peers_num)
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(seeds_num)
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(peers_num, _("Peers"))
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(seeds_num, _("Seeds"))
 
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(time_added)
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(time_left)
-		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(time_seeding)
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(time_added, _("Time added"))
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(time_left, _("Time left"))
+		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(time_seeding, _("Time seeding"))
 	}
 // Torrents_view_columns <--
 
