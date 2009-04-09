@@ -36,6 +36,15 @@
 
 	class Main_window: public m::gtk::Window
 	{
+		public:
+			enum Update_type {
+				UPDATE_WINDOW_TITLE	= 1 << 0,
+				UPDATE_WIDGETS		= 1 << 1,
+				UPDATE_TRAY			= 1 << 2,
+				UPDATE_ALL			= UPDATE_WINDOW_TITLE | UPDATE_WIDGETS | UPDATE_TRAY
+			};
+			typedef int Update_flags;
+
 		private:
 			struct Gui;
 
@@ -62,7 +71,7 @@
 			void	save_settings(void);
 
 			/// Инициирует обновление GUI.
-			void	update_gui(void);
+			void	update_gui(Update_flags update_what = UPDATE_ALL);
 
 		private:
 			/// Изменяет стиль панели инструментов.

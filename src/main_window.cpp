@@ -701,6 +701,8 @@ bool Main_window::on_gui_update_timeout(void)
 {
 	if(this->is_visible())
 		this->update_gui();
+	else if(get_client_settings().gui.show_tray_icon)
+		this->update_gui(UPDATE_TRAY);
 
 	return true;
 }
@@ -1079,21 +1081,24 @@ void Main_window::show_tray_icon(bool show)
 
 
 
-void Main_window::update_gui(void)
+void Main_window::update_gui(Update_flags update_what)
 {
 	// Обновляем список торрентов -->
-		std::vector<Torrent_info> torrents_info;
-
-		try
+		if(update_what & UPDATE_WIDGETS)
 		{
-			get_daemon_proxy().get_torrents(torrents_info);
-		}
-		catch(m::Exception& e)
-		{
-			MLIB_W(EE(e));
-		}
+			std::vector<Torrent_info> torrents_info;
 
-		this->gui->torrents_viewport->update(torrents_info.begin(), torrents_info.end());
+			try
+			{
+				get_daemon_proxy().get_torrents(torrents_info);
+			}
+			catch(m::Exception& e)
+			{
+				MLIB_W(EE(e));
+			}
+
+			this->gui->torrents_viewport->update(torrents_info.begin(), torrents_info.end());
+		}
 	// Обновляем список торрентов <--
 
 	// Получаем информацию о текущей сессии
@@ -1105,92 +1110,105 @@ void Main_window::update_gui(void)
 			Session_status session_status = get_daemon_proxy().get_session_status();
 
 			// Заголовок окна -->
-				if(get_client_settings().gui.show_speed_in_window_title)
+				if(update_what & UPDATE_WINDOW_TITLE)
 				{
-					this->set_title(
-						__(
-							"|Download/Upload|D: %1, U: %2 - %3",
-							m::speed_to_string(session_status.payload_download_speed),
-							m::speed_to_string(session_status.payload_upload_speed),
-							this->gui->orig_window_title
-						)
-					);
+					if(get_client_settings().gui.show_speed_in_window_title)
+					{
+						this->set_title(
+							__(
+								"|Download/Upload|D: %1, U: %2 - %3",
+								m::speed_to_string(session_status.payload_download_speed),
+								m::speed_to_string(session_status.payload_upload_speed),
+								this->gui->orig_window_title
+							)
+						);
+					}
 				}
 			// Заголовок окна <--
 
 			// Строка статуса -->
-			{
-				const Status_bar_settings& status_bar_settings = get_client_settings().gui.main_window.status_bar;
-				std::string space_string = "  ";
-				std::string status_string;
-
-				if(status_bar_settings.download_speed)
-					status_string += space_string + _("Download speed") + ": " + m::speed_to_string(session_status.download_speed);
-
-				if(status_bar_settings.payload_download_speed)
-					status_string += space_string + _("Download speed (payload)") + ": " + m::speed_to_string(session_status.payload_download_speed);
-
-				if(status_bar_settings.upload_speed)
-					status_string += space_string + _("Upload speed") + ": " + m::speed_to_string(session_status.upload_speed);
-
-				if(status_bar_settings.payload_upload_speed)
-					status_string += space_string + _("Upload speed (payload)") + ": " + m::speed_to_string(session_status.payload_upload_speed);
-
-				if(status_bar_settings.download)
-					status_string += space_string + _("Downloaded") + ": " + m::size_to_string(session_status.download);
-
-				if(status_bar_settings.payload_download)
-					status_string += space_string + _("Download (payload)") + ": " + m::size_to_string(session_status.payload_download);
-
-				if(status_bar_settings.upload)
-					status_string += space_string + _("Uploaded") + ": " + m::size_to_string(session_status.upload);
-
-				if(status_bar_settings.payload_upload)
-					status_string += space_string + _("Upload (payload)") + ": " + m::size_to_string(session_status.payload_upload);
-
-				if(status_bar_settings.share_ratio)
-					status_string += space_string + _("Share ratio") + ": " + get_share_ratio_string(session_status.payload_upload, session_status.payload_download);
-
-				if(status_bar_settings.failed)
-					status_string += space_string + _("Failed") + ": " + m::size_to_string(session_status.failed);
-
-				if(status_bar_settings.redundant)
-					status_string += space_string + _("Redundant") + ": " + m::size_to_string(session_status.redundant);
-
-				if(status_string.empty())
-					this->gui->status_bar.hide();
-				else
+				if(update_what & UPDATE_WIDGETS)
 				{
-					this->gui->status_bar.pop();
-					this->gui->status_bar.push(status_string.substr(space_string.size()));
-					this->gui->status_bar.show();
+					const Status_bar_settings& status_bar_settings = get_client_settings().gui.main_window.status_bar;
+					std::string space_string = "  ";
+					std::string status_string;
+
+					if(status_bar_settings.download_speed)
+						status_string += space_string + _("Download speed") + ": " + m::speed_to_string(session_status.download_speed);
+
+					if(status_bar_settings.payload_download_speed)
+						status_string += space_string + _("Download speed (payload)") + ": " + m::speed_to_string(session_status.payload_download_speed);
+
+					if(status_bar_settings.upload_speed)
+						status_string += space_string + _("Upload speed") + ": " + m::speed_to_string(session_status.upload_speed);
+
+					if(status_bar_settings.payload_upload_speed)
+						status_string += space_string + _("Upload speed (payload)") + ": " + m::speed_to_string(session_status.payload_upload_speed);
+
+					if(status_bar_settings.download)
+						status_string += space_string + _("Downloaded") + ": " + m::size_to_string(session_status.download);
+
+					if(status_bar_settings.payload_download)
+						status_string += space_string + _("Download (payload)") + ": " + m::size_to_string(session_status.payload_download);
+
+					if(status_bar_settings.upload)
+						status_string += space_string + _("Uploaded") + ": " + m::size_to_string(session_status.upload);
+
+					if(status_bar_settings.payload_upload)
+						status_string += space_string + _("Upload (payload)") + ": " + m::size_to_string(session_status.payload_upload);
+
+					if(status_bar_settings.share_ratio)
+						status_string += space_string + _("Share ratio") + ": " + get_share_ratio_string(session_status.payload_upload, session_status.payload_download);
+
+					if(status_bar_settings.failed)
+						status_string += space_string + _("Failed") + ": " + m::size_to_string(session_status.failed);
+
+					if(status_bar_settings.redundant)
+						status_string += space_string + _("Redundant") + ": " + m::size_to_string(session_status.redundant);
+
+					if(status_string.empty())
+						this->gui->status_bar.hide();
+					else
+					{
+						this->gui->status_bar.pop();
+						this->gui->status_bar.push(status_string.substr(space_string.size()));
+						this->gui->status_bar.show();
+					}
 				}
-			}
 			// Строка статуса <--
 
 			// Трей -->
-				this->gui->tray->set_tooltip(
-					std::string(APP_NAME) + "\n" +
-					__(
-						"|Download speed|Down: %1 (%2) / %3",
-						m::speed_to_string(session_status.download_speed),
-						m::speed_to_string(session_status.payload_download_speed),
-						m::speed_to_string(session_status.download_rate_limit)
-					)
-					+ "\n" +
-					__(
-						"|Upload speed|Up: %1 (%2) / %3",
-						m::speed_to_string(session_status.upload_speed),
-						m::speed_to_string(session_status.payload_upload_speed),
-						m::speed_to_string(session_status.upload_rate_limit)
-					)
-				);
+				if(update_what & UPDATE_TRAY)
+				{
+					this->gui->tray->set_tooltip(
+						std::string(APP_NAME) + "\n" +
+						__(
+							"|Download speed|Down: %1 (%2) / %3",
+							m::speed_to_string(session_status.download_speed),
+							m::speed_to_string(session_status.payload_download_speed),
+							m::speed_to_string(session_status.download_rate_limit)
+						)
+						+ "\n" +
+						__(
+							"|Upload speed|Up: %1 (%2) / %3",
+							m::speed_to_string(session_status.upload_speed),
+							m::speed_to_string(session_status.payload_upload_speed),
+							m::speed_to_string(session_status.upload_rate_limit)
+						)
+					);
+				}
 			// Трей <--
 		}
 		catch(m::Exception& e)
 		{
-			this->gui->status_bar.hide();
-			this->gui->tray->set_tooltip("");
+			if(update_what & UPDATE_WINDOW_TITLE)
+				this->set_title(this->gui->orig_window_title);
+
+			if(update_what & UPDATE_WIDGETS)
+				this->gui->status_bar.hide();
+
+			if(update_what & UPDATE_TRAY)
+				this->gui->tray->set_tooltip("");
 
 			MLIB_W(EE(e));
 		}
