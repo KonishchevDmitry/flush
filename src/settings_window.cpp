@@ -292,20 +292,16 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 				hbox->pack_start(*vbox, false, false);
 
 				// gui_update_interval -->
-					this->gui_update_interval.set_alignment(Gtk::ALIGN_RIGHT);
-
 					add_spin_button(
 						*vbox, _("GUI update interval (ms):"), this->gui_update_interval,
-						std::pair<int,int>(GUI_MIN_UPDATE_INTERVAL, INT_MAX), std::pair<int,int>(1, 500)
+						std::pair<int,int>(GUI_MIN_UPDATE_INTERVAL, INT_MAX), std::pair<double,double>(1, 500)
 					);
 				// gui_update_interval <--
 
 				// max_log_lines -->
-					this->max_log_lines.set_alignment(Gtk::ALIGN_RIGHT);
-
 					add_spin_button(
 						*vbox, _("Max log lines:"), this->max_log_lines,
-						std::pair<int,int>(-1, INT_MAX), std::pair<int,int>(1, 10)
+						std::pair<int,int>(-1, INT_MAX), std::pair<double,double>(1, 10)
 					);
 				// max_log_lines <--
 			}
@@ -513,38 +509,30 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 			m::gtk::vbox::add_header(*vbox, _("Bandwidth"));
 
 			// download_rate_limit -->
-				this->download_rate_limit.set_alignment(Gtk::ALIGN_RIGHT);
-
 				add_spin_button(
 					*vbox, _("Download rate limit (KB/s):"), this->download_rate_limit,
-					std::pair<int,int>(-1, INT_MAX), std::pair<int,int>(1, 1000)
+					std::pair<int,int>(-1, INT_MAX), std::pair<double,double>(1, 1000)
 				);
 			// download_rate_limit <--
 
 			// upload_rate_limit -->
-				this->upload_rate_limit.set_alignment(Gtk::ALIGN_RIGHT);
-
 				add_spin_button(
 					*vbox, _("Upload rate limit (KB/s):"), this->upload_rate_limit,
-					std::pair<int,int>(-1, INT_MAX), std::pair<int,int>(1, 1000)
+					std::pair<int,int>(-1, INT_MAX), std::pair<double,double>(1, 1000)
 				);
 			// upload_rate_limit <--
 
 			// max_uploads -->
-				this->max_uploads.set_alignment(Gtk::ALIGN_RIGHT);
-
 				add_spin_button(
 					*vbox, _("Max uploads:"), this->max_uploads,
-					std::pair<int,int>(-1, INT_MAX), std::pair<int,int>(1, 10)
+					std::pair<int,int>(-1, INT_MAX), std::pair<double,double>(1, 10)
 				);
 			// max_uploads <--
 
 			// max_connections -->
-				this->max_connections.set_alignment(Gtk::ALIGN_RIGHT);
-
 				add_spin_button(
 					*vbox, _("Max connections:"), this->max_connections,
-					std::pair<int,int>(-1, INT_MAX), std::pair<int,int>(1, 10)
+					std::pair<int,int>(-1, INT_MAX), std::pair<double,double>(1, 10)
 				);
 			// max_connections <--
 		}
@@ -589,20 +577,25 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 				hbox->pack_start(*vbox, false, false);
 
 				// Max seeding time -->
-					this->auto_delete_torrents_max_seed_time.set_alignment(Gtk::ALIGN_RIGHT);
-
 					add_spin_button(
 						*vbox, _("Max seeding time (m):"), this->auto_delete_torrents_max_seed_time,
-						std::pair<int,int>(-1, INT_MAX), std::pair<int,int>(1, 60)
+						std::pair<int,int>(-1, INT_MAX), std::pair<double,double>(1, 60)
 					);
 				// Max seeding time <--
 
-				// Max seeding torrents num -->
-					this->auto_delete_torrents_max_seeds.set_alignment(Gtk::ALIGN_RIGHT);
+				// Max rating -->
+					this->auto_delete_torrents_max_share_ratio.set_digits(1);
 
 					add_spin_button(
+						*vbox, _("Max rating:"), this->auto_delete_torrents_max_share_ratio,
+						std::pair<int,int>(0, INT_MAX / 100), std::pair<double,double>(0.1, 1)
+					);
+				// Max rating <--
+
+				// Max seeding torrents num -->
+					add_spin_button(
 						*vbox, _("Max seeding torrents:"), this->auto_delete_torrents_max_seeds,
-						std::pair<int,int>(-1, INT_MAX), std::pair<int,int>(1, 10)
+						std::pair<int,int>(-1, INT_MAX), std::pair<double,double>(1, 10)
 					);
 				// Max seeding torrents num <--
 			}
@@ -645,8 +638,9 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 
 
 
-void Settings_window::add_spin_button(Gtk::VBox& parent_vbox, const std::string& label_string, Gtk::SpinButton& spin_button, const std::pair<int, int>& range, const std::pair<int, int>& increments)
+void Settings_window::add_spin_button(Gtk::VBox& parent_vbox, const std::string& label_string, Gtk::SpinButton& spin_button, const std::pair<int, int>& range, const std::pair<double, double>& increments)
 {
+	spin_button.set_alignment(Gtk::ALIGN_RIGHT);
 	spin_button.set_range(range.first, range.second);
 	spin_button.set_increments(increments.first, increments.second);
 	m::gtk::vbox::add_widget_with_label(parent_vbox, label_string, spin_button);
@@ -731,7 +725,14 @@ void Settings_window::load_settings(void)
 
 		this->auto_delete_torrents.set_active(daemon_settings.auto_delete_torrents);
 		this->auto_delete_torrents_with_data.set_active(daemon_settings.auto_delete_torrents_with_data);
-		this->auto_delete_torrents_max_seed_time.set_value(daemon_settings.auto_delete_torrents_max_seed_time < 0 ? -1 : daemon_settings.auto_delete_torrents_max_seed_time / 60);
+		this->auto_delete_torrents_max_seed_time.set_value(
+			daemon_settings.auto_delete_torrents_max_seed_time < 0
+			?
+				-1
+			:
+				daemon_settings.auto_delete_torrents_max_seed_time / 60
+		);
+		this->auto_delete_torrents_max_share_ratio.set_value(daemon_settings.auto_delete_torrents_max_share_ratio);
 		this->auto_delete_torrents_max_seeds.set_value(daemon_settings.auto_delete_torrents_max_seeds);
 	// daemon settings <--
 }
@@ -867,6 +868,7 @@ void Settings_window::save_settings(void)
 		daemon_settings.auto_delete_torrents = this->auto_delete_torrents.get_active();
 		daemon_settings.auto_delete_torrents_with_data = this->auto_delete_torrents_with_data.get_active();
 		daemon_settings.auto_delete_torrents_max_seed_time = this->auto_delete_torrents_max_seed_time.get_value() < 0 ? -1 : this->auto_delete_torrents_max_seed_time.get_value() * 60;
+		daemon_settings.auto_delete_torrents_max_share_ratio = this->auto_delete_torrents_max_share_ratio.get_value();
 		daemon_settings.auto_delete_torrents_max_seeds = this->auto_delete_torrents_max_seeds.get_value();
 	// daemon settings <--
 }

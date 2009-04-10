@@ -578,6 +578,9 @@
 			/// Возвращает процент завершенности скачивания данных.
 			int				get_complete_percent(void) const;
 
+			/// Возвращает текущий рейтинг торрента.
+			Share_ratio		get_share_ratio(void) const;
+
 			/// Возвращает строку статуса.
 			std::string		get_status_string(void) const;
 
@@ -701,19 +704,20 @@
 	Speed		get_rate_limit_from_lt(Speed rate);
 
 	/// Подсчитывает share ratio.
+	/// Внимание! В случае, если download == 0, возвращает бесконечность.
 	Share_ratio	get_share_ratio(Size upload, Size download);
 
+	/// Подсчитывает share ratio.
+	/// В отличие от get_share_ratio(Size upload, Size download), в случае,
+	/// когда download == 0, расчитывает рейтинг так, как будто download ==
+	/// size.
+	Share_ratio	get_share_ratio(Size upload, Size download, Size size);
+
 	/// Возвращает строковое представление share ratio.
-	/// Unicode используется потому, что строка может содержать
-	/// символ бесконечности, которого может не оказаться в текущей
-	/// локали.
 	std::string	get_share_ratio_string(Share_ratio ratio);
 
 	/// Возвращает строковое представление share ratio.
-	/// Unicode используется потому, что строка может содержать
-	/// символ бесконечности, которого может не оказаться в текущей
-	/// локали.
-	std::string	get_share_ratio_string(Size upload, Size download);
+	std::string	get_share_ratio_string(Size upload, Size download, Size size = 0);
 
 
 

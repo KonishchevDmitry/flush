@@ -85,6 +85,9 @@
 		Speed download_rate_limit, Speed upload_rate_limit
 	)
 	:
+		session_start_time(daemon_statistics.session_start_time),
+		statistics_start_time(daemon_statistics.statistics_start_time),
+
 		upload_speed(libtorrent_session_status.upload_rate),
 		payload_upload_speed(libtorrent_session_status.payload_upload_rate),
 
@@ -425,6 +428,15 @@
 
 
 
+	Share_ratio Torrent_info::get_share_ratio(void) const
+	{
+		return ::get_share_ratio(
+			this->total_payload_upload, this->total_payload_download, this->size
+		);
+	}
+
+
+
 	std::string Torrent_info::get_status_string(void) const
 	{
 		if(this->paused && this->status != allocating && this->status != checking_files)
@@ -544,7 +556,17 @@ Share_ratio get_share_ratio(Size upload, Size download)
 
 
 
-std::string	get_share_ratio_string(Share_ratio ratio)
+Share_ratio get_share_ratio(Size upload, Size download, Size size)
+{
+	if(download > 0)
+		return get_share_ratio(upload, download);
+	else
+		return get_share_ratio(upload, size);
+}
+
+
+
+std::string get_share_ratio_string(Share_ratio ratio)
 {
 	// Просто ограничиваем в каких-то фиксированных пределах.
 	// Имеет смысл хотя бы потому, что числа с плавующей точкой
@@ -557,8 +579,8 @@ std::string	get_share_ratio_string(Share_ratio ratio)
 
 
 
-std::string get_share_ratio_string(Size upload, Size download)
+std::string get_share_ratio_string(Size upload, Size download, Size size)
 {
-	return get_share_ratio_string(get_share_ratio(upload, download));
+	return get_share_ratio_string(get_share_ratio(upload, download, size));
 }
 

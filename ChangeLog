@@ -5,6 +5,7 @@
 [+] Short "Torrents view" and "Torrent peers view" columns names.
 [+] Treeview's headers and some settings window options tooltips.
 [+] Updated boost configure macros.
+[+] Automatic torrents removing by share ratio.
 [-] Removed debian directory. Packages are now available at the launchpad.net.
 
 

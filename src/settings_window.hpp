@@ -169,6 +169,7 @@
 					Gtk::CheckButton		auto_delete_torrents;
 					Gtk::CheckButton		auto_delete_torrents_with_data;
 					Gtk::SpinButton			auto_delete_torrents_max_seed_time;
+					Gtk::SpinButton			auto_delete_torrents_max_share_ratio;
 					Gtk::SpinButton			auto_delete_torrents_max_seeds;
 				// Automation <--
 			// daemon <--
@@ -176,7 +177,7 @@
 
 		private:
 			/// Добавляет SpinButton.
-			void			add_spin_button(Gtk::VBox& parent_vbox, const std::string& label_string, Gtk::SpinButton& spin_button, const std::pair<int, int>& range, const std::pair<int, int>& increments);
+			void			add_spin_button(Gtk::VBox& parent_vbox, const std::string& label_string, Gtk::SpinButton& spin_button, const std::pair<int, int>& range, const std::pair<double, double>& increments);
 
 			/// Закрывает окно.
 			void			close(void);

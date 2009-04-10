@@ -114,6 +114,7 @@ namespace
 		auto_delete_torrents(0),
 		auto_delete_torrents_with_data(1),
 		auto_delete_torrents_max_seed_time(-1),
+		auto_delete_torrents_max_share_ratio(0),
 		auto_delete_torrents_max_seeds(-1)
 	{
 	}
@@ -334,6 +335,15 @@ namespace
 				else
 					this->auto_delete_torrents_max_seed_time = setting;
 			}
+			else if(m::is_eq(setting_name, "auto_delete_torrents_max_share_ratio"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeFloat, continue)
+
+				if(static_cast<float>(setting) < 0)
+					bad_option_value(setting, static_cast<float>(setting));
+				else
+					this->auto_delete_torrents_max_share_ratio = setting;
+			}
 			else if(m::is_eq(setting_name, "auto_delete_torrents_max_seeds"))
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeInt, continue)
@@ -517,6 +527,7 @@ namespace
 			config_root.add("auto_delete_torrents", libconfig::Setting::TypeBoolean) = this->auto_delete_torrents;
 			config_root.add("auto_delete_torrents_with_data", libconfig::Setting::TypeBoolean) = this->auto_delete_torrents_with_data;
 			config_root.add("auto_delete_torrents_max_seed_time", libconfig::Setting::TypeInt) = this->auto_delete_torrents_max_seed_time;
+			config_root.add("auto_delete_torrents_max_share_ratio", libconfig::Setting::TypeFloat) = static_cast<float>(this->auto_delete_torrents_max_share_ratio);
 			config_root.add("auto_delete_torrents_max_seeds", libconfig::Setting::TypeInt) = this->auto_delete_torrents_max_seeds;
 
 			// statistics -->

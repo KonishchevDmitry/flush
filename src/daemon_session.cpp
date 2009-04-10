@@ -480,8 +480,11 @@ void Daemon_session::automate(void)
 {
 	if(this->settings.auto_delete_torrents)
 	{
-		// Ограничение на максимальное время раздачи -->
-			if(this->settings.auto_delete_torrents_max_seed_time >= 0)
+		// Ограничение на максимальное время раздачи и максимальный рейтинг -->
+			if(
+				   this->settings.auto_delete_torrents_max_seed_time >= 0
+				|| this->settings.auto_delete_torrents_max_share_ratio > 0
+			)
 			{
 				std::vector< std::pair<Torrent_id, std::string> > deleted_torrents;
 
@@ -489,8 +492,21 @@ void Daemon_session::automate(void)
 				{
 					const Torrent& torrent = it->second;
 
-					if(torrent.seeding && torrent.time_seeding >= this->settings.auto_delete_torrents_max_seed_time)
-						deleted_torrents.push_back( std::pair<Torrent_id, std::string>(torrent.id, torrent.name) );
+					if(
+						torrent.seeding &&
+						(
+							(
+								this->settings.auto_delete_torrents_max_seed_time >= 0 &&
+								torrent.time_seeding >= this->settings.auto_delete_torrents_max_seed_time
+							) ||
+							Torrent_info(torrent).get_share_ratio() >= this->settings.auto_delete_torrents_max_share_ratio
+						)
+					)
+					{
+						deleted_torrents.push_back(
+							std::pair<Torrent_id, std::string>(torrent.id, torrent.name)
+						);
+					}
 				}
 
 				if(!deleted_torrents.empty())
@@ -517,9 +533,9 @@ void Daemon_session::automate(void)
 					}
 				}
 			}
-		// Ограничение на максимальное время раздачи <--
+		// Ограничение на максимальное время раздачи и максимальный рейтинг <--
 
-		// Ограничение на количество раздающих торрентов -->
+		// Ограничение на количество раздаваемых торрентов -->
 			if(this->settings.auto_delete_torrents_max_seeds >= 0 && this->torrents.size() > static_cast<size_t>(this->settings.auto_delete_torrents_max_seeds))
 			{
 				Seeding_torrent seeding_torrent;
@@ -562,7 +578,7 @@ void Daemon_session::automate(void)
 					}
 				}
 			}
-		// Ограничение на количество раздающих торрентов <--
+		// Ограничение на количество раздаваемых торрентов <--
 	}
 }
 
@@ -1579,6 +1595,9 @@ void Daemon_session::set_settings(const Daemon_settings& settings, const bool in
 
 	/// Максимальное время жизни торрента (cек).
 	this->settings.auto_delete_torrents_max_seed_time = settings.auto_delete_torrents_max_seed_time;
+
+	/// Максимальный рейтинг торрента.
+	this->settings.auto_delete_torrents_max_share_ratio = settings.auto_delete_torrents_max_share_ratio;
 
 	/// Максимальное количество раздающих торрентов.
 	this->settings.auto_delete_torrents_max_seeds = settings.auto_delete_torrents_max_seeds;

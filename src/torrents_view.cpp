@@ -586,9 +586,19 @@
 		set_speed_value(payload_upload_speed, payload_upload_speed_string)
 
 
-		// share ratio
-		if(m::gtk::update_row(row, this->model_columns.share_ratio, get_share_ratio(torrent_info.total_payload_upload, torrent_info.total_payload_download)) || is_new_row)
-			m::gtk::update_row(row, this->model_columns.share_ratio_string, get_share_ratio_string(torrent_info.total_payload_upload, torrent_info.total_payload_download));
+		// share ratio -->
+			if(
+				m::gtk::update_row(
+					row, this->model_columns.share_ratio, torrent_info.get_share_ratio()
+				) || is_new_row
+			)
+			{
+				m::gtk::update_row(
+					row, this->model_columns.share_ratio_string,
+					get_share_ratio_string(torrent_info.get_share_ratio())
+				);
+			}
+		// share ratio <--
 
 
 		set_int_value(peers_num)

@@ -76,6 +76,9 @@
 			/// Максимальное время жизни торрента (c).
 			time_t					auto_delete_torrents_max_seed_time;
 
+			/// Максимальный рейтинг торрента.
+			Share_ratio				auto_delete_torrents_max_share_ratio;
+
 			/// Максимальное количество раздающих торрентов.
 			int						auto_delete_torrents_max_seeds;
 
