@@ -287,6 +287,17 @@
 
 
 
+		/// Если требуется выделить статический буфер для размещения в нем пути
+		/// к файлу, то размер буфера лучше задавать по этой константе.
+		/// Предполагается, что, если это не ошибочная ситуация, длина пути не
+		/// должена привысить данной величины.
+		extern const size_t MAX_FILE_PATH_SIZE;
+
+
+
+		/// Проверяет, имеет ли файл file_name расширение extension.
+		bool			check_extension(const std::string& file_name, const std::string& extension);
+
 		/// Копирует файл/ссылку (не директорию) из from_path в to_path.
 		/// @param error_on_exists - если true, то в случае, когда такой файл
 		/// уже существует, будет сгенерировано исключение.
@@ -371,6 +382,9 @@
 
 		/// Аналог системного open.
 		int				unix_open(const std::string& path, int flags, mode_t mode = 0) throw(m::Exception);
+
+		/// Аналог системного read.
+		ssize_t			unix_read(int fd, void* buf, size_t size) throw(m::Exception);
 
 		/// Аналог системного readlink.
 		std::string		unix_readlink(const std::string& path) throw(m::Exception);

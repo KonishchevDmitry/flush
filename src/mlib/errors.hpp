@@ -134,6 +134,7 @@
 			std::string		get(const std::ofstream& ofstream);
 
 			std::string		get(const m::Exception& error);
+			std::string		get(const m::Errors_pool& errors);
 		}
 
 		template<class T> inline

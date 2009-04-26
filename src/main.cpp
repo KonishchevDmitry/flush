@@ -567,7 +567,6 @@ int main(int argc, char *argv[])
 		// SIGCHLD <--
 	}
 	// Устанавливаем обработчики сигналов <--
-
 	// gettext -->
 		setlocale(LC_ALL, "");
 

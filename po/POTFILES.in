@@ -29,6 +29,8 @@ src/mlib/errors.hpp
 src/mlib/fs.cpp
 src/mlib/fs.hh
 src/mlib/fs.hpp
+src/mlib/fs_watcher.cpp
+src/mlib/fs_watcher.hpp
 src/mlib/libtorrent.cpp
 src/mlib/libtorrent.hh
 src/mlib/libtorrent.hpp

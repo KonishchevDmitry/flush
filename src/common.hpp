@@ -657,7 +657,8 @@
 				bool start,
 				const std::string& download_path,
 				const std::string& copy_on_finished_path,
-				const std::vector<Torrent_file_settings> files_settings
+				const std::vector<Torrent_file_settings> files_settings = std::vector<Torrent_file_settings>(),
+				bool duplicate_is_error = true
 			);
 
 			New_torrent_settings(
@@ -665,11 +666,16 @@
 				bool start,
 				const std::string& download_path,
 				const std::string& copy_on_finished_path,
-				const std::vector<Torrent_file_settings> files_settings
+				const std::vector<Torrent_file_settings> files_settings = std::vector<Torrent_file_settings>(),
+				bool duplicate_is_error = true
 			);
 
 
 		public:
+			/// Является ли ошибкой, если такой торрент уже присутствует в
+			/// сессии.
+			const bool									duplicate_is_error;
+
 			/// Имя торрента или "", если необходимо использовать имя по
 			/// умолчанию.
 			const std::string							name;

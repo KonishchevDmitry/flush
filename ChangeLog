@@ -1,4 +1,4 @@
-0.4.2 ()
+0.5 ()
 [+] Added toolbar.
 [+] Tooltip over tray icon.
 [+] Current Download/Upload speed in window title.
@@ -6,7 +6,11 @@
 [+] Treeview's headers and some settings window options tooltips.
 [+] Updated boost configure macros.
 [+] Automatic torrents removing by share ratio.
+[+] Automatic torrents loading from specified directory.
 [-] Removed debian directory. Packages are now available at the launchpad.net.
+[*] If directory, setted in the Settings window, already is not exists,
+Settings window will show user warning message instead of silently changing
+directory to parent directory, as it was in previous version.
 
 
 0.4.1 (2009.04.01)

@@ -34,6 +34,44 @@
 	class Daemon_settings_light
 	{
 		public:
+			class Torrents_auto_load
+			{
+				public:
+					Torrents_auto_load(void);
+
+
+				public:
+					/// Нужно ли автоматически загружать торренты.
+					bool				is;
+
+					/// Директория, из которой требуется автоматически загружать
+					/// торренты.
+					std::string			from;
+
+					/// Директория, в которую необходимо скачивать торренты.
+					std::string			to;
+
+
+					/// Нужно ли копировать торренты по завершении скачивания.
+					bool				copy;
+
+					/// Директория, в которую необходимо копировать торренты по
+					/// завершении скачивания.
+					std::string			copy_to;
+
+
+					/// Удалять обработанные *.torrent файлы из директории.
+					bool				delete_loaded;
+
+
+				public:
+					/// Проверяет настройки на эквивалентность по отношению к
+					/// fs_watcher.
+					bool	equal(const Torrents_auto_load& auto_load) const;
+			};
+
+
+		public:
 			Daemon_settings_light(void);
 
 
@@ -65,6 +103,10 @@
 			/// Максимальное количество соединений, которое может
 			/// быть открыто.
 			int						max_connections;
+
+
+			/// Настройки автоматической загрузки торрентов из директории.
+			Torrents_auto_load		torrents_auto_load;
 
 
 			/// Удалять старые торренты или нет.
@@ -142,6 +184,9 @@
 
 		private:
 			void				assign(const Daemon_settings_light &settings);
+
+			/// Считывает настройки автоматической подгрузки торрентов из директории.
+			void				read_auto_load_settings(const libconfig::Setting& group_setting);
 
 			/// Считывает настройки из конфигурационного файла.
 			void				read_config(const std::string& config_path, Daemon_statistics* statistics) throw(m::Exception);

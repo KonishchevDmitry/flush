@@ -51,6 +51,9 @@ namespace
 	template<class T>
 	void bad_option_value(const libconfig::Setting& setting, T value);
 
+	/// Извлекает строку пути из конфига.
+	void get_path_value(const libconfig::Setting& setting, std::string* place_to);
+
 	/// Выводит отладочное сообщение о неверной кодировке, в которой
 	/// представлено значение опции.
 	void invalid_option_utf_value(const libconfig::Setting& setting);
@@ -67,6 +70,26 @@ namespace
 			"Daemon config: Bad option '%1' value '%2' at line %3.",
 			setting.getName(), value, setting.getSourceLine()
 		));
+	}
+
+
+
+	void get_path_value(const libconfig::Setting& setting, std::string* place_to)
+	{
+		if(m::is_valid_utf(static_cast<const char *>(setting)))
+		{
+			std::string path = static_cast<const char *>(setting);
+
+			if(path != "")
+			{
+				if(!Path(path).is_absolute())
+					bad_option_value(setting, path);
+				else
+					*place_to = path;
+			}
+		}
+		else
+			invalid_option_utf_value(setting);
 	}
 
 
@@ -93,6 +116,25 @@ namespace
 
 
 // Daemon_settings_light -->
+	// Torrents_auto_load -->
+		Daemon_settings_light::Torrents_auto_load::Torrents_auto_load(void)
+		:
+			is(false),
+			copy(false),
+			delete_loaded(false)
+		{
+		}
+
+
+
+		bool Daemon_settings_light::Torrents_auto_load::equal(const Torrents_auto_load& auto_load) const
+		{
+			return this->is == auto_load.is && this->from == auto_load.from;
+		}
+	// Torrents_auto_load <--
+
+
+
 	const int Daemon_settings_light::default_listen_start_port = 6000;
 	const int Daemon_settings_light::default_listen_end_port = 8000;
 
@@ -111,7 +153,7 @@ namespace
 		max_uploads(-1),
 		max_connections(-1),
 
-		auto_delete_torrents(0),
+		auto_delete_torrents(false),
 		auto_delete_torrents_with_data(1),
 		auto_delete_torrents_max_seed_time(-1),
 		auto_delete_torrents_max_share_ratio(0),
@@ -176,6 +218,60 @@ namespace
 		}
 
 		errors.throw_if_exists();
+	}
+
+
+
+	void Daemon_settings::read_auto_load_settings(const libconfig::Setting& group_setting)
+	{
+		Torrents_auto_load& auto_load = this->torrents_auto_load;
+
+		for(int i = 0; i < group_setting.getLength(); i++)
+		{
+			const libconfig::Setting& setting = group_setting[i];
+			const char* setting_name = setting.getName();
+
+			if(m::is_eq(setting_name, "is"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				auto_load.is = setting;
+			}
+			else if(m::is_eq(setting_name, "from"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeString, continue)
+				get_path_value(setting, &auto_load.from);
+			}
+			else if(m::is_eq(setting_name, "to"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeString, continue)
+				get_path_value(setting, &auto_load.to);
+			}
+			else if(m::is_eq(setting_name, "copy"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				auto_load.copy = setting;
+			}
+			else if(m::is_eq(setting_name, "copy_to"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeString, continue)
+				get_path_value(setting, &auto_load.copy_to);
+			}
+			else if(m::is_eq(setting_name, "delete_loaded"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				auto_load.delete_loaded = setting;
+			}
+			else
+				unknown_option(setting);
+		}
+
+		// Проверяем полученные значения -->
+			if(auto_load.is && (auto_load.from == "" || auto_load.to == ""))
+				auto_load.is = false;
+
+			if(auto_load.copy && auto_load.copy_to == "")
+				auto_load.copy = false;
+		// Проверяем полученные значения <--
 	}
 
 
@@ -316,6 +412,8 @@ namespace
 
 				this->max_connections = setting;
 			}
+			else if(m::is_eq(setting_name, "auto_load_torrents"))
+				this->read_auto_load_settings(setting);
 			else if(m::is_eq(setting_name, "auto_delete_torrents"))
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
@@ -524,6 +622,23 @@ namespace
 			config_root.add("max_uploads", libconfig::Setting::TypeInt) = this->max_uploads;
 			config_root.add("max_connections", libconfig::Setting::TypeInt) = this->max_connections;
 
+			// Автоматическая загрузка торрентов из директории -->
+			{
+				const Torrents_auto_load& auto_load = this->torrents_auto_load;
+
+				libconfig::Setting& setting = config_root.add("auto_load_torrents", libconfig::Setting::TypeGroup);
+
+				setting.add("is", libconfig::Setting::TypeBoolean) = auto_load.is;
+				setting.add("from", libconfig::Setting::TypeString) = auto_load.from;
+				setting.add("to", libconfig::Setting::TypeString) = auto_load.to;
+
+				setting.add("copy", libconfig::Setting::TypeBoolean) = auto_load.copy;
+				setting.add("copy_to", libconfig::Setting::TypeString) = auto_load.copy_to;
+
+				setting.add("delete_loaded", libconfig::Setting::TypeBoolean) = auto_load.delete_loaded;
+			}
+			// Автоматическая загрузка торрентов из директории <--
+
 			config_root.add("auto_delete_torrents", libconfig::Setting::TypeBoolean) = this->auto_delete_torrents;
 			config_root.add("auto_delete_torrents_with_data", libconfig::Setting::TypeBoolean) = this->auto_delete_torrents_with_data;
 			config_root.add("auto_delete_torrents_max_seed_time", libconfig::Setting::TypeInt) = this->auto_delete_torrents_max_seed_time;
@@ -533,6 +648,7 @@ namespace
 			// statistics -->
 			{
 				libconfig::Setting& setting = config_root.add("statistics", libconfig::Setting::TypeGroup);
+
 				setting.add("statistics_start_time", m::libconfig::Size_type) = session_status.statistics_start_time;
 				setting.add("total_download", m::libconfig::Size_type) = session_status.total_download;
 				setting.add("total_payload_download", m::libconfig::Size_type) = session_status.total_payload_download;

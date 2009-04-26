@@ -140,6 +140,42 @@ class Buffer
 
 
 
+// Обеспечивает связь между двумя потоками посредством pipe'ов.
+class Connection
+{
+	public:
+		Connection(void);
+		~Connection(void);
+
+
+	public:
+		int	read_fd;
+		int write_fd;
+
+
+	public:
+		/// Записывает в write_fd 1 байт, пробуждая тем самым другой поток.
+		void	post(void);
+
+		/// Блокирует выполнение текущего потока до тех пор, пока не появятся
+		/// данные в fd или в this->read_fd. Если возвращает false, то это
+		/// означает, то в this->read_fd появились данные и один байт из них был
+		/// взят. Возвращает true, если данные появились в fd.
+		///
+		/// @param prioritize_fd - если true, то первым делом просматривает fd,
+		/// и только потом this->read_fd. Таким образом, в случае prioritize_fd
+		/// == true функция возвратит false только тогда, когда в this->read_fd
+		/// что-то есть, а в fd нет ничего.
+		bool	wait_for_with_owning(int fd, bool prioritize_fd = false);
+	
+	private:
+		/// Пытается захватить байт из read_fd.
+		/// @return - true, если удалось захватить.
+		bool	get(void);
+};
+
+
+
 /// Обертка над UNIX семафором.
 class Semaphore: public boost::noncopyable
 {

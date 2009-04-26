@@ -22,14 +22,17 @@
 	#define MLIB_ENABLE_ALIASES
 #endif
 
-#include <semaphore.h>
-#include <stdint.h>
 #include <sys/resource.h>
 #include <sys/time.h>
+#include <fcntl.h>
+#include <semaphore.h>
+#include <stdint.h>
+#include <unistd.h>
 
 #include <cerrno>
 #include <ctime>
 
+#include <algorithm>
 #include <fstream>
 
 #include "messages.hpp"
@@ -247,6 +250,135 @@ namespace
 		return this->increase_pos(val);
 	}
 // Buffer <--
+
+
+
+// Connection -->
+	Connection::Connection(void)
+	{
+		int pipes[2];
+		long flags;
+
+		if(pipe(pipes) < 0)
+			MLIB_E(__("Can't create a pipe: %1.", strerror(errno)));
+
+		this->read_fd = pipes[0];
+		this->write_fd = pipes[1];
+
+		if(
+			( flags = fcntl(this->read_fd, F_GETFL) ) == -1 ||
+			fcntl(this->read_fd, F_SETFL, flags | O_NONBLOCK) == -1
+		)
+			MLIB_E(__("Can't set flags for a pipe: %1.", strerror(errno)));
+	}
+
+
+
+	Connection::~Connection(void)
+	{
+		if(close(this->write_fd))
+			MLIB_SW(__("Error while closing a pipe: %1.", strerror(errno)));
+
+		if(close(this->read_fd))
+			MLIB_SW(__("Error while closing a pipe: %1.", strerror(errno)));
+	}
+
+
+
+	bool Connection::get(void)
+	{
+		char byte;
+		ssize_t rval;
+
+		do
+			rval = read(this->read_fd, &byte, sizeof byte);
+		while(rval < 0 && errno == EINTR);
+
+		switch(rval)
+		{
+			case -1:
+				if(errno == EAGAIN)
+					return false;
+				else
+					MLIB_E(__("Can't read from a pipe: %1.", strerror(errno)));
+				break;
+
+			case 1:
+				return true;
+				break;
+
+			default:
+				MLIB_LE();
+				break;
+		}
+	}
+
+
+
+	void Connection::post(void)
+	{
+		char byte;
+		ssize_t rval;
+
+		do
+			rval = write(this->write_fd, &byte, sizeof byte);
+		while(rval < 0 && errno == EINTR);
+
+		if(rval < 0)
+			MLIB_E(__("Can't write to a pipe: %1.", strerror(errno)));
+	}
+
+
+
+	bool Connection::wait_for_with_owning(int fd, bool prioritize_fd)
+	{
+		int rval;
+		fd_set fds;
+
+		while(1)
+		{
+			FD_ZERO(&fds);
+			FD_SET(this->read_fd, &fds);
+			FD_SET(fd, &fds);
+
+			do
+				rval = select(std::max(this->read_fd, fd) + 1, &fds, NULL, NULL, NULL);
+			while(rval < 0 && errno == EINTR);
+
+			if(rval < 0)
+				MLIB_E(__("Select error: %1.", strerror(errno)));
+
+			if(prioritize_fd)
+			{
+				if(FD_ISSET(fd, &fds))
+					return true;
+				else if(FD_ISSET(this->read_fd, &fds))
+				{
+					if(this->get())
+						return false;
+					else
+						continue;
+				}
+				else
+					MLIB_LE();
+			}
+			else
+			{
+				if(FD_ISSET(this->read_fd, &fds))
+				{
+					if(this->get())
+						return false;
+					else
+						continue;
+				}
+				else if(FD_ISSET(fd, &fds))
+					return true;
+				else
+					MLIB_LE();
+			}
+		}
+	}
+// Connection <--
 
 
 

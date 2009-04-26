@@ -513,13 +513,15 @@
 		bool start,
 		const std::string& download_path,
 		const std::string& copy_on_finished_path,
-		const std::vector<Torrent_file_settings> files_settings
+		const std::vector<Torrent_file_settings> files_settings,
+		bool duplicate_is_error
 	)
 	:
 		start(start),
 		download_path(download_path),
 		copy_on_finished_path(copy_on_finished_path),
-		files_settings(files_settings)
+		files_settings(files_settings),
+		duplicate_is_error(duplicate_is_error)
 	{
 	}
 
@@ -530,14 +532,16 @@
 		bool start,
 		const std::string& download_path,
 		const std::string& copy_on_finished_path,
-		const std::vector<Torrent_file_settings> files_settings
+		const std::vector<Torrent_file_settings> files_settings,
+		bool duplicate_is_error
 	)
 	:
 		name(name),
 		start(start),
 		download_path(download_path),
 		copy_on_finished_path(copy_on_finished_path),
-		files_settings(files_settings)
+		files_settings(files_settings),
+		duplicate_is_error(duplicate_is_error)
 	{
 	}
 // New_torrent_settings <--

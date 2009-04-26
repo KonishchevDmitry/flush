@@ -1,4 +1,4 @@
-AC_INIT([Flush], [0.4.2], [konishchev@gmail.com])
+AC_INIT([Flush], [0.5], [konishchev@gmail.com])
 
 
 AC_CONFIG_SRCDIR([src/main.cpp])
@@ -60,22 +60,22 @@ dnl libtorrent <--
 
 dnl Configuring command line options -->
 	AC_ARG_ENABLE(debug_mode,
-		AS_HELP_STRING([--enable-debug-mode],
-			[enable debug mode for application]),
+		[AS_HELP_STRING([--enable-debug-mode],
+			[enable debug mode for application])],
 		[debug_mode=$enableval],
 		[debug_mode=no]
 	)
 
 	AC_ARG_ENABLE(develop_mode,
-		AS_HELP_STRING([--enable-develop-mode],
-			[enable develop mode for application (this mode is only for developer usage)]),
+		[AS_HELP_STRING([--enable-develop-mode],
+			[enable develop mode for application (this mode is only for developer usage)])],
 		[develop_mode=$enableval],
 		[develop_mode=no]
 	)
 
 	AC_ARG_ENABLE(bundle_package,
-		AS_HELP_STRING([--disable-bundle-package],
-			[disable creating bundle package which includes libconfig and libtorrent-rasterbar (only for package creating)]),
+		[AS_HELP_STRING([--disable-bundle-package],
+			[disable creating bundle package which includes libconfig and libtorrent-rasterbar (only for package creating)])],
 		[
 			if test "X$enableval" = "Xyes"
 			then
@@ -89,7 +89,7 @@ dnl Configuring command line options -->
 
 	AC_ARG_ENABLE([system_libconfig],
 		[AS_HELP_STRING([--enable-system-libconfig],
-			[use system libconfig library (only for bundle package])],
+			[use system libconfig library (only for bundle package)])],
 		[
 			if test "X$enableval" = "Xyes"
 			then
@@ -97,12 +97,12 @@ dnl Configuring command line options -->
 			else
 				package_libconfig=yes
 			fi
-		],
+		]
 	)
 
 	AC_ARG_ENABLE([system_libtorrent],
 		[AS_HELP_STRING([--enable-system-libtorrent],
-			[use system libtorrent-rasterbar library (only for bundle package])],
+			[use system libtorrent-rasterbar library (only for bundle package)])],
 		[
 			if test "X$enableval" = "Xyes"
 			then
@@ -110,8 +110,25 @@ dnl Configuring command line options -->
 			else
 				package_libtorrent=yes
 			fi
-		],
+		]
 	)
+
+	AC_ARG_ENABLE([inotify],
+		[AS_HELP_STRING([--disable-inotify],
+			[disable inotify support for application])],
+		[
+			if test "X$enableval" = "Xyes"
+			then
+				enable_inotify=yes
+			else
+				enable_inotify=no
+			fi
+		],
+		[
+			enable_inotify=yes
+		]
+	)
+
 
 	if test "X$develop_mode" = "Xyes"
 	then
@@ -189,6 +206,12 @@ dnl config.h -->
 	AH_TEMPLATE([MLIB_ENABLE_DBUS], [Enable DBus support for mlib])
 	AC_DEFINE([MLIB_ENABLE_DBUS])
 
+	AH_TEMPLATE([MLIB_ENABLE_INOTIFY], [Enable libinotify in mlib])
+	if test "X$enable_inotify" = "Xyes"
+	then
+		AC_DEFINE([MLIB_ENABLE_INOTIFY])
+	fi
+
 	AH_TEMPLATE([MLIB_ENABLE_LIBCONFIG], [Enable libconfig support for mlib])
 	AC_DEFINE([MLIB_ENABLE_LIBCONFIG])
 
@@ -202,6 +225,19 @@ dnl config.h -->
 #endif
 	])
 dnl config.h <--
+
+
+dnl Available libraries -->
+	if test "X$enable_inotify" = "Xyes"
+	then
+		AC_CHECK_HEADER([sys/inotify.h],
+			[],
+			[
+				AC_MSG_ERROR([unable to find inotify library. You may compile package without inotify library if it is not exists in your distro by --disable-inotify configure script option.])
+			]
+		)
+	fi
+dnl Available libraries <--
 
 
 dnl compiler flags -->

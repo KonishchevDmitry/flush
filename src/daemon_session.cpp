@@ -127,19 +127,17 @@ Daemon_session::Daemon_session(const std::string& config_dir_path)
 	}
 	// Задаем начальные настройки демона <--
 
-	// Обработчик сигнала на автоматическое сохранение текущей сессии -->
-		this->save_session_connection = Glib::signal_timeout().connect(
-			sigc::mem_fun(*this, &Daemon_session::on_save_session_callback),
-			SAVE_SESSION_TIMEOUT
-		);
-	// Обработчик сигнала на автоматическое сохранение текущей сессии <--
+	// Обработчик сигнала на автоматическое сохранение текущей сессии
+	this->save_session_connection = Glib::signal_timeout().connect(
+		sigc::mem_fun(*this, &Daemon_session::on_save_session_callback),
+		SAVE_SESSION_TIMEOUT
+	);
 
-	// Обработчик сигнала на обновление статистической информации о торрентах -->
-		this->update_torrents_statistics_connection = Glib::signal_timeout().connect(
-			sigc::mem_fun(*this, &Daemon_session::on_update_torrents_statistics_callback),
-			UPDATE_TORRENTS_STATISTICS_TIMEOUT * 1000 // раз в минуту
-		);
-	// Обработчик сигнала на обновление статистической информации о торрентах <--
+	// Обработчик сигнала на обновление статистической информации о торрентах
+	this->update_torrents_statistics_connection = Glib::signal_timeout().connect(
+		sigc::mem_fun(*this, &Daemon_session::on_update_torrents_statistics_callback),
+		UPDATE_TORRENTS_STATISTICS_TIMEOUT * 1000 // раз в минуту
+	);
 
 	// Обработчик сигнала на получение очередной resume data от libtorrent.
 	this->torrent_resume_data_signal.connect(
@@ -173,7 +171,7 @@ Daemon_session::Daemon_session(const std::string& config_dir_path)
 Daemon_session::~Daemon_session(void)
 {
 	#if 0
-		/// Сигнал на приостановку асинхронной файловой системы.
+		// Сигнал на приостановку асинхронной файловой системы.
 		this->async_fs_paused_connection.disconnect();
 	#endif
 
@@ -182,6 +180,10 @@ Daemon_session::~Daemon_session(void)
 
 	// Сигнал на обновление статистической информации о торрентах
 	this->update_torrents_statistics_connection.disconnect();
+
+	// Сигнал на появление новых торрентов для автоматического
+	// добавления.
+	this->fs_watcher_connection.disconnect();
 
 	// Останавливаем поток для получения сообщений от libtorrent -->
 		if(this->messages_thread)
@@ -205,8 +207,6 @@ Daemon_session::~Daemon_session(void)
 
 	// Сохраняем текущую сессию -->
 	{
-		Errors_pool errors;
-
 		try
 		{
 			this->save_session();
@@ -270,13 +270,20 @@ Daemon_session::~Daemon_session(void)
 
 void Daemon_session::add_torrent(const std::string& torrent_path, const New_torrent_settings& new_torrent_settings) throw(m::Exception)
 {
-	this->load_torrent(this->add_torrent_to_config(torrent_path, new_torrent_settings));
+	Torrent_id torrent_id;
+
+	torrent_id = this->add_torrent_to_config(torrent_path, new_torrent_settings);
+
+	if(torrent_id)
+		this->load_torrent(torrent_id);
 }
 
 
 
 Torrent_id Daemon_session::add_torrent_to_config(const std::string& torrent_path, const New_torrent_settings& new_torrent_settings) const throw(m::Exception)
 {
+	MLIB_D(_C("Adding torrent '%1' to config...", torrent_path));
+
 	// Получаем базовую информацию о торренте.
 	// Генерирует m::Exception
 	Torrent_id torrent_id = ::m::lt::get_torrent_info(torrent_path).info_hash();
@@ -284,7 +291,15 @@ Torrent_id Daemon_session::add_torrent_to_config(const std::string& torrent_path
 
 	// Проверяем, нет ли уже торрента с таким идентификатором в текущей сессии
 	if(this->is_torrent_exists(torrent_id))
-		M_THROW(_("This torrent is already exists in the current session."));
+	{
+		if(new_torrent_settings.duplicate_is_error)
+			M_THROW(_("This torrent is already exists in the current session."));
+		else
+		{
+			MLIB_D(_C("Torrent '%1' is already exists in the current session.", torrent_path));
+			return Torrent_id();
+		}
+	}
 
 	// Создаем директорию, в которой будет храниться
 	// информация о торренте.
@@ -476,6 +491,136 @@ void Daemon_session::add_torrent_to_session(lt::torrent_info torrent_info, const
 
 
 
+void Daemon_session::auto_load_if_torrent(const std::string& torrent_path) throw(m::Exception)
+{
+	bool is_torrent_file = false;
+
+	MLIB_D(_C("Checking torrent '%1' for auto loading...", torrent_path));
+
+	// Проверяем, действительно ли это *.torrent файл -->
+		try
+		{
+			m::fs::Stat file_stat = m::fs::unix_stat(torrent_path);
+
+			if(file_stat.is_reg() && m::fs::check_extension(torrent_path, "torrent"))
+				is_torrent_file = true;
+		}
+		catch(m::Exception& e)
+		{
+			M_THROW(__("Can't stat torrent file: %1.", EE(e)));
+		}
+	// Проверяем, действительно ли это *.torrent файл <--
+
+	if(is_torrent_file)
+	{
+		MLIB_D(_C("Auto loading torrent '%1'...", torrent_path));
+
+		// Добавляем торрент в сессию -->
+			this->add_torrent(
+				torrent_path,
+				New_torrent_settings(
+					true, this->settings.torrents_auto_load.to,
+					(
+						this->settings.torrents_auto_load.copy
+						?
+							this->settings.torrents_auto_load.copy_to
+						:
+							""
+					),
+					std::vector<Torrent_file_settings>(), false
+				)
+			);
+		// Добавляем торрент в сессию <--
+
+		// Удаляем загруженный *.torrent файл -->
+			if(this->settings.torrents_auto_load.delete_loaded)
+			{
+				try
+				{
+					m::fs::rm(torrent_path);
+				}
+				catch(m::Exception& e)
+				{
+					MLIB_W(
+						_("Deleting automatically loaded *.torrent file failed"),
+						__(
+							"Can't delete automatically loaded *.torrent file '%1': %2.",
+							torrent_path, EE(e)
+						)
+					);
+				}
+			}
+		// Удаляем загруженный *.torrent файл <--
+	}
+}
+
+
+
+void Daemon_session::auto_load_torrents(void)
+{
+	Errors_pool errors;
+	std::string torrent_path;
+
+	while(this->fs_watcher.get(&torrent_path))
+	{
+		// Появился новый файл
+		if(torrent_path != "")
+		{
+			try
+			{
+				this->auto_load_if_torrent(torrent_path);
+			}
+			catch(m::Exception& e)
+			{
+				errors += __(
+					"Automatic loading the torrent '%1' failed. %2",
+					torrent_path, EE(e)
+				);
+			}
+		}
+		// Директория была перемещена/удалена
+		else
+		{
+			if(errors)
+			{
+				MLIB_W(
+					_("Automatic torrents loading failed"),
+					__("Automatic torrents loading failed. %1", EE(errors))
+				);
+
+				errors = Errors_pool();
+			}
+
+			MLIB_W(
+				_("Automatic torrents loading failed"),
+				__(
+					"Automatic torrents loading failed: directory '%1' has been deleted or moved.",
+					this->settings.torrents_auto_load.from
+				)
+			);
+
+			// "Сбрасываем" мониторинг
+			this->fs_watcher.unset_watching_directory();
+
+			// Выкидываем все, что осталось в очереди
+			this->fs_watcher.clear();
+
+			// Оключаем мониторинг в настройках
+			this->settings.torrents_auto_load.is = false;
+		}
+	}
+
+	if(errors)
+	{
+		MLIB_W(
+			_("Automatic torrents loading failed"),
+			__("Automatic torrents loading failed. %1", EE(errors))
+		);
+	}
+}
+
+
+
 void Daemon_session::automate(void)
 {
 	if(this->settings.auto_delete_torrents)
@@ -499,7 +644,10 @@ void Daemon_session::automate(void)
 								this->settings.auto_delete_torrents_max_seed_time >= 0 &&
 								torrent.time_seeding >= this->settings.auto_delete_torrents_max_seed_time
 							) ||
-							Torrent_info(torrent).get_share_ratio() >= this->settings.auto_delete_torrents_max_share_ratio
+							(
+								this->settings.auto_delete_torrents_max_share_ratio > 0 &&
+								Torrent_info(torrent).get_share_ratio() >= this->settings.auto_delete_torrents_max_share_ratio
+							)
 						)
 					)
 					{
@@ -679,7 +827,7 @@ Daemon_settings Daemon_session::get_settings(void) const
 	Daemon_settings settings = this->settings;
 
 	settings.listen_port = this->session->is_listening() ? this->session->listen_port() : -1;
-	
+
 	settings.dht = this->is_dht_started();
 
 	if(settings.dht)
@@ -925,6 +1073,56 @@ void Daemon_session::load_torrent(const Torrent_id& torrent_id) throw(m::Excepti
 	add_torrent_to_session(torrent_info, torrent_settings);
 
 	MLIB_D(_C("Torrent '%1' has been loaded.", torrent_id));
+}
+
+
+
+void Daemon_session::load_torrents_from_auto_load_dir(void) throw(m::Exception)
+{
+	if(this->settings.torrents_auto_load.is)
+	{
+		Path torrents_dir_path = this->settings.torrents_auto_load.from;
+
+		// Загружаем каждый торрент в директории -->
+			try
+			{
+				Errors_pool errors;
+
+				for
+				(
+					fs::directory_iterator dir_it(U2L(torrents_dir_path.string()));
+					dir_it != fs::directory_iterator();
+					dir_it++
+				)
+				{
+					std::string torrent_path = L2U( dir_it->path().string() );
+
+					try
+					{
+						auto_load_if_torrent(torrent_path);
+					}
+					catch(m::Exception& e)
+					{
+						errors += __(
+							"Automatic loading the torrent '%1' failed. %2",
+							torrent_path, EE(e)
+						);
+					}
+				}
+
+				errors.throw_if_exists();
+			}
+			catch(fs::filesystem_error& e)
+			{
+				M_THROW(
+					__(
+						"Can't read directory '%1' for automatic torrents loading: %2.",
+						torrents_dir_path, EE(e)
+					)
+				);
+			}
+		// Загружаем каждый торрент в директории <--
+	}
 }
 
 
@@ -1379,7 +1577,7 @@ void Daemon_session::set_copy_when_finished(Torrent& torrent, bool copy, const s
 {
 	if(copy && !Path(to).is_absolute())
 		M_THROW(__("Invalid copy when finished to path '%1'.", to));
-	
+
 	torrent.download_settings.copy_when_finished = copy;
 	torrent.download_settings.copy_when_finished_to = to;
 
@@ -1570,38 +1768,101 @@ void Daemon_session::set_settings(const Daemon_settings& settings, const bool in
 	if(this->get_rate_limit(UPLOAD) != settings.upload_rate_limit || init_settings)
 		this->set_rate_limit(UPLOAD, settings.upload_rate_limit);
 
-	/// Максимальное количество соединений для раздачи,
-	/// которое может быть открыто.
+	// Максимальное количество соединений для раздачи,
+	// которое может быть открыто.
 	if(this->settings.max_uploads != settings.max_uploads || init_settings)
 	{
 		this->settings.max_uploads = settings.max_uploads;
 		this->session->set_max_uploads(settings.max_uploads);
 	}
 
-	/// Максимальное количество соединений, которое может
-	/// быть открыто.
+	// Максимальное количество соединений, которое может
+	// быть открыто.
 	if(this->settings.max_connections != settings.max_connections || init_settings)
 	{
 		this->settings.max_connections = settings.max_connections;
 		this->session->set_max_connections(settings.max_connections);
 	}
 
+	// Настройки автоматической "подгрузки" *.torrent файлов. -->
+	{
+		Daemon_settings::Torrents_auto_load& auto_load = this->settings.torrents_auto_load;
 
-	/// Удалять старые торренты или нет.
+		// Если настройки не эквивалентны
+		if(!auto_load.equal(settings.torrents_auto_load))
+		{
+			// "Сбрасываем" мониторинг
+			this->fs_watcher.unset_watching_directory();
+
+			// Загружаем оставшиеся в очереди торренты со старыми
+			// настройками.
+			this->auto_load_torrents();
+
+			// Получаем новые настройки
+			auto_load = settings.torrents_auto_load;
+
+			if(auto_load.is)
+			{
+				// Вносим изменения в мониторинг -->
+					try
+					{
+						this->fs_watcher.set_watching_directory(auto_load.from);
+					}
+					catch(m::Exception& e)
+					{
+						auto_load.is = false;
+
+						MLIB_W(
+							_("Setting directory for automatic torrents loading failed"),
+							__(
+								"Can't set directory '%1' for automatic torrents loading. %2",
+								auto_load.from, EE(e)
+							)
+						);
+					}
+				// Вносим изменения в мониторинг <--
+
+				// Также загружаем все торренты, которые в данный момент
+				// присутствуют в директории, но только если эти настройки
+				// задаются не на этапе инициализации. В противном случае
+				// это необходимо сделать потом - после того, как будут
+				// загружены все торренты из прошлой сессии.
+				// -->
+					if(!init_settings)
+					{
+						try
+						{
+							this->load_torrents_from_auto_load_dir();
+						}
+						catch(m::Exception& e)
+						{
+							MLIB_W(
+								_("Automatic torrents loading failed"), EE(e)
+							);
+						}
+					}
+				// <--
+			}
+		}
+		else
+			auto_load = settings.torrents_auto_load;
+	}
+	// Настройки автоматической "подгрузки" *.torrent файлов. <--
+
+	// Удалять старые торренты или нет.
 	this->settings.auto_delete_torrents = settings.auto_delete_torrents;
 
-	/// Удалять старые торренты вместе с данными или нет.
+	// Удалять старые торренты вместе с данными или нет.
 	this->settings.auto_delete_torrents_with_data = settings.auto_delete_torrents_with_data;
 
-	/// Максимальное время жизни торрента (cек).
+	// Максимальное время жизни торрента (cек).
 	this->settings.auto_delete_torrents_max_seed_time = settings.auto_delete_torrents_max_seed_time;
 
-	/// Максимальный рейтинг торрента.
+	// Максимальный рейтинг торрента.
 	this->settings.auto_delete_torrents_max_share_ratio = settings.auto_delete_torrents_max_share_ratio;
 
-	/// Максимальное количество раздающих торрентов.
+	// Максимальное количество раздающих торрентов.
 	this->settings.auto_delete_torrents_max_seeds = settings.auto_delete_torrents_max_seeds;
-
 
 	// Если изменение настроек повлияло на автоматизацию
 	// действий.
@@ -1642,6 +1903,43 @@ void Daemon_session::set_torrent_trackers(Torrent& torrent, const std::vector<st
 	{
 		MLIB_LE();
 	}
+}
+
+
+
+void Daemon_session::start(void)
+{
+	// Загружаем все торренты из прошлой сессии -->
+		try
+		{
+			this->load_torrents_from_config();
+		}
+		catch(m::Exception& e)
+		{
+			MLIB_W(EE(e));
+		}
+	// Загружаем все торренты из прошлой сессии <--
+
+	// После того, как торренты из прошлой сессии загружены, можно запустить
+	// подсистему автоматической подгрузки новых торрентов.
+	// -->
+		try
+		{
+			this->load_torrents_from_auto_load_dir();
+		}
+		catch(m::Exception& e)
+		{
+			MLIB_W(
+				_("Automatic torrents loading failed"), EE(e)
+			);
+		}
+
+		// Обработчик сигнала на появление новых торрентов для автоматического
+		// добавления.
+		this->fs_watcher_connection = this->fs_watcher.connect(
+			sigc::mem_fun(*this, &Daemon_session::auto_load_torrents)
+		);
+	// <--
 }
 
 

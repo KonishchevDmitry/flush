@@ -35,6 +35,7 @@
 
 	#include <glibmm/dispatcher.h>
 
+	#include <mlib/fs_watcher.hpp>
 	#include <mlib/libtorrent.hpp>
 
 	#include "daemon_fs.hpp"
@@ -170,6 +171,15 @@
 			sigc::connection				update_torrents_statistics_connection;
 
 
+			/// Объект, с помощью которого производятся наблюдения за
+			/// изменениями в файловой системе.
+			m::Fs_watcher					fs_watcher;
+
+			/// Сигнал на появление новых торрентов для автоматического
+			/// добавления.
+			sigc::connection				fs_watcher_connection;
+
+
 			/// Текущая libtorrent сессия.
 			lt::session*					session;
 
@@ -224,6 +234,13 @@
 		protected:
 			/// Сохраняет торрент torrent_path в папку, в которой
 			/// хранятся все загруженные торренты.
+			///
+			/// @return - валидный Torrent_id, если торрент был добавлен в
+			/// конфиг. Если торрент не был добавлен в конфиг, и это не является
+			/// ошибкой, то возвращает невалидный Torrent_id. Это может
+			/// произойти, к примеру, когда добавляется торрент, который уже
+			/// присутствует в сессии, но в настройках было указано, что
+			/// добавление торрента-дубликата не является ошибкой.
 			Torrent_id					add_torrent_to_config(const std::string& torrent_path, const New_torrent_settings& new_torrent_settings) const throw(m::Exception);
 
 			/// Добавляет торрент к сессии.
@@ -270,11 +287,6 @@
 			/// Проверяет, существует ли в текущей сессии торрент с таким идентификатором.
 			bool						is_torrent_exists(const Torrent_id& torrent_id) const;
 
-			/// Загружает все сохраненные торренты.
-			/// Запускается при старте демона, чтобы добавить
-			/// все торренты из прошлой сессии.
-			void						load_torrents_from_config(void) throw(m::Exception);
-
 			/// Приостанавливает работу с торрентом.
 			void						pause_torrent(Torrent& torrent);
 
@@ -317,11 +329,22 @@
 			/// Задает список трекеров торрента.
 			void						set_torrent_trackers(Torrent& torrent, const std::vector<std::string>& trackers);
 
+			/// Запускает сессию.
+			void						start(void);
+
 		private:
 			/// Выполняет все необходимые действия по автоматизации некоторых
 			/// операций. К примеру, если пришло время удалить старые торренты,
 			/// то удаляет их.
 			void						automate(void);
+
+			/// Выполняет все необходимые действия для автоматической загрузки
+			/// торрента torrent_path, если он является торрентом.
+			void						auto_load_if_torrent(const std::string& torrent_path) throw(m::Exception);
+
+			/// Загружает торренты, которые находятся в данный момент в очереди
+			/// на автоматическую подгрузку.
+			void						auto_load_torrents(void);
 
 			/// Возвращает список трекеров торрента.
 			std::vector<std::string>	get_torrent_trackers(const Torrent& torrent) const;
@@ -331,6 +354,15 @@
 
 			/// Загружает торрент в сессию по его идентификатору.
 			void						load_torrent(const Torrent_id& torrent_id) throw(m::Exception);
+
+			/// Загружает торренты из директории для автоматической загрузки
+			/// торрентов, если это необходимо.
+			void						load_torrents_from_auto_load_dir(void) throw(m::Exception);
+
+			/// Загружает все сохраненные торренты.
+			/// Запускается при старте демона, чтобы добавить
+			/// все торренты из прошлой сессии.
+			void						load_torrents_from_config(void) throw(m::Exception);
 
 #if 0
 			// Обработчик сигнала на приостановку асинхронной файловой системы.

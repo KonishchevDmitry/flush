@@ -767,6 +767,26 @@ namespace fs
 
 
 
+const size_t MAX_FILE_PATH_SIZE = 1024;
+
+
+
+bool check_extension(const std::string& file_name, const std::string& extension)
+{
+	size_t name_size = file_name.size();
+	size_t ext_size = extension.size();
+
+	if(
+		name_size > ext_size &&
+		file_name.substr(name_size - ext_size - 1) == "." + extension
+	)
+		return true;
+	
+	return false;
+}
+
+
+
 void copy_file(const std::string& from_path, const std::string& to_path, bool error_on_exists) throw(m::Exception)
 {
 	// TODO:
@@ -1095,7 +1115,7 @@ Stat unix_fstat(int fd) throw(m::Exception)
 {
 	struct stat stat_buf;
 
-	if(::fstat(fd, &stat_buf))
+	if(fstat(fd, &stat_buf))
 		M_THROW(EE(errno));
 
 	return stat_buf;
@@ -1123,7 +1143,7 @@ Stat unix_lstat(const std::string& path) throw(m::Exception)
 {
 	struct stat stat_buf;
 
-	if(::lstat(U2L(path).c_str(), &stat_buf))
+	if(lstat(U2L(path).c_str(), &stat_buf))
 		M_THROW(EE(errno));
 
 	return stat_buf;
@@ -1133,7 +1153,7 @@ Stat unix_lstat(const std::string& path) throw(m::Exception)
 
 void unix_mkdir(const std::string& path) throw(m::Exception)
 {
-	if(::mkdir(U2L(path).c_str(), 0777))
+	if(mkdir(U2L(path).c_str(), 0777))
 		M_THROW(EE(errno));
 }
 
@@ -1156,7 +1176,7 @@ std::string unix_readlink(const std::string& path) throw(m::Exception)
 	char target_path_buf[M_FILE_PATH_MAX_SIZE];
 	int written_bytes;
 
-	written_bytes = ::readlink(U2L(path).c_str(), target_path_buf, M_FILE_PATH_MAX_SIZE);
+	written_bytes = readlink(U2L(path).c_str(), target_path_buf, M_FILE_PATH_MAX_SIZE);
 
 	if(written_bytes >= M_FILE_PATH_MAX_SIZE)
 		M_THROW(_("too big link target path"));
@@ -1170,9 +1190,29 @@ std::string unix_readlink(const std::string& path) throw(m::Exception)
 
 
 
+ssize_t unix_read(int fd, void* buf, size_t size) throw(m::Exception)
+{
+	ssize_t readed_bytes;
+
+	while(1)
+	{
+		if( (readed_bytes = read(fd, buf, size)) < 0 )
+		{
+			if(errno == EINTR)
+				continue;
+			else
+				M_THROW(strerror(errno));
+		}
+		else
+			return readed_bytes;
+	}
+}
+
+
+
 void unix_rename(const std::string& from, const std::string& to) throw(m::Exception)
 {
-	if(::rename(U2L(from).c_str(), U2L(to).c_str()))
+	if(rename(U2L(from).c_str(), U2L(to).c_str()))
 		M_THROW(EE(errno));
 }
 
@@ -1180,7 +1220,7 @@ void unix_rename(const std::string& from, const std::string& to) throw(m::Except
 
 void unix_rmdir(const std::string& path) throw(m::Exception)
 {
-	if(::rmdir(U2L(path).c_str()))
+	if(rmdir(U2L(path).c_str()))
 		M_THROW(EE(errno));
 }
 
@@ -1190,7 +1230,7 @@ Stat unix_stat(const std::string& path) throw(m::Exception)
 {
 	struct stat stat_buf;
 
-	if(::stat(U2L(path).c_str(), &stat_buf))
+	if(stat(U2L(path).c_str(), &stat_buf))
 		M_THROW(EE(errno));
 
 	return stat_buf;
@@ -1200,7 +1240,7 @@ Stat unix_stat(const std::string& path) throw(m::Exception)
 
 void unix_symlink(const std::string& old_path, const std::string& new_path) throw(m::Exception)
 {
-	if(::symlink(U2L(old_path).c_str(), U2L(new_path).c_str()) < 0)
+	if(symlink(U2L(old_path).c_str(), U2L(new_path).c_str()) < 0)
 		M_THROW(EE(errno));
 }
 
@@ -1208,7 +1248,7 @@ void unix_symlink(const std::string& old_path, const std::string& new_path) thro
 
 void unix_unlink(const std::string& path) throw(m::Exception)
 {
-	if(::unlink(U2L(path).c_str()))
+	if(unlink(U2L(path).c_str()))
 		M_THROW(EE(errno));
 }
 
@@ -1220,7 +1260,7 @@ void unix_utime(const std::string& path, const Stat& file_stat)
 	time_buf.actime = file_stat.atime;
 	time_buf.modtime = file_stat.mtime;
 
-	if(::utime(U2L(path).c_str(), &time_buf))
+	if(utime(U2L(path).c_str(), &time_buf))
 		M_THROW(EE(errno));
 }
 

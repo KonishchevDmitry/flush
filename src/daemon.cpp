@@ -176,13 +176,6 @@ void Daemon::start(void) throw(m::Exception)
 		M_THROW(__("Can't start daemon. Creating config directories failed. %1", EE(e)));
 	}
 
-	try
-	{
-		this->load_torrents_from_config();
-	}
-	catch(m::Exception& e)
-	{
-		MLIB_W(EE(e));
-	}
+	Daemon_session::start();
 }
 

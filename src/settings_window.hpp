@@ -165,6 +165,17 @@
 				// Network <--
 
 				// Automation -->
+					Gtk::VBox				auto_load_torrents_vbox;
+					Gtk::CheckButton		auto_load_torrents;
+					Gtk::FileChooserDialog	auto_load_torrents_from_dialog;
+					Gtk::FileChooserButton	auto_load_torrents_from_button;
+					Gtk::FileChooserDialog	auto_load_torrents_to_dialog;
+					Gtk::FileChooserButton	auto_load_torrents_to_button;
+					Gtk::CheckButton		auto_load_torrents_copy_to;
+					Gtk::FileChooserDialog	auto_load_torrents_copy_to_dialog;
+					Gtk::FileChooserButton	auto_load_torrents_copy_to_button;
+					Gtk::CheckButton		auto_load_torrents_delete_loaded;
+
 					Gtk::VBox				auto_delete_torrents_vbox;
 					Gtk::CheckButton		auto_delete_torrents;
 					Gtk::CheckButton		auto_delete_torrents_with_data;
@@ -187,6 +198,13 @@
 
 			/// Обработчик сигнала на переключение флажка "автоматически удалять торренты".
 			void			on_auto_delete_torrents_toggled_callback(void);
+
+			/// Обработчик сигнала на переключение флажка "автоматически загружать торренты".
+			void			on_auto_load_torrents_toggled_callback(void);
+
+			/// Обработчик сигнала на переключение флажка "копировать
+			/// автоматически загружаемые торренты в...".
+			void			on_auto_load_torrents_copy_to_toggled_callback(void);
 
 			/// Обработчик сигнала на нажатие на кнопку "Cancel".
 			void			on_cancel_button_callback(void);

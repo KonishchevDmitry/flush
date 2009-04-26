@@ -10,6 +10,8 @@ libmlib_a_SOURCES = \
 	fs.cpp \
 	fs.hh \
 	fs.hpp \
+	fs_watcher.cpp \
+	fs_watcher.hpp \
 	libtorrent.cpp \
 	libtorrent.hh \
 	libtorrent.hpp \

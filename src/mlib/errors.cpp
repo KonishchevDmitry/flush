@@ -151,6 +151,13 @@ std::string get(const m::Exception& error)
 	return error.what();
 }
 
+
+
+std::string get(const m::Errors_pool& errors)
+{
+	return errors;
+}
+
 }}
 
 

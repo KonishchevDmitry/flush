@@ -15,6 +15,7 @@
 	#include "mlib/async_fs.hpp"
 	#include "mlib/errors.hpp"
 	#include "mlib/fs.hpp"
+	#include "mlib/fs_watcher.hpp"
 	#include "mlib/libtorrent.hpp"
 	#include "mlib/messages.hpp"
 	#include "mlib/misc.hpp"
