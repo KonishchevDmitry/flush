@@ -20,6 +20,7 @@
 
 
 #include <deque>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
@@ -268,11 +269,11 @@ Daemon_session::~Daemon_session(void)
 
 
 
-void Daemon_session::add_torrent(const std::string& torrent_path, const New_torrent_settings& new_torrent_settings) throw(m::Exception)
+void Daemon_session::add_torrent(const std::string& torrent_path, const New_torrent_settings& new_torrent_settings, bool error_if_not_exists) throw(m::Exception)
 {
 	Torrent_id torrent_id;
 
-	torrent_id = this->add_torrent_to_config(torrent_path, new_torrent_settings);
+	torrent_id = this->add_torrent_to_config(torrent_path, new_torrent_settings, error_if_not_exists);
 
 	if(torrent_id)
 		this->load_torrent(torrent_id);
@@ -280,13 +281,45 @@ void Daemon_session::add_torrent(const std::string& torrent_path, const New_torr
 
 
 
-Torrent_id Daemon_session::add_torrent_to_config(const std::string& torrent_path, const New_torrent_settings& new_torrent_settings) const throw(m::Exception)
+Torrent_id Daemon_session::add_torrent_to_config(const std::string& torrent_path, const New_torrent_settings& new_torrent_settings, bool error_if_not_exists) const throw(m::Exception)
 {
 	MLIB_D(_C("Adding torrent '%1' to config...", torrent_path));
 
-	// Получаем базовую информацию о торренте.
-	// Генерирует m::Exception
-	Torrent_id torrent_id = ::m::lt::get_torrent_info(torrent_path).info_hash();
+	m::Buffer torrent_data;
+	std::auto_ptr<lt::torrent_info> torrent_info;
+
+	// Получаем данные торрента -->
+		try
+		{
+			torrent_data.load_file(torrent_path);
+		}
+		catch(m::Sys_exception& e)
+		{
+			// No such file or directory
+			if(e.errno_val == ENOENT && !error_if_not_exists)
+			{
+				MLIB_D(_C("Torrent file '%1' is already not exists. Skiping it...", torrent_path));
+				return Torrent_id();
+			}
+			else
+				M_THROW(__("Error while reading torrent file '%1': %2.", torrent_path, EE(e)));
+		}
+	// Получаем данные торрента <--
+
+	// Получаем информацию о торренте -->
+		try
+		{
+			torrent_info = std::auto_ptr<lt::torrent_info>(
+				new lt::torrent_info(m::lt::get_torrent_info(torrent_data))
+			);
+		}
+		catch(m::Exception& e)
+		{
+			M_THROW(__("Error while reading torrent file '%1': %2.", torrent_path, EE(e)));
+		}
+	// Получаем информацию о торренте <--
+
+	Torrent_id torrent_id = torrent_info->info_hash();
 	std::string torrent_dir_path = this->get_torrent_dir_path(torrent_id);
 
 	// Проверяем, нет ли уже торрента с таким идентификатором в текущей сессии
@@ -319,12 +352,28 @@ Torrent_id Daemon_session::add_torrent_to_config(const std::string& torrent_path
 
 	try
 	{
-		std::string torrent_dest_path = Path(torrent_dir_path) / TORRENT_FILE_NAME;
+		size_t files_num;
+		std::string torrent_name;
+		std::vector<std::string> trackers;
 
-		// Копируем *.torrent файл в его папку -->
+		// Получаем информацию о торренте -->
+			files_num = torrent_info->num_files();
+			torrent_name = torrent_info->name();
+			trackers = m::lt::get_torrent_trackers(*torrent_info);
+
+			// Массив либо должен быть пуст, либо в нем должно быть такое
+			// количество файлов, как и в открываемом торренте.
+			if(!new_torrent_settings.files_settings.empty() && new_torrent_settings.files_settings.size() != files_num)
+				M_THROW(__("Torrent file '%1' has been changed while it's been processed.", torrent_path));
+		// Получаем информацию о торренте <--
+
+		// Сохраняем *.torrent файл в его папку -->
+		{
+			std::string torrent_dest_path = Path(torrent_dir_path) / TORRENT_FILE_NAME;
+
 			try
 			{
-				m::fs::copy_file(torrent_path, torrent_dest_path);
+				torrent_data.write_file(torrent_dest_path);
 			}
 			catch(m::Exception& e)
 			{
@@ -333,34 +382,8 @@ Torrent_id Daemon_session::add_torrent_to_config(const std::string& torrent_path
 					torrent_path, m::fs::get_abs_path_lazy(torrent_dest_path), EE(e)
 				));
 			}
-		// Копируем *.torrent файл в его папку <--
-
-		// После того, как мы скопировали торрент, у нас появилась гарантия,
-		// что его никто не изменит.
-
-		size_t files_num;
-		std::string torrent_name;
-		std::vector<std::string> trackers;
-
-		// Загружаем торрент -->
-		{
-			// Генерирует m::Exception
-			lt::torrent_info torrent_info = m::lt::get_torrent_info(torrent_path);
-
-			files_num = torrent_info.num_files();
-			torrent_name = torrent_info.name();
-			trackers = m::lt::get_torrent_trackers(torrent_info);
-
-			// Проверяем, чтобы файл не изменился
-			if(torrent_id != torrent_info.info_hash())
-				M_THROW(__("Torrent file '%1' has been changed while it's been processed.", torrent_path));
-
-			// Массив либо должен быть пуст, либо в нем должно быть такое
-			// количество файлов, как и в открываемом торренте.
-			if(!new_torrent_settings.files_settings.empty() && new_torrent_settings.files_settings.size() != files_num)
-				M_THROW(__("Torrent file '%1' has been changed while it's been processed.", torrent_path));
 		}
-		// Загружаем торрент <--
+		// Сохраняем *.torrent файл в его папку <--
 
 		// Сохраняем конфигурационный файл торрента -->
 			Torrent_settings(
@@ -498,16 +521,22 @@ void Daemon_session::auto_load_if_torrent(const std::string& torrent_path) throw
 	MLIB_D(_C("Checking torrent '%1' for auto loading...", torrent_path));
 
 	// Проверяем, действительно ли это *.torrent файл -->
-		try
+		if(m::fs::check_extension(torrent_path, "torrent"))
 		{
-			m::fs::Stat file_stat = m::fs::unix_stat(torrent_path);
+			try
+			{
+				m::fs::Stat file_stat = m::fs::unix_stat(torrent_path);
 
-			if(file_stat.is_reg() && m::fs::check_extension(torrent_path, "torrent"))
-				is_torrent_file = true;
-		}
-		catch(m::Exception& e)
-		{
-			M_THROW(__("Can't stat torrent file: %1.", EE(e)));
+				if(file_stat.is_reg())
+					is_torrent_file = true;
+			}
+			catch(m::Sys_exception& e)
+			{
+				if(e.errno_val == ENOENT)
+					MLIB_D("File already is not exists.");
+				else
+					M_THROW(__("Can't stat torrent file: %1.", EE(e)));
+			}
 		}
 	// Проверяем, действительно ли это *.torrent файл <--
 
@@ -528,7 +557,8 @@ void Daemon_session::auto_load_if_torrent(const std::string& torrent_path) throw
 							""
 					),
 					std::vector<Torrent_file_settings>(), false
-				)
+				),
+				false
 			);
 		// Добавляем торрент в сессию <--
 
@@ -537,7 +567,7 @@ void Daemon_session::auto_load_if_torrent(const std::string& torrent_path) throw
 			{
 				try
 				{
-					m::fs::rm(torrent_path);
+					m::fs::rm_if_exists(torrent_path);
 				}
 				catch(m::Exception& e)
 				{

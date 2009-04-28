@@ -195,7 +195,11 @@
 
 		public:
 			/// Добавляет в сессию новый торрент файл.
-			void						add_torrent(const std::string& torrent_path, const New_torrent_settings& torrent_settings) throw(m::Exception);
+			///
+			/// @param torrent_path - путь к файлу торрента.
+			/// @param error_if_not_exists - определяет, является ли ошибкой,
+			/// если файл торрента уже не существует.
+			void						add_torrent(const std::string& torrent_path, const New_torrent_settings& torrent_settings, bool error_if_not_exists = true) throw(m::Exception);
 
 			/// Записывает в messages сообщения демона, если они есть.
 			void						get_messages(std::deque<Daemon_message>& messages);
@@ -235,13 +239,17 @@
 			/// Сохраняет торрент torrent_path в папку, в которой
 			/// хранятся все загруженные торренты.
 			///
+			/// @param torrent_path - путь к файлу торрента.
+			/// @param error_if_not_exists - определяет, является ли ошибкой,
+			/// если файл торрента уже не существует.
+			///
 			/// @return - валидный Torrent_id, если торрент был добавлен в
 			/// конфиг. Если торрент не был добавлен в конфиг, и это не является
 			/// ошибкой, то возвращает невалидный Torrent_id. Это может
 			/// произойти, к примеру, когда добавляется торрент, который уже
 			/// присутствует в сессии, но в настройках было указано, что
 			/// добавление торрента-дубликата не является ошибкой.
-			Torrent_id					add_torrent_to_config(const std::string& torrent_path, const New_torrent_settings& new_torrent_settings) const throw(m::Exception);
+			Torrent_id					add_torrent_to_config(const std::string& torrent_path, const New_torrent_settings& new_torrent_settings, bool error_if_not_exists) const throw(m::Exception);
 
 			/// Добавляет торрент к сессии.
 			void						add_torrent_to_session(lt::torrent_info torrent_info, const Torrent_settings& torrent_settings);

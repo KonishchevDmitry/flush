@@ -140,6 +140,13 @@ namespace
 
 
 
+	Buffer::Buffer(const Buffer& buffer)
+	{
+		*this = buffer;
+	}
+
+
+
 	Buffer::~Buffer(void)
 	{
 		::m::realloc(buf, 0);
@@ -173,33 +180,36 @@ namespace
 
 
 
-	void Buffer::load_file(const std::string &file_path) throw(m::Exception)
+	void Buffer::load_file(const std::string &file_path) throw(m::Sys_exception)
 	{
-		std::ifstream file;
-
-		file.open(U2L(file_path).c_str(), std::ios::in | std::ios::binary);
-
-		if(!file)
-			M_THROW(EE(file));
-
-		while(!file.eof())
+		try
 		{
-			if(this->get_size() >= BUFFER_MAX_FILE_SIZE)
-				M_THROW(_("file too big"));
+			std::ifstream file;
+			file.exceptions(file.failbit | file.badbit);
 
-			this->reserve(IO_BUF_SIZE);
+			file.open(U2L(file_path).c_str(), file.in | file.binary);
+			file.exceptions(file.badbit);
 
-			file.read(this->get_cur_ptr(), IO_BUF_SIZE);
-			if(file.bad())
-				M_THROW(EE(file));
+			while(!file.eof())
+			{
+				if(this->get_size() >= BUFFER_MAX_FILE_SIZE)
+				{
+					// strerror == "File too large"
+					M_THROW_SYS(EFBIG);
+				}
 
-			*this += file.gcount();
+				this->reserve(IO_BUF_SIZE);
+
+				file.read(this->get_cur_ptr(), IO_BUF_SIZE);
+				*this += file.gcount();
+			}
+
+			file.close();
 		}
-
-		file.close();
-
-		if(file.bad())
-			M_THROW(EE(file));
+		catch(std::ofstream::failure& e)
+		{
+			M_THROW_SYS(errno);
+		}
 	}
 
 
@@ -226,6 +236,38 @@ namespace
 			MLIB_E(_("Buffer positioning error."));
 		
 		this->pos = new_pos;
+		return *this;
+	}
+
+
+
+	void Buffer::write_file(const std::string& file_path) const throw(m::Sys_exception)
+	{
+		try
+		{
+			std::ofstream file;
+
+			file.exceptions(file.eofbit | file.failbit | file.badbit);
+			file.open(U2L(file_path).c_str(), file.out | file.binary | file.trunc);
+			file.write(this->get_data(), this->get_size());
+			file.close();
+		}
+		catch(std::ofstream::failure& e)
+		{
+			M_THROW_SYS(errno);
+		}
+	}
+
+
+
+	Buffer &Buffer::operator=(const Buffer& buffer)
+	{
+		if(this != &buffer)
+		{
+			this->resize(buffer.get_size());
+			memcpy(this->get_data(), buffer.get_data(), buffer.get_size());
+		}
+
 		return *this;
 	}
 

@@ -369,40 +369,40 @@
 		void			rm_if_exists(const std::string& path) throw(m::Exception);
 
 		/// Аналог системного fstat.
-		Stat			unix_fstat(int fd) throw(m::Exception);
+		Stat			unix_fstat(int fd) throw(m::Sys_exception);
 
 		/// Аналог системного get_cwd.
-		std::string		unix_get_cwd(void) throw(m::Exception);
+		std::string		unix_get_cwd(void) throw(m::Sys_exception);
 
 		/// Аналог системного lstat.
-		Stat			unix_lstat(const std::string& path) throw(m::Exception);
+		Stat			unix_lstat(const std::string& path) throw(m::Sys_exception);
 
 		/// Аналог системного mkdir.
-		void			unix_mkdir(const std::string& path) throw(m::Exception);
+		void			unix_mkdir(const std::string& path) throw(m::Sys_exception);
 
 		/// Аналог системного open.
-		int				unix_open(const std::string& path, int flags, mode_t mode = 0) throw(m::Exception);
+		int				unix_open(const std::string& path, int flags, mode_t mode = 0) throw(m::Sys_exception);
 
 		/// Аналог системного read.
-		ssize_t			unix_read(int fd, void* buf, size_t size) throw(m::Exception);
+		ssize_t			unix_read(int fd, void* buf, size_t size) throw(m::Sys_exception);
 
 		/// Аналог системного readlink.
-		std::string		unix_readlink(const std::string& path) throw(m::Exception);
+		std::string		unix_readlink(const std::string& path) throw(m::Sys_exception);
 
 		/// Аналог системного rename.
-		void			unix_rename(const std::string& from, const std::string& to) throw(m::Exception);
+		void			unix_rename(const std::string& from, const std::string& to) throw(m::Sys_exception);
 
 		/// Аналог системного rmdir.
-		void			unix_rmdir(const std::string& path) throw(m::Exception);
+		void			unix_rmdir(const std::string& path) throw(m::Sys_exception);
 
 		/// Аналог системного stat.
-		Stat			unix_stat(const std::string& path) throw(m::Exception);
+		Stat			unix_stat(const std::string& path) throw(m::Sys_exception);
 
 		/// Аналог системного symlink.
-		void			unix_symlink(const std::string& old_path, const std::string& new_path) throw(m::Exception);
+		void			unix_symlink(const std::string& old_path, const std::string& new_path) throw(m::Sys_exception);
 
 		/// Аналог системного unlink.
-		void			unix_unlink(const std::string& path) throw(m::Exception);
+		void			unix_unlink(const std::string& path) throw(m::Sys_exception);
 
 		/// Аналог системного utime.
 		void			unix_utime(const std::string& path, const Stat& file_stat);

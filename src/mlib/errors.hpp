@@ -26,6 +26,8 @@
 
 	#include <string>
 
+	#include <cerrno>
+
 
 #ifdef MLIB_ENABLE_DBUS
 	namespace DBus
@@ -80,14 +82,30 @@
 				const char*		what(void) const;
 		};
 
-		/// Макрос для генерации исключения m::Exception программистом.
-		#define M_THROW(args...)	throw m::Exception(__FILE__, __LINE__, args)
+
+		class Sys_exception: public Exception
+		{
+			public:
+				Sys_exception(const char* file, const int line, int errno_val);
+				Sys_exception(const char* file, const int line, int errno_val, const std::string& error);
+
+			public:
+				/// Значение errno, соответствующее данной ошибке.
+				const int	errno_val;
+		};
+
+
+		/// Макрос для генерации исключения m::Exception.
+		#define M_THROW(args...)		throw m::Exception(__FILE__, __LINE__, args)
+
+		/// Макрос для генерации исключения m::Sys_exception.
+		#define M_THROW_SYS(args...)	throw m::Sys_exception(__FILE__, __LINE__, args)
 
 		/// Макрос для генерации исключения m::Exception программистом.
 		//#define M_THROW_WITH_TITLE(args...)	throw m::Exception(__FILE__, __LINE__, args)
 
 		/// Макрос для генерации исключения m::Exception программистом.
-		#define M_THROW_EMPTY()		throw m::Exception(__FILE__, __LINE__, "")
+		#define M_THROW_EMPTY()			throw m::Exception(__FILE__, __LINE__, "")
 
 
 

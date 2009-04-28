@@ -212,6 +212,26 @@ namespace m {
 
 
 
+// Sys_exception -->
+	Sys_exception::Sys_exception(const char* file, const int line, int errno_val)
+	:
+		Exception(file, line, strerror(errno_val)),
+		errno_val(errno_val)
+	{
+	}
+
+
+
+	Sys_exception::Sys_exception(const char* file, const int line, int errno_val, const std::string& error)
+	:
+		Exception(file, line, error),
+		errno_val(errno_val)
+	{
+	}
+// Sys_exception <--
+
+
+
 // Errors_pool -->
 	void Errors_pool::throw_if_exists(void) const throw(m::Exception)
 	{

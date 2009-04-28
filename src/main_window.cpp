@@ -694,11 +694,11 @@ void Main_window::on_change_rate_limit_callback(Traffic_type traffic_type)
 
 bool Main_window::on_close_callback(GdkEventAny* event)
 {
-	#ifndef DEVELOP_MODE
+	#ifdef DEVELOP_MODE
+		this->on_quit_callback();
+	#else
 		if(!get_client_settings().gui.show_tray_icon)
 			this->on_quit_callback();
-	#else
-		this->on_quit_callback();
 	#endif
 
 	return false;

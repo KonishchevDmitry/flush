@@ -5,10 +5,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: flush 0.4.2\n"
+"Project-Id-Version: flush 0.5\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2009-04-26 17:29+0400\n"
-"PO-Revision-Date: 2009-04-26 17:29+0400\n"
+"POT-Creation-Date: 2009-04-28 19:40+0400\n"
+"PO-Revision-Date: 2009-04-28 19:40+0400\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -201,8 +201,8 @@ msgstr "Can't read data from inotify descriptor: %1."
 msgid "Invalid torrent file path '%1'."
 msgstr "Invalid torrent file path '%1'."
 
-#: src/mlib/libtorrent.cpp:176 src/mlib/libtorrent.cpp:180
-#: src/mlib/libtorrent.cpp:184
+#: src/mlib/libtorrent.cpp:198 src/daemon_session.cpp:305
+#: src/daemon_session.cpp:318
 #, qt-format
 msgid "Error while reading torrent file '%1': %2."
 msgstr "Error while reading torrent file '%1': %2."
@@ -215,72 +215,68 @@ msgstr "Logical error"
 msgid "[[gettimeofday time getting error]]"
 msgstr "[[gettimeofday time getting error]]"
 
-#: src/mlib/misc.cpp:167 src/mlib/misc.cpp:226
+#: src/mlib/misc.cpp:174 src/mlib/misc.cpp:236
 msgid "Buffer positioning error."
 msgstr "Buffer positioning error."
 
-#: src/mlib/misc.cpp:188
-msgid "file too big"
-msgstr "file too big"
-
-#: src/mlib/misc.cpp:263
+#: src/mlib/misc.cpp:305
 #, qt-format
 msgid "Can't create a pipe: %1."
 msgstr "Can't create a pipe: %1."
 
-#: src/mlib/misc.cpp:272
+#: src/mlib/misc.cpp:314
 #, qt-format
 msgid "Can't set flags for a pipe: %1."
 msgstr "Can't set flags for a pipe: %1."
 
-#: src/mlib/misc.cpp:280 src/mlib/misc.cpp:283
+#: src/mlib/misc.cpp:322 src/mlib/misc.cpp:325
 #, qt-format
 msgid "Error while closing a pipe: %1."
 msgstr "Error while closing a pipe: %1."
 
-#: src/mlib/misc.cpp:303
+#: src/mlib/misc.cpp:345
 #, qt-format
 msgid "Can't read from a pipe: %1."
 msgstr "Can't read from a pipe: %1."
 
-#: src/mlib/misc.cpp:328
+#: src/mlib/misc.cpp:370
 #, qt-format
 msgid "Can't write to a pipe: %1."
 msgstr "Can't write to a pipe: %1."
 
-#: src/mlib/misc.cpp:349
+#: src/mlib/misc.cpp:391
 #, qt-format
 msgid "Select error: %1."
 msgstr "Select error: %1."
 
-#: src/mlib/misc.cpp:426
+#: src/mlib/misc.cpp:468
 #, qt-format
 msgid "Copyright (C) %1-%2 %3."
 msgstr "Copyright (C) %1-%2 %3."
 
-#: src/mlib/misc.cpp:429
+#: src/mlib/misc.cpp:471
 #, qt-format
 msgid "Copyright (C) %1 %2."
 msgstr "Copyright (C) %1 %2."
 
-#: src/mlib/misc.cpp:446
+#: src/mlib/misc.cpp:488
 #, qt-format
 msgid "Realloc failed: %1."
 msgstr "Realloc failed: %1."
 
-#: src/mlib/misc.cpp:466
+#: src/mlib/misc.cpp:508
 #, qt-format
 msgid ""
 "Running command '%1' failed. Can't get max opened file descriptors limit: %2."
 msgstr ""
 "Running command '%1' failed. Can't get max opened file descriptors limit: %2."
 
-#: src/mlib/misc.cpp:496
+#: src/mlib/misc.cpp:538
 #, qt-format
 msgid "Running command '%1' failed: %2."
 msgstr "Running command '%1' failed: %2."
 
-#: src/mlib/misc.cpp:504
+#: src/mlib/misc.cpp:546
 #, qt-format
 msgid "Can't fork process: %1."
 msgstr "Can't fork process: %1."
@@ -534,7 +530,7 @@ msgstr "Client config: Invalid option '%1' UTF-8 value at line %2."
 msgid "Client config: Unknown option '%1' at line %2."
 msgstr "Client config: Unknown option '%1' at line %2."
 
-#: src/client_settings.cpp:830 src/daemon_settings.cpp:281
+#: src/client_settings.cpp:830 src/daemon_settings.cpp:293
 #, qt-format
 msgid "Reading configuration file '%1' failed. %2"
 msgstr "Reading configuration file '%1' failed. %2"
@@ -549,7 +545,7 @@ msgstr "Can't read configuration file '%1': %2."
 msgid "Can't parse configuration file '%1': %2."
 msgstr "Can't parse configuration file '%1': %2."
 
-#: src/client_settings.cpp:915 src/daemon_settings.cpp:663
+#: src/client_settings.cpp:915 src/daemon_settings.cpp:675
 #, qt-format
 msgid "Writing configuration file '%1' failed. %2"
 msgstr "Writing configuration file '%1' failed. %2"
@@ -718,166 +714,166 @@ msgstr "Unknown"
 msgid "Can't start daemon. Creating config directories failed. %1"
 msgstr "Can't start daemon. Creating config directories failed. %1"
 
-#: src/daemon_session.cpp:216 src/daemon_session.cpp:1186
+#: src/daemon_session.cpp:217 src/daemon_session.cpp:1219
 msgid "Saving session failed"
 msgstr "Saving session failed"
 
-#: src/daemon_session.cpp:216 src/daemon_session.cpp:1186
+#: src/daemon_session.cpp:217 src/daemon_session.cpp:1219
 #, qt-format
 msgid "Saving session failed. %1"
 msgstr "Saving session failed. %1"
 
-#: src/daemon_session.cpp:296
+#: src/daemon_session.cpp:329
 msgid "This torrent is already exists in the current session."
 msgstr "This torrent is already exists in the current session."
 
-#: src/daemon_session.cpp:314
+#: src/daemon_session.cpp:347
 #, qt-format
 msgid "Can't create torrent configuration directory '%1': %2."
 msgstr "Can't create torrent configuration directory '%1': %2."
 
-#: src/daemon_session.cpp:332
-#, qt-format
-msgid "Can't copy torrent file '%1' to '%2': %3."
-msgstr "Can't copy torrent file '%1' to '%2': %3."
-
-#: src/daemon_session.cpp:356 src/daemon_session.cpp:361
+#: src/daemon_session.cpp:367
 #, qt-format
 msgid "Torrent file '%1' has been changed while it's been processed."
 msgstr "Torrent file '%1' has been changed while it's been processed."
 
-#: src/daemon_session.cpp:510
+#: src/daemon_session.cpp:381
+#, qt-format
+msgid "Can't copy torrent file '%1' to '%2': %3."
+msgstr "Can't copy torrent file '%1' to '%2': %3."
+
+#: src/daemon_session.cpp:538
 #, qt-format
 msgid "Can't stat torrent file: %1."
 msgstr "Can't stat torrent file: %1."
 
-#: src/daemon_session.cpp:545
+#: src/daemon_session.cpp:575
 msgid "Deleting automatically loaded *.torrent file failed"
 msgstr "Deleting automatically loaded *.torrent file failed"
 
-#: src/daemon_session.cpp:547
+#: src/daemon_session.cpp:577
 #, qt-format
 msgid "Can't delete automatically loaded *.torrent file '%1': %2."
 msgstr "Can't delete automatically loaded *.torrent file '%1': %2."
 
-#: src/daemon_session.cpp:576 src/daemon_session.cpp:1104
+#: src/daemon_session.cpp:606 src/daemon_session.cpp:1137
 #, qt-format
 msgid "Automatic loading the torrent '%1' failed. %2"
 msgstr "Automatic loading the torrent '%1' failed. %2"
 
-#: src/daemon_session.cpp:587 src/daemon_session.cpp:595
-#: src/daemon_session.cpp:616 src/daemon_session.cpp:1837
-#: src/daemon_session.cpp:1930
+#: src/daemon_session.cpp:617 src/daemon_session.cpp:625
+#: src/daemon_session.cpp:646 src/daemon_session.cpp:1870
+#: src/daemon_session.cpp:1963
 msgid "Automatic torrents loading failed"
 msgstr "Automatic torrents loading failed"
 
-#: src/daemon_session.cpp:588 src/daemon_session.cpp:617
+#: src/daemon_session.cpp:618 src/daemon_session.cpp:647
 #, qt-format
 msgid "Automatic torrents loading failed. %1"
 msgstr "Automatic torrents loading failed. %1"
 
-#: src/daemon_session.cpp:597
+#: src/daemon_session.cpp:627
 #, qt-format
 msgid ""
 "Automatic torrents loading failed: directory '%1' has been deleted or moved."
 msgstr ""
 "Automatic torrents loading failed: directory '%1' has been deleted or moved."
 
-#: src/daemon_session.cpp:674 src/daemon_session.cpp:719
+#: src/daemon_session.cpp:707 src/daemon_session.cpp:752
 msgid "Automatic torrent removing failed"
 msgstr "Automatic torrent removing failed"
 
-#: src/daemon_session.cpp:675 src/daemon_session.cpp:720
+#: src/daemon_session.cpp:708 src/daemon_session.cpp:753
 #, qt-format
 msgid "Automatic removing of torrent '%1' failed. %2"
 msgstr "Automatic removing of torrent '%1' failed. %2"
 
-#: src/daemon_session.cpp:758
+#: src/daemon_session.cpp:791
 msgid "Copying finished torrent failed"
 msgstr "Copying finished torrent failed"
 
-#: src/daemon_session.cpp:760
+#: src/daemon_session.cpp:793
 #, qt-format
 msgid "Copying finished torrent '%1' from '%2' to '%3' failed."
 msgstr "Copying finished torrent '%1' from '%2' to '%3' failed."
 
-#: src/daemon_session.cpp:847 src/daemon_session.cpp:860
+#: src/daemon_session.cpp:880 src/daemon_session.cpp:893
 #, qt-format
 msgid "Bad torrent id '%1'."
 msgstr "Bad torrent id '%1'."
 
-#: src/daemon_session.cpp:1062
+#: src/daemon_session.cpp:1095
 #, qt-format
 msgid "Restoring torrent '%1' [%2] previous session settings failed. %3"
 msgstr "Restoring torrent '%1' [%2] previous session settings failed. %3"
 
-#: src/daemon_session.cpp:1116
+#: src/daemon_session.cpp:1149
 #, qt-format
 msgid "Can't read directory '%1' for automatic torrents loading: %2."
 msgstr "Can't read directory '%1' for automatic torrents loading: %2."
 
-#: src/daemon_session.cpp:1151
+#: src/daemon_session.cpp:1184
 msgid "Loading torrent failed"
 msgstr "Loading torrent failed"
 
-#: src/daemon_session.cpp:1151
+#: src/daemon_session.cpp:1184
 #, qt-format
 msgid "Loading of the torrent '%1' failed. %2"
 msgstr "Loading of the torrent '%1' failed. %2"
 
-#: src/daemon_session.cpp:1157
+#: src/daemon_session.cpp:1190
 #, qt-format
 msgid "Can't read directory with torrents configs '%1': %2."
 msgstr "Can't read directory with torrents configs '%1': %2."
 
-#: src/daemon_session.cpp:1163
+#: src/daemon_session.cpp:1196
 #, qt-format
 msgid "Loading torrents from previous session failed. %1"
 msgstr "Loading torrents from previous session failed. %1"
 
-#: src/daemon_session.cpp:1399
+#: src/daemon_session.cpp:1432
 #, qt-format
 msgid "Bad torrent id: '%1'."
 msgstr "Bad torrent id: '%1'."
 
-#: src/daemon_session.cpp:1443 src/daemon_session.cpp:1459
+#: src/daemon_session.cpp:1476 src/daemon_session.cpp:1492
 msgid "Deleting torrent data failed"
 msgstr "Deleting torrent data failed"
 
-#: src/daemon_session.cpp:1444 src/daemon_session.cpp:1460
+#: src/daemon_session.cpp:1477 src/daemon_session.cpp:1493
 #, qt-format
 msgid "Deleting torrent '%1' data failed."
 msgstr "Deleting torrent '%1' data failed."
 
-#: src/daemon_session.cpp:1543
+#: src/daemon_session.cpp:1576
 msgid "Saving torrent settings failed"
 msgstr "Saving torrent settings failed"
 
-#: src/daemon_session.cpp:1545
+#: src/daemon_session.cpp:1578
 #, qt-format
 msgid "Saving torrent '%1' settings failed. %2"
 msgstr "Saving torrent '%1' settings failed. %2"
 
-#: src/daemon_session.cpp:1576
+#: src/daemon_session.cpp:1609
 #, qt-format
 msgid "Invalid copy when finished to path '%1'."
 msgstr "Invalid copy when finished to path '%1'."
 
-#: src/daemon_session.cpp:1598 src/daemon_session.cpp:1649
+#: src/daemon_session.cpp:1631 src/daemon_session.cpp:1682
 #, qt-format
 msgid "Bad file id: %1."
 msgstr "Bad file id: %1."
 
-#: src/daemon_session.cpp:1813
+#: src/daemon_session.cpp:1846
 msgid "Setting directory for automatic torrents loading failed"
 msgstr "Setting directory for automatic torrents loading failed"
 
-#: src/daemon_session.cpp:1815
+#: src/daemon_session.cpp:1848
 #, qt-format
 msgid "Can't set directory '%1' for automatic torrents loading. %2"
 msgstr "Can't set directory '%1' for automatic torrents loading. %2"
 
-#: src/daemon_session.cpp:1892
+#: src/daemon_session.cpp:1925
 msgid "Setting torrent trackers failed: libtorrent internal error."
 msgstr "Setting torrent trackers failed: libtorrent internal error."
 
@@ -901,101 +897,101 @@ msgstr "Daemon config: Invalid option '%1' UTF-8 value at line %2."
 msgid "Daemon config: Unknown option '%1' at line %2."
 msgstr "Daemon config: Unknown option '%1' at line %2."
 
-#: src/daemon_settings.cpp:285
+#: src/daemon_settings.cpp:297
 #, qt-format
 msgid "Error while reading configuration file '%1': %2."
 msgstr "Error while reading configuration file '%1': %2."
 
-#: src/daemon_settings.cpp:289
+#: src/daemon_settings.cpp:301
 #, qt-format
 msgid "Error while parsing configuration file '%1': %2."
 msgstr "Error while parsing configuration file '%1': %2."
 
-#: src/daemon_settings.cpp:546
+#: src/daemon_settings.cpp:558
 msgid "invalid DHT state data"
 msgstr "invalid DHT state data"
 
-#: src/daemon_settings.cpp:552
+#: src/daemon_settings.cpp:564
 #, qt-format
 msgid "Error while reading DHT state from file '%1': %2."
 msgstr "Error while reading DHT state from file '%1': %2."
 
-#: src/daemon_settings.cpp:667
+#: src/daemon_settings.cpp:679
 #, qt-format
 msgid "Can't write configuration file %1: %2."
 msgstr "Can't write configuration file %1: %2."
 
-#: src/daemon_settings.cpp:685 src/daemon_settings.cpp:719
+#: src/daemon_settings.cpp:697 src/daemon_settings.cpp:731
 #, qt-format
 msgid "Writing DHT state to file '%1' failed. %2"
 msgstr "Writing DHT state to file '%1' failed. %2"
 
-#: src/daemon_settings.cpp:710
+#: src/daemon_settings.cpp:722
 #, qt-format
 msgid "Can't write DHT state to file '%1': %2."
 msgstr "Can't write DHT state to file '%1': %2."
 
-#: src/daemon_settings.cpp:845
+#: src/daemon_settings.cpp:857
 #, qt-format
 msgid "Reading torrent configuration file '%1' failed. %2"
 msgstr "Reading torrent configuration file '%1' failed. %2"
 
-#: src/daemon_settings.cpp:849
+#: src/daemon_settings.cpp:861
 #, qt-format
 msgid "Error while reading torrent configuration file '%1': %2."
 msgstr "Error while reading torrent configuration file '%1': %2."
 
-#: src/daemon_settings.cpp:853
+#: src/daemon_settings.cpp:865
 #, qt-format
 msgid "Error while parsing torrent configuration file '%1': %2."
 msgstr "Error while parsing torrent configuration file '%1': %2."
 
-#: src/daemon_settings.cpp:986 src/daemon_settings.cpp:1004
+#: src/daemon_settings.cpp:998 src/daemon_settings.cpp:1016
 #, qt-format
 msgid "Bad files number: %1 vs %2."
 msgstr "Bad files number: %1 vs %2."
 
-#: src/daemon_settings.cpp:1062
+#: src/daemon_settings.cpp:1074
 #, qt-format
 msgid "Daemon config: %1"
 msgstr "Daemon config: %1"
 
-#: src/daemon_settings.cpp:1155 src/daemon_settings.cpp:1166
+#: src/daemon_settings.cpp:1167 src/daemon_settings.cpp:1178
 #, qt-format
 msgid "Can't read torrent resume data from file '%1': %2."
 msgstr "Can't read torrent resume data from file '%1': %2."
 
-#: src/daemon_settings.cpp:1176 src/daemon_settings.cpp:1182
+#: src/daemon_settings.cpp:1188 src/daemon_settings.cpp:1194
 #, qt-format
 msgid "Error while reading torrent resume data from file '%1': file broken."
 msgstr "Error while reading torrent resume data from file '%1': file broken."
 
-#: src/daemon_settings.cpp:1208
+#: src/daemon_settings.cpp:1220
 #, qt-format
 msgid "Can't read torrent resume data from file '%1': bad resume data."
 msgstr "Can't read torrent resume data from file '%1': bad resume data."
 
-#: src/daemon_settings.cpp:1311
+#: src/daemon_settings.cpp:1323
 #, qt-format
 msgid "Writing torrent configuration file '%1' failed. %2"
 msgstr "Writing torrent configuration file '%1' failed. %2"
 
-#: src/daemon_settings.cpp:1315
+#: src/daemon_settings.cpp:1327
 #, qt-format
 msgid "Can't write torrent configuration file %1: %2."
 msgstr "Can't write torrent configuration file %1: %2."
 
-#: src/daemon_settings.cpp:1333
+#: src/daemon_settings.cpp:1345
 #, qt-format
 msgid "Removing old resume data '%1' failed. %2"
 msgstr "Removing old resume data '%1' failed. %2"
 
-#: src/daemon_settings.cpp:1349 src/daemon_settings.cpp:1380
+#: src/daemon_settings.cpp:1361 src/daemon_settings.cpp:1392
 #, qt-format
 msgid "Writing torrent resume data to file '%1' failed. %2"
 msgstr "Writing torrent resume data to file '%1' failed. %2"
 
-#: src/daemon_settings.cpp:1371
+#: src/daemon_settings.cpp:1383
 #, qt-format
 msgid "Can't write torrent resume data to file '%1': %2."
 msgstr "Can't write torrent resume data to file '%1': %2."

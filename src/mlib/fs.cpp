@@ -1111,19 +1111,19 @@ void rm_if_exists(const std::string& path) throw(m::Exception)
 
 
 
-Stat unix_fstat(int fd) throw(m::Exception)
+Stat unix_fstat(int fd) throw(m::Sys_exception)
 {
 	struct stat stat_buf;
 
 	if(fstat(fd, &stat_buf))
-		M_THROW(EE(errno));
+		M_THROW_SYS(errno);
 
 	return stat_buf;
 }
 
 
 
-std::string unix_get_cwd(void) throw(m::Exception)
+std::string unix_get_cwd(void) throw(m::Sys_exception)
 {
 	char *cwd;
 
@@ -1134,44 +1134,44 @@ std::string unix_get_cwd(void) throw(m::Exception)
 		return L2U(cwd_string);
 	}
 	else
-		M_THROW(EE(errno));
+		M_THROW_SYS(errno);
 }
 
 
 
-Stat unix_lstat(const std::string& path) throw(m::Exception)
+Stat unix_lstat(const std::string& path) throw(m::Sys_exception)
 {
 	struct stat stat_buf;
 
 	if(lstat(U2L(path).c_str(), &stat_buf))
-		M_THROW(EE(errno));
+		M_THROW_SYS(errno);
 
 	return stat_buf;
 }
 
 
 
-void unix_mkdir(const std::string& path) throw(m::Exception)
+void unix_mkdir(const std::string& path) throw(m::Sys_exception)
 {
 	if(mkdir(U2L(path).c_str(), 0777))
-		M_THROW(EE(errno));
+		M_THROW_SYS(errno);
 }
 
 
 
-int unix_open(const std::string& path, int flags, mode_t mode) throw(m::Exception)
+int unix_open(const std::string& path, int flags, mode_t mode) throw(m::Sys_exception)
 {
 	int fd;
 
 	if( (fd = open(U2L(path).c_str(), flags, mode)) >= 0 )
 		return fd;
 	else
-		M_THROW(EE(errno));
+		M_THROW_SYS(errno);
 }
 
 
 
-std::string unix_readlink(const std::string& path) throw(m::Exception)
+std::string unix_readlink(const std::string& path) throw(m::Sys_exception)
 {
 	char target_path_buf[M_FILE_PATH_MAX_SIZE];
 	int written_bytes;
@@ -1179,9 +1179,9 @@ std::string unix_readlink(const std::string& path) throw(m::Exception)
 	written_bytes = readlink(U2L(path).c_str(), target_path_buf, M_FILE_PATH_MAX_SIZE);
 
 	if(written_bytes >= M_FILE_PATH_MAX_SIZE)
-		M_THROW(_("too big link target path"));
+		M_THROW_SYS(ENAMETOOLONG, _("too big link target path"));
 	else if(written_bytes < 0)
-		M_THROW(EE(errno));
+		M_THROW_SYS(errno);
 
 	target_path_buf[written_bytes] = '\0';
 
@@ -1190,7 +1190,7 @@ std::string unix_readlink(const std::string& path) throw(m::Exception)
 
 
 
-ssize_t unix_read(int fd, void* buf, size_t size) throw(m::Exception)
+ssize_t unix_read(int fd, void* buf, size_t size) throw(m::Sys_exception)
 {
 	ssize_t readed_bytes;
 
@@ -1201,7 +1201,7 @@ ssize_t unix_read(int fd, void* buf, size_t size) throw(m::Exception)
 			if(errno == EINTR)
 				continue;
 			else
-				M_THROW(strerror(errno));
+				M_THROW_SYS(errno);
 		}
 		else
 			return readed_bytes;
@@ -1210,46 +1210,46 @@ ssize_t unix_read(int fd, void* buf, size_t size) throw(m::Exception)
 
 
 
-void unix_rename(const std::string& from, const std::string& to) throw(m::Exception)
+void unix_rename(const std::string& from, const std::string& to) throw(m::Sys_exception)
 {
 	if(rename(U2L(from).c_str(), U2L(to).c_str()))
-		M_THROW(EE(errno));
+		M_THROW_SYS(errno);
 }
 
 
 
-void unix_rmdir(const std::string& path) throw(m::Exception)
+void unix_rmdir(const std::string& path) throw(m::Sys_exception)
 {
 	if(rmdir(U2L(path).c_str()))
-		M_THROW(EE(errno));
+		M_THROW_SYS(errno);
 }
 
 
 
-Stat unix_stat(const std::string& path) throw(m::Exception)
+Stat unix_stat(const std::string& path) throw(m::Sys_exception)
 {
 	struct stat stat_buf;
 
 	if(stat(U2L(path).c_str(), &stat_buf))
-		M_THROW(EE(errno));
+		M_THROW_SYS(errno);
 
 	return stat_buf;
 }
 
 
 
-void unix_symlink(const std::string& old_path, const std::string& new_path) throw(m::Exception)
+void unix_symlink(const std::string& old_path, const std::string& new_path) throw(m::Sys_exception)
 {
 	if(symlink(U2L(old_path).c_str(), U2L(new_path).c_str()) < 0)
-		M_THROW(EE(errno));
+		M_THROW_SYS(errno);
 }
 
 
 
-void unix_unlink(const std::string& path) throw(m::Exception)
+void unix_unlink(const std::string& path) throw(m::Sys_exception)
 {
 	if(unlink(U2L(path).c_str()))
-		M_THROW(EE(errno));
+		M_THROW_SYS(errno);
 }
 
 
@@ -1261,7 +1261,7 @@ void unix_utime(const std::string& path, const Stat& file_stat)
 	time_buf.modtime = file_stat.mtime;
 
 	if(utime(U2L(path).c_str(), &time_buf))
-		M_THROW(EE(errno));
+		M_THROW_SYS(errno);
 }
 
 }

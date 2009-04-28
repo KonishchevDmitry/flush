@@ -92,6 +92,7 @@ class Buffer
 {
 	public:
 		Buffer(void);
+		Buffer(const Buffer& buffer);
 		~Buffer(void);
 
 
@@ -116,9 +117,8 @@ class Buffer
 		Buffer &	increase_pos(const int inc);
 
 		/// Загружает файл в буфер.
-		/// Генерирует m::Exception, если файл имеет слишком
-		/// большой размер.
-		void		load_file(const std::string &file_path) throw(m::Exception);
+		/// Генерирует исключение, если файл имеет слишком большой размер.
+		void		load_file(const std::string &file_path) throw(m::Sys_exception);
 
 		/// Увеличивает буфер, если это необходимо, на столько,
 		/// чтобы в него могло поместиться еще reserve_size байт,
@@ -131,8 +131,12 @@ class Buffer
 		/// Устанавливает текущую позицию в буфере.
 		Buffer &	set_pos(int new_pos);
 
+		/// Записывает данные буфера в файл.
+		void		write_file(const std::string& file_path) const throw(m::Sys_exception);
+
 
 	public:
+		Buffer &	operator=(const Buffer& buffer);
 		Buffer &	operator=(int val);
 		Buffer &	operator+(int val);
 		Buffer &	operator+=(int val);

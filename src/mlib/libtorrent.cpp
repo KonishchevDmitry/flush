@@ -72,7 +72,7 @@ std::string get_torrent_file_path(const std::string& file_path) throw(m::Excepti
 
 	if(!path.is_absolute() || path_string == "/")
 		M_THROW(__("Invalid torrent file path '%1'.", file_path));
-	
+
 	return path_string;
 }
 
@@ -124,24 +124,22 @@ std::vector<std::string> get_torrent_files_paths(const libtorrent::torrent_info&
 
 
 
-lt::torrent_info get_torrent_info(const std::string& torrent_path) throw(m::Exception)
+libtorrent::torrent_info get_torrent_info(const m::Buffer& torrent_data) throw(m::Exception)
 {
 	try
 	{
-		m::Buffer file_buf;
-		#if M_LT_GET_MAJOR_MINOR_VERSION() < M_GET_VERSION(0, 14, 0)
-			lt::entry torrent_entry;
-		#else
-			lt::lazy_entry torrent_entry;
-		#endif
+	#if M_LT_GET_MAJOR_MINOR_VERSION() < M_GET_VERSION(0, 14, 0)
+		lt::entry torrent_entry;
+	#else
+		lt::lazy_entry torrent_entry;
+	#endif
 
-		file_buf.load_file(torrent_path);
-		#if M_LT_GET_MAJOR_MINOR_VERSION() < M_GET_VERSION(0, 14, 0)
-			torrent_entry = lt::bdecode(file_buf.get_data(), file_buf.get_cur_ptr());
-		#else
-			 lt::lazy_bdecode(file_buf.get_data(), file_buf.get_cur_ptr(), torrent_entry);
-		#endif
-		
+	#if M_LT_GET_MAJOR_MINOR_VERSION() < M_GET_VERSION(0, 14, 0)
+		torrent_entry = lt::bdecode(torrent_data.get_data(), torrent_data.get_cur_ptr());
+	#else
+		 lt::lazy_bdecode(torrent_data.get_data(), torrent_data.get_cur_ptr(), torrent_entry);
+	#endif
+
 		lt::torrent_info torrent_info(torrent_entry);
 
 		// libtorrent не поддерживает не-UTF-8 локали, поэтому приходится
@@ -168,18 +166,34 @@ lt::torrent_info get_torrent_info(const std::string& torrent_path) throw(m::Exce
 			#endif
 		}
 		// <--
-		
+
 		return torrent_info;
 	}
+	catch(lt::invalid_encoding& e)
+	{
+		M_THROW(EE(e));
+	}
+	catch(lt::invalid_torrent_file& e)
+	{
+		M_THROW(EE(e));
+	}
+}
+
+
+
+lt::torrent_info get_torrent_info(const std::string& torrent_path) throw(m::Exception)
+{
+	m::Buffer torrent_data;
+
+	try
+	{
+		// Генерирует m::Exception
+		torrent_data.load_file(torrent_path);
+
+		// Генерирует m::Exception
+		return lt::get_torrent_info(torrent_data);
+	}
 	catch(m::Exception& e)
-	{
-		M_THROW(__("Error while reading torrent file '%1': %2.", torrent_path, EE(e)));
-	}
-	catch(lt::invalid_encoding e)
-	{
-		M_THROW(__("Error while reading torrent file '%1': %2.", torrent_path, EE(e)));
-	}
-	catch(lt::invalid_torrent_file e)
 	{
 		M_THROW(__("Error while reading torrent file '%1': %2.", torrent_path, EE(e)));
 	}
@@ -198,7 +212,7 @@ std::vector<std::string> get_torrent_trackers(const libtorrent::torrent_handle& 
 
 	for(size_t i = 0; i < announces.size(); i++)
 		trackers.push_back(announces[i].url);
-	
+
 	return trackers;
 }
 
@@ -214,7 +228,7 @@ std::vector<std::string> get_torrent_trackers(const libtorrent::torrent_info& to
 
 	for(size_t i = 0; i < announces.size(); i++)
 		trackers.push_back(announces[i].url);
-	
+
 	return trackers;
 }
 
