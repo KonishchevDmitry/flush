@@ -88,14 +88,14 @@
 		session_start_time(daemon_statistics.session_start_time),
 		statistics_start_time(daemon_statistics.statistics_start_time),
 
-		upload_speed(libtorrent_session_status.upload_rate),
-		payload_upload_speed(libtorrent_session_status.payload_upload_rate),
-
 		download_rate_limit(download_rate_limit),
 		upload_rate_limit(upload_rate_limit),
 
 		download_speed(libtorrent_session_status.download_rate),
 		payload_download_speed(libtorrent_session_status.payload_download_rate),
+
+		upload_speed(libtorrent_session_status.upload_rate),
+		payload_upload_speed(libtorrent_session_status.payload_upload_rate),
 
 		download(libtorrent_session_status.total_download + daemon_statistics.download),
 		payload_download(libtorrent_session_status.total_payload_download + daemon_statistics.payload_download),

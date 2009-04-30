@@ -16,11 +16,6 @@ dnl and 'make distcheck'.
 AM_INIT_AUTOMAKE([-Wall -Werror foreign dist-bzip2])
 
 
-dnl If CXXFLAGS is not setted yet, AC_PROG_CXX will set it to default value.
-dnl Setting own default value.
-test -z $CXXFLAGS && CXXFLAGS="-Wall -g -O3"
-
-
 AC_PROG_AWK
 AC_PROG_SED
 AC_PROG_CXX
@@ -243,7 +238,7 @@ dnl Available libraries <--
 dnl compiler flags -->
 	if test "X$develop_mode" = "Xyes"
 	then
-		CXXFLAGS="$CXXFLAGS -O0"
+		CXXFLAGS="$CXXFLAGS -O0 -g -Wall"
 	fi
 
 	COMMON_CPPFLAGS=""

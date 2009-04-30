@@ -645,7 +645,7 @@ int main(int argc, char *argv[])
 		std::string config_unique_id;
 
 		{
-			int config_dir_fd;
+			int config_dir_fd = -1;
 
 			try
 			{

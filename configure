@@ -2487,9 +2487,6 @@ am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'
 
 
 
-test -z $CXXFLAGS && CXXFLAGS="-Wall -g -O3"
-
-
 for ac_prog in gawk mawk nawk awk
 do
   # Extract the first word of "$ac_prog", so it can be a program name with args.
@@ -7778,7 +7775,7 @@ fi
 
 	if test "X$develop_mode" = "Xyes"
 	then
-		CXXFLAGS="$CXXFLAGS -O0"
+		CXXFLAGS="$CXXFLAGS -O0 -g -Wall"
 	fi
 
 	COMMON_CPPFLAGS=""

@@ -61,7 +61,7 @@
 
 
 	#if M_LT_GET_MAJOR_MINOR_VERSION() < M_GET_VERSION(0, 14, 0)
-		#error You using too old version of libtorrent-rasterbar. Please install libtorrent-rasterbar >= 0.14.
+		#error You are using too old version of libtorrent-rasterbar. Please install libtorrent-rasterbar >= 0.14.
 	#endif
 
 
@@ -672,10 +672,6 @@
 
 
 		public:
-			/// Является ли ошибкой, если такой торрент уже присутствует в
-			/// сессии.
-			const bool									duplicate_is_error;
-
 			/// Имя торрента или "", если необходимо использовать имя по
 			/// умолчанию.
 			const std::string							name;
@@ -695,6 +691,10 @@
 			/// Настройки файлов торрента или пустой массив,
 			/// если необходимо задать настройки по умолчанию.
 			const std::vector<Torrent_file_settings>	files_settings;
+
+			/// Является ли ошибкой, если такой торрент уже присутствует в
+			/// сессии.
+			const bool									duplicate_is_error;
 	};
 
 

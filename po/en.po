@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: flush 0.5\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2009-04-28 19:40+0400\n"
+"POT-Creation-Date: 2009-04-29 18:37+0400\n"
 "PO-Revision-Date: 2009-04-28 19:40+0400\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -714,11 +714,11 @@ msgstr "Unknown"
 msgid "Can't start daemon. Creating config directories failed. %1"
 msgstr "Can't start daemon. Creating config directories failed. %1"
 
-#: src/daemon_session.cpp:217 src/daemon_session.cpp:1219
+#: src/daemon_session.cpp:217 src/daemon_session.cpp:1230
 msgid "Saving session failed"
 msgstr "Saving session failed"
 
-#: src/daemon_session.cpp:217 src/daemon_session.cpp:1219
+#: src/daemon_session.cpp:217 src/daemon_session.cpp:1230
 #, qt-format
 msgid "Saving session failed. %1"
 msgstr "Saving session failed. %1"
@@ -742,138 +742,138 @@ msgstr "Torrent file '%1' has been changed while it's been processed."
 msgid "Can't copy torrent file '%1' to '%2': %3."
 msgstr "Can't copy torrent file '%1' to '%2': %3."
 
-#: src/daemon_session.cpp:538
+#: src/daemon_session.cpp:549
 #, qt-format
 msgid "Can't stat torrent file: %1."
 msgstr "Can't stat torrent file: %1."
 
-#: src/daemon_session.cpp:575
+#: src/daemon_session.cpp:586
 msgid "Deleting automatically loaded *.torrent file failed"
 msgstr "Deleting automatically loaded *.torrent file failed"
 
-#: src/daemon_session.cpp:577
+#: src/daemon_session.cpp:588
 #, qt-format
 msgid "Can't delete automatically loaded *.torrent file '%1': %2."
 msgstr "Can't delete automatically loaded *.torrent file '%1': %2."
 
-#: src/daemon_session.cpp:606 src/daemon_session.cpp:1137
+#: src/daemon_session.cpp:617 src/daemon_session.cpp:1148
 #, qt-format
 msgid "Automatic loading the torrent '%1' failed. %2"
 msgstr "Automatic loading the torrent '%1' failed. %2"
 
-#: src/daemon_session.cpp:617 src/daemon_session.cpp:625
-#: src/daemon_session.cpp:646 src/daemon_session.cpp:1870
-#: src/daemon_session.cpp:1963
+#: src/daemon_session.cpp:628 src/daemon_session.cpp:636
+#: src/daemon_session.cpp:657 src/daemon_session.cpp:1881
+#: src/daemon_session.cpp:1974
 msgid "Automatic torrents loading failed"
 msgstr "Automatic torrents loading failed"
 
-#: src/daemon_session.cpp:618 src/daemon_session.cpp:647
+#: src/daemon_session.cpp:629 src/daemon_session.cpp:658
 #, qt-format
 msgid "Automatic torrents loading failed. %1"
 msgstr "Automatic torrents loading failed. %1"
 
-#: src/daemon_session.cpp:627
+#: src/daemon_session.cpp:638
 #, qt-format
 msgid ""
 "Automatic torrents loading failed: directory '%1' has been deleted or moved."
 msgstr ""
 "Automatic torrents loading failed: directory '%1' has been deleted or moved."
 
-#: src/daemon_session.cpp:707 src/daemon_session.cpp:752
+#: src/daemon_session.cpp:718 src/daemon_session.cpp:763
 msgid "Automatic torrent removing failed"
 msgstr "Automatic torrent removing failed"
 
-#: src/daemon_session.cpp:708 src/daemon_session.cpp:753
+#: src/daemon_session.cpp:719 src/daemon_session.cpp:764
 #, qt-format
 msgid "Automatic removing of torrent '%1' failed. %2"
 msgstr "Automatic removing of torrent '%1' failed. %2"
 
-#: src/daemon_session.cpp:791
+#: src/daemon_session.cpp:802
 msgid "Copying finished torrent failed"
 msgstr "Copying finished torrent failed"
 
-#: src/daemon_session.cpp:793
+#: src/daemon_session.cpp:804
 #, qt-format
 msgid "Copying finished torrent '%1' from '%2' to '%3' failed."
 msgstr "Copying finished torrent '%1' from '%2' to '%3' failed."
 
-#: src/daemon_session.cpp:880 src/daemon_session.cpp:893
+#: src/daemon_session.cpp:891 src/daemon_session.cpp:904
 #, qt-format
 msgid "Bad torrent id '%1'."
 msgstr "Bad torrent id '%1'."
 
-#: src/daemon_session.cpp:1095
+#: src/daemon_session.cpp:1106
 #, qt-format
 msgid "Restoring torrent '%1' [%2] previous session settings failed. %3"
 msgstr "Restoring torrent '%1' [%2] previous session settings failed. %3"
 
-#: src/daemon_session.cpp:1149
+#: src/daemon_session.cpp:1160
 #, qt-format
 msgid "Can't read directory '%1' for automatic torrents loading: %2."
 msgstr "Can't read directory '%1' for automatic torrents loading: %2."
 
-#: src/daemon_session.cpp:1184
+#: src/daemon_session.cpp:1195
 msgid "Loading torrent failed"
 msgstr "Loading torrent failed"
 
-#: src/daemon_session.cpp:1184
+#: src/daemon_session.cpp:1195
 #, qt-format
 msgid "Loading of the torrent '%1' failed. %2"
 msgstr "Loading of the torrent '%1' failed. %2"
 
-#: src/daemon_session.cpp:1190
+#: src/daemon_session.cpp:1201
 #, qt-format
 msgid "Can't read directory with torrents configs '%1': %2."
 msgstr "Can't read directory with torrents configs '%1': %2."
 
-#: src/daemon_session.cpp:1196
+#: src/daemon_session.cpp:1207
 #, qt-format
 msgid "Loading torrents from previous session failed. %1"
 msgstr "Loading torrents from previous session failed. %1"
 
-#: src/daemon_session.cpp:1432
+#: src/daemon_session.cpp:1443
 #, qt-format
 msgid "Bad torrent id: '%1'."
 msgstr "Bad torrent id: '%1'."
 
-#: src/daemon_session.cpp:1476 src/daemon_session.cpp:1492
+#: src/daemon_session.cpp:1487 src/daemon_session.cpp:1503
 msgid "Deleting torrent data failed"
 msgstr "Deleting torrent data failed"
 
-#: src/daemon_session.cpp:1477 src/daemon_session.cpp:1493
+#: src/daemon_session.cpp:1488 src/daemon_session.cpp:1504
 #, qt-format
 msgid "Deleting torrent '%1' data failed."
 msgstr "Deleting torrent '%1' data failed."
 
-#: src/daemon_session.cpp:1576
+#: src/daemon_session.cpp:1587
 msgid "Saving torrent settings failed"
 msgstr "Saving torrent settings failed"
 
-#: src/daemon_session.cpp:1578
+#: src/daemon_session.cpp:1589
 #, qt-format
 msgid "Saving torrent '%1' settings failed. %2"
 msgstr "Saving torrent '%1' settings failed. %2"
 
-#: src/daemon_session.cpp:1609
+#: src/daemon_session.cpp:1620
 #, qt-format
 msgid "Invalid copy when finished to path '%1'."
 msgstr "Invalid copy when finished to path '%1'."
 
-#: src/daemon_session.cpp:1631 src/daemon_session.cpp:1682
+#: src/daemon_session.cpp:1642 src/daemon_session.cpp:1693
 #, qt-format
 msgid "Bad file id: %1."
 msgstr "Bad file id: %1."
 
-#: src/daemon_session.cpp:1846
+#: src/daemon_session.cpp:1857
 msgid "Setting directory for automatic torrents loading failed"
 msgstr "Setting directory for automatic torrents loading failed"
 
-#: src/daemon_session.cpp:1848
+#: src/daemon_session.cpp:1859
 #, qt-format
 msgid "Can't set directory '%1' for automatic torrents loading. %2"
 msgstr "Can't set directory '%1' for automatic torrents loading. %2"
 
-#: src/daemon_session.cpp:1925
+#: src/daemon_session.cpp:1936
 msgid "Setting torrent trackers failed: libtorrent internal error."
 msgstr "Setting torrent trackers failed: libtorrent internal error."
 

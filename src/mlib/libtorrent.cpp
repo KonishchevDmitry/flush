@@ -150,14 +150,14 @@ libtorrent::torrent_info get_torrent_info(const m::Buffer& torrent_data) throw(m
 		// на самом деле.
 		// -->
 		{
-			#if M_LT_GET_VERSION() < M_GET_VERSION(0, 15, 0)
+			#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
 				lt::file_storage& storage = torrent_info.files();
 			#endif
 
 			lt::torrent_info::file_iterator it = torrent_info.begin_files();
 			lt::torrent_info::file_iterator end_it = torrent_info.end_files();
 
-			#if M_LT_GET_VERSION() < M_GET_VERSION(0, 15, 0)
+			#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
 				for(int i = 0; it != end_it; it++, i++)
 					storage.rename_file(i, U2LT(it->path.string()));
 			#else

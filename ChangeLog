@@ -7,6 +7,7 @@
 [+] Updated boost configure macros.
 [+] Automatic torrents removing by share ratio.
 [+] Automatic torrents loading from specified directory.
+[+] Libtorrent 0.14.3 (for bundle version).
 [-] Removed debian directory. Packages are now available at the launchpad.net.
 [*] If directory, setted in the Settings window, already is not exists,
 Settings window will show user warning message instead of silently changing

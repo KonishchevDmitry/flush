@@ -444,7 +444,7 @@ void Daemon_session::add_torrent_to_session(lt::torrent_info torrent_info, const
 
 			if(!path.empty())
 			{
-				#if M_LT_GET_VERSION() < M_GET_VERSION(0, 15, 0)
+				#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
 					torrent_info.files().rename_file(i, U2LT(path));
 				#else
 					torrent_info.rename_file(i, U2LT(path));
@@ -527,7 +527,18 @@ void Daemon_session::auto_load_if_torrent(const std::string& torrent_path) throw
 			{
 				m::fs::Stat file_stat = m::fs::unix_stat(torrent_path);
 
-				if(file_stat.is_reg())
+				// К примеру, Firefox сначала создает пустой файл
+				// *.torrent и файл *.torrent.part, закрывает *.torrent и
+				// начинает писать данные в *.torrent.part. Т. к. при закрытии
+				// *.torrent сгенерируется событие inotify, то мы просто
+				// пропускаем файлы нулевого размера. Да и вообще, это применимо
+				// не только к Firefox - в любом случае загрузка файла нулевого
+				// размера вызовет ошибку. Конечно, может быть, стоило бы ее
+				// показать пользователю, но уж больно велика вероятность того,
+				// что если файл нулевого размера - то это не ошибка, просто
+				// программа закрыла его по какой-либо причине, но в самое
+				// ближайшее время в нем появятся реальные данные торрента.
+				if(file_stat.is_reg() && file_stat.size)
 					is_torrent_file = true;
 			}
 			catch(m::Sys_exception& e)
@@ -1915,7 +1926,7 @@ void Daemon_session::set_torrent_trackers(Torrent& torrent, const std::vector<st
 		// fault, если сначала задать пустой список торрентов, а потом задать
 		// непустой.
 		// Это простейшая защита от такой ошибки.
-		#if M_LT_GET_MAJOR_MINOR_VERSION() < M_GET_VERSION(0, 15, 0)
+		#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
 			if(!torrent.handle.trackers().empty())
 			{
 				if(!announces.empty())

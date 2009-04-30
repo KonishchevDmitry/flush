@@ -70,10 +70,17 @@
 #ifdef MLIB_ENABLE_LIBTORRENT
 	#include <libtorrent/version.hpp>
 
+	// До 0.14.3 LIBTORRENT_VERSION_TINY не существовало
+	#if LIBTORRENT_VERSION_MAJOR == 0 && LIBTORRENT_VERSION_MINOR <= 14
+		#ifndef LIBTORRENT_VERSION_TINY
+			#define LIBTORRENT_VERSION_TINY 0
+		#endif
+	#endif
+
 	/// Необходима только для работы с препроцессором. Там, где номер
 	/// версии используется не в условиях препроцессора, лучше использовать
 	/// m::libtorrent::get_version().
-	#define M_LT_GET_VERSION() ( (LIBTORRENT_VERSION_MAJOR) * 1000000 + (LIBTORRENT_VERSION_MINOR) * 1000 )
+	#define M_LT_GET_VERSION() ( (LIBTORRENT_VERSION_MAJOR) * 1000000 + (LIBTORRENT_VERSION_MINOR) * 1000 + (LIBTORRENT_VERSION_TINY) )
 	#define M_LT_GET_MAJOR_MINOR_VERSION() ( (LIBTORRENT_VERSION_MAJOR) * 1000000 + (LIBTORRENT_VERSION_MINOR) * 1000 )
 #endif
 
