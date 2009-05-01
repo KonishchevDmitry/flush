@@ -104,6 +104,8 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 
 	auto_delete_torrents_vbox(false, m::gtk::VBOX_SPACING)
 {
+	const int tabs_border_width = m::gtk::BOX_BORDER_WIDTH * 3;
+
 	this->set_resizable(false);
 
 	Gtk::VBox* main_vbox = Gtk::manage(new Gtk::VBox(false, m::gtk::VBOX_SPACING));
@@ -183,7 +185,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 	// Client -->
 	{
 		Gtk::VBox* settings_vbox = Gtk::manage(new Gtk::VBox(false, m::gtk::VBOX_SPACING));
-		settings_vbox->set_border_width(m::gtk::BOX_BORDER_WIDTH);
+		settings_vbox->set_border_width(tabs_border_width);
 		this->sections_notebook.append_page(*settings_vbox);
 
 		Gtk::HBox* hbox;
@@ -234,7 +236,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 	// Client::Main -->
 	{
 		Gtk::VBox* settings_vbox = Gtk::manage(new Gtk::VBox(false, m::gtk::VBOX_SPACING));
-		settings_vbox->set_border_width(m::gtk::BOX_BORDER_WIDTH);
+		settings_vbox->set_border_width(tabs_border_width);
 		this->sections_notebook.append_page(*settings_vbox);
 
 		m::gtk::vbox::add_big_header(*settings_vbox, _("Client::Main"));
@@ -281,7 +283,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 	// Client::GUI -->
 	{
 		Gtk::VBox* settings_vbox = Gtk::manage(new Gtk::VBox(false, m::gtk::VBOX_SPACING));
-		settings_vbox->set_border_width(m::gtk::BOX_BORDER_WIDTH);
+		settings_vbox->set_border_width(tabs_border_width);
 		this->sections_notebook.append_page(*settings_vbox);
 
 		m::gtk::vbox::add_big_header(*settings_vbox, _("Client::GUI"));
@@ -294,11 +296,6 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 				this->show_speed_in_window_title.set_label(_("Show speed in window title"));
 				settings_vbox->pack_start(this->show_speed_in_window_title, false, false);
 			// show_speed_in_window_title <--
-
-			// show_tray_icon -->
-				this->show_tray_icon.set_label(_("Show tray icon"));
-				settings_vbox->pack_start(this->show_tray_icon, false, false);
-			// show_tray_icon <--
 
 			{
 				Gtk::HBox* hbox = Gtk::manage( new Gtk::HBox(false, m::gtk::HBOX_SPACING) );
@@ -321,6 +318,50 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 					);
 				// max_log_lines <--
 			}
+
+			// Tray -->
+			{
+				// show_tray_icon -->
+					this->show_tray_icon.set_label(_("Show tray icon"));
+					this->show_tray_icon.set_active();
+					settings_vbox->pack_start(this->show_tray_icon, false, false);
+
+					this->show_tray_icon.signal_toggled().connect(sigc::mem_fun(
+						*this, &Settings_window::on_show_tray_icon_toggled_callback
+					));
+				// show_tray_icon <--
+
+
+				Gtk::HBox* hbox = Gtk::manage(new Gtk::HBox(false, m::gtk::HBOX_SPACING));
+				settings_vbox->pack_start(*hbox, false, false);
+
+				// Табуляция шириной в 4 пробела :)
+				Gtk::Label* label = Gtk::manage(new Gtk::Label("    "));
+				hbox->pack_start(*label, false, false);
+
+				hbox->pack_start(this->tray_vbox, false, false);
+
+				// Hide main window to tray at startup -->
+					this->hide_app_to_tray_at_startup.set_label(_("Hide main window to tray at startup")),
+					this->tray_vbox.pack_start(this->hide_app_to_tray_at_startup);
+				// Hide main window to tray at startup <--
+
+				{
+					Gtk::HBox* hbox = Gtk::manage(new Gtk::HBox(false, m::gtk::HBOX_SPACING));
+					this->tray_vbox.pack_start(*hbox, false, false);
+
+					// Minimize to tray -->
+						this->minimize_to_tray.set_label(_("Minimize to tray")),
+						hbox->pack_start(this->minimize_to_tray);
+					// Minimize to tray <--
+
+					// Close to tray -->
+						this->close_to_tray.set_label(_("Close to tray")),
+						hbox->pack_start(this->close_to_tray);
+					// Close to tray <--
+				}
+			}
+			// Tray <--
 		}
 		// Miscellaneous <--
 
@@ -381,7 +422,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 	// Daemon -->
 	{
 		Gtk::VBox* settings_vbox = Gtk::manage(new Gtk::VBox(false, m::gtk::VBOX_SPACING));
-		settings_vbox->set_border_width(m::gtk::BOX_BORDER_WIDTH);
+		settings_vbox->set_border_width(tabs_border_width);
 		this->sections_notebook.append_page(*settings_vbox);
 
 		Gtk::HBox* hbox;
@@ -432,7 +473,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 	// Daemon::Network -->
 	{
 		Gtk::VBox* settings_vbox = Gtk::manage(new Gtk::VBox(false, m::gtk::VBOX_SPACING));
-		settings_vbox->set_border_width(m::gtk::BOX_BORDER_WIDTH);
+		settings_vbox->set_border_width(tabs_border_width);
 		this->sections_notebook.append_page(*settings_vbox);
 
 		m::gtk::vbox::add_big_header(*settings_vbox, _("Daemon::Network"));
@@ -559,7 +600,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 	// Daemon::Automation -->
 	{
 		Gtk::VBox* settings_vbox = Gtk::manage(new Gtk::VBox(false, m::gtk::VBOX_SPACING));
-		settings_vbox->set_border_width(m::gtk::BOX_BORDER_WIDTH);
+		settings_vbox->set_border_width(tabs_border_width);
 		this->sections_notebook.append_page(*settings_vbox);
 
 		m::gtk::vbox::add_big_header(*settings_vbox, _("Daemon::Automation"));
@@ -756,10 +797,14 @@ void Settings_window::load_settings(void)
 
 	// GUI -->
 		this->show_speed_in_window_title.set_active(this->client_settings.gui.show_speed_in_window_title);
-		this->show_tray_icon.set_active(this->client_settings.gui.show_tray_icon);
 
 		this->gui_update_interval.set_value(this->client_settings.gui.update_interval);
 		this->max_log_lines.set_value(this->client_settings.gui.max_log_lines);
+
+		this->show_tray_icon.set_active(this->client_settings.gui.show_tray_icon);
+		this->hide_app_to_tray_at_startup.set_active(this->client_settings.gui.hide_app_to_tray_at_startup);
+		this->minimize_to_tray.set_active(this->client_settings.gui.minimize_to_tray);
+		this->close_to_tray.set_active(this->client_settings.gui.close_to_tray);
 
 		this->status_bar_download_speed.set_active(			status_bar_settings.download_speed);
 		this->status_bar_payload_download_speed.set_active(	status_bar_settings.payload_download_speed);
@@ -925,16 +970,27 @@ void Settings_window::on_section_changed_callback(void)
 
 
 
+void Settings_window::on_show_tray_icon_toggled_callback(void)
+{
+	this->tray_vbox.set_sensitive(this->show_tray_icon.get_active());
+}
+
+
+
 void Settings_window::save_settings(void)
 {
 	Status_bar_settings& status_bar_settings = this->client_settings.gui.main_window.status_bar;
 
 	// GUI -->
 		this->client_settings.gui.show_speed_in_window_title	= this->show_speed_in_window_title.get_active();
-		this->client_settings.gui.show_tray_icon				= this->show_tray_icon.get_active();
 
 		this->client_settings.gui.update_interval				= this->gui_update_interval.get_value();
 		this->client_settings.gui.max_log_lines					= this->max_log_lines.get_value();
+
+		this->client_settings.gui.show_tray_icon				= this->show_tray_icon.get_active();
+		this->client_settings.gui.hide_app_to_tray_at_startup	= this->hide_app_to_tray_at_startup.get_active();
+		this->client_settings.gui.minimize_to_tray				= this->minimize_to_tray.get_active();
+		this->client_settings.gui.close_to_tray					= this->close_to_tray.get_active();
 
 		status_bar_settings.download_speed						= this->status_bar_download_speed.get_active();
 		status_bar_settings.payload_download_speed				= this->status_bar_payload_download_speed.get_active();

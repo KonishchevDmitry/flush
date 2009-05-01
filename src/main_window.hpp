@@ -131,6 +131,9 @@
 			/// Обработчик нажатия правой кнопки мыши по значку в трее.
 			void	on_tray_popup_menu(int button, int activate_time);
 
+			/// Обработчик сигнала на изменение состояния окна.
+			bool	on_window_state_changed_callback(const GdkEventWindowState* state);
+
 			/// Задает интервал обновления GUI.
 			void	set_gui_update_interval(int interval);
 

@@ -29,7 +29,6 @@
 #include <gtkmm/combobox.h>
 #include <gtkmm/entry.h>
 #include <gtkmm/filechooserdialog.h>
-#include <gtkmm/frame.h>
 #include <gtkmm/liststore.h>
 #include <gtkmm/progressbar.h>
 #include <gtkmm/stock.h>
@@ -37,6 +36,7 @@
 #include <libtorrent/create_torrent.hpp>
 
 #include "mlib/fs.hpp"
+#include "mlib/gtk/vbox.hpp"
 
 #include "application.hpp"
 #include "create_torrent_dialog.hpp"
@@ -557,6 +557,8 @@ namespace
 		Gtk::VBox* main_vbox = Gtk::manage(new Gtk::VBox(false, m::gtk::VBOX_SPACING));
 		this->add(*main_vbox);
 
+		m::gtk::vbox::add_header(*main_vbox, _("Torrent:"));
+
 		// Виджеты выбора файла или директории -->
 		{
 			Gtk::Label* label = Gtk::manage(new Gtk::Label());
@@ -659,13 +661,11 @@ namespace
 		// Размер одной части <--
 
 		// Трекеры -->
-		{
-			Gtk::Frame* frame = Gtk::manage(new Gtk::Frame(_("Trackers")));
-			main_vbox->pack_start(*frame, true, true);
-
-			frame->add(*this->trackers_view);
-		}
+			m::gtk::vbox::add_header(*main_vbox, _("Trackers:"));
+			main_vbox->pack_start(*this->trackers_view, false, false);
 		// Трекеры <--
+
+		m::gtk::vbox::add_space(*main_vbox);
 
 		// OK, Cancel -->
 		{

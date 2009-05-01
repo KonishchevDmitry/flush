@@ -501,6 +501,10 @@ namespace
 		toolbar_style(m::gtk::toolbar::DEFAULT),
 
 		show_tray_icon(true),
+		hide_app_to_tray_at_startup(true),
+		minimize_to_tray(true),
+		close_to_tray(true),
+
 		update_interval(1000),
 		max_log_lines(100),
 		show_add_torrent_dialog(true)
@@ -545,6 +549,21 @@ namespace
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
 				this->show_tray_icon = setting;
+			}
+			else if(m::is_eq(setting_name, "hide_main_window_to_tray_at_startup"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				this->hide_app_to_tray_at_startup = setting;
+			}
+			else if(m::is_eq(setting_name, "minimize_to_tray"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				this->minimize_to_tray = setting;
+			}
+			else if(m::is_eq(setting_name, "close_to_tray"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				this->close_to_tray = setting;
 			}
 			else if(m::is_eq(setting_name, "update_interval"))
 			{
@@ -614,6 +633,10 @@ namespace
 		config_root.add("toolbar_style", libconfig::Setting::TypeString) = m::gtk::toolbar::get_style_string_representation(this->toolbar_style);
 
 		config_root.add("show_tray_icon", libconfig::Setting::TypeBoolean) = this->show_tray_icon;
+		config_root.add("hide_main_window_to_tray_at_startup", libconfig::Setting::TypeBoolean) = this->hide_app_to_tray_at_startup;
+		config_root.add("minimize_to_tray", libconfig::Setting::TypeBoolean) = this->minimize_to_tray;
+		config_root.add("close_to_tray", libconfig::Setting::TypeBoolean) = this->close_to_tray;
+
 		config_root.add("update_interval", libconfig::Setting::TypeInt) = this->update_interval;
 		config_root.add("max_log_lines", libconfig::Setting::TypeInt) = this->max_log_lines;
 

@@ -112,7 +112,12 @@
 				// GUI -->
 					// Miscellaneous -->
 						Gtk::CheckButton	show_speed_in_window_title;
+
 						Gtk::CheckButton	show_tray_icon;
+						Gtk::VBox			tray_vbox;
+						Gtk::CheckButton	hide_app_to_tray_at_startup;
+						Gtk::CheckButton	minimize_to_tray;
+						Gtk::CheckButton	close_to_tray;
 
 						Gtk::SpinButton		gui_update_interval;
 						Gtk::SpinButton		max_log_lines;
@@ -226,6 +231,9 @@
 
 			// Обработчик сигнала на изменение выделенного раздела.
 			void 			on_section_changed_callback(void);
+
+			/// Обработчик сигнала на переключение флажка "Show tray icon".
+			void			on_show_tray_icon_toggled_callback(void);
 
 			/// Переносит свойства виджетов в настройки.
 			void			save_settings(void);

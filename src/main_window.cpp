@@ -76,6 +76,10 @@
 			/// все время работы программы пользоватьель его так и не видел.
 			bool								has_been_showed;
 
+			/// Определяет, в каком положении надится в данный момент окно - в
+			/// свернутом или нет.
+			bool								minimized;
+
 			/// Текст заголовка окна без дополнительной информации (текущих
 			/// скоростях скачивания).
 			std::string							orig_window_title;
@@ -109,7 +113,8 @@
 
 	Main_window::Gui::Gui(void)
 	:
-		has_been_showed(false)
+		has_been_showed(false),
+		minimized(false)
 	{
 	}
 // Gui <--
@@ -224,10 +229,7 @@
 
 Main_window::Main_window(const Main_window_settings& settings)
 :
-	m::gtk::Window(
-		"", settings.window,
-		800, 600, m::gtk::WINDOW_BORDER_WIDTH / 2
-	),
+	m::gtk::Window("", settings.window, 800, 600, 0),
 	gui(new Gui)
 {
 	Client_settings& client_settings = get_client_settings();
@@ -645,19 +647,22 @@ Main_window::Main_window(const Main_window_settings& settings)
 	// Обновление доступных в данный момент кнопок <--
 
 	// Автоматическое сохранение настроек
-	Glib::signal_timeout().connect(sigc::mem_fun(*this, &Main_window::on_save_settings_timeout), SAVE_SETTINGS_INTERVAL);
+	Glib::signal_timeout().connect(
+		sigc::mem_fun(*this, &Main_window::on_save_settings_timeout), SAVE_SETTINGS_INTERVAL
+	);
+
+	// Обработчик сигнала на изменение состояния окна
+	this->signal_window_state_event().connect(sigc::mem_fun(
+		*this, &Main_window::on_window_state_changed_callback
+	));
 
 	// Закрытие окна
 	this->signal_delete_event().connect(sigc::mem_fun(*this, &Main_window::on_close_callback));
 
-	#ifndef DEVELOP_MODE
-		if(client_settings.gui.show_tray_icon)
-			this->show_all_children();
-		else
-			this->show_all();
-	#else
+	if(client_settings.gui.show_tray_icon && client_settings.gui.hide_app_to_tray_at_startup)
+		this->show_all_children();
+	else
 		this->show_all();
-	#endif
 }
 
 
@@ -694,12 +699,8 @@ void Main_window::on_change_rate_limit_callback(Traffic_type traffic_type)
 
 bool Main_window::on_close_callback(GdkEventAny* event)
 {
-	#ifdef DEVELOP_MODE
+	if(!get_client_settings().gui.show_tray_icon || !get_client_settings().gui.close_to_tray)
 		this->on_quit_callback();
-	#else
-		if(!get_client_settings().gui.show_tray_icon)
-			this->on_quit_callback();
-	#endif
 
 	return false;
 }
@@ -715,7 +716,7 @@ void Main_window::on_create_callback(void)
 
 bool Main_window::on_gui_update_timeout(void)
 {
-	if(this->is_visible())
+	if(this->is_visible() && !this->gui->minimized)
 		this->update_gui();
 	else if(get_client_settings().gui.show_tray_icon)
 		this->update_gui(UPDATE_TRAY);
@@ -961,7 +962,7 @@ void Main_window::on_torrent_process_actions_changed_callback(Torrent_process_ac
 
 void Main_window::on_tray_activated(void)
 {
-	if(this->is_visible())
+	if(this->is_visible() && !this->gui->minimized)
 		this->hide();
 	else
 		this->show();
@@ -973,6 +974,49 @@ void Main_window::on_tray_popup_menu(int button, int activate_time)
 {
 	Gtk::Menu* menu = dynamic_cast<Gtk::Menu*>(this->gui->ui_manager->get_widget("/tray_popup_menu"));
 	menu->popup(button, activate_time);
+}
+
+
+
+bool Main_window::on_window_state_changed_callback(const GdkEventWindowState* state)
+{
+	MLIB_D(_C(
+		"Window state has been changed to %1 (%2).",
+		state->new_window_state, state->changed_mask)
+	);
+
+	// Сохраняем текущее состояние окна
+	this->gui->minimized = state->new_window_state & GDK_WINDOW_STATE_ICONIFIED;
+
+	// Изменилось состояние "свернутости" окна -->
+		if(state->changed_mask & GDK_WINDOW_STATE_ICONIFIED)
+		{
+			MLIB_D("Changed window minimized status.");
+
+			// Если окно свернули
+			if(state->new_window_state & GDK_WINDOW_STATE_ICONIFIED)
+			{
+				MLIB_D("Window is minimized.");
+
+				if(get_client_settings().gui.show_tray_icon && get_client_settings().gui.minimize_to_tray)
+				{
+					MLIB_D("Hiding window to tray.");
+					this->deiconify();
+					this->hide();
+				}
+			}
+			// Если окно было свернуто, и его развернули
+			else
+			{
+				MLIB_D("Window is restored.");
+
+				if(this->is_visible())
+					this->update_gui();
+			}
+		}
+	// Изменилось состояние "свернутости" окна <--
+
+	return true;
 }
 
 
@@ -1056,6 +1100,12 @@ void Main_window::show(void)
 {
 	this->gui->has_been_showed = true;
 	this->update_gui();
+
+	// При восстановлении из трея, если до этого окно было свернуто, то оно
+	// почему-то опять пытается свернуться. Поэтому перед каждым отображением
+	// окна явно разворачиваем его.
+	this->deiconify();
+
 	Gtk::Window::show();
 }
 
@@ -1063,9 +1113,8 @@ void Main_window::show(void)
 
 void Main_window::show_all(void)
 {
-	this->gui->has_been_showed = true;
-	this->update_gui();
-	Gtk::Window::show_all();
+	Gtk::Window::show_all_children();
+	this->show();
 }
 
 
@@ -1075,23 +1124,23 @@ void Main_window::show_tray_icon(bool show)
 	if(show)
 	{
 		if(this->gui->tray)
-			return;
+			this->gui->tray->set_visible(true);
+		else
+		{
+			// Создаем иконку в трее
+			this->gui->tray = Gtk::StatusIcon::create(APP_UNIX_NAME);
 
-		// Создаем иконку в трее
-		this->gui->tray = Gtk::StatusIcon::create(APP_UNIX_NAME);
+			// Обработчик нажатия левой кнопки мыши по значку в трее
+			this->gui->tray->signal_activate().connect(sigc::mem_fun(*this, &Main_window::on_tray_activated));
 
-		// Обработчик нажатия левой кнопки мыши по значку в трее
-		this->gui->tray->signal_activate().connect(sigc::mem_fun(*this, &Main_window::on_tray_activated));
-
-		// Обработчик нажатия правой кнопки мыши по значку в трее
-		this->gui->tray->signal_popup_menu().connect(sigc::mem_fun(*this, &Main_window::on_tray_popup_menu));
+			// Обработчик нажатия правой кнопки мыши по значку в трее
+			this->gui->tray->signal_popup_menu().connect(sigc::mem_fun(*this, &Main_window::on_tray_popup_menu));
+		}
 	}
 	else
 	{
-		if(!this->gui->tray)
-			return;
-
-		this->gui->tray.reset();
+		if(this->gui->tray)
+			this->gui->tray->set_visible(false);
 	}
 }
 
@@ -1194,7 +1243,7 @@ void Main_window::update_gui(Update_flags update_what)
 			// Строка статуса <--
 
 			// Трей -->
-				if(update_what & UPDATE_TRAY)
+				if(update_what & UPDATE_TRAY && get_client_settings().gui.show_tray_icon)
 				{
 					this->gui->tray->set_tooltip(
 						std::string(APP_NAME) + "\n" +
@@ -1223,7 +1272,7 @@ void Main_window::update_gui(Update_flags update_what)
 			if(update_what & UPDATE_WIDGETS)
 				this->gui->status_bar.hide();
 
-			if(update_what & UPDATE_TRAY)
+			if(update_what & UPDATE_TRAY && get_client_settings().gui.show_tray_icon)
 				this->gui->tray->set_tooltip("");
 
 			MLIB_W(EE(e));

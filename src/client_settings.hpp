@@ -192,6 +192,16 @@
 			/// Отображать иконку в трее.
 			bool							show_tray_icon;
 
+			/// Сворачивать при запуске главное окно в трей.
+			bool							hide_app_to_tray_at_startup;
+
+			/// Сворачивать в трей.
+			bool							minimize_to_tray;
+
+			/// Закрывать в трей.
+			bool							close_to_tray;
+
+
 			/// Интервал обновления GUI.
 			int								update_interval;
 
