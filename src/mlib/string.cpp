@@ -50,10 +50,15 @@ std::string _Q(const char* string)
 
 
 
-std::string get_time_duration_string(time_t time)
+std::string get_time_duration_string(time_t time, bool show_zero_values)
 {
 	if(time <= 0)
-		return _("0m");
+	{
+		if(show_zero_values)
+			return _("0m");
+		else
+			return "";
+	}
 
 	int minutes = time / 60;
 	int hours = minutes / 60;
@@ -83,7 +88,7 @@ std::string get_time_duration_string(time_t time)
 
 
 
-Glib::ustring get_time_left_string(Time time_left)
+Glib::ustring get_time_left_string(Time time_left, bool show_zero_values)
 {
 	const long minute = 60;
 	const long hour = 60 * minute;
@@ -93,7 +98,10 @@ Glib::ustring get_time_left_string(Time time_left)
 
 	if(time_left <= 0)
 	{
-		return "∞";
+		if(show_zero_values)
+			return "∞";
+		else
+			return "";
 	}
 	// Месяцы
 	else if(time_left >= month)
@@ -195,8 +203,11 @@ Glib::ustring L2U(const std::string& string)
 
 
 
-std::string size_to_string(Size size)
+std::string size_to_string(Size size, bool show_zero_values)
 {
+	if(!show_zero_values && size <= 0)
+		return "";
+
 	Size unit;
 	int fraction = 0;
 	std::string units;
@@ -267,19 +278,27 @@ std::string size_to_string(Size size)
 
 
 
-std::string speed_to_string(Speed speed)
+std::string speed_to_string(Speed speed, bool show_zero_values)
 {
+	// Может сильно ускорить работу функции,
+	// т. к. нулевая скорость встречается очень
+	// часто.
 	if(speed == 0)
 	{
-		// Может сильно ускорить работу функции,
-		// т. к. нулевая скорость встречается очень
-		// часто.
-		return _("0 B/s");
+		if(show_zero_values)
+			return _("0 B/s");
+		else
+			return "";
 	}
 	else if(speed > 0)
 		return size_to_string(speed) + _("/s");
 	else
-		return "∞";
+	{
+		if(show_zero_values)
+			return "∞";
+		else
+			return "";
+	}
 }
 
 

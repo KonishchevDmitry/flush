@@ -12,6 +12,7 @@
 tray" settings.
 [+] IP filter.
 [+] From this moment all new GUI interfaces will be created using Glade.
+[+] "Show zero values in torrents info columns" setting.
 [+] Some small GUI enhancements.
 [-] Removed debian directory. Packages are now available at the launchpad.net.
 [*] If directory, setted in the Settings window, already is not exists,

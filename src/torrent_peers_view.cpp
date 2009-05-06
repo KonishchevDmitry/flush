@@ -64,6 +64,7 @@
 		add(this->availability_string);
 
 		add(this->hash_fails);
+		add(this->hash_fails_string);
 	}
 // Torrent_peers_view_model_columns <--
 
@@ -81,7 +82,7 @@
 		total_payload_download(_Q("Total download (payload)|Down data"), model_columns.total_payload_download_string),
 		total_payload_upload(_Q("Total upload (payload)|Up data"), model_columns.total_payload_upload_string),
 		availability(_("Availability"), availability_renderer),
-		hash_fails(_("Hash fails"), model_columns.hash_fails)
+		hash_fails(_("Hash fails"), model_columns.hash_fails_string)
 	{
 		M_GTK_TREE_VIEW_ADD_STRING_COLUMN(ip, _("IP address"))
 		M_GTK_TREE_VIEW_ADD_STRING_COLUMN(client, _("Client"))
@@ -107,7 +108,8 @@
 // Torrent_peers_view -->
 	Torrent_peers_view::Torrent_peers_view(const Torrents_view_settings& settings)
 	:
-		m::gtk::Tree_view<Torrent_peers_view_columns, Torrent_peers_view_model_columns, Gtk::ListStore>(settings)
+		m::gtk::Tree_view<Torrent_peers_view_columns, Torrent_peers_view_model_columns, Gtk::ListStore>(settings),
+		last_show_zero_values_setting(false)
 	{
 	}
 
@@ -125,6 +127,11 @@
 		if(torrent_id)
 		{
 			std::vector<Torrent_peer_info> peers;
+			bool show_zero_values = get_client_settings().gui.show_zero_values;
+			bool show_zero_setting_changed = show_zero_values != this->last_show_zero_values_setting;
+
+
+			this->last_show_zero_values_setting = show_zero_values;
 
 			// Получаем всю необходимую нам информацию -->
 				try
@@ -152,12 +159,18 @@
 
 			while(peer_it != peer_end_it)
 			{
-				bool is_new_row = !row_it;
+				bool force_update = false;
+				bool zeros_force_update = show_zero_setting_changed;
 
 				// Добавляем новые строки, если их меньше
 				// чем нужно.
-				if(is_new_row)
+				if(!row_it)
+				{
 					row_it = this->model->append();
+
+					force_update = true;
+					zeros_force_update = true;
+				}
 
 				Gtk::TreeRow row = *row_it;
 				const Torrent_peer_info& peer = *peer_it;
@@ -167,30 +180,36 @@
 				m::gtk::update_row(row, this->model_columns.client, peer.client);
 
 
-				if(m::gtk::update_row(row, this->model_columns.download_speed, peer.download_speed) || is_new_row)
-					m::gtk::update_row(row, this->model_columns.download_speed_string, m::speed_to_string(peer.download_speed));
+				if(m::gtk::update_row(row, this->model_columns.download_speed, peer.download_speed) || zeros_force_update)
+					m::gtk::update_row(row, this->model_columns.download_speed_string, m::speed_to_string(peer.download_speed, show_zero_values));
 
-				if(m::gtk::update_row(row, this->model_columns.payload_download_speed, peer.payload_download_speed) || is_new_row)
-					m::gtk::update_row(row, this->model_columns.payload_download_speed_string, m::speed_to_string(peer.payload_download_speed));
+				if(m::gtk::update_row(row, this->model_columns.payload_download_speed, peer.payload_download_speed) || zeros_force_update)
+					m::gtk::update_row(row, this->model_columns.payload_download_speed_string, m::speed_to_string(peer.payload_download_speed, show_zero_values));
 
-				if(m::gtk::update_row(row, this->model_columns.upload_speed, peer.upload_speed) || is_new_row)
-					m::gtk::update_row(row, this->model_columns.upload_speed_string, m::speed_to_string(peer.upload_speed));
+				if(m::gtk::update_row(row, this->model_columns.upload_speed, peer.upload_speed) || zeros_force_update)
+					m::gtk::update_row(row, this->model_columns.upload_speed_string, m::speed_to_string(peer.upload_speed, show_zero_values));
 
-				if(m::gtk::update_row(row, this->model_columns.payload_upload_speed, peer.payload_upload_speed) || is_new_row)
-					m::gtk::update_row(row, this->model_columns.payload_upload_speed_string, m::speed_to_string(peer.payload_upload_speed));
-
-
-				if(m::gtk::update_row(row, this->model_columns.total_payload_download, peer.total_payload_download) || is_new_row)
-					m::gtk::update_row(row, this->model_columns.total_payload_download_string, m::size_to_string(peer.total_payload_download));
-
-				if(m::gtk::update_row(row, this->model_columns.total_payload_upload, peer.total_payload_upload) || is_new_row)
-					m::gtk::update_row(row, this->model_columns.total_payload_upload_string, m::size_to_string(peer.total_payload_upload));
+				if(m::gtk::update_row(row, this->model_columns.payload_upload_speed, peer.payload_upload_speed) || zeros_force_update)
+					m::gtk::update_row(row, this->model_columns.payload_upload_speed_string, m::speed_to_string(peer.payload_upload_speed, show_zero_values));
 
 
-				if(m::gtk::update_row(row, this->model_columns.availability, peer.availability) || is_new_row)
+				if(m::gtk::update_row(row, this->model_columns.total_payload_download, peer.total_payload_download) || zeros_force_update)
+					m::gtk::update_row(row, this->model_columns.total_payload_download_string, m::size_to_string(peer.total_payload_download, show_zero_values));
+
+				if(m::gtk::update_row(row, this->model_columns.total_payload_upload, peer.total_payload_upload) || zeros_force_update)
+					m::gtk::update_row(row, this->model_columns.total_payload_upload_string, m::size_to_string(peer.total_payload_upload, show_zero_values));
+
+
+				if(m::gtk::update_row(row, this->model_columns.availability, peer.availability) || force_update)
 					m::gtk::update_row(row, this->model_columns.availability_string, m::to_string(peer.availability) + " %");
 
-				m::gtk::update_row(row, this->model_columns.hash_fails, peer.hash_fails);
+				if(m::gtk::update_row(row, this->model_columns.hash_fails, peer.hash_fails) || zeros_force_update)
+				{
+					m::gtk::update_row(
+						row, this->model_columns.hash_fails_string,
+						show_zero_values || peer.hash_fails ? m::to_string(peer.hash_fails) : ""
+					);
+				}
 
 
 				peer_it++;

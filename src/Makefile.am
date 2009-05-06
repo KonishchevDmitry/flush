@@ -45,7 +45,6 @@ flush_SOURCES = \
 	settings_window.cpp \
 	settings_window.hpp \
 	statistics_window.cpp \
-	statistics_window.hh \
 	statistics_window.hpp \
 	torrent_details_view.cpp \
 	torrent_details_view.hpp \

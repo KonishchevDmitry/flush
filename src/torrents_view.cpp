@@ -101,11 +101,15 @@
 		this->add(this->payload_upload_speed);
 		this->add(this->payload_upload_speed_string);
 
+
 		this->add(this->share_ratio);
 		this->add(this->share_ratio_string);
 
 		this->add(this->peers_num);
+		this->add(this->peers_num_string);
+
 		this->add(this->seeds_num);
+		this->add(this->seeds_num_string);
 
 
 		this->add(this->time_added);
@@ -145,9 +149,8 @@
 		payload_upload_speed(_Q("Upload speed (payload)|Up speed (data)"), model_columns.payload_upload_speed_string),
 
 		share_ratio(_Q("Share ratio|Ratio"), model_columns.share_ratio_string),
-
-		peers_num(_("Peers"), model_columns.peers_num),
-		seeds_num(_("Seeds"), model_columns.seeds_num),
+		peers_num(_("Peers"), model_columns.peers_num_string),
+		seeds_num(_("Seeds"), model_columns.seeds_num_string),
 
 		time_added(_Q("Time added|Added"), model_columns.time_added_string),
 		time_left(_Q("Time left|ETA"), model_columns.time_left_string),
@@ -193,7 +196,8 @@
 // Torrents_view -->
 	Torrents_view::Torrents_view(const Torrent_files_view_settings& settings)
 	:
-		m::gtk::Tree_view<Torrents_view_columns, Torrents_view_model_columns, Gtk::ListStore>(settings)
+		m::gtk::Tree_view<Torrents_view_columns, Torrents_view_model_columns, Gtk::ListStore>(settings),
+		last_show_zero_values_setting(false)
 	{
 		// Всплывающее меню -->
 			Glib::RefPtr<Gtk::ActionGroup> action_group;
@@ -475,6 +479,12 @@
 		Gtk::TreeModel::iterator model_iter;
 		std::map<Torrent_id, Torrent_info>::iterator info_map_iter;
 
+		bool show_zero_values = get_client_settings().gui.show_zero_values;
+		bool show_zero_setting_changed = show_zero_values != this->last_show_zero_values_setting;
+
+
+		this->last_show_zero_values_setting = show_zero_values;
+
 		// Создаем таблицу с информацией о торрентах -->
 			std::map<Torrent_id, Torrent_info> info_map;
 
@@ -503,7 +513,7 @@
 				else
 				{
 					// Обновляем старые значения
-					this->update_row(model_iter, info_map_iter->second, false);
+					this->update_row(model_iter, info_map_iter->second, false, show_zero_setting_changed, show_zero_values);
 
 					// Удаляем из таблицы обработанную информацию
 					info_map.erase(info_map_iter);
@@ -520,7 +530,7 @@
 			for(info_map_iter = info_map.begin(); info_map_iter != info_map.end(); info_map_iter++)
 			{
 				model_iter = this->model->append();
-				this->update_row(model_iter, info_map_iter->second, true);
+				this->update_row(model_iter, info_map_iter->second, true, true, show_zero_values);
 			}
 		// <--
 
@@ -530,21 +540,58 @@
 
 
 
-	void Torrents_view::update_row(Gtk::TreeModel::iterator &iter, const Torrent_info& torrent_info, bool is_new_row)
+	void Torrents_view::update_row(Gtk::TreeModel::iterator &iter, const Torrent_info& torrent_info, bool force_update, bool zeros_force_update, bool show_zero_values)
 	{
-		#define set_size_value(id, string_id)																	\
-			if(m::gtk::update_row(row, this->model_columns.id, torrent_info.id) || is_new_row)					\
-				m::gtk::update_row(row, this->model_columns.string_id, m::size_to_string(torrent_info.id));
+		#define set_size_value(id, zero_independent)													\
+		{																								\
+			bool real_force_update = (zero_independent) ? force_update : zeros_force_update;			\
+			bool real_show_zero_values = (zero_independent) ? true : show_zero_values;					\
+																										\
+			if(m::gtk::update_row(row, this->model_columns.id, torrent_info.id) || real_force_update)	\
+			{																							\
+				m::gtk::update_row(																		\
+					row, this->model_columns.id ## _string,												\
+					m::size_to_string(torrent_info.id, real_show_zero_values)							\
+				);																						\
+			}																							\
+		}
 
-		#define set_speed_value(id, string_id)																	\
-			if(m::gtk::update_row(row, this->model_columns.id, torrent_info.id) || is_new_row)					\
-				m::gtk::update_row(row, this->model_columns.string_id, m::speed_to_string(torrent_info.id));
+		#define set_speed_value(id, zero_independent)													\
+		{																								\
+			bool real_force_update = (zero_independent) ? force_update : zeros_force_update;			\
+			bool real_show_zero_values = (zero_independent) ? true : show_zero_values;					\
+																										\
+			if(m::gtk::update_row(row, this->model_columns.id, torrent_info.id) || real_force_update)	\
+			{																							\
+				m::gtk::update_row(																		\
+					row, this->model_columns.id ## _string,												\
+					m::speed_to_string(torrent_info.id, real_show_zero_values)							\
+				);																						\
+			}																							\
+		}
 
-		#define set_int_value(id)											\
-			m::gtk::update_row(row, this->model_columns.id, torrent_info.id);
+		#define set_int_value(id, zero_independent)														\
+		{																								\
+			bool real_force_update = (zero_independent) ? force_update : zeros_force_update;			\
+			bool real_show_zero_values = (zero_independent) ? true : show_zero_values;					\
+																										\
+			if(m::gtk::update_row(row, this->model_columns.id, torrent_info.id) || real_force_update)	\
+			{																							\
+				if(real_show_zero_values || torrent_info.id)											\
+				{																						\
+					m::gtk::update_row(																	\
+						row, this->model_columns.id ## _string,											\
+						m::to_string(torrent_info.id)													\
+					);																					\
+				}																						\
+				else																					\
+					m::gtk::update_row(row, this->model_columns.id ## _string, "");						\
+			}																							\
+		}
 
 
 		Gtk::TreeRow row = *iter;
+
 
 		m::gtk::update_row(row, this->model_columns.id, torrent_info.id);
 		m::gtk::update_row(row, this->model_columns.name, torrent_info.name);
@@ -558,55 +605,51 @@
 		m::gtk::update_row(row, this->model_columns.progress, torrent_info.progress);
 
 
-		set_size_value(size, size_string)
-		set_size_value(requested_size, requested_size_string)
-		set_size_value(downloaded_requested_size, downloaded_requested_size_string)
+		set_size_value(size, true)
+		set_size_value(requested_size, true)
+		set_size_value(downloaded_requested_size, true)
 
 		// complete_percent -->
 		{
 			int complete_percent = torrent_info.get_complete_percent();
 
-			if(m::gtk::update_row(row, this->model_columns.complete_percent, complete_percent) || is_new_row)
+			if(m::gtk::update_row(row, this->model_columns.complete_percent, complete_percent) || force_update)
 				m::gtk::update_row(row, this->model_columns.complete_percent_string, m::to_string(complete_percent) + " %");
 		}
 		// complete_percent <--
 
 
-		set_size_value(total_download, total_download_string)
-		set_size_value(total_payload_download, total_payload_download_string)
-		set_size_value(total_upload, total_upload_string)
-		set_size_value(total_payload_upload, total_payload_upload_string)
-		set_size_value(total_failed, total_failed_string)
-		set_size_value(total_redundant, total_redundant_string)
+		set_size_value(total_download, false)
+		set_size_value(total_payload_download, false)
+		set_size_value(total_upload, false)
+		set_size_value(total_payload_upload, false)
+
+		set_size_value(total_failed, false)
+		set_size_value(total_redundant, false)
 
 
-		set_speed_value(download_speed, download_speed_string)
-		set_speed_value(payload_download_speed, payload_download_speed_string)
-		set_speed_value(upload_speed, upload_speed_string)
-		set_speed_value(payload_upload_speed, payload_upload_speed_string)
+		set_speed_value(download_speed, false)
+		set_speed_value(payload_download_speed, false)
+		set_speed_value(upload_speed, false)
+		set_speed_value(payload_upload_speed, false)
 
 
 		// share ratio -->
-			if(
-				m::gtk::update_row(
-					row, this->model_columns.share_ratio, torrent_info.get_share_ratio()
-				) || is_new_row
-			)
-			{
-				m::gtk::update_row(
-					row, this->model_columns.share_ratio_string,
-					get_share_ratio_string(torrent_info.get_share_ratio())
-				);
-			}
+		{
+			Share_ratio share_ratio = torrent_info.get_share_ratio();
+
+			if(m::gtk::update_row(row, this->model_columns.share_ratio, share_ratio) || zeros_force_update)
+				m::gtk::update_row(row, this->model_columns.share_ratio_string, get_share_ratio_string(share_ratio, show_zero_values));
+		}
 		// share ratio <--
 
 
-		set_int_value(peers_num)
-		set_int_value(seeds_num)
+		set_int_value(peers_num, false)
+		set_int_value(seeds_num, false)
 
 
 		// time_added
-		if(m::gtk::update_row(row, this->model_columns.time_added, torrent_info.time_added) || is_new_row)
+		if(m::gtk::update_row(row, this->model_columns.time_added, torrent_info.time_added) || force_update)
 			m::gtk::update_row(row, this->model_columns.time_added_string, m::time_to_string_with_date(torrent_info.time_added));
 
 		
@@ -614,14 +657,21 @@
 		{
 			Time time_left = torrent_info.get_time_left();
 
-			if(m::gtk::update_row(row, this->model_columns.time_left, time_left) || is_new_row)
-				m::gtk::update_row(row, this->model_columns.time_left_string, m::get_time_left_string(time_left));
+			if(m::gtk::update_row(row, this->model_columns.time_left, time_left) || zeros_force_update)
+				m::gtk::update_row(row, this->model_columns.time_left_string, m::get_time_left_string(time_left, show_zero_values));
 		}
 		// time_left <--
 
 
-		if(m::gtk::update_row(row, this->model_columns.time_seeding, torrent_info.time_seeding) || is_new_row)
-			m::gtk::update_row(row, this->model_columns.time_seeding_string, m::get_time_duration_string(torrent_info.time_seeding));
+		// time_seeding -->
+			if(m::gtk::update_row(row, this->model_columns.time_seeding, torrent_info.time_seeding) || zeros_force_update)
+			{
+				m::gtk::update_row(
+					row, this->model_columns.time_seeding_string,
+					m::get_time_duration_string(torrent_info.time_seeding, show_zero_values)
+				);
+			}
+		// time_seeding <--
 
 		#undef set_int_value
 		#undef set_speed_value

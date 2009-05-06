@@ -61,15 +61,11 @@
 			void	attach_time(const std::string& name, Time time);
 
 			/// Добавляет еще одно значение.
-			template<class T>
-			void	attach_value(const std::string& name, T value, std::string (*value_to_string_function)(T));
+			void	attach_value(const std::string& name, const std::string& value);
 
 			/// Обработчик сигнала на нажатие кнопки "Reset".
 			void	on_reset_callback(void);
 	};
-
-
-	#include "statistics_window.hh"
 
 #endif
 

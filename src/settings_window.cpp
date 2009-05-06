@@ -342,6 +342,11 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 				settings_vbox->pack_start(this->show_speed_in_window_title, false, false);
 			// show_speed_in_window_title <--
 
+			// show_zero_values -->
+				this->show_zero_values.set_label(_("Show zero values in torrents info columns"));
+				settings_vbox->pack_start(this->show_zero_values, false, false);
+			// show_zero_values <--
+
 			{
 				Gtk::HBox* hbox = Gtk::manage( new Gtk::HBox(false, m::gtk::HBOX_SPACING) );
 				settings_vbox->pack_start(*hbox, false, false);
@@ -908,6 +913,7 @@ void Settings_window::load_settings(void)
 
 	// GUI -->
 		this->show_speed_in_window_title.set_active(this->client_settings.gui.show_speed_in_window_title);
+		this->show_zero_values.set_active(this->client_settings.gui.show_zero_values);
 
 		this->gui_update_interval.set_value(this->client_settings.gui.update_interval);
 		this->max_log_lines.set_value(this->client_settings.gui.max_log_lines);
@@ -1095,7 +1101,7 @@ void Settings_window::save_settings(void)
 	Status_bar_settings& status_bar_settings = this->client_settings.gui.main_window.status_bar;
 
 	// GUI -->
-		this->client_settings.gui.show_speed_in_window_title	= this->show_speed_in_window_title.get_active();
+		this->client_settings.gui.show_zero_values				= this->show_zero_values.get_active();
 
 		this->client_settings.gui.update_interval				= this->gui_update_interval.get_value();
 		this->client_settings.gui.max_log_lines					= this->max_log_lines.get_value();

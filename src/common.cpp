@@ -632,21 +632,24 @@ Share_ratio get_share_ratio(Size upload, Size download, Size size)
 
 
 
-std::string get_share_ratio_string(Share_ratio ratio)
+std::string get_share_ratio_string(Share_ratio ratio, bool show_zero_values)
 {
 	// Просто ограничиваем в каких-то фиксированных пределах.
 	// Имеет смысл хотя бы потому, что числа с плавующей точкой
 	// могут принимать Inf и NaN значения.
 	if(ratio < 0 || ratio > 1000)
 		return "∞";
-
+	
+	if(!ratio && !show_zero_values)
+		return "";
+	
 	return _F(std::fixed, std::setprecision(2), ratio);
 }
 
 
 
-std::string get_share_ratio_string(Size upload, Size download, Size size)
+std::string get_share_ratio_string(Size upload, Size download, Size size, bool show_zero_values)
 {
-	return get_share_ratio_string(get_share_ratio(upload, download, size));
+	return get_share_ratio_string(get_share_ratio(upload, download, size), show_zero_values);
 }
 

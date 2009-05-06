@@ -69,21 +69,38 @@ void Statistics_window::attach_separator(void)
 
 void Statistics_window::attach_share_ratio(const std::string& name, Share_ratio ratio)
 {
-	this->attach_value(name, ratio, &get_share_ratio_string);
+	this->attach_value(name, get_share_ratio_string(ratio));
 }
 
 
 
 void Statistics_window::attach_size(const std::string& name, Size size)
 {
-	this->attach_value(name, size, &m::size_to_string);
+	this->attach_value(name, m::size_to_string(size));
 }
 
 
 
 void Statistics_window::attach_time(const std::string& name, Time time)
 {
-	this->attach_value(name, time, &m::time_to_string_with_date);
+	this->attach_value(name, m::time_to_string_with_date(time));
+}
+
+
+
+void Statistics_window::attach_value(const std::string& name, const std::string& value)
+{
+	Gtk::Label* label;
+
+	this->add_row();
+
+	label = Gtk::manage( new Gtk::Label(name + ":  ") );
+	label->set_alignment(Gtk::ALIGN_LEFT);
+	this->table.attach(*label, 0, 1, this->rows_num - 1, this->rows_num);
+
+	label = Gtk::manage( new Gtk::Label(value) );
+	label->set_alignment(Gtk::ALIGN_RIGHT);
+	this->table.attach(*label, 1, 2, this->rows_num - 1, this->rows_num);
 }
 
 

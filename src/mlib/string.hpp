@@ -181,7 +181,7 @@
 
 		/// Возвращает строковое представление периода времени вида
 		/// 1d 5h 50m.
-		std::string		get_time_duration_string(time_t time);
+		std::string		get_time_duration_string(time_t time, bool show_zero_values = true);
 
 		// Возвращает строку, представляющую оставшееся время в удобном для
 		// восприятия формате.
@@ -192,7 +192,7 @@
 		// Кроме этого имеет некоторое максимальное значение time_left, при
 		// превышении которого оставшееся время обозначается символом
 		// бесконечности.
-		Glib::ustring	get_time_left_string(Time time_left);
+		Glib::ustring	get_time_left_string(Time time_left, bool show_zero_values = true);
 
 	#ifdef MLIB_ENABLE_FORMAT
 		/// Обертка над gettext и Format.
@@ -217,10 +217,10 @@
 		Glib::ustring	L2U(const std::string& string);
 
 		/// Возвращает строковое представление размера
-		std::string		size_to_string(Size size);
+		std::string		size_to_string(Size size, bool show_zero_values = true);
 
 		/// Возвращает строковое представление скорости передачи данных
-		std::string		speed_to_string(Speed speed);
+		std::string		speed_to_string(Speed speed, bool show_zero_values = true);
 
 		/// Возвращает строковое представление времени в формате "%H:%M:%S %d.%m.%Y".
 		std::string		time_to_string_with_date(Time time);

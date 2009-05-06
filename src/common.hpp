@@ -753,10 +753,10 @@
 	Share_ratio	get_share_ratio(Size upload, Size download, Size size);
 
 	/// Возвращает строковое представление share ratio.
-	std::string	get_share_ratio_string(Share_ratio ratio);
+	std::string	get_share_ratio_string(Share_ratio ratio, bool show_zero_values = true);
 
 	/// Возвращает строковое представление share ratio.
-	std::string	get_share_ratio_string(Size upload, Size download, Size size = 0);
+	std::string	get_share_ratio_string(Size upload, Size download, Size size = 0, bool show_zero_values = true);
 
 
 

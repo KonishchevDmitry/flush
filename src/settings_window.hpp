@@ -119,6 +119,7 @@
 				// GUI -->
 					// Miscellaneous -->
 						Gtk::CheckButton	show_speed_in_window_title;
+						Gtk::CheckButton	show_zero_values;
 
 						Gtk::CheckButton	show_tray_icon;
 						Gtk::VBox			tray_vbox;

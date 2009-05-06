@@ -496,6 +496,7 @@ namespace
 	Gui_settings::Gui_settings(void)
 	:
 		show_speed_in_window_title(false),
+		show_zero_values(false),
 
 		show_toolbar(true),
 		toolbar_style(m::gtk::toolbar::DEFAULT),
@@ -524,6 +525,11 @@ namespace
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
 				this->show_speed_in_window_title = setting;
+			}
+			else if(m::is_eq(setting_name, "show_zero_values"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				this->show_zero_values = setting;
 			}
 			else if(m::is_eq(setting_name, "show_toolbar"))
 			{
@@ -628,6 +634,7 @@ namespace
 	void Gui_settings::write_config(libconfig::Setting& config_root) const
 	{
 		config_root.add("show_speed_in_window_title", libconfig::Setting::TypeBoolean) = this->show_speed_in_window_title;
+		config_root.add("show_zero_values", libconfig::Setting::TypeBoolean) = this->show_zero_values;
 
 		config_root.add("show_toolbar", libconfig::Setting::TypeBoolean) = this->show_toolbar;
 		config_root.add("toolbar_style", libconfig::Setting::TypeString) = m::gtk::toolbar::get_style_string_representation(this->toolbar_style);

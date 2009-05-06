@@ -102,7 +102,10 @@
 			Gtk::TreeModelColumn<Glib::ustring>		share_ratio_string;
 
 			Gtk::TreeModelColumn<int>				peers_num;
+			Gtk::TreeModelColumn<Glib::ustring>		peers_num_string;
+
 			Gtk::TreeModelColumn<int>				seeds_num;
+			Gtk::TreeModelColumn<Glib::ustring>		seeds_num_string;
 
 
 			Gtk::TreeModelColumn<Time>				time_added;
@@ -168,6 +171,9 @@
 			sigc::signal<void, Torrent_id>	torrent_selected_signal;
 
 		private:
+			/// Значение, которое имела опция "show_zero_values" в прошлый раз.
+			bool							last_show_zero_values_setting;
+
 			Glib::RefPtr<Gtk::Action>		pause_action;
 			Glib::RefPtr<Gtk::Action>		resume_action;
 			Glib::RefPtr<Gtk::UIManager>	ui_manager;
@@ -203,7 +209,7 @@
 			void					torrents_process_callback(Torrent_process_action action);
 
 			/// Обновляет строку TreeView.
-			void					update_row(Gtk::TreeModel::iterator &iter, const Torrent_info& torrent_info, bool is_new_row);
+			void					update_row(Gtk::TreeModel::iterator &iter, const Torrent_info& torrent_info, bool force_update, bool zeros_force_update, bool show_zero_values);
 	};
 #endif
 

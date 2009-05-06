@@ -69,6 +69,7 @@
 			Gtk::TreeModelColumn<Glib::ustring>				availability_string;
 
 			Gtk::TreeModelColumn<int>						hash_fails;
+			Gtk::TreeModelColumn<Glib::ustring>				hash_fails_string;
 	};
 
 
@@ -104,6 +105,9 @@
 		public:
 			Torrent_peers_view(const Torrent_peers_view_settings& settings);
 
+		private:
+			/// Значение, которое имела опция "show_zero_values" в прошлый раз.
+			bool				last_show_zero_values_setting;
 
 		public:
 			/// Сохраняет настройки виджета.

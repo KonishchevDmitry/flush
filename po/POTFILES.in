@@ -94,7 +94,6 @@ src/ip_filter.hpp
 src/settings_window.cpp
 src/settings_window.hpp
 src/statistics_window.cpp
-src/statistics_window.hh
 src/statistics_window.hpp
 src/torrent_details_view.cpp
 src/torrent_details_view.hpp
