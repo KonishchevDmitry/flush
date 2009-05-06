@@ -18,37 +18,49 @@
 **************************************************************************/
 
 
-#ifndef HEADER_MLIB_GTK_TYPES
-	#define HEADER_MLIB_GTK_TYPES
+#ifdef MLIB_ENABLE_GLADE
 
-	#ifdef MLIB_ENABLE_GTK
-		namespace Gtk
-		{
-			class Button;
-			class ComboBox;
-			class Dialog;
-			class Entry;
-			class FileChooserDialog;
-			class LinkButton;
-			class ListStore;
-			class ListViewText;
-			class MessageDialog;
-			class ProgressBar;
-			class Table;
-			class Toolbar;
-			class TreeRow;
-			class TreeViewColumn;
-			class TreeView;
-			class Widget;
-			class Window;
-		}
-	#endif
+#include "glade.hpp"
 
-	#ifdef MLIB_ENABLE_GLADE
-		namespace Gnome { namespace Glade {
-			class Xml;
-		}}
-	#endif
+#include "../messages.hpp"
+#include "../string.hpp"
+
+
+namespace m { namespace glade {
+
+Glib::RefPtr<Gnome::Glade::Xml> create(const char* file, int line, const std::string& filename, const Glib::ustring& root, const Glib::ustring& domain)
+{
+	try
+	{
+		return Gnome::Glade::Xml::create(filename, root, domain);
+	}
+	catch(Gnome::Glade::XmlError& e)
+	{
+		m::error(file, line, e.what());
+	}
+}
+
+
+
+Gtk::Widget* get_widget(const char* file, int line, const Glib::RefPtr<Gnome::Glade::Xml>& xml, const Glib::ustring &name)
+{
+	Gtk::Widget* widget = NULL;
+
+	widget = xml->get_widget(name);
+
+	if(!widget)
+	{
+		m::error(file, line, __(
+			"Can't get widget '%1' from glade file '%2'.",
+			name, xml->get_filename()
+		));
+	}
+
+	return widget;
+}
+
+}}
 
 #endif
+
 

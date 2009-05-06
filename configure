@@ -660,6 +660,8 @@ SSL_CXXFLAGS
 SSL_CFLAGS
 libconfigduo_LIBS
 libconfigduo_CFLAGS
+glademm_LIBS
+glademm_CFLAGS
 gtkmm_LIBS
 gtkmm_CFLAGS
 gthread_LIBS
@@ -675,6 +677,8 @@ BOOST_CPPFLAGS
 EGREP
 GREP
 CXXCPP
+DEVELOP_MODE_FALSE
+DEVELOP_MODE_TRUE
 POSUB
 LTLIBINTL
 LIBINTL
@@ -825,6 +829,8 @@ gthread_CFLAGS
 gthread_LIBS
 gtkmm_CFLAGS
 gtkmm_LIBS
+glademm_CFLAGS
+glademm_LIBS
 libconfigduo_CFLAGS
 libconfigduo_LIBS
 libtorrent_rasterbar_CFLAGS
@@ -1529,6 +1535,10 @@ Some influential environment variables:
   gtkmm_CFLAGS
               C compiler flags for gtkmm, overriding pkg-config
   gtkmm_LIBS  linker flags for gtkmm, overriding pkg-config
+  glademm_CFLAGS
+              C compiler flags for glademm, overriding pkg-config
+  glademm_LIBS
+              linker flags for glademm, overriding pkg-config
   libconfigduo_CFLAGS
               C compiler flags for libconfigduo, overriding pkg-config
   libconfigduo_LIBS
@@ -7004,6 +7014,23 @@ _ACEOF
 
 
 
+	cat >>confdefs.h <<\_ACEOF
+#define MLIB_ENABLE_GLADE 1
+_ACEOF
+
+
+
+
+
+
+ if test "X$develop_mode" = "Xyes"; then
+  DEVELOP_MODE_TRUE=
+  DEVELOP_MODE_FALSE='#'
+else
+  DEVELOP_MODE_TRUE='#'
+  DEVELOP_MODE_FALSE=
+fi
+
 
 
 	if test "X$enable_inotify" = "Xyes"
@@ -9213,6 +9240,122 @@ fi
 			COMMON_CPPFLAGS="$COMMON_CPPFLAGS $gtkmm_CFLAGS"
 			APP_LDADD="$APP_LDADD $gtkmm_LIBS"
 
+
+pkg_failed=no
+{ $as_echo "$as_me:$LINENO: checking for glademm" >&5
+$as_echo_n "checking for glademm... " >&6; }
+
+if test -n "$PKG_CONFIG"; then
+    if test -n "$glademm_CFLAGS"; then
+        pkg_cv_glademm_CFLAGS="$glademm_CFLAGS"
+    else
+        if test -n "$PKG_CONFIG" && \
+    { ($as_echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"libglademm-2.4\"") >&5
+  ($PKG_CONFIG --exists --print-errors "libglademm-2.4") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; then
+  pkg_cv_glademm_CFLAGS=`$PKG_CONFIG --cflags "libglademm-2.4" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+    fi
+else
+	pkg_failed=untried
+fi
+if test -n "$PKG_CONFIG"; then
+    if test -n "$glademm_LIBS"; then
+        pkg_cv_glademm_LIBS="$glademm_LIBS"
+    else
+        if test -n "$PKG_CONFIG" && \
+    { ($as_echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"libglademm-2.4\"") >&5
+  ($PKG_CONFIG --exists --print-errors "libglademm-2.4") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; then
+  pkg_cv_glademm_LIBS=`$PKG_CONFIG --libs "libglademm-2.4" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+    fi
+else
+	pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        glademm_PKG_ERRORS=`$PKG_CONFIG --short-errors --errors-to-stdout --print-errors "libglademm-2.4"`
+        else
+	        glademm_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors "libglademm-2.4"`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$glademm_PKG_ERRORS" >&5
+
+	{ { $as_echo "$as_me:$LINENO: error: Package requirements (libglademm-2.4) were not met:
+
+$glademm_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables glademm_CFLAGS
+and glademm_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+" >&5
+$as_echo "$as_me: error: Package requirements (libglademm-2.4) were not met:
+
+$glademm_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables glademm_CFLAGS
+and glademm_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+" >&2;}
+   { (exit 1); exit 1; }; }
+elif test $pkg_failed = untried; then
+	{ { $as_echo "$as_me:$LINENO: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+{ { $as_echo "$as_me:$LINENO: error: The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables glademm_CFLAGS
+and glademm_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See \`config.log' for more details." >&5
+$as_echo "$as_me: error: The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables glademm_CFLAGS
+and glademm_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See \`config.log' for more details." >&2;}
+   { (exit 1); exit 1; }; }; }
+else
+	glademm_CFLAGS=$pkg_cv_glademm_CFLAGS
+	glademm_LIBS=$pkg_cv_glademm_LIBS
+        { $as_echo "$as_me:$LINENO: result: yes" >&5
+$as_echo "yes" >&6; }
+	:
+fi
+			COMMON_CPPFLAGS="$COMMON_CPPFLAGS $glademm_CFLAGS"
+			APP_LDADD="$APP_LDADD $glademm_LIBS"
+
 					if test "X$package_libconfig" = "Xyes"
 			then
 				LIBCONFIG_LIBRARIES="\$(top_builddir)/$libconfig_dir_name/.libs/libconfig++.a"
@@ -10216,7 +10359,7 @@ subdirs="$subdirs dbus-c++"
 
 
 
-ac_config_files="$ac_config_files man/Makefile man/ru/Makefile po/Makefile.in src/Makefile src/mlib/Makefile src/mlib/gtk/Makefile flush.desktop Makefile"
+ac_config_files="$ac_config_files glade/Makefile man/Makefile man/ru/Makefile po/Makefile.in src/Makefile src/mlib/Makefile src/mlib/gtk/Makefile flush.desktop Makefile"
 
 
 cat >confcache <<\_ACEOF
@@ -10334,6 +10477,13 @@ if test -z "${am__fastdepCC_TRUE}" && test -z "${am__fastdepCC_FALSE}"; then
   { { $as_echo "$as_me:$LINENO: error: conditional \"am__fastdepCC\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 $as_echo "$as_me: error: conditional \"am__fastdepCC\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${DEVELOP_MODE_TRUE}" && test -z "${DEVELOP_MODE_FALSE}"; then
+  { { $as_echo "$as_me:$LINENO: error: conditional \"DEVELOP_MODE\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+$as_echo "$as_me: error: conditional \"DEVELOP_MODE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
@@ -10855,6 +11005,7 @@ do
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "po-directories") CONFIG_COMMANDS="$CONFIG_COMMANDS po-directories" ;;
+    "glade/Makefile") CONFIG_FILES="$CONFIG_FILES glade/Makefile" ;;
     "man/Makefile") CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
     "man/ru/Makefile") CONFIG_FILES="$CONFIG_FILES man/ru/Makefile" ;;
     "po/Makefile.in") CONFIG_FILES="$CONFIG_FILES po/Makefile.in" ;;

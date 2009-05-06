@@ -74,12 +74,12 @@
 	:
 		ip(_("IP"), model_columns.ip),
 		client(_("Client"), model_columns.client),
-		download_speed(_("|Download speed|Down speed"), model_columns.download_speed_string),
-		payload_download_speed(_("|Download speed (payload)|Down speed (data)"), model_columns.payload_download_speed_string),
-		upload_speed(_("|Upload speed|Up speed"), model_columns.upload_speed_string),
-		payload_upload_speed(_("|Upload speed (payload)|Up speed (data)"), model_columns.payload_upload_speed_string),
-		total_payload_download(_("|Total download (payload)|Down data"), model_columns.total_payload_download_string),
-		total_payload_upload(_("|Total upload (payload)|Up data"), model_columns.total_payload_upload_string),
+		download_speed(_Q("Download speed|Down speed"), model_columns.download_speed_string),
+		payload_download_speed(_Q("Download speed (payload)|Down speed (data)"), model_columns.payload_download_speed_string),
+		upload_speed(_Q("Upload speed|Up speed"), model_columns.upload_speed_string),
+		payload_upload_speed(_Q("Upload speed (payload)|Up speed (data)"), model_columns.payload_upload_speed_string),
+		total_payload_download(_Q("Total download (payload)|Down data"), model_columns.total_payload_download_string),
+		total_payload_upload(_Q("Total upload (payload)|Up data"), model_columns.total_payload_upload_string),
 		availability(_("Availability"), availability_renderer),
 		hash_fails(_("Hash fails"), model_columns.hash_fails)
 	{

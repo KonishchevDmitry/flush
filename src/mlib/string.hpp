@@ -114,24 +114,41 @@
 
 
 		/// Обертка над gettext.
+		inline
 		std::string		_(const char* string);
 
 	#ifndef MLIB_ENABLE_FORMAT
-		/// Обертка над Glib::ustring::compose(gettext(...)).
+		/// Обертка над Glib::ustring::compose(_(...)).
 		inline
 		Glib::ustring	__(const char* fmt);
 
-		/// Обертка над Glib::ustring::compose(gettext(...), ...).
+		/// Обертка над Glib::ustring::compose(_(...), ...).
 		template<class T1> inline
 		Glib::ustring	__(const char* fmt, const T1& a1);
 
-		/// Обертка над Glib::ustring::compose(gettext(...), ...).
+		/// Обертка над Glib::ustring::compose(_(...), ...).
 		template<class T1, class T2> inline
 		Glib::ustring	__(const char* fmt, const T1& a1, const T2& a2);
 
-		/// Обертка над Glib::ustring::compose(gettext(...), ...).
+		/// Обертка над Glib::ustring::compose(_(...), ...).
 		template<class T1, class T2, class T3> inline
 		Glib::ustring	__(const char* fmt, const T1& a1, const T2& a2, const T3& a3);
+
+		/// Обертка над Glib::ustring::compose(_Q(...)).
+		inline
+		Glib::ustring	__Q(const char* fmt);
+
+		/// Обертка над Glib::ustring::compose(_Q(...), ...).
+		template<class T1> inline
+		Glib::ustring	__Q(const char* fmt, const T1& a1);
+
+		/// Обертка над Glib::ustring::compose(_Q(...), ...).
+		template<class T1, class T2> inline
+		Glib::ustring	__Q(const char* fmt, const T1& a1, const T2& a2);
+
+		/// Обертка над Glib::ustring::compose(_Q(...), ...).
+		template<class T1, class T2, class T3> inline
+		Glib::ustring	__Q(const char* fmt, const T1& a1, const T2& a2, const T3& a3);
 
 		/// Обертка над Glib::ustring::compose.
 		template<class T1> inline
@@ -157,6 +174,10 @@
 		template<class T1, class T2, class T3> inline
 		Glib::ustring	_F(const T1& a1, const T2& a2, const T3& a3);
 	#endif
+
+		/// То же, что и _(), но удаляет из строки все до первого символа '|'
+		/// (включая этот символ).
+		std::string		_Q(const char* string);
 
 		/// Возвращает строковое представление периода времени вида
 		/// 1d 5h 50m.
@@ -230,12 +251,14 @@
 
 	#ifdef MLIB_ENABLE_ALIASES
 		using m::_;
+		using m::_Q;
 
 		#ifdef MLIB_ENABLE_FORMAT
 			using m::Format;
 			using m::_F;
 		#else
 			using m::__;
+			using m::__Q;
 			using m::_F;
 			using m::_C;
 		#endif

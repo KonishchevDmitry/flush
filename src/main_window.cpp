@@ -77,8 +77,10 @@
 			bool								has_been_showed;
 
 			/// Определяет, в каком положении надится в данный момент окно - в
-			/// свернутом или нет.
-			bool								minimized;
+			/// свернутом или нет (на самом деле не обязательно, что оно
+			/// свернуто - также это может означать, что окно находится на другом
+			/// рабочем столе.
+			bool								iconified;
 
 			/// Текст заголовка окна без дополнительной информации (текущих
 			/// скоростях скачивания).
@@ -114,7 +116,7 @@
 	Main_window::Gui::Gui(void)
 	:
 		has_been_showed(false),
-		minimized(false)
+		iconified(false)
 	{
 	}
 // Gui <--
@@ -689,6 +691,14 @@ void Main_window::change_toolbar_style(m::gtk::toolbar::Style style)
 
 
 
+void Main_window::hide(void)
+{
+	this->set_visible_in_wm(false);
+	Gtk::Window::hide();
+}
+
+
+
 void Main_window::on_change_rate_limit_callback(Traffic_type traffic_type)
 {
 	Change_rate_limit_dialog dialog(*this, traffic_type);;
@@ -716,11 +726,7 @@ void Main_window::on_create_callback(void)
 
 bool Main_window::on_gui_update_timeout(void)
 {
-	if(this->is_visible() && !this->gui->minimized)
-		this->update_gui();
-	else if(get_client_settings().gui.show_tray_icon)
-		this->update_gui(UPDATE_TRAY);
-
+	this->update_gui(false);
 	return true;
 }
 
@@ -962,10 +968,17 @@ void Main_window::on_torrent_process_actions_changed_callback(Torrent_process_ac
 
 void Main_window::on_tray_activated(void)
 {
-	if(this->is_visible() && !this->gui->minimized)
+	if(this->is_visible() && !this->gui->iconified)
 		this->hide();
 	else
+	{
+		// Если окно в данный момен находися на другом рабочем столе в
+		// свернутом состоянии, то тогда имеет смысл сначала скрыть его - тогда
+		// Gnome перекинет его на текущий рабочий стол (IceWM 1.2.37 этого не
+		// делает).
+		this->hide();
 		this->show();
+	}
 }
 
 
@@ -985,36 +998,20 @@ bool Main_window::on_window_state_changed_callback(const GdkEventWindowState* st
 		state->new_window_state, state->changed_mask)
 	);
 
-	// Сохраняем текущее состояние окна
-	this->gui->minimized = state->new_window_state & GDK_WINDOW_STATE_ICONIFIED;
+	if(state->changed_mask & GDK_WINDOW_STATE_ICONIFIED)
+	{
+		// Сохраняем текущее состояние окна
+		this->gui->iconified = state->new_window_state & GDK_WINDOW_STATE_ICONIFIED;
 
-	// Изменилось состояние "свернутости" окна -->
-		if(state->changed_mask & GDK_WINDOW_STATE_ICONIFIED)
-		{
-			MLIB_D("Changed window minimized status.");
+		// Если окно свернули, то скрываем окно в трей, если этого требуют
+		// настройки. При восстановлении окна всегда отображаем его - настройки
+		// могли поменяться, пока оно было свернуто.
+		if(!this->gui->iconified || get_client_settings().gui.minimize_to_tray)
+			this->set_visible_in_wm(!this->gui->iconified);
 
-			// Если окно свернули
-			if(state->new_window_state & GDK_WINDOW_STATE_ICONIFIED)
-			{
-				MLIB_D("Window is minimized.");
-
-				if(get_client_settings().gui.show_tray_icon && get_client_settings().gui.minimize_to_tray)
-				{
-					MLIB_D("Hiding window to tray.");
-					this->deiconify();
-					this->hide();
-				}
-			}
-			// Если окно было свернуто, и его развернули
-			else
-			{
-				MLIB_D("Window is restored.");
-
-				if(this->is_visible())
-					this->update_gui();
-			}
-		}
-	// Изменилось состояние "свернутости" окна <--
+		if(!this->gui->iconified)
+			this->update_gui(false);
+	}
 
 	return true;
 }
@@ -1096,17 +1093,30 @@ void Main_window::save_settings(void)
 
 
 
+void Main_window::set_visible_in_wm(bool visible)
+{
+	// Убираем окно с панели управления.
+	this->set_skip_taskbar_hint(!visible);
+
+	// Убираем окно из меню, вызываемом по Alt+Tab (IceWM 1.2.37 на вызов этой
+	// функции никак не реагирует, а вот Gnome обрабатывает нормально).
+	this->set_skip_pager_hint(!visible);
+}
+
+
+
 void Main_window::show(void)
 {
 	this->gui->has_been_showed = true;
 	this->update_gui();
 
-	// При восстановлении из трея, если до этого окно было свернуто, то оно
-	// почему-то опять пытается свернуться. Поэтому перед каждым отображением
-	// окна явно разворачиваем его.
-	this->deiconify();
-
 	Gtk::Window::show();
+	this->set_visible_in_wm();
+
+	// Чтобы из трея окно вылезало полностью, а не попадало только на панель
+	// задач, если перед свертыванием его в трей, оно было там.
+	if(this->gui->iconified)
+		this->deiconify();
 }
 
 
@@ -1146,10 +1156,42 @@ void Main_window::show_tray_icon(bool show)
 
 
 
-void Main_window::update_gui(Update_flags update_what)
+void Main_window::update_gui(bool force)
 {
+	enum Update_type {
+		UPDATE_WINDOW_TITLE	= 1 << 0,
+		UPDATE_WIDGETS		= 1 << 1,
+		UPDATE_TRAY			= 1 << 2,
+		UPDATE_ALL			= UPDATE_WINDOW_TITLE | UPDATE_WIDGETS | UPDATE_TRAY
+	};
+
+	int update_flags = UPDATE_ALL;
+
+
+	// Определяем, какие элементы нам необходимо обновить -->
+		if(!force)
+		{
+			if(!this->is_visible())
+				update_flags &= ~(UPDATE_WINDOW_TITLE | UPDATE_WIDGETS);
+
+			if(this->gui->iconified)
+			{
+				update_flags &= ~UPDATE_WIDGETS;
+
+				if(get_client_settings().gui.minimize_to_tray)
+					update_flags &= ~UPDATE_WINDOW_TITLE;
+			}
+		}
+
+		if(!get_client_settings().gui.show_speed_in_window_title)
+			update_flags &= ~UPDATE_WINDOW_TITLE;
+
+		if(!get_client_settings().gui.show_tray_icon)
+			update_flags &= ~UPDATE_TRAY;
+	// Определяем, какие элементы нам необходимо обновить <--
+
 	// Обновляем список торрентов -->
-		if(update_what & UPDATE_WIDGETS)
+		if(update_flags & UPDATE_WIDGETS)
 		{
 			std::vector<Torrent_info> torrents_info;
 
@@ -1169,115 +1211,113 @@ void Main_window::update_gui(Update_flags update_what)
 	// Получаем информацию о текущей сессии
 	// и отображаем ее в элементах GUI.
 	// -->
-	{
-		try
+		if( update_flags & (UPDATE_WINDOW_TITLE | UPDATE_WIDGETS | UPDATE_TRAY) )
 		{
-			Session_status session_status = get_daemon_proxy().get_session_status();
+			try
+			{
+				Session_status session_status = get_daemon_proxy().get_session_status();
 
-			// Заголовок окна -->
-				if(update_what & UPDATE_WINDOW_TITLE)
-				{
-					if(get_client_settings().gui.show_speed_in_window_title)
+				// Заголовок окна -->
+					if(update_flags & UPDATE_WINDOW_TITLE)
 					{
 						this->set_title(
-							__(
-								"|Download/Upload|D: %1, U: %2 - %3",
+							__Q(
+								"Download/Upload|D: %1, U: %2 - %3",
 								m::speed_to_string(session_status.payload_download_speed),
 								m::speed_to_string(session_status.payload_upload_speed),
 								this->gui->orig_window_title
 							)
 						);
 					}
-				}
-			// Заголовок окна <--
+				// Заголовок окна <--
 
-			// Строка статуса -->
-				if(update_what & UPDATE_WIDGETS)
-				{
-					const Status_bar_settings& status_bar_settings = get_client_settings().gui.main_window.status_bar;
-					std::string space_string = "  ";
-					std::string status_string;
-
-					if(status_bar_settings.download_speed)
-						status_string += space_string + _("Download speed") + ": " + m::speed_to_string(session_status.download_speed);
-
-					if(status_bar_settings.payload_download_speed)
-						status_string += space_string + _("Download speed (payload)") + ": " + m::speed_to_string(session_status.payload_download_speed);
-
-					if(status_bar_settings.upload_speed)
-						status_string += space_string + _("Upload speed") + ": " + m::speed_to_string(session_status.upload_speed);
-
-					if(status_bar_settings.payload_upload_speed)
-						status_string += space_string + _("Upload speed (payload)") + ": " + m::speed_to_string(session_status.payload_upload_speed);
-
-					if(status_bar_settings.download)
-						status_string += space_string + _("Downloaded") + ": " + m::size_to_string(session_status.download);
-
-					if(status_bar_settings.payload_download)
-						status_string += space_string + _("Download (payload)") + ": " + m::size_to_string(session_status.payload_download);
-
-					if(status_bar_settings.upload)
-						status_string += space_string + _("Uploaded") + ": " + m::size_to_string(session_status.upload);
-
-					if(status_bar_settings.payload_upload)
-						status_string += space_string + _("Upload (payload)") + ": " + m::size_to_string(session_status.payload_upload);
-
-					if(status_bar_settings.share_ratio)
-						status_string += space_string + _("Share ratio") + ": " + get_share_ratio_string(session_status.payload_upload, session_status.payload_download);
-
-					if(status_bar_settings.failed)
-						status_string += space_string + _("Failed") + ": " + m::size_to_string(session_status.failed);
-
-					if(status_bar_settings.redundant)
-						status_string += space_string + _("Redundant") + ": " + m::size_to_string(session_status.redundant);
-
-					if(status_string.empty())
-						this->gui->status_bar.hide();
-					else
+				// Строка статуса -->
+					if(update_flags & UPDATE_WIDGETS)
 					{
-						this->gui->status_bar.pop();
-						this->gui->status_bar.push(status_string.substr(space_string.size()));
-						this->gui->status_bar.show();
+						const Status_bar_settings& status_bar_settings = get_client_settings().gui.main_window.status_bar;
+						std::string space_string = "  ";
+						std::string status_string;
+
+						if(status_bar_settings.download_speed)
+							status_string += space_string + _("Download speed") + ": " + m::speed_to_string(session_status.download_speed);
+
+						if(status_bar_settings.payload_download_speed)
+							status_string += space_string + _("Download speed (payload)") + ": " + m::speed_to_string(session_status.payload_download_speed);
+
+						if(status_bar_settings.upload_speed)
+							status_string += space_string + _("Upload speed") + ": " + m::speed_to_string(session_status.upload_speed);
+
+						if(status_bar_settings.payload_upload_speed)
+							status_string += space_string + _("Upload speed (payload)") + ": " + m::speed_to_string(session_status.payload_upload_speed);
+
+						if(status_bar_settings.download)
+							status_string += space_string + _("Downloaded") + ": " + m::size_to_string(session_status.download);
+
+						if(status_bar_settings.payload_download)
+							status_string += space_string + _("Download (payload)") + ": " + m::size_to_string(session_status.payload_download);
+
+						if(status_bar_settings.upload)
+							status_string += space_string + _("Uploaded") + ": " + m::size_to_string(session_status.upload);
+
+						if(status_bar_settings.payload_upload)
+							status_string += space_string + _("Upload (payload)") + ": " + m::size_to_string(session_status.payload_upload);
+
+						if(status_bar_settings.share_ratio)
+							status_string += space_string + _("Share ratio") + ": " + get_share_ratio_string(session_status.payload_upload, session_status.payload_download);
+
+						if(status_bar_settings.failed)
+							status_string += space_string + _("Failed") + ": " + m::size_to_string(session_status.failed);
+
+						if(status_bar_settings.redundant)
+							status_string += space_string + _("Redundant") + ": " + m::size_to_string(session_status.redundant);
+
+						if(status_string.empty())
+							this->gui->status_bar.hide();
+						else
+						{
+							this->gui->status_bar.pop();
+							this->gui->status_bar.push(status_string.substr(space_string.size()));
+							this->gui->status_bar.show();
+						}
 					}
-				}
-			// Строка статуса <--
+				// Строка статуса <--
 
-			// Трей -->
-				if(update_what & UPDATE_TRAY && get_client_settings().gui.show_tray_icon)
-				{
-					this->gui->tray->set_tooltip(
-						std::string(APP_NAME) + "\n" +
-						__(
-							"|Download speed|Down: %1 (%2) / %3",
-							m::speed_to_string(session_status.download_speed),
-							m::speed_to_string(session_status.payload_download_speed),
-							m::speed_to_string(session_status.download_rate_limit)
-						)
-						+ "\n" +
-						__(
-							"|Upload speed|Up: %1 (%2) / %3",
-							m::speed_to_string(session_status.upload_speed),
-							m::speed_to_string(session_status.payload_upload_speed),
-							m::speed_to_string(session_status.upload_rate_limit)
-						)
-					);
-				}
-			// Трей <--
+				// Трей -->
+					if(update_flags & UPDATE_TRAY)
+					{
+						this->gui->tray->set_tooltip(
+							std::string(APP_NAME) + "\n" +
+							__Q(
+								"Download speed|Down: %1 (%2) / %3",
+								m::speed_to_string(session_status.download_speed),
+								m::speed_to_string(session_status.payload_download_speed),
+								m::speed_to_string(session_status.download_rate_limit)
+							)
+							+ "\n" +
+							__Q(
+								"Upload speed|Up: %1 (%2) / %3",
+								m::speed_to_string(session_status.upload_speed),
+								m::speed_to_string(session_status.payload_upload_speed),
+								m::speed_to_string(session_status.upload_rate_limit)
+							)
+						);
+					}
+				// Трей <--
+			}
+			catch(m::Exception& e)
+			{
+				if(update_flags & UPDATE_WINDOW_TITLE)
+					this->set_title(this->gui->orig_window_title);
+
+				if(update_flags & UPDATE_WIDGETS)
+					this->gui->status_bar.hide();
+
+				if(update_flags & UPDATE_TRAY)
+					this->gui->tray->set_tooltip("");
+
+				MLIB_W(EE(e));
+			}
 		}
-		catch(m::Exception& e)
-		{
-			if(update_what & UPDATE_WINDOW_TITLE)
-				this->set_title(this->gui->orig_window_title);
-
-			if(update_what & UPDATE_WIDGETS)
-				this->gui->status_bar.hide();
-
-			if(update_what & UPDATE_TRAY && get_client_settings().gui.show_tray_icon)
-				this->gui->tray->set_tooltip("");
-
-			MLIB_W(EE(e));
-		}
-	}
 	// <--
 }
 

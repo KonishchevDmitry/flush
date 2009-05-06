@@ -102,6 +102,9 @@
 /* Enable DBus support for mlib */
 #undef MLIB_ENABLE_DBUS
 
+/* Enable Glade support for mlib */
+#undef MLIB_ENABLE_GLADE
+
 /* Enable GTK support for mlib */
 #undef MLIB_ENABLE_GTK
 

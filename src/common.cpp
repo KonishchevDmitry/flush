@@ -1,6 +1,8 @@
 #include <string>
 #include <limits>
 
+#include <boost/exception.hpp>
+
 #include <glibmm/convert.h>
 
 #include <libtorrent/alert.hpp>
@@ -75,6 +77,66 @@
 		this->sequential_download = sequential_download;
 	}
 // Download_settings <--
+
+
+
+// Ip_filter_rule -->
+	Ip_filter_rule::Ip_filter_rule(void)
+	:
+		block(false)
+	{
+	}
+
+
+
+	Ip_filter_rule::Ip_filter_rule(const std::string& from, const std::string& to, bool block)
+	:
+		from(from), to(to), block(block)
+	{
+	}
+
+
+
+	void Ip_filter_rule::check(void) const throw(m::Exception)
+	{
+		std::string ip;
+		lt::address_v4 from_address;
+		lt::address_v4 to_address;
+
+		try
+		{
+			ip = this->from;
+			from_address = lt::address_v4::from_string(ip);
+
+			ip = this->to;
+			to_address = lt::address_v4::from_string(ip);
+		}
+		catch(boost::exception&)
+		{
+			M_THROW(__("invalid IP address '%1'", ip));
+		}
+
+		if(from_address > to_address)
+			M_THROW(__("invalid IP range %1-%2", this->from, this->to));
+	}
+
+
+
+	bool Ip_filter_rule::operator==(const Ip_filter_rule& rule) const
+	{
+		return
+			this->from	== rule.from	&&
+			this->to	== rule.to		&&
+			this->block	== rule.block;
+	}
+
+
+
+	bool Ip_filter_rule::operator!=(const Ip_filter_rule& rule) const
+	{
+		return !(*this == rule);
+	}
+// Ip_filter_rule <--
 
 
 
@@ -440,38 +502,38 @@
 	std::string Torrent_info::get_status_string(void) const
 	{
 		if(this->paused && this->status != allocating && this->status != checking_files)
-			return _("Paused");
+			return _Q("(short)|Paused");
 
 		std::string status_string;
 
 		switch(status)
 		{
 			case queued_for_checking:
-				status_string = _("Queued for checking");
+				status_string = _Q("(short)|Queued for checking");
 				break;
 
 			case checking_files:
-				status_string = _("Checking files");
+				status_string = _Q("(short)|Checking files");
 				break;
 
 			case downloading_metadata:
-				status_string = _("Downloading metadata");
+				status_string = _Q("(short)|Downloading metadata");
 				break;
 
 			case downloading:
-				status_string = _("Downloading");
+				status_string = _Q("(short)|Downloading");
 				break;
 
 			case seeding:
-				status_string = _("Seeding");
+				status_string = _Q("(short)|Seeding");
 				break;
 
 			case allocating:
-				status_string = _("Allocating");
+				status_string = _Q("(short)|Allocating");
 				break;
 
 			case unknown:
-				status_string = _("Unknown");
+				status_string = _Q("(short)|Unknown");
 				break;
 
 			default:
@@ -480,7 +542,7 @@
 		}
 
 		if(this->paused)
-			return std::string(_("Paused")) + " (" + status_string + ")";
+			return std::string(_Q("(short)|Paused")) + " (" + status_string + ")";
 		else
 			return status_string;
 	}

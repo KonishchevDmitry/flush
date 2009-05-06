@@ -954,13 +954,6 @@ std::string get_user_home_path(void)
 			MLIB_E(__("Can't get user home path."));
 
 		return L2U(user_home_path);
-
-		/*const char* user_home_path = getenv("HOME");
-
-		if(!user_home_path)
-			MLIB_E(__("Can't get user home path: %1.", EE(errno)));
-
-		return L2U(user_home_path);*/
 	#endif
 }
 

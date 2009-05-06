@@ -30,7 +30,7 @@
 
 
 	/// Облегченная структура для хранения тех настроек, которые невозможно
-	/// получить посредством libtorrent.
+	/// (или не хочется) получать посредством libtorrent.
 	class Daemon_settings_light
 	{
 		public:
@@ -77,63 +77,67 @@
 
 		public:
 			/// Диапазон портов для прослушивания.
-			std::pair<int, int>		listen_ports_range;
+			std::pair<int, int>				listen_ports_range;
 
 
 			// Включен ли LSD.
-			bool					lsd;
+			bool							lsd;
 
 			// Включен ли UPnP.
-			bool					upnp;
+			bool							upnp;
 
 			// Включен ли NAT-PMP.
-			bool					natpmp;
+			bool							natpmp;
 
 			// Включен ли Smart Ban.
-			bool					smart_ban;
+			bool							smart_ban;
 
 			// Включен ли Peer Exchange.
-			bool					pex;
+			bool							pex;
 
 
 			/// Максимальное количество соединений для раздачи,
 			/// которое может быть открыто.
-			int						max_uploads;
+			int								max_uploads;
 
 			/// Максимальное количество соединений, которое может
 			/// быть открыто.
-			int						max_connections;
+			int								max_connections;
+
+
+			/// IP фильтр.
+			std::vector<Ip_filter_rule>		ip_filter;
 
 
 			/// Настройки автоматической загрузки торрентов из директории.
-			Torrents_auto_load		torrents_auto_load;
+			Torrents_auto_load				torrents_auto_load;
 
 
 			/// Удалять старые торренты или нет.
-			bool					auto_delete_torrents;
+			bool							auto_delete_torrents;
 
 			/// Удалять старые торренты вместе с данными или нет.
-			bool					auto_delete_torrents_with_data;
+			bool							auto_delete_torrents_with_data;
 
 			/// Максимальное время жизни торрента (c).
-			time_t					auto_delete_torrents_max_seed_time;
+			time_t							auto_delete_torrents_max_seed_time;
 
 			/// Максимальный рейтинг торрента.
-			Share_ratio				auto_delete_torrents_max_share_ratio;
+			Share_ratio						auto_delete_torrents_max_share_ratio;
 
 			/// Максимальное количество раздающих торрентов.
-			int						auto_delete_torrents_max_seeds;
+			int								auto_delete_torrents_max_seeds;
 
 		private:
 			/// Начальный порт по умолчанию для диапазона прослушиваемых
 			/// портов.
 			static
-			const int				default_listen_start_port;
+			const int						default_listen_start_port;
 
 			/// Конечный порт по умолчанию для диапазона прослушиваемых
 			/// портов.
 			static
-			const int				default_listen_end_port;
+			const int						default_listen_end_port;
 	};
 
 
@@ -193,6 +197,9 @@
 
 			/// Считывает из конфика сессию DHT.
 			void				read_dht_state(std::string dht_state_path) throw(m::Exception);
+
+			/// Считывает настройки IP фильтра.
+			void				read_ip_filter_settings(const libconfig::Setting& filter_setting);
 
 			/// Сохраняет настройки в конфигурационный файл.
 			void				write_config(const std::string& config_path, const Session_status& session_status) const throw(m::Exception);

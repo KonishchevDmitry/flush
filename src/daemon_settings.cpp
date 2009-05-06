@@ -413,11 +413,19 @@ namespace
 				this->max_connections = setting;
 			}
 			else if(m::is_eq(setting_name, "auto_load_torrents"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeGroup, continue)
 				this->read_auto_load_settings(setting);
+			}
 			else if(m::is_eq(setting_name, "auto_delete_torrents"))
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
 				this->auto_delete_torrents = setting;
+			}
+			else if(m::is_eq(setting_name, "ip_filter"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeList, continue)
+				this->read_ip_filter_settings(setting);
 			}
 			else if(m::is_eq(setting_name, "auto_delete_torrents_with_data"))
 			{
@@ -567,6 +575,37 @@ namespace
 
 
 
+	void Daemon_settings::read_ip_filter_settings(const libconfig::Setting& filter_setting)
+	{
+		// При любой ошибке прекращаем парсинг, т. к. лучше вообще не загружать
+		// фильтр, если он битый.
+
+		Ip_filter_rule rule;
+		std::vector<Ip_filter_rule> ip_filter;
+
+		for(int i = 0; i < filter_setting.getLength(); i++)
+		{
+			const libconfig::Setting& setting = filter_setting[i];
+			CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeGroup, return)
+
+			if(
+				setting.lookupValue("from", rule.from) &&
+				setting.lookupValue("to", rule.to) &&
+				setting.lookupValue("block", rule.block)
+			)
+				ip_filter.push_back(rule);
+			else
+			{
+				MLIB_SW(__("Daemon config: Invalid IP filter rule at line %1.", setting.getSourceLine()));
+				return;
+			}
+		}
+
+		this->ip_filter.swap(ip_filter);
+	}
+
+
+
 	void Daemon_settings::write(const std::string& config_dir_path, const Session_status& session_status) const throw(m::Exception)
 	{
 		Errors_pool errors;
@@ -621,6 +660,23 @@ namespace
 
 			config_root.add("max_uploads", libconfig::Setting::TypeInt) = this->max_uploads;
 			config_root.add("max_connections", libconfig::Setting::TypeInt) = this->max_connections;
+
+			// IP фильтр -->
+				if(!this->ip_filter.empty())
+				{
+					libconfig::Setting& filter_setting = config_root.add("ip_filter", libconfig::Setting::TypeList);
+
+					for(size_t i = 0; i < this->ip_filter.size(); i++)
+					{
+						const Ip_filter_rule& rule = ip_filter[i];
+						libconfig::Setting& rule_setting = filter_setting.add(libconfig::Setting::TypeGroup);
+
+						rule_setting.add("from", libconfig::Setting::TypeString) = rule.from;
+						rule_setting.add("to", libconfig::Setting::TypeString) = rule.to;
+						rule_setting.add("block", libconfig::Setting::TypeBoolean) = rule.block;
+					}
+				}
+			// IP фильтр <--
 
 			// Автоматическая загрузка торрентов из директории -->
 			{

@@ -48,49 +48,6 @@
 		private:
 			typedef std::pair<Torrent_id, lt::entry> Torrent_resume_data;
 			typedef std::map<Torrent_id, Torrent> Torrents_container;
-			
-			#if 0
-				/// Задача на переименование файлов торрента.
-				struct Rename_files_task
-				{
-					Rename_files_task(const Torrent_id& torrent_id, const std::vector<Torrent_file>& new_paths)
-					:
-						torrent_id(torrent_id),
-						new_paths(new_paths)
-					{
-					}
-
-
-					Torrent_id					torrent_id;
-					std::vector<Torrent_file>	new_paths;
-				};
-
-				/// Результат выполнения операции по переименованию файла торрента.
-				struct Rename_file_reply
-				{
-					enum Type { OK, FAILED};
-
-
-					Rename_file_reply(void)
-					{
-					}
-
-					Rename_file_reply(Type type, const Torrent_id& torrent_id, int file_index, const std::string& error = "")
-					:
-						type(type),
-						torrent_id(torrent_id),
-						file_index(file_index),
-						error(error)
-					{
-					}
-
-
-					Type				type;
-					Torrent_id			torrent_id;
-					int					file_index;
-					std::string			error;
-				};
-			#endif
 
 
 		public:
@@ -121,23 +78,6 @@
 
 			/// Поток для получения сообщений от libtorrent.
 			boost::thread*					messages_thread;
-
-
-			#if 0
-				/// Сигнал на приостановку асинхронной файловой системы.
-				sigc::connection				async_fs_paused_connection;
-
-				/// Очередь задач на переименование файлов торрентов.
-				std::queue<Rename_files_task>	rename_files_tasks;
-
-				/// Сигнал на завершение обработки задачи по переименованию файла
-				/// торрента libtorrent'ом.
-				Glib::Dispatcher				torrent_file_renamed_signal;
-
-				/// Результаты выполнения операций по переименованию файлов
-				/// торрентов.
-				std::queue<Rename_file_reply>	renamed_files_replies;
-			#endif
 
 
 			/// Количество resume data, которые были запрошены у libtorrent, но
@@ -322,11 +262,6 @@
 			/// Устанавливает флаг скачивания для файлов с идентификаторами files_ids.
 			void						set_files_download_status(Torrent& torrent, const std::vector<int>& files_ids, bool download) throw(m::Exception);
 
-#if 0
-			/// Устанавливает новые пути для файлов.
-			void						set_files_new_paths(const Torrent& torrent, const std::vector<Torrent_file>& files_new_paths) throw(m::Exception);
-#endif
-
 			/// Устанавливает приоритет для файлов, идентификторы которых содержатся в списке files_id.
 			void						set_files_priority(Torrent& torrent, const std::vector<int>& files_ids, const Torrent_file_settings::Priority priority) throw(m::Exception);
 
@@ -372,19 +307,8 @@
 			/// все торренты из прошлой сессии.
 			void						load_torrents_from_config(void) throw(m::Exception);
 
-#if 0
-			// Обработчик сигнала на приостановку асинхронной файловой системы.
-			void						on_async_fs_paused_callback(void);
-#endif
-
 			/// Обработчик сигнала на автоматическое сохранение текущей сессии.
 			bool						on_save_session_callback(void);
-
-#if 0
-			/// Обработчик сигнала на получение ответа от libtorrent на
-			/// переименование файла торрента.
-			void						on_torrent_file_rename_reply_callback(void);
-#endif
 
 			/// Обработчик сигнала на завершение скачивания торрента.
 			void						on_torrent_finished_callback(void);
@@ -395,12 +319,6 @@
 			/// Обработчик сигнала на обновления статистической информации
 			/// о торрентах.
 			bool						on_update_torrents_statistics_callback(void);
-
-#if 0
-			/// Произоводит всю необходимую работу по обработке задачи на
-			/// переименование файлов торрента.
-			void						process_rename_files_task(const Rename_files_task& task);
-#endif
 
 			/// Сохраняет настройки торрента, если такой торрент еще существует.
 			/// Вызывается функциями, которые получают resume data от libtorrent.

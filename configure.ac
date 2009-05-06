@@ -216,10 +216,16 @@ dnl config.h -->
 	AH_TEMPLATE([MLIB_ENABLE_GTK], [Enable GTK support for mlib])
 	AC_DEFINE([MLIB_ENABLE_GTK])
 
+	AH_TEMPLATE([MLIB_ENABLE_GLADE], [Enable Glade support for mlib])
+	AC_DEFINE([MLIB_ENABLE_GLADE])
+
 	AH_BOTTOM([
 #endif
 	])
 dnl config.h <--
+
+
+AM_CONDITIONAL([DEVELOP_MODE], [test "X$develop_mode" = "Xyes"])
 
 
 dnl Available libraries -->
@@ -293,6 +299,12 @@ dnl compiler flags -->
 			COMMON_CPPFLAGS="$COMMON_CPPFLAGS $gtkmm_CFLAGS"
 			APP_LDADD="$APP_LDADD $gtkmm_LIBS"
 		dnl GTK <--
+
+		dnl Glade -->
+			PKG_CHECK_MODULES([glademm], [libglademm-2.4])
+			COMMON_CPPFLAGS="$COMMON_CPPFLAGS $glademm_CFLAGS"
+			APP_LDADD="$APP_LDADD $glademm_LIBS"
+		dnl Glade <--
 
 		dnl libconfig -->
 			if test "X$package_libconfig" = "Xyes"
@@ -375,6 +387,7 @@ dnl Libraries inside of package <--
 
 
 AC_CONFIG_FILES([
+	glade/Makefile
 	man/Makefile
 	man/ru/Makefile
 	po/Makefile.in

@@ -44,12 +44,16 @@
 	class Settings_window: public m::gtk::Dialog
 	{
 		private:
+			class Private;
+
 			enum Section {
 				CLIENT,
 				CLIENT_MAIN,
 				CLIENT_GUI,
 				DAEMON,
 				DAEMON_NETWORK,
+				DAEMON_NETWORK_MISC,
+				DAEMON_NETWORK_IP_FILTER,
 				DAEMON_AUTOMATION
 			};
 
@@ -85,9 +89,12 @@
 
 		public:
 			Settings_window(Gtk::Window& parent_window, Client_settings* client_settings, Daemon_settings* daemon_settings);
+			~Settings_window(void);
 
 
 		private:
+			Private*						priv;
+
 			Client_settings&				client_settings;
 			Daemon_settings&				daemon_settings;
 

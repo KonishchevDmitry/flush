@@ -128,30 +128,30 @@
 		status(_("Status"), status_renderer),
 
 		size(_("Size"), model_columns.size_string),
-		requested_size(_("|Requested size|Requested"), model_columns.requested_size_string),
-		downloaded_requested_size(_("|Downloaded requested size|Downloaded"), model_columns.downloaded_requested_size_string),
+		requested_size(_Q("Requested size|Requested"), model_columns.requested_size_string),
+		downloaded_requested_size(_Q("Downloaded requested size|Downloaded"), model_columns.downloaded_requested_size_string),
 		complete_percent(__("%% Complete"), model_columns.complete_percent_string),
 
-		total_download(_("|Total download|Download"), model_columns.total_download_string),
-		total_payload_download(_("|Total download (payload)|Down data"), model_columns.total_payload_download_string),
-		total_upload(_("|Total upload|Upload"), model_columns.total_upload_string),
-		total_payload_upload(_("|Total upload (payload)|Up data"), model_columns.total_payload_upload_string),
-		total_failed(_("|Total failed|Failed"), model_columns.total_failed_string),
-		total_redundant(_("|Total redundant|Redundant"), model_columns.total_redundant_string),
+		total_download(_Q("Total download|Download"), model_columns.total_download_string),
+		total_payload_download(_Q("Total download (payload)|Down data"), model_columns.total_payload_download_string),
+		total_upload(_Q("Total upload|Upload"), model_columns.total_upload_string),
+		total_payload_upload(_Q("Total upload (payload)|Up data"), model_columns.total_payload_upload_string),
+		total_failed(_Q("Total failed|Failed"), model_columns.total_failed_string),
+		total_redundant(_Q("Total redundant|Redundant"), model_columns.total_redundant_string),
 
-		download_speed(_("|Download speed|Down speed"), model_columns.download_speed_string),
-		payload_download_speed(_("|Download speed (payload)|Down speed (data)"), model_columns.payload_download_speed_string),
-		upload_speed(_("|Upload speed|Up speed"), model_columns.upload_speed_string),
-		payload_upload_speed(_("|Upload speed (payload)|Up speed (data)"), model_columns.payload_upload_speed_string),
+		download_speed(_Q("Download speed|Down speed"), model_columns.download_speed_string),
+		payload_download_speed(_Q("Download speed (payload)|Down speed (data)"), model_columns.payload_download_speed_string),
+		upload_speed(_Q("Upload speed|Up speed"), model_columns.upload_speed_string),
+		payload_upload_speed(_Q("Upload speed (payload)|Up speed (data)"), model_columns.payload_upload_speed_string),
 
-		share_ratio(_("|Share ratio|Ratio"), model_columns.share_ratio_string),
+		share_ratio(_Q("Share ratio|Ratio"), model_columns.share_ratio_string),
 
 		peers_num(_("Peers"), model_columns.peers_num),
 		seeds_num(_("Seeds"), model_columns.seeds_num),
 
-		time_added(_("|Time added|Added"), model_columns.time_added_string),
-		time_left(_("|Time left|ETA"), model_columns.time_left_string),
-		time_seeding(_("|Time seeding|Seeding"), model_columns.time_seeding_string)
+		time_added(_Q("Time added|Added"), model_columns.time_added_string),
+		time_left(_Q("Time left|ETA"), model_columns.time_left_string),
+		time_seeding(_Q("Time seeding|Seeding"), model_columns.time_seeding_string)
 	{
 		M_GTK_TREE_VIEW_ADD_STRING_COLUMN(name, _("Name"))
 

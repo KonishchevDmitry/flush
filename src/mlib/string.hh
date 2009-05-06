@@ -172,6 +172,17 @@ namespace m
 
 
 
+std::string _(const char* string)
+{
+	#ifdef ENABLE_NLS
+		return gettext(string);
+	#else
+		return string;
+	#endif
+}
+
+
+
 Glib::ustring __(const char* fmt)
 {
 	return Glib::ustring::compose(_(fmt) + "%1", correct_glib_format_value(""));
@@ -199,6 +210,37 @@ template<class T1, class T2, class T3>
 Glib::ustring __(const char* fmt, const T1& a1, const T2& a2, const T3& a3)
 {
 	return Glib::ustring::compose(_(fmt), correct_glib_format_value(a1), correct_glib_format_value(a2), correct_glib_format_value(a3));
+}
+
+
+
+Glib::ustring __Q(const char* fmt)
+{
+	return Glib::ustring::compose(_Q(fmt) + "%1", correct_glib_format_value(""));
+}
+
+
+
+template<class T1>
+Glib::ustring __Q(const char* fmt, const T1& a1)
+{
+	return Glib::ustring::compose(_Q(fmt), correct_glib_format_value(a1));
+}
+
+
+
+template<class T1, class T2>
+Glib::ustring __Q(const char* fmt, const T1& a1, const T2& a2)
+{
+	return Glib::ustring::compose(_Q(fmt), correct_glib_format_value(a1), correct_glib_format_value(a2));
+}
+
+
+
+template<class T1, class T2, class T3>
+Glib::ustring __Q(const char* fmt, const T1& a1, const T2& a2, const T3& a3)
+{
+	return Glib::ustring::compose(_Q(fmt), correct_glib_format_value(a1), correct_glib_format_value(a2), correct_glib_format_value(a3));
 }
 
 

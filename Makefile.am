@@ -1,4 +1,4 @@
-SUBDIRS = @PACKAGE_LIBRARIES_SUBDIRS@ man po src
+SUBDIRS = @PACKAGE_LIBRARIES_SUBDIRS@ glade man po src
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -47,12 +47,7 @@ gettext:
 	cd po || exit 1; \
 	for lang in $$(cat LINGUAS | $(SED) 's/#.*$$//'); \
 	do \
-		if test "$$lang" = "en"; \
-		then \
-			msginit --no-translator --locale="$$lang" --output-file="$$lang.po" || exit 1; \
-		else \
-			msgmerge --force-po --no-wrap --no-fuzzy-matching --update --backup=off "$$lang.po" "@PACKAGE@" || exit 1; \
-		fi; \
+		msgmerge --force-po --no-wrap --no-fuzzy-matching --update --backup=off "$$lang.po" "@PACKAGE@" || exit 1; \
 	done
 ## gettext <--
 

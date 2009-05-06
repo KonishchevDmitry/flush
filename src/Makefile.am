@@ -33,6 +33,8 @@ flush_SOURCES = \
 	daemon_types.hpp \
 	gui_lib.cpp \
 	gui_lib.hpp \
+	ip_filter.cpp \
+	ip_filter.hpp \
 	log_view.cpp \
 	log_view.hpp \
 	main.cpp \
@@ -75,6 +77,11 @@ proxy_glue.hpp: dbus_introspect.xml
 flush_DEPENDENCIES = @APP_DEPENDENCIES@
 flush_CPPFLAGS = @APP_CPPFLAGS@
 flush_CPPFLAGS += -D APP_BIN_PATH='"$(bindir)/$(PACKAGE)"'
+if DEVELOP_MODE
+flush_CPPFLAGS += -D APP_GLADE_PATH='"$(abs_top_srcdir)/glade"'
+else
+flush_CPPFLAGS += -D APP_GLADE_PATH='"$(datadir)/$(PACKAGE)/glade"'
+endif
 flush_CPPFLAGS += -D APP_ICONS_PATH='"$(datadir)/icons/hicolor"'
 flush_CPPFLAGS += -D APP_LOCALE_PATH='"$(localedir)"'
 flush_LDADD = @APP_LDADD@

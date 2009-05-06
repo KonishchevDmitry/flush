@@ -157,13 +157,17 @@ libtorrent::torrent_info get_torrent_info(const m::Buffer& torrent_data) throw(m
 			lt::torrent_info::file_iterator it = torrent_info.begin_files();
 			lt::torrent_info::file_iterator end_it = torrent_info.end_files();
 
-			#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
-				for(int i = 0; it != end_it; it++, i++)
+			for(int i = 0; it != end_it; it++, i++)
+			{
+				// Лучше не делать лишних переименований - в какой-то версии
+				// libtorrent эти пути не проверялись на соответствие.
+				if(it->path.string() != U2LT(it->path.string()))
+				#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
 					storage.rename_file(i, U2LT(it->path.string()));
-			#else
-				for(int i = 0; it != end_it; it++, i++)
+				#else
 					torrent_info.rename_file(i, U2LT(it->path.string()));
-			#endif
+				#endif
+			}
 		}
 		// <--
 

@@ -36,15 +36,6 @@
 
 	class Main_window: public m::gtk::Window
 	{
-		public:
-			enum Update_type {
-				UPDATE_WINDOW_TITLE	= 1 << 0,
-				UPDATE_WIDGETS		= 1 << 1,
-				UPDATE_TRAY			= 1 << 2,
-				UPDATE_ALL			= UPDATE_WINDOW_TITLE | UPDATE_WIDGETS | UPDATE_TRAY
-			};
-			typedef int Update_flags;
-
 		private:
 			struct Gui;
 
@@ -71,11 +62,14 @@
 			void	save_settings(void);
 
 			/// Инициирует обновление GUI.
-			void	update_gui(Update_flags update_what = UPDATE_ALL);
+			void	update_gui(bool force = true);
 
 		private:
 			/// Изменяет стиль панели инструментов.
 			void	change_toolbar_style(m::gtk::toolbar::Style style);
+
+			/// Скрывает окно.
+			void	hide(void);
 
 			/// При выборе пункта меню "Изменить максимальную скорость скачивания/отдачи".
 			void	on_change_rate_limit_callback(Traffic_type traffic_type);
@@ -145,6 +139,10 @@
 
 			/// Отображает или скрывает иконку из трея.
 			void	show_tray_icon(bool show);
+
+			/// Включает/отключает отображение окна в элементах оконного
+			/// менеджера (в панели задач и меню, вызываемом по Alt+Tab).
+			void	set_visible_in_wm(bool visible = true);
 	};
 
 #endif

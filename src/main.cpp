@@ -46,6 +46,7 @@
 #include <gtkmm/expander.h>
 #include <gtkmm/image.h>
 #include <gtkmm/label.h>
+#include <gtkmm/linkbutton.h>
 #include <gtkmm/main.h>
 #include <gtkmm/messagedialog.h>
 #include <gtkmm/scrolledwindow.h>
@@ -100,6 +101,9 @@ namespace
 
 	/// Обработчик нажатия на кнопку OK в окне отображения ошибки.
 	void on_error_window_ok_button_callback(void);
+
+	/// Наш собственный обработчик сигнала на нажатие по кнопке-ссылке.
+	void on_linkbutton_uri_callback(Gtk::LinkButton* button, const Glib::ustring& uri);
 
 	/// Выводит на консоль Error сообщение.
 	void print_error(const char* file, const int line, const std::string& message, const std::string& debug_info);
@@ -278,6 +282,12 @@ namespace
 	void on_error_window_ok_button_callback(void)
 	{
 		Gtk::Main::quit();
+	}
+
+
+
+	void on_linkbutton_uri_callback(Gtk::LinkButton* button, const Glib::ustring& uri)
+	{
 	}
 
 
@@ -544,6 +554,30 @@ void show_warning_message(Gtk::Window& parent_window, const std::string& title, 
 
 
 
+void show_warning_message(Gtk::Widget& parent_widget, const std::string& message)
+{
+	Gtk::Window* window = dynamic_cast<Gtk::Window*>(parent_widget.get_toplevel());
+
+	if(window)
+		show_warning_message(*window, message);
+	else
+		show_warning_message(get_main_window(), message);
+}
+
+
+
+void show_warning_message(Gtk::Widget& parent_widget, const std::string& title, const std::string& message)
+{
+	Gtk::Window* window = dynamic_cast<Gtk::Window*>(parent_widget.get_toplevel());
+
+	if(window)
+		show_warning_message(*window, title, message);
+	else
+		show_warning_message(get_main_window(), title, message);
+}
+
+
+
 int main(int argc, char *argv[])
 {
 	// Устанавливаем обработчики сигналов -->
@@ -805,6 +839,7 @@ int main(int argc, char *argv[])
 		MLIB_W(_("DBus error"), EE(e));
 	}
 
+
 	// Мы захватили имя и находимся в графическом режиме
 	if(is_owner)
 	{
@@ -860,6 +895,12 @@ int main(int argc, char *argv[])
 			}
 		}
 		// <--
+
+
+		/// Устанавливаем собственный обработчик сигнала для кнопок-ссылок,
+		/// чтобы мы могли назначать им какой-угодно URL, и GTK при этом не сыпал
+		/// Warning'ами.
+		Gtk::LinkButton::set_uri_hook(sigc::ptr_fun(on_linkbutton_uri_callback));
 
 		/// Активизируем "режим дерева" для GtkCellRendererToggle.
 		m::gtk::activate_cell_renderer_toggle_tree_mode();

@@ -37,12 +37,36 @@
 #include <gtkmm/treestore.h>
 #include <gtkmm/window.h>
 
+#include <mlib/gtk/glade.hpp>
 #include <mlib/gtk/tree_view.hpp>
 #include <mlib/gtk/vbox.hpp>
 
 #include "client_settings.hpp"
 #include "daemon_settings.hpp"
+#include "ip_filter.hpp"
 #include "settings_window.hpp"
+
+
+
+// Private -->
+	class Settings_window::Private
+	{
+		public:
+			struct Network
+			{
+				Ip_filter*	ip_filter;
+			};
+
+			struct Daemon
+			{
+				Network		network;
+			};
+
+
+		public:
+			Daemon			daemon;
+	};
+// Private <--
 
 
 
@@ -68,6 +92,8 @@
 Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* client_settings, Daemon_settings* daemon_settings)
 :
 	m::gtk::Dialog(parent_window, std::string(APP_NAME) + ": " + _("Preferences")),
+
+	priv(new Private),
 
 	client_settings(*client_settings),
 	daemon_settings(*daemon_settings),
@@ -134,39 +160,55 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 
 		// Добавляем разделы -->
 			iter = this->sections_view.model->append();
-			sections_paths[Settings_window::CLIENT] = this->sections_view.model->get_path(iter);
+			sections_paths[CLIENT] = this->sections_view.model->get_path(iter);
 			client_row = *iter;
-			client_row[this->sections_view.model_columns.id] = Settings_window::CLIENT;
+			client_row[this->sections_view.model_columns.id] = CLIENT;
 			client_row[this->sections_view.model_columns.name] = _("Client");
 
 			iter = this->sections_view.model->append(client_row.children());
-			sections_paths[Settings_window::CLIENT_MAIN] = this->sections_view.model->get_path(iter);
+			sections_paths[CLIENT_MAIN] = this->sections_view.model->get_path(iter);
 			row = *iter;
-			row[this->sections_view.model_columns.id] = Settings_window::CLIENT_MAIN;
+			row[this->sections_view.model_columns.id] = CLIENT_MAIN;
 			row[this->sections_view.model_columns.name] = _("Main");
 
 			iter = this->sections_view.model->append(client_row.children());
-			sections_paths[Settings_window::CLIENT_GUI] = this->sections_view.model->get_path(iter);
+			sections_paths[CLIENT_GUI] = this->sections_view.model->get_path(iter);
 			row = *iter;
-			row[this->sections_view.model_columns.id] = Settings_window::CLIENT_GUI;
+			row[this->sections_view.model_columns.id] = CLIENT_GUI;
 			row[this->sections_view.model_columns.name] = _("GUI");
 
 			iter = this->sections_view.model->append();
-			sections_paths[Settings_window::DAEMON] = this->sections_view.model->get_path(iter);
+			sections_paths[DAEMON] = this->sections_view.model->get_path(iter);
 			daemon_row = *iter;
-			daemon_row[this->sections_view.model_columns.id] = Settings_window::DAEMON;
+			daemon_row[this->sections_view.model_columns.id] = DAEMON;
 			daemon_row[this->sections_view.model_columns.name] = _("Daemon");
 
-			iter = this->sections_view.model->append(daemon_row.children());
-			sections_paths[Settings_window::DAEMON_NETWORK] = this->sections_view.model->get_path(iter);
-			row = *iter;
-			row[this->sections_view.model_columns.id] = Settings_window::DAEMON_NETWORK;
-			row[this->sections_view.model_columns.name] = _("Network");
+			{
+				Gtk::TreeRow network_row;
+
+				iter = this->sections_view.model->append(daemon_row.children());
+				sections_paths[DAEMON_NETWORK] = this->sections_view.model->get_path(iter);
+				network_row = *iter;
+				network_row[this->sections_view.model_columns.id] = DAEMON_NETWORK;
+				network_row[this->sections_view.model_columns.name] = _("Network");
+
+				iter = this->sections_view.model->append(network_row.children());
+				sections_paths[DAEMON_NETWORK_MISC] = this->sections_view.model->get_path(iter);
+				row = *iter;
+				row[this->sections_view.model_columns.id] = DAEMON_NETWORK_MISC;
+				row[this->sections_view.model_columns.name] = _("Misc");
+
+				iter = this->sections_view.model->append(network_row.children());
+				sections_paths[DAEMON_NETWORK_IP_FILTER] = this->sections_view.model->get_path(iter);
+				row = *iter;
+				row[this->sections_view.model_columns.id] = DAEMON_NETWORK_IP_FILTER;
+				row[this->sections_view.model_columns.name] = _("IP filter");
+			}
 
 			iter = this->sections_view.model->append(daemon_row.children());
-			sections_paths[Settings_window::DAEMON_AUTOMATION] = this->sections_view.model->get_path(iter);
+			sections_paths[DAEMON_AUTOMATION] = this->sections_view.model->get_path(iter);
 			row = *iter;
-			row[this->sections_view.model_columns.id] = Settings_window::DAEMON_AUTOMATION;
+			row[this->sections_view.model_columns.id] = DAEMON_AUTOMATION;
 			row[this->sections_view.model_columns.name] = _("Automation");
 		// Добавляем раздел <--
 
@@ -181,6 +223,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 
 	this->sections_notebook.set_show_tabs(false);
 	main_hbox->pack_start(this->sections_notebook, true, true);
+
 
 	// Client -->
 	{
@@ -207,7 +250,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 					sigc::mem_fun(*this, &Settings_window::on_change_section_callback),
 					std::pair<Gtk::LinkButton*, Gtk::TreePath>(
 						button,
-						sections_paths[Settings_window::CLIENT_MAIN]
+						sections_paths[CLIENT_MAIN]
 					)
 				)
 			);
@@ -224,7 +267,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 					sigc::mem_fun(*this, &Settings_window::on_change_section_callback),
 					std::pair<Gtk::LinkButton*, Gtk::TreePath>(
 						button,
-						sections_paths[Settings_window::CLIENT_GUI]
+						sections_paths[CLIENT_GUI]
 					)
 				)
 			);
@@ -232,6 +275,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 		// GUI <--
 	}
 	// Client <--
+
 
 	// Client::Main -->
 	{
@@ -279,6 +323,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 		m::gtk::vbox::add_widget_with_label(*settings_vbox, _("Open command:"), this->open_command, true, true);
 	}
 	// Client::Main <--
+
 
 	// Client::GUI -->
 	{
@@ -419,6 +464,8 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 	}
 	// Client::GUI <--
 
+
+
 	// Daemon -->
 	{
 		Gtk::VBox* settings_vbox = Gtk::manage(new Gtk::VBox(false, m::gtk::VBOX_SPACING));
@@ -444,7 +491,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 					sigc::mem_fun(*this, &Settings_window::on_change_section_callback),
 					std::pair<Gtk::LinkButton*, Gtk::TreePath>(
 						button,
-						sections_paths[Settings_window::DAEMON_NETWORK]
+						sections_paths[DAEMON_NETWORK]
 					)
 				)
 			);
@@ -461,7 +508,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 					sigc::mem_fun(*this, &Settings_window::on_change_section_callback),
 					std::pair<Gtk::LinkButton*, Gtk::TreePath>(
 						button,
-						sections_paths[Settings_window::DAEMON_AUTOMATION]
+						sections_paths[DAEMON_AUTOMATION]
 					)
 				)
 			);
@@ -470,13 +517,54 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 	}
 	// Daemon <--
 
+
 	// Daemon::Network -->
+	{
+		Glib::RefPtr<Gnome::Glade::Xml> glade = MLIB_GLADE_CREATE(
+			std::string(APP_GLADE_PATH) + "/preferences.daemon.network.glade",
+			"daemon_network_settings"
+		);
+
+		Gtk::VBox* settings_vbox = Gtk::manage(new Gtk::VBox(false, m::gtk::VBOX_SPACING));
+		settings_vbox->set_border_width(tabs_border_width);
+		this->sections_notebook.append_page(
+			*MLIB_GLADE_GET_WIDGET(glade, "daemon_network_settings")
+		);
+		
+		{
+			Gtk::LinkButton* button;
+
+			MLIB_GLADE_GET_WIDGET(glade, "daemon_network_misc_link", button);
+			button->signal_clicked().connect(
+				sigc::bind< std::pair<Gtk::LinkButton*, Gtk::TreePath> >(
+					sigc::mem_fun(*this, &Settings_window::on_change_section_callback),
+					std::pair<Gtk::LinkButton*, Gtk::TreePath>(
+						button, sections_paths[DAEMON_NETWORK_MISC]
+					)
+				)
+			);
+
+			MLIB_GLADE_GET_WIDGET(glade, "daemon_network_ip_filter_link", button);
+			button->signal_clicked().connect(
+				sigc::bind< std::pair<Gtk::LinkButton*, Gtk::TreePath> >(
+					sigc::mem_fun(*this, &Settings_window::on_change_section_callback),
+					std::pair<Gtk::LinkButton*, Gtk::TreePath>(
+						button, sections_paths[DAEMON_NETWORK_IP_FILTER]
+					)
+				)
+			);
+		}
+	}
+	// Daemon::Network <--
+
+
+	// Daemon::Network::Misc -->
 	{
 		Gtk::VBox* settings_vbox = Gtk::manage(new Gtk::VBox(false, m::gtk::VBOX_SPACING));
 		settings_vbox->set_border_width(tabs_border_width);
 		this->sections_notebook.append_page(*settings_vbox);
 
-		m::gtk::vbox::add_big_header(*settings_vbox, _("Daemon::Network"));
+		m::gtk::vbox::add_big_header(*settings_vbox, _("Daemon::Network::Misc"));
 
 		// Ports -->
 		{
@@ -595,7 +683,23 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 		}
 		// Bandwidth <--
 	}
-	// Daemon::Network <--
+	// Daemon::Network::Misc <--
+
+
+	// Daemon::IP filter -->
+	{
+		Glib::RefPtr<Gnome::Glade::Xml> glade = MLIB_GLADE_CREATE(
+			std::string(APP_GLADE_PATH) + "/preferences.daemon.network.ip_filter.glade",
+			"ip_filter_settings"
+		);
+
+		this->sections_notebook.append_page(
+			*MLIB_GLADE_GET_WIDGET(glade, "ip_filter_settings")
+		);
+		MLIB_GLADE_GET_WIDGET_DERIVED(glade, "ip_filter", priv->daemon.network.ip_filter);
+	}
+	// Daemon::IP filter <--
+
 
 	// Daemon::Automation -->
 	{
@@ -763,10 +867,17 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 
 	// Выделяем вкладку по умолчанию -->
 		this->show_all_children(); // Иначе сигнал не будет сгенерирован
-		this->sections_view.get_selection()->select(sections_paths[Settings_window::CLIENT_MAIN]);
+		this->sections_view.get_selection()->select(sections_paths[CLIENT_MAIN]);
 	// Выделяем вкладку по умолчанию <--
 
 	this->show_all();
+}
+
+
+
+Settings_window::~Settings_window(void)
+{
+	delete this->priv;
 }
 
 
@@ -859,6 +970,8 @@ void Settings_window::load_settings(void)
 
 		this->max_uploads.set_value(daemon_settings.max_uploads);
 		this->max_connections.set_value(daemon_settings.max_connections);
+
+		priv->daemon.network.ip_filter->set(daemon_settings.ip_filter);
 
 		{
 			Daemon_settings::Torrents_auto_load& auto_load = daemon_settings.torrents_auto_load;
@@ -1040,6 +1153,8 @@ void Settings_window::save_settings(void)
 
 		daemon_settings.max_uploads = this->max_uploads.get_value();
 		daemon_settings.max_connections = this->max_connections.get_value();
+
+		daemon_settings.ip_filter = priv->daemon.network.ip_filter->get();
 
 		{
 			Daemon_settings::Torrents_auto_load& auto_load = daemon_settings.torrents_auto_load;

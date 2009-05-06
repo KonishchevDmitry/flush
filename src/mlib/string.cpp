@@ -27,36 +27,25 @@
 namespace m
 {
 
-std::string _(const char* string)
+std::string _Q(const char* string)
 {
-	const char* localized_string;
+	const char* localized;
 
 	#ifdef ENABLE_NLS
-		localized_string = gettext(string);
+		localized = gettext(string);
 	#else
-		localized_string = string;
+		localized = string;
 	#endif
 
-	// Вырезаем комментарии
-	if(*localized_string == '|')
+	if(localized == string)
 	{
-		if( (localized_string = index(++localized_string, '|')) )
-			return localized_string + 1;
+		if( (localized = index(localized, '|')) )
+			return localized + 1;
 		else
-		{
-			// Если не удалось найти парную '|', то это означает, что строка
-			// сформирована неправильно. Поэтому выводим то, что можем.
-			MLIB_SW(_C("Invalid gettext string '%1'.", string));
-
-			#ifdef ENABLE_NLS
-				return gettext(string);
-			#else
-				return string;
-			#endif
-		}
+			return string;
 	}
 	else
-		return localized_string;
+		return localized;
 }
 
 

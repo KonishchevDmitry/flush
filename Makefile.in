@@ -215,6 +215,8 @@ dbus_LIBS = @dbus_LIBS@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
+glademm_CFLAGS = @glademm_CFLAGS@
+glademm_LIBS = @glademm_LIBS@
 gthread_CFLAGS = @gthread_CFLAGS@
 gthread_LIBS = @gthread_LIBS@
 gtkmm_CFLAGS = @gtkmm_CFLAGS@
@@ -252,7 +254,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-SUBDIRS = @PACKAGE_LIBRARIES_SUBDIRS@ man po src
+SUBDIRS = @PACKAGE_LIBRARIES_SUBDIRS@ glade man po src
 ACLOCAL_AMFLAGS = -I m4
 
 # Added by gettextize
@@ -872,12 +874,7 @@ gettext:
 	cd po || exit 1; \
 	for lang in $$(cat LINGUAS | $(SED) 's/#.*$$//'); \
 	do \
-		if test "$$lang" = "en"; \
-		then \
-			msginit --no-translator --locale="$$lang" --output-file="$$lang.po" || exit 1; \
-		else \
-			msgmerge --force-po --no-wrap --no-fuzzy-matching --update --backup=off "$$lang.po" "@PACKAGE@" || exit 1; \
-		fi; \
+		msgmerge --force-po --no-wrap --no-fuzzy-matching --update --backup=off "$$lang.po" "@PACKAGE@" || exit 1; \
 	done
 
 .PHONY: loop

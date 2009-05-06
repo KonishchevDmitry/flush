@@ -76,6 +76,8 @@
 		class Daemon_proxy;
 		class Daemon_settings;
 		class Daemon_statistics;
+		class Ip_filter_rule;
+		class Ip_filter;
 		class Log_view;
 		class Main_window;
 		class Settings_window;
@@ -268,6 +270,37 @@
 			/// Вызывается родительским классом, когда наступает время
 			/// обновления графического интерфейса.
 			virtual void	update(const Torrent_id& torrent_id) = 0;
+	};
+
+
+
+	/// Представляет из себя одно правило IP-фильтра.
+	class Ip_filter_rule
+	{
+		public:
+			Ip_filter_rule(void);
+			Ip_filter_rule(const std::string& from, const std::string& to, bool block);
+
+
+		public:
+			/// Начальный IP адрес.
+			std::string	from;
+
+			/// Конечный IP адрес.
+			std::string	to;
+
+			/// Блокировать, или нет.
+			bool		block;
+
+
+		public:
+			/// Проверяет фильтр на ошибки.
+			void	check(void) const throw(m::Exception);
+
+
+		public:
+			bool	operator==(const Ip_filter_rule& rule) const;
+			bool	operator!=(const Ip_filter_rule& rule) const;
 	};
 
 

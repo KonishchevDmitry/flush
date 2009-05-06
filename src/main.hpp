@@ -81,8 +81,15 @@
 	/// Отображает Warning-сообщение.
 	void				show_warning_message(Gtk::Window& parent_window, const std::string& title, const std::string& message);
 
-	/// Отображает Warning-сообщение.
-	//void				show_warning_message(Gtk::Window& parent_window, const m::Exception& error);
+	/// Отображает Warning-сообщение либо поверх того окна, в котором находится
+	/// виджет, либо, если виджет не находится ни в одном окне отображает его
+	/// поверх главного окна.
+	void				show_warning_message(Gtk::Widget& parent_widget, const std::string& message);
+
+	/// Отображает Warning-сообщение либо поверх того окна, в котором находится
+	/// виджет, либо, если виджет не находится ни в одном окне отображает его
+	/// поверх главного окна.
+	void				show_warning_message(Gtk::Widget& parent_widget, const std::string& title, const std::string& message);
 
 	/// Инициирует обновление графического интерфейса.
 #ifndef DEVELOP_MODE

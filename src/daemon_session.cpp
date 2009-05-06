@@ -33,6 +33,7 @@
 #include <libtorrent/alert.hpp>
 #include <libtorrent/alert_types.hpp>
 #include <libtorrent/bencode.hpp>
+#include <libtorrent/ip_filter.hpp>
 #include <libtorrent/session.hpp>
 #include <libtorrent/torrent_handle.hpp>
 #include <libtorrent/torrent_info.hpp>
@@ -150,19 +151,6 @@ Daemon_session::Daemon_session(const std::string& config_dir_path)
 		sigc::mem_fun(*this, &Daemon_session::on_torrent_finished_callback)
 	);
 
-	#if 0
-		// Обработчик сигнала на приостановку асинхронной файловой системы.
-		this->async_fs_paused_connection = m::async_fs::get_paused_signal().connect(
-			sigc::mem_fun(*this, &Daemon_session::on_async_fs_paused_callback)
-		);
-
-		// Обработчик сигнала на получение ответа от libtorrent на
-		// переименование файла торрента.
-		torrent_file_renamed_signal.connect(
-			sigc::mem_fun(*this, &Daemon_session::on_torrent_file_rename_reply_callback)
-		);
-	#endif
-
 	// Поток для получения сообщений от libtorrent.
 	this->messages_thread = new boost::thread(boost::ref(*this));
 }
@@ -171,11 +159,6 @@ Daemon_session::Daemon_session(const std::string& config_dir_path)
 
 Daemon_session::~Daemon_session(void)
 {
-	#if 0
-		// Сигнал на приостановку асинхронной файловой системы.
-		this->async_fs_paused_connection.disconnect();
-	#endif
-
 	// Сигнал на автоматическое сохранение текущей сессии
 	this->save_session_connection.disconnect();
 
@@ -428,6 +411,7 @@ Torrent_id Daemon_session::add_torrent_to_config(const std::string& torrent_path
 
 
 
+#include <iostream>
 void Daemon_session::add_torrent_to_session(lt::torrent_info torrent_info, const Torrent_settings& torrent_settings)
 {
 	Torrent_id torrent_id(torrent_info.info_hash());
@@ -444,6 +428,9 @@ void Daemon_session::add_torrent_to_session(lt::torrent_info torrent_info, const
 
 			if(!path.empty())
 			{
+				// Лучше не делать лишних переименований - в какой-то версии
+				// libtorrent эти пути не проверялись на соответствие.
+				if(torrent_info.file_at(i).path.string() != U2LT(path))
 				#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
 					torrent_info.files().rename_file(i, U2LT(path));
 				#else
@@ -467,8 +454,32 @@ void Daemon_session::add_torrent_to_session(lt::torrent_info torrent_info, const
 			// Если у нас есть resume data
 			if(resume_data_entry.type() != lt::entry::undefined_t)
 			{
-				// Добавляем торрент в приостановленном состоянии
-				// ("paused" в resume data имеет приоритет над params.paused).
+				#if M_LT_GET_VERSION() >= M_GET_VERSION(0, 14, 3)
+					// Наши настройки, которые мы задали только что, будут
+					// конфликтовать с теми, которые есть в resume_data (они
+					// идентичны). В результате libtorrent сгенерирует кучу
+					// lt::file_rename_failed_alert'ов вида:
+					// ${torrent_name}: failed to rename file 197: ${file_name}.
+					//
+					// Доверять эту информацию resume_data мы не можем, т. к.
+					// resume_data можно сгенерировать не всегда: если торрент
+					// только добавился, и началась проверка файлов, то
+					// resume_data сгенерировать не удастся. Если в данный
+					// момент прервать работу клиента, то все настройки будут
+					// утеряны.
+					//
+					// Поэтому просто вырезаем эту информацию из resume_data.
+					{
+						lt::entry* entry = resume_data_entry.find_key("mapped_files");
+
+						if(entry)
+							*entry = lt::entry(entry->type());
+					}
+				#endif
+
+				// Добавляем торрент в приостановленном состоянии ("paused" в
+				// resume data, которая хранит состояние торрента в момент
+				// генерации resume_data, имеет приоритет над params.paused).
 				if(resume_data_entry.type() == lt::entry::dictionary_t)
 					resume_data_entry["paused"] = true;
 
@@ -1210,15 +1221,6 @@ void Daemon_session::load_torrents_from_config(void) throw(m::Exception)
 
 
 
-#if 0
-	void Daemon_session::on_async_fs_paused_callback(void)
-	{
-		#warning
-	}
-#endif
-
-
-
 bool Daemon_session::on_save_session_callback(void)
 {
 	try
@@ -1232,64 +1234,6 @@ bool Daemon_session::on_save_session_callback(void)
 
 	return true;
 }
-
-
-
-#if 0
-	void Daemon_session::on_torrent_file_rename_reply_callback(void)
-	{
-		Rename_file_reply reply;
-
-		// Получаем очередной ответ libtorrent -->
-		{
-			boost::mutex::scoped_lock lock(this->mutex);
-
-			reply = this->renamed_files_replies.front();
-			this->renamed_files_replies.pop();
-		}
-		// Получаем очередной ответ libtorrent <--
-
-		Torrent* torrent;
-
-		try
-		{
-			torrent = &this->get_torrent(reply.torrent_id);
-		}
-		catch(m::Exception)
-		{
-			// Этого торрента уже вполне может и не быть
-			return;
-		}
-
-		torrent->pending_rename_files_tasks--;
-
-		try
-		{
-			std::string current_path = LT2U(torrent->handle.get_torrent_info().file_at(reply.file_index).path.string());
-
-			if(reply.type == Rename_file_reply::OK)
-				torrent->files_settings[reply.file_index].path = current_path;
-			else
-			{
-				#warning
-				MLIB_D(
-				//	"Renaming torrent file failed",
-					_C("Renaming torrent '%1' file '%2' failed: %3.")
-						% torrent->name % current_path % reply.error
-				);
-			}
-		}
-		catch(lt::invalid_handle)
-		{
-			MLIB_LE();
-		}
-
-		// Если мы обработали все задачи на переименование, то сохраняем настройки,
-		// чтобы зафиксировать изменения.
-		if(!torrent->pending_rename_files_tasks)
-			this->schedule_torrent_settings_saving(*torrent);
-	}
-#endif
 
 
 
@@ -1380,35 +1324,6 @@ void Daemon_session::pause_torrent(Torrent& torrent)
 	// Планируем сохранение настроек торрента
 	this->schedule_torrent_settings_saving(torrent);
 }
-
-
-
-#if 0
-	void Daemon_session::process_rename_files_task(const Rename_files_task& task)
-	{
-		try
-		{
-			Torrent& torrent = get_torrent(task.torrent_id);
-
-			MLIB_D(_C("Processing rename files tasks for torrent '%1'...", torrent.name));
-
-			torrent.pending_rename_files_tasks += task.new_paths.size();
-
-			for(size_t i = 0; i < task.new_paths.size(); i++)
-				torrent.handle.rename_file(task.new_paths[i].id, L2LT(task.new_paths[i].path));
-		}
-		catch(lt::invalid_handle)
-		{
-			MLIB_LE();
-		}
-		catch(m::Exception)
-		{
-			// К тому времени, когда дошла очередь до обработки задачи торрент мог
-			// быть удален, поэтому ничего страшного в этом нет.
-			MLIB_D(_C("Skipping processing rename files task for torrent '%1' - it is already not exists.", task.torrent_id));
-		}
-	}
-#endif
 
 
 
@@ -1649,35 +1564,6 @@ void Daemon_session::set_files_download_status(Torrent& torrent, const std::vect
 
 
 
-#if 0
-void Daemon_session::set_files_new_paths(const Torrent& torrent, const std::vector<Torrent_file>& files_new_paths) throw(m::Exception)
-{
-	if(m::async_fs::pause_and_get_group_status(torrent.id))
-	{
-		// Если асинхронная файловая система в данный момент уже занята
-		// обработкой данного торрента, то ставим задачу на переименование в
-		// очередь.
-
-		this->rename_files_tasks.push(
-			Rename_files_task(torrent.id, files_new_paths)
-		);
-
-		#warning
-	}
-	else
-	{
-		// Асинхронная файловая система не работает или занята обработкой
-		// файлов другого торрента.
-
-		this->process_rename_files_task(
-			Rename_files_task(torrent.id, files_new_paths)
-		);
-	}
-}
-#endif
-
-
-
 void Daemon_session::set_files_priority(Torrent& torrent, const std::vector<int>& files_ids, const Torrent_file_settings::Priority priority) throw(m::Exception)
 {
 	Errors_pool errors;
@@ -1824,6 +1710,27 @@ void Daemon_session::set_settings(const Daemon_settings& settings, const bool in
 		this->settings.max_connections = settings.max_connections;
 		this->session->set_max_connections(settings.max_connections);
 	}
+
+	// IP фильтр -->
+		if(this->settings.ip_filter != settings.ip_filter)
+		{
+			lt::ip_filter ip_filter;
+
+			for(size_t i = 0; i < settings.ip_filter.size(); i++)
+			{
+				const Ip_filter_rule& rule = settings.ip_filter[i];
+
+				ip_filter.add_rule(
+					lt::address_v4::from_string(rule.from),
+					lt::address_v4::from_string(rule.to),
+					rule.block ? lt::ip_filter::blocked : 0
+				);
+			}
+
+			this->session->set_ip_filter(ip_filter);
+			this->settings.ip_filter = settings.ip_filter;
+		}
+	// IP фильтр <--
 
 	// Настройки автоматической "подгрузки" *.torrent файлов. -->
 	{
@@ -2118,50 +2025,6 @@ void Daemon_session::operator()(void)
 						// Извещаем демон о получении новой resume data.
 						this->torrent_resume_data_signal();
 					}
-					#if 0
-						// File renamed
-						else if( dynamic_cast<lt::file_renamed_alert*>(alert.get()) )
-						{
-							lt::file_renamed_alert* alert_ptr = dynamic_cast<lt::file_renamed_alert*>(alert.get());
-
-							MLIB_D(_C("Gotten file renamed alert for torrent '%1'.", Torrent_id(alert_ptr->handle)));
-
-							{
-								boost::mutex::scoped_lock lock(this->mutex);
-
-								this->renamed_files_replies.push(
-									Rename_file_reply( Rename_file_reply::OK, Torrent_id(alert_ptr->handle), alert_ptr->index )
-								);
-							}
-
-							// Извещаем демон о завершении операции
-							this->torrent_file_renamed_signal();
-						}
-						// File rename failed
-						else if( dynamic_cast<lt::file_rename_failed_alert*>(alert.get()) )
-						{
-							lt::file_rename_failed_alert* alert_ptr = dynamic_cast<lt::file_rename_failed_alert*>(alert.get());
-
-							MLIB_D(
-								_C("Gotten file rename failed alert for torrent '%1': %2.")
-									% Torrent_id(alert_ptr->handle) % alert_ptr->msg
-							);
-
-							{
-								boost::mutex::scoped_lock lock(this->mutex);
-
-								this->renamed_files_replies.push(
-									Rename_file_reply(
-										Rename_file_reply::FAILED, Torrent_id(alert_ptr->handle),
-										alert_ptr->index, alert_ptr->msg
-									)
-								);
-							}
-
-							// Извещаем демон о завершении операции
-							this->torrent_file_renamed_signal();
-						}
-					#endif
 					else
 					{
 						// Скачивание торрента завершено.

@@ -1,6 +1,14 @@
 # List of source files which contain translatable strings.
+
+glade/preferences.daemon.network.glade
+glade/preferences.daemon.network.ip_filter.glade 
 src/mlib/gtk/dialog.cpp
 src/mlib/gtk/dialog.hpp
+src/mlib/gtk/controlled_list.cpp
+src/mlib/gtk/controlled_list.hpp
+src/mlib/gtk/glade.cpp
+src/mlib/gtk/glade.hh
+src/mlib/gtk/glade.hpp
 src/mlib/gtk/misc.cpp
 src/mlib/gtk/misc.hh
 src/mlib/gtk/misc.hpp
@@ -81,6 +89,8 @@ src/main.hh
 src/main.hpp
 src/main_window.cpp
 src/main_window.hpp
+src/ip_filter.cpp
+src/ip_filter.hpp
 src/settings_window.cpp
 src/settings_window.hpp
 src/statistics_window.cpp
