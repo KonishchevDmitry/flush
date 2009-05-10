@@ -136,6 +136,54 @@
 	typedef int Torrent_process_actions;
 
 
+
+	/// Определяет способ "очистки" старых торрентов.
+	class Auto_clean_type
+	{
+		public:
+			/// Методы очистки располагаются в порядке возрастания их
+			/// "строгости".
+			enum Type {
+				NONE,
+				PAUSE,
+				REMOVE,
+				REMOVE_WITH_DATA
+			};
+
+
+		public:
+			Auto_clean_type(void);
+			Auto_clean_type(Type type);
+
+
+		public:
+			Type	type;
+
+
+		public:
+			/// Получает тип из строки.
+			static
+			Auto_clean_type		from_string(const std::string& string) throw(m::Exception);
+
+			/// Изменяет на тип type, если он является более строгим, чем
+			/// текущий.
+			void				set_if_stricter(const Auto_clean_type& type);
+
+			/// Преобразовывает тип в StockID.
+			Gtk::StockID		to_stock_id(void) const;
+
+			/// Преобразовывает тип в строку.
+			std::string			to_string(void) const;
+
+		public:
+			/// Переключает тип на следующий по списку.
+			Auto_clean_type& 	operator++(void);
+
+								operator bool(void) const;
+	};
+
+
+
 	/// Хранит сообщение, полученное от демона (libtorrent).
 	class Daemon_message
 	{

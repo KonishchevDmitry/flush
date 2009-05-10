@@ -13,11 +13,18 @@ tray" settings.
 [+] IP filter.
 [+] From this moment all new GUI interfaces will be created using Glade.
 [+] "Show zero values in torrents info columns" setting.
+[+] Ability to choose action (pause, remove, remove with data), that Flush
+must do, when one of the following events are occur: max seeding time limit
+has been reached, max share ratio limit has been reached, maximum seeding
+torrents limit has been reached.
 [+] Some small GUI enhancements.
 [-] Removed debian directory. Packages are now available at the launchpad.net.
 [*] If directory, setted in the Settings window, already is not exists,
 Settings window will show user warning message instead of silently changing
 directory to parent directory, as it was in previous version.
+[*] Fixed small bug, due to which total download, total payload download,
+total upload and total payload upload counters are grow, when user resume
+not paused torrent.
 
 
 0.4.1 (2009.04.01)

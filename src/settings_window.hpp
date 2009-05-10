@@ -176,26 +176,6 @@
 						Gtk::SpinButton		max_connections;
 					// Bandwidth <--
 				// Network <--
-
-				// Automation -->
-					Gtk::VBox				auto_load_torrents_vbox;
-					Gtk::CheckButton		auto_load_torrents;
-					Gtk::FileChooserDialog	auto_load_torrents_from_dialog;
-					Gtk::FileChooserButton	auto_load_torrents_from_button;
-					Gtk::FileChooserDialog	auto_load_torrents_to_dialog;
-					Gtk::FileChooserButton	auto_load_torrents_to_button;
-					Gtk::CheckButton		auto_load_torrents_copy_to;
-					Gtk::FileChooserDialog	auto_load_torrents_copy_to_dialog;
-					Gtk::FileChooserButton	auto_load_torrents_copy_to_button;
-					Gtk::CheckButton		auto_load_torrents_delete_loaded;
-
-					Gtk::VBox				auto_delete_torrents_vbox;
-					Gtk::CheckButton		auto_delete_torrents;
-					Gtk::CheckButton		auto_delete_torrents_with_data;
-					Gtk::SpinButton			auto_delete_torrents_max_seed_time;
-					Gtk::SpinButton			auto_delete_torrents_max_share_ratio;
-					Gtk::SpinButton			auto_delete_torrents_max_seeds;
-				// Automation <--
 			// daemon <--
 
 
@@ -203,14 +183,30 @@
 			/// Добавляет SpinButton.
 			void			add_spin_button(Gtk::VBox& parent_vbox, const std::string& label_string, Gtk::SpinButton& spin_button, const std::pair<int, int>& range, const std::pair<double, double>& increments);
 
+			/// Обновляет виджеты, отвечающие за автоматическую очистку от
+			/// старых торрентов.
+			void			auto_clean_widgets_update_for(const Auto_clean_type& type, Gtk::Button* type_button, Gtk::Label* type_label, Gtk::Widget* widget);
+
 			/// Закрывает окно.
 			void			close(void);
 
 			/// Приводит виджеты окна в соответствие с настройками.
 			void			load_settings(void);
 
-			/// Обработчик сигнала на переключение флажка "автоматически удалять торренты".
-			void			on_auto_delete_torrents_toggled_callback(void);
+			/// Обработчик сигнала на изменение действия, которое необходимо
+			/// произвести, когда сработает выбранное условие "устаревания"
+			/// торрента.
+			void			on_auto_clean_max_ratio_clicked_cb(void);
+
+			/// Обработчик сигнала на изменение действия, которое необходимо
+			/// произвести, когда сработает выбранное условие "устаревания"
+			/// торрента.
+			void			on_auto_clean_max_seeding_time_clicked_cb(void);
+
+			/// Обработчик сигнала на изменение действия, которое необходимо
+			/// произвести, когда сработает выбранное условие "устаревания"
+			/// торрента.
+			void			on_auto_clean_max_seeding_torrents_clicked_cb(void);
 
 			/// Обработчик сигнала на переключение флажка "автоматически загружать торренты".
 			void			on_auto_load_torrents_toggled_callback(void);
@@ -245,6 +241,10 @@
 
 			/// Переносит свойства виджетов в настройки.
 			void			save_settings(void);
+
+			/// Обновляет GUI кнопки, определяющей метод избавления от старых
+			/// торрентов.
+			void			set_auto_clean_button_type(Gtk::Button& button, const Auto_clean_type& type);
 	};
 
 #endif

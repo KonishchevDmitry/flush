@@ -4,6 +4,7 @@
 #include <boost/exception.hpp>
 
 #include <glibmm/convert.h>
+#include <gtkmm/stock.h>
 
 #include <libtorrent/alert.hpp>
 #include <libtorrent/alert_types.hpp>
@@ -13,6 +14,123 @@
 #include <libtorrent/torrent_info.hpp>
 
 #include "daemon_types.hpp"
+
+
+
+// Auto_clean_type -->
+	Auto_clean_type::Auto_clean_type(void)
+	:
+		type(NONE)
+	{
+	}
+
+
+
+	Auto_clean_type::Auto_clean_type(Type type)
+	:
+		type(type)
+	{
+	}
+
+
+
+	Auto_clean_type Auto_clean_type::from_string(const std::string& string) throw(m::Exception)
+	{
+		if(string == "none")
+			return NONE;
+		else if(string == "pause")
+			return PAUSE;
+		else if(string == "remove")
+			return REMOVE;
+		else if(string == "remove_with_data")
+			return REMOVE_WITH_DATA;
+		else
+			M_THROW(__("invalid auto clean action type '%1'", string));
+	}
+
+
+
+	void Auto_clean_type::set_if_stricter(const Auto_clean_type& type)
+	{
+		if(this->type < type.type)
+			*this = type;
+	}
+
+
+
+	Gtk::StockID Auto_clean_type::to_stock_id(void) const
+	{
+		switch(this->type)
+		{
+			case NONE:
+				return Gtk::Stock::INDEX;
+				break;
+
+			case PAUSE:
+				return Gtk::Stock::MEDIA_PAUSE;
+				break;
+
+			case REMOVE:
+				return Gtk::Stock::REMOVE;
+				break;
+
+			case REMOVE_WITH_DATA:
+				return Gtk::Stock::DELETE;
+				break;
+
+			default:
+				MLIB_LE();
+				break;
+		}
+	}
+
+
+
+	std::string Auto_clean_type::to_string(void) const
+	{
+		switch(this->type)
+		{
+			case NONE:
+				return "none";
+				break;
+
+			case PAUSE:
+				return "pause";
+				break;
+
+			case REMOVE:
+				return "remove";
+				break;
+
+			case REMOVE_WITH_DATA:
+				return "remove_with_data";
+				break;
+
+			default:
+				MLIB_LE();
+				break;
+		}
+	}
+
+
+
+	Auto_clean_type& Auto_clean_type::operator++(void)
+	{
+		if(this->type == REMOVE_WITH_DATA)
+			this->type = NONE;
+		else
+			this->type = static_cast<Type>( static_cast<int>(this->type) + 1 );
+
+		return *this;
+	}
+
+
+
+	Auto_clean_type::operator bool(void) const
+	{
+		return this->type != NONE;
+	}
+// Auto_clean_type <--
 
 
 

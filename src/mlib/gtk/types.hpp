@@ -34,6 +34,7 @@
 			class ListViewText;
 			class MessageDialog;
 			class ProgressBar;
+			class StockID;
 			class Table;
 			class Toolbar;
 			class TreeRow;

@@ -57,9 +57,48 @@
 				Ip_filter*	ip_filter;
 			};
 
+			struct Auto_load
+			{
+				Gtk::CheckButton*		is;
+				Gtk::Container*			container;
+
+				Gtk::FileChooserButton*	from;
+				Gtk::FileChooserButton*	to;
+
+				Gtk::CheckButton*		copy;
+				Gtk::FileChooserButton*	copy_to;
+
+				Gtk::CheckButton*		delete_loaded;
+			};
+
+			struct Auto_clean
+			{
+				Gtk::SpinButton*		max_seeding_time;
+				Auto_clean_type			max_seeding_time_type;
+				Gtk::Button*			max_seeding_time_type_button;
+				Gtk::Label*				max_seeding_time_type_label;
+
+				Gtk::SpinButton*		max_ratio;
+				Auto_clean_type			max_ratio_type;
+				Gtk::Button*			max_ratio_type_button;
+				Gtk::Label*				max_ratio_type_label;
+
+				Gtk::SpinButton*		max_seeding_torrents;
+				Auto_clean_type			max_seeding_torrents_type;
+				Gtk::Button*			max_seeding_torrents_type_button;
+				Gtk::Label*				max_seeding_torrents_type_label;
+			};
+
+			struct Automation
+			{
+				Auto_load	load;
+				Auto_clean	clean;
+			};
+
 			struct Daemon
 			{
 				Network		network;
+				Automation	automation;
 			};
 
 
@@ -108,27 +147,27 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 		*this, _("Please select directory for finished downloads copying"),
 		Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER
 	),
-	copy_finished_to_button(copy_finished_to_dialog),
+	copy_finished_to_button(copy_finished_to_dialog)
 
-	auto_load_torrents_from_dialog(
-		*this, _("Please select directory for torrents auto load"),
-		Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER
-	),
-	auto_load_torrents_from_button(auto_load_torrents_from_dialog),
+//	auto_load_torrents_from_dialog(
+//		*this, _("Please select directory for torrents auto load"),
+//		Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER
+//	),
+//	auto_load_torrents_from_button(auto_load_torrents_from_dialog),
 
-	auto_load_torrents_to_dialog(
-		*this, _("Please select torrents download directory"),
-		Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER
-	),
-	auto_load_torrents_to_button(auto_load_torrents_to_dialog),
-
-	auto_load_torrents_copy_to_dialog(
-		*this, _("Please select directory for finished downloads copying"),
-		Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER
-	),
-	auto_load_torrents_copy_to_button(auto_load_torrents_copy_to_dialog),
-
-	auto_delete_torrents_vbox(false, m::gtk::VBOX_SPACING)
+//	auto_load_torrents_to_dialog(
+//		*this, _("Please select torrents download directory"),
+//		Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER
+//	),
+//	auto_load_torrents_to_button(auto_load_torrents_to_dialog),
+//
+//	auto_load_torrents_copy_to_dialog(
+//		*this, _("Please select directory for finished downloads copying"),
+//		Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER
+//	),
+//	auto_load_torrents_copy_to_button(auto_load_torrents_copy_to_dialog),
+//
+//	auto_delete_torrents_vbox(false, m::gtk::VBOX_SPACING)
 {
 	const int tabs_border_width = m::gtk::BOX_BORDER_WIDTH * 3;
 
@@ -708,6 +747,76 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 
 	// Daemon::Automation -->
 	{
+		Private::Automation& automation = priv->daemon.automation;
+
+		Glib::RefPtr<Gnome::Glade::Xml> glade = MLIB_GLADE_CREATE(
+			std::string(APP_GLADE_PATH) + "/preferences.daemon.automation.glade",
+			"automation_settings"
+		);
+
+		this->sections_notebook.append_page(
+			*MLIB_GLADE_GET_WIDGET(glade, "automation_settings")
+		);
+
+
+		// Auto load -->
+		{
+			Private::Auto_load& load = automation.load;
+
+			MLIB_GLADE_GET_WIDGET(glade, "auto_load", load.is);
+			load.is->signal_toggled().connect(sigc::mem_fun(
+				*this, &Settings_window::on_auto_load_torrents_toggled_callback
+			));
+
+			MLIB_GLADE_GET_WIDGET(glade, "auto_load_container", load.container);
+
+			MLIB_GLADE_GET_WIDGET(glade, "auto_load_from", load.from);
+			MLIB_GLADE_GET_WIDGET(glade, "auto_load_to", load.to);
+
+			MLIB_GLADE_GET_WIDGET(glade, "auto_load_copy", load.copy);
+			load.copy->signal_toggled().connect(sigc::mem_fun(
+				*this, &Settings_window::on_auto_load_torrents_copy_to_toggled_callback
+			));
+			MLIB_GLADE_GET_WIDGET(glade, "auto_load_copy_to", load.copy_to);
+
+			MLIB_GLADE_GET_WIDGET(glade, "auto_load_delete_loaded", load.delete_loaded);
+		}
+		// Auto load <--
+
+
+		// Auto clean -->
+		{
+			Private::Auto_clean& clean = automation.clean;
+
+			MLIB_GLADE_GET_WIDGET(glade, "auto_clean_max_seeding_time_type", clean.max_seeding_time_type_button);
+			MLIB_GLADE_GET_WIDGET(glade, "auto_clean_max_seeding_time_label", clean.max_seeding_time_type_label);
+			MLIB_GLADE_GET_WIDGET(glade, "auto_clean_max_seeding_time", clean.max_seeding_time);
+			clean.max_seeding_time_type_button->signal_clicked().connect(sigc::mem_fun(
+				*this, &Settings_window::on_auto_clean_max_seeding_time_clicked_cb
+			));
+
+			MLIB_GLADE_GET_WIDGET(glade, "auto_clean_max_ratio_type", clean.max_ratio_type_button);
+			MLIB_GLADE_GET_WIDGET(glade, "auto_clean_max_ratio_label", clean.max_ratio_type_label);
+			MLIB_GLADE_GET_WIDGET(glade, "auto_clean_max_ratio", clean.max_ratio);
+			clean.max_ratio_type_button->signal_clicked().connect(sigc::mem_fun(
+				*this, &Settings_window::on_auto_clean_max_ratio_clicked_cb
+			));
+
+			MLIB_GLADE_GET_WIDGET(glade, "auto_clean_max_seeding_torrents_type", clean.max_seeding_torrents_type_button);
+			MLIB_GLADE_GET_WIDGET(glade, "auto_clean_max_seeding_torrents_label", clean.max_seeding_torrents_type_label);
+			MLIB_GLADE_GET_WIDGET(glade, "auto_clean_max_seeding_torrents", clean.max_seeding_torrents);
+			clean.max_seeding_torrents_type_button->signal_clicked().connect(sigc::mem_fun(
+				*this, &Settings_window::on_auto_clean_max_seeding_torrents_clicked_cb
+			));
+		}
+		// Auto clean <--
+	}
+	// Daemon::Automation <--
+
+
+/*
+	// Daemon::Automation -->
+	{
 		Gtk::VBox* settings_vbox = Gtk::manage(new Gtk::VBox(false, m::gtk::VBOX_SPACING));
 		settings_vbox->set_border_width(tabs_border_width);
 		this->sections_notebook.append_page(*settings_vbox);
@@ -844,6 +953,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 		// Delete torrents <--
 	}
 	// Daemon::Automation <--
+*/
 
 	// OK, Cancel -->
 	{
@@ -893,6 +1003,17 @@ void Settings_window::add_spin_button(Gtk::VBox& parent_vbox, const std::string&
 	spin_button.set_range(range.first, range.second);
 	spin_button.set_increments(increments.first, increments.second);
 	m::gtk::vbox::add_widget_with_label(parent_vbox, label_string, spin_button);
+}
+
+
+
+void Settings_window::auto_clean_widgets_update_for(const Auto_clean_type& type, Gtk::Button* type_button, Gtk::Label* type_label, Gtk::Widget* widget)
+{
+	type_button->set_image(
+		*Gtk::manage(new Gtk::Image( type.to_stock_id(), Gtk::ICON_SIZE_BUTTON ))
+	);
+	type_label->set_sensitive(type);
+	widget->set_sensitive(type);
 }
 
 
@@ -979,53 +1100,119 @@ void Settings_window::load_settings(void)
 
 		priv->daemon.network.ip_filter->set(daemon_settings.ip_filter);
 
+		// Automation -->
 		{
-			Daemon_settings::Torrents_auto_load& auto_load = daemon_settings.torrents_auto_load;
+			Private::Automation& automation = priv->daemon.automation;
 
-			this->auto_load_torrents.set_active(auto_load.is);
-			this->auto_load_torrents_from_button.set_current_folder(U2L(auto_load.from));
-			this->auto_load_torrents_to_button.set_current_folder(U2L(auto_load.to));
+			// Auto load -->
+			{
+				Daemon_settings::Torrents_auto_load& auto_load = daemon_settings.torrents_auto_load;
 
-			this->auto_load_torrents_copy_to.set_active(auto_load.copy);
-			this->auto_load_torrents_copy_to_button.set_current_folder(U2L(auto_load.copy_to));
+				automation.load.is->set_active(auto_load.is);
+				automation.load.from->set_current_folder(U2L(auto_load.from));
+				automation.load.to->set_current_folder(U2L(auto_load.to));
+				automation.load.copy->set_active(auto_load.copy);
+				automation.load.copy_to->set_current_folder(U2L(auto_load.copy_to));
+				automation.load.delete_loaded->set_active(auto_load.delete_loaded);
+			}
+			// Auto load <--
 
-			this->auto_load_torrents_delete_loaded.set_active(auto_load.delete_loaded);
+			// Auto clean -->
+			{
+				Daemon_settings::Auto_clean& daemon_clean = daemon_settings.torrents_auto_clean;
+				Private::Auto_clean& clean = automation.clean;
+
+				clean.max_seeding_time_type = daemon_clean.max_seeding_time_type;
+				clean.max_seeding_time->set_value(daemon_clean.max_seeding_time / 60);
+				this->auto_clean_widgets_update_for(
+					clean.max_seeding_time_type,
+					clean.max_seeding_time_type_button,
+					clean.max_seeding_time_type_label,
+					clean.max_seeding_time
+				);
+
+				clean.max_ratio_type = daemon_clean.max_ratio_type;
+				clean.max_ratio->set_value(daemon_clean.max_ratio);
+				this->auto_clean_widgets_update_for(
+					clean.max_ratio_type,
+					clean.max_ratio_type_button,
+					clean.max_ratio_type_label,
+					clean.max_ratio
+				);
+
+				clean.max_seeding_torrents_type = daemon_clean.max_seeding_torrents_type;
+				clean.max_seeding_torrents->set_value(daemon_clean.max_seeding_torrents);
+				this->auto_clean_widgets_update_for(
+					clean.max_seeding_torrents_type,
+					clean.max_seeding_torrents_type_button,
+					clean.max_seeding_torrents_type_label,
+					clean.max_seeding_torrents
+				);
+			}
+			// Auto clean <--
 		}
-
-		this->auto_delete_torrents.set_active(daemon_settings.auto_delete_torrents);
-		this->auto_delete_torrents_with_data.set_active(daemon_settings.auto_delete_torrents_with_data);
-		this->auto_delete_torrents_max_seed_time.set_value(
-			daemon_settings.auto_delete_torrents_max_seed_time < 0
-			?
-				-1
-			:
-				daemon_settings.auto_delete_torrents_max_seed_time / 60
-		);
-		this->auto_delete_torrents_max_share_ratio.set_value(daemon_settings.auto_delete_torrents_max_share_ratio);
-		this->auto_delete_torrents_max_seeds.set_value(daemon_settings.auto_delete_torrents_max_seeds);
+		// Automation <--
 	// daemon settings <--
 }
 
 
 
-void Settings_window::on_auto_delete_torrents_toggled_callback(void)
+void Settings_window::on_auto_clean_max_ratio_clicked_cb(void)
 {
-	this->auto_delete_torrents_vbox.set_sensitive(this->auto_delete_torrents.get_active());
+	Private::Auto_clean& clean = priv->daemon.automation.clean;
+
+	this->auto_clean_widgets_update_for(
+		++clean.max_ratio_type,
+		  clean.max_ratio_type_button,
+		  clean.max_ratio_type_label,
+		  clean.max_ratio
+	);
+}
+
+
+
+void Settings_window::on_auto_clean_max_seeding_time_clicked_cb(void)
+{
+	Private::Auto_clean& clean = priv->daemon.automation.clean;
+
+	this->auto_clean_widgets_update_for(
+		++clean.max_seeding_time_type,
+		  clean.max_seeding_time_type_button,
+		  clean.max_seeding_time_type_label,
+		  clean.max_seeding_time
+	);
+}
+
+
+
+void Settings_window::on_auto_clean_max_seeding_torrents_clicked_cb(void)
+{
+	Private::Auto_clean& clean = priv->daemon.automation.clean;
+
+	this->auto_clean_widgets_update_for(
+		++clean.max_seeding_torrents_type,
+		  clean.max_seeding_torrents_type_button,
+		  clean.max_seeding_torrents_type_label,
+		  clean.max_seeding_torrents
+	);
 }
 
 
 
 void Settings_window::on_auto_load_torrents_toggled_callback(void)
 {
-	this->auto_load_torrents_vbox.set_sensitive(this->auto_load_torrents.get_active());
-	this->auto_load_torrents_from_button.set_sensitive(this->auto_load_torrents.get_active());
+	Private::Auto_load& load = priv->daemon.automation.load;
+
+	load.container->set_sensitive(load.is->get_active());
+	load.from->set_sensitive(load.is->get_active());
 }
 
 
 
 void Settings_window::on_auto_load_torrents_copy_to_toggled_callback(void)
 {
-	this->auto_load_torrents_copy_to_button.set_sensitive(this->auto_load_torrents_copy_to.get_active());
+	Private::Auto_load& load = priv->daemon.automation.load;
+	load.copy_to->set_sensitive(load.copy->get_active());
 }
 
 
@@ -1145,41 +1332,57 @@ void Settings_window::save_settings(void)
 	// Main <--
 
 	// daemon settings -->
-		daemon_settings.listen_ports_range = std::pair<int, int>(this->listen_port_from.get_value(), this->listen_port_to.get_value());
+		// Network -->
+			daemon_settings.listen_ports_range = std::pair<int, int>(this->listen_port_from.get_value(), this->listen_port_to.get_value());
 
-		daemon_settings.dht = this->dht.get_active();
-		daemon_settings.lsd = this->lsd.get_active();
-		daemon_settings.upnp = this->upnp.get_active();
-		daemon_settings.natpmp = this->natpmp.get_active();
-		daemon_settings.smart_ban = this->smart_ban.get_active();
-		daemon_settings.pex = this->pex.get_active();
+			daemon_settings.dht = this->dht.get_active();
+			daemon_settings.lsd = this->lsd.get_active();
+			daemon_settings.upnp = this->upnp.get_active();
+			daemon_settings.natpmp = this->natpmp.get_active();
+			daemon_settings.smart_ban = this->smart_ban.get_active();
+			daemon_settings.pex = this->pex.get_active();
 
-		daemon_settings.download_rate_limit = this->download_rate_limit.get_value();
-		daemon_settings.upload_rate_limit = this->upload_rate_limit.get_value();
+			daemon_settings.download_rate_limit = this->download_rate_limit.get_value();
+			daemon_settings.upload_rate_limit = this->upload_rate_limit.get_value();
 
-		daemon_settings.max_uploads = this->max_uploads.get_value();
-		daemon_settings.max_connections = this->max_connections.get_value();
+			daemon_settings.max_uploads = this->max_uploads.get_value();
+			daemon_settings.max_connections = this->max_connections.get_value();
+		// Network <--
 
+		// IP filter
 		daemon_settings.ip_filter = priv->daemon.network.ip_filter->get();
 
+		// Torrents auto load -->
 		{
 			Daemon_settings::Torrents_auto_load& auto_load = daemon_settings.torrents_auto_load;
+			Private::Auto_load& load = priv->daemon.automation.load;
 
-			auto_load.is			= this->auto_load_torrents.get_active();
-			auto_load.from			= L2U(this->auto_load_torrents_from_button.get_filename());
-			auto_load.to			= L2U(this->auto_load_torrents_to_button.get_filename());
+			auto_load.is			= load.is->get_active();
+			auto_load.from			= L2U(load.from->get_filename());
+			auto_load.to			= L2U(load.to->get_filename());
 
-			auto_load.copy			= this->auto_load_torrents_copy_to.get_active();
-			auto_load.copy_to		= L2U(this->auto_load_torrents_copy_to_button.get_filename());
+			auto_load.copy			= load.copy->get_active();
+			auto_load.copy_to		= L2U(load.copy_to->get_filename());
 
-			auto_load.delete_loaded	= this->auto_load_torrents_delete_loaded.get_active();
+			auto_load.delete_loaded	= load.delete_loaded->get_active();
 		}
+		// Torrents auto load <--
 
-		daemon_settings.auto_delete_torrents = this->auto_delete_torrents.get_active();
-		daemon_settings.auto_delete_torrents_with_data = this->auto_delete_torrents_with_data.get_active();
-		daemon_settings.auto_delete_torrents_max_seed_time = this->auto_delete_torrents_max_seed_time.get_value() < 0 ? -1 : this->auto_delete_torrents_max_seed_time.get_value() * 60;
-		daemon_settings.auto_delete_torrents_max_share_ratio = this->auto_delete_torrents_max_share_ratio.get_value();
-		daemon_settings.auto_delete_torrents_max_seeds = this->auto_delete_torrents_max_seeds.get_value();
+		// Torrents auto clean -->
+		{
+			Daemon_settings::Auto_clean& auto_clean = daemon_settings.torrents_auto_clean;
+			Private::Auto_clean& clean = priv->daemon.automation.clean;
+
+			auto_clean.max_seeding_time				= clean.max_seeding_time->get_value() * 60;
+			auto_clean.max_seeding_time_type		= clean.max_seeding_time_type;
+
+			auto_clean.max_ratio					= clean.max_ratio->get_value();
+			auto_clean.max_ratio_type				= clean.max_ratio_type;
+
+			auto_clean.max_seeding_torrents			= clean.max_seeding_torrents->get_value();
+			auto_clean.max_seeding_torrents_type	= clean.max_seeding_torrents_type;
+		}
+		// Torrents auto clean <--
 	// daemon settings <--
 }
 

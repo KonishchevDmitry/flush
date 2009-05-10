@@ -310,7 +310,6 @@ void Ip_filter::set(const std::vector<Ip_filter_rule>& ip_filter)
 
 	std::for_each(
 		ip_filter.begin(), ip_filter.end(),
-		#warning
 		sigc::mem_fun(*this, &Ip_filter::add)
 	);
 }

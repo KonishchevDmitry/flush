@@ -662,7 +662,7 @@ namespace
 
 		// Трекеры -->
 			m::gtk::vbox::add_header(*main_vbox, _("Trackers:"));
-			main_vbox->pack_start(*this->trackers_view, false, false);
+			main_vbox->pack_start(*this->trackers_view, true, true);
 		// Трекеры <--
 
 		m::gtk::vbox::add_space(*main_vbox);

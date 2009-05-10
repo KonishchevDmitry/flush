@@ -135,6 +135,31 @@ namespace
 
 
 
+	// Auto_clean -->
+		Daemon_settings_light::Auto_clean::Auto_clean(void)
+		:
+			max_seeding_time(0),
+			max_ratio(0),
+			max_seeding_torrents(0)
+		{
+		}
+
+
+
+		bool Daemon_settings_light::Auto_clean::operator!=(const Auto_clean& clean) const
+		{
+			return
+				this->max_seeding_time			!= clean.max_seeding_time ||
+				this->max_seeding_time_type		!= clean.max_seeding_time_type ||
+				this->max_ratio					!= clean.max_ratio ||
+				this->max_ratio_type			!= clean.max_ratio_type ||
+				this->max_seeding_torrents		!= clean.max_seeding_torrents ||
+				this->max_seeding_torrents_type	!= clean.max_seeding_torrents_type;
+		}
+	// Auto_clean <--
+
+
+
 	const int Daemon_settings_light::default_listen_start_port = 6000;
 	const int Daemon_settings_light::default_listen_end_port = 8000;
 
@@ -151,13 +176,7 @@ namespace
 		pex(true),
 
 		max_uploads(-1),
-		max_connections(-1),
-
-		auto_delete_torrents(false),
-		auto_delete_torrents_with_data(1),
-		auto_delete_torrents_max_seed_time(-1),
-		auto_delete_torrents_max_share_ratio(0),
-		auto_delete_torrents_max_seeds(-1)
+		max_connections(-1)
 	{
 	}
 // Daemon_settings_light <--
@@ -222,6 +241,139 @@ namespace
 
 
 
+	void Daemon_settings::read_auto_clean_settings(const libconfig::Setting& setting)
+	{
+		Auto_clean& clean = this->torrents_auto_clean;
+
+		int int_val;
+		float float_val;
+		std::string string_val;
+
+
+		if(setting.lookupValue("max_seeding_time", int_val))
+		{
+			if(int_val >= 0)
+			{
+				clean.max_seeding_time = int_val;
+
+				if(setting.lookupValue("max_seeding_time_type", string_val))
+				{
+					try
+					{
+						clean.max_seeding_time_type = Auto_clean_type::from_string(string_val);
+					}
+					catch(m::Exception& e)
+					{
+						bad_option_value(setting, EE(e));
+					}
+				}
+			}
+			else
+				bad_option_value(setting, int_val);
+		}
+
+		if(setting.lookupValue("max_share_ratio", float_val))
+		{
+			if(float_val >= 0)
+			{
+				clean.max_ratio = float_val;
+
+				if(setting.lookupValue("max_share_ratio_type", string_val))
+				{
+					try
+					{
+						clean.max_ratio_type = Auto_clean_type::from_string(string_val);
+					}
+					catch(m::Exception& e)
+					{
+						bad_option_value(setting, EE(e));
+					}
+				}
+			}
+			else
+				bad_option_value(setting, float_val);
+		}
+
+		if(setting.lookupValue("max_seeding_torrents", int_val))
+		{
+			if(int_val >= 0)
+			{
+				clean.max_seeding_torrents = int_val;
+
+				if(setting.lookupValue("max_seeding_torrents_type", string_val))
+				{
+					try
+					{
+						clean.max_seeding_torrents_type = Auto_clean_type::from_string(string_val);
+					}
+					catch(m::Exception& e)
+					{
+						bad_option_value(setting, EE(e));
+					}
+				}
+			}
+			else
+				bad_option_value(setting, int_val);
+		}
+	}
+
+
+
+	// Для совместимости с версиями < 0.5
+	COMPATIBILITY
+	void Daemon_settings::read_auto_delete_settings(const libconfig::Setting& root)
+	{
+		Auto_clean_type type;
+
+		bool	auto_delete = false;
+		bool	auto_delete_with_data = false;
+
+		int		max_seeding_time;
+		float	max_ratio;
+		int		max_seeding_torrents;
+
+
+		root.lookupValue("auto_delete_torrents", auto_delete);
+		root.lookupValue("auto_delete_torrents_with_data", auto_delete_with_data);
+
+		if(auto_delete)
+		{
+			if(auto_delete_with_data)
+				type = Auto_clean_type::REMOVE_WITH_DATA;
+			else
+				type = Auto_clean_type::REMOVE;
+		}
+
+		if(root.lookupValue("auto_delete_torrents_max_seed_time", max_seeding_time))
+		{
+			if(max_seeding_time >= 0)
+			{
+				this->torrents_auto_clean.max_seeding_time_type = type;
+				this->torrents_auto_clean.max_seeding_time = max_seeding_time;
+			}
+		}
+
+		if(root.lookupValue("auto_delete_torrents_max_share_ratio", max_ratio))
+		{
+			if(max_ratio >= 0)
+			{
+				this->torrents_auto_clean.max_ratio_type = type;
+				this->torrents_auto_clean.max_ratio = max_ratio;
+			}
+		}
+
+		if(root.lookupValue("auto_delete_torrents_max_seeds", max_seeding_torrents))
+		{
+			if(max_seeding_torrents >= 0)
+			{
+				this->torrents_auto_clean.max_seeding_torrents_type = type;
+				this->torrents_auto_clean.max_seeding_torrents = max_seeding_torrents;
+			}
+		}
+	}
+
+
+
 	void Daemon_settings::read_auto_load_settings(const libconfig::Setting& group_setting)
 	{
 		Torrents_auto_load& auto_load = this->torrents_auto_load;
@@ -280,6 +432,7 @@ namespace
 	{
 		libconfig::Config config;
 		std::string real_config_path = config_path;
+		Version config_version = M_GET_VERSION(0, 1, 0);
 
 		try
 		{
@@ -302,6 +455,23 @@ namespace
 		}
 
 		const libconfig::Setting& config_root = config.getRoot();
+
+		try
+		{
+			config_version = static_cast<m::libconfig::Version>(config_root["version"]);
+		}
+		catch(libconfig::SettingNotFoundException)
+		{
+		}
+
+		// Автоматическое удаление торрентов -->
+		{
+			// Для совместимости с версиями < 0.5
+			COMPATIBILITY
+			if(config_version < M_GET_VERSION(0, 5, 0))
+				this->read_auto_delete_settings(config_root);
+		}
+		// Автоматическое удаление торрентов <--
 
 		for(int i = 0; i < config_root.getLength(); i++)
 		{
@@ -346,6 +516,16 @@ namespace
 				else
 					this->listen_ports_range = std::pair<int, int>(setting[0], setting[1]);
 			}
+			else if(
+				config_version < M_GET_VERSION(0, 5, 0) && (
+					m::is_eq(setting_name, "auto_delete_torrents") ||
+					m::is_eq(setting_name, "auto_delete_torrents_with_data") ||
+					m::is_eq(setting_name, "auto_delete_torrents_max_seed_time") ||
+					m::is_eq(setting_name, "auto_delete_torrents_max_share_ratio") ||
+					m::is_eq(setting_name, "auto_delete_torrents_max_seeds")
+				)
+			)
+				;
 			else if(m::is_eq(setting_name, "dht"))
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
@@ -412,52 +592,20 @@ namespace
 
 				this->max_connections = setting;
 			}
-			else if(m::is_eq(setting_name, "auto_load_torrents"))
-			{
-				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeGroup, continue)
-				this->read_auto_load_settings(setting);
-			}
-			else if(m::is_eq(setting_name, "auto_delete_torrents"))
-			{
-				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
-				this->auto_delete_torrents = setting;
-			}
 			else if(m::is_eq(setting_name, "ip_filter"))
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeList, continue)
 				this->read_ip_filter_settings(setting);
 			}
-			else if(m::is_eq(setting_name, "auto_delete_torrents_with_data"))
+			else if(m::is_eq(setting_name, "auto_load_torrents"))
 			{
-				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
-				this->auto_delete_torrents_with_data = setting;
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeGroup, continue)
+				this->read_auto_load_settings(setting);
 			}
-			else if(m::is_eq(setting_name, "auto_delete_torrents_max_seed_time"))
+			else if(m::is_eq(setting_name, "auto_clean_torrents"))
 			{
-				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeInt, continue)
-
-				if(static_cast<int>(setting) < -1)
-					bad_option_value(setting, static_cast<int>(setting));
-				else
-					this->auto_delete_torrents_max_seed_time = setting;
-			}
-			else if(m::is_eq(setting_name, "auto_delete_torrents_max_share_ratio"))
-			{
-				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeFloat, continue)
-
-				if(static_cast<float>(setting) < 0)
-					bad_option_value(setting, static_cast<float>(setting));
-				else
-					this->auto_delete_torrents_max_share_ratio = setting;
-			}
-			else if(m::is_eq(setting_name, "auto_delete_torrents_max_seeds"))
-			{
-				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeInt, continue)
-
-				if(static_cast<int>(setting) < -1)
-					bad_option_value(setting, static_cast<int>(setting));
-				else
-					this->auto_delete_torrents_max_seeds = setting;
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeGroup, continue)
+				this->read_auto_clean_settings(setting);
 			}
 			else if(m::is_eq(setting_name, "statistics"))
 			{
@@ -695,11 +843,28 @@ namespace
 			}
 			// Автоматическая загрузка торрентов из директории <--
 
-			config_root.add("auto_delete_torrents", libconfig::Setting::TypeBoolean) = this->auto_delete_torrents;
-			config_root.add("auto_delete_torrents_with_data", libconfig::Setting::TypeBoolean) = this->auto_delete_torrents_with_data;
-			config_root.add("auto_delete_torrents_max_seed_time", libconfig::Setting::TypeInt) = this->auto_delete_torrents_max_seed_time;
-			config_root.add("auto_delete_torrents_max_share_ratio", libconfig::Setting::TypeFloat) = static_cast<float>(this->auto_delete_torrents_max_share_ratio);
-			config_root.add("auto_delete_torrents_max_seeds", libconfig::Setting::TypeInt) = this->auto_delete_torrents_max_seeds;
+			// Автоматическая "очистка" от старых торрентов -->
+			{
+				const Auto_clean& clean = this->torrents_auto_clean;
+
+				libconfig::Setting& setting = config_root.add("auto_clean_torrents", libconfig::Setting::TypeGroup);
+
+				setting.add("max_seeding_time", libconfig::Setting::TypeInt) =
+					clean.max_seeding_time;
+				setting.add("max_seeding_time_type", libconfig::Setting::TypeString) =
+					clean.max_seeding_time_type.to_string();
+
+				setting.add("max_share_ratio", libconfig::Setting::TypeFloat) =
+					static_cast<float>(clean.max_ratio);
+				setting.add("max_share_ratio_type", libconfig::Setting::TypeString) =
+					clean.max_ratio_type.to_string();
+
+				setting.add("max_seeding_torrents", libconfig::Setting::TypeInt) =
+					clean.max_seeding_torrents;
+				setting.add("max_seeding_torrents_type", libconfig::Setting::TypeString) =
+					clean.max_seeding_torrents_type.to_string();
+			}
+			// Автоматическая "очистка" от старых торрентов <--
 
 			// statistics -->
 			{

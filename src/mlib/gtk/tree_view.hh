@@ -105,7 +105,7 @@ check_columns_visibility(Gtk::TreeViewColumn* preferred_column)
 {
 	Glib::ListHandle<Gtk::TreeViewColumn*> columns = this->get_columns();
 
-	M_FOR_IT(Glib::ListHandle<Gtk::TreeViewColumn*>, columns, it)
+	M_FOR_CONST_IT(Glib::ListHandle<Gtk::TreeViewColumn*>, columns, it)
 	{
 		if(*it == &this->fake_column)
 			continue;
@@ -209,7 +209,7 @@ get_selected_rows(void)
 	std::deque<Gtk::TreeModel::iterator> iters;
 	Gtk::TreeView::Selection::ListHandle_Path rows_paths = this->get_selection()->get_selected_rows();
 	
-	M_FOR_IT(Gtk::TreeView::Selection::ListHandle_Path, rows_paths, it)
+	M_FOR_CONST_IT(Gtk::TreeView::Selection::ListHandle_Path, rows_paths, it)
 		iters.push_back(this->model->get_iter(*it));
 	
 	return iters;
@@ -428,7 +428,7 @@ save_settings(Settings& settings) const
 		// Получаем список всех колонок
 		Glib::ListHandle<const Gtk::TreeViewColumn*> columns = this->get_columns();
 
-		M_FOR_IT(Glib::ListHandle<const Gtk::TreeViewColumn*>, columns, columns_iter)
+		M_FOR_CONST_IT(Glib::ListHandle<const Gtk::TreeViewColumn*>, columns, columns_iter)
 		{
 			column = *columns_iter;
 

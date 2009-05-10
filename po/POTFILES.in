@@ -1,5 +1,6 @@
 # List of source files which contain translatable strings.
 
+glade/preferences.daemon.automation.glade
 glade/preferences.daemon.network.glade
 glade/preferences.daemon.network.ip_filter.glade 
 src/mlib/gtk/dialog.cpp

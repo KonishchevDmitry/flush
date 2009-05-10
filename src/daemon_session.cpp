@@ -57,22 +57,49 @@
 
 namespace
 {
-	struct Seeding_torrent
+	class Cleaned_torrent
 	{
-		Torrent_id		id;
-		std::string		name;
-		time_t			seed_time;
+		public:
+			Cleaned_torrent(
+				const Torrent_id&		id,
+				const std::string&		name,
+				const Auto_clean_type&	clean_type
+			) : id(id), name(name), clean_type(clean_type) { }
+
+
+		public:
+			Torrent_id			id;
+			std::string			name;
+			Auto_clean_type		clean_type;
+	};
+
+
+
+	class Seeding_torrent
+	{
+		public:
+			Seeding_torrent(
+				Torrent_id		id,
+				std::string		name,
+				time_t			seed_time
+			) : id(id), name(name), seed_time(seed_time) {}
+
+
+		public:
+			Torrent_id		id;
+			std::string		name;
+			time_t			seed_time;
 	};
 
 
 
 	/// Функция сравнения двух торрентов по времени раздачи.
 	inline
-	bool Torrent_seed_time_compare(const Seeding_torrent& a, const Seeding_torrent& b);
+	bool Torrent_seeding_time_compare(const Seeding_torrent& a, const Seeding_torrent& b);
 
 
 
-	bool Torrent_seed_time_compare(const Seeding_torrent& a, const Seeding_torrent& b)
+	bool Torrent_seeding_time_compare(const Seeding_torrent& a, const Seeding_torrent& b)
 	{
 		return a.seed_time < b.seed_time;
 	}
@@ -411,7 +438,6 @@ Torrent_id Daemon_session::add_torrent_to_config(const std::string& torrent_path
 
 
 
-#include <iostream>
 void Daemon_session::add_torrent_to_session(lt::torrent_info torrent_info, const Torrent_settings& torrent_settings)
 {
 	Torrent_id torrent_id(torrent_info.info_hash());
@@ -521,6 +547,59 @@ void Daemon_session::add_torrent_to_session(lt::torrent_info torrent_info, const
 
 	// Добавляем торрент в список торрентов сессии
 	this->torrents.insert(std::pair<Torrent_id, Torrent>(torrent_id, torrent));
+}
+
+
+
+void Daemon_session::auto_clean_torrent(const Torrent_id& id, const std::string& name, const Auto_clean_type& clean_type) throw(m::Exception)
+{
+	MLIB_D(_C("Auto cleaning torrent '%1' (%2) [%3]...", name, id, clean_type.type));
+
+	switch(clean_type.type)
+	{
+		case Auto_clean_type::PAUSE:
+		{
+			try
+			{
+				this->pause_torrent(this->get_torrent(id));
+			}
+			catch(m::Exception& e)
+			{
+				M_THROW(__("Can't pause torrent '%1'. %2", name, EE(e)));
+			}
+		}
+		break;
+
+		case Auto_clean_type::REMOVE:
+		{
+			try
+			{
+				this->remove_torrent(id);
+			}
+			catch(m::Exception& e)
+			{
+				M_THROW(__("Can't remove torrent '%1'. %2", name, EE(e)));
+			}
+		}
+		break;
+
+		case Auto_clean_type::REMOVE_WITH_DATA:
+		{
+			try
+			{
+				this->remove_torrent_with_data(id);
+			}
+			catch(m::Exception& e)
+			{
+				M_THROW(__("Can't remove with data torrent '%1'. %2", name, EE(e)));
+			}
+		}
+		break;
+
+		default:
+			MLIB_LE();
+			break;
+	}
 }
 
 
@@ -675,111 +754,104 @@ void Daemon_session::auto_load_torrents(void)
 
 void Daemon_session::automate(void)
 {
-	if(this->settings.auto_delete_torrents)
-	{
-		// Ограничение на максимальное время раздачи и максимальный рейтинг -->
-			if(
-				   this->settings.auto_delete_torrents_max_seed_time >= 0
-				|| this->settings.auto_delete_torrents_max_share_ratio > 0
-			)
+	Errors_pool errors;
+	Daemon_settings::Auto_clean& clean = this->settings.torrents_auto_clean;
+
+	MLIB_D("Checking for automation needs...");
+
+	// Ограничение на максимальное время раздачи и максимальный рейтинг -->
+		if(clean.max_seeding_time_type || clean.max_ratio_type)
+		{
+			MLIB_D("Checking for max seeding time and max ratio...");
+
+			std::vector<Cleaned_torrent> cleaned_torrents;
+
+			M_FOR_CONST_IT(Torrents_container, this->torrents, it)
 			{
-				std::vector< std::pair<Torrent_id, std::string> > deleted_torrents;
+				const Torrent& torrent = it->second;
 
-				M_FOR_CONST_IT(Torrents_container, this->torrents, it)
+				if(torrent.seeding)
 				{
-					const Torrent& torrent = it->second;
+					Auto_clean_type clean_type;
 
-					if(
-						torrent.seeding &&
-						(
-							(
-								this->settings.auto_delete_torrents_max_seed_time >= 0 &&
-								torrent.time_seeding >= this->settings.auto_delete_torrents_max_seed_time
-							) ||
-							(
-								this->settings.auto_delete_torrents_max_share_ratio > 0 &&
-								Torrent_info(torrent).get_share_ratio() >= this->settings.auto_delete_torrents_max_share_ratio
-							)
-						)
-					)
+					if(clean.max_seeding_time_type && torrent.time_seeding >= clean.max_seeding_time)
 					{
-						deleted_torrents.push_back(
-							std::pair<Torrent_id, std::string>(torrent.id, torrent.name)
-						);
+						MLIB_D(_C("Setting auto clean type [%1] for torrent '%2'.",
+							clean.max_seeding_time_type, torrent.name));
+						clean_type.set_if_stricter(clean.max_seeding_time_type);
 					}
-				}
 
-				if(!deleted_torrents.empty())
-				{
-					for(size_t i = 0; i < deleted_torrents.size(); i++)
+					if(clean.max_ratio_type && Torrent_info(torrent).get_share_ratio() >= clean.max_ratio)
 					{
-						Torrent_id &id = deleted_torrents[i].first;
-						std::string &name = deleted_torrents[i].second;
-
-						try
-						{
-							if(this->settings.auto_delete_torrents_with_data)
-								remove_torrent_with_data(id);
-							else
-								remove_torrent(id);
-						}
-						catch(m::Exception& e)
-						{
-							MLIB_W(
-								_("Automatic torrent removing failed"),
-								__("Automatic removing of torrent '%1' failed. %2", name, EE(e))
-							);
-						}
+						MLIB_D(_C("Setting auto clean type [%1] for torrent '%2'.",
+							clean.max_ratio_type, torrent.name));
+						clean_type.set_if_stricter(clean.max_ratio_type);
 					}
+
+					if(clean_type)
+						cleaned_torrents.push_back( Cleaned_torrent(torrent.id, torrent.name, clean_type) );
 				}
 			}
-		// Ограничение на максимальное время раздачи и максимальный рейтинг <--
 
-		// Ограничение на количество раздаваемых торрентов -->
-			if(this->settings.auto_delete_torrents_max_seeds >= 0 && this->torrents.size() > static_cast<size_t>(this->settings.auto_delete_torrents_max_seeds))
+			M_FOR_CONST_IT(std::vector<Cleaned_torrent>, cleaned_torrents, it)
 			{
-				Seeding_torrent seeding_torrent;
-				std::vector<Seeding_torrent> seeding_torrents;
+				const Cleaned_torrent& torrent = *it;
 
-				M_FOR_CONST_IT(Torrents_container, this->torrents, it)
+				try
 				{
-					const Torrent& torrent = it->second;
-
-					if(torrent.seeding)
-					{
-						seeding_torrent.id = torrent.id;
-						seeding_torrent.name = torrent.name;
-						seeding_torrent.seed_time = torrent.time_seeding;
-
-						seeding_torrents.push_back(seeding_torrent);
-					}
+					this->auto_clean_torrent(
+						torrent.id, torrent.name, torrent.clean_type
+					);
 				}
-
-				if(seeding_torrents.size() > static_cast<size_t>(this->settings.auto_delete_torrents_max_seeds))
+				catch(m::Exception& e)
 				{
-					sort(seeding_torrents.begin(), seeding_torrents.end(), Torrent_seed_time_compare);
-
-					for(size_t i = seeding_torrents.size() - 1; i >= static_cast<size_t>(this->settings.auto_delete_torrents_max_seeds); i--)
-					{
-						try
-						{
-							if(this->settings.auto_delete_torrents_with_data)
-								remove_torrent_with_data(seeding_torrents[i].id);
-							else
-								remove_torrent(seeding_torrents[i].id);
-						}
-						catch(m::Exception& e)
-						{
-							MLIB_W(
-								_("Automatic torrent removing failed"),
-								__("Automatic removing of torrent '%1' failed. %2", seeding_torrents[i].name, EE(e))
-							);
-						}
-					}
+					errors += EE(e);
 				}
 			}
-		// Ограничение на количество раздаваемых торрентов <--
-	}
+		}
+	// Ограничение на максимальное время раздачи и максимальный рейтинг <--
+
+	// Ограничение на количество раздаваемых торрентов -->
+		if(clean.max_seeding_torrents_type && this->torrents.size() > static_cast<size_t>(clean.max_seeding_torrents))
+		{
+			MLIB_D("Checking for max seeding torrents...");
+
+			std::vector<Seeding_torrent> seeding_torrents;
+
+			M_FOR_CONST_IT(Torrents_container, this->torrents, it)
+			{
+				const Torrent& torrent = it->second;
+
+				if(torrent.seeding)
+				{
+					seeding_torrents.push_back(
+						Seeding_torrent(torrent.id, torrent.name, torrent.time_seeding)
+					);
+				}
+			}
+
+			sort(seeding_torrents.begin(), seeding_torrents.end(), Torrent_seeding_time_compare);
+
+			for(size_t i = seeding_torrents.size() - 1; i >= static_cast<size_t>(clean.max_seeding_torrents); i--)
+			{
+				const Seeding_torrent& torrent = seeding_torrents[i];
+
+				try
+				{
+					this->auto_clean_torrent(
+						torrent.id, torrent.name, clean.max_seeding_torrents_type
+					);
+				}
+				catch(m::Exception& e)
+				{
+					errors += EE(e);
+				}
+			}
+		}
+	// Ограничение на количество раздаваемых торрентов <--
+
+	if(errors)
+		MLIB_W(_("Automatic torrents cleaning failed"), errors);
 }
 
 
@@ -1431,19 +1503,25 @@ void Daemon_session::reset_statistics(void)
 
 void Daemon_session::resume_torrent(Torrent& torrent) throw(m::Exception)
 {
+	bool paused = false;
+
 	try
 	{
 		const lt::torrent_status torrent_status = torrent.handle.status();
+		paused = torrent_status.paused;
 
-		// libtorrent::torrent_handle::resume сбрасывает эти
-		// счетчики в 0. Поэтому перед каждым resume'ом сохраняем
-		// их значение.
-		torrent.total_download         += torrent_status.total_download;
-		torrent.total_payload_download += torrent_status.total_payload_download;
-		torrent.total_upload           += torrent_status.total_upload;
-		torrent.total_payload_upload   += torrent_status.total_payload_upload;
+		if(paused)
+		{
+			torrent.handle.resume();
 
-		torrent.handle.resume();
+			// libtorrent::torrent_handle::resume сбрасывает эти счетчики в 0
+			// (но только в том случае, если торрент в данный момент находится
+			// на паузе). Поэтому перед каждым resume'ом сохраняем их значение.
+			torrent.total_download         += torrent_status.total_download;
+			torrent.total_payload_download += torrent_status.total_payload_download;
+			torrent.total_upload           += torrent_status.total_upload;
+			torrent.total_payload_upload   += torrent_status.total_payload_upload;
+		}
 	}
 	catch(lt::invalid_torrent_file)
 	{
@@ -1451,7 +1529,8 @@ void Daemon_session::resume_torrent(Torrent& torrent) throw(m::Exception)
 	}
 
 	// Планируем сохранение настроек торрента
-	this->schedule_torrent_settings_saving(torrent);
+	if(paused)
+		this->schedule_torrent_settings_saving(torrent);
 }
 
 
@@ -1797,24 +1876,15 @@ void Daemon_session::set_settings(const Daemon_settings& settings, const bool in
 	}
 	// Настройки автоматической "подгрузки" *.torrent файлов. <--
 
-	// Удалять старые торренты или нет.
-	this->settings.auto_delete_torrents = settings.auto_delete_torrents;
+	// Настройки автоматической "очистки" от старых торрентов -->
+		if(this->settings.torrents_auto_clean != settings.torrents_auto_clean)
+		{
+			this->settings.torrents_auto_clean = settings.torrents_auto_clean;
 
-	// Удалять старые торренты вместе с данными или нет.
-	this->settings.auto_delete_torrents_with_data = settings.auto_delete_torrents_with_data;
-
-	// Максимальное время жизни торрента (cек).
-	this->settings.auto_delete_torrents_max_seed_time = settings.auto_delete_torrents_max_seed_time;
-
-	// Максимальный рейтинг торрента.
-	this->settings.auto_delete_torrents_max_share_ratio = settings.auto_delete_torrents_max_share_ratio;
-
-	// Максимальное количество раздающих торрентов.
-	this->settings.auto_delete_torrents_max_seeds = settings.auto_delete_torrents_max_seeds;
-
-	// Если изменение настроек повлияло на автоматизацию
-	// действий.
-	this->automate();
+			// Чтобы изменения сразу же вступили в силу
+			this->automate();
+		}
+	// Настройки автоматической "очистки" от старых торрентов <--
 }
 
 

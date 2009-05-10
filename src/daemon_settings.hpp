@@ -34,6 +34,7 @@
 	class Daemon_settings_light
 	{
 		public:
+			/// Настройки автоматической загрузки торрентов из директории.
 			class Torrents_auto_load
 			{
 				public:
@@ -68,6 +69,32 @@
 					/// Проверяет настройки на эквивалентность по отношению к
 					/// fs_watcher.
 					bool	equal(const Torrents_auto_load& auto_load) const;
+			};
+
+
+			/// Настройки автоматической очистки от старых торрентов.
+			class Auto_clean
+			{
+				public:
+					Auto_clean(void);
+
+
+				public:
+					/// Максимальное время жизни торрента (c).
+					time_t				max_seeding_time;
+					Auto_clean_type		max_seeding_time_type;
+
+					/// Максимальный рейтинг торрента.
+					Share_ratio			max_ratio;
+					Auto_clean_type		max_ratio_type;
+
+					/// Максимальное количество раздающих торрентов.
+					int					max_seeding_torrents;
+					Auto_clean_type		max_seeding_torrents_type;
+
+
+				public:
+					bool	operator!=(const Auto_clean& clean) const;
 			};
 
 
@@ -112,21 +139,9 @@
 			/// Настройки автоматической загрузки торрентов из директории.
 			Torrents_auto_load				torrents_auto_load;
 
+			/// Настройки автоматической очистки от старых торрентов.
+			Auto_clean						torrents_auto_clean;
 
-			/// Удалять старые торренты или нет.
-			bool							auto_delete_torrents;
-
-			/// Удалять старые торренты вместе с данными или нет.
-			bool							auto_delete_torrents_with_data;
-
-			/// Максимальное время жизни торрента (c).
-			time_t							auto_delete_torrents_max_seed_time;
-
-			/// Максимальный рейтинг торрента.
-			Share_ratio						auto_delete_torrents_max_share_ratio;
-
-			/// Максимальное количество раздающих торрентов.
-			int								auto_delete_torrents_max_seeds;
 
 		private:
 			/// Начальный порт по умолчанию для диапазона прослушиваемых
@@ -188,6 +203,12 @@
 
 		private:
 			void				assign(const Daemon_settings_light &settings);
+
+			/// Считывает настройки автоматической "очистки" от старых торрентов.
+			void				read_auto_clean_settings(const libconfig::Setting& setting);
+
+			/// Считывает настройки автоматического удаления торрентов.
+			void				read_auto_delete_settings(const libconfig::Setting& root);
 
 			/// Считывает настройки автоматической подгрузки торрентов из директории.
 			void				read_auto_load_settings(const libconfig::Setting& group_setting);
