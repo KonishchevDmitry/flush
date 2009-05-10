@@ -89,7 +89,7 @@
 					Auto_clean_type		max_ratio_type;
 
 					/// Максимальное количество раздающих торрентов.
-					int					max_seeding_torrents;
+					ssize_t				max_seeding_torrents;
 					Auto_clean_type		max_seeding_torrents_type;
 
 

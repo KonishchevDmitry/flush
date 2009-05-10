@@ -85,7 +85,7 @@ void Daemon::pause_torrent(const Torrent_id& torrent_id) throw(m::Exception)
 
 void Daemon::process_torrents(const std::vector<Torrent_id>& torrents_ids, Torrent_process_action action) throw(m::Exception)
 {
-	M_FOR_CONST_IT(std::vector<Torrent_id>, torrents_ids, it)
+	M_FOR_CONST_IT(torrents_ids, it)
 	{
 		switch(action)
 		{

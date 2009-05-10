@@ -355,7 +355,7 @@ namespace
 
 		if(root.lookupValue("auto_delete_torrents_max_share_ratio", max_ratio))
 		{
-			if(max_ratio >= 0)
+			if(max_ratio > 0)
 			{
 				this->torrents_auto_clean.max_ratio_type = type;
 				this->torrents_auto_clean.max_ratio = max_ratio;
@@ -860,7 +860,7 @@ namespace
 					clean.max_ratio_type.to_string();
 
 				setting.add("max_seeding_torrents", libconfig::Setting::TypeInt) =
-					clean.max_seeding_torrents;
+					static_cast<int>(clean.max_seeding_torrents);
 				setting.add("max_seeding_torrents_type", libconfig::Setting::TypeString) =
 					clean.max_seeding_torrents_type.to_string();
 			}

@@ -163,7 +163,7 @@ Glib::ustring get_time_left_string(Time time_left, bool show_zero_values)
 
 bool is_empty_string(const Glib::ustring& string)
 {
-	M_FOR_CONST_IT(Glib::ustring, string, it)
+	M_FOR_CONST_IT(string, it)
 		if(!Glib::Unicode::isspace(*it))
 			return false;
 

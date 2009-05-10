@@ -791,7 +791,7 @@ void Main_window::on_open_response_callback(int response_id, Gtk::FileChooserDia
 
 	delete dialog;
 
-	M_FOR_CONST_IT(Glib::SListHandle<Glib::ustring>, filenames, it)
+	M_FOR_CONST_IT(filenames, it)
 		this->open_torrent(L2U(*it));
 }
 

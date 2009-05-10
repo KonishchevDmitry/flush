@@ -100,7 +100,7 @@ namespace m { namespace gtk {
 		this->ids_by_columns.erase(column);
 		this->columns_by_ids.erase(id);
 
-		M_FOR_IT(std::vector<Column>, this->all, it)
+		M_FOR_IT(this->all, it)
 		{
 			if(it->column == column)
 			{

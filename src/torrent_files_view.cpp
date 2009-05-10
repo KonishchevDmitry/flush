@@ -698,7 +698,7 @@ namespace
 		std::vector<Torrent_file> files = this->files;
 		std::sort(files.begin(), files.end());
 
-		M_FOR_CONST_IT(std::vector<Torrent_file>, files, it)
+		M_FOR_CONST_IT(files, it)
 		{
 			id = it->id;
 			path = it->path;

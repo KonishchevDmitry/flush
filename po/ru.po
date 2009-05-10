@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2009-05-10 09:28+0400\n"
+"POT-Creation-Date: 2009-05-10 12:51+0400\n"
 "Last-Translator: Konishchev Dmitry <konishchev@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -657,7 +657,7 @@ msgstr "Ошибка при чтении конфигурационного фа
 msgid "Can't parse configuration file '%1': %2."
 msgstr "Ошибка при чтении конфигурационного файла '%1': %2."
 
-#: src/client_settings.cpp:945 src/daemon_settings.cpp:898
+#: src/client_settings.cpp:945 src/daemon_settings.cpp:896
 #, qt-format
 msgid "Writing configuration file '%1' failed. %2"
 msgstr "Запись конфигурационного файла '%1' завершилась неудачей. %2"
@@ -781,65 +781,66 @@ msgid "Please choose a file to create torrent from"
 msgstr "Пожалуйста, выберите файл, из которого необходимо создать торрент."
 
 #: src/common.cpp:48
+#, qt-format
 msgid "invalid auto clean action type '%1'"
 msgstr "неверное имя действия автоматической очистки торрентов ('%1')"
 
-#: src/common.cpp:234
+#: src/common.cpp:238
 #, qt-format
 msgid "invalid IP address '%1'"
 msgstr "недопустимый IP-адрес '%1'"
 
-#: src/common.cpp:238
+#: src/common.cpp:242
 #, qt-format
 msgid "invalid IP range %1-%2"
 msgstr "недопустимый диапазон IP-адресов %1-%2"
 
-#: src/common.cpp:324
+#: src/common.cpp:328
 msgid "normal"
 msgstr "нормальный"
 
-#: src/common.cpp:328
+#: src/common.cpp:332
 msgid "high"
 msgstr "высокий"
 
-#: src/common.cpp:364
+#: src/common.cpp:368
 #, qt-format
 msgid "Invalid file priority name: '%1'."
 msgstr "Неправильное имя приоритета: '%1'."
 
-#: src/common.cpp:483
+#: src/common.cpp:487
 msgid "[Invalid encoding]"
 msgstr "[Неверная кодировка]"
 
-#: src/common.cpp:623 src/common.cpp:663
+#: src/common.cpp:627 src/common.cpp:667
 msgid "(short)|Paused"
 msgstr "На паузе"
 
-#: src/common.cpp:630
+#: src/common.cpp:634
 msgid "(short)|Queued for checking"
 msgstr "В очереди на проверку"
 
-#: src/common.cpp:634
+#: src/common.cpp:638
 msgid "(short)|Checking files"
 msgstr "Проверка файлов"
 
-#: src/common.cpp:638
+#: src/common.cpp:642
 msgid "(short)|Downloading metadata"
 msgstr "Скачивание метаданных"
 
-#: src/common.cpp:642
+#: src/common.cpp:646
 msgid "(short)|Downloading"
 msgstr "Скачивание"
 
-#: src/common.cpp:646
+#: src/common.cpp:650
 msgid "(short)|Seeding"
 msgstr "Раздача"
 
-#: src/common.cpp:650
+#: src/common.cpp:654
 msgid "(short)|Allocating"
 msgstr "Выделение места на жестком диске"
 
-#: src/common.cpp:654
+#: src/common.cpp:658
 msgid "(short)|Unknown"
 msgstr "Неизвестно"
 
@@ -881,14 +882,17 @@ msgid "Can't copy torrent file '%1' to '%2': %3."
 msgstr "Не удалось скопировать файл торрента '%1' в '%2': %3."
 
 #: src/daemon_session.cpp:568
+#, qt-format
 msgid "Can't pause torrent '%1'. %2"
 msgstr "Не удалось приостановить торрент '%1'. %2"
 
 #: src/daemon_session.cpp:581
+#, qt-format
 msgid "Can't remove torrent '%1'. %2"
 msgstr "Не удалось удалить торрент '%1'. %2"
 
 #: src/daemon_session.cpp:594
+#, qt-format
 msgid "Can't remove with data torrent '%1'. %2"
 msgstr "Не удалось удалить вместе с данными торрент '%1'. %2"
 
@@ -1066,106 +1070,106 @@ msgstr "Ошибка при чтении конфигурационного фа
 msgid "Error while parsing configuration file '%1': %2."
 msgstr "Ошибка при чтении конфигурационного файла '%1': %2."
 
-#: src/daemon_settings.cpp:716
+#: src/daemon_settings.cpp:714
 msgid "invalid DHT state data"
 msgstr "сохраненные данные DHT сессии повреждены"
 
-#: src/daemon_settings.cpp:722
+#: src/daemon_settings.cpp:720
 #, qt-format
 msgid "Error while reading DHT state from file '%1': %2."
 msgstr "Ошибка при чтении данных DHT сессии из файла '%1': %2."
 
-#: src/daemon_settings.cpp:749
+#: src/daemon_settings.cpp:747
 #, qt-format
 msgid "Daemon config: Invalid IP filter rule at line %1."
 msgstr ""
 "Конфигурационный файл демона: Неверно сформированное правило IP-фильтра в "
 "строке %1."
 
-#: src/daemon_settings.cpp:902
+#: src/daemon_settings.cpp:900
 #, qt-format
 msgid "Can't write configuration file %1: %2."
 msgstr "Ошибка при записи конфигурационного файла %1: %2."
 
-#: src/daemon_settings.cpp:920 src/daemon_settings.cpp:954
+#: src/daemon_settings.cpp:918 src/daemon_settings.cpp:952
 #, qt-format
 msgid "Writing DHT state to file '%1' failed. %2"
 msgstr "Запись DHT сессии в файл '%1' завершилась неудачей. %2"
 
-#: src/daemon_settings.cpp:945
+#: src/daemon_settings.cpp:943
 #, qt-format
 msgid "Can't write DHT state to file '%1': %2."
 msgstr "Не удалось записать DHT сессию в файл '%1': %2."
 
-#: src/daemon_settings.cpp:1080
+#: src/daemon_settings.cpp:1078
 #, qt-format
 msgid "Reading torrent configuration file '%1' failed. %2"
 msgstr ""
 "Чтение конфигурационного файла торрента ('%1') завершилось неудачей. %2"
 
-#: src/daemon_settings.cpp:1084
+#: src/daemon_settings.cpp:1082
 #, qt-format
 msgid "Error while reading torrent configuration file '%1': %2."
 msgstr "Ошибка при чтении конфигурационного файла торрента '%1': %2."
 
-#: src/daemon_settings.cpp:1088
+#: src/daemon_settings.cpp:1086
 #, qt-format
 msgid "Error while parsing torrent configuration file '%1': %2."
 msgstr "Ошибка при чтении конфигурационного файла торрента '%1': %2."
 
-#: src/daemon_settings.cpp:1221 src/daemon_settings.cpp:1239
+#: src/daemon_settings.cpp:1219 src/daemon_settings.cpp:1237
 #, qt-format
 msgid "Bad files number: %1 vs %2."
 msgstr "Неверное количество файлов: %1 вместо %2."
 
-#: src/daemon_settings.cpp:1297
+#: src/daemon_settings.cpp:1295
 #, qt-format
 msgid "Daemon config: %1"
 msgstr "Конфигурационный файл демона: %1"
 
-#: src/daemon_settings.cpp:1390 src/daemon_settings.cpp:1401
+#: src/daemon_settings.cpp:1388 src/daemon_settings.cpp:1399
 #, qt-format
 msgid "Can't read torrent resume data from file '%1': %2."
 msgstr ""
 "Ошибка при чтении файла '%1' с информацией для восстановления сессии "
 "торрента: %2."
 
-#: src/daemon_settings.cpp:1411 src/daemon_settings.cpp:1417
+#: src/daemon_settings.cpp:1409 src/daemon_settings.cpp:1415
 #, qt-format
 msgid "Error while reading torrent resume data from file '%1': file broken."
 msgstr ""
 "Ошибка при чтении данных сессии торрента из файла '%1': файл поврежден."
 
-#: src/daemon_settings.cpp:1443
+#: src/daemon_settings.cpp:1441
 #, qt-format
 msgid "Can't read torrent resume data from file '%1': bad resume data."
 msgstr ""
 "Ошибка при чтении файла '%1' с информацией для восстановления сессии "
 "торрента: неверные данные."
 
-#: src/daemon_settings.cpp:1546
+#: src/daemon_settings.cpp:1544
 #, qt-format
 msgid "Writing torrent configuration file '%1' failed. %2"
 msgstr "Запись конфигурационного файла '%1' завершилась неудачей. %2"
 
-#: src/daemon_settings.cpp:1550
+#: src/daemon_settings.cpp:1548
 #, qt-format
 msgid "Can't write torrent configuration file %1: %2."
 msgstr "Ошибка при записи конфигурационного файла торрента '%1': %2."
 
-#: src/daemon_settings.cpp:1568
+#: src/daemon_settings.cpp:1566
 #, qt-format
 msgid "Removing old resume data '%1' failed. %2"
 msgstr "Удаление старых данных сессии '%1' завершилось неудачей. %2"
 
-#: src/daemon_settings.cpp:1584 src/daemon_settings.cpp:1615
+#: src/daemon_settings.cpp:1582 src/daemon_settings.cpp:1613
 #, qt-format
 msgid "Writing torrent resume data to file '%1' failed. %2"
 msgstr ""
 "Запись файла '%1' с информацией для восстановления сессии торрента "
 "завершилась неудачей. %2"
 
-#: src/daemon_settings.cpp:1606
+#: src/daemon_settings.cpp:1604
 #, qt-format
 msgid "Can't write torrent resume data to file '%1': %2."
 msgstr ""

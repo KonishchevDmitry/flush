@@ -26,6 +26,9 @@
 #include <string>
 #include <vector>
 
+#include <boost/type_traits/add_const.hpp>
+#include <boost/type_traits/remove_const.hpp>
+#include <boost/typeof/typeof.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/version.hpp>
 
@@ -34,42 +37,38 @@
 
 
 
-/// Макроопределение для обхода контейнеров.
-/// Сделано для того, чтобы избежать написания очень длинных
-/// for инcтрукций.
-#define M_FOR_IT(type, container, iter) for(type::iterator iter = (container).begin(); iter != (container).end(); iter++)
+// Макроопределения для обхода контейнеров.
+// Сделаны для того, чтобы избежать написания очень длинных
+// for инcтрукций.
+// -->
+	#define M_FOR_IT(container, iter) \
+		for( \
+			boost::remove_const<BOOST_TYPEOF(container)>::type::iterator iter = (container).begin(), \
+			mlib_end_iter = (container).end(); \
+			iter != mlib_end_iter; iter++ \
+		)
 
-#if 0
-/// Макроопределение для обхода контейнеров.
-/// Сделано для того, чтобы избежать написания очень длинных
-/// for инcтрукций.
-///
-/// Внутри макроса специально не ставятся скобки вокруг аргументов, т. к. они
-/// должны быть простыми именами переменных, а не сложными выражениями. Не
-/// используя скобки, мы повышаем вероятность того, что код просто не
-/// скомпилируется, если в качестве аргументов программист передаст ему
-/// какое-либо сложное выражение.
-#define M_FOR_IT(container, iter) \
-	for( \
-		typeof(container.begin()) iter = container.begin(), mlib_end_iter = container.end(); \
-		iter != mlib_end_iter; iter++ \
-	)
-#endif
+	#define M_FOR_CONST_IT(container, iter) \
+		for( \
+			boost::add_const<BOOST_TYPEOF(container)>::type::const_iterator iter = (container).begin(), \
+			mlib_end_iter = (container).end(); \
+			iter != mlib_end_iter; iter++ \
+		)
 
-/// Макроопределение для обхода контейнеров.
-/// Сделано для того, чтобы избежать написания очень длинных
-/// for инcтрукций.
-#define M_FOR_REVERSE_IT(type, container, iter) for(type::reverse_iterator iter = (container).rbegin(); iter != (container).rend(); iter++)
+	#define M_FOR_REVERSE_IT(container, iter) \
+		for( \
+			boost::remove_const<BOOST_TYPEOF(container)>::type::reverse_iterator iter = (container).rbegin(), \
+			mlib_end_iter = (container).rend(); \
+			iter != mlib_end_iter; iter++ \
+		)
 
-/// Макроопределение для обхода контейнеров.
-/// Сделано для того, чтобы избежать написания очень длинных
-/// for инcтрукций.
-#define M_FOR_CONST_IT(type, container, iter) for(type::const_iterator iter = (container).begin(); iter != (container).end(); iter++)
-
-/// Макроопределение для обхода контейнеров.
-/// Сделано для того, чтобы избежать написания очень длинных
-/// for инcтрукций.
-#define M_FOR_CONST_REVERSE_IT(type, container, iter) for(type::const_reverse_iterator iter = (container).rbegin(); iter != (container).rend(); iter++)
+	#define M_FOR_CONST_REVERSE_IT(container, iter) \
+		for( \
+			boost::add_const<BOOST_TYPEOF(container)>::type::const_reverse_iterator iter = (container).rbegin(), \
+			mlib_end_iter = (container).rend(); \
+			iter != mlib_end_iter; iter++ \
+		)
+// <--
 
 /// Необходима только для работы с препроцессором. Там, где номер
 /// версии используется не в условиях препроцессора, лучше использовать

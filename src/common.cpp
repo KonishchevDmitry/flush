@@ -1,7 +1,9 @@
 #include <string>
 #include <limits>
 
-#include <boost/exception.hpp>
+#if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 35, 0)
+	#include <boost/exception.hpp>
+#endif
 
 #include <glibmm/convert.h>
 #include <gtkmm/stock.h>
@@ -229,7 +231,11 @@
 			ip = this->to;
 			to_address = lt::address_v4::from_string(ip);
 		}
+	#if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 35, 0)
 		catch(boost::exception&)
+	#else
+		catch(asio::system_error&)
+	#endif
 		{
 			M_THROW(__("invalid IP address '%1'", ip));
 		}

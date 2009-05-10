@@ -454,14 +454,14 @@ namespace
 
 								if( (files_entry = info_entry->find_key("files")) )
 								{
-									M_FOR_IT(lt::entry::list_type, files_entry->list(), files_it)
+									M_FOR_IT(files_entry->list(), files_it)
 									{
 										lt::entry* path_entry = files_it->find_key("path");
 
 										if(!path_entry)
 											throw lt::type_error("");
 
-										M_FOR_IT(lt::entry::list_type, path_entry->list(), names_it)
+										M_FOR_IT(path_entry->list(), names_it)
 											*names_it = L2U(names_it->string());
 									}
 								}

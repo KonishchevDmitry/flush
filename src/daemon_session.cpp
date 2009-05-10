@@ -79,9 +79,9 @@ namespace
 	{
 		public:
 			Seeding_torrent(
-				Torrent_id		id,
-				std::string		name,
-				time_t			seed_time
+				const Torrent_id&	id,
+				const std::string&	name,
+				const time_t		seed_time
 			) : id(id), name(name), seed_time(seed_time) {}
 
 
@@ -766,7 +766,7 @@ void Daemon_session::automate(void)
 
 			std::vector<Cleaned_torrent> cleaned_torrents;
 
-			M_FOR_CONST_IT(Torrents_container, this->torrents, it)
+			M_FOR_CONST_IT(this->torrents, it)
 			{
 				const Torrent& torrent = it->second;
 
@@ -793,7 +793,7 @@ void Daemon_session::automate(void)
 				}
 			}
 
-			M_FOR_CONST_IT(std::vector<Cleaned_torrent>, cleaned_torrents, it)
+			M_FOR_CONST_IT(cleaned_torrents, it)
 			{
 				const Cleaned_torrent& torrent = *it;
 
@@ -818,7 +818,7 @@ void Daemon_session::automate(void)
 
 			std::vector<Seeding_torrent> seeding_torrents;
 
-			M_FOR_CONST_IT(Torrents_container, this->torrents, it)
+			M_FOR_CONST_IT(this->torrents, it)
 			{
 				const Torrent& torrent = it->second;
 
@@ -832,7 +832,7 @@ void Daemon_session::automate(void)
 
 			sort(seeding_torrents.begin(), seeding_torrents.end(), Torrent_seeding_time_compare);
 
-			for(size_t i = seeding_torrents.size() - 1; i >= static_cast<size_t>(clean.max_seeding_torrents); i--)
+			for(size_t i = clean.max_seeding_torrents; i < seeding_torrents.size(); i++)
 			{
 				const Seeding_torrent& torrent = seeding_torrents[i];
 
@@ -1082,7 +1082,7 @@ void Daemon_session::get_torrent_peers_info(const Torrent torrent, std::vector<T
 	peers_info.clear();
 	peers_info.reserve(lt_peers_info.size());
 
-	M_FOR_CONST_IT(std::vector<lt::peer_info>, lt_peers_info, it)
+	M_FOR_CONST_IT(lt_peers_info, it)
 		peers_info.push_back(Torrent_peer_info(*it));
 }
 
@@ -1137,7 +1137,7 @@ void Daemon_session::get_torrents_info(std::vector<Torrent_info>& torrents_info)
 	torrents_info.clear();
 	torrents_info.reserve(this->torrents.size());
 
-	M_FOR_CONST_IT(Torrents_container, this->torrents, it)
+	M_FOR_CONST_IT(this->torrents, it)
 		torrents_info.push_back(it->second.get_info());
 }
 
@@ -1362,7 +1362,7 @@ bool Daemon_session::on_update_torrents_statistics_callback(void)
 	if(time_diff < 0)
 		time_diff = UPDATE_TORRENTS_STATISTICS_TIMEOUT;
 
-	M_FOR_IT(Torrents_container, this->torrents, it)
+	M_FOR_IT(this->torrents, it)
 	{
 		Torrent& torrent = it->second;
 		Torrent_info torrent_info = torrent.get_info();
@@ -1540,7 +1540,7 @@ void Daemon_session::save_session(void) throw(m::Exception)
 	MLIB_D("Saving session...");
 
 	// Планируем сохранение настроек торрентов
-	M_FOR_CONST_IT(Torrents_container, this->torrents, it)
+	M_FOR_CONST_IT(this->torrents, it)
 		this->schedule_torrent_settings_saving(it->second);
 
 	// Пишем конфиг демона -->
@@ -1966,7 +1966,7 @@ void Daemon_session::start_torrents(const Torrents_group group)
 {
 	MLIB_D(_C("Starting torrents [%1].", static_cast<int>(group)));
 
-	M_FOR_IT(Torrents_container, this->torrents, it)
+	M_FOR_IT(this->torrents, it)
 	{
 		Torrent& torrent = it->second;
 		Torrent_info torrent_info(torrent);
@@ -2000,7 +2000,7 @@ void Daemon_session::stop_torrents(const Torrents_group group)
 {
 	MLIB_D(_C("Stopping torrents [%1].", static_cast<int>(group)));
 
-	M_FOR_IT(Torrents_container, this->torrents, it)
+	M_FOR_IT(this->torrents, it)
 	{
 		Torrent& torrent = it->second;
 		Torrent_info torrent_info(torrent);

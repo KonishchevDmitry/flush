@@ -190,7 +190,7 @@ namespace
 		}
 
 		libconfig::Setting& setting = config_root.add("columns", libconfig::Setting::TypeGroup);
-		M_FOR_CONST_IT(std::deque<m::gtk::Tree_view_column_settings>, this->columns, it)
+		M_FOR_CONST_IT(this->columns, it)
 			this->write_column_config(setting, *it);
 	}
 // Tree_view_settings <--
