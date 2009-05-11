@@ -59,10 +59,11 @@ namespace m { namespace gtk {
 
 
 // Tree_view_columns -->
-	Tree_view_columns::Column::Column(const std::string& id, Gtk::TreeViewColumn* column, const std::string& description)
+	Tree_view_columns::Column::Column(const std::string& id, Gtk::TreeViewColumn* column, const std::string& menu_name, const std::string& description)
 	:
 		id(id),
 		column(column),
+		menu_name(menu_name),
 		description(description)
 	{
 	}
@@ -71,7 +72,14 @@ namespace m { namespace gtk {
 
 	void Tree_view_columns::add(const std::string& id, Gtk::TreeViewColumn* column, const std::string& description, bool resizable)
 	{
-		this->all.push_back(Column(id, column, description));
+		this->add(id, column, column->get_title(), description, resizable);
+	}
+
+
+
+	void Tree_view_columns::add(const std::string& id, Gtk::TreeViewColumn* column, const std::string& menu_name, const std::string& description, bool resizable)
+	{
+		this->all.push_back(Column(id, column, menu_name, description));
 
 		this->columns_by_ids.insert(
 			std::pair<std::string, Gtk::TreeViewColumn*>(id, column)

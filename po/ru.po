@@ -4,91 +4,11 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2009-05-11 19:07+0400\n"
+"POT-Creation-Date: 2009-05-11 19:41+0400\n"
 "Last-Translator: Konishchev Dmitry <konishchev@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: glade/preferences.daemon.automation.glade:19
-msgid "<big><b>Daemon::Automation</b></big>"
-msgstr "<big><b>Демон::Автоматизация</b></big>"
-
-#: glade/preferences.daemon.automation.glade:54
-msgid "<b>Torrents auto load</b>"
-msgstr "<b>Автоматическая загрузка торрентов</b>"
-
-#: glade/preferences.daemon.automation.glade:72
-msgid "Load torrents from"
-msgstr "Загружать торренты из"
-
-#: glade/preferences.daemon.automation.glade:90
-msgid "Please select a directory for torrents auto load"
-msgstr "Пожалуйста, выберите директорию для автоматической загрузки торрентов"
-
-#: glade/preferences.daemon.automation.glade:119 src/settings_window.cpp:341
-msgid "Download to:"
-msgstr "Скачивать в:"
-
-#: glade/preferences.daemon.automation.glade:131
-msgid "Please select a torrents download directory"
-msgstr "Пожалуйста, выберите директорию для скачивания торрентов"
-
-#: glade/preferences.daemon.automation.glade:140 src/settings_window.cpp:349
-msgid "Copy finished to:"
-msgstr "По завершении скопировать в:"
-
-#: glade/preferences.daemon.automation.glade:158
-msgid "Please select a directory for finished downloads copying"
-msgstr ""
-"Пожалуйста, выберите директорию, в которую будут скопированы файлы торрента "
-"по завершении скачивания"
-
-#: glade/preferences.daemon.automation.glade:169
-msgid "Delete loaded *.torrent files"
-msgstr "Удалять загруженные *.torrent файлы"
-
-#: glade/preferences.daemon.automation.glade:226
-msgid "<b>Torrents auto cleaning</b>"
-msgstr "<b>Автоматическая очистка от старых торрентов</b>"
-
-#: glade/preferences.daemon.automation.glade:248
-msgid "Max ratio:"
-msgstr "Максимальный рейтинг:"
-
-#: glade/preferences.daemon.automation.glade:261
-msgid "Max seeding torrents:"
-msgstr "Максимальное количество раздаваемых торрентов:"
-
-#: glade/preferences.daemon.automation.glade:358
-msgid "Max seeding time (m):"
-msgstr "Максимальное время раздачи (мин):"
-
-#: glade/preferences.daemon.network.glade:14
-msgid "<big><b>Daemon::Network</b></big>"
-msgstr "<big><b>Демон::Сеть</b></big>"
-
-#: glade/preferences.daemon.network.glade:62 src/settings_window.cpp:238
-msgid "Misc"
-msgstr "Разное"
-
-#: glade/preferences.daemon.network.glade:78 src/settings_window.cpp:244
-msgid "IP filter"
-msgstr "IP-фильтр"
-
-#: glade/preferences.daemon.network.ip_filter.glade:14
-msgid "<big><b>Daemon::Network::IP filter</b></big>"
-msgstr "<big><b>Демон::Сеть::IP-фильтр</b></big>"
-
-#: glade/preferences.daemon.network.ip_filter.glade:52
-msgid ""
-"This list is fully scanned from top to bottom. In a case of overlapping "
-"ranges the last one applied takes precedence. The list has one implicit rule "
-"at the top, which allows all IPs."
-msgstr ""
-"Список просматривается полностью сверху вниз. В случае пересекающихся "
-"диапазонов IP-адресов выбирается последнее подходящее правило. В самом верху "
-"списка находится неявное правило, разрешающее все IP-адреса."
 
 #: src/mlib/gtk/glade.cpp:54 src/mlib/gtk/glade.hh:35 src/mlib/gtk/glade.hh:53
 #, qt-format
@@ -1553,29 +1473,29 @@ msgstr "GTK BitTorrent клиент"
 msgid "Download/Upload|D: %1, U: %2 - %3"
 msgstr "D: %1, U: %2 - %3"
 
-#: src/main_window.cpp:1252 src/settings_window.cpp:469
+#: src/main_window.cpp:1252 src/settings_window.cpp:473
 #: src/torrent_details_view.cpp:221 src/torrent_peers_view.cpp:90
 #: src/torrents_view.cpp:188
 msgid "Download speed"
 msgstr "Скорость скачивания"
 
-#: src/main_window.cpp:1255 src/settings_window.cpp:472
+#: src/main_window.cpp:1255 src/settings_window.cpp:476
 #: src/torrent_peers_view.cpp:91 src/torrents_view.cpp:189
 msgid "Download speed (payload)"
 msgstr "Скорость скачивания данных"
 
-#: src/main_window.cpp:1258 src/settings_window.cpp:476
+#: src/main_window.cpp:1258 src/settings_window.cpp:480
 #: src/torrent_details_view.cpp:223 src/torrent_peers_view.cpp:92
 #: src/torrents_view.cpp:190
 msgid "Upload speed"
 msgstr "Скорость отдачи"
 
-#: src/main_window.cpp:1261 src/settings_window.cpp:479
+#: src/main_window.cpp:1261 src/settings_window.cpp:483
 #: src/torrent_peers_view.cpp:93 src/torrents_view.cpp:191
 msgid "Upload speed (payload)"
 msgstr "Скорость отдачи данных"
 
-#: src/main_window.cpp:1264 src/settings_window.cpp:483
+#: src/main_window.cpp:1264 src/settings_window.cpp:487
 #: src/statistics_window.cpp:151
 msgid "Downloaded"
 msgstr "Скачано"
@@ -1584,7 +1504,7 @@ msgstr "Скачано"
 msgid "Download (payload)"
 msgstr "Скачано данных"
 
-#: src/main_window.cpp:1270 src/settings_window.cpp:490
+#: src/main_window.cpp:1270 src/settings_window.cpp:494
 #: src/statistics_window.cpp:156
 msgid "Uploaded"
 msgstr "Роздано"
@@ -1593,18 +1513,18 @@ msgstr "Роздано"
 msgid "Upload (payload)"
 msgstr "Роздано данных"
 
-#: src/main_window.cpp:1276 src/settings_window.cpp:504
+#: src/main_window.cpp:1276 src/settings_window.cpp:508
 #: src/statistics_window.cpp:161 src/torrent_details_view.cpp:203
 #: src/torrents_view.cpp:193
 msgid "Share ratio"
 msgstr "Рейтинг"
 
-#: src/main_window.cpp:1279 src/settings_window.cpp:497
+#: src/main_window.cpp:1279 src/settings_window.cpp:501
 #: src/statistics_window.cpp:164
 msgid "Failed"
 msgstr "Ошибки"
 
-#: src/main_window.cpp:1282 src/settings_window.cpp:500
+#: src/main_window.cpp:1282 src/settings_window.cpp:504
 #: src/statistics_window.cpp:166
 msgid "Redundant"
 msgstr "Избыточные данные"
@@ -1651,15 +1571,23 @@ msgstr "Основные"
 msgid "GUI"
 msgstr "GUI"
 
-#: src/settings_window.cpp:223 src/settings_window.cpp:523
+#: src/settings_window.cpp:223 src/settings_window.cpp:527
 msgid "Daemon"
 msgstr "Демон"
 
-#: src/settings_window.cpp:232 src/settings_window.cpp:532
+#: src/settings_window.cpp:232 src/settings_window.cpp:536
 msgid "Network"
 msgstr "Сеть"
 
-#: src/settings_window.cpp:251 src/settings_window.cpp:549
+#: src/settings_window.cpp:238 ui/preferences.daemon.network.glade:62
+msgid "Misc"
+msgstr "Разное"
+
+#: src/settings_window.cpp:244 ui/preferences.daemon.network.glade:78
+msgid "IP filter"
+msgstr "IP-фильтр"
+
+#: src/settings_window.cpp:251 src/settings_window.cpp:553
 msgid "Automation"
 msgstr "Автоматизация"
 
@@ -1675,87 +1603,95 @@ msgstr "Отображать окно добавления торрента пр
 msgid "Start torrent on adding"
 msgstr "Запускать торрент при добавлении"
 
-#: src/settings_window.cpp:362
+#: src/settings_window.cpp:343 ui/preferences.daemon.automation.glade:119
+msgid "Download to:"
+msgstr "Скачивать в:"
+
+#: src/settings_window.cpp:351 ui/preferences.daemon.automation.glade:140
+msgid "Copy finished to:"
+msgstr "По завершении скопировать в:"
+
+#: src/settings_window.cpp:366
 msgid "Open command:"
 msgstr "Команда просмотра файлов:"
 
-#: src/settings_window.cpp:373
+#: src/settings_window.cpp:377
 msgid "Client::GUI"
 msgstr "Клиент::GUI"
 
-#: src/settings_window.cpp:377
+#: src/settings_window.cpp:381
 msgid "Miscellaneous"
 msgstr "Разное"
 
-#: src/settings_window.cpp:380
+#: src/settings_window.cpp:384
 msgid "Show speed in window title"
 msgstr "Отображать текущую скорость в заголовке окна"
 
-#: src/settings_window.cpp:385
+#: src/settings_window.cpp:389
 msgid "Show zero values in torrents info columns"
 msgstr "Отображать нулевые значения в колонках с информацией о торрентах"
 
-#: src/settings_window.cpp:398
+#: src/settings_window.cpp:402
 msgid "GUI update interval (ms):"
 msgstr "Интервал обновления GUI (мсек):"
 
-#: src/settings_window.cpp:405
+#: src/settings_window.cpp:409
 msgid "Max log lines:"
 msgstr "Максимальное количество строк в логе:"
 
-#: src/settings_window.cpp:414
+#: src/settings_window.cpp:418
 msgid "Show tray icon"
 msgstr "Отображать иконку в трее"
 
-#: src/settings_window.cpp:434
+#: src/settings_window.cpp:438
 msgid "Hide main window to tray at startup"
 msgstr "Сворачивать при запуске окно в трей"
 
-#: src/settings_window.cpp:443
+#: src/settings_window.cpp:447
 msgid "Minimize to tray"
 msgstr "Минимизировать в трей"
 
-#: src/settings_window.cpp:448
+#: src/settings_window.cpp:452
 msgid "Close to tray"
 msgstr "Закрывать в трей"
 
-#: src/settings_window.cpp:461
+#: src/settings_window.cpp:465
 msgid "Status bar"
 msgstr "Строка статуса"
 
-#: src/settings_window.cpp:486
+#: src/settings_window.cpp:490
 msgid "Downloaded (payload)"
 msgstr "Скачано данных"
 
-#: src/settings_window.cpp:493
+#: src/settings_window.cpp:497
 msgid "Uploaded (payload)"
 msgstr "Роздано данных"
 
-#: src/settings_window.cpp:611
+#: src/settings_window.cpp:615
 msgid "Daemon::Network::Misc"
 msgstr "Демон::Сеть::Разное"
 
-#: src/settings_window.cpp:615
+#: src/settings_window.cpp:619
 msgid "Listen port range"
 msgstr "Диапазон портов для прослушивания"
 
-#: src/settings_window.cpp:622
+#: src/settings_window.cpp:626
 msgid "From"
 msgstr "От"
 
-#: src/settings_window.cpp:631
+#: src/settings_window.cpp:635
 msgid "to"
 msgstr "до"
 
-#: src/settings_window.cpp:643
+#: src/settings_window.cpp:647
 msgid "Currently listen port:"
 msgstr "Прослушиваемый в данный момент порт:"
 
-#: src/settings_window.cpp:651
+#: src/settings_window.cpp:655
 msgid "Extras"
 msgstr "Дополнительные возможности"
 
-#: src/settings_window.cpp:666
+#: src/settings_window.cpp:670
 msgid ""
 "Local Service Discovery. This service will broadcast the infohashes of all "
 "the non-private torrents on the local network to look for peers on the same "
@@ -1765,35 +1701,35 @@ msgstr ""
 "широковещательными запросами в локальную сеть с целью найти пиров для "
 "скачивания данных торрентов."
 
-#: src/settings_window.cpp:673
+#: src/settings_window.cpp:677
 msgid "Exchanges peers between clients."
 msgstr "Обмен пирами между BitTorrent клиентами."
 
-#: src/settings_window.cpp:683
+#: src/settings_window.cpp:687
 msgid "Ban peers that sends bad data with very high accuracy."
 msgstr "Банить пиров, регулярно посылающих битые данные."
 
-#: src/settings_window.cpp:698
+#: src/settings_window.cpp:702
 msgid "Bandwidth"
 msgstr "Пропускная способность канала"
 
-#: src/settings_window.cpp:702
+#: src/settings_window.cpp:706
 msgid "Download rate limit (KB/s):"
 msgstr "Максимальная скорость скачивания (КБ/с):"
 
-#: src/settings_window.cpp:709
+#: src/settings_window.cpp:713
 msgid "Upload rate limit (KB/s):"
 msgstr "Максимальная скорость отдачи (КБ/с):"
 
-#: src/settings_window.cpp:716
+#: src/settings_window.cpp:720
 msgid "Max uploads:"
 msgstr "Максимальное количество слотов для раздачи:"
 
-#: src/settings_window.cpp:723
+#: src/settings_window.cpp:727
 msgid "Max connections:"
 msgstr "Максимальное количество открытых соединений:"
 
-#: src/settings_window.cpp:1086
+#: src/settings_window.cpp:1090
 msgid "none"
 msgstr "нет"
 
@@ -2200,6 +2136,70 @@ msgstr ""
 #: src/trackers_view.cpp:233 src/trackers_view.cpp:235
 msgid "Invalid tracker URL"
 msgstr "Недопустимый URL трекера"
+
+#: ui/preferences.daemon.automation.glade:19
+msgid "<big><b>Daemon::Automation</b></big>"
+msgstr "<big><b>Демон::Автоматизация</b></big>"
+
+#: ui/preferences.daemon.automation.glade:54
+msgid "<b>Torrents auto load</b>"
+msgstr "<b>Автоматическая загрузка торрентов</b>"
+
+#: ui/preferences.daemon.automation.glade:72
+msgid "Load torrents from"
+msgstr "Загружать торренты из"
+
+#: ui/preferences.daemon.automation.glade:90
+msgid "Please select a directory for torrents auto load"
+msgstr "Пожалуйста, выберите директорию для автоматической загрузки торрентов"
+
+#: ui/preferences.daemon.automation.glade:131
+msgid "Please select a torrents download directory"
+msgstr "Пожалуйста, выберите директорию для скачивания торрентов"
+
+#: ui/preferences.daemon.automation.glade:158
+msgid "Please select a directory for finished downloads copying"
+msgstr ""
+"Пожалуйста, выберите директорию, в которую будут скопированы файлы торрента "
+"по завершении скачивания"
+
+#: ui/preferences.daemon.automation.glade:169
+msgid "Delete loaded *.torrent files"
+msgstr "Удалять загруженные *.torrent файлы"
+
+#: ui/preferences.daemon.automation.glade:226
+msgid "<b>Torrents auto cleaning</b>"
+msgstr "<b>Автоматическая очистка от старых торрентов</b>"
+
+#: ui/preferences.daemon.automation.glade:248
+msgid "Max ratio:"
+msgstr "Максимальный рейтинг:"
+
+#: ui/preferences.daemon.automation.glade:261
+msgid "Max seeding torrents:"
+msgstr "Максимальное количество раздаваемых торрентов:"
+
+#: ui/preferences.daemon.automation.glade:358
+msgid "Max seeding time (m):"
+msgstr "Максимальное время раздачи (мин):"
+
+#: ui/preferences.daemon.network.glade:14
+msgid "<big><b>Daemon::Network</b></big>"
+msgstr "<big><b>Демон::Сеть</b></big>"
+
+#: ui/preferences.daemon.network.ip_filter.glade:14
+msgid "<big><b>Daemon::Network::IP filter</b></big>"
+msgstr "<big><b>Демон::Сеть::IP-фильтр</b></big>"
+
+#: ui/preferences.daemon.network.ip_filter.glade:52
+msgid ""
+"This list is fully scanned from top to bottom. In a case of overlapping "
+"ranges the last one applied takes precedence. The list has one implicit rule "
+"at the top, which allows all IPs."
+msgstr ""
+"Список просматривается полностью сверху вниз. В случае пересекающихся "
+"диапазонов IP-адресов выбирается последнее подходящее правило. В самом верху "
+"списка находится неявное правило, разрешающее все IP-адреса."
 
 #~ msgid "gtk-remove"
 #~ msgstr "Удалить"

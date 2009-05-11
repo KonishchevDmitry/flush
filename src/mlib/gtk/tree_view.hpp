@@ -86,11 +86,22 @@ class Tree_view_columns
 		class Column
 		{
 			public:
-				Column(const std::string& id, Gtk::TreeViewColumn* column, const std::string& description);
+				Column(
+					const std::string&		id,
+					Gtk::TreeViewColumn*	column,
+					const std::string&		menu_name,
+					const std::string&		description
+				);
 
 			public:
 				std::string				id;
 				Gtk::TreeViewColumn*	column;
+
+				/// Имя данной колонки в меню, которое отображается по правому
+				/// клику.
+				std::string				menu_name;
+
+				/// Описание. Отображается во всплывающих подсказках.
 				std::string				description;
 		};
 
@@ -106,6 +117,10 @@ class Tree_view_columns
 
 	protected:
 		void	add(const std::string& id, Gtk::TreeViewColumn* column, const std::string& description, bool resizable = true);
+
+		/// @param menu_name - имя данной колонки в меню, которое отображается
+		/// по правому клику.
+		void	add(const std::string& id, Gtk::TreeViewColumn* column, const std::string& menu_name, const std::string& description, bool resizable = true);
 };
 
 

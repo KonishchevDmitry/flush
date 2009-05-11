@@ -163,7 +163,7 @@
 		time_left(_Q("Time left|ETA"), model_columns.time_left_string),
 		time_seeding(_Q("Time seeding|Seeding"), model_columns.time_seeding_string)
 	{
-		this->add("status_icon", &this->status_icon, _("Status icon"), false);
+		this->add("status_icon", &this->status_icon, _("Status icon"), _("Status icon"), false);
 		this->status_icon.set_sort_column(model_columns.status_icon_id);
 
 		M_GTK_TREE_VIEW_ADD_STRING_COLUMN(name, _("Name"))

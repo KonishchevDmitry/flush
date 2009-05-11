@@ -361,8 +361,7 @@ on_column_header_button_press_event_callback(GdkEventButton* event)
 				action_group->add(
 					Gtk::ToggleAction::create(
 						column.id,
-						column.column->get_title(),
-						column.description,
+						column.menu_name, column.description,
 						static_cast<bool>(column.column->get_visible())
 					),
 					sigc::bind<Gtk::TreeViewColumn*>(
