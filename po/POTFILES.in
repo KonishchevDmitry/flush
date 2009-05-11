@@ -1,8 +1,5 @@
 # List of source files which contain translatable strings.
 
-glade/preferences.daemon.automation.glade
-glade/preferences.daemon.network.glade
-glade/preferences.daemon.network.ip_filter.glade 
 src/mlib/gtk/dialog.cpp
 src/mlib/gtk/dialog.hpp
 src/mlib/gtk/controlled_list.cpp
@@ -111,4 +108,7 @@ src/torrents_viewport.cpp
 src/torrents_viewport.hpp
 src/trackers_view.cpp
 src/trackers_view.hpp
+ui/preferences.daemon.automation.glade
+ui/preferences.daemon.network.glade
+ui/preferences.daemon.network.ip_filter.glade 
 

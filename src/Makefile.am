@@ -77,10 +77,10 @@ flush_DEPENDENCIES = @APP_DEPENDENCIES@
 flush_CPPFLAGS = @APP_CPPFLAGS@
 flush_CPPFLAGS += -D APP_BIN_PATH='"$(bindir)/$(PACKAGE)"'
 if DEVELOP_MODE
-flush_CPPFLAGS += -D APP_GLADE_PATH='"$(abs_top_srcdir)/glade"'
+flush_CPPFLAGS += -D APP_UI_PATH='"$(abs_top_srcdir)/ui"'
 flush_CPPFLAGS += -D APP_CUSTOM_ICONS_PATH='"$(abs_top_srcdir)/icons"'
 else
-flush_CPPFLAGS += -D APP_GLADE_PATH='"$(datadir)/$(PACKAGE)/glade"'
+flush_CPPFLAGS += -D APP_UI_PATH='"$(datadir)/$(PACKAGE)/ui"'
 flush_CPPFLAGS += -D APP_CUSTOM_ICONS_PATH='"$(datadir)/$(PACKAGE)/icons"'
 endif
 flush_CPPFLAGS += -D APP_LOCALE_PATH='"$(localedir)"'

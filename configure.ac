@@ -387,13 +387,13 @@ dnl Libraries inside of package <--
 
 
 AC_CONFIG_FILES([
-	glade/Makefile
 	man/Makefile
 	man/ru/Makefile
 	po/Makefile.in
 	src/Makefile
 	src/mlib/Makefile
 	src/mlib/gtk/Makefile
+	ui/Makefile
 	flush.desktop
 	Makefile
 ])

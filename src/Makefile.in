@@ -34,11 +34,10 @@ build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = flush$(EXEEXT)
 @DEVELOP_MODE_TRUE@am__append_1 = -D \
-@DEVELOP_MODE_TRUE@	APP_GLADE_PATH='"$(abs_top_srcdir)/glade"' \
-@DEVELOP_MODE_TRUE@	-D \
+@DEVELOP_MODE_TRUE@	APP_UI_PATH='"$(abs_top_srcdir)/ui"' -D \
 @DEVELOP_MODE_TRUE@	APP_CUSTOM_ICONS_PATH='"$(abs_top_srcdir)/icons"'
 @DEVELOP_MODE_FALSE@am__append_2 = -D \
-@DEVELOP_MODE_FALSE@	APP_GLADE_PATH='"$(datadir)/$(PACKAGE)/glade"' \
+@DEVELOP_MODE_FALSE@	APP_UI_PATH='"$(datadir)/$(PACKAGE)/ui"' \
 @DEVELOP_MODE_FALSE@	-D \
 @DEVELOP_MODE_FALSE@	APP_CUSTOM_ICONS_PATH='"$(datadir)/$(PACKAGE)/icons"'
 subdir = src

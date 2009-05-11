@@ -334,6 +334,8 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 			settings_vbox->pack_start(this->start_torrent_on_adding_check_button, false, false);
 		// start torrent on adding <--
 
+		m::gtk::vbox::add_space(*settings_vbox);
+
 		// download_to -->
 			this->download_to_dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 			this->download_to_dialog.add_button(Gtk::Stock::OPEN, Gtk::RESPONSE_OK);
@@ -357,6 +359,8 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 			hbox->pack_end(this->copy_finished_to_button, false, false);
 		}
 		// copy_finished_to <--
+
+		m::gtk::vbox::add_space(*settings_vbox);
 
 		// run command
 		m::gtk::vbox::add_widget_with_label(*settings_vbox, _("Open command:"), this->open_command, true, true);
@@ -565,7 +569,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 	// Daemon::Network -->
 	{
 		Glib::RefPtr<Gnome::Glade::Xml> glade = MLIB_GLADE_CREATE(
-			std::string(APP_GLADE_PATH) + "/preferences.daemon.network.glade",
+			std::string(APP_UI_PATH) + "/preferences.daemon.network.glade",
 			"daemon_network_settings"
 		);
 
@@ -733,7 +737,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 	// Daemon::IP filter -->
 	{
 		Glib::RefPtr<Gnome::Glade::Xml> glade = MLIB_GLADE_CREATE(
-			std::string(APP_GLADE_PATH) + "/preferences.daemon.network.ip_filter.glade",
+			std::string(APP_UI_PATH) + "/preferences.daemon.network.ip_filter.glade",
 			"ip_filter_settings"
 		);
 
@@ -750,7 +754,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 		Private::Automation& automation = priv->daemon.automation;
 
 		Glib::RefPtr<Gnome::Glade::Xml> glade = MLIB_GLADE_CREATE(
-			std::string(APP_GLADE_PATH) + "/preferences.daemon.automation.glade",
+			std::string(APP_UI_PATH) + "/preferences.daemon.automation.glade",
 			"automation_settings"
 		);
 

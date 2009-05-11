@@ -32,8 +32,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-subdir = glade
-DIST_COMMON = $(dist_glade_DATA) $(srcdir)/Makefile.am \
+subdir = ui
+DIST_COMMON = $(dist_ui_DATA) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/acx_pthread.m4 \
@@ -58,9 +58,9 @@ am__vpath_adj = case $$p in \
     *) f=$$p;; \
   esac;
 am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
-am__installdirs = "$(DESTDIR)$(gladedir)"
-dist_gladeDATA_INSTALL = $(INSTALL_DATA)
-DATA = $(dist_glade_DATA)
+am__installdirs = "$(DESTDIR)$(uidir)"
+dist_uiDATA_INSTALL = $(INSTALL_DATA)
+DATA = $(dist_ui_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
@@ -212,9 +212,8 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-gladedir = $(datadir)/$(PACKAGE)/glade
-dist_glade_DATA = $(gladefiles)
-gladefiles = \
+uidir = $(datadir)/$(PACKAGE)/ui
+dist_ui_DATA = \
 	preferences.daemon.automation.glade \
 	preferences.daemon.network.glade \
 	preferences.daemon.network.ip_filter.glade
@@ -231,9 +230,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign  glade/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign  ui/Makefile'; \
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign  glade/Makefile
+	  $(AUTOMAKE) --foreign  ui/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -251,22 +250,22 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
-install-dist_gladeDATA: $(dist_glade_DATA)
+install-dist_uiDATA: $(dist_ui_DATA)
 	@$(NORMAL_INSTALL)
-	test -z "$(gladedir)" || $(MKDIR_P) "$(DESTDIR)$(gladedir)"
-	@list='$(dist_glade_DATA)'; for p in $$list; do \
+	test -z "$(uidir)" || $(MKDIR_P) "$(DESTDIR)$(uidir)"
+	@list='$(dist_ui_DATA)'; for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  f=$(am__strip_dir) \
-	  echo " $(dist_gladeDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(gladedir)/$$f'"; \
-	  $(dist_gladeDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(gladedir)/$$f"; \
+	  echo " $(dist_uiDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(uidir)/$$f'"; \
+	  $(dist_uiDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(uidir)/$$f"; \
 	done
 
-uninstall-dist_gladeDATA:
+uninstall-dist_uiDATA:
 	@$(NORMAL_UNINSTALL)
-	@list='$(dist_glade_DATA)'; for p in $$list; do \
+	@list='$(dist_ui_DATA)'; for p in $$list; do \
 	  f=$(am__strip_dir) \
-	  echo " rm -f '$(DESTDIR)$(gladedir)/$$f'"; \
-	  rm -f "$(DESTDIR)$(gladedir)/$$f"; \
+	  echo " rm -f '$(DESTDIR)$(uidir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(uidir)/$$f"; \
 	done
 tags: TAGS
 TAGS:
@@ -305,7 +304,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(gladedir)"; do \
+	for dir in "$(DESTDIR)$(uidir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -350,7 +349,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-dist_gladeDATA
+install-data-am: install-dist_uiDATA
 
 install-dvi: install-dvi-am
 
@@ -384,21 +383,20 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-dist_gladeDATA
+uninstall-am: uninstall-dist_uiDATA
 
 .MAKE: install-am install-strip
 
 .PHONY: all all-am check check-am clean clean-generic distclean \
 	distclean-generic distdir dvi dvi-am html html-am info info-am \
 	install install-am install-data install-data-am \
-	install-dist_gladeDATA install-dvi install-dvi-am install-exec \
+	install-dist_uiDATA install-dvi install-dvi-am install-exec \
 	install-exec-am install-html install-html-am install-info \
 	install-info-am install-man install-pdf install-pdf-am \
 	install-ps install-ps-am install-strip installcheck \
 	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
-	pdf-am ps ps-am uninstall uninstall-am \
-	uninstall-dist_gladeDATA
+	pdf-am ps ps-am uninstall uninstall-am uninstall-dist_uiDATA
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
