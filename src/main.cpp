@@ -44,6 +44,7 @@
 
 #include <gtkmm/box.h>
 #include <gtkmm/expander.h>
+#include <gtkmm/icontheme.h>
 #include <gtkmm/image.h>
 #include <gtkmm/label.h>
 #include <gtkmm/linkbutton.h>
@@ -80,6 +81,15 @@
 
 #define DBUS_SESSION_LINK_NAME "dbus_session"
 #define DBUS_SESSION_ENV_NAME "DBUS_SESSION_BUS_ADDRESS"
+
+
+
+const char* const APP_CUSTOM_ICON_DOWNLOAD				= "download";
+const char* const APP_CUSTOM_ICON_DOWNLOAD_AND_UPLOAD	= "download-and-upload";
+const char* const APP_CUSTOM_ICON_STALLED_DOWNLOAD		= "stalled-download";
+const char* const APP_CUSTOM_ICON_STATISTICS			= "statistics";
+const char* const APP_CUSTOM_ICON_UPLOAD				= "upload";
+
 
 
 namespace
@@ -623,8 +633,9 @@ int main(int argc, char *argv[])
 	{
 		Glib::thread_init();
 		gtk_main = std::auto_ptr<Gtk::Main>(new Gtk::Main(argc, argv));
+
 		Gtk::Window::set_default_icon_name(APP_UNIX_NAME);
-		gtk_icon_theme_append_search_path(gtk_icon_theme_get_default(), APP_ICONS_PATH);
+		Gtk::IconTheme::get_default()->append_search_path(APP_CUSTOM_ICONS_PATH);
 	}
 
 	// Входим в режим отображения ошибки, если это

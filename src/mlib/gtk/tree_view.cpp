@@ -69,7 +69,7 @@ namespace m { namespace gtk {
 
 
 
-	void Tree_view_columns::add(const std::string& id, Gtk::TreeViewColumn* column, const std::string& description)
+	void Tree_view_columns::add(const std::string& id, Gtk::TreeViewColumn* column, const std::string& description, bool resizable)
 	{
 		this->all.push_back(Column(id, column, description));
 
@@ -83,12 +83,15 @@ namespace m { namespace gtk {
 
 		// Свойства колонки по умолчанию -->
 			column->set_reorderable();
+			column->set_resizable(resizable);
 
-			column->set_resizable();
-			column->set_min_width(TREE_VIEW_COLUMNS_MIN_WIDTH);
-			column->set_fixed_width(TREE_VIEW_COLUMNS_DEFAULT_WIDTH);
-			column->set_max_width(TREE_VIEW_COLUMNS_MAX_WIDTH);
-			column->set_sizing(Gtk::TREE_VIEW_COLUMN_FIXED);
+			if(resizable)
+			{
+				column->set_min_width(TREE_VIEW_COLUMNS_MIN_WIDTH);
+				column->set_fixed_width(TREE_VIEW_COLUMNS_DEFAULT_WIDTH);
+				column->set_max_width(TREE_VIEW_COLUMNS_MAX_WIDTH);
+				column->set_sizing(Gtk::TREE_VIEW_COLUMN_FIXED);
+			}
 		// Свойства колонки по умолчанию <--
 	}
 

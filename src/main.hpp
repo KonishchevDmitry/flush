@@ -22,6 +22,16 @@
 #ifndef HEADER_MAIN
 	#define HEADER_MAIN
 
+	// Реальные имена собственных иконок -->
+		extern const char* const APP_CUSTOM_ICON_DOWNLOAD;
+		extern const char* const APP_CUSTOM_ICON_DOWNLOAD_AND_UPLOAD;
+		extern const char* const APP_CUSTOM_ICON_STALLED_DOWNLOAD;
+		extern const char* const APP_CUSTOM_ICON_STATISTICS;
+		extern const char* const APP_CUSTOM_ICON_UPLOAD;
+	// Реальные имена собственных иконок <--
+
+
+
 	/// Создает диалог для отображения сообщения.
 	Gtk::Dialog*		create_message_dialog(Gtk::Window& parent_window, Message_type type, std::string title, Glib::ustring message);
 

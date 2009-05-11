@@ -273,7 +273,8 @@ Main_window::Main_window(const Main_window_settings& settings)
 
 			action_group->add(Gtk::Action::create("edit", _("_Edit")));
 			action_group->add(
-				Gtk::Action::create("statistics", Gtk::Stock::INDEX, _("_Statistics")),
+				Gtk::Action::create_with_icon_name("statistics",
+					APP_CUSTOM_ICON_STATISTICS, _("_Statistics"), ""),
 				sigc::mem_fun(*this, &Main_window::on_show_statistics_callback)
 			);
 			action_group->add(
@@ -357,21 +358,24 @@ Main_window::Main_window(const Main_window_settings& settings)
 			action_group->add(Gtk::Action::create("tray_torrents", Gtk::Stock::DND_MULTIPLE, _("_Torrents")));
 			action_group->add(Gtk::Action::create("resume", Gtk::Stock::MEDIA_PLAY, _("_Resume")));
 			action_group->add(
-				Gtk::Action::create("resume_all", Gtk::Stock::SELECT_ALL, _("_All")),
+				Gtk::Action::create_with_icon_name("resume_all",
+					APP_CUSTOM_ICON_DOWNLOAD_AND_UPLOAD, _("_All"), ""),
 				sigc::bind<Torrents_group>(
 					sigc::mem_fun(*this, &Main_window::on_resume_torrents_callback),
 					ALL
 				)
 			);
 			action_group->add(
-				Gtk::Action::create("resume_downloads", Gtk::Stock::GO_DOWN, _("_Downloads")),
+				Gtk::Action::create_with_icon_name("resume_downloads",
+					APP_CUSTOM_ICON_DOWNLOAD, _("_Downloads"), ""),
 				sigc::bind<Torrents_group>(
 					sigc::mem_fun(*this, &Main_window::on_resume_torrents_callback),
 					DOWNLOADS
 				)
 			);
 			action_group->add(
-				Gtk::Action::create("resume_uploads", Gtk::Stock::GO_UP, _("_Uploads")),
+				Gtk::Action::create_with_icon_name("resume_uploads",
+					APP_CUSTOM_ICON_UPLOAD, _("_Uploads"), ""),
 				sigc::bind<Torrents_group>(
 					sigc::mem_fun(*this, &Main_window::on_resume_torrents_callback),
 					UPLOADS
@@ -381,21 +385,24 @@ Main_window::Main_window(const Main_window_settings& settings)
 
 			action_group->add(Gtk::Action::create("pause", Gtk::Stock::MEDIA_PAUSE, _("_Pause")));
 			action_group->add(
-				Gtk::Action::create("pause_all", Gtk::Stock::SELECT_ALL, _("_All")),
+				Gtk::Action::create_with_icon_name("pause_all",
+					APP_CUSTOM_ICON_DOWNLOAD_AND_UPLOAD, _("_All"), ""),
 				sigc::bind<Torrents_group>(
 					sigc::mem_fun(*this, &Main_window::on_pause_torrents_callback),
 					ALL
 				)
 			);
 			action_group->add(
-				Gtk::Action::create("pause_downloads", Gtk::Stock::GO_DOWN, _("_Downloads")),
+				Gtk::Action::create_with_icon_name("pause_downloads",
+					APP_CUSTOM_ICON_DOWNLOAD, _("_Downloads"), ""),
 				sigc::bind<Torrents_group>(
 					sigc::mem_fun(*this, &Main_window::on_pause_torrents_callback),
 					DOWNLOADS
 				)
 			);
 			action_group->add(
-				Gtk::Action::create("pause_uploads", Gtk::Stock::GO_UP, _("_Uploads")),
+				Gtk::Action::create_with_icon_name("pause_uploads",
+					APP_CUSTOM_ICON_UPLOAD, _("_Uploads"), ""),
 				sigc::bind<Torrents_group>(
 					sigc::mem_fun(*this, &Main_window::on_pause_torrents_callback),
 					UPLOADS
@@ -404,17 +411,19 @@ Main_window::Main_window(const Main_window_settings& settings)
 
 
 			action_group->add(
-				Gtk::Action::create("set_download_rate_limit", Gtk::Stock::GO_DOWN, _("_Set download rate limit")),
-				sigc::bind<Traffic_type>(
-					sigc::mem_fun(*this, &Main_window::on_change_rate_limit_callback),
-					DOWNLOAD
-				)
-			);
-			action_group->add(
-				Gtk::Action::create("set_upload_rate_limit", Gtk::Stock::GO_UP, _("_Set upload rate limit")),
+				Gtk::Action::create_with_icon_name("set_upload_rate_limit",
+					APP_CUSTOM_ICON_UPLOAD, _("_Set upload rate limit"), ""),
 				sigc::bind<Traffic_type>(
 					sigc::mem_fun(*this, &Main_window::on_change_rate_limit_callback),
 					UPLOAD
+				)
+			);
+			action_group->add(
+				Gtk::Action::create_with_icon_name("set_download_rate_limit",
+					APP_CUSTOM_ICON_DOWNLOAD, _("_Set download rate limit"), ""),
+				sigc::bind<Traffic_type>(
+					sigc::mem_fun(*this, &Main_window::on_change_rate_limit_callback),
+					DOWNLOAD
 				)
 			);
 
@@ -452,13 +461,13 @@ Main_window::Main_window(const Main_window_settings& settings)
 			"		<menu action='torrents'>"
 			"			<menu action='resume'>"
 			"				<menuitem action='resume_all'/>"
-			"				<menuitem action='resume_downloads'/>"
 			"				<menuitem action='resume_uploads'/>"
+			"				<menuitem action='resume_downloads'/>"
 			"			</menu>"
 			"			<menu action='pause'>"
 			"				<menuitem action='pause_all'/>"
-			"				<menuitem action='pause_downloads'/>"
 			"				<menuitem action='pause_uploads'/>"
+			"				<menuitem action='pause_downloads'/>"
 			"			</menu>"
 			"		</menu>"
 			"		<menu action='help'>"
@@ -471,18 +480,18 @@ Main_window::Main_window(const Main_window_settings& settings)
 			"		<menu action='tray_torrents'>"
 			"			<menu action='resume'>"
 			"				<menuitem action='resume_all'/>"
-			"				<menuitem action='resume_downloads'/>"
 			"				<menuitem action='resume_uploads'/>"
+			"				<menuitem action='resume_downloads'/>"
 			"			</menu>"
 			"			<menu action='pause'>"
 			"				<menuitem action='pause_all'/>"
-			"				<menuitem action='pause_downloads'/>"
 			"				<menuitem action='pause_uploads'/>"
+			"				<menuitem action='pause_downloads'/>"
 			"			</menu>"
 			"		</menu>"
 			"		<separator/>"
-			"		<menuitem action='set_download_rate_limit'/>"
 			"		<menuitem action='set_upload_rate_limit'/>"
+			"		<menuitem action='set_download_rate_limit'/>"
 			"		<separator/>"
 			"		<menuitem action='quit'/>"
 			"	</popup>"
@@ -609,8 +618,9 @@ Main_window::Main_window(const Main_window_settings& settings)
 		);
 
 
-		button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::INDEX));
+		button = Gtk::manage(new Gtk::ToolButton());
 		button->set_label(_("Statistics"));
+		button->set_icon_name(APP_CUSTOM_ICON_STATISTICS);
 		button->set_tooltip_text(_("Statistics"));
 		button->set_is_important();
 		this->gui->toolbar.append(

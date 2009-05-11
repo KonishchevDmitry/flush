@@ -34,11 +34,12 @@ int TREE_VIEW_COLUMNS_MAX_WIDTH = 2000;
 
 
 // Tree_view_column_settings -->
-	Tree_view_column_settings::Tree_view_column_settings(void)
+	Tree_view_column_settings::Tree_view_column_settings(const std::string& name, bool visible, int width)
+	:
+		name(name),
+		visible(visible),
+		width(width)
 	{
-		this->name = "Unnamed";
-		this->visible = true;
-		this->width = TREE_VIEW_COLUMNS_DEFAULT_WIDTH;
 	}
 
 

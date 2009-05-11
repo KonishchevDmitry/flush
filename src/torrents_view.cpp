@@ -25,6 +25,7 @@
 #include <string>
 
 #include <gtkmm/actiongroup.h>
+#include <gtkmm/icontheme.h>
 #include <gtkmm/liststore.h>
 #include <gtkmm/menu.h>
 #include <gtkmm/stock.h>
@@ -51,6 +52,10 @@
 		this->set_search_column(this->name);
 
 		this->add(this->id);
+
+		this->add(this->status_icon_id);
+		this->add(this->status_icon);
+
 		this->add(this->name);
 		this->add(this->paused);
 		this->add(this->status);
@@ -128,6 +133,8 @@
 // Torrents_view_columns -->
 	Torrents_view_columns::Torrents_view_columns(const Torrents_view_model_columns& model_columns)
 	:
+		status_icon("", model_columns.status_icon),
+
 		name(_("Name"), model_columns.name),
 		status(_("Status"), status_renderer),
 
@@ -156,6 +163,9 @@
 		time_left(_Q("Time left|ETA"), model_columns.time_left_string),
 		time_seeding(_Q("Time seeding|Seeding"), model_columns.time_seeding_string)
 	{
+		this->add("status_icon", &this->status_icon, _("Status icon"), false);
+		this->status_icon.set_sort_column(model_columns.status_icon_id);
+
 		M_GTK_TREE_VIEW_ADD_STRING_COLUMN(name, _("Name"))
 
 		this->add("status", &this->status, _("Status"));
@@ -237,6 +247,60 @@
 
 			this->ui_manager->add_ui_from_string(ui_info);
 		// Всплывающее меню <--
+
+		// Изображения, символизирующие различные статусы торрента -->
+		{
+			gint width;
+			gint height;
+
+			MLIB_A(gtk_icon_size_lookup(GTK_ICON_SIZE_MENU, &width, &height));
+
+			this->status_icons[Torrent_info::TORRENT_STATUS_ICON_PAUSED] =
+				this->render_icon(Gtk::Stock::MEDIA_PAUSE, Gtk::ICON_SIZE_MENU);
+
+			this->status_icons[Torrent_info::TORRENT_STATUS_ICON_ALLOCATING] =
+				this->render_icon(Gtk::Stock::HARDDISK, Gtk::ICON_SIZE_MENU);
+
+			this->status_icons[Torrent_info::TORRENT_STATUS_ICON_CHECKING] =
+				this->render_icon(Gtk::Stock::FIND, Gtk::ICON_SIZE_MENU);
+
+			try
+			{
+				this->status_icons[Torrent_info::TORRENT_STATUS_ICON_STALLED_DOWNLOAD] =
+					Gtk::IconTheme::get_default()->load_icon(APP_CUSTOM_ICON_STALLED_DOWNLOAD, height);
+			}
+			catch(Gtk::IconThemeError&)
+			{
+				this->status_icons[Torrent_info::TORRENT_STATUS_ICON_STALLED_DOWNLOAD] =
+					this->render_icon(Gtk::Stock::MISSING_IMAGE, Gtk::ICON_SIZE_MENU);
+			}
+
+			try
+			{
+				this->status_icons[Torrent_info::TORRENT_STATUS_ICON_DOWNLOADING] =
+					Gtk::IconTheme::get_default()->load_icon(APP_CUSTOM_ICON_DOWNLOAD, height);
+			}
+			catch(Gtk::IconThemeError&)
+			{
+				this->status_icons[Torrent_info::TORRENT_STATUS_ICON_DOWNLOADING] =
+					this->render_icon(Gtk::Stock::MISSING_IMAGE, Gtk::ICON_SIZE_MENU);
+			}
+
+			this->status_icons[Torrent_info::TORRENT_STATUS_ICON_SEEDING] =
+				this->render_icon(Gtk::Stock::YES, Gtk::ICON_SIZE_MENU);
+
+			try
+			{
+				this->status_icons[Torrent_info::TORRENT_STATUS_ICON_UPLOADING] =
+					Gtk::IconTheme::get_default()->load_icon(APP_CUSTOM_ICON_UPLOAD, height);
+			}
+			catch(Gtk::IconThemeError&)
+			{
+				this->status_icons[Torrent_info::TORRENT_STATUS_ICON_UPLOADING] =
+					this->render_icon(Gtk::Stock::MISSING_IMAGE, Gtk::ICON_SIZE_MENU);
+			}
+		}
+		// Изображения, символизирующие различные статусы торрента <--
 
 		// Устанавливаем обработчик сигнала на изменение списка выделенных торрентов
 		this->get_selection()->signal_changed().connect(sigc::mem_fun(*this, &Torrents_view::on_selection_changed_callback));
@@ -592,6 +656,14 @@
 
 		Gtk::TreeRow row = *iter;
 
+		// Status icon -->
+		{
+			Torrent_info::Status_icon_id status_icon_id = torrent_info.get_status_icon_id();
+
+			if(m::gtk::update_row(row, this->model_columns.status_icon_id, status_icon_id) || force_update)
+				row[this->model_columns.status_icon] = this->status_icons[status_icon_id];
+		}
+		// Status icon <--
 
 		m::gtk::update_row(row, this->model_columns.id, torrent_info.id);
 		m::gtk::update_row(row, this->model_columns.name, torrent_info.name);
@@ -609,14 +681,14 @@
 		set_size_value(requested_size, true)
 		set_size_value(downloaded_requested_size, true)
 
-		// complete_percent -->
+		// Complete percent -->
 		{
 			int complete_percent = torrent_info.get_complete_percent();
 
 			if(m::gtk::update_row(row, this->model_columns.complete_percent, complete_percent) || force_update)
 				m::gtk::update_row(row, this->model_columns.complete_percent_string, m::to_string(complete_percent) + " %");
 		}
-		// complete_percent <--
+		// Complete percent <--
 
 
 		set_size_value(total_download, false)
@@ -634,36 +706,36 @@
 		set_speed_value(payload_upload_speed, false)
 
 
-		// share ratio -->
+		// Share ratio -->
 		{
 			Share_ratio share_ratio = torrent_info.get_share_ratio();
 
 			if(m::gtk::update_row(row, this->model_columns.share_ratio, share_ratio) || zeros_force_update)
 				m::gtk::update_row(row, this->model_columns.share_ratio_string, get_share_ratio_string(share_ratio, show_zero_values));
 		}
-		// share ratio <--
+		// Share ratio <--
 
 
 		set_int_value(peers_num, false)
 		set_int_value(seeds_num, false)
 
 
-		// time_added
+		// Time added
 		if(m::gtk::update_row(row, this->model_columns.time_added, torrent_info.time_added) || force_update)
 			m::gtk::update_row(row, this->model_columns.time_added_string, m::time_to_string_with_date(torrent_info.time_added));
 
 		
-		// time_left -->
+		// Time left -->
 		{
 			Time time_left = torrent_info.get_time_left();
 
 			if(m::gtk::update_row(row, this->model_columns.time_left, time_left) || zeros_force_update)
 				m::gtk::update_row(row, this->model_columns.time_left_string, m::get_time_left_string(time_left, show_zero_values));
 		}
-		// time_left <--
+		// Time left <--
 
 
-		// time_seeding -->
+		// Time seeding -->
 			if(m::gtk::update_row(row, this->model_columns.time_seeding, torrent_info.time_seeding) || zeros_force_update)
 			{
 				m::gtk::update_row(
@@ -671,7 +743,7 @@
 					m::get_time_duration_string(torrent_info.time_seeding, show_zero_values)
 				);
 			}
-		// time_seeding <--
+		// Time seeding <--
 
 		#undef set_int_value
 		#undef set_speed_value

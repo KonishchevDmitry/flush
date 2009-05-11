@@ -33,8 +33,14 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = flush$(EXEEXT)
-@DEVELOP_MODE_TRUE@am__append_1 = -D APP_GLADE_PATH='"$(abs_top_srcdir)/glade"'
-@DEVELOP_MODE_FALSE@am__append_2 = -D APP_GLADE_PATH='"$(datadir)/$(PACKAGE)/glade"'
+@DEVELOP_MODE_TRUE@am__append_1 = -D \
+@DEVELOP_MODE_TRUE@	APP_GLADE_PATH='"$(abs_top_srcdir)/glade"' \
+@DEVELOP_MODE_TRUE@	-D \
+@DEVELOP_MODE_TRUE@	APP_CUSTOM_ICONS_PATH='"$(abs_top_srcdir)/icons"'
+@DEVELOP_MODE_FALSE@am__append_2 = -D \
+@DEVELOP_MODE_FALSE@	APP_GLADE_PATH='"$(datadir)/$(PACKAGE)/glade"' \
+@DEVELOP_MODE_FALSE@	-D \
+@DEVELOP_MODE_FALSE@	APP_CUSTOM_ICONS_PATH='"$(datadir)/$(PACKAGE)/icons"'
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -320,8 +326,7 @@ CLEANFILES = $(dbus_glues)
 flush_DEPENDENCIES = @APP_DEPENDENCIES@
 flush_CPPFLAGS = @APP_CPPFLAGS@ -D \
 	APP_BIN_PATH='"$(bindir)/$(PACKAGE)"' $(am__append_1) \
-	$(am__append_2) -D APP_ICONS_PATH='"$(datadir)/icons/hicolor"' \
-	-D APP_LOCALE_PATH='"$(localedir)"'
+	$(am__append_2) -D APP_LOCALE_PATH='"$(localedir)"'
 flush_LDADD = @APP_LDADD@
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive

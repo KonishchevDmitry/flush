@@ -17,6 +17,7 @@ tray" settings.
 must do, when one of the following events are occur: max seeding time limit
 has been reached, max share ratio limit has been reached, maximum seeding
 torrents limit has been reached.
+[+] Status icon column in the torrents list.
 [+] Some small GUI enhancements.
 [-] Removed debian directory. Packages are now available at the launchpad.net.
 [*] If directory, setted in the Settings window, already is not exists,

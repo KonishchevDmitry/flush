@@ -275,7 +275,7 @@ namespace
 
 
 // Torrents_viewport_settings -->
-	void Torrents_viewport_settings::read_config(const libconfig::Setting& config_root)
+	void Torrents_viewport_settings::read_config(const libconfig::Setting& config_root, Version client_version)
 	{
 		for(int i = 0; i < config_root.getLength(); i++)
 		{
@@ -295,6 +295,20 @@ namespace
 			else if(m::is_eq(setting_name, "torrents_view"))
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeGroup, continue)
+
+				// В версиях < 0.5 не было колонки с изображением текущего
+				// статуса, но по умолчанию, она должна появиться самой первой
+				// (иначе будет очень некрасиво смотреться).
+				// -->
+					COMPATIBILITY
+					if(client_version < M_GET_VERSION(0, 5, 0))
+					{
+						this->torrents_view.columns.push_back(
+							m::gtk::Tree_view_column_settings("status_icon")
+						);
+					}
+				// <--
+
 				this->torrents_view.read_config(setting);
 			}
 			else if(m::is_eq(setting_name, "torrent_files_view"))
@@ -339,7 +353,7 @@ namespace
 
 
 // Main_window_settings -->
-	void Main_window_settings::read_config(const libconfig::Setting& config_root)
+	void Main_window_settings::read_config(const libconfig::Setting& config_root, Version client_version)
 	{
 		for(int i = 0; i < config_root.getLength(); i++)
 		{
@@ -354,7 +368,7 @@ namespace
 			else if(m::is_eq(setting_name, "torrents_viewport"))
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeGroup, continue)
-				this->torrents_viewport.read_config(setting);
+				this->torrents_viewport.read_config(setting, client_version);
 			}
 			else if(m::is_eq(setting_name, "status_bar"))
 			{
@@ -514,7 +528,7 @@ namespace
 
 
 
-	void Gui_settings::read_config(const libconfig::Setting& config_root)
+	void Gui_settings::read_config(const libconfig::Setting& config_root, Version client_version)
 	{
 		for(int i = 0; i < config_root.getLength(); i++)
 		{
@@ -590,7 +604,7 @@ namespace
 			else if(m::is_eq(setting_name, "main_window"))
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeGroup, continue)
-				this->main_window.read_config(setting);
+				this->main_window.read_config(setting, client_version);
 			}
 			else if(m::is_eq(setting_name, "open_torrents_from"))
 			{
@@ -901,7 +915,7 @@ namespace
 			else if(m::is_eq(setting_name, "gui"))
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeGroup, continue)
-				this->gui.read_config(setting);
+				this->gui.read_config(setting, client_version);
 			}
 			else if(m::is_eq(setting_name, "user"))
 			{

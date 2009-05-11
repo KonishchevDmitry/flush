@@ -65,7 +65,7 @@
 		switch(this->type)
 		{
 			case NONE:
-				return Gtk::Stock::INDEX;
+				return Gtk::Stock::ADD;
 				break;
 
 			case PAUSE:
@@ -515,7 +515,12 @@
 			// progress -->
 				if(this->paused)
 				{
-					if(this->status == allocating || this->status == checking_files)
+					// Похоже, что, как минимум, начиная с версии 0.14.3, уже
+					// не актуально. По крайней мере в 0.14.3 при преостановке
+					// торрента он переходит в состояние QUEUED_FOR_CHECKING.
+					// Но все-же лучше пока оставить - лишним оно не будет.
+					COMPATIBILITY
+					if(this->status == ALLOCATING || this->status == CHECKING_FILES)
 						this->progress = static_cast<int>( torrent_status.progress * 100 );
 					else
 					{
@@ -559,45 +564,66 @@
 
 
 
-	Torrent_info::Torrent_status Torrent_info::get_status(const lt::torrent_status& torrent_status) const
+	Torrent_info::Status Torrent_info::get_status(const lt::torrent_status& torrent_status) const
 	{
 		switch(torrent_status.state)
 		{
 			case lt::torrent_status::queued_for_checking:
-				return queued_for_checking;
+				return QUEUED_FOR_CHECKING;
 				break;
 
 			case lt::torrent_status::checking_files:
-				return checking_files;
+				return CHECKING_FILES;
 				break;
 
 			case lt::torrent_status::downloading_metadata:
-				return downloading_metadata;
-				break;
+			{
+				if(torrent_status.download_payload_rate)
+					return DOWNLOADING_METADATA;
+				else
+					return WAITING_FOR_METADATA_DOWNLOAD;
+			}
+			break;
 
 			case lt::torrent_status::downloading:
-				return downloading;
-				break;
+			{
+				if(torrent_status.download_payload_rate)
+					return DOWNLOADING;
+				else
+					return WAITING_FOR_DOWNLOAD;
+			}
+			break;
 
 			case lt::torrent_status::finished:
+			{
 				// Насколько я понял, finished - это когда скачаны
 				// все запрошенные файлы торрента, но в торренте есть
 				// еще файлы, которые пользователь не пожелал скачивать.
 				// В терминологии данного торрент клиента этот статус
 				// приравнивается к статусу seeding.
-				return seeding;
-				break;
+
+				if(torrent_status.upload_payload_rate)
+					return UPLOADING;
+				else
+					return SEEDING;
+			}
+			break;
 
 			case lt::torrent_status::seeding:
-				return seeding;
-				break;
+			{
+				if(torrent_status.upload_payload_rate)
+					return UPLOADING;
+				else
+					return SEEDING;
+			}
+			break;
 
 			case lt::torrent_status::allocating:
-				return allocating;
+				return ALLOCATING;
 				break;
 
 			default:
-				return unknown;
+				return UNKNOWN;
 				break;
 		}
 	}
@@ -623,40 +649,111 @@
 
 
 
+	Torrent_info::Status_icon_id Torrent_info::get_status_icon_id(void) const
+	{
+		if(this->paused)
+			return TORRENT_STATUS_ICON_PAUSED;
+		else
+		{
+			switch(this->status)
+			{
+				case Torrent_info::ALLOCATING:
+					return TORRENT_STATUS_ICON_ALLOCATING;
+					break;
+
+				case Torrent_info::QUEUED_FOR_CHECKING:
+				case Torrent_info::CHECKING_FILES:
+					return TORRENT_STATUS_ICON_CHECKING;
+					break;
+
+				case Torrent_info::WAITING_FOR_METADATA_DOWNLOAD:
+				case Torrent_info::WAITING_FOR_DOWNLOAD:
+					return TORRENT_STATUS_ICON_STALLED_DOWNLOAD;
+					break;
+
+				case Torrent_info::DOWNLOADING_METADATA:
+				case Torrent_info::DOWNLOADING:
+					return TORRENT_STATUS_ICON_DOWNLOADING;
+					break;
+
+				case Torrent_info::SEEDING:
+					return TORRENT_STATUS_ICON_SEEDING;
+					break;
+
+				case Torrent_info::UPLOADING:
+					return TORRENT_STATUS_ICON_UPLOADING;
+					break;
+
+				case Torrent_info::UNKNOWN:
+					return TORRENT_STATUS_ICON_UNKNOWN;
+					break;
+
+				default:
+					MLIB_LE();
+					break;
+			}
+		}
+	}
+
+
+
 	std::string Torrent_info::get_status_string(void) const
 	{
-		if(this->paused && this->status != allocating && this->status != checking_files)
-			return _Q("(short)|Paused");
+		#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
+			// Похоже, что, как минимум, начиная с версии 0.14.3, уже
+			// не актуально. По крайней мере в 0.14.3 при преостановке
+			// торрента он переходит в состояние QUEUED_FOR_CHECKING.
+			//
+			// В прошлых версиях (точно не помню каких именно) после приостановки
+			// торрента он не останавливался, а продолжал проверяться.
+			if(this->paused && this->status != allocating && this->status != checking_files)
+				return _Q("(short)|Paused");
+		#else
+			if(this->paused)
+				return _Q("(short)|Paused");
+		#endif
 
 		std::string status_string;
 
 		switch(status)
 		{
-			case queued_for_checking:
-				status_string = _Q("(short)|Queued for checking");
-				break;
-
-			case checking_files:
-				status_string = _Q("(short)|Checking files");
-				break;
-
-			case downloading_metadata:
-				status_string = _Q("(short)|Downloading metadata");
-				break;
-
-			case downloading:
-				status_string = _Q("(short)|Downloading");
-				break;
-
-			case seeding:
-				status_string = _Q("(short)|Seeding");
-				break;
-
-			case allocating:
+			case ALLOCATING:
 				status_string = _Q("(short)|Allocating");
 				break;
 
-			case unknown:
+			case QUEUED_FOR_CHECKING:
+				status_string = _Q("(short)|Queued for checking");
+				break;
+
+			case CHECKING_FILES:
+				status_string = _Q("(short)|Checking files");
+				break;
+
+			case WAITING_FOR_METADATA_DOWNLOAD:
+				status_string = _Q("Waiting for metadata download (short)|Metadata down wait");
+				break;
+
+			case DOWNLOADING_METADATA:
+				status_string = _Q("Downloading metadata (short)|Metadata down");
+				break;
+
+			case WAITING_FOR_DOWNLOAD:
+				status_string = _Q("Waiting for download (short)|Download wait");
+				break;
+
+			case DOWNLOADING:
+				status_string = _Q("(short)|Downloading");
+				break;
+
+			case SEEDING:
+				status_string = _Q("(short)|Seeding");
+				break;
+
+			case UPLOADING:
+				status_string = _Q("(short)|Uploading");
+				break;
+
+			case UNKNOWN:
 				status_string = _Q("(short)|Unknown");
 				break;
 
@@ -665,9 +762,11 @@
 				break;
 		}
 
+	#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
 		if(this->paused)
 			return std::string(_Q("(short)|Paused")) + " (" + status_string + ")";
 		else
+	#endif
 			return status_string;
 	}
 

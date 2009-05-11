@@ -84,7 +84,7 @@
 
 
 		public:
-			void read_config(const libconfig::Setting& config_root);
+			void read_config(const libconfig::Setting& config_root, Version client_version);
 			void write_config(libconfig::Setting& config_root) const;
 	};
 
@@ -130,7 +130,7 @@
 
 
 		public:
-			void read_config(const libconfig::Setting& config_root);
+			void read_config(const libconfig::Setting& config_root, Version client_version);
 			void write_config(libconfig::Setting& config_root) const;
 	};
 
@@ -231,7 +231,7 @@
 
 
 		public:
-			void read_config(const libconfig::Setting& config_root);
+			void read_config(const libconfig::Setting& config_root, Version client_version);
 			void write_config(libconfig::Setting& config_root) const;
 	};
 
@@ -269,8 +269,8 @@
 	class Client_settings
 	{
 		public:
-			Gui_settings gui;
-			User_settings user;
+			Gui_settings	gui;
+			User_settings	user;
 
 
 		public:

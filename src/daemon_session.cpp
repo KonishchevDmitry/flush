@@ -1367,10 +1367,18 @@ bool Daemon_session::on_update_torrents_statistics_callback(void)
 		Torrent& torrent = it->second;
 		Torrent_info torrent_info = torrent.get_info();
 
-		if(torrent.seeding && torrent_info.status == Torrent_info::seeding && !torrent_info.paused)
+		if(
+			torrent.seeding && (
+				torrent_info.status == Torrent_info::SEEDING ||
+				torrent_info.status == Torrent_info::UPLOADING
+			) && !torrent_info.paused
+		)
 			torrent.time_seeding += time_diff;
 
-		torrent.seeding = torrent_info.status == Torrent_info::seeding && !torrent_info.paused;
+		torrent.seeding = (
+			torrent_info.status == Torrent_info::SEEDING ||
+			torrent_info.status == Torrent_info::UPLOADING
+		) && !torrent_info.paused;
 	}
 
 	this->automate();

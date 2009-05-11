@@ -105,7 +105,7 @@ class Tree_view_columns
 		void	remove(Gtk::TreeViewColumn* column);
 
 	protected:
-		void	add(const std::string& id, Gtk::TreeViewColumn* column, const std::string& description);
+		void	add(const std::string& id, Gtk::TreeViewColumn* column, const std::string& description, bool resizable = true);
 };
 
 

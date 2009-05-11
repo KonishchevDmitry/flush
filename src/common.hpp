@@ -153,7 +153,7 @@
 
 		public:
 			Auto_clean_type(void);
-			Auto_clean_type(Type type);
+			Auto_clean_type(const Type type);
 
 
 		public:
@@ -562,15 +562,55 @@
 	class Torrent_info
 	{
 		public:
-			enum Torrent_status
+			enum Status
 			{
-				queued_for_checking,
-				checking_files,
-				downloading_metadata,
-				downloading,
-				seeding,
-				allocating,
-				unknown // Если в новых версиях появится новый статус
+				ALLOCATING,
+				QUEUED_FOR_CHECKING,
+				CHECKING_FILES,
+				WAITING_FOR_METADATA_DOWNLOAD,
+				DOWNLOADING_METADATA,
+				WAITING_FOR_DOWNLOAD,
+				DOWNLOADING,
+				SEEDING,
+				UPLOADING,
+				/// Если в новых версиях появится новый статус
+				UNKNOWN
+			};
+
+
+			/// Тип, идентифицирующий изображение, символизирующее текущее состояние
+			/// торрента.
+			///
+			/// Типы необходимо располагать в таком порядке, чтобы при сортировке они
+			/// выстраивались в логическую цепочку.
+			enum Status_icon_id
+			{
+				/// На паузе.
+				TORRENT_STATUS_ICON_PAUSED,
+
+				/// Выделяется место на диске.
+				TORRENT_STATUS_ICON_ALLOCATING,
+
+				/// Данные торрента проверяются, или стоят в очереди на проверку.
+				TORRENT_STATUS_ICON_CHECKING,
+
+				/// Скачивается (данные не идут).
+				TORRENT_STATUS_ICON_STALLED_DOWNLOAD,
+
+				/// Скачивается (данные идут).
+				TORRENT_STATUS_ICON_DOWNLOADING,
+
+				/// Раздается (данные не идут).
+				TORRENT_STATUS_ICON_SEEDING,
+
+				/// Раздается (данные идут).
+				TORRENT_STATUS_ICON_UPLOADING,
+
+				/// Неизвестное состояние.
+				TORRENT_STATUS_ICON_UNKNOWN,
+
+				/// Количество доступных статусов.
+				TORRENT_STATUS_ICON_SIZE
 			};
 
 
@@ -590,7 +630,7 @@
 			bool			paused;
 
 			/// Операция, которая выполняется в данный момент с торрентом.
-			Torrent_status	status;
+			Status			status;
 
 			/// Степень завершенности выполняемой в данный момент операции (0 - 100).
 			int				progress;
@@ -662,6 +702,10 @@
 			/// Возвращает текущий рейтинг торрента.
 			Share_ratio		get_share_ratio(void) const;
 
+			/// Возвращает идентификатор изображения, символизирующее текущий
+			/// статус торрента.
+			Status_icon_id	get_status_icon_id(void) const;
+
 			/// Возвращает строку статуса.
 			std::string		get_status_string(void) const;
 
@@ -670,8 +714,8 @@
 			Time			get_time_left(void) const;
 
 		private:
-			/// Возвращает Torrent_status, соответствующий lt::torrent_status.
-			Torrent_status	get_status(const lt::torrent_status& torrent_status) const;
+			/// Возвращает Status, соответствующий lt::torrent_status.
+			Status			get_status(const lt::torrent_status& torrent_status) const;
 	};
 
 

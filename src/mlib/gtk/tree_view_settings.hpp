@@ -37,7 +37,11 @@ namespace m { namespace gtk {
 	class Tree_view_column_settings
 	{
 		public:
-			Tree_view_column_settings(void);
+			Tree_view_column_settings(
+				const std::string&	name	= "Unnamed",
+				bool				visible	= true,
+				int					width	= TREE_VIEW_COLUMNS_DEFAULT_WIDTH
+			);
 
 
 		public:

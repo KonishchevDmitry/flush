@@ -47,6 +47,11 @@
 
 		public:
 			Gtk::TreeModelColumn<Glib::ustring>		id;
+
+			Gtk::TreeModelColumn<int>				status_icon_id;
+			Gtk::TreeModelColumn<
+				Glib::RefPtr<Gdk::Pixbuf> >			status_icon;
+
 			Gtk::TreeModelColumn<Glib::ustring>		name;
 			Gtk::TreeModelColumn<bool>		   		paused;
 			Gtk::TreeModelColumn<Glib::ustring>		status;
@@ -127,6 +132,7 @@
 
 
 		public:
+			Gtk::TreeViewColumn			status_icon;
 			Gtk::TreeViewColumn			name;
 
 			Gtk::CellRendererProgress	status_renderer;
@@ -177,6 +183,9 @@
 			Glib::RefPtr<Gtk::Action>		pause_action;
 			Glib::RefPtr<Gtk::Action>		resume_action;
 			Glib::RefPtr<Gtk::UIManager>	ui_manager;
+
+			/// Изображения, символизирующие различные статусы торрента.
+			Glib::RefPtr<Gdk::Pixbuf>		status_icons[Torrent_info::TORRENT_STATUS_ICON_SIZE];
 
 
 		public:

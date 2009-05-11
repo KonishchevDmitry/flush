@@ -303,9 +303,13 @@ load_settings(const Settings& settings)
 			continue;
 		}
 
-		// Устанавливаем полученные настройки
-		column->set_fixed_width(settings_columns_iter->width);
-		column->set_visible(settings_columns_iter->visible);
+		// Устанавливаем полученные настройки -->
+			if(column->get_resizable())
+				column->set_fixed_width(settings_columns_iter->width);
+
+			column->set_visible(settings_columns_iter->visible);
+		// Устанавливаем полученные настройки <--
+
 		this->move_column_to_start(*column);
 	}
 	// Применяем настройки к каждой колонке <--
@@ -450,7 +454,9 @@ save_settings(Settings& settings) const
 				column_settings.set(
 					column_id,
 					column->get_visible(),
-					column->property_width().get_value()
+					column->get_resizable()
+						? column->property_width().get_value()
+						: TREE_VIEW_COLUMNS_DEFAULT_WIDTH
 				);
 
 				settings.columns.push_back(column_settings);
