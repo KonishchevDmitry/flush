@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2009-05-11 18:01+0400\n"
+"POT-Creation-Date: 2009-05-11 19:07+0400\n"
 "Last-Translator: Konishchev Dmitry <konishchev@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,7 +36,7 @@ msgstr "Пожалуйста, выберите директорию для ск�
 
 #: glade/preferences.daemon.automation.glade:140 src/settings_window.cpp:349
 msgid "Copy finished to:"
-msgstr "Копировать файлы по завершении скачивания в:"
+msgstr "По завершении скопировать в:"
 
 #: glade/preferences.daemon.automation.glade:158
 msgid "Please select a directory for finished downloads copying"
@@ -89,26 +89,6 @@ msgstr ""
 "Список просматривается полностью сверху вниз. В случае пересекающихся "
 "диапазонов IP-адресов выбирается последнее подходящее правило. В самом верху "
 "списка находится неявное правило, разрешающее все IP-адреса."
-
-#: glade/preferences.daemon.network.ip_filter.glade:83
-msgid "gtk-remove"
-msgstr "Удалить"
-
-#: glade/preferences.daemon.network.ip_filter.glade:99
-msgid "gtk-go-up"
-msgstr "Вверх"
-
-#: glade/preferences.daemon.network.ip_filter.glade:115
-msgid "gtk-go-down"
-msgstr "Вниз"
-
-#: glade/preferences.daemon.network.ip_filter.glade:155
-msgid "gtk-add"
-msgstr "Добавить"
-
-#: glade/preferences.daemon.network.ip_filter.glade:190
-msgid "gtk-edit"
-msgstr "Редактировать"
 
 #: src/mlib/gtk/glade.cpp:54 src/mlib/gtk/glade.hh:35 src/mlib/gtk/glade.hh:53
 #, qt-format
@@ -490,7 +470,7 @@ msgstr "Сохранять закачки в:"
 
 #: src/add_torrent_dialog.cpp:112 src/torrent_options_view.cpp:86
 msgid "Copy when finished to:"
-msgstr "Скопировать файлы по завершении скачивания в:"
+msgstr "По завершении скопировать в:"
 
 #: src/add_torrent_dialog.cpp:210
 msgid "Invalid torrent name"
@@ -2220,6 +2200,21 @@ msgstr ""
 #: src/trackers_view.cpp:233 src/trackers_view.cpp:235
 msgid "Invalid tracker URL"
 msgstr "Недопустимый URL трекера"
+
+#~ msgid "gtk-remove"
+#~ msgstr "Удалить"
+
+#~ msgid "gtk-go-up"
+#~ msgstr "Вверх"
+
+#~ msgid "gtk-go-down"
+#~ msgstr "Вниз"
+
+#~ msgid "gtk-add"
+#~ msgstr "Добавить"
+
+#~ msgid "gtk-edit"
+#~ msgstr "Редактировать"
 
 #~ msgid "(short)|Downloading metadata"
 #~ msgstr "Скачивание метаданных"
