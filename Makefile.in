@@ -33,7 +33,10 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 subdir = .
-DIST_COMMON = $(am__configure_deps) $(dist_icons_16_DATA) \
+DIST_COMMON = $(am__configure_deps) \
+	$(dist_custom_actions_icons_16_DATA) \
+	$(dist_custom_actions_icons_22_DATA) \
+	$(dist_custom_actions_icons_32_DATA) $(dist_icons_16_DATA) \
 	$(dist_icons_22_DATA) $(dist_icons_24_DATA) \
 	$(dist_icons_32_DATA) $(dist_icons_48_DATA) \
 	$(dist_icons_72_DATA) $(srcdir)/Makefile.am \
@@ -74,20 +77,29 @@ am__vpath_adj = case $$p in \
     *) f=$$p;; \
   esac;
 am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
-am__installdirs = "$(DESTDIR)$(desktopdir)" "$(DESTDIR)$(icons_16dir)" \
-	"$(DESTDIR)$(icons_22dir)" "$(DESTDIR)$(icons_24dir)" \
-	"$(DESTDIR)$(icons_32dir)" "$(DESTDIR)$(icons_48dir)" \
-	"$(DESTDIR)$(icons_72dir)"
+am__installdirs = "$(DESTDIR)$(desktopdir)" \
+	"$(DESTDIR)$(custom_actions_icons_16dir)" \
+	"$(DESTDIR)$(custom_actions_icons_22dir)" \
+	"$(DESTDIR)$(custom_actions_icons_32dir)" \
+	"$(DESTDIR)$(icons_16dir)" "$(DESTDIR)$(icons_22dir)" \
+	"$(DESTDIR)$(icons_24dir)" "$(DESTDIR)$(icons_32dir)" \
+	"$(DESTDIR)$(icons_48dir)" "$(DESTDIR)$(icons_72dir)"
 desktopDATA_INSTALL = $(INSTALL_DATA)
+dist_custom_actions_icons_16DATA_INSTALL = $(INSTALL_DATA)
+dist_custom_actions_icons_22DATA_INSTALL = $(INSTALL_DATA)
+dist_custom_actions_icons_32DATA_INSTALL = $(INSTALL_DATA)
 dist_icons_16DATA_INSTALL = $(INSTALL_DATA)
 dist_icons_22DATA_INSTALL = $(INSTALL_DATA)
 dist_icons_24DATA_INSTALL = $(INSTALL_DATA)
 dist_icons_32DATA_INSTALL = $(INSTALL_DATA)
 dist_icons_48DATA_INSTALL = $(INSTALL_DATA)
 dist_icons_72DATA_INSTALL = $(INSTALL_DATA)
-DATA = $(desktop_DATA) $(dist_icons_16_DATA) $(dist_icons_22_DATA) \
-	$(dist_icons_24_DATA) $(dist_icons_32_DATA) \
-	$(dist_icons_48_DATA) $(dist_icons_72_DATA)
+DATA = $(desktop_DATA) $(dist_custom_actions_icons_16_DATA) \
+	$(dist_custom_actions_icons_22_DATA) \
+	$(dist_custom_actions_icons_32_DATA) $(dist_icons_16_DATA) \
+	$(dist_icons_22_DATA) $(dist_icons_24_DATA) \
+	$(dist_icons_32_DATA) $(dist_icons_48_DATA) \
+	$(dist_icons_72_DATA)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
   distclean-recursive maintainer-clean-recursive
 ETAGS = etags
@@ -273,6 +285,22 @@ dist_icons_24_DATA = icons/hicolor/24x24/apps/@PACKAGE@.png
 dist_icons_32_DATA = icons/hicolor/32x32/apps/@PACKAGE@.png
 dist_icons_48_DATA = icons/hicolor/48x48/apps/@PACKAGE@.png
 dist_icons_72_DATA = icons/hicolor/72x72/apps/@PACKAGE@.png
+custom_actions_icons_16dir = $(datadir)/@PACKAGE@/icons/hicolor/16x16/actions
+custom_actions_icons_22dir = $(datadir)/@PACKAGE@/icons/hicolor/22x22/actions
+custom_actions_icons_32dir = $(datadir)/@PACKAGE@/icons/hicolor/32x32/actions
+dist_custom_actions_icons_16_DATA = \
+	icons/hicolor/16x16/actions/download-and-upload.png \
+	icons/hicolor/16x16/actions/download.png \
+	icons/hicolor/16x16/actions/stalled-download.png \
+	icons/hicolor/16x16/actions/statistics.png \
+	icons/hicolor/16x16/actions/upload.png
+
+dist_custom_actions_icons_22_DATA = \
+	icons/hicolor/22x22/actions/statistics.png
+
+dist_custom_actions_icons_32_DATA = \
+	icons/hicolor/32x32/actions/statistics.png
+
 
 # icons cache -->
 gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
@@ -348,6 +376,57 @@ uninstall-desktopDATA:
 	  f=$(am__strip_dir) \
 	  echo " rm -f '$(DESTDIR)$(desktopdir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(desktopdir)/$$f"; \
+	done
+install-dist_custom_actions_icons_16DATA: $(dist_custom_actions_icons_16_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(custom_actions_icons_16dir)" || $(MKDIR_P) "$(DESTDIR)$(custom_actions_icons_16dir)"
+	@list='$(dist_custom_actions_icons_16_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(dist_custom_actions_icons_16DATA_INSTALL) '$$d$$p' '$(DESTDIR)$(custom_actions_icons_16dir)/$$f'"; \
+	  $(dist_custom_actions_icons_16DATA_INSTALL) "$$d$$p" "$(DESTDIR)$(custom_actions_icons_16dir)/$$f"; \
+	done
+
+uninstall-dist_custom_actions_icons_16DATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(dist_custom_actions_icons_16_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(custom_actions_icons_16dir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(custom_actions_icons_16dir)/$$f"; \
+	done
+install-dist_custom_actions_icons_22DATA: $(dist_custom_actions_icons_22_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(custom_actions_icons_22dir)" || $(MKDIR_P) "$(DESTDIR)$(custom_actions_icons_22dir)"
+	@list='$(dist_custom_actions_icons_22_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(dist_custom_actions_icons_22DATA_INSTALL) '$$d$$p' '$(DESTDIR)$(custom_actions_icons_22dir)/$$f'"; \
+	  $(dist_custom_actions_icons_22DATA_INSTALL) "$$d$$p" "$(DESTDIR)$(custom_actions_icons_22dir)/$$f"; \
+	done
+
+uninstall-dist_custom_actions_icons_22DATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(dist_custom_actions_icons_22_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(custom_actions_icons_22dir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(custom_actions_icons_22dir)/$$f"; \
+	done
+install-dist_custom_actions_icons_32DATA: $(dist_custom_actions_icons_32_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(custom_actions_icons_32dir)" || $(MKDIR_P) "$(DESTDIR)$(custom_actions_icons_32dir)"
+	@list='$(dist_custom_actions_icons_32_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(dist_custom_actions_icons_32DATA_INSTALL) '$$d$$p' '$(DESTDIR)$(custom_actions_icons_32dir)/$$f'"; \
+	  $(dist_custom_actions_icons_32DATA_INSTALL) "$$d$$p" "$(DESTDIR)$(custom_actions_icons_32dir)/$$f"; \
+	done
+
+uninstall-dist_custom_actions_icons_32DATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(dist_custom_actions_icons_32_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(custom_actions_icons_32dir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(custom_actions_icons_32dir)/$$f"; \
 	done
 install-dist_icons_16DATA: $(dist_icons_16_DATA)
 	@$(NORMAL_INSTALL)
@@ -735,7 +814,7 @@ check: check-recursive
 all-am: Makefile $(DATA) config.h
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(desktopdir)" "$(DESTDIR)$(icons_16dir)" "$(DESTDIR)$(icons_22dir)" "$(DESTDIR)$(icons_24dir)" "$(DESTDIR)$(icons_32dir)" "$(DESTDIR)$(icons_48dir)" "$(DESTDIR)$(icons_72dir)"; do \
+	for dir in "$(DESTDIR)$(desktopdir)" "$(DESTDIR)$(custom_actions_icons_16dir)" "$(DESTDIR)$(custom_actions_icons_22dir)" "$(DESTDIR)$(custom_actions_icons_32dir)" "$(DESTDIR)$(icons_16dir)" "$(DESTDIR)$(icons_22dir)" "$(DESTDIR)$(icons_24dir)" "$(DESTDIR)$(icons_32dir)" "$(DESTDIR)$(icons_48dir)" "$(DESTDIR)$(icons_72dir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-recursive
@@ -781,10 +860,13 @@ info: info-recursive
 
 info-am:
 
-install-data-am: install-desktopDATA install-dist_icons_16DATA \
-	install-dist_icons_22DATA install-dist_icons_24DATA \
-	install-dist_icons_32DATA install-dist_icons_48DATA \
-	install-dist_icons_72DATA
+install-data-am: install-desktopDATA \
+	install-dist_custom_actions_icons_16DATA \
+	install-dist_custom_actions_icons_22DATA \
+	install-dist_custom_actions_icons_32DATA \
+	install-dist_icons_16DATA install-dist_icons_22DATA \
+	install-dist_icons_24DATA install-dist_icons_32DATA \
+	install-dist_icons_48DATA install-dist_icons_72DATA
 	@$(NORMAL_INSTALL)
 	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
 
@@ -822,10 +904,13 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am: uninstall-desktopDATA uninstall-dist_icons_16DATA \
-	uninstall-dist_icons_22DATA uninstall-dist_icons_24DATA \
-	uninstall-dist_icons_32DATA uninstall-dist_icons_48DATA \
-	uninstall-dist_icons_72DATA
+uninstall-am: uninstall-desktopDATA \
+	uninstall-dist_custom_actions_icons_16DATA \
+	uninstall-dist_custom_actions_icons_22DATA \
+	uninstall-dist_custom_actions_icons_32DATA \
+	uninstall-dist_icons_16DATA uninstall-dist_icons_22DATA \
+	uninstall-dist_icons_24DATA uninstall-dist_icons_32DATA \
+	uninstall-dist_icons_48DATA uninstall-dist_icons_72DATA
 
 .MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) install-am \
 	install-data-am install-strip
@@ -838,6 +923,9 @@ uninstall-am: uninstall-desktopDATA uninstall-dist_icons_16DATA \
 	distdir distuninstallcheck dvi dvi-am html html-am info \
 	info-am install install-am install-data install-data-am \
 	install-data-hook install-desktopDATA \
+	install-dist_custom_actions_icons_16DATA \
+	install-dist_custom_actions_icons_22DATA \
+	install-dist_custom_actions_icons_32DATA \
 	install-dist_icons_16DATA install-dist_icons_22DATA \
 	install-dist_icons_24DATA install-dist_icons_32DATA \
 	install-dist_icons_48DATA install-dist_icons_72DATA \
@@ -848,10 +936,13 @@ uninstall-am: uninstall-desktopDATA uninstall-dist_icons_16DATA \
 	installdirs installdirs-am maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
 	pdf-am ps ps-am tags tags-recursive uninstall uninstall-am \
-	uninstall-desktopDATA uninstall-dist_icons_16DATA \
-	uninstall-dist_icons_22DATA uninstall-dist_icons_24DATA \
-	uninstall-dist_icons_32DATA uninstall-dist_icons_48DATA \
-	uninstall-dist_icons_72DATA
+	uninstall-desktopDATA \
+	uninstall-dist_custom_actions_icons_16DATA \
+	uninstall-dist_custom_actions_icons_22DATA \
+	uninstall-dist_custom_actions_icons_32DATA \
+	uninstall-dist_icons_16DATA uninstall-dist_icons_22DATA \
+	uninstall-dist_icons_24DATA uninstall-dist_icons_32DATA \
+	uninstall-dist_icons_48DATA uninstall-dist_icons_72DATA
 
 
 install-data-hook:

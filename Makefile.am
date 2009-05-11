@@ -28,13 +28,16 @@ custom_actions_icons_16dir = $(datadir)/@PACKAGE@/icons/hicolor/16x16/actions
 custom_actions_icons_22dir = $(datadir)/@PACKAGE@/icons/hicolor/22x22/actions
 custom_actions_icons_32dir = $(datadir)/@PACKAGE@/icons/hicolor/32x32/actions
 
-dist_custom_actions_icons_16_DATA = icons/hicolor/16x16/actions/download-and-upload.png
-dist_custom_actions_icons_16_DATA = icons/hicolor/16x16/actions/download.png
-dist_custom_actions_icons_16_DATA = icons/hicolor/16x16/actions/stalled-download.png
-dist_custom_actions_icons_16_DATA = icons/hicolor/16x16/actions/statistics.png
-dist_custom_actions_icons_16_DATA = icons/hicolor/16x16/actions/upload.png
-dist_custom_actions_icons_22_DATA = icons/hicolor/22x22/actions/statistics.png
-dist_custom_actions_icons_32_DATA = icons/hicolor/32x32/actions/statistics.png
+dist_custom_actions_icons_16_DATA = \
+	icons/hicolor/16x16/actions/download-and-upload.png \
+	icons/hicolor/16x16/actions/download.png \
+	icons/hicolor/16x16/actions/stalled-download.png \
+	icons/hicolor/16x16/actions/statistics.png \
+	icons/hicolor/16x16/actions/upload.png
+dist_custom_actions_icons_22_DATA = \
+	icons/hicolor/22x22/actions/statistics.png
+dist_custom_actions_icons_32_DATA = \
+	icons/hicolor/32x32/actions/statistics.png
 
 
 # icons cache -->
