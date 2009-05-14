@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2009-05-11 19:41+0400\n"
+"POT-Creation-Date: 2009-05-14 20:59+0400\n"
 "Last-Translator: Konishchev Dmitry <konishchev@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -763,11 +763,11 @@ msgstr ""
 "Не удалось запустить демон. Создание директорий для конфигурационных файлов "
 "завершилось неудачей. %1"
 
-#: src/daemon_session.cpp:227 src/daemon_session.cpp:1304
+#: src/daemon_session.cpp:227 src/daemon_session.cpp:1295
 msgid "Saving session failed"
 msgstr "Сохранение настроек сессии завершилось неудачей"
 
-#: src/daemon_session.cpp:227 src/daemon_session.cpp:1304
+#: src/daemon_session.cpp:227 src/daemon_session.cpp:1295
 #, qt-format
 msgid "Saving session failed. %1"
 msgstr "Сохранение сессии завершилось неудачей. %1"
@@ -823,128 +823,120 @@ msgstr ""
 msgid "Can't delete automatically loaded *.torrent file '%1': %2."
 msgstr "Не удалось удалить автоматически загруженный *.torrent файл '%1': %2."
 
-#: src/daemon_session.cpp:707 src/daemon_session.cpp:1231
+#: src/daemon_session.cpp:707 src/daemon_session.cpp:1222
 #, qt-format
 msgid "Automatic loading the torrent '%1' failed. %2"
 msgstr "Автоматическая загрузка торрента '%1' завершилась неудачей. %2"
 
-#: src/daemon_session.cpp:718 src/daemon_session.cpp:726
-#: src/daemon_session.cpp:747 src/daemon_session.cpp:1875
-#: src/daemon_session.cpp:1959
+#: src/daemon_session.cpp:717 src/daemon_session.cpp:722
+#: src/daemon_session.cpp:741 src/daemon_session.cpp:1865
+#: src/daemon_session.cpp:1947
 msgid "Automatic torrents loading failed"
 msgstr "Автоматическая загрузка торрентов завершилась неудачей"
 
-#: src/daemon_session.cpp:719 src/daemon_session.cpp:748
+#: src/daemon_session.cpp:724
 #, qt-format
-msgid "Automatic torrents loading failed. %1"
-msgstr "Автоматическая загрузка торрентов завершилась неудачей. %1"
+msgid "Directory '%1' has been deleted or moved."
+msgstr "Директория '%1' была удалена или перемещена."
 
-#: src/daemon_session.cpp:728
-#, qt-format
-msgid ""
-"Automatic torrents loading failed: directory '%1' has been deleted or moved."
-msgstr ""
-"Автоматическая загрузка торрентов завершилась неудачей: директория '%1' была "
-"удалена или перемещена."
-
-#: src/daemon_session.cpp:854
+#: src/daemon_session.cpp:845
 msgid "Automatic torrents cleaning failed"
 msgstr "Автоматическая очистка от старых торрентов завершилась неудачей"
 
-#: src/daemon_session.cpp:885
+#: src/daemon_session.cpp:876
 msgid "Copying finished torrent failed"
 msgstr "Копирование скачанного торрента завершилось неудачей"
 
-#: src/daemon_session.cpp:887
+#: src/daemon_session.cpp:878
 #, qt-format
 msgid "Copying finished torrent '%1' from '%2' to '%3' failed."
 msgstr ""
 "Копирование скачанного торрента '%1' из '%2' в '%3' завершилось неудачей."
 
-#: src/daemon_session.cpp:974 src/daemon_session.cpp:987
+#: src/daemon_session.cpp:965 src/daemon_session.cpp:978
 #, qt-format
 msgid "Bad torrent id '%1'."
 msgstr "Неверный идентификатор торрента: '%1'."
 
-#: src/daemon_session.cpp:1189
+#: src/daemon_session.cpp:1180
 #, qt-format
 msgid "Restoring torrent '%1' [%2] previous session settings failed. %3"
 msgstr ""
 "Восстановление настроек из прошлой сессии для торрента '%1' [%2] завершилось "
 "неудачей. %3"
 
-#: src/daemon_session.cpp:1243
+#: src/daemon_session.cpp:1234
 #, qt-format
 msgid "Can't read directory '%1' for automatic torrents loading: %2."
 msgstr ""
 "Ошибка при чтении директории '%1' для автоматической загрузки торрентов: %2."
 
-#: src/daemon_session.cpp:1278
+#: src/daemon_session.cpp:1269
 msgid "Loading torrent failed"
 msgstr "Загрузка торрента завершилась неудачей"
 
-#: src/daemon_session.cpp:1278
+#: src/daemon_session.cpp:1269
 #, qt-format
 msgid "Loading of the torrent '%1' failed. %2"
 msgstr "Загрузка торрента '%1' завершилась неудачей. %2"
 
-#: src/daemon_session.cpp:1284
+#: src/daemon_session.cpp:1275
 #, qt-format
 msgid "Can't read directory with torrents configs '%1': %2."
 msgstr ""
 "Ошибка при чтении директории с конфигурационными файлами торрентов '%1': %2."
 
-#: src/daemon_session.cpp:1290
+#: src/daemon_session.cpp:1281
 #, qt-format
 msgid "Loading torrents from previous session failed. %1"
 msgstr "Загрузка торрентов из прошлой сессии завершилась неудачей. %1"
 
-#: src/daemon_session.cpp:1438
+#: src/daemon_session.cpp:1429
 #, qt-format
 msgid "Bad torrent id: '%1'."
 msgstr "Неверный идентификатор торрента: '%1'."
 
-#: src/daemon_session.cpp:1482 src/daemon_session.cpp:1498
+#: src/daemon_session.cpp:1473 src/daemon_session.cpp:1489
 msgid "Deleting torrent data failed"
 msgstr "Удаление данных торрента завершилось неудачей"
 
-#: src/daemon_session.cpp:1483 src/daemon_session.cpp:1499
+#: src/daemon_session.cpp:1474 src/daemon_session.cpp:1490
 #, qt-format
 msgid "Deleting torrent '%1' data failed."
 msgstr "Удаление данных торрента '%1' завершилось неудачей."
 
-#: src/daemon_session.cpp:1589
+#: src/daemon_session.cpp:1580
 msgid "Saving torrent settings failed"
 msgstr "Сохранение настроек торрента завершилось неудачей."
 
-#: src/daemon_session.cpp:1591
+#: src/daemon_session.cpp:1582
 #, qt-format
 msgid "Saving torrent '%1' settings failed. %2"
 msgstr "Сохранение настроек для торрента '%1' завершилось неудачей. %2"
 
-#: src/daemon_session.cpp:1622
+#: src/daemon_session.cpp:1613
 #, qt-format
 msgid "Invalid copy when finished to path '%1'."
 msgstr "Недопустимый путь для копирования файлов скачанного торрента: '%1'."
 
-#: src/daemon_session.cpp:1644 src/daemon_session.cpp:1666
+#: src/daemon_session.cpp:1635 src/daemon_session.cpp:1657
 #, qt-format
 msgid "Bad file id: %1."
 msgstr "Неверный идентификатор файла: %1."
 
-#: src/daemon_session.cpp:1851
+#: src/daemon_session.cpp:1842
 msgid "Setting directory for automatic torrents loading failed"
 msgstr ""
 "Задание директории для автоматической загрузки торрентов завершилось неудачей"
 
-#: src/daemon_session.cpp:1853
+#: src/daemon_session.cpp:1844
 #, qt-format
 msgid "Can't set directory '%1' for automatic torrents loading. %2"
 msgstr ""
 "Не удалось назначить директорию '%1' в качестве директории для "
 "автоматической загрузки торрентов. %2"
 
-#: src/daemon_session.cpp:1921
+#: src/daemon_session.cpp:1910
 msgid "Setting torrent trackers failed: libtorrent internal error."
 msgstr ""
 "Задание списка трекеров торрента завершилось неудачей: произошла внутренняя "
@@ -2201,35 +2193,3 @@ msgstr ""
 "диапазонов IP-адресов выбирается последнее подходящее правило. В самом верху "
 "списка находится неявное правило, разрешающее все IP-адреса."
 
-#~ msgid "gtk-remove"
-#~ msgstr "Удалить"
-
-#~ msgid "gtk-go-up"
-#~ msgstr "Вверх"
-
-#~ msgid "gtk-go-down"
-#~ msgstr "Вниз"
-
-#~ msgid "gtk-add"
-#~ msgstr "Добавить"
-
-#~ msgid "gtk-edit"
-#~ msgstr "Редактировать"
-
-#~ msgid "(short)|Downloading metadata"
-#~ msgstr "Скачивание метаданных"
-
-#~ msgid "Automatic torrent removing failed"
-#~ msgstr "Автоматическое удаление торрента завершилось неудачей"
-
-#~ msgid "Automatic removing of torrent '%1' failed. %2"
-#~ msgstr "Автоматическое удаление торрента '%1' завершилось неудачей. %2"
-
-#~ msgid "Daemon::Automation"
-#~ msgstr "Демон::Автоматизация"
-
-#~ msgid "Delete torrents:"
-#~ msgstr "Удалять торренты:"
-
-#~ msgid "Delete with data"
-#~ msgstr "Удалять вместе с данными"
