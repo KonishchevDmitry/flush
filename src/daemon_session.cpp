@@ -714,18 +714,14 @@ void Daemon_session::auto_load_torrents(void)
 		{
 			if(errors)
 			{
-				MLIB_W(
-					_("Automatic torrents loading failed"),
-					__("Automatic torrents loading failed. %1", EE(errors))
-				);
-
+				MLIB_W(_("Automatic torrents loading failed"), EE(errors));
 				errors = Errors_pool();
 			}
 
 			MLIB_W(
 				_("Automatic torrents loading failed"),
 				__(
-					"Automatic torrents loading failed: directory '%1' has been deleted or moved.",
+					"Directory '%1' has been deleted or moved.",
 					this->settings.torrents_auto_load.from
 				)
 			);
@@ -742,12 +738,7 @@ void Daemon_session::auto_load_torrents(void)
 	}
 
 	if(errors)
-	{
-		MLIB_W(
-			_("Automatic torrents loading failed"),
-			__("Automatic torrents loading failed. %1", EE(errors))
-		);
-	}
+		MLIB_W(_("Automatic torrents loading failed"), EE(errors));
 }
 
 
@@ -1871,9 +1862,7 @@ void Daemon_session::set_settings(const Daemon_settings& settings, const bool in
 						}
 						catch(m::Exception& e)
 						{
-							MLIB_W(
-								_("Automatic torrents loading failed"), EE(e)
-							);
+							MLIB_W(_("Automatic torrents loading failed"), EE(e));
 						}
 					}
 				// <--
@@ -1955,9 +1944,7 @@ void Daemon_session::start(void)
 		}
 		catch(m::Exception& e)
 		{
-			MLIB_W(
-				_("Automatic torrents loading failed"), EE(e)
-			);
+			MLIB_W(_("Automatic torrents loading failed"), EE(e));
 		}
 
 		// Обработчик сигнала на появление новых торрентов для автоматического
