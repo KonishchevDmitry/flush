@@ -706,7 +706,7 @@
 			//
 			// В прошлых версиях (точно не помню каких именно) после приостановки
 			// торрента он не останавливался, а продолжал проверяться.
-			if(this->paused && this->status != allocating && this->status != checking_files)
+			if(this->paused && this->status != ALLOCATING && this->status != CHECKING_FILES)
 				return _Q("(short)|Paused");
 		#else
 			if(this->paused)

@@ -24,6 +24,8 @@
 #include <map>
 #include <string>
 
+#include <gtk/gtkiconfactory.h>
+
 #include <gtkmm/actiongroup.h>
 #include <gtkmm/icontheme.h>
 #include <gtkmm/liststore.h>
