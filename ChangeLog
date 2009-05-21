@@ -1,3 +1,9 @@
+0.5.1 ()
+[+] Increased maximum peers number, which Flush request from tracker to
+libtorrent maximum value.
+[*] Wrap around GTK bug which caused tooltips blinking on GUI updating.
+
+
 0.5 (2009.05.15)
 [+] Added toolbar.
 [+] Tooltip over tray icon.

@@ -218,7 +218,7 @@
 			void					torrents_process_callback(Torrent_process_action action);
 
 			/// Обновляет строку TreeView.
-			void					update_row(Gtk::TreeModel::iterator &iter, const Torrent_info& torrent_info, bool force_update, bool zeros_force_update, bool show_zero_values);
+			void					update_row(Gtk::TreeRow &row, const Torrent_info& torrent_info, bool force_update, bool zeros_force_update, bool show_zero_values);
 	};
 #endif
 

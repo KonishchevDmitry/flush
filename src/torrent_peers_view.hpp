@@ -41,6 +41,9 @@
 
 		public:
 
+			Gtk::TreeModelColumn<Glib::ustring>				uid;
+
+
 			Gtk::TreeModelColumn<Glib::ustring>				ip;
 			Gtk::TreeModelColumn<Glib::ustring>				client;
 
@@ -105,9 +108,13 @@
 		public:
 			Torrent_peers_view(const Torrent_peers_view_settings& settings);
 
+
 		private:
 			/// Значение, которое имела опция "show_zero_values" в прошлый раз.
 			bool				last_show_zero_values_setting;
+
+			/// Обновляет строку TreeView.
+			void				update_row(Gtk::TreeRow &row, const std::string& uid, const Torrent_peer_info& peer, bool force_update, bool zeros_force_update, bool show_zero_values);
 
 		public:
 			/// Сохраняет настройки виджета.

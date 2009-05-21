@@ -173,16 +173,16 @@ dnl config.h -->
 	AC_DEFINE_UNQUOTED([APP_VERSION_STRING], ["$PACKAGE_VERSION"])
 
 
-	AH_TEMPLATE([DEBUG_MODE], [Is application compiling in debug mode])
 	AH_TEMPLATE([MLIB_DEBUG_MODE], [Is mlib compiling in debug mode])
+	AH_TEMPLATE([DEBUG_MODE], [Is application compiling in debug mode])
 	if test "X$debug_mode" = "Xyes"
 	then
-		AC_DEFINE([DEBUG_MODE])
 		AC_DEFINE([MLIB_DEBUG_MODE])
+		AC_DEFINE([DEBUG_MODE])
 	fi
 
-	AH_TEMPLATE([DEVELOP_MODE], [Is application compiling in develop mode])
 	AH_TEMPLATE([MLIB_DEVELOP_MODE], [Is mlib compiling in develop mode])
+	AH_TEMPLATE([DEVELOP_MODE], [Is application compiling in develop mode])
 	if test "X$develop_mode" = "Xyes"
 	then
 		AC_DEFINE([DEVELOP_MODE])

@@ -666,14 +666,7 @@ namespace
 			return;
 		}
 
-		// Входим в режим редактирования
-		this->editing_start();
-
-			Gtk::TreeModel::Children rows = this->model->children();
-			this->update_rows(rows, statuses);
-
-		// Выходим из режима редактирования
-		this->editing_end();
+		this->update_rows(this->model->children(), statuses);
 	}
 
 
@@ -818,30 +811,34 @@ namespace
 
 
 
-	Torrent_files_view::Directory_status Torrent_files_view::update_rows(const Gtk::TreeNodeChildren& rows, const std::vector<Torrent_file_status>& statuses)
+	Torrent_files_view::Directory_status Torrent_files_view::update_rows(const Gtk::TreeNodeChildren& iters, const std::vector<Torrent_file_status>& statuses)
 	{
-		int id;
 		int progress;
-
 		std::string priority_name;
-
 		Directory_status directory_status;
+		std::vector<Gtk::TreeRow> rows;
 
-		Gtk::TreeRow row;
-		Gtk::TreeModel::iterator it;
-		Gtk::TreeModel::iterator first_it;
+		// Получаем все строки модели.
+		// Оперировать итераторами мы не можем, т. к. из-за сортировки
+		// после каждого изменения какой-либо строки модель сортируется, и
+		// итераторы начинают указывать не на те элементы (к примеру,
+		// следующий итератор может указывать на ту строку, которая ранее
+		// уже была обработана).
+		// -->
+			rows.reserve(iters.size());
+			M_FOR_CONST_IT(iters, it)
+				rows.push_back(*it);
+		// <--
 
-		it = first_it = rows.begin();
-
-		while(it)
+		for(size_t child_id = 0; child_id < rows.size(); child_id++)
 		{
-			row = *it;
-			id = row[this->model_columns.id];
+			Gtk::TreeRow row = *rows[child_id];
+			int id = row[this->model_columns.id];
 
 			// Если это директория
 			if(id < 0)
 			{
-				Directory_status child_directory_status = this->update_rows(it->children(), statuses);
+				Directory_status child_directory_status = this->update_rows(row.children(), statuses);
 
 				// Статус директории -->
 					if(child_directory_status.download)
@@ -854,7 +851,7 @@ namespace
 						directory_status.download = false;
 					}
 
-					if(it != first_it)
+					if(child_id)
 					{
 						if(directory_status.priority_name != child_directory_status.priority_name)
 							directory_status.priority_name = "";
@@ -925,7 +922,7 @@ namespace
 					else
 						directory_status.download = false;
 
-					if(it != first_it)
+					if(child_id)
 					{
 						if(directory_status.priority_name != priority_name)
 							directory_status.priority_name = "";
@@ -959,8 +956,6 @@ namespace
 						m::gtk::update_row(row, this->model_columns.progress_string, m::to_string(progress) + " %");
 				// Статус файла <--
 			}
-
-			it++;
 		}
 
 		return directory_status;

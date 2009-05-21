@@ -21,8 +21,13 @@
 
 #include <cerrno>
 
-#include <map>
 #include <string>
+
+#if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 36, 0)
+	#include <boost/unordered_map.hpp>
+#else
+	#include <map>
+#endif
 
 #include <gtk/gtkiconfactory.h>
 
@@ -542,71 +547,88 @@
 
 	void Torrents_view::update(std::vector<Torrent_info>::iterator infos_it, const std::vector<Torrent_info>::iterator& infos_end_it)
 	{
-		Gtk::TreeModel::iterator model_iter;
-		std::map<Torrent_id, Torrent_info>::iterator info_map_iter;
-
 		bool show_zero_values = get_client_settings().gui.show_zero_values;
 		bool show_zero_setting_changed = show_zero_values != this->last_show_zero_values_setting;
 
 
 		this->last_show_zero_values_setting = show_zero_values;
 
-		// Создаем таблицу с информацией о торрентах -->
-			std::map<Torrent_id, Torrent_info> info_map;
+		// Создаем индекс по информации о торрентах -->
+		#if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 36, 0)
+			boost::unordered_map<Torrent_id, Torrent_info> infos;
+		#else
+			std::map<Torrent_id, Torrent_info> infos;
+		#endif
 
 			for(; infos_it != infos_end_it; infos_it++)
-				info_map.insert(std::pair<Torrent_id, Torrent_info>(infos_it->id, *infos_it));
-		// Создаем таблицу с информацией о торрентах <--
+				infos.insert(std::pair<Torrent_id, Torrent_info>(infos_it->id, *infos_it));
+		// Создаем индекс по информации о торрентах <--
 
-		// Входим в режим редактирования
-		this->editing_start();
+		// Удаляем те строки, которые уже не актуальны -->
+		{
+			Gtk::TreeModel::iterator it = this->model->children().begin();
+
+			while(it)
+			{
+				M_ITER_TYPE(infos) info_it = infos.find(
+					it->get_value(this->model_columns.id)
+				);
+
+				if(info_it == infos.end())
+					it = this->model->erase(it);
+				else
+					++it;
+			}
+		}
+		// Удаляем те строки, которые уже не актуальны <--
 
 		// Обновляем существующие строки -->
 		{
-			Gtk::TreeModel::Children rows = this->model->children();
+			std::vector<Gtk::TreeRow> rows;
 
-			model_iter = rows.begin();
-			while(model_iter)
+			// Получаем все строки модели.
+			// Оперировать итераторами мы не можем, т. к. из-за сортировки
+			// после каждого изменения какой-либо строки модель сортируется, и
+			// итераторы начинают указывать не на те элементы (к примеру,
+			// следующий итератор может указывать на ту строку, которая ранее
+			// уже была обработана).
+			// -->
 			{
-				info_map_iter = info_map.find(Torrent_id(model_iter->get_value(this->model_columns.id)));
+				Gtk::TreeModel::Children iters = this->model->children();
 
-				// Торрента с таким ID уже нет
-				if(info_map_iter == info_map.end())
-				{
-					model_iter = this->model->erase(model_iter);
-					continue;
-				}
-				else
-				{
-					// Обновляем старые значения
-					this->update_row(model_iter, info_map_iter->second, false, show_zero_setting_changed, show_zero_values);
+				rows.reserve(iters.size());
+				M_FOR_CONST_IT(iters, it)
+					rows.push_back(*it);
+			}
+			// <--
 
-					// Удаляем из таблицы обработанную информацию
-					info_map.erase(info_map_iter);
-				}
+			M_FOR_IT(rows, it)
+			{
+				M_ITER_TYPE(infos) info_it = infos.find(
+					it->get_value(this->model_columns.id)
+				);
 
-				model_iter++;
+				// Обновляем старые значения
+				this->update_row(*it, info_it->second, false, show_zero_setting_changed, show_zero_values);
+
+				// Удаляем из индекса обработанную информацию
+				infos.erase(info_it);
 			}
 		}
 		// Обновляем существующие строки <--
 
-		// Теперь в таблице остались только те торренты, которые еще не присутствуют в списке.
+		// Теперь в индексе остались только те торренты, которые еще не присутствуют в списке.
 		// Добавляем их.
-		// -->
-			for(info_map_iter = info_map.begin(); info_map_iter != info_map.end(); info_map_iter++)
-			{
-				model_iter = this->model->append();
-				this->update_row(model_iter, info_map_iter->second, true, true, show_zero_values);
-			}
-		// <--
-
-		// Выходим из режима редактирования
-		this->editing_end();
+		M_FOR_CONST_IT(infos, info_it)
+		{
+			Gtk::TreeRow row = *this->model->append();
+			this->update_row(row, info_it->second, true, true, show_zero_values);
+		}
 	}
 
 
 
-	void Torrents_view::update_row(Gtk::TreeModel::iterator &iter, const Torrent_info& torrent_info, bool force_update, bool zeros_force_update, bool show_zero_values)
+	void Torrents_view::update_row(Gtk::TreeRow& row, const Torrent_info& torrent_info, bool force_update, bool zeros_force_update, bool show_zero_values)
 	{
 		#define set_size_value(id, zero_independent)													\
 		{																								\
@@ -655,8 +677,6 @@
 			}																							\
 		}
 
-
-		Gtk::TreeRow row = *iter;
 
 		// Status icon -->
 		{

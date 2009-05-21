@@ -45,30 +45,41 @@
 		for( \
 			boost::remove_const<BOOST_TYPEOF(container)>::type::iterator iter = (container).begin(), \
 			mlib_end_iter = (container).end(); \
-			iter != mlib_end_iter; iter++ \
+			iter != mlib_end_iter; ++iter \
 		)
 
 	#define M_FOR_CONST_IT(container, iter) \
 		for( \
 			boost::add_const<BOOST_TYPEOF(container)>::type::const_iterator iter = (container).begin(), \
 			mlib_end_iter = (container).end(); \
-			iter != mlib_end_iter; iter++ \
+			iter != mlib_end_iter; ++iter \
 		)
 
 	#define M_FOR_REVERSE_IT(container, iter) \
 		for( \
 			boost::remove_const<BOOST_TYPEOF(container)>::type::reverse_iterator iter = (container).rbegin(), \
 			mlib_end_iter = (container).rend(); \
-			iter != mlib_end_iter; iter++ \
+			iter != mlib_end_iter; ++iter \
 		)
 
 	#define M_FOR_CONST_REVERSE_IT(container, iter) \
 		for( \
 			boost::add_const<BOOST_TYPEOF(container)>::type::const_reverse_iterator iter = (container).rbegin(), \
 			mlib_end_iter = (container).rend(); \
-			iter != mlib_end_iter; iter++ \
+			iter != mlib_end_iter; ++iter \
 		)
 // <--
+
+/// Возвращает тип переменной. Удобен в тех случаях, когда необходимо, к
+/// примеру, получить тип итератора по контейнеру:
+/// std::vector<int> vec;
+/// M_TYPEOF(vec)::iterator vec_iter;
+#define M_TYPEOF(variable) m::Get_type<BOOST_TYPEOF(variable)>::type
+
+/// Возвращает тип итератора для контейнера container.
+/// std::vector<int> vec;
+/// M_ITER_TYPE(vec) vec_iter;
+#define M_ITER_TYPE(container) M_TYPEOF(container)::iterator
 
 /// Необходима только для работы с препроцессором. Там, где номер
 /// версии используется не в условиях препроцессора, лучше использовать
@@ -199,6 +210,15 @@ class Connection
 		/// Пытается захватить байт из read_fd.
 		/// @return - true, если удалось захватить.
 		bool	get(void);
+};
+
+
+
+/// Предназначен для получения типа (метапрограммирование).
+template<class T>
+struct Get_type
+{
+	typedef T type;
 };
 
 

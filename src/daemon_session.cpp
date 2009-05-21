@@ -131,8 +131,15 @@ Daemon_session::Daemon_session(const std::string& config_dir_path)
 	// Настройки libtorrent -->
 	{
 		lt::session_settings lt_settings = this->session->settings();
+
 		lt_settings.user_agent = _C("%1 %2", APP_NAME, APP_VERSION_STRING);
 		lt_settings.ignore_limits_on_local_network = false;
+
+		// Увеличиваем количество пиров, которые клиент запрашивает у трекера.
+		// Если говорить о версии 0.14.3, то libtorrent все равно ограничивает
+		// их количество до 999.
+		lt_settings.num_want = 10000;
+
 		this->session->set_settings(lt_settings);
 	}
 	// Настройки libtorrent <--

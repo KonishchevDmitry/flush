@@ -136,6 +136,7 @@ column_drag_function(Gtk::TreeView* tree_view, Gtk::TreeViewColumn* dragged_colu
 
 
 
+#if 0
 template<class Tree_view_columns, class Model_columns, class Model_type>
 void Tree_view<Tree_view_columns, Model_columns, Model_type>::
 editing_end(void)
@@ -167,6 +168,7 @@ editing_start(void)
 	this->model->get_sort_column_id(this->editing_mode_sort_column_id, this->editing_mode_sort_order);
 	this->model->set_sort_column(Gtk::TreeSortable::DEFAULT_UNSORTED_COLUMN_ID, this->editing_mode_sort_order);
 }
+#endif
 
 
 

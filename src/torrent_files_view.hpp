@@ -205,7 +205,7 @@
 			/// Обновляет информацию о текущем состоянии файлов торрента в
 			/// директории, представленной списком rows, и возвращает текущую
 			/// информацию об обработанной только что директории.
-			Directory_status	update_rows(const Gtk::TreeNodeChildren& rows, const std::vector<Torrent_file_status>& statuses);
+			Directory_status	update_rows(const Gtk::TreeNodeChildren& iters, const std::vector<Torrent_file_status>& statuses);
 	};
 
 

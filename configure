@@ -6928,11 +6928,11 @@ _ACEOF
 	if test "X$debug_mode" = "Xyes"
 	then
 		cat >>confdefs.h <<\_ACEOF
-#define DEBUG_MODE 1
+#define MLIB_DEBUG_MODE 1
 _ACEOF
 
 		cat >>confdefs.h <<\_ACEOF
-#define MLIB_DEBUG_MODE 1
+#define DEBUG_MODE 1
 _ACEOF
 
 	fi
