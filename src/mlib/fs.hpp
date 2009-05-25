@@ -368,6 +368,9 @@
 		/// Удаляет файл или дерево каталогов, если они существуют.
 		void			rm_if_exists(const std::string& path) throw(m::Exception);
 
+		/// Удаляет расширение из имени файла.
+		Glib::ustring	strip_extension(const Glib::ustring& file_name);
+
 		/// Аналог системного fstat.
 		Stat			unix_fstat(int fd) throw(m::Sys_exception);
 
@@ -384,7 +387,7 @@
 		int				unix_open(const std::string& path, int flags, mode_t mode = 0) throw(m::Sys_exception);
 
 		/// Аналог системного read.
-		ssize_t			unix_read(int fd, void* buf, size_t size) throw(m::Sys_exception);
+		ssize_t			unix_read(int fd, void* buf, size_t size, bool non_block = false) throw(m::Sys_exception);
 
 		/// Аналог системного readlink.
 		std::string		unix_readlink(const std::string& path) throw(m::Sys_exception);
@@ -406,6 +409,9 @@
 
 		/// Аналог системного utime.
 		void			unix_utime(const std::string& path, const Stat& file_stat);
+
+		/// Аналог системного write.
+		ssize_t			unix_write(int fd, void* buf, size_t size, bool non_block = false) throw(m::Sys_exception);
 	}
 	}
 

@@ -733,7 +733,7 @@ namespace fs
 
 	std::wostream& operator<<(std::wostream& stream, const Path& path)
 	{
-		return stream << path.string();
+		return stream << Glib::ustring(path.string());
 	}
 // Path <--
 
@@ -1104,6 +1104,18 @@ void rm_if_exists(const std::string& path) throw(m::Exception)
 
 
 
+Glib::ustring strip_extension(const Glib::ustring& file_name)
+{
+	size_t pos = file_name.rfind('.');
+
+	if(pos == file_name.npos)
+		return file_name;
+	else
+		return file_name.substr(0, pos);
+}
+
+
+
 Stat unix_fstat(int fd) throw(m::Sys_exception)
 {
 	struct stat stat_buf;
@@ -1183,7 +1195,7 @@ std::string unix_readlink(const std::string& path) throw(m::Sys_exception)
 
 
 
-ssize_t unix_read(int fd, void* buf, size_t size) throw(m::Sys_exception)
+ssize_t unix_read(int fd, void* buf, size_t size, bool non_block) throw(m::Sys_exception)
 {
 	ssize_t readed_bytes;
 
@@ -1191,7 +1203,9 @@ ssize_t unix_read(int fd, void* buf, size_t size) throw(m::Sys_exception)
 	{
 		if( (readed_bytes = read(fd, buf, size)) < 0 )
 		{
-			if(errno == EINTR)
+			if(errno == EWOULDBLOCK && non_block)
+				return 0;
+			else if(errno == EINTR)
 				continue;
 			else
 				M_THROW_SYS(errno);
@@ -1255,6 +1269,28 @@ void unix_utime(const std::string& path, const Stat& file_stat)
 
 	if(utime(U2L(path).c_str(), &time_buf))
 		M_THROW_SYS(errno);
+}
+
+
+
+ssize_t unix_write(int fd, void* buf, size_t size, bool non_block) throw(m::Sys_exception)
+{
+	ssize_t written_bytes;
+
+	while(1)
+	{
+		if( (written_bytes = write(fd, buf, size)) < 0 )
+		{
+			if(errno == EWOULDBLOCK && non_block)
+				return 0;
+			else if(errno == EINTR)
+				continue;
+			else
+				M_THROW_SYS(errno);
+		}
+		else
+			return written_bytes;
+	}
 }
 
 }

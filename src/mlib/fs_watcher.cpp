@@ -212,93 +212,95 @@ std::string Fs_watcher::Implementation::get_watching_directory(void)
 
 
 
-void Fs_watcher::Implementation::process_event(const inotify_event* event, const std::string& watching_directory, const std::string& event_file_name)
-{
-	bool interesting = false;
-	std::string file_name = event_file_name;
+#ifdef MLIB_ENABLE_INOTIFY
+	void Fs_watcher::Implementation::process_event(const inotify_event* event, const std::string& watching_directory, const std::string& event_file_name)
+	{
+		bool interesting = false;
+		std::string file_name = event_file_name;
 
-	// Определяем, интересует ли нас это событие -->
-		// В директории был создан файл
-		if( event->mask & IN_CREATE )
-		{
-			MLIB_A(file_name != "");
-
-			MLIB_D(_C(
-				"Gotten inotify event: File '%1' in directory '%2' has been created.",
-				file_name, watching_directory
-			));
-
-			try
+		// Определяем, интересует ли нас это событие -->
+			// В директории был создан файл
+			if( event->mask & IN_CREATE )
 			{
-				m::fs::Stat file_stat;
-				file_stat = unix_lstat(m::fs::Path(watching_directory) / file_name);
+				MLIB_A(file_name != "");
 
-				// На только что созданные файлы не
-				// обращаем внимания - ждем, пока в них
-				// запишут все данные и закроют. Исключение
-				// делаем только для тех объектов, которые
-				// создаются мгновенно.
-				if(!file_stat.is_reg() || file_stat.nlink > 1)
-					interesting = true;
+				MLIB_D(_C(
+					"Gotten inotify event: File '%1' in directory '%2' has been created.",
+					file_name, watching_directory
+				));
+
+				try
+				{
+					m::fs::Stat file_stat;
+					file_stat = unix_lstat(m::fs::Path(watching_directory) / file_name);
+
+					// На только что созданные файлы не
+					// обращаем внимания - ждем, пока в них
+					// запишут все данные и закроют. Исключение
+					// делаем только для тех объектов, которые
+					// создаются мгновенно.
+					if(!file_stat.is_reg() || file_stat.nlink > 1)
+						interesting = true;
+				}
+				catch(m::Exception& e)
+				{
+					MLIB_D(_C(
+						"Can't stat new file '%1' in directory '%2': %3.",
+						file_name, watching_directory, EE(e)
+					));
+				}
 			}
-			catch(m::Exception& e)
+			// В директорию был перемещен файл или файл, открытый на запись, был
+			// закрыт.
+			else if( event->mask & (IN_CLOSE_WRITE | IN_MOVED_TO) )
+			{
+				MLIB_A(file_name != "");
+
+				MLIB_D(_C(
+					"Gotten inotify event: File '%1' in directory '%2' has been gotten.",
+					file_name, watching_directory
+				));
+
+				interesting = true;
+			}
+			// Сама директория была перемещена
+			else if( event->mask & (IN_MOVE_SELF | IN_DELETE_SELF) )
 			{
 				MLIB_D(_C(
-					"Can't stat new file '%1' in directory '%2': %3.",
-					file_name, watching_directory, EE(e)
+					"Gotten inotify event: Directory '%1' has been deleted or moved.",
+					watching_directory
 				));
+
+				interesting = true;
+				file_name = "";
 			}
-		}
-		// В директорию был перемещен файл или файл, открытый на запись, был
-		// закрыт.
-		else if( event->mask & (IN_CLOSE_WRITE | IN_MOVED_TO) )
+		// Определяем, интересует ли нас это событие <--
+
+		if(interesting)
 		{
-			MLIB_A(file_name != "");
-
-			MLIB_D(_C(
-				"Gotten inotify event: File '%1' in directory '%2' has been gotten.",
-				file_name, watching_directory
-			));
-
-			interesting = true;
-		}
-		// Сама директория была перемещена
-		else if( event->mask & (IN_MOVE_SELF | IN_DELETE_SELF) )
-		{
-			MLIB_D(_C(
-				"Gotten inotify event: Directory '%1' has been deleted or moved.",
-				watching_directory
-			));
-
-			interesting = true;
-			file_name = "";
-		}
-	// Определяем, интересует ли нас это событие <--
-
-	if(interesting)
-	{
-		// Помещаем файл в очередь -->
-		{
-			boost::mutex::scoped_lock lock(this->mutex);
-
-			if(file_name == "")
-				this->new_files.push("");
-			else
+			// Помещаем файл в очередь -->
 			{
-				this->new_files.push(
-					Path(watching_directory) / file_name
-				);
-			}
-		}
-		// Помещаем файл в очередь <--
+				boost::mutex::scoped_lock lock(this->mutex);
 
-		// Оповещаем всех интересующихся о появлении нового
-		// события.
-		this->new_file_signal();
+				if(file_name == "")
+					this->new_files.push("");
+				else
+				{
+					this->new_files.push(
+						Path(watching_directory) / file_name
+					);
+				}
+			}
+			// Помещаем файл в очередь <--
+
+			// Оповещаем всех интересующихся о появлении нового
+			// события.
+			this->new_file_signal();
+		}
+		else
+			MLIB_D("This event is not interesting for us.");
 	}
-	else
-		MLIB_D("This event is not interesting for us.");
-}
+#endif
 
 
 

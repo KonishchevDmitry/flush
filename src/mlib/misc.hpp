@@ -22,8 +22,10 @@
 #define HEADER_MLIB_MISC
 
 #include <semaphore.h>
+#include <unistd.h>
 
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <boost/type_traits/add_const.hpp>
@@ -205,11 +207,45 @@ class Connection
 		/// == true функция возвратит false только тогда, когда в this->read_fd
 		/// что-то есть, а в fd нет ничего.
 		bool	wait_for_with_owning(int fd, bool prioritize_fd = false);
-	
+
 	private:
 		/// Пытается захватить байт из read_fd.
 		/// @return - true, если удалось захватить.
 		bool	get(void);
+};
+
+
+
+/// Предназначен для автоматического закрытия файловых дескрипторов.
+class File_holder: public boost::noncopyable
+{
+	public:
+		inline
+		File_holder(void);
+
+		inline
+		File_holder(int fd);
+
+		inline
+		~File_holder(void);
+
+
+	private:
+		int	fd;
+
+
+	public:
+		inline
+		void	close(void);
+
+		inline
+		int		get(void) const;
+
+		inline
+		void	reset(void);
+
+		inline
+		void	set(int fd);
 };
 
 
@@ -242,55 +278,70 @@ class Semaphore: public boost::noncopyable
 
 
 
+/// Закрывает все файловые дескрипторы, оставляя только stdin, stdout и stderr.
+void				close_all_fds(void) throw(m::Exception);
+
 /// Возвращает строку копирайта.
 /// @param start_year - год, в котором была написана программа.
-std::string	get_copyright_string(const std::string& author, const int start_year);
+std::string			get_copyright_string(const std::string& author, const int start_year);
 
 /// Возвращает строку-префикс для сообщений, которые пишутся в лог.
-std::string	get_log_debug_prefix(const char* file, int line);
+std::string			get_log_debug_prefix(const char* file, int line);
 
 /// Возвращает major версию.
 inline
-int			get_major_version(Version version);
+int					get_major_version(Version version);
 
 /// Возвращает версию, включающую в себя major и minor версии,
 /// т. е., иными словами, это та же version, но с обнуленной
 /// sub-minor версией.
 inline
-Version		get_major_minor_version(Version version);
+Version				get_major_minor_version(Version version);
 
 /// Возвращает minor версию.
 inline
-int			get_minor_version(Version version);
+int					get_minor_version(Version version);
 
 /// Возвращает sub-minor версию.
 inline
-int			get_sub_minor_version(Version version);
+int					get_sub_minor_version(Version version);
 
 /// Создает числовое представление версии.
 inline
-Version		get_version(int major, int minor, int sub_minor);
+Version				get_version(int major, int minor, int sub_minor);
 
 /// Проверяет, является ли версия правильно сформированной.
 inline
-bool		is_valid_version(Version version);
+bool				is_valid_version(Version version);
 
 /// Аналогична страндартному realloc, но в случае неудачной
 /// попытки выделения памяти вызывает m::error.
-void*		realloc(void *ptr, const size_t size);
+void*				realloc(void *ptr, const size_t size);
 
 /// Запускает приложение.
 /// Внимание! Прежде чем вызывать данную функцию приложение должно позаботиться
 /// о том, чтобы процесс не создавал процессов-зомби.
-void		run(const std::string& cmd_name, const std::vector<std::string>& args) throw(m::Exception);
+void				run(const std::string& cmd_name, const std::vector<std::string>& args) throw(m::Exception);
 
 /// Обертка над setenv.
-void		setenv(const std::string& name, const std::string& value, bool overwrite) throw(m::Exception);
+void				setenv(const std::string& name, const std::string& value, bool overwrite) throw(m::Exception);
 
 /// Преобразовывает время в структуре tm в реальное время
 /// (они различаются по годам).
 inline
-void		tm_to_real_time(struct tm* date);
+void				tm_to_real_time(struct tm* date);
+
+/// Аналог системного dup().
+void				unix_dup(int oldfd, int newfd) throw(m::Exception);
+
+/// Аналог системного unix_execvp;
+void				unix_execvp(const std::string& command, const std::vector<std::string>& args) throw(m::Sys_exception);
+
+/// Аналог системного fork().
+pid_t				unix_fork(void) throw(m::Exception);
+
+/// Аналог системного pipe().
+std::pair<int, int>	unix_pipe(void) throw(m::Exception);
 
 }
 

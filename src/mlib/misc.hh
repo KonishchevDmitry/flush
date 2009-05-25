@@ -28,6 +28,61 @@ size_t Buffer::get_size(void) const
 
 
 
+// File_holder -->
+	File_holder::File_holder(void)
+	:
+		fd(-1)
+	{
+	}
+
+
+
+	File_holder::File_holder(int fd)
+	:
+		fd(fd)
+	{
+	}
+
+
+
+	File_holder::~File_holder(void)
+	{
+		this->close();
+	}
+
+
+
+	void File_holder::close(void)
+	{
+		if(this->fd >= 0)
+			::close(fd);
+	}
+
+
+
+	int File_holder::get(void) const
+	{
+		return this->fd;
+	}
+
+
+
+	void File_holder::reset(void)
+	{
+		this->fd = -1;
+	}
+
+
+
+	void File_holder::set(int fd)
+	{
+		this->close();
+		this->fd = fd;
+	}
+// File_holder <--
+
+
+
 int get_major_version(Version version)
 {
 	return int(version / 1000000);

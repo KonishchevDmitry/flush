@@ -108,6 +108,9 @@
 		/// Size, а скорость - 1 байт/сек.
 		typedef long long	Time;
 
+		/// Время в милисекундах.
+		typedef long long	Time_ms;
+
 		// Числовое представление версии приложения/библиотеки.
 		// К примеру версия 1.12.4 должна записываться следующим
 		// образом: 1012004.
@@ -136,6 +139,7 @@
 		using m::Size_float;
 		using m::Speed;
 		using m::Time;
+		using m::Time_ms;
 		using m::Version;
 	#endif
 

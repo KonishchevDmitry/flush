@@ -1601,6 +1601,9 @@ namespace
 		}
 		catch(std::ofstream::failure& e)
 		{
+			// Чтобы деструктор не сгенерировал исключение.
+			resume_data_file.exceptions(std::ofstream::goodbit);
+
 			M_THROW(__("Can't write torrent resume data to file '%1': %2.", real_resume_data_path, EE(errno)));
 		}
 

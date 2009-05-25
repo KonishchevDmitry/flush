@@ -185,7 +185,14 @@ std::string _(const char* string)
 
 Glib::ustring __(const char* fmt)
 {
-	return Glib::ustring::compose(_(fmt) + "%1", correct_glib_format_value(""));
+	try
+	{
+		return Glib::ustring::compose(_(fmt) + "%1", correct_glib_format_value(""));
+	}
+	catch(Glib::ConvertError&)
+	{
+		return _("[[Invalid encoding]]");
+	}
 }
 
 
@@ -193,7 +200,14 @@ Glib::ustring __(const char* fmt)
 template<class T1>
 Glib::ustring __(const char* fmt, const T1& a1)
 {
-	return Glib::ustring::compose(_(fmt), correct_glib_format_value(a1));
+	try
+	{
+		return Glib::ustring::compose(_(fmt), correct_glib_format_value(a1));
+	}
+	catch(Glib::ConvertError&)
+	{
+		return _("[[Invalid encoding]]");
+	}
 }
 
 
@@ -201,7 +215,14 @@ Glib::ustring __(const char* fmt, const T1& a1)
 template<class T1, class T2>
 Glib::ustring __(const char* fmt, const T1& a1, const T2& a2)
 {
-	return Glib::ustring::compose(_(fmt), correct_glib_format_value(a1), correct_glib_format_value(a2));
+	try
+	{
+		return Glib::ustring::compose(_(fmt), correct_glib_format_value(a1), correct_glib_format_value(a2));
+	}
+	catch(Glib::ConvertError&)
+	{
+		return _("[[Invalid encoding]]");
+	}
 }
 
 
@@ -209,14 +230,28 @@ Glib::ustring __(const char* fmt, const T1& a1, const T2& a2)
 template<class T1, class T2, class T3>
 Glib::ustring __(const char* fmt, const T1& a1, const T2& a2, const T3& a3)
 {
-	return Glib::ustring::compose(_(fmt), correct_glib_format_value(a1), correct_glib_format_value(a2), correct_glib_format_value(a3));
+	try
+	{
+		return Glib::ustring::compose(_(fmt), correct_glib_format_value(a1), correct_glib_format_value(a2), correct_glib_format_value(a3));
+	}
+	catch(Glib::ConvertError&)
+	{
+		return _("[[Invalid encoding]]");
+	}
 }
 
 
 
 Glib::ustring __Q(const char* fmt)
 {
-	return Glib::ustring::compose(_Q(fmt) + "%1", correct_glib_format_value(""));
+	try
+	{
+		return Glib::ustring::compose(_Q(fmt) + "%1", correct_glib_format_value(""));
+	}
+	catch(Glib::ConvertError&)
+	{
+		return _("[[Invalid encoding]]");
+	}
 }
 
 
@@ -224,7 +259,14 @@ Glib::ustring __Q(const char* fmt)
 template<class T1>
 Glib::ustring __Q(const char* fmt, const T1& a1)
 {
-	return Glib::ustring::compose(_Q(fmt), correct_glib_format_value(a1));
+	try
+	{
+		return Glib::ustring::compose(_Q(fmt), correct_glib_format_value(a1));
+	}
+	catch(Glib::ConvertError&)
+	{
+		return _("[[Invalid encoding]]");
+	}
 }
 
 
@@ -232,7 +274,14 @@ Glib::ustring __Q(const char* fmt, const T1& a1)
 template<class T1, class T2>
 Glib::ustring __Q(const char* fmt, const T1& a1, const T2& a2)
 {
-	return Glib::ustring::compose(_Q(fmt), correct_glib_format_value(a1), correct_glib_format_value(a2));
+	try
+	{
+		return Glib::ustring::compose(_Q(fmt), correct_glib_format_value(a1), correct_glib_format_value(a2));
+	}
+	catch(Glib::ConvertError&)
+	{
+		return _("[[Invalid encoding]]");
+	}
 }
 
 
@@ -240,7 +289,14 @@ Glib::ustring __Q(const char* fmt, const T1& a1, const T2& a2)
 template<class T1, class T2, class T3>
 Glib::ustring __Q(const char* fmt, const T1& a1, const T2& a2, const T3& a3)
 {
-	return Glib::ustring::compose(_Q(fmt), correct_glib_format_value(a1), correct_glib_format_value(a2), correct_glib_format_value(a3));
+	try
+	{
+		return Glib::ustring::compose(_Q(fmt), correct_glib_format_value(a1), correct_glib_format_value(a2), correct_glib_format_value(a3));
+	}
+	catch(Glib::ConvertError&)
+	{
+		return _("[[Invalid encoding]]");
+	}
 }
 
 
@@ -248,7 +304,14 @@ Glib::ustring __Q(const char* fmt, const T1& a1, const T2& a2, const T3& a3)
 template<class T1>
 Glib::ustring _C(const char* fmt, const T1& a1)
 {
-	return Glib::ustring::compose(fmt, correct_glib_format_value(a1));
+	try
+	{
+		return Glib::ustring::compose(fmt, correct_glib_format_value(a1));
+	}
+	catch(Glib::ConvertError&)
+	{
+		return _("[[Invalid encoding]]");
+	}
 }
 
 
@@ -256,7 +319,14 @@ Glib::ustring _C(const char* fmt, const T1& a1)
 template<class T1, class T2>
 Glib::ustring _C(const char* fmt, const T1& a1, const T2& a2)
 {
-	return Glib::ustring::compose(fmt, correct_glib_format_value(a1), correct_glib_format_value(a2));
+	try
+	{
+		return Glib::ustring::compose(fmt, correct_glib_format_value(a1), correct_glib_format_value(a2));
+	}
+	catch(Glib::ConvertError&)
+	{
+		return _("[[Invalid encoding]]");
+	}
 }
 
 
@@ -264,7 +334,14 @@ Glib::ustring _C(const char* fmt, const T1& a1, const T2& a2)
 template<class T1, class T2, class T3>
 Glib::ustring _C(const char* fmt, const T1& a1, const T2& a2, const T3& a3)
 {
-	return Glib::ustring::compose(fmt, correct_glib_format_value(a1), correct_glib_format_value(a2), correct_glib_format_value(a3));
+	try
+	{
+		return Glib::ustring::compose(fmt, correct_glib_format_value(a1), correct_glib_format_value(a2), correct_glib_format_value(a3));
+	}
+	catch(Glib::ConvertError&)
+	{
+		return _("[[Invalid encoding]]");
+	}
 }
 
 
@@ -272,7 +349,14 @@ Glib::ustring _C(const char* fmt, const T1& a1, const T2& a2, const T3& a3)
 template<class T1>
 Glib::ustring _F(const T1& a1)
 {
-	return Glib::ustring::format(correct_glib_format_value(a1));
+	try
+	{
+		return Glib::ustring::format(correct_glib_format_value(a1));
+	}
+	catch(Glib::ConvertError&)
+	{
+		return _("[[Invalid encoding]]");
+	}
 }
 
 
@@ -280,7 +364,14 @@ Glib::ustring _F(const T1& a1)
 template<class T1, class T2>
 Glib::ustring _F(const T1& a1, const T2& a2)
 {
-	return Glib::ustring::format(correct_glib_format_value(a1), correct_glib_format_value(a2));
+	try
+	{
+		return Glib::ustring::format(correct_glib_format_value(a1), correct_glib_format_value(a2));
+	}
+	catch(Glib::ConvertError&)
+	{
+		return _("[[Invalid encoding]]");
+	}
 }
 
 
@@ -288,7 +379,14 @@ Glib::ustring _F(const T1& a1, const T2& a2)
 template<class T1, class T2, class T3>
 Glib::ustring _F(const T1& a1, const T2& a2, const T3& a3)
 {
-	return Glib::ustring::format(correct_glib_format_value(a1), correct_glib_format_value(a2), correct_glib_format_value(a3));
+	try
+	{
+		return Glib::ustring::format(correct_glib_format_value(a1), correct_glib_format_value(a2), correct_glib_format_value(a3));
+	}
+	catch(Glib::ConvertError&)
+	{
+		return _("[[Invalid encoding]]");
+	}
 }
 
 

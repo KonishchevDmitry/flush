@@ -35,6 +35,8 @@
 #include <algorithm>
 #include <fstream>
 
+#include <boost/scoped_array.hpp>
+
 #include "messages.hpp"
 #include "misc.hpp"
 #include "string.hpp"
@@ -455,6 +457,19 @@ namespace
 
 
 
+void close_all_fds(void) throw(m::Exception)
+{
+	struct rlimit limits;
+
+	if(getrlimit(RLIMIT_OFILE, &limits))
+		M_THROW(__("Can't get max opened files limit: %1.", EE(errno)));
+
+	for(int fd = STDERR_FILENO + 1; fd < limits.rlim_max; fd++)
+		close(fd);
+}
+
+
+
 std::string get_copyright_string(const std::string& author, const int start_year)
 {
 	time_t current_time = time(NULL);
@@ -494,25 +509,15 @@ void* realloc(void *ptr, const size_t size)
 
 void run(const std::string& cmd_name, const std::vector<std::string>& args) throw(m::Exception)
 {
-	switch(fork())
+	if(!m::unix_fork())
 	{
 		// Дочерний процесс
-		case 0:
+
+		try
 		{
-			// Закрываем все открытые файловые дескрипторы -->
-			{
-				struct rlimit limits;
-
-				if(getrlimit(RLIMIT_OFILE, &limits) < 0)
-				{
-					MLIB_SW(__("Running command '%1' failed. Can't get max opened file descriptors limit: %2.", cmd_name, EE(errno)));
-					_exit(1);
-				}
-
-				for(int fd = STDERR_FILENO + 1; fd < static_cast<int>(limits.rlim_max); fd++)
-					close(fd);
-			}
-			// Закрываем все открытые файловые дескрипторы <--
+			// Закрываем все открытые файловые дескрипторы
+			// Генерирует m::Exception.
+			m::close_all_fds();
 
 			char** argv;
 			std::vector<std::string> argv_vector;
@@ -535,20 +540,15 @@ void run(const std::string& cmd_name, const std::vector<std::string>& args) thro
 			// Формируем массив аргументов <--
 
 			if(execvp(U2L(cmd_name).c_str(), argv) < 0)
-				MLIB_SW(__("Running command '%1' failed: %2.", cmd_name, EE(errno)));
-
+				M_THROW(EE(errno));
+		}
+		catch(m::Exception& e)
+		{
+			MLIB_SW(__("Running command '%1' failed: %2.", cmd_name, EE(e)));
 			_exit(1);
 		}
-		break;
 
-		// Ошибка
-		case -1:
-			M_THROW(__("Can't fork process: %1.", EE(errno)));
-			break;
-		
-		// Процесс успешно сдублирован
-		default:
-			break;
+		MLIB_LE();
 	}
 }
 
@@ -558,6 +558,64 @@ void setenv(const std::string& name, const std::string& value, bool overwrite) t
 {
 	if(::setenv(U2L(name).c_str(), U2L(value).c_str(), overwrite))
 		M_THROW(EE(errno));
+}
+
+
+
+void unix_dup(int oldfd, int newfd) throw(m::Exception)
+{
+	if(dup2(oldfd, newfd) == -1)
+		M_THROW(__("Can't duplicate a file descriptor: %1.", EE(errno)));
+}
+
+
+
+void unix_execvp(const std::string& command, const std::vector<std::string>& args) throw(m::Sys_exception)
+{
+	std::vector<std::string> argv_strings;
+	argv_strings.reserve(args.size() + 1);
+
+	argv_strings.push_back(U2L(command));
+	M_FOR_CONST_IT(args, it)
+		argv_strings.push_back(U2L(*it));
+
+	boost::scoped_array<char*> argv(new char*[argv_strings.size() + 1]);
+
+	{
+		char** arg = argv.get();
+
+		M_FOR_CONST_IT(argv_strings, it)
+			*arg++ = const_cast<char*>(it->c_str());
+
+		*arg = NULL;
+	}
+
+	if(execvp(U2L(command).c_str(), argv.get()) < 0)
+		M_THROW_SYS(errno);
+}
+
+
+
+pid_t unix_fork(void) throw(m::Exception)
+{
+	pid_t pid = fork();
+
+	if(pid == -1)
+		M_THROW(__("Can't fork the process: %1.", EE(errno)));
+	else
+		return pid;
+}
+
+
+
+std::pair<int, int> unix_pipe(void) throw(m::Exception)
+{
+	int fds[2];
+
+	if(pipe(fds) == -1)
+		M_THROW(__("Can't create a pipe: %1.", EE(errno)));
+	else
+		return std::pair<int, int>(fds[0], fds[1]);
 }
 
 }
