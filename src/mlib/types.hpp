@@ -15,6 +15,7 @@
 
 			namespace libconfig
 			{
+				class Config;
 				class Setting;
 			}
 

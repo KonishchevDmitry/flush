@@ -798,6 +798,7 @@
 		bool start,
 		const std::string& download_path,
 		const std::string& copy_on_finished_path,
+		const std::string& encoding,
 		const std::vector<Torrent_file_settings> files_settings,
 		bool duplicate_is_error
 	)
@@ -805,6 +806,7 @@
 		start(start),
 		download_path(download_path),
 		copy_on_finished_path(copy_on_finished_path),
+		encoding(encoding),
 		files_settings(files_settings),
 		duplicate_is_error(duplicate_is_error)
 	{
@@ -817,6 +819,7 @@
 		bool start,
 		const std::string& download_path,
 		const std::string& copy_on_finished_path,
+		const std::string& encoding,
 		const std::vector<Torrent_file_settings> files_settings,
 		bool duplicate_is_error
 	)
@@ -825,6 +828,7 @@
 		start(start),
 		download_path(download_path),
 		copy_on_finished_path(copy_on_finished_path),
+		encoding(encoding),
 		files_settings(files_settings),
 		duplicate_is_error(duplicate_is_error)
 	{

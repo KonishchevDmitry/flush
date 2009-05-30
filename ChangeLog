@@ -1,3 +1,7 @@
+0.6 ()
+[+] Ability to choose torrent file's character set encoding in torrent open dialog.
+
+
 0.5.1 (2009.05.25)
 [+] Increased maximum peers number, which Flush request from tracker to
 libtorrent maximum value.

@@ -42,7 +42,8 @@
 	class Add_torrent_dialog: public m::gtk::Window
 	{
 		public:
-			Add_torrent_dialog(Gtk::Window& parent_window, const std::string& torrent_path) throw(m::Exception);
+			Add_torrent_dialog(Gtk::Window& parent_window, const std::string& torrent_path, const std::string& torrent_encoding) throw(m::Exception);
+			~Add_torrent_dialog(void) {}
 
 
 		private:
@@ -58,6 +59,7 @@
 
 			std::string					torrent_path;
 			lt::torrent_info			torrent_info;
+			std::string					torrent_encoding;
 			Torrent_files_static_view	torrent_files_view;
 
 

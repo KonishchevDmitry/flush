@@ -244,6 +244,7 @@
 				bool paused,
 				const std::string& download_path,
 				const Download_settings& download_settings,
+				const std::string& encoding,
 				const std::vector<Torrent_file_settings>& files_settings,
 				const std::vector<std::string>& trackers
 			);
@@ -273,6 +274,9 @@
 
 			/// Параметры скачивания торрента.
 			Download_settings					download_settings;
+
+			/// Кодировка *.torrent файла.
+			std::string							encoding;
 
 			/// Настройки файлов торрента.
 			std::vector<Torrent_file_settings>	files_settings;
@@ -314,24 +318,33 @@
 
 
 		public:
+			/// Считывает кодировку *.torrent файла из конфигурационного файла.
+			static
+			std::string	get_encoding_from_config(const std::string& settings_dir_path);
+
 			/// Читает все необходимые настройки.
-			void read(const std::string& settings_dir_path) throw(m::Exception);
+			void		read(const std::string& settings_dir_path) throw(m::Exception);
 
 			/// Записывает все необходимые настройки.
-			void write(const std::string& settings_dir_path) const throw(m::Exception);
+			void		write(const std::string& settings_dir_path) const throw(m::Exception);
 
 		private:
 			/// Читает настройки из конфигурационного файла торрента.
-			void read_config(const std::string& config_path) throw(m::Exception);
+			void	read_config(const std::string& config_path) throw(m::Exception);
+
+			/// Считывает конфигурационный файл, возвращая описывающую его
+			/// структуру.
+			static
+			void	read_config_data(libconfig::Config* config, const std::string& config_path) throw(m::Exception);
 
 			/// Читает resume data торрента.
-			void read_resume_data(std::string resume_data_path) throw(m::Exception);
+			void	read_resume_data(std::string resume_data_path) throw(m::Exception);
 
 			/// Записывает настройки в конфигурационный файл торрента.
-			void write_config(const std::string& config_path) const throw(m::Exception);
+			void	write_config(const std::string& config_path) const throw(m::Exception);
 
 			/// Записывает resume data торрента.
-			void write_resume_data(const std::string& resume_data_path) const throw(m::Exception);
+			void	write_resume_data(const std::string& resume_data_path) const throw(m::Exception);
 	};
 
 #endif

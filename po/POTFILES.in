@@ -87,6 +87,8 @@ src/main.hh
 src/main.hpp
 src/main_window.cpp
 src/main_window.hpp
+src/open_torrent_dialog.cpp
+src/open_torrent_dialog.hpp
 src/ip_filter.cpp
 src/ip_filter.hpp
 src/settings_window.cpp

@@ -56,7 +56,7 @@
 
 			/// Производит все необходимые в зависимости от настроек действия
 			/// по открытию торрента.
-			void	open_torrent(const std::string& torrent_path);
+			void	open_torrent(const std::string& torrent_path, const std::string& torrent_encoding = MLIB_UTF_CHARSET_NAME);
 
 			/// Cохраняет текущие настройки клиента.
 			void	save_settings(void);
@@ -85,9 +85,6 @@
 
 			/// Обработчик сигнала на открытие торрент файла.
 			void	on_open_callback(void);
-
-			/// Обработчик сигнала на закрытие окна для выбора торрент файла.
-			void	on_open_response_callback(int response_id, Gtk::FileChooserDialog* dialog);
 
 			/// При выборе пункта меню "Приостановить все торренты".
 			void	on_pause_torrents_callback(Torrents_group group);

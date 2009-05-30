@@ -101,9 +101,9 @@ std::vector<Torrent_file> get_torrent_files(const lt::torrent_info& torrent_info
 
 
 
-std::vector<Torrent_file> get_torrent_files(const std::string& torrent_path) throw(m::Exception)
+std::vector<Torrent_file> get_torrent_files(const std::string& torrent_path, const std::string& encoding) throw(m::Exception)
 {
-	return get_torrent_files(get_torrent_info(torrent_path));
+	return get_torrent_files(get_torrent_info(torrent_path, encoding));
 }
 
 
@@ -124,53 +124,191 @@ std::vector<std::string> get_torrent_files_paths(const libtorrent::torrent_info&
 
 
 
-libtorrent::torrent_info get_torrent_info(const m::Buffer& torrent_data) throw(m::Exception)
+libtorrent::torrent_info get_torrent_info(const m::Buffer& torrent_data, const std::string& encoding) throw(m::Exception)
 {
 	try
 	{
-	#if M_LT_GET_MAJOR_MINOR_VERSION() < M_GET_VERSION(0, 14, 0)
-		lt::entry torrent_entry;
-	#else
 		lt::lazy_entry torrent_entry;
-	#endif
-
-	#if M_LT_GET_MAJOR_MINOR_VERSION() < M_GET_VERSION(0, 14, 0)
-		torrent_entry = lt::bdecode(torrent_data.get_data(), torrent_data.get_cur_ptr());
-	#else
-		 lt::lazy_bdecode(torrent_data.get_data(), torrent_data.get_cur_ptr(), torrent_entry);
-	#endif
-
+		lt::lazy_bdecode(torrent_data.get_data(), torrent_data.get_cur_ptr(), torrent_entry);
 		lt::torrent_info torrent_info(torrent_entry);
 
-		// libtorrent не поддерживает не-UTF-8 локали, поэтому приходится
-		// делать за него всю работу самим.
-		//
-		// В libtorrent::torrent_info libtorrent записывает файлы в кодировке
-		// UTF-8. Мы же перегоняем их в ту кодировку, в которой они должны быть
-		// на самом деле.
-		// -->
+		// В libtorrent::torrent_info libtorrent записывает строки в той
+		// кодировке, в которой они присутствуют в *.torrent файле, при этом
+		// "ломая" исходную кодировку функцией проверки на UTF-8-валидность.
+		// Нам же необходимо, чтобы все интересующие нас строки были в UTF-8.
+
+		// Торрент записан не в UTF-8 кодировке
+		if(encoding != MLIB_UTF_CHARSET_NAME)
 		{
-			#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
-				lt::file_storage& storage = torrent_info.files();
-			#endif
+			class Invalid_torrent_file {};
 
-			lt::torrent_info::file_iterator it = torrent_info.begin_files();
-			lt::torrent_info::file_iterator end_it = torrent_info.end_files();
-
-			for(int i = 0; it != end_it; it++, i++)
+			try
 			{
-				// Лучше не делать лишних переименований - в какой-то версии
-				// libtorrent эти пути не проверялись на соответствие.
-				if(it->path.string() != U2LT(it->path.string()))
-				#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
-					storage.rename_file(i, U2LT(it->path.string()));
-				#else
-					torrent_info.rename_file(i, U2LT(it->path.string()));
-				#endif
+				std::string torrent_name;
+				const lazy_entry* info_entry;
+
+				// Инфо-секция -->
+					if(torrent_entry.type() != lt::lazy_entry::dict_t)
+						throw Invalid_torrent_file();
+
+					if( !(info_entry = torrent_entry.dict_find_dict("info")) )
+						throw Invalid_torrent_file();
+				// Инфо-секция <--
+
+				// Имя -->
+				{
+					const lazy_entry* name_entry;
+				
+					if( (name_entry = info_entry->dict_find_string("name.utf-8")) )
+						torrent_name = m::validate_utf(name_entry->string_value());
+					else if( (name_entry = info_entry->dict_find_string("name")) )
+						torrent_name = m::convert(name_entry->string_value(), MLIB_UTF_CHARSET_NAME, encoding);
+					else
+						throw Invalid_torrent_file();
+
+					if(torrent_name.empty())
+						throw Invalid_torrent_file();
+
+					torrent_info.files().set_name(torrent_name);
+				}
+				// Имя <--
+
+				// Файлы -->
+				{
+					const std::string lt_files_encoding = m::get_libtorrent_files_charset();
+
+					#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
+						lt::file_storage& storage = torrent_info.files();
+					#else
+						const lt::file_storage& storage = torrent_info.files();
+					#endif
+
+					bool utf = false;
+					const lazy_entry* files_entry;
+
+					if(
+						( (files_entry = info_entry->dict_find_list("files.utf-8")) && (utf = true) ) ||
+						( (files_entry = info_entry->dict_find_list("files")) )
+					)
+					{
+						std::string files_prefix = "/" + torrent_name;
+
+						if(storage.num_files() != files_entry->list_size())
+							throw Invalid_torrent_file();
+
+						for(size_t file_id = 0, size = files_entry->list_size(); file_id < size; ++file_id)
+						{
+							std::string path;
+
+							const lazy_entry* file_entry = files_entry->list_at(file_id);
+							const lazy_entry* path_entry;
+
+							if(file_entry->type() != lt::lazy_entry::dict_t)
+								throw Invalid_torrent_file();
+
+							if(!(
+								( (path_entry = file_entry->dict_find_list("path.utf-8")) && (utf = true) ) ||
+								( path_entry = file_entry->dict_find_list("path"))
+							))
+								throw Invalid_torrent_file();
+
+							for(size_t i = 0, end = path_entry->list_size(); i < end; ++i)
+							{
+								const lazy_entry* path_element_entry = path_entry->list_at(i);
+
+								if(path_element_entry->type() != lt::lazy_entry::string_t)
+									throw Invalid_torrent_file();
+
+								if(path_element_entry->string_value().empty())
+									throw Invalid_torrent_file();
+
+								path += "/" + path_element_entry->string_value();
+							}
+
+							// libtorrent не поддерживает не-UTF-8 локали, поэтому приходится
+							// делать за него всю работу самим.
+							// -->
+								if(utf)
+									path = U2LT( Path(files_prefix + path).normalize().string() );
+								else
+								{
+									path = U2LT(Path(
+										files_prefix + m::convert(path, MLIB_UTF_CHARSET_NAME, encoding)
+									).normalize().string());
+								}
+							// <--
+
+							// Лучше не делать лишних переименований - в
+							// какой-то версии libtorrent эти пути не
+							// проверялись на соответствие и впоследствии
+							// возникала ошибка.
+							if(storage.at(0).path.string() != path)
+							#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
+								storage.rename_file(file_id, path);
+							#else
+								torrent_info.rename_file(file_id, path);
+							#endif
+						}
+					}
+					else
+					{
+						if(storage.num_files() != 1)
+							throw Invalid_torrent_file();
+
+						std::string path = U2LT(Path("/" + torrent_name).normalize().string());
+
+						// Лучше не делать лишних переименований - в
+						// какой-то версии libtorrent эти пути не
+						// проверялись на соответствие и впоследствии
+						// возникала ошибка.
+						if(storage.at(0).path.string() != path)
+						#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
+							storage.rename_file(0, path);
+						#else
+							torrent_info.rename_file(0, path);
+						#endif
+					}
+				}
+				// Файлы <--
+			}
+			catch(Invalid_torrent_file&)
+			{
+				M_THROW(_("invalid torrent file"));
 			}
 		}
-		// <--
+		// Торрент записан в UTF-8 кодировке
+		else
+		{
+			// libtorrent не поддерживает не-UTF-8 локали, поэтому приходится
+			// делать за него всю работу самим.
+			//
+			// -->
+			{
+				#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
+					lt::file_storage& storage = torrent_info.files();
+				#endif
 
+				lt::torrent_info::file_iterator it = torrent_info.begin_files();
+				lt::torrent_info::file_iterator end_it = torrent_info.end_files();
+
+				for(size_t i = 0; it != end_it; ++it, ++i)
+				{
+					const std::string path = it->path.string();
+					const std::string new_path = U2LT(it->path.string());
+
+					// Лучше не делать лишних переименований - в какой-то
+					// версии libtorrent эти пути не проверялись на
+					// соответствие и впоследствии возникала ошибка.
+					if(path != new_path)
+					#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
+						storage.rename_file(i, new_path);
+					#else
+						torrent_info.rename_file(i, new_path);
+					#endif
+				}
+			}
+			// <--
+		}
 		return torrent_info;
 	}
 	catch(lt::invalid_encoding& e)
@@ -185,7 +323,7 @@ libtorrent::torrent_info get_torrent_info(const m::Buffer& torrent_data) throw(m
 
 
 
-lt::torrent_info get_torrent_info(const std::string& torrent_path) throw(m::Exception)
+lt::torrent_info get_torrent_info(const std::string& torrent_path, const std::string& encoding) throw(m::Exception)
 {
 	m::Buffer torrent_data;
 
@@ -195,7 +333,7 @@ lt::torrent_info get_torrent_info(const std::string& torrent_path) throw(m::Exce
 		torrent_data.load_file(torrent_path);
 
 		// Генерирует m::Exception
-		return lt::get_torrent_info(torrent_data);
+		return lt::get_torrent_info(torrent_data, encoding);
 	}
 	catch(m::Exception& e)
 	{

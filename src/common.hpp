@@ -782,6 +782,7 @@
 				bool start,
 				const std::string& download_path,
 				const std::string& copy_on_finished_path,
+				const std::string& encoding = MLIB_UTF_CHARSET_NAME,
 				const std::vector<Torrent_file_settings> files_settings = std::vector<Torrent_file_settings>(),
 				bool duplicate_is_error = true
 			);
@@ -791,6 +792,7 @@
 				bool start,
 				const std::string& download_path,
 				const std::string& copy_on_finished_path,
+				const std::string& encoding = MLIB_UTF_CHARSET_NAME,
 				const std::vector<Torrent_file_settings> files_settings = std::vector<Torrent_file_settings>(),
 				bool duplicate_is_error = true
 			);
@@ -812,6 +814,9 @@
 			/// файлы торрента по завершении скачивания
 			/// или "", если копировать файлы не нужно.
 			const std::string							copy_on_finished_path;
+
+			/// Кодировка *.torrent файла.
+			const std::string							encoding;
 
 			/// Настройки файлов торрента или пустой массив,
 			/// если необходимо задать настройки по умолчанию.

@@ -430,6 +430,16 @@ std::string to_string(const Value& value)
 
 
 
+Glib::ustring validate_utf(const Glib::ustring& string)
+{
+	if(string.validate())
+		return string;
+	else
+		return m::convert(string, MLIB_UTF_CHARSET_NAME, MLIB_UTF_CHARSET_NAME);
+}
+
+
+
 std::string U2L(const char* string)
 {
 	return U2L(std::string(string));

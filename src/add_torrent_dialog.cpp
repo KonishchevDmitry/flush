@@ -40,7 +40,7 @@
 
 
 
-Add_torrent_dialog::Add_torrent_dialog(Gtk::Window& parent_window, const std::string& torrent_path) throw(m::Exception)
+Add_torrent_dialog::Add_torrent_dialog(Gtk::Window& parent_window, const std::string& torrent_path, const std::string& torrent_encoding) throw(m::Exception)
 :
 	m::gtk::Window(
 		parent_window,
@@ -66,7 +66,9 @@ Add_torrent_dialog::Add_torrent_dialog(Gtk::Window& parent_window, const std::st
 	torrent_path(torrent_path),
 
 	// Генерирует m::Exception
-	torrent_info(m::lt::get_torrent_info(torrent_path)),
+	torrent_info(m::lt::get_torrent_info(torrent_path, torrent_encoding)),
+
+	torrent_encoding(torrent_encoding),
 
 	// Генерирует m::Exception
 	torrent_files_view(torrent_info, get_client_settings().gui.add_torrent_dialog.torrent_files_view)
@@ -163,7 +165,7 @@ Add_torrent_dialog::Add_torrent_dialog(Gtk::Window& parent_window, const std::st
 		button_box->add(*button);
 	}
 	// OK, Cancel <--
-	
+
 	// Закрытие окна
 	this->signal_delete_event().connect(sigc::mem_fun(*this, &Add_torrent_dialog::on_close_callback));
 
@@ -229,6 +231,7 @@ void Add_torrent_dialog::on_ok_button_callback(void)
 					:
 						""
 				),
+				torrent_encoding,
 				this->torrent_files_view.get_files_settings()
 			)
 		);

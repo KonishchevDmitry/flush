@@ -36,13 +36,31 @@
 // Torrent -->
 	Torrent::Torrent(const Torrent_id& id, const lt::torrent_handle& handle, const Torrent_settings& settings)
 	:
+		id(id),
+		handle(handle),
+
+		encoding(settings.encoding),
+
+		seeding(false),
+
+		time_added(settings.time_added),
+		time_seeding(settings.time_seeding),
+
 		files_revision(FIRST_REVISION),
+		files_settings(settings.files_settings),
+
 		trackers_revision(FIRST_REVISION),
 
 		download_settings_revision(FIRST_REVISION),
-		download_settings(settings.download_settings)
+		download_settings(settings.download_settings),
+
+		total_download(settings.total_download),
+		total_payload_download(settings.total_payload_download),
+		total_upload(settings.total_upload),
+		total_payload_upload(settings.total_payload_upload),
+		total_failed(settings.total_failed),
+		total_redundant(settings.total_redundant)
 	{
-		this->id = id;
 		try
 		{
 			this->name = handle.name();
@@ -51,21 +69,6 @@
 		{
 			MLIB_LE();
 		}
-		this->handle = handle;
-
-		this->seeding = false;
-
-		this->time_added = settings.time_added;
-		this->time_seeding = settings.time_seeding;
-
-		this->files_settings = settings.files_settings;
-
-		this->total_download         = settings.total_download;
-		this->total_payload_download = settings.total_payload_download;
-		this->total_upload           = settings.total_upload;
-		this->total_payload_upload   = settings.total_payload_upload;
-		this->total_failed           = settings.total_failed;
-		this->total_redundant        = settings.total_redundant;
 	}
 
 

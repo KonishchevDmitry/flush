@@ -54,6 +54,7 @@
 #include "log_view.hpp"
 #include "main.hpp"
 #include "main_window.hpp"
+#include "open_torrent_dialog.hpp"
 #include "settings_window.hpp"
 #include "statistics_window.hpp"
 #include "torrents_viewport.hpp"
@@ -744,65 +745,7 @@ bool Main_window::on_gui_update_timeout(void)
 
 void Main_window::on_open_callback(void)
 {
-	std::string open_torrents_from = get_application().get_client_settings().gui.open_torrents_from;
-
-	Gtk::FileChooserDialog* dialog = new Gtk::FileChooserDialog(
-		*this, _("Please choose a torrent file"),
-		Gtk::FILE_CHOOSER_ACTION_OPEN
-	);
-
-	// Добавляем кнопки -->
-		dialog->add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
-		dialog->add_button(Gtk::Stock::OPEN, Gtk::RESPONSE_OK);
-	// Добавляем кнопки <--
-
-	dialog->set_select_multiple();
-	dialog->set_default_response(Gtk::RESPONSE_OK);
-
-	if(open_torrents_from != "")
-		dialog->set_current_folder(U2L(open_torrents_from));
-
-	// Добавляем фильтры по типам файлов -->
-	{
-		Gtk::FileFilter torrents_filter;
-		torrents_filter.set_name(_("Torrent files"));
-		torrents_filter.add_mime_type("application/x-bittorrent");
-		dialog->add_filter(torrents_filter);
-
-		Gtk::FileFilter any_filter;
-		any_filter.set_name(_("Any files"));
-		any_filter.add_pattern("*");
-		dialog->add_filter(any_filter);
-	}
-	// Добавляем фильтры по типам файлов <--
-
-	dialog->signal_response().connect(
-		sigc::bind<Gtk::FileChooserDialog*>(
-			sigc::mem_fun(*this, &Main_window::on_open_response_callback),
-			dialog
-		)
-	);
-
-	dialog->show();
-}
-
-
-
-void Main_window::on_open_response_callback(int response_id, Gtk::FileChooserDialog* dialog)
-{
-	if(response_id != Gtk::RESPONSE_OK)
-	{
-		delete dialog;
-		return;
-	}
-
-	Glib::SListHandle<Glib::ustring> filenames = dialog->get_filenames();
-	get_application().get_client_settings().gui.open_torrents_from = L2U(dialog->get_current_folder());
-
-	delete dialog;
-
-	M_FOR_CONST_IT(filenames, it)
-		this->open_torrent(L2U(*it));
+	new Open_torrent_dialog(*this);
 }
 
 
@@ -1028,7 +971,7 @@ bool Main_window::on_window_state_changed_callback(const GdkEventWindowState* st
 
 
 
-void Main_window::open_torrent(const std::string& torrent_path)
+void Main_window::open_torrent(const std::string& torrent_path, const std::string& torrent_encoding)
 {
 	Client_settings& client_settings = get_client_settings();
 
@@ -1037,7 +980,7 @@ void Main_window::open_torrent(const std::string& torrent_path)
 		if(client_settings.gui.show_add_torrent_dialog)
 		{
 			// Генерирует m::Exception
-			new Add_torrent_dialog(*this, torrent_path);
+			new Add_torrent_dialog(*this, torrent_path, torrent_encoding);
 		}
 		else
 		{
@@ -1047,6 +990,7 @@ void Main_window::open_torrent(const std::string& torrent_path)
 					client_settings.user.start_torrent_on_adding,
 					client_settings.user.download_to,
 					client_settings.user.copy_finished_to,
+					torrent_encoding,
 					std::vector<Torrent_file_settings>()
 				)
 			);

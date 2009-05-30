@@ -464,7 +464,7 @@ void close_all_fds(void) throw(m::Exception)
 	if(getrlimit(RLIMIT_OFILE, &limits))
 		M_THROW(__("Can't get max opened files limit: %1.", EE(errno)));
 
-	for(int fd = STDERR_FILENO + 1; fd < limits.rlim_max; fd++)
+	for(int fd = STDERR_FILENO + 1; fd < (int) limits.rlim_max; fd++)
 		close(fd);
 }
 

@@ -39,6 +39,9 @@
 			std::string							name;
 			lt::torrent_handle					handle;
 
+			/// Кодировка *.torrent файла.
+			std::string							encoding;
+
 			/// "Кэш" состояния раздачи, обновляемого каждый
 			/// раз при обновлении статистики торрента.
 			bool								seeding;

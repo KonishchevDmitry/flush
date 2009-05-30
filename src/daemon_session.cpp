@@ -327,7 +327,9 @@ Torrent_id Daemon_session::add_torrent_to_config(const std::string& torrent_path
 		try
 		{
 			torrent_info = std::auto_ptr<lt::torrent_info>(
-				new lt::torrent_info(m::lt::get_torrent_info(torrent_data))
+				new lt::torrent_info(m::lt::get_torrent_info(
+					torrent_data, new_torrent_settings.encoding
+				))
 			);
 		}
 		catch(m::Exception& e)
@@ -414,6 +416,7 @@ Torrent_id Daemon_session::add_torrent_to_config(const std::string& torrent_path
 				!new_torrent_settings.start,
 				new_torrent_settings.download_path,
 				Download_settings(new_torrent_settings.copy_on_finished_path),
+				new_torrent_settings.encoding,
 				(
 					new_torrent_settings.files_settings.empty()
 					?
@@ -452,22 +455,21 @@ void Daemon_session::add_torrent_to_session(lt::torrent_info torrent_info, const
 
 	// Меняем информацию о торренте в соответствии с требуемыми настройками
 	// -->
-		if(torrent_settings.name != "")
-			torrent_info.files().set_name(torrent_settings.name);
-
 		for(size_t i = 0; i < torrent_settings.files_settings.size(); i++)
 		{
 			const std::string& path = torrent_settings.files_settings[i].path;
 
 			if(!path.empty())
 			{
+				std::string new_path = U2LT(path);
+
 				// Лучше не делать лишних переименований - в какой-то версии
 				// libtorrent эти пути не проверялись на соответствие.
-				if(torrent_info.file_at(i).path.string() != U2LT(path))
+				if(torrent_info.file_at(i).path.string() != new_path)
 				#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
-					torrent_info.files().rename_file(i, U2LT(path));
+					torrent_info.files().rename_file(i, new_path);
 				#else
-					torrent_info.rename_file(i, U2LT(path));
+					torrent_info.rename_file(i, new_path);
 				#endif
 			}
 		}
@@ -664,7 +666,7 @@ void Daemon_session::auto_load_if_torrent(const std::string& torrent_path) throw
 						:
 							""
 					),
-					std::vector<Torrent_file_settings>(), false
+					MLIB_UTF_CHARSET_NAME, std::vector<Torrent_file_settings>(), false
 				),
 				false
 			);
@@ -1162,7 +1164,10 @@ void Daemon_session::load_torrent(const Torrent_id& torrent_id) throw(m::Excepti
 	lt::torrent_handle torrent_handle;
 
 	// Генерирует m::Exception
-	lt::torrent_info torrent_info = m::lt::get_torrent_info(Path(this->get_torrent_dir_path(torrent_id)) / TORRENT_FILE_NAME);
+	lt::torrent_info torrent_info = m::lt::get_torrent_info(
+		Path(this->get_torrent_dir_path(torrent_id)) / TORRENT_FILE_NAME,
+		Torrent_settings::get_encoding_from_config(this->get_torrent_dir_path(torrent_id))
+	);
 
 	// Получаем настройки торрента -->
 		Torrent_settings torrent_settings(
@@ -1170,6 +1175,7 @@ void Daemon_session::load_torrent(const Torrent_id& torrent_id) throw(m::Excepti
 			true,
 			this->get_torrents_download_path(),
 			Download_settings(""),
+			MLIB_UTF_CHARSET_NAME,
 			std::vector<Torrent_file_settings>(torrent_info.num_files(), Torrent_file_settings()),
 			m::lt::get_torrent_trackers(torrent_info)
 		);

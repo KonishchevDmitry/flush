@@ -977,6 +977,7 @@ namespace
 		bool paused,
 		const std::string& download_path,
 		const Download_settings& download_settings,
+		const std::string& encoding,
 		const std::vector<Torrent_file_settings>& files_settings,
 		const std::vector<std::string>& trackers
 	)
@@ -990,6 +991,7 @@ namespace
 		download_path(download_path),
 
 		download_settings(download_settings),
+		encoding(encoding),
 		files_settings(files_settings),
 		trackers(trackers),
 
@@ -1016,6 +1018,7 @@ namespace
 
 		download_settings(torrent.get_download_settings()),
 
+		encoding(torrent.encoding),
 		files_settings(torrent.files_settings),
 		resume_data(resume_data)
 	{
@@ -1030,6 +1033,31 @@ namespace
 			this->total_failed           = torrent.total_failed + status.total_failed_bytes;
 			this->total_redundant        = torrent.total_redundant + status.total_redundant_bytes;
 		// Получаем текущую статистику торрента <--
+	}
+
+
+
+	std::string Torrent_settings::get_encoding_from_config(const std::string& settings_dir_path)
+	{
+		libconfig::Config config;
+		std::string encoding = MLIB_UTF_CHARSET_NAME;
+		
+		try
+		{
+			Torrent_settings::read_config_data(
+				&config,
+				Path(settings_dir_path) / Torrent_settings::config_file_name
+			);
+		}
+		catch(m::Exception&)
+		{
+			return encoding;
+		}
+
+		if(config.getRoot().lookupValue("encoding", encoding) && !m::is_valid_encoding_name(encoding))
+			encoding = MLIB_UTF_CHARSET_NAME;
+
+		return encoding;
 	}
 
 
@@ -1063,30 +1091,12 @@ namespace
 
 	void Torrent_settings::read_config(const std::string& config_path) throw(m::Exception)
 	{
-		libconfig::Config config;
-		std::string real_config_path = config_path;
-
-		try
-		{
-			real_config_path = m::fs::config::start_reading(config_path);
-
-			if(m::fs::is_exists(real_config_path))
-				config.readFile(U2L(real_config_path).c_str());
-		}
-		catch(m::Exception& e)
-		{
-			M_THROW(__("Reading torrent configuration file '%1' failed. %2", m::fs::get_abs_path_lazy(config_path), EE(e)));
-		}
-		catch(libconfig::FileIOException e)
-		{
-			M_THROW(__("Error while reading torrent configuration file '%1': %2.", m::fs::get_abs_path_lazy(real_config_path), EE(e)));
-		}
-		catch(libconfig::ParseException e)
-		{
-			M_THROW(__("Error while parsing torrent configuration file '%1': %2.", m::fs::get_abs_path_lazy(real_config_path), EE(e)));
-		}
-
 		Version daemon_version = M_GET_VERSION(0, 0, 0);
+		libconfig::Config config;
+
+		// Генерирует m::Exception
+		this->read_config_data(&config, config_path);
+
 		const libconfig::Setting& config_root = config.getRoot();
 
 		// Получаем версию демона, который производил запись конфига -->
@@ -1227,6 +1237,17 @@ namespace
 					for(int file_id = 0; file_id < setting.getLength(); file_id++)
 						this->files_settings[file_id].download = bool(static_cast<int>(setting[file_id]));
 				}
+			}
+			else if(m::is_eq(setting_name, "encoding"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeString, continue)
+
+				std::string encoding = static_cast<const char*>(setting);
+
+				if(m::is_valid_encoding_name(encoding))
+					this->encoding = encoding;
+				else
+					bad_option_value(setting, encoding);
 			}
 			else if(m::is_eq(setting_name, "files"))
 			{
@@ -1374,6 +1395,33 @@ namespace
 
 
 
+	void Torrent_settings::read_config_data(libconfig::Config* config, const std::string& config_path) throw(m::Exception)
+	{
+		std::string real_config_path = config_path;
+
+		try
+		{
+			real_config_path = m::fs::config::start_reading(config_path);
+
+			if(m::fs::is_exists(real_config_path))
+				config->readFile(U2L(real_config_path).c_str());
+		}
+		catch(m::Exception& e)
+		{
+			M_THROW(__("Reading torrent configuration file '%1' failed. %2", m::fs::get_abs_path_lazy(config_path), EE(e)));
+		}
+		catch(libconfig::FileIOException e)
+		{
+			M_THROW(__("Error while reading torrent configuration file '%1': %2.", m::fs::get_abs_path_lazy(real_config_path), EE(e)));
+		}
+		catch(libconfig::ParseException e)
+		{
+			M_THROW(__("Error while parsing torrent configuration file '%1': %2.", m::fs::get_abs_path_lazy(real_config_path), EE(e)));
+		}
+	}
+
+
+
 	void Torrent_settings::read_resume_data(std::string resume_data_path) throw(m::Exception)
 	{
 		try
@@ -1494,6 +1542,8 @@ namespace
 
 		if(!this->download_settings.copy_when_finished_to.empty())
 			config_root.add("copy_when_finished_to", libconfig::Setting::TypeString) = this->download_settings.copy_when_finished_to;
+
+		config_root.add("encoding", libconfig::Setting::TypeString) = this->encoding;
 
 		// files -->
 		{
