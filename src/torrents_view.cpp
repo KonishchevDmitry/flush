@@ -132,6 +132,8 @@
 
 		this->add(this->time_seeding);
 		this->add(this->time_seeding_string);
+
+		this->add(this->tracker);
 	}
 // Torrents_view_model_columns <--
 
@@ -168,7 +170,9 @@
 
 		time_added(_Q("Time added|Added"), model_columns.time_added_string),
 		time_left(_Q("Time left|ETA"), model_columns.time_left_string),
-		time_seeding(_Q("Time seeding|Seeding"), model_columns.time_seeding_string)
+		time_seeding(_Q("Time seeding|Seeding"), model_columns.time_seeding_string),
+
+		tracker(_("Tracker"), model_columns.tracker)
 	{
 		this->add("status_icon", &this->status_icon, _("Status icon"), _("Status icon"), false);
 		this->status_icon.set_sort_column(model_columns.status_icon_id);
@@ -205,6 +209,8 @@
 		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(time_added, _("Time added"))
 		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(time_left, _("Time left"))
 		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(time_seeding, _("Time seeding"))
+
+		M_GTK_TREE_VIEW_ADD_STRING_COLUMN(tracker, _("Tracker"))
 	}
 // Torrents_view_columns <--
 
@@ -391,7 +397,7 @@
 			// Получаем путь любого файла торрента без начального "/".
 			std::string file_path = files[0].path.substr(1);
 
-			get_application().open_file(
+			get_application().open_uri(
 				Path(torrent_download_path) / file_path.substr(0, file_path.find('/'))
 			);
 		}
@@ -766,6 +772,8 @@
 				);
 			}
 		// Time seeding <--
+
+		m::gtk::update_row(row, this->model_columns.tracker, get_tracker_name_by_url(torrent_info.current_tracker));
 
 		#undef set_int_value
 		#undef set_speed_value

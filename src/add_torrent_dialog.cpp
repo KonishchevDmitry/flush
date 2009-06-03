@@ -66,7 +66,7 @@ Add_torrent_dialog::Add_torrent_dialog(Gtk::Window& parent_window, const std::st
 	torrent_path(torrent_path),
 
 	// Генерирует m::Exception
-	torrent_info(m::lt::get_torrent_info(torrent_path, torrent_encoding)),
+	torrent_info(m::lt::get_torrent_metadata(torrent_path, torrent_encoding).info),
 
 	torrent_encoding(torrent_encoding),
 

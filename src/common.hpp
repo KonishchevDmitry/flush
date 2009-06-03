@@ -695,6 +695,11 @@
 			Time			time_seeding;
 
 
+			/// Текущий трекер, или "", если в данный момент нет установленного
+			/// соединения с трекером.
+			std::string		current_tracker;
+
+
 		public:
 			/// Возвращает процент завершенности скачивания данных.
 			int				get_complete_percent(void) const;
@@ -725,6 +730,13 @@
 	{
 		public:
 			Torrent_details(const Torrent& torrent);
+
+		public:
+			/// URL, с которого был скачан торрент.
+			std::string	publisher_url;
+
+			/// Текущий статус трекера.
+			std::string	tracker_status;
 	};
 
 
@@ -855,6 +867,9 @@
 	/// Возвращает строковое представление share ratio.
 	std::string	get_share_ratio_string(Size upload, Size download, Size size = 0, bool show_zero_values = true);
 
+	/// Возвращает имя трекера по его URL'у.
+	/// Под именем в данный момент понимается домен второго уровня.
+	std::string	get_tracker_name_by_url(const std::string& tracker_url);
 
 
 	#include "common.hh"

@@ -18,43 +18,81 @@
 **************************************************************************/
 
 
-#ifndef HEADER_MLIB_GTK_TYPES
-	#define HEADER_MLIB_GTK_TYPES
+#ifdef MLIB_ENABLE_GTK
 
-	#ifdef MLIB_ENABLE_GTK
-		namespace Gtk
-		{
-			class Button;
-			class ComboBox;
-			class Dialog;
-			class Entry;
-			class EventBox;
-			class FileChooserDialog;
-			class LinkButton;
-			class ListStore;
-			class ListViewText;
-			class MessageDialog;
-			class ProgressBar;
-			class StockID;
-			class Table;
-			class Toolbar;
-			class TreeRow;
-			class TreeViewColumn;
-			class TreeView;
-			class Widget;
-			class Window;
-		}
 
-		namespace m { namespace gtk {
-			class Link_button;
-		}}
-	#endif
+#include <gtkmm/linkbutton.h>
 
-	#ifdef MLIB_ENABLE_GLADE
-		namespace Gnome { namespace Glade {
-			class Xml;
-		}}
-	#endif
+#include "link_button.hpp"
+
+
+namespace m { namespace gtk {
+
+Link_button::Link_button(const Glib::ustring& uri)
+:
+	link_button(NULL)
+{
+	this->recreate(uri);
+}
+
+
+
+Glib::ustring Link_button::get_uri(void) const
+{
+	return this->link_button->get_uri();
+}
+
+
+
+bool Link_button::get_visited(void) const
+{
+	return this->link_button->get_visited();
+}
+
+
+
+void Link_button::set_uri(const Glib::ustring& uri)
+{
+	if(this->link_button->get_uri() != uri)
+		this->recreate(uri);
+}
+
+
+
+void Link_button::on_clicked_cb(void)
+{
+	this->clicked_signal();
+}
+
+
+
+void Link_button::recreate(const Glib::ustring& uri)
+{
+	if(this->link_button)
+		this->remove(*this->link_button);
+
+	this->link_button = Gtk::manage(new Gtk::LinkButton(uri));
+	this->link_button->signal_clicked().connect(
+		sigc::mem_fun(*this, &Link_button::on_clicked_cb));
+	this->link_button->show();
+	this->add(*this->link_button);
+}
+
+
+
+void Link_button::set_visited(bool visited)
+{
+	this->link_button->set_visited(visited);
+}
+
+
+
+sigc::signal<void>& Link_button::signal_clicked(void)
+{
+	return this->clicked_signal;
+}
+
+}}
 
 #endif
 

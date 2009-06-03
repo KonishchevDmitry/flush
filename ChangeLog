@@ -1,5 +1,8 @@
 0.6 ()
 [+] Ability to choose torrent file's character set encoding in torrent open dialog.
+[+] "Publisher URL" line in the details tab.
+[+] "Tracker status" line in the details tab.
+[+] "Tracker" column in the torrents list.
 
 
 0.5.1 (2009.05.25)

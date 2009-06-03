@@ -27,6 +27,7 @@
 	#include <queue>
 	#include <vector>
 
+	#include <boost/shared_ptr.hpp>
 	#include <boost/thread.hpp>
 
 	#include <libtorrent/entry.hpp>
@@ -46,6 +47,8 @@
 	class Daemon_session: public Daemon_fs
 	{
 		private:
+			class Private;
+
 			typedef std::pair<Torrent_id, lt::entry> Torrent_resume_data;
 			typedef std::map<Torrent_id, Torrent> Torrents_container;
 
@@ -61,6 +64,8 @@
 			Glib::Dispatcher				messages_signal;
 
 		private:
+			boost::shared_ptr<Private>		priv;
+
 			/// Сигнал для остановки потоков.
 			bool							is_stop;
 
@@ -69,6 +74,7 @@
 			/// Блокирует доступ к:
 			/// * torrents_resume_data
 			/// * finished_torrents
+			/// * tracker_errors
 			/// * messages
 			boost::mutex					mutex;
 
@@ -192,7 +198,7 @@
 			Torrent_id					add_torrent_to_config(const std::string& torrent_path, const New_torrent_settings& new_torrent_settings, bool error_if_not_exists) const throw(m::Exception);
 
 			/// Добавляет торрент к сессии.
-			void						add_torrent_to_session(lt::torrent_info torrent_info, const Torrent_settings& torrent_settings);
+			void						add_torrent_to_session(m::lt::Torrent_metadata torrent_metadata, const Torrent_settings& torrent_settings);
 
 			/// Производит все необходимые действия по завершению скачивания
 			/// торрента.
@@ -318,6 +324,9 @@
 
 			/// Обработчик сигнала на получение очередной resume data от libtorrent.
 			void						on_torrent_resume_data_callback(void);
+
+			/// Обработчик сигнала на поступление сообщения об ошибке соединения с трекером.
+			void						on_tracker_error_cb(void);
 
 			/// Обработчик сигнала на обновления статистической информации
 			/// о торрентах.

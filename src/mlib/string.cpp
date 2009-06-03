@@ -18,6 +18,8 @@
 **************************************************************************/
 
 
+#include <boost/algorithm/string/split.hpp>
+
 #include <glibmm/convert.h>
 #include <glibmm/unicode.h>
 
@@ -27,6 +29,25 @@
 
 namespace m
 {
+
+
+namespace
+{
+	template<class T>
+	class Is_this
+	{
+		public:
+			Is_this(T value): value(value) {};
+
+
+		private:
+			T	value;
+
+
+		public:
+			bool	operator()(T value) const { return this->value == value; }
+	};
+}
 
 
 const struct Charset AVAILABLE_CHARSETS[] = {
@@ -265,6 +286,18 @@ bool is_empty_string(const Glib::ustring& string)
 
 
 
+bool is_url_string(const std::string& string)
+{
+	// Простейшая проверка на валидность адреса
+
+	if(string.size() < strlen("http://X") || string.substr(0, strlen("http://")) != "http://")
+		return false;
+	else
+		return true;
+}
+
+
+
 bool is_valid_encoding_name(const std::string& encoding)
 {
 	try
@@ -408,6 +441,15 @@ std::string speed_to_string(Speed speed, bool show_zero_values)
 		else
 			return "";
 	}
+}
+
+
+
+String_vector split(const std::string& string, char separator)
+{
+	String_vector strings;
+	boost::split(strings, string, Is_this<M_TYPEOF(separator)>(separator));
+	return strings;
 }
 
 

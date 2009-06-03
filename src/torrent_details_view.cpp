@@ -19,210 +19,79 @@
 **************************************************************************/
 
 
+#include <gdk/gdkevents.h>
+
+#include <glibmm/markup.h>
+
+#include <gdkmm/cursor.h>
+#include <gdkmm/window.h>
+
+#include <gtkmm/eventbox.h>
 #include <gtkmm/label.h>
 #include <gtkmm/progressbar.h>
-#include <gtkmm/table.h>
 
+#include <mlib/gtk/glade.hpp>
 #include <mlib/gtk/misc.hpp>
 
+#include "application.hpp"
 #include "daemon_proxy.hpp"
 #include "main.hpp"
 #include "torrent_details_view.hpp"
 
 
 
-// Table -->
-	class Table: public Gtk::Table
-	{
-		public:
-			Table(void);
-
-
-		private:
-			int			rows_num;
-			int			columns_num;
-			int			cur_row;
-			int			cur_column;
-			const int 	gtk_columns_per_column;
-
-		public:
-			/// Добавляет Gtk::Label в текущую колонку и возвращает указатель на
-			/// созданный Gtk::Label.
-			Gtk::Label*	attach(const std::string& name);
-
-			/// Добавляет виджет в текущую колонку и возвращает его.
-			template<class T>
-			T*			attach(const std::string& name, T* widget);
-
-			/// Устанавливает текущую колонку. В нее будет производиться
-			/// вставка виджетов.
-			void		set_cur_column(int column);
-
-		private:
-			/// Добавляет одну колонку.
-			void		add_column(void);
-
-			/// Добавляет одну строку.
-			void		add_row(void);
-
-			/// Обертка над Gtk::Table::resize.
-			void		resize(int rows_num, int columns_num);
-	};
-
-
-
-	Table::Table(void)
-	:
-		Gtk::Table(1, 1),
-		rows_num(0),
-		columns_num(0),
-		cur_row(0),
-		cur_column(0),
-		gtk_columns_per_column(2)
-	{
-		this->set_cur_column(0);
-	}
-
-
-
-	void Table::add_column(void)
-	{
-		this->resize(this->rows_num, this->columns_num + 1);
-	}
-
-
-
-	void Table::add_row(void)
-	{
-		this->resize(this->rows_num + 1, this->columns_num);
-	}
-
-
-
-	Gtk::Label* Table::attach(const std::string& name)
-	{
-		Gtk::Label* label = Gtk::manage( new Gtk::Label() );
-		label->set_alignment(Gtk::ALIGN_RIGHT);
-		return this->attach(name, label);
-	}
-
-
-
-	template<class T>
-	T* Table::attach(const std::string& name, T* widget)
-	{
-		if(this->cur_row >= this->rows_num)
-			this->add_row();
-
-		Gtk::Label* label = Gtk::manage( new Gtk::Label(name + ":") );
-		label->set_alignment(Gtk::ALIGN_LEFT);
-
-		Gtk::Table::attach(
-			*label,
-			this->cur_column * this->gtk_columns_per_column,
-			this->cur_column * this->gtk_columns_per_column + 1,
-			this->cur_row, this->cur_row + 1,
-			Gtk::FILL, Gtk::FILL
-		);
-		Gtk::Table::attach(
-			*widget,
-			this->cur_column * this->gtk_columns_per_column + 1,
-			this->cur_column * this->gtk_columns_per_column + 2,
-			this->cur_row, this->cur_row + 1,
-			Gtk::FILL, Gtk::FILL
-		);
-
-		this->cur_row++;
-
-		return widget;
-	}
-
-
-
-	void Table::resize(int rows_num, int columns_num)
-	{
-		this->rows_num = rows_num;
-		this->columns_num = columns_num;
-
-		Gtk::Table::resize(
-			rows_num ? rows_num : 1,
-			columns_num ? columns_num * this->gtk_columns_per_column : 1
-		);
-
-		this->set_row_spacings(m::gtk::TABLE_ROWS_SPACING);
-		this->set_col_spacings(m::gtk::TABLE_NAME_VALUE_SPACING);
-
-		for(int i = 0; i < this->columns_num; i++)
-		{
-			this->set_col_spacing(
-				i * this->gtk_columns_per_column + this->gtk_columns_per_column - 1,
-				m::gtk::TABLE_NAME_VALUE_COLUMNS_SPACING
-			);
-		}
-	}
-
-
-
-	void Table::set_cur_column(int column)
-	{
-		if(this->columns_num <= column)
-			this->resize(this->rows_num, this->columns_num + 1);
-
-		this->cur_row = 0;
-		this->cur_column = column;
-	}
-// Table <--
-
-
-
 // Torrent_details_view -->
 	Torrent_details_view::Torrent_details_view(void)
-	:
-		table( Gtk::manage( new Table() ) ),
-		status( Gtk::manage( new Gtk::ProgressBar() ) )
 	{
-		this->set_border_width(m::gtk::BOX_BORDER_WIDTH);
+		Glib::RefPtr<Gnome::Glade::Xml> glade = MLIB_GLADE_CREATE(
+			std::string(APP_UI_PATH) + "/torrent_info_tabs.details.glade", "details"
+		);
 
-		Gtk::HBox* main_hbox = Gtk::manage( new Gtk::HBox() );
-		this->pack_start(*main_hbox, false, false, 0);
+		this->pack_start(*MLIB_GLADE_GET_WIDGET(glade, "details"), false, false);
 
-		Gtk::VBox* main_vbox = Gtk::manage( new Gtk::VBox(false, m::gtk::VBOX_SPACING * 2) );
-		main_hbox->pack_start(*main_vbox, false, false, 0);
+		MLIB_GLADE_GET_WIDGET(glade, "status",						this->status);
 
-		this->status->set_ellipsize(Pango::ELLIPSIZE_MIDDLE);
-		main_vbox->pack_start(*this->status, false, false, 0);
+		MLIB_GLADE_GET_WIDGET(glade, "size",						this->size);
+		MLIB_GLADE_GET_WIDGET(glade, "requested_size",				this->requested_size);
+		MLIB_GLADE_GET_WIDGET(glade, "downloaded_requested_size",	this->downloaded_requested_size);
+		MLIB_GLADE_GET_WIDGET(glade, "complete_persent",			this->complete_percent);
 
-		// table -->
-			main_vbox->pack_start(*this->table, false, false, 0);
+		MLIB_GLADE_GET_WIDGET(glade, "total_download",				this->total_download);
+		MLIB_GLADE_GET_WIDGET(glade, "total_payload_download",		this->total_payload_download);
+		MLIB_GLADE_GET_WIDGET(glade, "total_upload",				this->total_upload);
+		MLIB_GLADE_GET_WIDGET(glade, "total_payload_upload",		this->total_payload_upload);
+		MLIB_GLADE_GET_WIDGET(glade, "total_failed",				this->total_failed);
+		MLIB_GLADE_GET_WIDGET(glade, "total_redundant",				this->total_redundant);
 
-			this->size = this->table->attach(_("Size"));
-			this->requested_size = this->table->attach(_("Requested size"));
-			this->downloaded_requested_size = this->table->attach(_("Downloaded requested size"));
-			this->complete_percent = this->table->attach(__("%% Complete"));
+		MLIB_GLADE_GET_WIDGET(glade, "download_speed",				this->download_speed);
+		MLIB_GLADE_GET_WIDGET(glade, "download_payload_speed",		this->download_payload_speed);
+		MLIB_GLADE_GET_WIDGET(glade, "upload_speed",				this->upload_speed);
+		MLIB_GLADE_GET_WIDGET(glade, "upload_payload_speed",		this->upload_payload_speed);
 
-			this->share_ratio = this->table->attach(_("Share ratio"));
+		MLIB_GLADE_GET_WIDGET(glade, "share_ratio",					this->share_ratio);
 
-			this->peers = this->table->attach(_("Peers"));
-			this->seeds = this->table->attach(_("Seeds"));
+		MLIB_GLADE_GET_WIDGET(glade, "peers",						this->peers);
+		MLIB_GLADE_GET_WIDGET(glade, "seeds",						this->seeds);
 
-			this->time_added = this->table->attach(_("Time added"));
-			this->time_left = this->table->attach(_("Time left"));
-			this->time_seeding = this->table->attach(_("Time seeding"));
+		MLIB_GLADE_GET_WIDGET(glade, "time_added",					this->time_added);
+		MLIB_GLADE_GET_WIDGET(glade, "time_left",					this->time_left);
+		MLIB_GLADE_GET_WIDGET(glade, "time_seeding",				this->time_seeding);
 
-			this->table->set_cur_column(1);
+		MLIB_GLADE_GET_WIDGET(glade, "tracker_status",				this->tracker_status);
+		MLIB_GLADE_GET_WIDGET(glade, "publisher_url",				this->publisher_url);
+		MLIB_GLADE_GET_WIDGET(glade, "publisher_url_event_box",		this->publisher_url_event_box);
 
-			this->total_download = this->table->attach(_("Total download"));
-			this->total_payload_download = this->table->attach(_("Total payload download"));
-			this->total_upload = this->table->attach(_("Total upload"));
-			this->total_payload_upload = this->table->attach(_("Total payload upload"));
-			this->total_failed = this->table->attach(_("Total failed"));
-			this->total_redundant = this->table->attach(_("Total redundant"));
-
-			this->download_speed = this->table->attach(_("Download speed"));
-			this->payload_download_speed = this->table->attach(_("Download payload speed"));
-			this->upload_speed = this->table->attach(_("Upload speed"));
-			this->payload_upload_speed = this->table->attach(_("Upload payload speed"));
-		// table <--
+		// Publisher URL -->
+			this->publisher_url_event_box->signal_button_press_event().connect(
+				sigc::mem_fun(*this, &Torrent_details_view::on_publisher_url_button_press_event_cb)
+			);
+			this->publisher_url_event_box->signal_enter_notify_event().connect(
+				sigc::mem_fun(*this, &Torrent_details_view::on_publisher_url_enter_notify_event_cb)
+			);
+			this->publisher_url_event_box->signal_leave_notify_event().connect(
+				sigc::mem_fun(*this, &Torrent_details_view::on_publisher_url_leave_notify_event_cb)
+			);
+		// Publisher URL
 
 		this->show_all();
 	}
@@ -247,9 +116,9 @@
 		this->set_string(	this->total_redundant,				""	);
 
 		this->set_string(	this->download_speed,				""	);
-		this->set_string(	this->payload_download_speed,		""	);
+		this->set_string(	this->download_payload_speed,		""	);
 		this->set_string(	this->upload_speed,					""	);
-		this->set_string(	this->payload_upload_speed,			""	);
+		this->set_string(	this->upload_payload_speed,			""	);
 
 		this->set_string(	this->share_ratio,					""	);
 
@@ -259,6 +128,45 @@
 		this->set_string(	this->time_added,					""	);
 		this->set_string(	this->time_left,					""	);
 		this->set_string(	this->time_seeding,					""	);
+
+
+		this->set_string(	this->tracker_status,				""	);
+		this->publisher_url_string = "";
+		this->set_string(	this->publisher_url,				""	);
+	}
+
+
+
+	bool Torrent_details_view::on_publisher_url_button_press_event_cb(GdkEventButton* event)
+	{
+		if(event->type == GDK_BUTTON_PRESS && m::is_url_string(this->publisher_url_string))
+			get_application().open_uri(this->publisher_url_string);
+
+		return FALSE;
+	}
+
+
+
+	bool Torrent_details_view::on_publisher_url_enter_notify_event_cb(GdkEventCrossing* event)
+	{
+		Glib::RefPtr<Gdk::Window> gdk_window = this->publisher_url_event_box->get_window();
+
+		if(gdk_window)
+			gdk_window->set_cursor(Gdk::Cursor(Gdk::HAND2));
+
+		return FALSE;
+	}
+
+
+
+	bool Torrent_details_view::on_publisher_url_leave_notify_event_cb(GdkEventCrossing* event)
+	{
+		Glib::RefPtr<Gdk::Window> gdk_window = this->publisher_url_event_box->get_window();
+
+		if(gdk_window)
+			gdk_window->set_cursor();
+
+		return FALSE;
 	}
 
 
@@ -300,6 +208,7 @@
 				// m::Exception
 				Torrent_details details = get_daemon_proxy().get_torrent_details(torrent_id);
 
+
 				this->status->set_text(
 					"  " + details.name + ": " +
 					details.get_status_string() + " " +
@@ -320,9 +229,9 @@
 				this->set_size(		this->total_redundant,				details.total_redundant);
 
 				this->set_speed(	this->download_speed,				details.download_speed);
-				this->set_speed(	this->payload_download_speed,		details.payload_download_speed);
+				this->set_speed(	this->download_payload_speed,		details.payload_download_speed);
 				this->set_speed(	this->upload_speed,					details.upload_speed);
-				this->set_speed(	this->payload_upload_speed,			details.payload_upload_speed);
+				this->set_speed(	this->upload_payload_speed,			details.payload_upload_speed);
 
 				this->set_string(	this->share_ratio,					get_share_ratio_string(details.total_payload_upload, details.total_payload_download));
 
@@ -332,6 +241,13 @@
 				this->set_time(		this->time_added,					details.time_added);
 				this->set_string(	this->time_left,					m::get_time_left_string(details.get_time_left()));
 				this->set_string(	this->time_seeding,					m::get_time_duration_string(details.time_seeding));
+
+
+				this->set_string(	this->tracker_status,				details.tracker_status);
+				this->publisher_url_string = details.publisher_url;
+				this->set_string(	this->publisher_url,				"<u><span color='#2828ED'>" +
+																			Glib::Markup::escape_text(details.publisher_url) +
+																		"</span></u>");
 			}
 			catch(m::Exception& e)
 			{

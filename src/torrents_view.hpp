@@ -121,6 +121,8 @@
 
 			Gtk::TreeModelColumn<Time>				time_seeding;
 			Gtk::TreeModelColumn<Glib::ustring>		time_seeding_string;
+
+			Gtk::TreeModelColumn<Glib::ustring>		tracker;
 	};
 
 
@@ -163,6 +165,8 @@
 			Gtk::TreeViewColumn			time_added;
 			Gtk::TreeViewColumn			time_left;
 			Gtk::TreeViewColumn			time_seeding;
+
+			Gtk::TreeViewColumn			tracker;
 	};
 
 

@@ -107,9 +107,97 @@ namespace
 
 
 
+/// Класс, описывающий ошибку соединения с трекером.
+class Tracker_error
+{
+	public:
+		Tracker_error(const lt::tracker_error_alert& alert);
+
+
+	public:
+		Torrent_id	torrent_id;
+		std::string	error_string;
+};
+
+
+
+class Daemon_session::Private
+{
+	public:
+		/// Сигнал на получение ошибки соединения с трекером.
+		Glib::Dispatcher			tracker_error_signal;
+
+		/// Очередь ошибок соединения с трекером, ожидающих обработки.
+		std::deque<Tracker_error>	tracker_errors;
+};
+
+
+
+Tracker_error::Tracker_error(const lt::tracker_error_alert& alert)
+:
+	torrent_id(alert.handle),
+	error_string(alert.message())
+{
+	class Invalid_message {};
+
+	const size_t max_msg_size = 100;
+	const size_t msg_size = this->error_string.size();
+
+	std::string tracker_url = alert.url;
+	std::string first_part =
+		" (" + tracker_url + ") (" + m::to_string(alert.status_code) + ") ";
+
+	size_t first_part_pos = this->error_string.rfind(first_part);
+
+	try
+	{
+		if(first_part_pos != std::string::npos)
+		{
+			std::string second_part = " (" + m::to_string(alert.times_in_row) + ")";
+
+			if(first_part_pos + first_part.size() + second_part.size() < msg_size)
+			{
+				if(!this->error_string.compare(msg_size - second_part.size(), second_part.size(), second_part))
+				{
+					std::string message = this->error_string.substr(
+						first_part_pos + first_part.size(),
+						msg_size - (first_part_pos + first_part.size() + second_part.size())
+					);
+
+					if(message.size() > max_msg_size)
+						message = message.substr(0, max_msg_size) + "...";
+
+					this->error_string = __("%1 (%2). Errors: %3.", message, tracker_url, alert.times_in_row);
+				}
+				else
+				{
+					std::string message = this->error_string.substr(first_part_pos + first_part.size());
+
+					if(message.size() > max_msg_size)
+						message = message.substr(0, max_msg_size) + "...";
+
+					this->error_string = message + " (" + tracker_url + ").";
+				}
+			}
+			else
+				throw Invalid_message();
+		}
+		else
+			throw Invalid_message();
+	}
+	catch(Invalid_message&)
+	{
+		if(this->error_string.size() > max_msg_size)
+			this->error_string = this->error_string.substr(0, max_msg_size) + "...";
+	}
+}
+
+
+
 Daemon_session::Daemon_session(const std::string& config_dir_path)
 :
 	Daemon_fs(),
+	priv(new Private),
 	is_stop(false),
 	messages_thread(NULL),
 	pending_torrent_resume_data(0),
@@ -183,6 +271,12 @@ Daemon_session::Daemon_session(const std::string& config_dir_path)
 	// Обработчик сигнала на завершение скачивания торрента.
 	this->torrent_finished_signal.connect(
 		sigc::mem_fun(*this, &Daemon_session::on_torrent_finished_callback)
+	);
+
+	// Обработчик сигнала на получение сообщения об ошибке соединения с
+	// трекером.
+	priv->tracker_error_signal.connect(
+		sigc::mem_fun(*this, &Daemon_session::on_tracker_error_cb)
 	);
 
 	// Поток для получения сообщений от libtorrent.
@@ -327,9 +421,9 @@ Torrent_id Daemon_session::add_torrent_to_config(const std::string& torrent_path
 		try
 		{
 			torrent_info = std::auto_ptr<lt::torrent_info>(
-				new lt::torrent_info(m::lt::get_torrent_info(
+				new lt::torrent_info(m::lt::get_torrent_metadata(
 					torrent_data, new_torrent_settings.encoding
-				))
+				).info)
 			);
 		}
 		catch(m::Exception& e)
@@ -448,9 +542,9 @@ Torrent_id Daemon_session::add_torrent_to_config(const std::string& torrent_path
 
 
 
-void Daemon_session::add_torrent_to_session(lt::torrent_info torrent_info, const Torrent_settings& torrent_settings)
+void Daemon_session::add_torrent_to_session(m::lt::Torrent_metadata torrent_metadata, const Torrent_settings& torrent_settings)
 {
-	Torrent_id torrent_id(torrent_info.info_hash());
+	Torrent_id torrent_id(torrent_metadata.info.info_hash());
 	lt::torrent_handle torrent_handle;
 
 	// Меняем информацию о торренте в соответствии с требуемыми настройками
@@ -465,11 +559,11 @@ void Daemon_session::add_torrent_to_session(lt::torrent_info torrent_info, const
 
 				// Лучше не делать лишних переименований - в какой-то версии
 				// libtorrent эти пути не проверялись на соответствие.
-				if(torrent_info.file_at(i).path.string() != new_path)
+				if(torrent_metadata.info.file_at(i).path.string() != new_path)
 				#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
-					torrent_info.files().rename_file(i, new_path);
+					torrent_metadata.info.files().rename_file(i, new_path);
 				#else
-					torrent_info.rename_file(i, new_path);
+					torrent_metadata.info.rename_file(i, new_path);
 				#endif
 			}
 		}
@@ -483,7 +577,7 @@ void Daemon_session::add_torrent_to_session(lt::torrent_info torrent_info, const
 
 			lt::add_torrent_params params;
 
-			params.ti = boost::intrusive_ptr<lt::torrent_info>(new lt::torrent_info(torrent_info));
+			params.ti = boost::intrusive_ptr<lt::torrent_info>(new lt::torrent_info(torrent_metadata.info));
 			params.save_path = U2LT(torrent_settings.download_path);
 
 			// Если у нас есть resume data
@@ -534,7 +628,7 @@ void Daemon_session::add_torrent_to_session(lt::torrent_info torrent_info, const
 		}
 	// Добавляем торрент в сессию libtorrent <--
 
-	Torrent torrent(torrent_id, torrent_handle, torrent_settings);
+	Torrent torrent(torrent_id, torrent_handle, torrent_metadata, torrent_settings);
 
 	// Передаем libtorrent настройки файлов торрента.
 	torrent.sync_files_settings();
@@ -1164,7 +1258,7 @@ void Daemon_session::load_torrent(const Torrent_id& torrent_id) throw(m::Excepti
 	lt::torrent_handle torrent_handle;
 
 	// Генерирует m::Exception
-	lt::torrent_info torrent_info = m::lt::get_torrent_info(
+	m::lt::Torrent_metadata torrent_metadata = m::lt::get_torrent_metadata(
 		Path(this->get_torrent_dir_path(torrent_id)) / TORRENT_FILE_NAME,
 		Torrent_settings::get_encoding_from_config(this->get_torrent_dir_path(torrent_id))
 	);
@@ -1176,8 +1270,8 @@ void Daemon_session::load_torrent(const Torrent_id& torrent_id) throw(m::Excepti
 			this->get_torrents_download_path(),
 			Download_settings(""),
 			MLIB_UTF_CHARSET_NAME,
-			std::vector<Torrent_file_settings>(torrent_info.num_files(), Torrent_file_settings()),
-			m::lt::get_torrent_trackers(torrent_info)
+			std::vector<Torrent_file_settings>(torrent_metadata.info.num_files(), Torrent_file_settings()),
+			m::lt::get_torrent_trackers(torrent_metadata.info)
 		);
 
 		// Если прочитать не получится, то торрент будет
@@ -1191,14 +1285,14 @@ void Daemon_session::load_torrent(const Torrent_id& torrent_id) throw(m::Excepti
 			{
 				MLIB_W(__(
 					"Restoring torrent '%1' [%2] previous session settings failed. %3",
-					torrent_info.name(), torrent_id, EE(e)
+					torrent_metadata.info.name(), torrent_id, EE(e)
 				));
 			}
 		// <--
 	// Получаем настройки торрента <--
 
 	// Добавляем торрент к сессии
-	add_torrent_to_session(torrent_info, torrent_settings);
+	add_torrent_to_session(torrent_metadata, torrent_settings);
 
 	MLIB_D(_C("Torrent '%1' has been loaded.", torrent_id));
 }
@@ -1328,7 +1422,7 @@ void Daemon_session::on_torrent_finished_callback(void)
 		{
 			this->finish_torrent(this->get_torrent(finished_torrents[i]));
 		}
-		catch(m::Exception)
+		catch(m::Exception&)
 		{
 			// Такого торрента уже не существует, следовательно,
 			// это сообщение уже не актуально.
@@ -1352,6 +1446,32 @@ void Daemon_session::on_torrent_resume_data_callback(void)
 
 	this->pending_torrent_resume_data--;
 	save_torrent_settings_if_exists(torrent_id, resume_data);
+}
+
+
+
+void Daemon_session::on_tracker_error_cb(void)
+{
+	std::deque<Tracker_error> tracker_errors;
+
+	{
+		boost::mutex::scoped_lock lock(this->mutex);
+		tracker_errors.swap(priv->tracker_errors);
+	}
+
+	M_FOR_CONST_IT(tracker_errors, it)
+	{
+		try
+		{
+			Torrent& torrent = this->get_torrent(it->torrent_id);
+			torrent.tracker_error = it->error_string;
+		}
+		catch(m::Exception&)
+		{
+			// Такого торрента уже не существует, следовательно,
+			// это сообщение уже не актуально.
+		}
+	}
 }
 
 
@@ -2116,6 +2236,22 @@ void Daemon_session::operator()(void)
 
 							// Извещаем демон о завершении скачивания торрента
 							this->torrent_finished_signal();
+						}
+						// Не удалось соединиться с трекером.
+						// Данное сообщение необходимо обработать по особому.
+						else if( dynamic_cast<lt::tracker_error_alert*>(alert.get()) )
+						{
+							{
+								boost::mutex::scoped_lock lock(this->mutex);
+
+								priv->tracker_errors.push_back(Tracker_error(
+									*static_cast<lt::tracker_error_alert*>(alert.get())
+								));
+							}
+
+							// Извещаем демон о получении сообщения об ошибке
+							// соединения с трекером.
+							priv->tracker_error_signal();
 						}
 
 						// Передаем сообщение пользователю -->

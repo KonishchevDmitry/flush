@@ -18,43 +18,54 @@
 **************************************************************************/
 
 
-#ifndef HEADER_MLIB_GTK_TYPES
-	#define HEADER_MLIB_GTK_TYPES
+#ifdef MLIB_ENABLE_GTK
+#ifndef HEADER_MLIB_GTK_LINK_BUTTON
+	#define HEADER_MLIB_GTK_LINK_BUTTON
 
-	#ifdef MLIB_ENABLE_GTK
-		namespace Gtk
-		{
-			class Button;
-			class ComboBox;
-			class Dialog;
-			class Entry;
-			class EventBox;
-			class FileChooserDialog;
-			class LinkButton;
-			class ListStore;
-			class ListViewText;
-			class MessageDialog;
-			class ProgressBar;
-			class StockID;
-			class Table;
-			class Toolbar;
-			class TreeRow;
-			class TreeViewColumn;
-			class TreeView;
-			class Widget;
-			class Window;
-		}
+	#include <gtkmm/box.h>
 
-		namespace m { namespace gtk {
-			class Link_button;
-		}}
-	#endif
 
-	#ifdef MLIB_ENABLE_GLADE
-		namespace Gnome { namespace Glade {
-			class Xml;
-		}}
-	#endif
+	namespace m { namespace gtk {
 
+	/// В Gtk::LinkButton и GtkLinkButton по какой-то причине не работает
+	/// функция set_uri(). Данная обертка позволяет это сделать.
+	class Link_button: public Gtk::HBox
+	{
+		public:
+			Link_button(const Glib::ustring& uri = "");
+
+
+		private:
+			Gtk::LinkButton*	link_button;
+			sigc::signal<void>	clicked_signal;
+
+
+		public:
+			/// Аналог Gtk::LinkButton::get_uri().
+			Glib::ustring		get_uri(void) const;
+
+			/// Аналог Gtk::LinkButton::get_visited().
+			bool				get_visited(void) const;
+
+			/// Аналог Gtk::LinkButton::set_uri().
+			void				set_uri(const Glib::ustring& uri);
+
+			/// Аналог Gtk::LinkButton::set_visited().
+			void				set_visited(bool visited = true);
+
+			/// Аналог Gtk::LinkButton::signal_clicked().
+			sigc::signal<void>&	signal_clicked(void);
+
+		private:
+			/// Создает новую кнопку внутри контейнера.
+			void				recreate(const Glib::ustring& uri);
+
+			/// Обработчик сигнала на нажатие кнопки.
+			void				on_clicked_cb(void);
+	};
+
+	}}
+
+#endif
 #endif
 

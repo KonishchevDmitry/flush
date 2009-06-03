@@ -37,35 +37,40 @@
 
 
 		private:
-			Table*				table;
+			Gtk::ProgressBar*		status;
 
-			Gtk::ProgressBar*	status;
+			Gtk::Label*				size;
+			Gtk::Label*				requested_size;
+			Gtk::Label*				downloaded_requested_size;
+			Gtk::Label*				complete_percent;
 
-			Gtk::Label*			size;
-			Gtk::Label*			requested_size;
-			Gtk::Label*			downloaded_requested_size;
-			Gtk::Label*			complete_percent;
+			Gtk::Label*				total_download;
+			Gtk::Label*				total_payload_download;
+			Gtk::Label*				total_upload;
+			Gtk::Label*				total_payload_upload;
+			Gtk::Label*				total_failed;
+			Gtk::Label*				total_redundant;
 
-			Gtk::Label*			total_download;
-			Gtk::Label*			total_payload_download;
-			Gtk::Label*			total_upload;
-			Gtk::Label*			total_payload_upload;
-			Gtk::Label*			total_failed;
-			Gtk::Label*			total_redundant;
+			Gtk::Label*				download_speed;
+			Gtk::Label*				download_payload_speed;
+			Gtk::Label*				upload_speed;
+			Gtk::Label*				upload_payload_speed;
 
-			Gtk::Label*			download_speed;
-			Gtk::Label*			payload_download_speed;
-			Gtk::Label*			upload_speed;
-			Gtk::Label*			payload_upload_speed;
+			Gtk::Label*				share_ratio;
 
-			Gtk::Label*			share_ratio;
+			Gtk::Label*				peers;
+			Gtk::Label*				seeds;
 
-			Gtk::Label*			peers;
-			Gtk::Label*			seeds;
+			Gtk::Label*				time_added;
+			Gtk::Label*				time_left;
+			Gtk::Label*				time_seeding;
 
-			Gtk::Label*			time_added;
-			Gtk::Label*			time_left;
-			Gtk::Label*			time_seeding;
+
+			Gtk::Label*				tracker_status;
+
+			Gtk::Label*				publisher_url;
+			std::string				publisher_url_string;
+			Gtk::EventBox*			publisher_url_event_box;
 
 
 		public:
@@ -76,6 +81,15 @@
 		private:
 			/// Сбрасывает все значения к значениям по умолчанию.
 			void		clear(void);
+
+			/// Обработчик сигнала на нажатие клик мышью по Publisher URL.
+			bool		on_publisher_url_button_press_event_cb(GdkEventButton* event);
+
+			/// Обработчик сигнала на попадание мыши в область видимости Publisher URL.
+			bool		on_publisher_url_enter_notify_event_cb(GdkEventCrossing* event);
+
+			/// Обработчик сигнала на выход мыши их области видимости Publisher URL.
+			bool		on_publisher_url_leave_notify_event_cb(GdkEventCrossing* event);
 
 			/// Устанавливает значение размера.
 			void		set_size(Gtk::Label* label, Size size);

@@ -349,14 +349,14 @@ void Application::process_cmd_options(const Client_cmd_options& cmd_options)
 
 
 
-void Application::open_file(const std::string& path)
+void Application::open_uri(const std::string& uri)
 {
 	if(this->client_settings.user.open_command != "")
 	{
 		try
 		{
 			std::vector<std::string> args;
-			args.push_back(path);
+			args.push_back(uri);
 
 			m::run(this->client_settings.user.open_command, args);
 		}

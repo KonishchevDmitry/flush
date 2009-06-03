@@ -1022,7 +1022,7 @@ namespace
 			it = it->parent();
 		}
 
-		get_application().open_file(torrent_download_path / torrent_file_path);
+		get_application().open_uri(torrent_download_path / torrent_file_path);
 	}
 
 

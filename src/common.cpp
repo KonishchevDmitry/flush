@@ -1,3 +1,4 @@
+#include <memory>
 #include <string>
 #include <limits>
 
@@ -6,6 +7,8 @@
 #endif
 
 #include <glibmm/convert.h>
+#include <glibmm/regex.h>
+
 #include <gtkmm/stock.h>
 
 #include <libtorrent/alert.hpp>
@@ -551,12 +554,22 @@
 
 			this->time_added = torrent.time_added;
 			this->time_seeding = torrent.time_seeding;
+
+			this->current_tracker = torrent_status.current_tracker;
+
+			/*
+			bool trackers_exists = !torrent_info.trackers.empty();
+			if(torrent_status.current_tracker.empty())
+			{
+				if(trackers_exists)
+					this->current_tracker = torrent_status.current_tracker;
+				else
+					this->current_tracker = _("There are no trackers has been setted for this torrent.");
+			}
+			else
+			*/
 		}
 		catch(lt::invalid_handle)
-		{
-			MLIB_LE();
-		}
-		catch(lt::invalid_torrent_file)
 		{
 			MLIB_LE();
 		}
@@ -786,8 +799,18 @@
 // Torrent_details -->
 	Torrent_details::Torrent_details(const Torrent& torrent)
 	:
-		Torrent_info(torrent)
+		Torrent_info(torrent),
+		publisher_url(torrent.publisher_url)
 	{
+		if(this->current_tracker.empty())
+		{
+			if(torrent.tracker_error.empty())
+				this->tracker_status = _Q("Tracker status is not given yet|Not given yet");
+			else
+				this->tracker_status = torrent.tracker_error;
+		}
+		else
+			this->tracker_status = __("OK (%1)", this->current_tracker);
 	}
 // Torrent_details <--
 
@@ -866,10 +889,10 @@ std::string get_share_ratio_string(Share_ratio ratio, bool show_zero_values)
 	// могут принимать Inf и NaN значения.
 	if(ratio < 0 || ratio > 1000)
 		return "∞";
-	
+
 	if(!ratio && !show_zero_values)
 		return "";
-	
+
 	return _F(std::fixed, std::setprecision(2), ratio);
 }
 
@@ -878,5 +901,52 @@ std::string get_share_ratio_string(Share_ratio ratio, bool show_zero_values)
 std::string get_share_ratio_string(Size upload, Size download, Size size, bool show_zero_values)
 {
 	return get_share_ratio_string(get_share_ratio(upload, download, size), show_zero_values);
+}
+
+
+
+std::string get_tracker_name_by_url(const std::string& tracker_url)
+{
+	const size_t prefix_len = sizeof "http://" - 1;
+
+	if(tracker_url.size() <= prefix_len || tracker_url.compare(0, prefix_len, "http://"))
+		return tracker_url;
+
+	size_t slash_pos = tracker_url.find('/', prefix_len);
+
+	std::string tracker_name = tracker_url.substr(prefix_len,
+		slash_pos == std::string::npos ? std::string::npos : slash_pos - prefix_len
+	);
+
+	String_vector domains = m::split(tracker_name, '.');
+
+	switch(domains.size())
+	{
+		case 0:
+			MLIB_LE();
+			break;
+
+		case 1:
+		case 2:
+			return tracker_name;
+			break;
+
+		case 3:
+		{
+			std::string& second = domains[1];
+
+			if(second == "co" || second == "com" || second == "net" || second == "org")
+				return tracker_name;
+			else
+				return tracker_name.substr(domains[0].size() + 1);
+		}
+		break;
+
+		default:
+			return tracker_name.substr(domains[0].size() + 1);
+			break;
+	}
+
+	MLIB_LE();
 }
 

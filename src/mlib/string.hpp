@@ -26,6 +26,8 @@
 	#include <climits>
 	#include <cstring>
 	#include <sstream>
+	#include <string>
+	#include <vector>
 
 	#ifdef ENABLE_NLS
 		#include <libintl.h>
@@ -62,6 +64,8 @@
 
 	namespace m
 	{
+		typedef std::vector<std::string> String_vector;
+
 		#ifdef MLIB_ENABLE_FORMAT
 			/// Обертка над boost::format.
 			///
@@ -235,6 +239,9 @@
 		/// пробельных символов).
 		bool			is_empty_string(const Glib::ustring& string);
 
+		/// Проверяет, вляется ли строка URL (http) адресом.
+		bool			is_url_string(const std::string& string);
+
 		/// Проверяет, известна ли данная кодировка механизму перекодировки строк.
 		bool			is_valid_encoding_name(const std::string& encoding);
 
@@ -249,6 +256,10 @@
 
 		/// Возвращает строковое представление скорости передачи данных
 		std::string		speed_to_string(Speed speed, bool show_zero_values = true);
+
+		/// Разделяет строку на подстроки, при этом проверяя, чтобы в
+		/// результирующем векторе не было пустых строк.
+		String_vector	split(const std::string& string, char separator);
 
 		/// Возвращает строковое представление времени в формате "%H:%M:%S %d.%m.%Y".
 		std::string		time_to_string_with_date(Time time);
@@ -283,6 +294,8 @@
 	#include "string.hh"
 
 	#ifdef MLIB_ENABLE_ALIASES
+		using m::String_vector;
+
 		using m::_;
 		using m::_Q;
 

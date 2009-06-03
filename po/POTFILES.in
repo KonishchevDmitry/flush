@@ -7,6 +7,8 @@ src/mlib/gtk/controlled_list.hpp
 src/mlib/gtk/glade.cpp
 src/mlib/gtk/glade.hh
 src/mlib/gtk/glade.hpp
+src/mlib/gtk/link_button.cpp
+src/mlib/gtk/link_button.hpp
 src/mlib/gtk/misc.cpp
 src/mlib/gtk/misc.hh
 src/mlib/gtk/misc.hpp

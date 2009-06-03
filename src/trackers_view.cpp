@@ -99,7 +99,6 @@ Trackers_view::Trackers_view(void)
 	Gtk::Button* button;
 
 	Gtk::Table* table = Gtk::manage(new Gtk::Table(2, 2));
-//	table->set_border_width(m::gtk::BOX_BORDER_WIDTH);
 	table->set_row_spacings(m::gtk::HBOX_SPACING);
 	table->set_col_spacings(m::gtk::HBOX_SPACING);
 	this->pack_start(*table, true, true);
@@ -162,7 +161,7 @@ void Trackers_view::append(const std::string& url) throw(m::Exception)
 	std::string tracker_url = m::trim(url);
 
 	// Простейшая проверка на валидность адреса -->
-		if(tracker_url.size() < strlen("http://X") || tracker_url.substr(0, strlen("http://")) != "http://")
+		if(!m::is_url_string(tracker_url))
 		{
 			M_THROW(__(
 				"Gotten invalid tracker URL ('%1'). Please inter a valid URL started from 'http://'.",

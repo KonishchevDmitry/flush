@@ -8,6 +8,8 @@ libmlib_gtk_a_SOURCES = \
 	glade.cpp \
 	glade.hh \
 	glade.hpp \
+	link_button.cpp \
+	link_button.hpp \
 	misc.cpp \
 	misc.hh \
 	misc.hpp \

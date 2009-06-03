@@ -31,7 +31,12 @@
 	class Torrent
 	{
 		public:
-			Torrent(const Torrent_id& id, const lt::torrent_handle& handle, const Torrent_settings& settings);
+			Torrent(
+				const Torrent_id& id,
+				const lt::torrent_handle& handle,
+				const m::lt::Torrent_metadata& torrent_metadata,
+				const Torrent_settings& settings
+			);
 
 
 		public:
@@ -41,6 +46,10 @@
 
 			/// Кодировка *.torrent файла.
 			std::string							encoding;
+
+			/// URL, с которого был скачан торрент.
+			std::string							publisher_url;
+
 
 			/// "Кэш" состояния раздачи, обновляемого каждый
 			/// раз при обновлении статистики торрента.
@@ -64,6 +73,10 @@
 
 			/// Текущая ревизия списка трекеров.
 			Revision							trackers_revision;
+
+			/// Последняя ошибка соединения с трекером, полученная от
+			/// libtorrent.
+			std::string							tracker_error;
 
 
 			/// Текущая ревизия параметров скачивания торрента.

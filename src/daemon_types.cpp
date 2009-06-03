@@ -28,18 +28,26 @@
 #include <libtorrent/torrent_handle.hpp>
 #include <libtorrent/torrent_info.hpp>
 
+#include <mlib/libtorrent.hpp>
+
 #include "daemon_settings.hpp"
 #include "daemon_types.hpp"
 
 
 
 // Torrent -->
-	Torrent::Torrent(const Torrent_id& id, const lt::torrent_handle& handle, const Torrent_settings& settings)
+	Torrent::Torrent(
+		const Torrent_id& id,
+		const lt::torrent_handle& handle,
+		const m::lt::Torrent_metadata& torrent_metadata,
+		const Torrent_settings& settings
+	)
 	:
 		id(id),
 		handle(handle),
 
 		encoding(settings.encoding),
+		publisher_url(torrent_metadata.publisher_url),
 
 		seeding(false),
 
