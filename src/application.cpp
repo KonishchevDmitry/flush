@@ -317,10 +317,17 @@ void Application::process_cmd_options(const Client_cmd_options& cmd_options)
 			{
 				Daemon_settings daemon_settings = this->daemon_proxy->get_settings();
 
-				daemon_settings.download_rate_limit = cmd_options.download_rate_limit;
-				daemon_settings.upload_rate_limit = cmd_options.upload_rate_limit;
-				daemon_settings.max_uploads = cmd_options.max_uploads;
-				daemon_settings.max_connections = cmd_options.max_connections;
+				if(cmd_options.download_rate_limit != cmd_options.invalid_speed_value)
+					daemon_settings.download_rate_limit = cmd_options.download_rate_limit;
+
+				if(cmd_options.upload_rate_limit != cmd_options.invalid_speed_value)
+					daemon_settings.upload_rate_limit = cmd_options.upload_rate_limit;
+
+				if(cmd_options.max_uploads != cmd_options.invalid_number_value)
+					daemon_settings.max_uploads = cmd_options.max_uploads;
+
+				if(cmd_options.max_connections != cmd_options.invalid_number_value)
+					daemon_settings.max_connections = cmd_options.max_connections;
 
 				this->daemon_proxy->set_settings(daemon_settings);
 			}

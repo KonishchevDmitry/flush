@@ -922,9 +922,7 @@ namespace
 		{
 			std::ofstream dht_state_file;
 
-			dht_state_file.exceptions(
-				std::ofstream::eofbit | std::ofstream::failbit | std::ofstream::badbit
-			);
+			dht_state_file.exceptions(std::ofstream::failbit | std::ofstream::badbit);
 
 			dht_state_file.open(
 				U2L(real_dht_state_path).c_str(),
@@ -1634,7 +1632,7 @@ namespace
 
 		try
 		{
-			resume_data_file.exceptions(std::ofstream::eofbit | std::ofstream::failbit | std::ofstream::badbit);
+			resume_data_file.exceptions(std::ofstream::failbit | std::ofstream::badbit);
 			resume_data_file.open(U2L(real_resume_data_path).c_str(), std::ios::out | std::ios::binary | std::ios::trunc);
 
 			// Пишем версию libtorrent, которая производила запись resume data -->

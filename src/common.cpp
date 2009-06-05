@@ -500,10 +500,11 @@
 
 // Torrent_info -->
 	Torrent_info::Torrent_info(const Torrent& torrent)
+	:
+		processed(false)
 	{
 		try
 		{
-			const lt::torrent_info torrent_info = torrent.handle.get_torrent_info();
 			const lt::torrent_status torrent_status = torrent.handle.status();
 
 			this->id = torrent.id;
@@ -511,7 +512,7 @@
 			this->paused = torrent_status.paused;
 			this->status = this->get_status(torrent_status);
 
-			this->size = torrent_info.total_size();
+			this->size = torrent.handle.get_torrent_info().total_size();
 			this->requested_size = torrent_status.total_wanted;
 			this->downloaded_requested_size = torrent_status.total_wanted_done;
 
@@ -555,19 +556,11 @@
 			this->time_added = torrent.time_added;
 			this->time_seeding = torrent.time_seeding;
 
+			this->trackers_exists = !torrent.handle.trackers().empty();
+			this->tracker_brocken =
+				this->trackers_exists && torrent_status.current_tracker.empty() &&
+				!torrent.tracker_error.empty();
 			this->current_tracker = torrent_status.current_tracker;
-
-			/*
-			bool trackers_exists = !torrent_info.trackers.empty();
-			if(torrent_status.current_tracker.empty())
-			{
-				if(trackers_exists)
-					this->current_tracker = torrent_status.current_tracker;
-				else
-					this->current_tracker = _("There are no trackers has been setted for this torrent.");
-			}
-			else
-			*/
 		}
 		catch(lt::invalid_handle)
 		{
@@ -665,41 +658,81 @@
 	Torrent_info::Status_icon_id Torrent_info::get_status_icon_id(void) const
 	{
 		if(this->paused)
-			return TORRENT_STATUS_ICON_PAUSED;
+		{
+			if(this->tracker_brocken)
+				return TORRENT_STATUS_ICON_PAUSED_BROCKEN_TRACKER;
+			else
+				return TORRENT_STATUS_ICON_PAUSED;
+		}
 		else
 		{
 			switch(this->status)
 			{
 				case Torrent_info::ALLOCATING:
-					return TORRENT_STATUS_ICON_ALLOCATING;
-					break;
+				{
+					if(this->tracker_brocken)
+						return TORRENT_STATUS_ICON_ALLOCATING_BROCKEN_TRACKER;
+					else
+						return TORRENT_STATUS_ICON_ALLOCATING;
+				}
+				break;
 
 				case Torrent_info::QUEUED_FOR_CHECKING:
 				case Torrent_info::CHECKING_FILES:
-					return TORRENT_STATUS_ICON_CHECKING;
-					break;
+				{
+					if(this->tracker_brocken)
+						return TORRENT_STATUS_ICON_CHECKING_BROCKEN_TRACKER;
+					else
+						return TORRENT_STATUS_ICON_CHECKING;
+				}
+				break;
 
 				case Torrent_info::WAITING_FOR_METADATA_DOWNLOAD:
 				case Torrent_info::WAITING_FOR_DOWNLOAD:
-					return TORRENT_STATUS_ICON_STALLED_DOWNLOAD;
-					break;
+				{
+					if(this->tracker_brocken)
+						return TORRENT_STATUS_ICON_WAITING_FOR_DOWNLOAD_BROCKEN_TRACKER;
+					else
+						return TORRENT_STATUS_ICON_WAITING_FOR_DOWNLOAD;
+				}
+				break;
 
 				case Torrent_info::DOWNLOADING_METADATA:
 				case Torrent_info::DOWNLOADING:
-					return TORRENT_STATUS_ICON_DOWNLOADING;
-					break;
+				{
+					if(this->tracker_brocken)
+						return TORRENT_STATUS_ICON_DOWNLOADING_BROCKEN_TRACKER;
+					else
+						return TORRENT_STATUS_ICON_DOWNLOADING;
+				}
+				break;
 
 				case Torrent_info::SEEDING:
-					return TORRENT_STATUS_ICON_SEEDING;
-					break;
+				{
+					if(this->tracker_brocken)
+						return TORRENT_STATUS_ICON_SEEDING_BROCKEN_TRACKER;
+					else
+						return TORRENT_STATUS_ICON_SEEDING;
+				}
+				break;
 
 				case Torrent_info::UPLOADING:
-					return TORRENT_STATUS_ICON_UPLOADING;
-					break;
+				{
+					if(this->tracker_brocken)
+						return TORRENT_STATUS_ICON_UPLOADING_BROCKEN_TRACKER;
+					else
+						return TORRENT_STATUS_ICON_UPLOADING;
+				}
+				break;
 
 				case Torrent_info::UNKNOWN:
-					return TORRENT_STATUS_ICON_UNKNOWN;
-					break;
+				{
+					if(this->tracker_brocken)
+						return TORRENT_STATUS_ICON_UNKNOWN_BROCKEN_TRACKER;
+					else
+						return TORRENT_STATUS_ICON_UNKNOWN;
+				}
+				break;
 
 				default:
 					MLIB_LE();
@@ -792,6 +825,54 @@
 		else
 			return (this->requested_size - this->downloaded_requested_size) / this->payload_download_speed;
 	}
+
+
+
+	bool Torrent_info::operator!=(const Torrent_info& torrent_info) const
+	{
+		const Torrent_info& i = torrent_info;
+
+		if(this == &i)
+			return false;
+
+		return
+			this->id						!=	i.id						||
+
+			this->download_speed			!=	i.download_speed			||
+			this->payload_download_speed	!=	i.payload_download_speed	||
+			this->upload_speed				!=	i.upload_speed				||
+			this->payload_upload_speed		!=	i.payload_upload_speed		||
+
+			this->total_download			!=	i.total_download			||
+			this->total_payload_download	!=	i.total_payload_download	||
+			this->total_upload				!=	i.total_upload				||
+			this->total_payload_upload		!=	i.total_payload_upload		||
+
+			this->progress					!=	i.progress					||
+			this->downloaded_requested_size	!=	i.downloaded_requested_size	||
+
+			this->time_seeding				!=	i.time_seeding				||
+
+			this->peers_num					!=	i.peers_num					||
+			this->seeds_num					!=	i.seeds_num					||
+
+			this->total_failed				!=	i.total_failed				||
+			this->total_redundant			!=	i.total_redundant			||
+
+			this->paused					!=	i.paused					||
+			this->status					!=	i.status					||
+
+			this->requested_size			!=	i.requested_size			||
+			this->trackers_exists			!=	i.trackers_exists			||
+			this->tracker_brocken			!=	i.tracker_brocken			||
+			this->current_tracker			!=	i.current_tracker			||
+
+			this->processed					!=	i.processed					||
+			this->name						!=	i.name						||
+			this->size						!=	i.size						||
+			this->time_added				!=	i.time_added				||
+		0;
+	}
 // Torrent_info <--
 
 
@@ -802,15 +883,20 @@
 		Torrent_info(torrent),
 		publisher_url(torrent.publisher_url)
 	{
-		if(this->current_tracker.empty())
+		if(this->trackers_exists)
 		{
-			if(torrent.tracker_error.empty())
-				this->tracker_status = _Q("Tracker status is not given yet|Not given yet");
+			if(this->current_tracker.empty())
+			{
+				if(this->tracker_brocken)
+					this->tracker_status = torrent.tracker_error;
+				else
+					this->tracker_status = _Q("Tracker status is not given yet|Not given yet");
+			}
 			else
-				this->tracker_status = torrent.tracker_error;
+				this->tracker_status = __("OK (%1)", this->current_tracker);
 		}
 		else
-			this->tracker_status = __("OK (%1)", this->current_tracker);
+			this->tracker_status = _("There are no trackers has been setted for this torrent");
 	}
 // Torrent_details <--
 

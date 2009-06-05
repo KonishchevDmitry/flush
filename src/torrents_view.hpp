@@ -22,16 +22,12 @@
 #ifndef HEADER_TORRENTS_VIEW
 	#define HEADER_TORRENTS_VIEW
 
-	#include <deque>
-	#include <map>
-	#include <vector>
+	#include <boost/shared_ptr.hpp>
 
-	#include <gtkmm/actiongroup.h>
 	#include <gtkmm/cellrendererprogress.h>
 	#include <gtkmm/liststore.h>
 	#include <gtkmm/treemodel.h>
 	#include <gtkmm/treeview.h>
-	#include <gtkmm/uimanager.h>
 
 	#include <mlib/gtk/tree_view.hpp>
 
@@ -173,6 +169,10 @@
 
 	class Torrents_view: public m::gtk::Tree_view<Torrents_view_columns, Torrents_view_model_columns, Gtk::ListStore>
 	{
+		private:
+			class Private;
+
+
 		public:
 			Torrents_view(const Torrents_view_settings& settings);
 
@@ -181,48 +181,44 @@
 			sigc::signal<void, Torrent_id>	torrent_selected_signal;
 
 		private:
-			/// Значение, которое имела опция "show_zero_values" в прошлый раз.
-			bool							last_show_zero_values_setting;
-
-			Glib::RefPtr<Gtk::Action>		pause_action;
-			Glib::RefPtr<Gtk::Action>		resume_action;
-			Glib::RefPtr<Gtk::UIManager>	ui_manager;
-
-			/// Изображения, символизирующие различные статусы торрента.
-			Glib::RefPtr<Gdk::Pixbuf>		status_icons[Torrent_info::TORRENT_STATUS_ICON_SIZE];
+			boost::shared_ptr<Private>	priv;
 
 
 		public:
 			/// Возвращает маску действий, которые можно совершить над
 			/// выбранным(ми) тореентом(ами).
-			Torrent_process_actions	get_available_actions(void);
+			Torrent_process_actions		get_available_actions(void);
 
 			/// Выполняет требуемое действие над выбранными в данный момент
 			/// торрентами.
-			void					process_torrents(Torrent_process_action action);
+			void						process_torrents(Torrent_process_action action);
 
 			/// Сохраняет настройки виджета.
-			void					save_settings(Torrents_view_settings& settings) const;
+			void						save_settings(Torrents_view_settings& settings) const;
 
 			/// Иницииурет обновление виджета.
-			void					update(std::vector<Torrent_info>::iterator infos_it, const std::vector<Torrent_info>::iterator& infos_end_it);
+			void						update(std::vector<Torrent_info>::iterator infos_it, const std::vector<Torrent_info>::iterator& infos_end_it);
 
 		private:
+			/// Загружает изображение, символизирующее текущее состояние
+			/// торрента.
+			Glib::RefPtr<Gdk::Pixbuf>	load_status_icon(const std::string& icon_name, int height);
+
 			/// Обработчик сигнала на нажатие правой кнопки мыши.
-			virtual void			on_mouse_right_button_click(const GdkEventButton* const event);
+			virtual void				on_mouse_right_button_click(const GdkEventButton* const event);
 
 			/// Обработчик сигнала на активацию строки TreeView.
-			void					on_row_activated_callback(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
+			void						on_row_activated_callback(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
 
 			/// Обработчик сигнала на изменение списка выделенных торрентов.
-			void					on_selection_changed_callback(void);
+			void						on_selection_changed_callback(void);
 
 			/// Обработчик сигнала на выбор пользователем действия, которое
 			/// он хочет совершить над торрентом(ами) (остановить, запустить, удалить и т. п.).
-			void					torrents_process_callback(Torrent_process_action action);
+			void						torrents_process_callback(Torrent_process_action action);
 
 			/// Обновляет строку TreeView.
-			void					update_row(Gtk::TreeRow &row, const Torrent_info& torrent_info, bool force_update, bool zeros_force_update, bool show_zero_values);
+			void						update_row(Gtk::TreeRow &row, const Torrent_info& torrent_info, bool force_update, bool zeros_force_update, bool show_zero_values);
 	};
 #endif
 

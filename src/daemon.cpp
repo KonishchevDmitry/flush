@@ -97,6 +97,10 @@ void Daemon::process_torrents(const std::vector<Torrent_id>& torrents_ids, Torre
 				this->resume_torrent(*it);
 				break;
 
+			case RECHECK:
+				this->recheck_torrent(*it);
+				break;
+
 			case REMOVE:
 				this->remove_torrent(*it);
 				break;

@@ -217,26 +217,69 @@
 
 
 // Torrents_view -->
+	// Private -->
+		class Torrents_view::Private
+		{
+			public:
+				Private(void);
+
+
+			public:
+				/// Значение, которое имела опция "show_zero_values" в прошлый раз.
+				bool							last_show_zero_values_setting;
+
+				/// Информация, отображаемая в данный момент.
+			#if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 36, 0)
+				boost::unordered_map<Torrent_id, Torrent_info>	infos;
+			#else
+				std::map<Torrent_id, Torrent_info>				infos;
+			#endif
+
+				Glib::RefPtr<Gtk::Action>		resume_action;
+				Glib::RefPtr<Gtk::Action>		pause_action;
+				Glib::RefPtr<Gtk::Action>		recheck_action;
+				Glib::RefPtr<Gtk::UIManager>	ui_manager;
+
+				/// Изображения, символизирующие различные статусы торрента.
+				Glib::RefPtr<Gdk::Pixbuf>		status_icons[Torrent_info::TORRENT_STATUS_ICON_SIZE];
+		};
+
+
+
+		Torrents_view::Private::Private(void)
+		:
+			last_show_zero_values_setting(false)
+		{
+		}
+	// Private <--
+
+
+
 	Torrents_view::Torrents_view(const Torrent_files_view_settings& settings)
 	:
 		m::gtk::Tree_view<Torrents_view_columns, Torrents_view_model_columns, Gtk::ListStore>(settings),
-		last_show_zero_values_setting(false)
+		priv(new Private)
 	{
 		// Всплывающее меню -->
 			Glib::RefPtr<Gtk::ActionGroup> action_group;
 
-			this->ui_manager = Gtk::UIManager::create();
+			priv->ui_manager = Gtk::UIManager::create();
 
 			action_group = Gtk::ActionGroup::create();
-			this->resume_action = Gtk::Action::create("resume", Gtk::Stock::MEDIA_PLAY, _("Resume"));
+			priv->resume_action = Gtk::Action::create("resume", Gtk::Stock::MEDIA_PLAY, _("Resume"));
 			action_group->add(
-				this->resume_action,
+				priv->resume_action,
 				sigc::bind<Torrent_process_action>( sigc::mem_fun(*this, &Torrents_view::torrents_process_callback), RESUME )
 			);
-			this->pause_action = Gtk::Action::create("pause", Gtk::Stock::MEDIA_PAUSE, _("Pause"));
+			priv->pause_action = Gtk::Action::create("pause", Gtk::Stock::MEDIA_PAUSE, _("Pause"));
 			action_group->add(
-				this->pause_action,
+				priv->pause_action,
 				sigc::bind<Torrent_process_action>( sigc::mem_fun(*this, &Torrents_view::torrents_process_callback), PAUSE )
+			);
+			priv->recheck_action = Gtk::Action::create("recheck", Gtk::Stock::REFRESH, _("Recheck"));
+			action_group->add(
+				priv->recheck_action,
+				sigc::bind<Torrent_process_action>( sigc::mem_fun(*this, &Torrents_view::torrents_process_callback), RECHECK )
 			);
 			action_group->add(
 				Gtk::Action::create("remove", Gtk::Stock::REMOVE, _("Remove")),
@@ -246,19 +289,20 @@
 				Gtk::Action::create("remove_with_data", Gtk::Stock::DELETE, _("Remove with data")),
 				sigc::bind<Torrent_process_action>( sigc::mem_fun(*this, &Torrents_view::torrents_process_callback), REMOVE_WITH_DATA )
 			);
-			this->ui_manager->insert_action_group(action_group);
+			priv->ui_manager->insert_action_group(action_group);
 
 			Glib::ustring ui_info =
 				"<ui>"
 				"	<popup name='popup_menu'>"
 				"		<menuitem action='resume'/>"
 				"		<menuitem action='pause'/>"
+				"		<menuitem action='recheck'/>"
 				"		<menuitem action='remove'/>"
 				"		<menuitem action='remove_with_data'/>"
 				"	</popup>"
 				"</ui>";
 
-			this->ui_manager->add_ui_from_string(ui_info);
+			priv->ui_manager->add_ui_from_string(ui_info);
 		// Всплывающее меню <--
 
 		// Изображения, символизирующие различные статусы торрента -->
@@ -268,50 +312,37 @@
 
 			MLIB_A(gtk_icon_size_lookup(GTK_ICON_SIZE_MENU, &width, &height));
 
-			this->status_icons[Torrent_info::TORRENT_STATUS_ICON_PAUSED] =
+			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_PAUSED_BROCKEN_TRACKER] =
+			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_PAUSED] =
 				this->render_icon(Gtk::Stock::MEDIA_PAUSE, Gtk::ICON_SIZE_MENU);
 
-			this->status_icons[Torrent_info::TORRENT_STATUS_ICON_ALLOCATING] =
+			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_ALLOCATING_BROCKEN_TRACKER] =
+			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_ALLOCATING] =
 				this->render_icon(Gtk::Stock::HARDDISK, Gtk::ICON_SIZE_MENU);
 
-			this->status_icons[Torrent_info::TORRENT_STATUS_ICON_CHECKING] =
+			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_CHECKING_BROCKEN_TRACKER] =
+			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_CHECKING] =
 				this->render_icon(Gtk::Stock::FIND, Gtk::ICON_SIZE_MENU);
 
-			try
-			{
-				this->status_icons[Torrent_info::TORRENT_STATUS_ICON_STALLED_DOWNLOAD] =
-					Gtk::IconTheme::get_default()->load_icon(APP_CUSTOM_ICON_STALLED_DOWNLOAD, height);
-			}
-			catch(Gtk::IconThemeError&)
-			{
-				this->status_icons[Torrent_info::TORRENT_STATUS_ICON_STALLED_DOWNLOAD] =
-					this->render_icon(Gtk::Stock::MISSING_IMAGE, Gtk::ICON_SIZE_MENU);
-			}
+			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_WAITING_FOR_DOWNLOAD_BROCKEN_TRACKER] =
+				this->load_status_icon(APP_CUSTOM_ICON_TORRENT_WAITING_FOR_DOWNLOAD_BROCKEN_TRACKER, height);
+			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_WAITING_FOR_DOWNLOAD] =
+				this->load_status_icon(APP_CUSTOM_ICON_TORRENT_WAITING_FOR_DOWNLOAD, height);
 
-			try
-			{
-				this->status_icons[Torrent_info::TORRENT_STATUS_ICON_DOWNLOADING] =
-					Gtk::IconTheme::get_default()->load_icon(APP_CUSTOM_ICON_DOWNLOAD, height);
-			}
-			catch(Gtk::IconThemeError&)
-			{
-				this->status_icons[Torrent_info::TORRENT_STATUS_ICON_DOWNLOADING] =
-					this->render_icon(Gtk::Stock::MISSING_IMAGE, Gtk::ICON_SIZE_MENU);
-			}
+			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_DOWNLOADING_BROCKEN_TRACKER] =
+				this->load_status_icon(APP_CUSTOM_ICON_TORRENT_DOWNLOADING_BROCKEN_TRACKER, height);
+			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_DOWNLOADING] =
+				this->load_status_icon(APP_CUSTOM_ICON_TORRENT_DOWNLOADING, height);
 
-			this->status_icons[Torrent_info::TORRENT_STATUS_ICON_SEEDING] =
-				this->render_icon(Gtk::Stock::YES, Gtk::ICON_SIZE_MENU);
+			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_SEEDING_BROCKEN_TRACKER] =
+				this->load_status_icon(APP_CUSTOM_ICON_TORRENT_SEEDING_BROCKEN_TRACKER, height);
+			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_SEEDING] =
+				this->load_status_icon(APP_CUSTOM_ICON_TORRENT_SEEDING, height);
 
-			try
-			{
-				this->status_icons[Torrent_info::TORRENT_STATUS_ICON_UPLOADING] =
-					Gtk::IconTheme::get_default()->load_icon(APP_CUSTOM_ICON_UPLOAD, height);
-			}
-			catch(Gtk::IconThemeError&)
-			{
-				this->status_icons[Torrent_info::TORRENT_STATUS_ICON_UPLOADING] =
-					this->render_icon(Gtk::Stock::MISSING_IMAGE, Gtk::ICON_SIZE_MENU);
-			}
+			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_UPLOADING_BROCKEN_TRACKER] =
+				this->load_status_icon(APP_CUSTOM_ICON_TORRENT_UPLOADING_BROCKEN_TRACKER, height);
+			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_UPLOADING] =
+				this->load_status_icon(APP_CUSTOM_ICON_TORRENT_UPLOADING, height);
 		}
 		// Изображения, символизирующие различные статусы торрента <--
 
@@ -334,19 +365,43 @@
 		{
 			actions |= REMOVE | REMOVE_WITH_DATA;
 
-			for(std::deque<Gtk::TreeModel::iterator>::iterator it = iters.begin(); it < iters.end(); it++)
+			M_FOR_CONST_IT(iters, it)
 			{
-				if( (*it)->get_value(this->model_columns.paused) )
+				Torrent_info& info = priv->infos.find(
+					(*it)->get_value(this->model_columns.id)
+				)->second;
+
+				if(info.paused)
 					actions |= RESUME;
 				else
 					actions |= PAUSE;
 
-				if(actions & RESUME && actions & PAUSE)
+				if(
+					info.status != Torrent_info::QUEUED_FOR_CHECKING &&
+					info.status != Torrent_info::CHECKING_FILES
+				)
+					actions |= RECHECK;
+
+				if( ( actions & ( RESUME | PAUSE | RECHECK ) ) == ( RESUME | PAUSE | RECHECK ) )
 					break;
 			}
 		}
 
 		return actions;
+	}
+
+
+
+	Glib::RefPtr<Gdk::Pixbuf> Torrents_view::load_status_icon(const std::string& icon_name, int height)
+	{
+		try
+		{
+			return Gtk::IconTheme::get_default()->load_icon(icon_name, height);
+		}
+		catch(Gtk::IconThemeError&)
+		{
+			return this->render_icon(Gtk::Stock::MISSING_IMAGE, Gtk::ICON_SIZE_MENU);
+		}
 	}
 
 
@@ -359,11 +414,12 @@
 		if(actions)
 		{
 			// Определяем, какие элементы меню необходимо отобразить
-			this->pause_action->set_visible(actions & PAUSE);
-			this->resume_action->set_visible(actions & RESUME);
+			priv->resume_action->set_visible(actions & RESUME);
+			priv->pause_action->set_visible(actions & PAUSE);
+			priv->recheck_action->set_visible(actions & RECHECK);
 
 			// Отображаем меню
-			dynamic_cast<Gtk::Menu*>(this->ui_manager->get_widget("/popup_menu"))->popup(event->button, event->time);
+			dynamic_cast<Gtk::Menu*>(priv->ui_manager->get_widget("/popup_menu"))->popup(event->button, event->time);
 		}
 	}
 
@@ -427,14 +483,41 @@
 
 	void Torrents_view::process_torrents(Torrent_process_action action)
 	{
+		const char* names_list_prefix = "\n- ";
+		const size_t names_list_prefix_len = strlen(names_list_prefix);
+
+		std::vector<Torrent_id> torrents_ids;
+		Glib::ustring torrents_list_string;
+
+
+		// Получаем список выделенных торрентов -->
+		{
+			std::deque<Gtk::TreeModel::iterator> iters = this->get_selected_rows();
+
+			if(iters.empty())
+				return;
+
+			torrents_ids.reserve(iters.size());
+			M_FOR_CONST_IT(iters, it)
+			{
+				torrents_ids.push_back( Torrent_id( (*it)->get_value(this->model_columns.id) ) );
+				torrents_list_string += names_list_prefix + (*it)->get_value(this->model_columns.name);
+			}
+		}
+		// Получаем список выделенных торрентов <--
+
 		// Запрашиваем подтверждение у пользователя, если это необходимо -->
 			switch(action)
 			{
 				case REMOVE:
 					if(
 						ok_cancel_dialog(
-							_("Remove torrent(s)"),
-							_("Are you sure want to remove selected torrent(s)?")
+							torrents_ids.size() == 1
+								? _("Remove torrent")
+								: _("Remove torrents"),
+							torrents_ids.size() == 1
+								?  __("Are you sure want to remove torrent '%1'?", torrents_list_string.substr(names_list_prefix_len))
+								:  _("Are you sure want to remove following torrents?") + torrents_list_string
 						) != m::gtk::RESPONSE_OK
 					)
 						return;
@@ -443,8 +526,12 @@
 				case REMOVE_WITH_DATA:
 					if(
 						ok_cancel_dialog(
-							_("Remove torrent(s) with data"),
-							_("Are you sure want to remove selected torrent(s) with data?")
+							torrents_ids.size() == 1
+								? _("Remove torrent with data")
+								: _("Remove torrents with data"),
+							torrents_ids.size() == 1
+								?  __("Are you sure want to remove torrent '%1' with data?", torrents_list_string.substr(names_list_prefix_len))
+								:  _("Are you sure want to remove following torrents with data?") + torrents_list_string
 						) != m::gtk::RESPONSE_OK
 					)
 						return;
@@ -452,6 +539,7 @@
 
 				case PAUSE:
 				case RESUME:
+				case RECHECK:
 					break;
 
 				default:
@@ -460,79 +548,67 @@
 			}
 		// Запрашиваем подтверждение у пользователя, если это необходимо <--
 
-		// Получаем список выделенных строк
-		std::deque<Gtk::TreeModel::iterator> iters = this->get_selected_rows();
-
-		// Получаем идентификаторы выделенных торрентов и отправляем их на обработку -->
-			if(iters.size())
+		// Если торренты удаляются, то необходимо снять
+		// выделение, т. к. при обновлении модели при
+		// удалениии из нее каждой строки будет генерироваться
+		// сигнал на изменение выделения. Если на удаление будет
+		// отправлено несколько торрентов, то все они уже будут
+		// удалены, но в модели еще останутся, а, следовательно,
+		// каждый сигнал будет обновлять текущий Torrent_info_widget
+		// для торрента, которого уже не существует, что вызовет
+		// ошибку.
+		// -->
+			switch(action)
 			{
-				std::vector<Torrent_id> torrents_ids;
-				torrents_ids.reserve(iters.size());
+				case REMOVE:
+				case REMOVE_WITH_DATA:
+					this->get_selection()->unselect_all();
+					break;
 
-				for(std::deque<Gtk::TreeModel::iterator>::iterator it = iters.begin(); it < iters.end(); it++)
-					torrents_ids.push_back( Torrent_id( (*it)->get_value(this->model_columns.id) ) );
-
-				// Если торренты удаляются, то необходимо снять
-				// выделение, т. к. при обновлении модели при
-				// удалениии из нее каждой строки будет генерироваться
-				// сигнал на изменение выделения. Если на удаление будет
-				// отправлено несколько торрентов, то все они уже будут
-				// удалены, но в модели еще останутся, а, следовательно,
-				// каждый сигнал будет обновлять текущий Torrent_info_widget
-				// для торрента, которого уже не существует, что вызовет
-				// ошибку.
-				// -->
-					switch(action)
-					{
-						case REMOVE:
-						case REMOVE_WITH_DATA:
-							this->get_selection()->unselect_all();
-							break;
-
-						default:
-							break;
-					}
-				// <--
-
-				try
-				{
-					get_daemon_proxy().process_torrents(torrents_ids, action);
-				}
-				catch(m::Exception& e)
-				{
-					switch(action)
-					{
-						case REMOVE:
-							MLIB_W(_("Removing torrent(s) failed."), __("Removing torrent(s) failed. %1", EE(e)));
-							break;
-
-						case REMOVE_WITH_DATA:
-							MLIB_W(_("Removing torrent(s) with data failed."), __("Removing torrent(s) with data failed. %1", EE(e)));
-							break;
-
-						case PAUSE:
-							MLIB_W(_("Pausing torrent(s) failed."), __("Pausing torrent(s) failed. %1", EE(e)));
-							break;
-
-						case RESUME:
-							MLIB_W(_("Resuming torrent(s) failed."), __("Resuming torrent(s) failed. %1", EE(e)));
-							break;
-
-						default:
-							MLIB_LE();
-							break;
-					}
-				}
-
-				// Нужно для того, чтобы:
-				// 1) Пользователь сразу увидел внесенные им изменения.
-				// 2) Если интервал обновления маленький и пользователь
-				//    удалит торрент и тут же щелкнет по нему (еще
-				//    неудалившемуся из модели), то программа выдаст
-				//    warning, что такого торрента не существует.
-				update_gui();
+				default:
+					break;
 			}
-		// Получаем идентификаторы выделенных торрентов и отправляем их на обработку <--
+		// <--
+
+		// Отправляем торренты на обработку -->
+			try
+			{
+				get_daemon_proxy().process_torrents(torrents_ids, action);
+			}
+			catch(m::Exception& e)
+			{
+				switch(action)
+				{
+					case REMOVE:
+						MLIB_W(_("Removing torrent(s) failed."), __("Removing torrent(s) failed. %1", EE(e)));
+						break;
+
+					case REMOVE_WITH_DATA:
+						MLIB_W(_("Removing torrent(s) with data failed."), __("Removing torrent(s) with data failed. %1", EE(e)));
+						break;
+
+					case PAUSE:
+						MLIB_W(_("Pausing torrent(s) failed."), __("Pausing torrent(s) failed. %1", EE(e)));
+						break;
+
+					case RESUME:
+						MLIB_W(_("Resuming torrent(s) failed."), __("Resuming torrent(s) failed. %1", EE(e)));
+						break;
+
+					default:
+						MLIB_LE();
+						break;
+				}
+			}
+		// Отправляем торренты на обработку <--
+
+		// Нужно для того, чтобы:
+		// 1) Пользователь сразу увидел внесенные им изменения.
+		// 2) Если интервал обновления маленький и пользователь
+		//    удалит торрент и тут же щелкнет по нему (еще
+		//    неудалившемуся из модели), то программа выдаст
+		//    warning, что такого торрента не существует.
+		update_gui();
 	}
 
 
@@ -554,10 +630,10 @@
 	void Torrents_view::update(std::vector<Torrent_info>::iterator infos_it, const std::vector<Torrent_info>::iterator& infos_end_it)
 	{
 		bool show_zero_values = get_client_settings().gui.show_zero_values;
-		bool show_zero_setting_changed = show_zero_values != this->last_show_zero_values_setting;
+		bool show_zero_setting_changed = show_zero_values != priv->last_show_zero_values_setting;
 
 
-		this->last_show_zero_values_setting = show_zero_values;
+		priv->last_show_zero_values_setting = show_zero_values;
 
 		// Создаем индекс по информации о торрентах -->
 		#if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 36, 0)
@@ -610,26 +686,34 @@
 
 			M_FOR_IT(rows, it)
 			{
-				M_ITER_TYPE(infos) info_it = infos.find(
-					it->get_value(this->model_columns.id)
-				);
+				Gtk::TreeRow& row = *it;
+				Torrent_id torrent_id = row->get_value(this->model_columns.id);
+
+				M_ITER_TYPE(infos) info_it = infos.find(torrent_id);
+				info_it->second.processed = true;
 
 				// Обновляем старые значения
-				this->update_row(*it, info_it->second, false, show_zero_setting_changed, show_zero_values);
-
-				// Удаляем из индекса обработанную информацию
-				infos.erase(info_it);
+				if(show_zero_setting_changed || info_it->second != priv->infos.find(torrent_id)->second)
+					this->update_row(row, info_it->second, false, show_zero_setting_changed, show_zero_values);
 			}
 		}
 		// Обновляем существующие строки <--
 
-		// Теперь в индексе остались только те торренты, которые еще не присутствуют в списке.
-		// Добавляем их.
-		M_FOR_CONST_IT(infos, info_it)
+		// Добавляем те торренты, которые еще не присутствуют в списке.
+		M_FOR_IT(infos, info_it)
 		{
-			Gtk::TreeRow row = *this->model->append();
-			this->update_row(row, info_it->second, true, true, show_zero_values);
+			if(!info_it->second.processed)
+			{
+				// Чтобы впоследствии новые infos можно было сравнивать с
+				// текущими.
+				info_it->second.processed = true;
+
+				Gtk::TreeRow row = *this->model->append();
+				this->update_row(row, info_it->second, true, true, show_zero_values);
+			}
 		}
+
+		priv->infos.swap(infos);
 	}
 
 
@@ -689,7 +773,7 @@
 			Torrent_info::Status_icon_id status_icon_id = torrent_info.get_status_icon_id();
 
 			if(m::gtk::update_row(row, this->model_columns.status_icon_id, status_icon_id) || force_update)
-				row[this->model_columns.status_icon] = this->status_icons[status_icon_id];
+				row[this->model_columns.status_icon] = priv->status_icons[status_icon_id];
 		}
 		// Status icon <--
 
@@ -752,7 +836,7 @@
 		if(m::gtk::update_row(row, this->model_columns.time_added, torrent_info.time_added) || force_update)
 			m::gtk::update_row(row, this->model_columns.time_added_string, m::time_to_string_with_date(torrent_info.time_added));
 
-		
+
 		// Time left -->
 		{
 			Time time_left = torrent_info.get_time_left();

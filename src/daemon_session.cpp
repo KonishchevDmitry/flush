@@ -1531,6 +1531,20 @@ void Daemon_session::pause_torrent(Torrent& torrent)
 
 
 
+void Daemon_session::recheck_torrent(const Torrent_id& torrent_id) throw(m::Exception)
+{
+	try
+	{
+		this->get_torrent(torrent_id).handle.force_recheck();
+	}
+	catch(lt::invalid_handle)
+	{
+		MLIB_LE();
+	}
+}
+
+
+
 void Daemon_session::remove_torrent(const Torrent_id& torrent_id) throw(m::Exception)
 {
 	// Удаляем из самой сессии
@@ -1644,6 +1658,7 @@ void Daemon_session::resume_torrent(Torrent& torrent) throw(m::Exception)
 
 		if(paused)
 		{
+			torrent.tracker_error.clear();
 			torrent.handle.resume();
 
 			// libtorrent::torrent_handle::resume сбрасывает эти счетчики в 0
@@ -2207,7 +2222,7 @@ void Daemon_session::operator()(void)
 						// возвращается в случае, если к моменту генерации
 						// resume data торрент был уже удален или он
 						// находится в таком состоянии, в котором resume
-						// data получить не возможно, к примеру, когда
+						// data получить невозможно, к примеру, когда
 						// данные только проверяются.
 
 						lt::save_resume_data_failed_alert* failed_alert = dynamic_cast<lt::save_resume_data_failed_alert*>(alert.get());

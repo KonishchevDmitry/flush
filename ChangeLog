@@ -1,8 +1,13 @@
+TODO: libtorrent new version
+
 0.6 ()
 [+] Ability to choose torrent file's character set encoding in torrent open dialog.
 [+] "Publisher URL" line in the details tab.
 [+] "Tracker status" line in the details tab.
 [+] "Tracker" column in the torrents list.
+[+] Tracker errors indication by grayscaling torrent's status icon.
+[+] Recheck option in the torrent right-button-menu.
+[*] Fixed some small command line options processing bug.
 
 
 0.5.1 (2009.05.25)

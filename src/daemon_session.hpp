@@ -244,6 +244,9 @@
 			/// Приостанавливает работу с торрентом.
 			void						pause_torrent(Torrent& torrent);
 
+			/// Ставит торрент в очередь на перепроверку.
+			void						recheck_torrent(const Torrent_id& torrent_id) throw(m::Exception);
+
 			/// Удаляет торрент.
 			void						remove_torrent(const Torrent_id& torrent_id) throw(m::Exception);
 

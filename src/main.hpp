@@ -23,11 +23,19 @@
 	#define HEADER_MAIN
 
 	// Реальные имена собственных иконок -->
-		extern const char* const APP_CUSTOM_ICON_DOWNLOAD;
-		extern const char* const APP_CUSTOM_ICON_DOWNLOAD_AND_UPLOAD;
-		extern const char* const APP_CUSTOM_ICON_STALLED_DOWNLOAD;
-		extern const char* const APP_CUSTOM_ICON_STATISTICS;
-		extern const char* const APP_CUSTOM_ICON_UPLOAD;
+		extern const std::string APP_CUSTOM_ICON_TORRENT_WAITING_FOR_DOWNLOAD;
+		extern const std::string APP_CUSTOM_ICON_TORRENT_WAITING_FOR_DOWNLOAD_BROCKEN_TRACKER;
+		extern const std::string APP_CUSTOM_ICON_TORRENT_DOWNLOADING;
+		extern const std::string APP_CUSTOM_ICON_TORRENT_DOWNLOADING_BROCKEN_TRACKER;
+		extern const std::string APP_CUSTOM_ICON_TORRENT_SEEDING;
+		extern const std::string APP_CUSTOM_ICON_TORRENT_SEEDING_BROCKEN_TRACKER;
+		extern const std::string APP_CUSTOM_ICON_TORRENT_UPLOADING;
+		extern const std::string APP_CUSTOM_ICON_TORRENT_UPLOADING_BROCKEN_TRACKER;
+
+		extern const std::string APP_CUSTOM_ICON_UPLOAD;
+		extern const std::string APP_CUSTOM_ICON_DOWNLOAD_AND_UPLOAD;
+		extern const std::string APP_CUSTOM_ICON_DOWNLOAD;
+		extern const std::string APP_CUSTOM_ICON_STATISTICS;
 	// Реальные имена собственных иконок <--
 
 

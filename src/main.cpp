@@ -84,11 +84,19 @@
 
 
 
-const char* const APP_CUSTOM_ICON_DOWNLOAD				= "download";
-const char* const APP_CUSTOM_ICON_DOWNLOAD_AND_UPLOAD	= "download-and-upload";
-const char* const APP_CUSTOM_ICON_STALLED_DOWNLOAD		= "stalled-download";
-const char* const APP_CUSTOM_ICON_STATISTICS			= "statistics";
-const char* const APP_CUSTOM_ICON_UPLOAD				= "upload";
+const std::string APP_CUSTOM_ICON_TORRENT_WAITING_FOR_DOWNLOAD					= "torrent-waiting-for-download";
+const std::string APP_CUSTOM_ICON_TORRENT_WAITING_FOR_DOWNLOAD_BROCKEN_TRACKER	= "torrent-waiting-for-download-brocken-tracker";
+const std::string APP_CUSTOM_ICON_TORRENT_DOWNLOADING							= "torrent-downloading";
+const std::string APP_CUSTOM_ICON_TORRENT_DOWNLOADING_BROCKEN_TRACKER			= "torrent-downloading-brocken-tracker";
+const std::string APP_CUSTOM_ICON_TORRENT_SEEDING								= "torrent-seeding";
+const std::string APP_CUSTOM_ICON_TORRENT_SEEDING_BROCKEN_TRACKER				= "torrent-seeding-brocken-tracker";
+const std::string APP_CUSTOM_ICON_TORRENT_UPLOADING								= "torrent-uploading";
+const std::string APP_CUSTOM_ICON_TORRENT_UPLOADING_BROCKEN_TRACKER				= "torrent-uploading-brocken-tracker";
+
+const std::string APP_CUSTOM_ICON_UPLOAD										= "upload";
+const std::string APP_CUSTOM_ICON_DOWNLOAD_AND_UPLOAD							= "download-and-upload";
+const std::string APP_CUSTOM_ICON_DOWNLOAD										= "download";
+const std::string APP_CUSTOM_ICON_STATISTICS									= "statistics";
 
 
 

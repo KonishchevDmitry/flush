@@ -127,8 +127,9 @@
 		// флаги.
 		PAUSE				= 1 << 0,
 		RESUME				= 1 << 1,
-		REMOVE				= 1 << 2,
-		REMOVE_WITH_DATA	= 1 << 3
+		RECHECK				= 1 << 2,
+		REMOVE				= 1 << 3,
+		REMOVE_WITH_DATA	= 1 << 4
 	};
 
 	/// Определяет множество действий, которые
@@ -586,25 +587,57 @@
 			enum Status_icon_id
 			{
 				/// На паузе.
+				/// + Ошибка трекера.
+				TORRENT_STATUS_ICON_PAUSED_BROCKEN_TRACKER,
+
+				/// На паузе.
 				TORRENT_STATUS_ICON_PAUSED,
+
+				/// Выделяется место на диске.
+				/// + Ошибка трекера.
+				TORRENT_STATUS_ICON_ALLOCATING_BROCKEN_TRACKER,
 
 				/// Выделяется место на диске.
 				TORRENT_STATUS_ICON_ALLOCATING,
 
 				/// Данные торрента проверяются, или стоят в очереди на проверку.
+				/// + Ошибка трекера.
+				TORRENT_STATUS_ICON_CHECKING_BROCKEN_TRACKER,
+
+				/// Данные торрента проверяются, или стоят в очереди на проверку.
 				TORRENT_STATUS_ICON_CHECKING,
 
 				/// Скачивается (данные не идут).
-				TORRENT_STATUS_ICON_STALLED_DOWNLOAD,
+				/// + Ошибка трекера.
+				TORRENT_STATUS_ICON_WAITING_FOR_DOWNLOAD_BROCKEN_TRACKER,
+
+				/// Скачивается (данные не идут).
+				TORRENT_STATUS_ICON_WAITING_FOR_DOWNLOAD,
+
+				/// Скачивается (данные идут).
+				/// + Ошибка трекера.
+				TORRENT_STATUS_ICON_DOWNLOADING_BROCKEN_TRACKER,
 
 				/// Скачивается (данные идут).
 				TORRENT_STATUS_ICON_DOWNLOADING,
 
 				/// Раздается (данные не идут).
+				/// + Ошибка трекера.
+				TORRENT_STATUS_ICON_SEEDING_BROCKEN_TRACKER,
+
+				/// Раздается (данные не идут).
 				TORRENT_STATUS_ICON_SEEDING,
 
 				/// Раздается (данные идут).
+				/// + Ошибка трекера.
+				TORRENT_STATUS_ICON_UPLOADING_BROCKEN_TRACKER,
+
+				/// Раздается (данные идут).
 				TORRENT_STATUS_ICON_UPLOADING,
+
+				/// Неизвестное состояние.
+				/// + Ошибка трекера.
+				TORRENT_STATUS_ICON_UNKNOWN_BROCKEN_TRACKER,
 
 				/// Неизвестное состояние.
 				TORRENT_STATUS_ICON_UNKNOWN,
@@ -619,6 +652,12 @@
 
 
 		public:
+			/// Бит, который всегда устанавливается в false. Используется
+			/// функциями отображения информации из Torrent_info, чтобы
+			/// определить, был ли уже обработан данный экземпляр.
+			bool			processed;
+
+
 			/// Идентификатор торрента.
 			Torrent_id		id;
 
@@ -695,6 +734,12 @@
 			Time			time_seeding;
 
 
+			/// Определяет, задан ли для данного торрента хотя бы один трекер.
+			bool			trackers_exists;
+
+			/// true, если попытка соединиться с трекером завершилась неудачей.
+			bool			tracker_brocken;
+
 			/// Текущий трекер, или "", если в данный момент нет установленного
 			/// соединения с трекером.
 			std::string		current_tracker;
@@ -721,6 +766,10 @@
 		private:
 			/// Возвращает Status, соответствующий lt::torrent_status.
 			Status			get_status(const lt::torrent_status& torrent_status) const;
+
+
+		public:
+			bool	operator!=(const Torrent_info& torrent_info) const;
 	};
 
 
