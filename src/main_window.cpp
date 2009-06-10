@@ -1078,7 +1078,7 @@ void Main_window::on_show_toolbar_toggled_callback(void)
 void Main_window::on_temporary_process_torrents_cb(const std::pair<Temporary_action,Torrents_group>& data)
 {
 	Glib::RefPtr<Gnome::Glade::Xml> glade = MLIB_GLADE_CREATE(
-		std::string(APP_UI_PATH) + "/dialog_temporary_action.glade",
+		std::string(APP_UI_PATH) + "/dialog.temporary_action.glade",
 		"temporary_action_dialog"
 	);
 
