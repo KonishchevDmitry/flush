@@ -751,9 +751,14 @@ namespace
 	User_settings::User_settings(void)
 	:
 		start_torrent_on_adding(true),
+
 		download_to(Path(m::fs::get_user_home_path()) / "downloads"),
 		copy_finished_to(""),
-		open_command("gnome-open")
+
+		open_command("gnome-open"),
+
+		temporary_action_last_time_is_predefined(true),
+		temporary_action_last_time(30 * 60)
 	{
 	}
 
@@ -836,6 +841,16 @@ namespace
 						invalid_option_utf_value(setting);
 				}
 			}
+			else if(m::is_eq(setting_name, "temporary_action_last_time_is_predefined"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				this->temporary_action_last_time_is_predefined = setting;
+			}
+			else if(m::is_eq(setting_name, "temporary_action_last_time"))
+			{
+				CHECK_OPTION_TYPE(setting, m::libconfig::Time_type, continue)
+				this->temporary_action_last_time = static_cast<m::libconfig::Time>(setting);
+			}
 			else
 				unknown_option(setting);
 		}
@@ -846,10 +861,17 @@ namespace
 	void User_settings::write_config(libconfig::Setting& config_root) const
 	{
 		config_root.add("start_torrent_on_adding", libconfig::Setting::TypeBoolean) = this->start_torrent_on_adding;
+
 		config_root.add("download_to", libconfig::Setting::TypeString) = this->download_to;
 		if(this->copy_finished_to != "")
 			config_root.add("copy_finished_to", libconfig::Setting::TypeString) = this->copy_finished_to;
+
 		config_root.add("open_command", libconfig::Setting::TypeString) = this->open_command;
+
+		config_root.add("temporary_action_last_time_is_predefined", libconfig::Setting::TypeBoolean)
+			= this->temporary_action_last_time_is_predefined;
+		config_root.add("temporary_action_last_time", m::libconfig::Time_type)
+			= static_cast<m::libconfig::Time>(this->temporary_action_last_time);
 	}
 // User_settings <--
 

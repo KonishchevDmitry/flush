@@ -63,8 +63,17 @@
 			/// @return - true, если данные были записаны (ревизии не равны).
 			bool						get_torrent_new_trackers(const Torrent_id& torrent_id, Revision* revision, std::vector<std::string>* trackers) const throw(m::Exception);
 
+			/// Прерывает выполнение текущего "временного действия".
+			/// @param complete - если false, то действие отменяется, если true
+			/// - выполняется досрочно.
+			void						interrupt_temporary_action(bool complete);
+
 			/// Производит необходимые действия с переданными ей торрентами.
 			void						process_torrents(const std::vector<Torrent_id>& torrents_ids, Torrent_process_action action) throw(m::Exception);
+
+			/// Производит действие над группой торрентов, ожидает time секунд и
+			/// отменяет произведенные изменения (асинхронно).
+			void						process_torrents_temporary(Temporary_action action, Torrents_group group, Time time);
 
 			/// Устанавливает параметры копирования файлов торрента по завершении их скачивания.
 			void						set_copy_when_finished(const Torrent_id& torrent_id, bool copy, const std::string& to) throw(m::Exception);

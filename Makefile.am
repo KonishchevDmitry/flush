@@ -95,7 +95,7 @@ loop:
 		fi; \
 		\
 		files="$$new_files"; \
-		read -t 1 input && ./src/@PACKAGE@; \
+		read -t 1 input && MALLOC_CHECK_=3 ./src/@PACKAGE@; \
 	done'
 ## loop <--
 

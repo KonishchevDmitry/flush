@@ -141,6 +141,13 @@ void Daemon_proxy::get_torrents(std::vector<Torrent_info>& torrents_info) throw(
 
 
 
+void Daemon_proxy::interrupt_temporary_action(bool complete) throw(m::Exception)
+{
+	this->daemon->interrupt_temporary_action(complete);
+}
+
+
+
 void Daemon_proxy::on_messages_callback(void)
 {
 	std::deque<Daemon_message> messages;
@@ -153,6 +160,13 @@ void Daemon_proxy::on_messages_callback(void)
 void Daemon_proxy::process_torrents(const std::vector<Torrent_id>& torrents_ids, Torrent_process_action action) throw(m::Exception)
 {
 	this->daemon->process_torrents(torrents_ids, action);
+}
+
+
+
+void Daemon_proxy::process_torrents_temporary(Temporary_action action, Torrents_group group, Time time) throw(m::Exception)
+{
+	this->daemon->process_torrents_temporary(action, group, time);
 }
 
 

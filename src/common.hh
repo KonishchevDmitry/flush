@@ -64,6 +64,17 @@
 
 
 
+// Torrent_full_id -->
+	Torrent_full_id::Torrent_full_id(const Torrent_id& id, size_t serial_number)
+	:
+		id(id),
+		serial_number(serial_number)
+	{
+	}
+// Torrent_full_id <--
+
+
+
 // Torrent_info_widget -->
 	void Torrent_info_widget::torrent_changed(const Torrent_id& torrent_id)
 	{

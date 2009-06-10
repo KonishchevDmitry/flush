@@ -76,6 +76,13 @@ bool Daemon::get_torrent_new_trackers(const Torrent_id& torrent_id, Revision* re
 
 
 
+void Daemon::interrupt_temporary_action(bool complete)
+{
+	Daemon_session::interrupt_temporary_action(complete);
+}
+
+
+
 void Daemon::pause_torrent(const Torrent_id& torrent_id) throw(m::Exception)
 {
 	Daemon_session::pause_torrent(this->get_torrent(torrent_id));
@@ -114,6 +121,13 @@ void Daemon::process_torrents(const std::vector<Torrent_id>& torrents_ids, Torre
 				break;
 		}
 	}
+}
+
+
+
+void Daemon::process_torrents_temporary(Temporary_action action, Torrents_group group, Time time)
+{
+	Daemon_session::process_torrents_temporary(action, group, time);
 }
 
 

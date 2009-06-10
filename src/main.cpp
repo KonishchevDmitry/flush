@@ -40,6 +40,8 @@
 #include <dbus-c++/dbus.h>
 #include <dbus-c++/glib-integration.h>
 
+#include <gdk/gdk.h>
+
 #include <gtk/gtkicontheme.h>
 
 #include <gtkmm/box.h>
@@ -640,6 +642,9 @@ int main(int argc, char *argv[])
 	if(is_gui_mode())
 	{
 		Glib::thread_init();
+		gdk_threads_init();
+		gdk_threads_enter();
+
 		gtk_main = std::auto_ptr<Gtk::Main>(new Gtk::Main(argc, argv));
 
 		Gtk::Window::set_default_icon_name(APP_UNIX_NAME);

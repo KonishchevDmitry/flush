@@ -27,6 +27,14 @@
 
 namespace m { namespace gtk {
 
+	Dialog::Dialog(BaseObjectType* cobject)
+	:
+		Gtk::Dialog(cobject)
+	{
+	}
+
+
+
 	Dialog::Dialog(Gtk::Window& parent_window, const std::string& title, const Settings& settings, int width, int height, int border_width)
 	:
 		Gtk::Dialog(title, parent_window, true)
@@ -46,6 +54,18 @@ namespace m { namespace gtk {
 			this->resize(settings.width, settings.height);
 
 		this->remove();
+	}
+
+
+
+	void Dialog::init(Gtk::Window& parent_window)
+	{
+		this->set_transient_for(parent_window);
+
+		if(parent_window.is_visible())
+			this->set_position(Gtk::WIN_POS_CENTER_ON_PARENT);
+		else
+			this->set_position(Gtk::WIN_POS_CENTER);
 	}
 
 

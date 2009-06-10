@@ -20,13 +20,24 @@
 
 
 #include <deque>
+#include <list>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
+#if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 36, 0)
+	#include <boost/unordered_map.hpp>
+#else
+	#include <map>
+#endif
+
 #include <boost/ref.hpp>
 #include <boost/thread.hpp>
+
+#include <glibmm/main.h>
+
+#include <gdk/gdk.h>
 
 #include <libtorrent/extensions/smart_ban.hpp>
 #include <libtorrent/extensions/ut_pex.hpp>
@@ -93,6 +104,20 @@ namespace
 
 
 
+	/// Класс, описывающий ошибку соединения с трекером.
+	class Tracker_error
+	{
+		public:
+			Tracker_error(const lt::tracker_error_alert& alert);
+
+
+		public:
+			Torrent_id	torrent_id;
+			std::string	error_string;
+	};
+
+
+
 	/// Функция сравнения двух торрентов по времени раздачи.
 	inline
 	bool Torrent_seeding_time_compare(const Seeding_torrent& a, const Seeding_torrent& b);
@@ -103,94 +128,118 @@ namespace
 	{
 		return a.seed_time < b.seed_time;
 	}
-}
 
 
 
-/// Класс, описывающий ошибку соединения с трекером.
-class Tracker_error
-{
-	public:
-		Tracker_error(const lt::tracker_error_alert& alert);
-
-
-	public:
-		Torrent_id	torrent_id;
-		std::string	error_string;
-};
-
-
-
-class Daemon_session::Private
-{
-	public:
-		/// Сигнал на получение ошибки соединения с трекером.
-		Glib::Dispatcher			tracker_error_signal;
-
-		/// Очередь ошибок соединения с трекером, ожидающих обработки.
-		std::deque<Tracker_error>	tracker_errors;
-};
-
-
-
-Tracker_error::Tracker_error(const lt::tracker_error_alert& alert)
-:
-	torrent_id(alert.handle),
-	error_string(alert.message())
-{
-	class Invalid_message {};
-
-	const size_t max_msg_size = 100;
-	const size_t msg_size = this->error_string.size();
-
-	std::string tracker_url = alert.url;
-	std::string first_part =
-		" (" + tracker_url + ") (" + m::to_string(alert.status_code) + ") ";
-
-	size_t first_part_pos = this->error_string.rfind(first_part);
-
-	try
+	Tracker_error::Tracker_error(const lt::tracker_error_alert& alert)
+	:
+		torrent_id(alert.handle),
+		error_string(alert.message())
 	{
-		if(first_part_pos != std::string::npos)
+		class Invalid_message {};
+
+		const size_t max_msg_size = 100;
+		const size_t msg_size = this->error_string.size();
+
+		std::string tracker_url = alert.url;
+		std::string first_part =
+			" (" + tracker_url + ") (" + m::to_string(alert.status_code) + ") ";
+
+		size_t first_part_pos = this->error_string.rfind(first_part);
+
+		try
 		{
-			std::string second_part = " (" + m::to_string(alert.times_in_row) + ")";
-
-			if(first_part_pos + first_part.size() + second_part.size() < msg_size)
+			if(first_part_pos != std::string::npos)
 			{
-				if(!this->error_string.compare(msg_size - second_part.size(), second_part.size(), second_part))
+				std::string second_part = " (" + m::to_string(alert.times_in_row) + ")";
+
+				if(first_part_pos + first_part.size() + second_part.size() < msg_size)
 				{
-					std::string message = this->error_string.substr(
-						first_part_pos + first_part.size(),
-						msg_size - (first_part_pos + first_part.size() + second_part.size())
-					);
+					if(!this->error_string.compare(msg_size - second_part.size(), second_part.size(), second_part))
+					{
+						std::string message = this->error_string.substr(
+							first_part_pos + first_part.size(),
+							msg_size - (first_part_pos + first_part.size() + second_part.size())
+						);
 
-					if(message.size() > max_msg_size)
-						message = message.substr(0, max_msg_size) + "...";
+						if(message.size() > max_msg_size)
+							message = message.substr(0, max_msg_size) + "...";
 
-					this->error_string = __("%1 (%2). Errors: %3.", message, tracker_url, alert.times_in_row);
+						this->error_string = __("%1 (%2). Errors: %3.", message, tracker_url, alert.times_in_row);
+					}
+					else
+					{
+						std::string message = this->error_string.substr(first_part_pos + first_part.size());
+
+						if(message.size() > max_msg_size)
+							message = message.substr(0, max_msg_size) + "...";
+
+						this->error_string = message + " (" + tracker_url + ").";
+					}
 				}
 				else
-				{
-					std::string message = this->error_string.substr(first_part_pos + first_part.size());
-
-					if(message.size() > max_msg_size)
-						message = message.substr(0, max_msg_size) + "...";
-
-					this->error_string = message + " (" + tracker_url + ").";
-				}
+					throw Invalid_message();
 			}
 			else
 				throw Invalid_message();
 		}
-		else
-			throw Invalid_message();
-	}
-	catch(Invalid_message&)
-	{
-		if(this->error_string.size() > max_msg_size)
-			this->error_string = this->error_string.substr(0, max_msg_size) + "...";
+		catch(Invalid_message&)
+		{
+			if(this->error_string.size() > max_msg_size)
+				this->error_string = this->error_string.substr(0, max_msg_size) + "...";
+		}
 	}
 }
+
+
+
+// Private -->
+namespace Daemon_session_aux
+{
+	class Private
+	{
+		public:
+			Private(void);
+
+
+		public:
+			/// За время существования сессии в нее могут добавляться и
+			/// удаляться торренты с одинаковыми идентификаторами. Данный
+			/// контейнер хранит текущие порядковые номера для каждого
+			/// идентификатора торрента, когда-либо добавленного в эту сессию.
+		#if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 36, 0)
+			boost::unordered_map<Torrent_id, size_t>	torrents_serial_numbers;
+		#else
+			std::map<Torrent_id, size_t>				torrents_serial_numbers;
+		#endif
+
+
+			/// Сигнал на получение ошибки соединения с трекером.
+			Glib::Dispatcher			tracker_error_signal;
+
+			/// Очередь ошибок соединения с трекером, ожидающих обработки.
+			std::deque<Tracker_error>	tracker_errors;
+
+
+			/// Активное в данный момент "временное действие".
+			Temporary_action			temporary_action;
+
+			/// Сигнал на истечение срока "временного действия".
+			sigc::connection			temporary_action_expired_connection;
+
+			/// Торренты, к которым было применено "временное действие".
+			std::list<Torrent_full_id>	temporary_action_torrents;
+	};
+
+
+
+	Private::Private(void)
+	:
+		temporary_action(TEMPORARY_ACTION_NONE)
+	{
+	}
+}
+// Private <--
 
 
 
@@ -287,6 +336,9 @@ Daemon_session::Daemon_session(const std::string& config_dir_path)
 
 Daemon_session::~Daemon_session(void)
 {
+	// Т. к. работа завершается, то можно считать, что время "как бы истекло".
+	this->interrupt_temporary_action(true);
+
 	// Сигнал на автоматическое сохранение текущей сессии
 	this->save_session_connection.disconnect();
 
@@ -628,7 +680,10 @@ void Daemon_session::add_torrent_to_session(m::lt::Torrent_metadata torrent_meta
 		}
 	// Добавляем торрент в сессию libtorrent <--
 
-	Torrent torrent(torrent_id, torrent_handle, torrent_metadata, torrent_settings);
+	Torrent torrent(
+		Torrent_full_id(torrent_id, ++priv->torrents_serial_numbers[torrent_id]),
+		torrent_handle, torrent_metadata, torrent_settings
+	);
 
 	// Передаем libtorrent настройки файлов торрента.
 	torrent.sync_files_settings();
@@ -1034,7 +1089,8 @@ Session_status Daemon_session::get_session_status(void) const throw(m::Exception
 {
 	return Session_status(
 		this->statistics, this->session->status(),
-		this->get_rate_limit(DOWNLOAD), this->get_rate_limit(UPLOAD)
+		this->get_rate_limit(DOWNLOAD), this->get_rate_limit(UPLOAD),
+		priv->temporary_action != TEMPORARY_ACTION_NONE
 	);
 }
 
@@ -1055,6 +1111,30 @@ Daemon_settings Daemon_session::get_settings(void) const
 	settings.upload_rate_limit = this->get_rate_limit(UPLOAD);
 
 	return settings;
+}
+
+
+
+const Torrent& Daemon_session::get_torrent(const Torrent_full_id& full_id) const throw(m::Exception)
+{
+	const Torrent& torrent = this->get_torrent(full_id.id);
+	
+	if(torrent.serial_number == full_id.serial_number)
+		return torrent;
+	else
+		M_THROW(__("Bad torrent id '%1'.", torrent.id));
+}
+
+
+
+Torrent& Daemon_session::get_torrent(const Torrent_full_id& full_id) throw(m::Exception)
+{
+	Torrent& torrent = this->get_torrent(full_id.id);
+	
+	if(torrent.serial_number == full_id.serial_number)
+		return torrent;
+	else
+		M_THROW(__("Bad torrent id '%1'.", torrent.id));
 }
 
 
@@ -1237,6 +1317,27 @@ void Daemon_session::get_torrents_info(std::vector<Torrent_info>& torrents_info)
 
 
 
+void Daemon_session::interrupt_temporary_action(bool complete)
+{
+	MLIB_D(_C("Interrupting temporary action by completing(%1) it...", complete));
+
+	if(priv->temporary_action != TEMPORARY_ACTION_NONE)
+	{
+		if(complete)
+			this->rollback_temporary_action();
+
+		priv->temporary_action = TEMPORARY_ACTION_NONE;
+		priv->temporary_action_expired_connection.disconnect();
+		priv->temporary_action_torrents.clear();
+
+		MLIB_D("Temporary action is canceled.");
+	}
+	else
+		MLIB_D("Temporary action is not active.");
+}
+
+
+
 bool Daemon_session::is_dht_started(void) const
 {
 	return !(this->session->dht_state() == lt::entry());
@@ -1393,16 +1494,31 @@ void Daemon_session::load_torrents_from_config(void) throw(m::Exception)
 
 bool Daemon_session::on_save_session_callback(void)
 {
-	try
-	{
-		this->save_session();
-	}
-	catch(m::Exception& e)
-	{
-		MLIB_W(_("Saving session failed"), __("Saving session failed. %1", EE(e)));
-	}
+	gdk_threads_enter();
+
+		try
+		{
+			this->save_session();
+		}
+		catch(m::Exception& e)
+		{
+			MLIB_W(_("Saving session failed"), __("Saving session failed. %1", EE(e)));
+		}
+
+	gdk_threads_leave();
 
 	return true;
+}
+
+
+
+bool Daemon_session::on_temporary_action_expired_cb(void)
+{
+	gdk_threads_enter();
+		this->interrupt_temporary_action(true);
+	gdk_threads_leave();
+
+	return false;
 }
 
 
@@ -1478,34 +1594,38 @@ void Daemon_session::on_tracker_error_cb(void)
 
 bool Daemon_session::on_update_torrents_statistics_callback(void)
 {
-	time_t current_time = time(NULL);
-	time_t time_diff = current_time - this->last_update_torrent_statistics_time;
-	this->last_update_torrent_statistics_time = current_time;
+	gdk_threads_enter();
 
-	// Если, к примеру, были переведены часы.
-	if(time_diff < 0)
-		time_diff = UPDATE_TORRENTS_STATISTICS_TIMEOUT;
+		time_t current_time = time(NULL);
+		time_t time_diff = current_time - this->last_update_torrent_statistics_time;
+		this->last_update_torrent_statistics_time = current_time;
 
-	M_FOR_IT(this->torrents, it)
-	{
-		Torrent& torrent = it->second;
-		Torrent_info torrent_info = torrent.get_info();
+		// Если, к примеру, были переведены часы.
+		if(time_diff < 0)
+			time_diff = UPDATE_TORRENTS_STATISTICS_TIMEOUT;
 
-		if(
-			torrent.seeding && (
+		M_FOR_IT(this->torrents, it)
+		{
+			Torrent& torrent = it->second;
+			Torrent_info torrent_info = torrent.get_info();
+
+			if(
+				torrent.seeding && (
+					torrent_info.status == Torrent_info::SEEDING ||
+					torrent_info.status == Torrent_info::UPLOADING
+				) && !torrent_info.paused
+			)
+				torrent.time_seeding += time_diff;
+
+			torrent.seeding = (
 				torrent_info.status == Torrent_info::SEEDING ||
 				torrent_info.status == Torrent_info::UPLOADING
-			) && !torrent_info.paused
-		)
-			torrent.time_seeding += time_diff;
+			) && !torrent_info.paused;
+		}
 
-		torrent.seeding = (
-			torrent_info.status == Torrent_info::SEEDING ||
-			torrent_info.status == Torrent_info::UPLOADING
-		) && !torrent_info.paused;
-	}
+		this->automate();
 
-	this->automate();
+	gdk_threads_leave();
 
 	return true;
 }
@@ -1527,6 +1647,57 @@ void Daemon_session::pause_torrent(Torrent& torrent)
 
 	// Планируем сохранение настроек торрента
 	this->schedule_torrent_settings_saving(torrent);
+}
+
+
+
+void Daemon_session::process_torrents_temporary(Temporary_action action, Torrents_group group, Time time)
+{
+	bool pause_negate;
+	void (Daemon_session::* action_fuction)(Torrent& torrent);
+
+	this->interrupt_temporary_action(true);
+
+	switch(action)
+	{
+		case TEMPORARY_ACTION_RESUME:
+			pause_negate = false;
+			action_fuction = &Daemon_session::resume_torrent;
+			break;
+
+		case TEMPORARY_ACTION_PAUSE:
+			pause_negate = true;
+			action_fuction = &Daemon_session::pause_torrent;
+			break;
+
+		default:
+			MLIB_LE();
+			break;
+	}
+
+	M_FOR_IT(this->torrents, it)
+	{
+		Torrent& torrent = it->second;
+
+		if(torrent.is_paused() ^ pause_negate && torrent.is_belong_to(group))
+		{
+			priv->temporary_action_torrents.push_back(torrent.get_full_id());
+			(this->*action_fuction)(torrent);
+		}
+	}
+
+	if(!priv->temporary_action_torrents.empty())
+	{
+		MLIB_D(_C("Temporary processing action %1.", action));
+
+		priv->temporary_action = action;
+		priv->temporary_action_expired_connection = Glib::signal_timeout().connect(
+			sigc::mem_fun(*this, &Daemon_session::on_temporary_action_expired_cb),
+			time * 1000
+		);
+	}
+	else
+		MLIB_D(_C("Skiping temporary processing action %1: there is no such torrents.", action));
 }
 
 
@@ -1682,6 +1853,43 @@ void Daemon_session::resume_torrent(Torrent& torrent) throw(m::Exception)
 
 
 
+void Daemon_session::rollback_temporary_action(void)
+{
+	void (Daemon_session::* action_fuction)(Torrent& torrent);
+
+	MLIB_D(_C("Rolling back temporary action %1...", priv->temporary_action));
+
+	switch(priv->temporary_action)
+	{
+		case TEMPORARY_ACTION_RESUME:
+			action_fuction = &Daemon_session::pause_torrent;
+			break;
+
+		case TEMPORARY_ACTION_PAUSE:
+			action_fuction = &Daemon_session::resume_torrent;
+			break;
+
+		default:
+			MLIB_LE();
+			break;
+	}
+
+	M_FOR_CONST_IT(priv->temporary_action_torrents, it)
+	{
+		try
+		{
+			Torrent& torrent = this->get_torrent(*it);
+			(this->*action_fuction)(torrent);
+		}
+		catch(m::Exception&)
+		{
+			// Этого торрента уже просто нет в сессии.
+		}
+	}
+}
+
+
+
 void Daemon_session::save_session(void) throw(m::Exception)
 {
 	MLIB_D("Saving session...");
@@ -1698,7 +1906,8 @@ void Daemon_session::save_session(void) throw(m::Exception)
 				this->get_config_dir_path(),
 				Session_status(
 					this->statistics, this->session->status(),
-					this->get_rate_limit(DOWNLOAD), this->get_rate_limit(UPLOAD)
+					this->get_rate_limit(DOWNLOAD), this->get_rate_limit(UPLOAD),
+					priv->temporary_action != TEMPORARY_ACTION_NONE
 				)
 			);
 		}

@@ -992,7 +992,7 @@ loop:
 		fi; \
 		\
 		files="$$new_files"; \
-		read -t 1 input && ./src/@PACKAGE@; \
+		read -t 1 input && MALLOC_CHECK_=3 ./src/@PACKAGE@; \
 	done'
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

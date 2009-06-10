@@ -1,6 +1,8 @@
 noinst_LIBRARIES = libmlib_gtk.a
 
 libmlib_gtk_a_SOURCES = \
+	action.cpp \
+	action.hpp \
 	controlled_list.cpp \
 	controlled_list.hpp \
 	dialog.cpp \

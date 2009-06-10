@@ -27,6 +27,12 @@
 	#include <queue>
 	#include <vector>
 
+	#if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 36, 0)
+		#include <boost/unordered_map.hpp>
+	#else
+		#include <map>
+	#endif
+
 	#include <boost/shared_ptr.hpp>
 	#include <boost/thread.hpp>
 
@@ -44,13 +50,19 @@
 
 
 
+	namespace Daemon_session_aux { class Private; }
+
 	class Daemon_session: public Daemon_fs
 	{
 		private:
-			class Private;
+			typedef Daemon_session_aux::Private Private;
 
 			typedef std::pair<Torrent_id, lt::entry> Torrent_resume_data;
+		#if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 36, 0)
+			typedef boost::unordered_map<Torrent_id, Torrent> Torrents_container;
+		#else
 			typedef std::map<Torrent_id, Torrent> Torrents_container;
+		#endif
 
 
 		public:
@@ -204,6 +216,12 @@
 			/// торрента.
 			void						finish_torrent(Torrent& torrent);
 
+			/// Возвращает ссылку на торрент по его полному идентификатору.
+			const Torrent&				get_torrent(const Torrent_full_id& full_id) const throw(m::Exception);
+
+			/// Возвращает ссылку на торрент по его полному идентификатору.
+			Torrent&					get_torrent(const Torrent_full_id& full_id) throw(m::Exception);
+
 			/// Возвращает ссылку на торрент по его идентификатору.
 			const Torrent&				get_torrent(const Torrent_id& torrent_id) const throw(m::Exception);
 
@@ -238,11 +256,20 @@
 			/// @return - true, если данные были записаны (ревизии не равны).
 			bool						get_torrent_new_trackers(const Torrent& torrent, Revision* revision, std::vector<std::string>* trackers) const;
 
+			/// Прерывает выполнение текущего "временного действия".
+			/// @param complete - если false, то действие отменяется, если true
+			/// - выполняется досрочно.
+			void						interrupt_temporary_action(bool complete);
+
 			/// Проверяет, существует ли в текущей сессии торрент с таким идентификатором.
 			bool						is_torrent_exists(const Torrent_id& torrent_id) const;
 
 			/// Приостанавливает работу с торрентом.
 			void						pause_torrent(Torrent& torrent);
+
+			/// Производит действие над группой торрентов, ожидает time секунд и
+			/// отменяет произведенные изменения (асинхронно).
+			void						process_torrents_temporary(Temporary_action action, Torrents_group group, Time time);
 
 			/// Ставит торрент в очередь на перепроверку.
 			void						recheck_torrent(const Torrent_id& torrent_id) throw(m::Exception);
@@ -322,6 +349,9 @@
 			/// Обработчик сигнала на автоматическое сохранение текущей сессии.
 			bool						on_save_session_callback(void);
 
+			/// Обработчик сигнала на истечение срока "временного действия".
+			bool						on_temporary_action_expired_cb(void);
+
 			/// Обработчик сигнала на завершение скачивания торрента.
 			void						on_torrent_finished_callback(void);
 
@@ -334,6 +364,9 @@
 			/// Обработчик сигнала на обновления статистической информации
 			/// о торрентах.
 			bool						on_update_torrents_statistics_callback(void);
+
+			/// Производит откат "временного действия" над торрентами.
+			void						rollback_temporary_action(void);
 
 			/// Сохраняет настройки торрента, если такой торрент еще существует.
 			/// Вызывается функциями, которые получают resume data от libtorrent.

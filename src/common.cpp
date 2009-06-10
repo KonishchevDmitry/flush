@@ -271,7 +271,8 @@
 	Session_status::Session_status(
 		const Daemon_statistics& daemon_statistics,
 		const lt::session_status& libtorrent_session_status,
-		Speed download_rate_limit, Speed upload_rate_limit
+		Speed download_rate_limit, Speed upload_rate_limit,
+		bool temporary_action_active
 	)
 	:
 		session_start_time(daemon_statistics.session_start_time),
@@ -302,7 +303,9 @@
 		total_failed(daemon_statistics.total_failed + this->failed),
 
 		redundant(libtorrent_session_status.total_redundant_bytes + daemon_statistics.redundant),
-		total_redundant(daemon_statistics.total_redundant + this->redundant)
+		total_redundant(daemon_statistics.total_redundant + this->redundant),
+
+		temporary_action_active(temporary_action_active)
 	{
 	}
 // Session_status <--

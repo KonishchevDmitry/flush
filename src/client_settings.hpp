@@ -247,6 +247,7 @@
 			/// Начинать скачивание торрента сразу после добавления.
 			bool			start_torrent_on_adding;
 
+
 			/// Директория по умолчанию, в которую будут скачиваться торренты.
 			std::string		download_to;
 
@@ -255,9 +256,19 @@
 			/// Если равна "", то копирование производиться не будет.
 			std::string		copy_finished_to;
 
+
 			/// Команда для открытия файлов торрента.
 			std::string		open_command;
 
+
+			/// Было ли время, которое пользователь установил в последний раз
+			/// для временного действия, выбрано из заранее предопределенных в
+			/// программе.
+			bool	temporary_action_last_time_is_predefined;
+
+			/// Время, которое пользователь установил в последний раз для
+			/// временного действия.
+			Time	temporary_action_last_time;
 
 		public:
 			void read_config(const libconfig::Setting& config_root, Version client_version);

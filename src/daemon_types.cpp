@@ -37,13 +37,15 @@
 
 // Torrent -->
 	Torrent::Torrent(
-		const Torrent_id& id,
+		const Torrent_full_id& full_id,
 		const lt::torrent_handle& handle,
 		const m::lt::Torrent_metadata& torrent_metadata,
 		const Torrent_settings& settings
 	)
 	:
-		id(id),
+		id(full_id.id),
+		serial_number(full_id.serial_number),
+
 		handle(handle),
 
 		encoding(settings.encoding),
@@ -102,9 +104,50 @@
 
 
 
+	Torrent_full_id Torrent::get_full_id(void) const
+	{
+		return Torrent_full_id(this->id, this->serial_number);
+	}
+
+
+
 	Torrent_info Torrent::get_info(void) const
 	{
 		return Torrent_info(*this);
+	}
+
+
+
+	bool Torrent::is_belong_to(Torrents_group group) const
+	{
+		switch(group)
+		{
+			case NONE:
+				return false;
+				break;
+
+			case ALL:
+				return true;
+				break;
+
+			case DOWNLOADS:
+			{
+				Torrent_info torrent_info(*this);
+				return torrent_info.requested_size != torrent_info.downloaded_requested_size;
+			}
+			break;
+
+			case UPLOADS:
+			{
+				Torrent_info torrent_info(*this);
+				return torrent_info.requested_size == torrent_info.downloaded_requested_size;
+			}
+			break;
+
+			default:
+				MLIB_LE();
+				break;
+		}
 	}
 
 

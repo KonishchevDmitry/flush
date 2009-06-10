@@ -19,41 +19,19 @@
 
 
 #ifdef MLIB_ENABLE_GTK
-#ifndef HEADER_MLIB_GTK_DIALOG
-	#define HEADER_MLIB_GTK_DIALOG
+#ifndef HEADER_MLIB_GTK_ACTION
+#define HEADER_MLIB_GTK_ACTION
 
-	#include <gtkmm/dialog.h>
-	#include <gtkmm/window.h>
-
-	#include "misc.hpp"
-	#include "window_settings.hpp"
+#include <gtkmm/action.h>
 
 
-	namespace m { namespace gtk {
+namespace m { namespace gtk {
 
-	class Dialog: public Gtk::Dialog
-	{
-		public:
-			typedef Window_settings Settings;
+// В Ubuntu 8.04 (gtkmm-2.4 2.12) отсутствует
+// Gtk::Action::create_with_icon_name().
+Glib::RefPtr<Gtk::Action>	create_action_with_icon_name(const Glib::ustring& name, const Glib::ustring& icon_name, const Glib::ustring& label, const Glib::ustring& tooltip);
 
-
-		public:
-			Dialog(BaseObjectType* cobject);
-			Dialog(Gtk::Window& parent_window, const std::string& title, const Settings& settings = Settings(), int width = -1, int height = -1, int border_width = m::gtk::WINDOW_BORDER_WIDTH);
-
-		public:
-			/// Предназначена для инициализации виджета после конструирования
-			/// его из Glade-представления.
-			virtual
-			void	init(Gtk::Window& parent_window);
-
-
-		public:
-			/// Сохраняет текущие настройки.
-			void save_settings(Settings& settings) const;
-	};
-
-	}}
+}}
 
 #endif
 #endif

@@ -46,7 +46,11 @@ Glib::ustring Link_button::get_uri(void) const
 
 bool Link_button::get_visited(void) const
 {
-	return this->link_button->get_visited();
+	#if GTK_CHECK_VERSION(2, 14, 0)
+		return this->link_button->get_visited();
+	#else
+		return this->link_button->property_visited();
+	#endif
 }
 
 
@@ -82,7 +86,11 @@ void Link_button::recreate(const Glib::ustring& uri)
 
 void Link_button::set_visited(bool visited)
 {
-	this->link_button->set_visited(visited);
+	#if GTK_CHECK_VERSION(2, 14, 0)
+		this->link_button->set_visited(visited);
+	#else
+		return this->link_button->property_visited() = visited;
+	#endif
 }
 
 

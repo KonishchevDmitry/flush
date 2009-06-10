@@ -30,6 +30,7 @@
 #endif
 
 #include <gtk/gtkiconfactory.h>
+#include <gtk/gtkversion.h>
 
 #include <gtkmm/actiongroup.h>
 #include <gtkmm/icontheme.h>
@@ -396,7 +397,15 @@
 	{
 		try
 		{
-			return Gtk::IconTheme::get_default()->load_icon(icon_name, height);
+			return Gtk::IconTheme::get_default()->load_icon(
+				icon_name, height
+				// Внимание!
+				// В Ubuntu 8.04 (gtkmm-2.4 2.12) этот параметр обязателен. В
+				// Ubuntu 9.04 (gtkmm-2.4 2.16) он точно не обязателен.
+			#if !GTK_CHECK_VERSION(2, 16, 0)
+				, static_cast<Gtk::IconLookupFlags>(0)
+			#endif
+			);
 		}
 		catch(Gtk::IconThemeError&)
 		{

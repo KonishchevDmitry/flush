@@ -1,5 +1,7 @@
 # List of source files which contain translatable strings.
 
+src/mlib/gtk/action.cpp
+src/mlib/gtk/action.hpp
 src/mlib/gtk/dialog.cpp
 src/mlib/gtk/dialog.hpp
 src/mlib/gtk/controlled_list.cpp
@@ -97,6 +99,8 @@ src/settings_window.cpp
 src/settings_window.hpp
 src/statistics_window.cpp
 src/statistics_window.hpp
+src/temporary_action_dialog.cpp
+src/temporary_action_dialog.hpp
 src/torrent_details_view.cpp
 src/torrent_details_view.hpp
 src/torrent_files_view.cpp
@@ -112,6 +116,7 @@ src/torrents_viewport.cpp
 src/torrents_viewport.hpp
 src/trackers_view.cpp
 src/trackers_view.hpp
+ui/dialog_temporary_action.glade
 ui/preferences.daemon.automation.glade
 ui/preferences.daemon.network.glade
 ui/preferences.daemon.network.ip_filter.glade 

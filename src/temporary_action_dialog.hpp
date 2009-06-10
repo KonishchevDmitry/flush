@@ -1,6 +1,7 @@
 /**************************************************************************
 *                                                                         *
-*   MLib - library of some useful things for internal usage               *
+*   Flush - GTK-based BitTorrent client                                   *
+*   http://sourceforge.net/projects/flush                                 *
 *                                                                         *
 *   Copyright (C) 2009, Konishchev Dmitry                                 *
 *   http://konishchevdmitry.blogspot.com/                                 *
@@ -18,43 +19,53 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
-#ifndef HEADER_MLIB_GTK_DIALOG
-	#define HEADER_MLIB_GTK_DIALOG
+#ifndef HEADER_TEMPORARY_ACTION_DIALOG
+	#define HEADER_TEMPORARY_ACTION_DIALOG
+
+	#include <boost/shared_ptr.hpp>
 
 	#include <gtkmm/dialog.h>
 	#include <gtkmm/window.h>
 
-	#include "misc.hpp"
-	#include "window_settings.hpp"
+	#include <libglademm/xml.h>
+
+	#include <mlib/gtk/dialog.hpp>
 
 
-	namespace m { namespace gtk {
 
-	class Dialog: public Gtk::Dialog
+	namespace Temporary_action_dialog_aux { class Private; }
+
+	/// Окно выбора времени, после истечения которого необходимо отменить
+	/// выполненное над торрентами "временное действие".
+	class Temporary_action_dialog: public m::gtk::Dialog
 	{
-		public:
-			typedef Window_settings Settings;
+		private:
+			typedef Temporary_action_dialog_aux::Private Private;
 
 
 		public:
-			Dialog(BaseObjectType* cobject);
-			Dialog(Gtk::Window& parent_window, const std::string& title, const Settings& settings = Settings(), int width = -1, int height = -1, int border_width = m::gtk::WINDOW_BORDER_WIDTH);
+			Temporary_action_dialog(BaseObjectType* cobject, const Glade_xml& glade);
+
+
+		private:
+			boost::shared_ptr<Private>	priv;
+
 
 		public:
 			/// Предназначена для инициализации виджета после конструирования
 			/// его из Glade-представления.
 			virtual
-			void	init(Gtk::Window& parent_window);
+			void	init(Gtk::Window& parent_window, Temporary_action action, Torrents_group group);
 
 
 		public:
-			/// Сохраняет текущие настройки.
-			void save_settings(Settings& settings) const;
+			/// Возвращает установленное в данный момент время.
+			Time	get_time(void) const;
+
+		private:
+			/// Обработчик сигнала на закрытие диалога.
+			void	on_response_cb(int response_id) const;
 	};
 
-	}}
-
-#endif
 #endif
 

@@ -54,6 +54,16 @@
 		namespace Gnome { namespace Glade {
 			class Xml;
 		}}
+
+		#include <glibmm/refptr.h>
+
+		namespace m { namespace gtk {
+			typedef ::Glib::RefPtr< ::Gnome::Glade::Xml > Glade_xml;
+		}}
+	#endif
+
+	#ifdef MLIB_ENABLE_ALIASES
+		using m::gtk::Glade_xml;
 	#endif
 
 #endif

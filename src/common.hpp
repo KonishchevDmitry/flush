@@ -112,6 +112,16 @@
 	#define FIRST_REVISION	1
 
 
+
+	/// "Временное действие" которое необходимо выполнить для торрента.
+	enum Temporary_action
+	{
+		TEMPORARY_ACTION_NONE,
+		TEMPORARY_ACTION_RESUME,
+		TEMPORARY_ACTION_PAUSE
+	};
+
+
 	/// Определяет множество торрентов.
 	enum Torrents_group { NONE, ALL, DOWNLOADS, UPLOADS };
 
@@ -303,6 +313,22 @@
 	std::wostream&	operator<<(std::wostream& stream, const Torrent_id& torrent_id);
 
 
+	/// Используется для идентификации торрента.
+	/// Однозначно идентифицирует торрент в пределах текущей сессии - если за
+	/// время существования сессии в ней были торренты с одинаковыми Torrent_id,
+	/// то Torrent_full_id у них всегда будут разными.
+	class Torrent_full_id
+	{
+		public:
+			inline
+			Torrent_full_id(const Torrent_id& id, size_t serial_number);
+
+
+		public:
+			Torrent_id	id;
+			size_t		serial_number;
+	};
+
 
 	/// Абстрактный класс, от которого наследуются все
 	/// информационные виджеты.
@@ -396,7 +422,8 @@
 			Session_status(
 				const Daemon_statistics& daemon_statistics,
 				const lt::session_status& libtorrent_session_status,
-				Speed download_rate_limit, Speed upload_rate_limit
+				Speed download_rate_limit, Speed upload_rate_limit,
+				bool temporary_action_active
 			);
 
 
@@ -464,6 +491,11 @@
 			/// Общий объем данных, которые были приняты от пиров, несмотря на то, что
 			/// уже были скачаны. Это может возникнуть из-за задержек в работе сети.
 			Size	total_redundant;
+
+
+			/// Обрабатывается ли в данный момент какое-либо временное
+			/// действие.
+			bool	temporary_action_active;
 	};
 
 

@@ -83,6 +83,9 @@
 /// M_ITER_TYPE(vec) vec_iter;
 #define M_ITER_TYPE(container) M_TYPEOF(container)::iterator
 
+/// Подсчитывает размер статического массива.
+#define M_STATIC_ARRAY_SIZE(array) ( sizeof array / sizeof *array )
+
 /// Необходима только для работы с препроцессором. Там, где номер
 /// версии используется не в условиях препроцессора, лучше использовать
 /// m::get_version().

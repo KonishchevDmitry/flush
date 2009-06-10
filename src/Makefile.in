@@ -73,6 +73,7 @@ am_flush_OBJECTS = flush-add_torrent_dialog.$(OBJEXT) \
 	flush-open_torrent_dialog.$(OBJEXT) \
 	flush-settings_window.$(OBJEXT) \
 	flush-statistics_window.$(OBJEXT) \
+	flush-temporary_action_dialog.$(OBJEXT) \
 	flush-torrent_details_view.$(OBJEXT) \
 	flush-torrent_files_view.$(OBJEXT) \
 	flush-torrent_options_view.$(OBJEXT) \
@@ -306,6 +307,8 @@ flush_SOURCES = \
 	settings_window.hpp \
 	statistics_window.cpp \
 	statistics_window.hpp \
+	temporary_action_dialog.cpp \
+	temporary_action_dialog.hpp \
 	torrent_details_view.cpp \
 	torrent_details_view.hpp \
 	torrent_files_view.cpp \
@@ -418,6 +421,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-open_torrent_dialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-settings_window.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-statistics_window.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-temporary_action_dialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-torrent_details_view.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-torrent_files_view.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-torrent_options_view.Po@am__quote@
@@ -719,6 +723,20 @@ flush-statistics_window.obj: statistics_window.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='statistics_window.cpp' object='flush-statistics_window.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-statistics_window.obj `if test -f 'statistics_window.cpp'; then $(CYGPATH_W) 'statistics_window.cpp'; else $(CYGPATH_W) '$(srcdir)/statistics_window.cpp'; fi`
+
+flush-temporary_action_dialog.o: temporary_action_dialog.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-temporary_action_dialog.o -MD -MP -MF $(DEPDIR)/flush-temporary_action_dialog.Tpo -c -o flush-temporary_action_dialog.o `test -f 'temporary_action_dialog.cpp' || echo '$(srcdir)/'`temporary_action_dialog.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-temporary_action_dialog.Tpo $(DEPDIR)/flush-temporary_action_dialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='temporary_action_dialog.cpp' object='flush-temporary_action_dialog.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-temporary_action_dialog.o `test -f 'temporary_action_dialog.cpp' || echo '$(srcdir)/'`temporary_action_dialog.cpp
+
+flush-temporary_action_dialog.obj: temporary_action_dialog.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-temporary_action_dialog.obj -MD -MP -MF $(DEPDIR)/flush-temporary_action_dialog.Tpo -c -o flush-temporary_action_dialog.obj `if test -f 'temporary_action_dialog.cpp'; then $(CYGPATH_W) 'temporary_action_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/temporary_action_dialog.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-temporary_action_dialog.Tpo $(DEPDIR)/flush-temporary_action_dialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='temporary_action_dialog.cpp' object='flush-temporary_action_dialog.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-temporary_action_dialog.obj `if test -f 'temporary_action_dialog.cpp'; then $(CYGPATH_W) 'temporary_action_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/temporary_action_dialog.cpp'; fi`
 
 flush-torrent_details_view.o: torrent_details_view.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-torrent_details_view.o -MD -MP -MF $(DEPDIR)/flush-torrent_details_view.Tpo -c -o flush-torrent_details_view.o `test -f 'torrent_details_view.cpp' || echo '$(srcdir)/'`torrent_details_view.cpp

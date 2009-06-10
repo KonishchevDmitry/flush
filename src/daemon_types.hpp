@@ -32,7 +32,7 @@
 	{
 		public:
 			Torrent(
-				const Torrent_id& id,
+				const Torrent_full_id& full_id,
 				const lt::torrent_handle& handle,
 				const m::lt::Torrent_metadata& torrent_metadata,
 				const Torrent_settings& settings
@@ -41,6 +41,14 @@
 
 		public:
 			Torrent_id							id;
+
+			/// За время существования сессии в нее могут добавляться и
+			/// удаляться торренты с одинаковыми идентификаторами. Данный
+			/// идентификатор позволяет однозначно идентифицировать данный
+			/// торрент среди других торрентов с такими же идентификаторами,
+			/// которые были до него.
+			size_t								serial_number;
+
 			std::string							name;
 			lt::torrent_handle					handle;
 
@@ -119,8 +127,14 @@
 			/// Возвращает пареметры скачивания торрента.
 			Download_settings	get_download_settings(void) const;
 
+			/// Возвращает полный идентификатор данного торрента.
+			Torrent_full_id		get_full_id(void) const;
+
 			/// Возвращает информацию о торренте.
 			Torrent_info		get_info(void) const;
+
+			/// Определяет, принадлежит ли торрент к указанной группе.
+			bool				is_belong_to(Torrents_group group) const;
 
 			/// Возвращает текущее состояние: приостановлен или нет.
 			bool				is_paused(void) const;

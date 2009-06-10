@@ -83,6 +83,11 @@
 			/// Обработчик сигнала на обновление GUI.
 			bool	on_gui_update_timeout(void);
 
+			/// Прерывает выполнение текущего "временного действия".
+			/// @param complete - если false, то действие отменяется, если true
+			/// - выполняется досрочно.
+			void	on_interrupt_temporary_action_cb(bool complete);
+
 			/// Обработчик сигнала на открытие торрент файла.
 			void	on_open_callback(void);
 
@@ -111,6 +116,10 @@
 			/// Обработчик сигнала на переключение флажка меню "Отображать
 			/// панель инструментов".
 			void	on_show_toolbar_toggled_callback(void);
+
+			/// Обработчик сигнала на временное возобновление/приостановку
+			/// торрентов.
+			void	on_temporary_process_torrents_cb(const std::pair<Temporary_action,Torrents_group>& data);
 
 			/// Обработчик сигнала на изменение списка действий, которые можно
 			/// выполнить над торрентом(ами), выделенным(ми) в данный момент.

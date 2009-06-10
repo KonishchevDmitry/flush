@@ -48,6 +48,8 @@ flush_SOURCES = \
 	settings_window.hpp \
 	statistics_window.cpp \
 	statistics_window.hpp \
+	temporary_action_dialog.cpp \
+	temporary_action_dialog.hpp \
 	torrent_details_view.cpp \
 	torrent_details_view.hpp \
 	torrent_files_view.cpp \

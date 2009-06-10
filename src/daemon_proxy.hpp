@@ -96,8 +96,17 @@
 			/// Возвращает список с информацией о торрентах текущей сессии.
 			void						get_torrents(std::vector<Torrent_info>& torrents_info) throw(m::Exception);
 
+			/// Прерывает выполнение текущего "временного действия".
+			/// @param complete - если false, то действие отменяется, если true
+			/// - выполняется досрочно.
+			void						interrupt_temporary_action(bool complete) throw(m::Exception);
+
 			/// Производит необходимые действия с переданными ей торрентами.
 			void						process_torrents(const std::vector<Torrent_id>& torrents_ids, Torrent_process_action action) throw(m::Exception);
+
+			/// Производит действие над группой торрентов, ожидает time секунд и
+			/// отменяет произведенные изменения (асинхронно).
+			void						process_torrents_temporary(Temporary_action action, Torrents_group group, Time time) throw(m::Exception);
 
 			/// Сбрасывает все счетчики статистики в 0.
 			void						reset_statistics(void) throw(m::Exception);

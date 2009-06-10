@@ -19,42 +19,30 @@
 
 
 #ifdef MLIB_ENABLE_GTK
-#ifndef HEADER_MLIB_GTK_DIALOG
-	#define HEADER_MLIB_GTK_DIALOG
-
-	#include <gtkmm/dialog.h>
-	#include <gtkmm/window.h>
-
-	#include "misc.hpp"
-	#include "window_settings.hpp"
 
 
-	namespace m { namespace gtk {
+#include <gtk/gtkversion.h>
 
-	class Dialog: public Gtk::Dialog
-	{
-		public:
-			typedef Window_settings Settings;
+#include "action.hpp"
 
 
-		public:
-			Dialog(BaseObjectType* cobject);
-			Dialog(Gtk::Window& parent_window, const std::string& title, const Settings& settings = Settings(), int width = -1, int height = -1, int border_width = m::gtk::WINDOW_BORDER_WIDTH);
+namespace m { namespace gtk {
 
-		public:
-			/// Предназначена для инициализации виджета после конструирования
-			/// его из Glade-представления.
-			virtual
-			void	init(Gtk::Window& parent_window);
+Glib::RefPtr<Gtk::Action> create_action_with_icon_name(const Glib::ustring& name, const Glib::ustring& icon_name, const Glib::ustring& label, const Glib::ustring& tooltip)
+{
+	#if GTK_CHECK_VERSION(2, 16, 0)
+		return Gtk::Action::create_with_icon_name(name, icon_name, label, tooltip);
+	#else
+		Glib::RefPtr<Gtk::Action> action;
 
+		action = Gtk::Action::create(name, label, tooltip);
+		g_object_set(G_OBJECT(action->gobj()), "icon-name", icon_name.c_str(), NULL);
 
-		public:
-			/// Сохраняет текущие настройки.
-			void save_settings(Settings& settings) const;
-	};
+		return action;
+	#endif
+}
 
-	}}
+}}
 
-#endif
 #endif
 

@@ -1,4 +1,5 @@
 TODO: libtorrent new version
+TODO: hardy backport
 
 0.6 ()
 [+] Ability to choose torrent file's character set encoding in torrent open dialog.
@@ -7,7 +8,9 @@ TODO: libtorrent new version
 [+] "Tracker" column in the torrents list.
 [+] Tracker errors indication by grayscaling torrent's status icon.
 [+] Recheck option in the torrent right-button-menu.
+[+] Torrents temporary pausing and resuming .
 [*] Fixed some small command line options processing bug.
+[*] Fixed GTK locking bug.
 
 
 0.5.1 (2009.05.25)
