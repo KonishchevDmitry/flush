@@ -1,4 +1,3 @@
-TODO: libtorrent new version
 TODO: hardy backport
 
 0.6 ()
@@ -9,6 +8,7 @@ TODO: hardy backport
 [+] Tracker errors indication by grayscaling torrent's status icon.
 [+] Recheck option in the torrent right-button-menu.
 [+] Torrents temporary pausing and resuming .
+[+] Libtorrent 0.14.4 (for bundle version).
 [*] Fixed some small command line options processing bug.
 [*] Fixed GTK locking bug.
 

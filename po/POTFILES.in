@@ -116,7 +116,7 @@ src/torrents_viewport.cpp
 src/torrents_viewport.hpp
 src/trackers_view.cpp
 src/trackers_view.hpp
-ui/dialog_temporary_action.glade
+ui/dialog.temporary_action.glade
 ui/preferences.daemon.automation.glade
 ui/preferences.daemon.network.glade
 ui/preferences.daemon.network.ip_filter.glade 
