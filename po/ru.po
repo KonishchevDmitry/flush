@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2009-06-11 06:30+0400\n"
+"POT-Creation-Date: 2009-06-11 07:05+0400\n"
 "Last-Translator: Konishchev Dmitry <konishchev@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -771,16 +771,16 @@ msgstr "Неизвестно"
 
 #: src/common.cpp:896
 msgid "Tracker status is not given yet|Not given yet"
-msgstr ""
+msgstr "Еще не получен"
 
 #: src/common.cpp:899
 #, qt-format
 msgid "OK (%1)"
-msgstr ""
+msgstr "ОК (%1)"
 
 #: src/common.cpp:902
 msgid "There are no trackers has been setted for this torrent"
-msgstr ""
+msgstr "Для данного торрента не было задано ни одного трекера"
 
 #: src/daemon.cpp:194
 #, qt-format
@@ -792,7 +792,7 @@ msgstr ""
 #: src/daemon_session.cpp:168
 #, qt-format
 msgid "%1 (%2). Errors: %3."
-msgstr ""
+msgstr "%1 (%2). Ошибки: %3."
 
 #: src/daemon_session.cpp:380 src/daemon_session.cpp:1505
 msgid "Saving session failed"
@@ -1411,32 +1411,28 @@ msgid "_Pause"
 msgstr "_Приостановить"
 
 #: src/main_window.cpp:430
-#, fuzzy
 msgid "R_esume temporary"
-msgstr "Возобновить торрент(ы)"
+msgstr "В_озобновить временно"
 
 #: src/main_window.cpp:460
-#, fuzzy
 msgid "P_ause temporary"
-msgstr "Приостановить торрент(ы)"
+msgstr "П_риостановить временно"
 
 #: src/main_window.cpp:489
 msgid "C_omplete pending temporary action"
-msgstr ""
+msgstr "_Завершить текущее временное действие"
 
 #: src/main_window.cpp:496
 msgid "_Cancel pending temporary action"
-msgstr ""
+msgstr "О_тменить текущее временное действие"
 
 #: src/main_window.cpp:507
-#, fuzzy
 msgid "Set _upload rate limit"
-msgstr "Максимальная скорость отдачи"
+msgstr "Задать макс. скорость от_дачи"
 
 #: src/main_window.cpp:515
-#, fuzzy
 msgid "Set _download rate limit"
-msgstr "Максимальная скорость скачивания"
+msgstr "Задать макс. скорость _скачивания"
 
 #: src/main_window.cpp:523
 msgid "_Help"
@@ -1505,7 +1501,7 @@ msgstr "Настройки"
 
 #: src/main_window.cpp:901
 msgid "Interrupting the temporary action on torrents failed"
-msgstr ""
+msgstr "Не удалось прервать выполнение текущего временного действия"
 
 #: src/main_window.cpp:924 src/main_window.cpp:949
 msgid "Pausing torrents failed"
@@ -1517,7 +1513,7 @@ msgstr "GTK BitTorrent клиент"
 
 #: src/main_window.cpp:1110
 msgid "Processing the temporary action on torrents failed"
-msgstr ""
+msgstr "Выполнение над торрентами временного действия завершилось неудачей"
 
 #: src/main_window.cpp:1386
 #, qt-format
@@ -1847,78 +1843,76 @@ msgstr "Сбросить"
 
 #: src/temporary_action_dialog.cpp:120
 msgid "1 minute"
-msgstr ""
+msgstr "1 минута"
 
 #: src/temporary_action_dialog.cpp:121
 msgid "5 minutes"
-msgstr ""
+msgstr "5 минут"
 
 #: src/temporary_action_dialog.cpp:122
 msgid "10 minutes"
-msgstr ""
+msgstr "10 минут"
 
 #: src/temporary_action_dialog.cpp:123
 msgid "15 minutes"
-msgstr ""
+msgstr "15 минут"
 
 #: src/temporary_action_dialog.cpp:124
 msgid "30 minutes"
-msgstr ""
+msgstr "30 минут"
 
 #: src/temporary_action_dialog.cpp:125
 msgid "45 minutes"
-msgstr ""
+msgstr "45 минут"
 
 #: src/temporary_action_dialog.cpp:126
 msgid "1 hour"
-msgstr ""
+msgstr "1 час"
 
 #: src/temporary_action_dialog.cpp:127
 msgid "2 hours"
-msgstr ""
+msgstr "2 часа"
 
 #: src/temporary_action_dialog.cpp:128
 msgid "4 hours"
-msgstr ""
+msgstr "4 часа"
 
 #: src/temporary_action_dialog.cpp:129
 msgid "8 hours"
-msgstr ""
+msgstr "8 часов"
 
 #: src/temporary_action_dialog.cpp:130
 msgid "12 hours"
-msgstr ""
+msgstr "12 часов"
 
 #: src/temporary_action_dialog.cpp:131
 msgid "1 day"
-msgstr ""
+msgstr "1 день"
 
 #: src/temporary_action_dialog.cpp:206
 msgid "Temporary resume downloads|resume"
-msgstr ""
+msgstr "возобновить"
 
 #: src/temporary_action_dialog.cpp:210
 msgid "Temporary pause downloads|pause"
-msgstr ""
+msgstr "приостановить"
 
 #: src/temporary_action_dialog.cpp:221
 msgid "Temporary pause all torrents|all torrents"
-msgstr ""
+msgstr "все торренты"
 
 #: src/temporary_action_dialog.cpp:225
-#, fuzzy
 msgid "Temporary pause downloads|downloads"
-msgstr "Скачано"
+msgstr "закачки"
 
 #: src/temporary_action_dialog.cpp:229
-#, fuzzy
 msgid "Temporary pause uploads|uploads"
-msgstr "Роздано"
+msgstr "раздачи"
 
 #: src/temporary_action_dialog.cpp:237
 #, qt-format
 msgid "Temporary pause downloads|Temporary %1 %2"
-msgstr ""
+msgstr "Временно %1 %2"
 
 #: src/torrent_files_view.cpp:78 src/torrent_files_view.cpp:89
 msgid "Change file or directory path"
@@ -2143,9 +2137,8 @@ msgid "Time seeding|Seeding"
 msgstr "Раздается"
 
 #: src/torrents_view.cpp:176 src/torrents_view.cpp:214
-#, fuzzy
 msgid "Tracker"
-msgstr "Трекеры"
+msgstr "Трекер"
 
 #: src/torrents_view.cpp:178
 msgid "Status icon"
@@ -2157,7 +2150,7 @@ msgstr "Запрошенный размер"
 
 #: src/torrents_view.cpp:190
 msgid "Downloaded requested size"
-msgstr "Скачано из запрошенного размера"
+msgstr "Скачано из запрошенного"
 
 #: src/torrents_view.cpp:210
 msgid "Time added"
@@ -2173,7 +2166,7 @@ msgstr "Время раздачи"
 
 #: src/torrents_view.cpp:280
 msgid "Recheck"
-msgstr ""
+msgstr "Перепроверить"
 
 #: src/torrents_view.cpp:455
 #, qt-format
@@ -2181,44 +2174,38 @@ msgid "Opening torrent '%1' file(s) failed. %2"
 msgstr "Не удалось отобразить файл(ы) торрента ('%1'). %2"
 
 #: src/torrents_view.cpp:525
-#, fuzzy
 msgid "Remove torrent"
-msgstr "Удалить торрент(ы)"
+msgstr "Удалить торрент"
 
 #: src/torrents_view.cpp:526
-#, fuzzy
 msgid "Remove torrents"
-msgstr "Удалить торрент(ы)"
+msgstr "Удалить торренты"
 
 #: src/torrents_view.cpp:528
-#, fuzzy, qt-format
+#, qt-format
 msgid "Are you sure want to remove torrent '%1'?"
-msgstr "Вы действительно хотите удалить выделенные торренты?"
+msgstr "Вы действительно хотите удалить торрент '%1'?"
 
 #: src/torrents_view.cpp:529
-#, fuzzy
 msgid "Are you sure want to remove following torrents?"
-msgstr "Вы действительно хотите удалить выделенные торренты?"
+msgstr "Вы действительно хотите удалить следующие торренты?"
 
 #: src/torrents_view.cpp:539
-#, fuzzy
 msgid "Remove torrent with data"
-msgstr "Удалить торрент(ы) вместе с данными"
+msgstr "Удалить торрент вместе с данными"
 
 #: src/torrents_view.cpp:540
-#, fuzzy
 msgid "Remove torrents with data"
-msgstr "Удалить торрент(ы) вместе с данными"
+msgstr "Удалить торренты вместе с данными"
 
 #: src/torrents_view.cpp:542
-#, fuzzy, qt-format
+#, qt-format
 msgid "Are you sure want to remove torrent '%1' with data?"
-msgstr "Вы действительно хотите удалить выделенные торренты вместе с данными?"
+msgstr "Вы действительно хотите удалить торрент '%1' вместе с данными?"
 
 #: src/torrents_view.cpp:543
-#, fuzzy
 msgid "Are you sure want to remove following torrents with data?"
-msgstr "Вы действительно хотите удалить выделенные торренты вместе с данными?"
+msgstr "Вы действительно хотите удалить следующие торренты вместе с данными?"
 
 #: src/torrents_view.cpp:592
 msgid "Removing torrent(s) failed."
@@ -2295,25 +2282,16 @@ msgid "Invalid tracker URL"
 msgstr "Недопустимый URL трекера"
 
 #: ui/dialog.temporary_action.glade:42
-#, fuzzy
 msgid "Time:"
-msgstr "Имя:"
+msgstr "Время:"
 
 #: ui/dialog.temporary_action.glade:61
 msgid "Custom time (m)|Custom (m)"
-msgstr ""
+msgstr "Задать вручную (мин)"
 
 #: ui/dialog.temporary_action.glade:75
 msgid "Predefined time|Predefined"
-msgstr ""
-
-#: ui/dialog.temporary_action.glade:140
-msgid "gtk-cancel"
-msgstr ""
-
-#: ui/dialog.temporary_action.glade:154
-msgid "gtk-ok"
-msgstr ""
+msgstr "Предопределенное"
 
 #: ui/preferences.daemon.automation.glade:19
 msgid "<big><b>Daemon::Automation</b></big>"
@@ -2379,14 +2357,90 @@ msgstr ""
 "диапазонов IP-адресов выбирается последнее подходящее правило. В самом верху "
 "списка находится неявное правило, разрешающее все IP-адреса."
 
-#~ msgid "_Set upload rate limit"
-#~ msgstr "_Максимальная скорость отдачи"
+#: ui/torrent_info_tabs.details.glade:39
+msgid "Size:"
+msgstr "Размер:"
 
-#~ msgid "_Set download rate limit"
-#~ msgstr "_Максимальная скорость скачивания"
+#: ui/torrent_info_tabs.details.glade:46
+msgid "Requested size:"
+msgstr "Запрошенный размер:"
 
-#~ msgid "Download payload speed"
-#~ msgstr "Скорость скачивания данных"
+#: ui/torrent_info_tabs.details.glade:57
+msgid "Downloaded requested size:"
+msgstr "Скачано из запрошенного:"
 
-#~ msgid "Upload payload speed"
-#~ msgstr "Скорость отдачи данных"
+#: ui/torrent_info_tabs.details.glade:68
+msgid "% Complete:"
+msgstr "Завершено (%):"
+
+#: ui/torrent_info_tabs.details.glade:79
+msgid "Share ratio:"
+msgstr "Рейтинг:"
+
+#: ui/torrent_info_tabs.details.glade:90
+msgid "Peers:"
+msgstr "Пиры:"
+
+#: ui/torrent_info_tabs.details.glade:101
+msgid "Seeds:"
+msgstr "Сиды:"
+
+#: ui/torrent_info_tabs.details.glade:112
+msgid "Time added:"
+msgstr "Время добавления:"
+
+#: ui/torrent_info_tabs.details.glade:123
+msgid "Time left:"
+msgstr "Оставшееся время:"
+
+#: ui/torrent_info_tabs.details.glade:134
+msgid "Time seeding:"
+msgstr "Время раздачи:"
+
+#: ui/torrent_info_tabs.details.glade:145
+msgid "Total download:"
+msgstr "Всего скачано:"
+
+#: ui/torrent_info_tabs.details.glade:156
+msgid "Total payload download:"
+msgstr "Всего скачано данных:"
+
+#: ui/torrent_info_tabs.details.glade:169
+msgid "Total upload:"
+msgstr "Всего роздано:"
+
+#: ui/torrent_info_tabs.details.glade:182
+msgid "Total payload upload:"
+msgstr "Всего роздано данных:"
+
+#: ui/torrent_info_tabs.details.glade:195
+msgid "Total failed:"
+msgstr "Всего ошибок:"
+
+#: ui/torrent_info_tabs.details.glade:208
+msgid "Total redundant:"
+msgstr "Всего избыточных данных:"
+
+#: ui/torrent_info_tabs.details.glade:221
+msgid "Download speed:"
+msgstr "Скорость скачивания:"
+
+#: ui/torrent_info_tabs.details.glade:234
+msgid "Download payload speed:"
+msgstr "Скорость скачивания данных:"
+
+#: ui/torrent_info_tabs.details.glade:247
+msgid "Upload speed:"
+msgstr "Скорость отдачи:"
+
+#: ui/torrent_info_tabs.details.glade:260
+msgid "Upload payload speed:"
+msgstr "Скорость отдачи данных:"
+
+#: ui/torrent_info_tabs.details.glade:590
+msgid "Tracker status:"
+msgstr "Статус трекера:"
+
+#: ui/torrent_info_tabs.details.glade:597
+msgid "Publisher URL:"
+msgstr "URL источника:"

@@ -21,6 +21,8 @@
 #ifdef MLIB_ENABLE_GTK
 
 
+#include <gtk/gtkversion.h>
+
 #include <gtkmm/linkbutton.h>
 
 #include "link_button.hpp"
@@ -44,14 +46,12 @@ Glib::ustring Link_button::get_uri(void) const
 
 
 
-bool Link_button::get_visited(void) const
-{
-	#if GTK_CHECK_VERSION(2, 14, 0)
+#if GTK_CHECK_VERSION(2, 14, 0)
+	bool Link_button::get_visited(void) const
+	{
 		return this->link_button->get_visited();
-	#else
-		return this->link_button->property_visited();
-	#endif
-}
+	}
+#endif
 
 
 
@@ -84,14 +84,12 @@ void Link_button::recreate(const Glib::ustring& uri)
 
 
 
-void Link_button::set_visited(bool visited)
-{
-	#if GTK_CHECK_VERSION(2, 14, 0)
+#if GTK_CHECK_VERSION(2, 14, 0)
+	void Link_button::set_visited(bool visited)
+	{
 		this->link_button->set_visited(visited);
-	#else
-		return this->link_button->property_visited() = visited;
-	#endif
-}
+	}
+#endif
 
 
 

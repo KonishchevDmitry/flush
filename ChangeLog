@@ -1,5 +1,3 @@
-TODO: hardy backport
-
 0.6 ()
 [+] Ability to choose torrent file's character set encoding in torrent open dialog.
 [+] "Publisher URL" line in the details tab.
@@ -9,6 +7,7 @@ TODO: hardy backport
 [+] Recheck option in the torrent right-button-menu.
 [+] Torrents temporary pausing and resuming .
 [+] Libtorrent 0.14.4 (for bundle version).
+[+] Ubuntu Hardy backport.
 [*] Fixed some small command line options processing bug.
 [*] Fixed GTK locking bug.
 

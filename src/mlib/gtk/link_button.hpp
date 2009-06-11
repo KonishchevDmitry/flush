@@ -44,14 +44,18 @@
 			/// Аналог Gtk::LinkButton::get_uri().
 			Glib::ustring		get_uri(void) const;
 
+		#if GTK_CHECK_VERSION(2, 14, 0)
 			/// Аналог Gtk::LinkButton::get_visited().
 			bool				get_visited(void) const;
+		#endif
 
 			/// Аналог Gtk::LinkButton::set_uri().
 			void				set_uri(const Glib::ustring& uri);
 
+		#if GTK_CHECK_VERSION(2, 14, 0)
 			/// Аналог Gtk::LinkButton::set_visited().
 			void				set_visited(bool visited = true);
+		#endif
 
 			/// Аналог Gtk::LinkButton::signal_clicked().
 			sigc::signal<void>&	signal_clicked(void);
