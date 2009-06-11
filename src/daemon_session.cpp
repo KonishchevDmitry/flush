@@ -601,6 +601,9 @@ void Daemon_session::add_torrent_to_session(m::lt::Torrent_metadata torrent_meta
 
 	// Меняем информацию о торренте в соответствии с требуемыми настройками
 	// -->
+		if(torrent_settings.name != "")
+			torrent_metadata.info.files().set_name(torrent_settings.name);
+
 		for(size_t i = 0; i < torrent_settings.files_settings.size(); i++)
 		{
 			const std::string& path = torrent_settings.files_settings[i].path;
