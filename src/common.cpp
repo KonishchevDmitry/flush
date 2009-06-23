@@ -509,66 +509,20 @@
 		try
 		{
 			const lt::torrent_status torrent_status = torrent.handle.status();
-
-			this->id = torrent.id;
-			this->name = torrent.name;
-			this->paused = torrent_status.paused;
-			this->status = this->get_status(torrent_status);
-
-			this->size = torrent.handle.get_torrent_info().total_size();
-			this->requested_size = torrent_status.total_wanted;
-			this->downloaded_requested_size = torrent_status.total_wanted_done;
-
-			// progress -->
-				if(this->paused)
-				{
-					// Похоже, что, как минимум, начиная с версии 0.14.3, уже
-					// не актуально. По крайней мере в 0.14.3 при преостановке
-					// торрента он переходит в состояние QUEUED_FOR_CHECKING.
-					// Но все-же лучше пока оставить - лишним оно не будет.
-					COMPATIBILITY
-					if(this->status == ALLOCATING || this->status == CHECKING_FILES)
-						this->progress = static_cast<int>( torrent_status.progress * 100 );
-					else
-					{
-						if(this->requested_size != 0)
-							this->progress = this->downloaded_requested_size * 100 / this->requested_size;
-						else
-							this->progress = 100;
-					}
-				}
-				else
-					this->progress = static_cast<int>( torrent_status.progress * 100 );
-			// progress <--
-
-			this->download_speed = static_cast<Speed>( torrent_status.download_rate );
-			this->payload_download_speed = static_cast<Speed>( torrent_status.download_payload_rate );
-			this->upload_speed = static_cast<Speed>( torrent_status.upload_rate );
-			this->payload_upload_speed = static_cast<Speed>( torrent_status.upload_payload_rate );
-
-			this->total_download = torrent.total_download + torrent_status.total_download;
-			this->total_payload_download = torrent.total_payload_download + torrent_status.total_payload_download;
-			this->total_upload = torrent.total_upload + torrent_status.total_upload;
-			this->total_payload_upload = torrent.total_payload_upload + torrent_status.total_payload_upload;
-			this->total_failed = torrent.total_failed + torrent_status.total_failed_bytes;
-			this->total_redundant = torrent.total_redundant + torrent_status.total_redundant_bytes;
-
-			this->peers_num = torrent_status.num_peers;
-			this->seeds_num = torrent_status.num_seeds;
-
-			this->time_added = torrent.time_added;
-			this->time_seeding = torrent.time_seeding;
-
-			this->trackers_exists = !torrent.handle.trackers().empty();
-			this->tracker_brocken =
-				this->trackers_exists && torrent_status.current_tracker.empty() &&
-				!torrent.tracker_error.empty();
-			this->current_tracker = torrent_status.current_tracker;
+			this->init(torrent, torrent_status);
 		}
 		catch(lt::invalid_handle)
 		{
 			MLIB_LE();
 		}
+	}
+
+
+
+	Torrent_info::Torrent_info(void)
+	:
+		processed(false)
+	{
 	}
 
 
@@ -831,6 +785,82 @@
 
 
 
+	void Torrent_info::init(const Torrent& torrent, const lt::torrent_status& torrent_status)
+	{
+		this->id = torrent.id;
+		this->name = torrent.name;
+		this->paused = torrent_status.paused;
+		this->status = this->get_status(torrent_status);
+
+		try
+		{
+			this->size = torrent.handle.get_torrent_info().total_size();
+		}
+		catch(lt::invalid_handle&)
+		{
+			MLIB_LE();
+		}
+
+		this->requested_size = torrent_status.total_wanted;
+		this->downloaded_requested_size = torrent_status.total_wanted_done;
+
+		// progress -->
+			if(this->paused)
+			{
+				// Похоже, что, как минимум, начиная с версии 0.14.3, уже
+				// не актуально. По крайней мере в 0.14.3 при преостановке
+				// торрента он переходит в состояние QUEUED_FOR_CHECKING.
+				// Но все-же лучше пока оставить - лишним оно не будет.
+				COMPATIBILITY
+				if(this->status == ALLOCATING || this->status == CHECKING_FILES)
+					this->progress = static_cast<int>( torrent_status.progress * 100 );
+				else
+				{
+					if(this->requested_size != 0)
+						this->progress = this->downloaded_requested_size * 100 / this->requested_size;
+					else
+						this->progress = 100;
+				}
+			}
+			else
+				this->progress = static_cast<int>( torrent_status.progress * 100 );
+		// progress <--
+
+		this->download_speed = static_cast<Speed>( torrent_status.download_rate );
+		this->payload_download_speed = static_cast<Speed>( torrent_status.download_payload_rate );
+		this->upload_speed = static_cast<Speed>( torrent_status.upload_rate );
+		this->payload_upload_speed = static_cast<Speed>( torrent_status.upload_payload_rate );
+
+		this->total_download = torrent.total_download + torrent_status.total_download;
+		this->total_payload_download = torrent.total_payload_download + torrent_status.total_payload_download;
+		this->total_upload = torrent.total_upload + torrent_status.total_upload;
+		this->total_payload_upload = torrent.total_payload_upload + torrent_status.total_payload_upload;
+		this->total_failed = torrent.total_failed + torrent_status.total_failed_bytes;
+		this->total_redundant = torrent.total_redundant + torrent_status.total_redundant_bytes;
+
+		this->peers_num = torrent_status.num_peers;
+		this->seeds_num = torrent_status.num_seeds;
+
+		this->time_added = torrent.time_added;
+		this->time_seeding = torrent.time_seeding;
+
+		try
+		{
+			this->trackers_exists = !torrent.handle.trackers().empty();
+		}
+		catch(lt::invalid_handle&)
+		{
+			MLIB_LE();
+		}
+
+		this->tracker_brocken =
+			this->trackers_exists && torrent_status.current_tracker.empty() &&
+			!torrent.tracker_error.empty();
+		this->current_tracker = torrent_status.current_tracker;
+	}
+
+
+
 	bool Torrent_info::operator!=(const Torrent_info& torrent_info) const
 	{
 		const Torrent_info& i = torrent_info;
@@ -883,23 +913,37 @@
 // Torrent_details -->
 	Torrent_details::Torrent_details(const Torrent& torrent)
 	:
-		Torrent_info(torrent),
+		Torrent_info(),
 		publisher_url(torrent.publisher_url)
 	{
-		if(this->trackers_exists)
+		try
 		{
-			if(this->current_tracker.empty())
+			const lt::torrent_status torrent_status = torrent.handle.status();
+
+			Torrent_info::init(torrent, torrent_status);
+
+			this->next_announce = torrent_status.next_announce.total_seconds();
+			this->announce_interval = ( !this->paused ) * torrent_status.announce_interval.total_seconds();
+
+			if(this->trackers_exists)
 			{
-				if(this->tracker_brocken)
-					this->tracker_status = torrent.tracker_error;
+				if(this->current_tracker.empty())
+				{
+					if(this->tracker_brocken)
+						this->tracker_status = torrent.tracker_error;
+					else
+						this->tracker_status = _Q("Tracker status is not given yet|Not given yet");
+				}
 				else
-					this->tracker_status = _Q("Tracker status is not given yet|Not given yet");
+					this->tracker_status = __("OK (%1)", this->current_tracker);
 			}
 			else
-				this->tracker_status = __("OK (%1)", this->current_tracker);
+				this->tracker_status = _("There are no trackers has been setted for this torrent");
 		}
-		else
-			this->tracker_status = _("There are no trackers has been setted for this torrent");
+		catch(lt::invalid_handle&)
+		{
+			MLIB_LE();
+		}
 	}
 // Torrent_details <--
 

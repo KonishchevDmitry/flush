@@ -103,6 +103,10 @@
 
 
 		public:
+			/// Используется ли случайный порт, или диапазон портов, заданный
+			/// пользователем.
+			bool							listen_random_port;
+
 			/// Диапазон портов для прослушивания.
 			std::pair<int, int>				listen_ports_range;
 
@@ -132,6 +136,14 @@
 			int								max_connections;
 
 
+			/// Нужно ли использовать максимальный интервал между запросами
+			/// пиров у трекера.
+			bool							use_max_announce_interval;
+
+			/// Максимальный интервал между запросами пиров у трекера.
+			Time							max_announce_interval;
+
+
 			/// IP фильтр.
 			std::vector<Ip_filter_rule>		ip_filter;
 
@@ -141,18 +153,6 @@
 
 			/// Настройки автоматической очистки от старых торрентов.
 			Auto_clean						torrents_auto_clean;
-
-
-		private:
-			/// Начальный порт по умолчанию для диапазона прослушиваемых
-			/// портов.
-			static
-			const int						default_listen_start_port;
-
-			/// Конечный порт по умолчанию для диапазона прослушиваемых
-			/// портов.
-			static
-			const int						default_listen_end_port;
 	};
 
 

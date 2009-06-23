@@ -49,12 +49,40 @@
 
 
 // Private -->
-	class Settings_window::Private
+namespace Settings_window_aux
+{
+	class Private
 	{
 		public:
+			struct Network_misc
+			{
+				Gtk::RadioButton*	random_port;
+				Gtk::RadioButton*	custom_port;
+				Gtk::Container*		custom_port_box;
+				Gtk::SpinButton*	from_port;
+				Gtk::SpinButton*	to_port;
+				Gtk::Label*			current_port;
+
+				Gtk::CheckButton*	dht;
+				Gtk::CheckButton*	upnp;
+				Gtk::CheckButton*	lsd;
+				Gtk::CheckButton*	natpmp;
+				Gtk::CheckButton*	pex;
+				Gtk::CheckButton*	smart_ban;
+
+				Gtk::SpinButton*	download_rate_limit;
+				Gtk::SpinButton*	upload_rate_limit;
+				Gtk::SpinButton*	max_uploads;
+				Gtk::SpinButton*	max_connections;
+
+				Gtk::CheckButton*	use_max_announce_interval;
+				Gtk::SpinButton*	max_announce_interval;
+			};
+
 			struct Network
 			{
-				Ip_filter*	ip_filter;
+				Ip_filter*		ip_filter;
+				Network_misc	misc;
 			};
 
 			struct Auto_load
@@ -104,7 +132,33 @@
 
 		public:
 			Daemon			daemon;
+
+
+		public:
+			/// Обработчик сигнала на изменение диапазона прослушиваемых портов.
+			void	on_listen_port_range_changed_cb(void);
+
+			/// Обработчик сигнала на переключение флажка "случайный
+			/// порт"-"задаваемый пользователем порт".
+			void	on_random_port_toggled_cb(void);
 	};
+
+
+
+	void Private::on_listen_port_range_changed_cb(void)
+	{
+		Network_misc& misc = this->daemon.network.misc;
+		misc.from_port->set_range(m::PORT_MIN, misc.to_port->get_value());
+	}
+
+
+
+	void Private::on_random_port_toggled_cb(void)
+	{
+		Network_misc& misc = this->daemon.network.misc;
+		misc.custom_port_box->set_sensitive(!misc.random_port->get_active());
+	}
+}
 // Private <--
 
 
@@ -578,7 +632,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 		this->sections_notebook.append_page(
 			*MLIB_GLADE_GET_WIDGET(glade, "daemon_network_settings")
 		);
-		
+
 		{
 			Gtk::LinkButton* button;
 
@@ -608,128 +662,45 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 
 	// Daemon::Network::Misc -->
 	{
-		Gtk::VBox* settings_vbox = Gtk::manage(new Gtk::VBox(false, m::gtk::VBOX_SPACING));
-		settings_vbox->set_border_width(tabs_border_width);
-		this->sections_notebook.append_page(*settings_vbox);
+		Private::Network_misc& misc = priv->daemon.network.misc;
 
-		m::gtk::vbox::add_big_header(*settings_vbox, _("Daemon::Network::Misc"));
+		Glib::RefPtr<Gnome::Glade::Xml> glade = MLIB_GLADE_CREATE(
+			std::string(APP_UI_PATH) + "/preferences.daemon.network.misc.glade",
+			"network_misc_settings"
+		);
 
-		// Ports -->
-		{
-			m::gtk::vbox::add_header(*settings_vbox, _("Listen port range"));
+		this->sections_notebook.append_page(
+			*MLIB_GLADE_GET_WIDGET(glade, "network_misc_settings")
+		);
 
-			// ports range -->
-			{
-				Gtk::HBox* hbox = Gtk::manage(new Gtk::HBox(false, m::gtk::HBOX_SPACING));
-				settings_vbox->pack_start(*hbox, false, false);
+		MLIB_GLADE_GET_WIDGET(glade, "random_port", misc.random_port);
+		MLIB_GLADE_GET_WIDGET(glade, "custom_port", misc.custom_port);
+		MLIB_GLADE_GET_WIDGET(glade, "custom_port_box", misc.custom_port_box);
+		MLIB_GLADE_GET_WIDGET(glade, "from_port", misc.from_port);
+		MLIB_GLADE_GET_WIDGET(glade, "to_port", misc.to_port);
+		MLIB_GLADE_GET_WIDGET(glade, "current_port", misc.current_port);
 
-				Gtk::Label* label = Gtk::manage(new Gtk::Label(_("From")));
-				hbox->pack_start(*label, false, false);
+		MLIB_GLADE_GET_WIDGET(glade, "dht", misc.dht);
+		MLIB_GLADE_GET_WIDGET(glade, "upnp", misc.upnp);
+		MLIB_GLADE_GET_WIDGET(glade, "lsd", misc.lsd);
+		MLIB_GLADE_GET_WIDGET(glade, "natpmp", misc.natpmp);
+		MLIB_GLADE_GET_WIDGET(glade, "pex", misc.pex);
+		MLIB_GLADE_GET_WIDGET(glade, "smart_ban", misc.smart_ban);
 
-				this->listen_port_from.set_alignment(Gtk::ALIGN_RIGHT);
-				this->listen_port_from.set_range(m::PORT_MIN, m::PORT_MAX);
-				this->listen_port_from.set_increments(1, 1000);
-				this->listen_port_from.signal_value_changed().connect(sigc::mem_fun(*this, &Settings_window::on_listen_port_range_change_callback));
-				hbox->pack_start(this->listen_port_from, false, false);
+		MLIB_GLADE_GET_WIDGET(glade, "download_rate_limit", misc.download_rate_limit);
+		MLIB_GLADE_GET_WIDGET(glade, "upload_rate_limit", misc.upload_rate_limit);
+		MLIB_GLADE_GET_WIDGET(glade, "max_uploads", misc.max_uploads);
+		MLIB_GLADE_GET_WIDGET(glade, "max_connections", misc.max_connections);
 
-				label = Gtk::manage(new Gtk::Label(_("to")));
-				hbox->pack_start(*label, false, false);
+		MLIB_GLADE_GET_WIDGET(glade, "use_max_announce_interval", misc.use_max_announce_interval);
+		MLIB_GLADE_GET_WIDGET(glade, "max_announce_interval", misc.max_announce_interval);
 
-				this->listen_port_to.set_alignment(Gtk::ALIGN_RIGHT);
-				this->listen_port_to.set_range(m::PORT_MIN, m::PORT_MAX);
-				this->listen_port_to.set_increments(1, 1000);
-				this->listen_port_to.signal_value_changed().connect(sigc::mem_fun(*this, &Settings_window::on_listen_port_range_change_callback));
-				hbox->pack_start(this->listen_port_to, false, false);
-			}
-			// ports range <--
-
-			// listen port
-			m::gtk::vbox::add_widget_with_label(*settings_vbox, _("Currently listen port:"), this->listen_port, false);
-		}
-		// Ports <--
-
-		m::gtk::vbox::add_space(*settings_vbox);
-
-		// Extras -->
-		{
-			m::gtk::vbox::add_header(*settings_vbox, _("Extras"));
-
-			Gtk::HBox* hbox = Gtk::manage(new Gtk::HBox(false, m::gtk::HBOX_SPACING));
-			settings_vbox->pack_start(*hbox, false, false);
-
-			Gtk::Table* table = Gtk::manage(new Gtk::Table(2, 3));
-			table->set_row_spacings(m::gtk::VBOX_SPACING);
-			table->set_col_spacings(m::gtk::HBOX_SPACING);
-			hbox->pack_start(*table, false, false);
-
-			this->dht.set_label("DHT");
-			table->attach(this->dht, 0, 1, 0, 1);
-
-			this->lsd.set_label("LSD");
-			this->lsd.set_tooltip_text(_(
-				"Local Service Discovery. This service will broadcast the infohashes of "
-				"all the non-private torrents on the local network to look for peers on "
-				"the same swarm within multicast reach."
-			));
-			table->attach(this->lsd, 1, 2, 0, 1);
-
-			this->pex.set_label("Peer exchange");
-			this->pex.set_tooltip_text(_("Exchanges peers between clients."));
-			table->attach(this->pex, 2, 3, 0, 1);
-
-			this->upnp.set_label("UPnP");
-			table->attach(this->upnp, 0, 1, 1, 2);
-
-			this->natpmp.set_label("NAT-PMP");
-			table->attach(this->natpmp, 1, 2, 1, 2);
-
-			this->smart_ban.set_label("Smart ban");
-			this->smart_ban.set_tooltip_text(_("Ban peers that sends bad data with very high accuracy."));
-			table->attach(this->smart_ban, 2, 3, 1, 2);
-		}
-		// Extras <--
-
-		m::gtk::vbox::add_space(*settings_vbox);
-
-		// Bandwidth -->
-		{
-			Gtk::HBox* hbox = Gtk::manage( new Gtk::HBox(false, m::gtk::HBOX_SPACING) );
-			settings_vbox->pack_start(*hbox, false, false);
-
-			Gtk::VBox* vbox = Gtk::manage( new Gtk::VBox(false, m::gtk::VBOX_SPACING) );
-			hbox->pack_start(*vbox, false, false);
-
-			m::gtk::vbox::add_header(*vbox, _("Bandwidth"));
-
-			// download_rate_limit -->
-				add_spin_button(
-					*vbox, _("Download rate limit (KB/s):"), this->download_rate_limit,
-					std::pair<int,int>(-1, INT_MAX), std::pair<double,double>(1, 1000)
-				);
-			// download_rate_limit <--
-
-			// upload_rate_limit -->
-				add_spin_button(
-					*vbox, _("Upload rate limit (KB/s):"), this->upload_rate_limit,
-					std::pair<int,int>(-1, INT_MAX), std::pair<double,double>(1, 1000)
-				);
-			// upload_rate_limit <--
-
-			// max_uploads -->
-				add_spin_button(
-					*vbox, _("Max uploads:"), this->max_uploads,
-					std::pair<int,int>(-1, INT_MAX), std::pair<double,double>(1, 10)
-				);
-			// max_uploads <--
-
-			// max_connections -->
-				add_spin_button(
-					*vbox, _("Max connections:"), this->max_connections,
-					std::pair<int,int>(-1, INT_MAX), std::pair<double,double>(1, 10)
-				);
-			// max_connections <--
-		}
-		// Bandwidth <--
+		misc.random_port->signal_toggled().connect(
+			sigc::mem_fun(*priv, &Private::on_random_port_toggled_cb));
+		misc.from_port->signal_value_changed().connect(
+			sigc::mem_fun(*priv, &Private::on_listen_port_range_changed_cb));
+		misc.to_port->signal_value_changed().connect(
+			sigc::mem_fun(*priv, &Private::on_listen_port_range_changed_cb));
 	}
 	// Daemon::Network::Misc <--
 
@@ -942,25 +913,42 @@ void Settings_window::load_settings(void)
 	// Main <--
 
 	// daemon settings -->
-		// Сначала задаем to, чтобы обработчик сигнала выставил ограничение для from
-		this->listen_port_to.set_value(daemon_settings.listen_ports_range.second);
-		this->listen_port_from.set_value(daemon_settings.listen_ports_range.first);
-		this->listen_port.set_label(daemon_settings.listen_port < 0 ? _("none") : m::to_string(daemon_settings.listen_port));
+	{
+		Daemon_settings& settings = this->daemon_settings;
 
-		this->dht.set_active(daemon_settings.dht);
-		this->lsd.set_active(daemon_settings.lsd);
-		this->upnp.set_active(daemon_settings.upnp);
-		this->natpmp.set_active(daemon_settings.natpmp);
-		this->pex.set_active(daemon_settings.pex);
-		this->smart_ban.set_active(daemon_settings.smart_ban);
+		// Network -->
+			// Misc -->
+			{
+				Private::Network_misc& misc = priv->daemon.network.misc;
 
-		this->download_rate_limit.set_value(daemon_settings.download_rate_limit);
-		this->upload_rate_limit.set_value(daemon_settings.upload_rate_limit);
+				misc.random_port	->set_active(settings.listen_random_port);
+				// Сначала задаем to, чтобы обработчик сигнала выставил ограничение для from
+				misc.to_port		->set_value(settings.listen_ports_range.second);
+				misc.from_port		->set_value(settings.listen_ports_range.first);
+				misc.custom_port	->set_active(!settings.listen_random_port);
 
-		this->max_uploads.set_value(daemon_settings.max_uploads);
-		this->max_connections.set_value(daemon_settings.max_connections);
+				misc.current_port->set_label(
+					settings.listen_port < m::PORT_MIN ? _("none") : m::to_string(settings.listen_port));
 
-		priv->daemon.network.ip_filter->set(daemon_settings.ip_filter);
+				misc.dht		->set_active(settings.dht);
+				misc.lsd		->set_active(settings.lsd);
+				misc.upnp		->set_active(settings.upnp);
+				misc.natpmp		->set_active(settings.natpmp);
+				misc.pex		->set_active(settings.pex);
+				misc.smart_ban	->set_active(settings.smart_ban);
+
+				misc.download_rate_limit->set_value(settings.download_rate_limit);
+				misc.upload_rate_limit	->set_value(settings.upload_rate_limit);
+				misc.max_uploads		->set_value(settings.max_uploads);
+				misc.max_connections	->set_value(settings.max_connections);
+
+				misc.use_max_announce_interval	->set_active(settings.use_max_announce_interval);
+				misc.max_announce_interval		->set_value(settings.max_announce_interval / 60);
+			}
+			// Misc <--
+
+			priv->daemon.network.ip_filter->set(settings.ip_filter);
+		// Network <--
 
 		// Automation -->
 		{
@@ -1014,6 +1002,7 @@ void Settings_window::load_settings(void)
 			// Auto clean <--
 		}
 		// Automation <--
+	}
 	// daemon settings <--
 }
 
@@ -1111,13 +1100,6 @@ void Settings_window::on_copy_finished_to_path_toggled_callback(void)
 
 
 
-void Settings_window::on_listen_port_range_change_callback(void)
-{
-	this->listen_port_from.set_range(m::PORT_MIN, this->listen_port_to.get_value());
-}
-
-
-
 void Settings_window::on_ok_button_callback(void)
 {
 	this->save_settings();
@@ -1194,57 +1176,73 @@ void Settings_window::save_settings(void)
 	// Main <--
 
 	// daemon settings -->
+	{
+		Daemon_settings& settings = this->daemon_settings;
+
 		// Network -->
-			daemon_settings.listen_ports_range = std::pair<int, int>(this->listen_port_from.get_value(), this->listen_port_to.get_value());
+			// Misc -->
+			{
+				Private::Network_misc& misc = priv->daemon.network.misc;
 
-			daemon_settings.dht = this->dht.get_active();
-			daemon_settings.lsd = this->lsd.get_active();
-			daemon_settings.upnp = this->upnp.get_active();
-			daemon_settings.natpmp = this->natpmp.get_active();
-			daemon_settings.smart_ban = this->smart_ban.get_active();
-			daemon_settings.pex = this->pex.get_active();
+				settings.listen_random_port = misc.random_port->get_active();
+				settings.listen_ports_range = std::pair<int, int>(
+					misc.from_port->get_value(), misc.to_port->get_value());
 
-			daemon_settings.download_rate_limit = this->download_rate_limit.get_value();
-			daemon_settings.upload_rate_limit = this->upload_rate_limit.get_value();
+				settings.dht		= misc.dht->get_active();
+				settings.lsd		= misc.lsd->get_active();
+				settings.upnp		= misc.upnp->get_active();
+				settings.natpmp		= misc.natpmp->get_active();
+				settings.smart_ban	= misc.smart_ban->get_active();
+				settings.pex		= misc.pex->get_active();
 
-			daemon_settings.max_uploads = this->max_uploads.get_value();
-			daemon_settings.max_connections = this->max_connections.get_value();
+				settings.download_rate_limit	= misc.download_rate_limit->get_value();
+				settings.upload_rate_limit		= misc.upload_rate_limit->get_value();
+				settings.max_uploads			= misc.max_uploads->get_value();
+				settings.max_connections		= misc.max_connections->get_value();
+
+				settings.use_max_announce_interval	= misc.use_max_announce_interval->get_active();
+				settings.max_announce_interval		= misc.max_announce_interval->get_value() * 60;
+			}
+			// Misc <--
+
+			// IP filter
+			settings.ip_filter = priv->daemon.network.ip_filter->get();
 		// Network <--
 
-		// IP filter
-		daemon_settings.ip_filter = priv->daemon.network.ip_filter->get();
+		// Automation -->
+			// Torrents auto load -->
+			{
+				Daemon_settings::Torrents_auto_load& auto_load = settings.torrents_auto_load;
+				Private::Auto_load& load = priv->daemon.automation.load;
 
-		// Torrents auto load -->
-		{
-			Daemon_settings::Torrents_auto_load& auto_load = daemon_settings.torrents_auto_load;
-			Private::Auto_load& load = priv->daemon.automation.load;
+				auto_load.is			= load.is->get_active();
+				auto_load.from			= L2U(load.from->get_filename());
+				auto_load.to			= L2U(load.to->get_filename());
 
-			auto_load.is			= load.is->get_active();
-			auto_load.from			= L2U(load.from->get_filename());
-			auto_load.to			= L2U(load.to->get_filename());
+				auto_load.copy			= load.copy->get_active();
+				auto_load.copy_to		= L2U(load.copy_to->get_filename());
 
-			auto_load.copy			= load.copy->get_active();
-			auto_load.copy_to		= L2U(load.copy_to->get_filename());
+				auto_load.delete_loaded	= load.delete_loaded->get_active();
+			}
+			// Torrents auto load <--
 
-			auto_load.delete_loaded	= load.delete_loaded->get_active();
-		}
-		// Torrents auto load <--
+			// Torrents auto clean -->
+			{
+				Daemon_settings::Auto_clean& auto_clean = settings.torrents_auto_clean;
+				Private::Auto_clean& clean = priv->daemon.automation.clean;
 
-		// Torrents auto clean -->
-		{
-			Daemon_settings::Auto_clean& auto_clean = daemon_settings.torrents_auto_clean;
-			Private::Auto_clean& clean = priv->daemon.automation.clean;
+				auto_clean.max_seeding_time				= clean.max_seeding_time->get_value() * 60;
+				auto_clean.max_seeding_time_type		= clean.max_seeding_time_type;
 
-			auto_clean.max_seeding_time				= clean.max_seeding_time->get_value() * 60;
-			auto_clean.max_seeding_time_type		= clean.max_seeding_time_type;
+				auto_clean.max_ratio					= clean.max_ratio->get_value();
+				auto_clean.max_ratio_type				= clean.max_ratio_type;
 
-			auto_clean.max_ratio					= clean.max_ratio->get_value();
-			auto_clean.max_ratio_type				= clean.max_ratio_type;
-
-			auto_clean.max_seeding_torrents			= clean.max_seeding_torrents->get_value();
-			auto_clean.max_seeding_torrents_type	= clean.max_seeding_torrents_type;
-		}
-		// Torrents auto clean <--
+				auto_clean.max_seeding_torrents			= clean.max_seeding_torrents->get_value();
+				auto_clean.max_seeding_torrents_type	= clean.max_seeding_torrents_type;
+			}
+			// Torrents auto clean <--
+		// Automation <--
+	}
 	// daemon settings <--
 }
 

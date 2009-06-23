@@ -83,6 +83,11 @@
 /// M_ITER_TYPE(vec) vec_iter;
 #define M_ITER_TYPE(container) M_TYPEOF(container)::iterator
 
+/// Возвращает тип константного итератора для контейнера container.
+/// std::vector<int> vec;
+/// M_CONST_ITER_TYPE(vec) vec_iter;
+#define M_CONST_ITER_TYPE(container) M_TYPEOF(container)::const_iterator
+
 /// Подсчитывает размер статического массива.
 #define M_STATIC_ARRAY_SIZE(array) ( sizeof array / sizeof *array )
 
@@ -333,6 +338,9 @@ void				setenv(const std::string& name, const std::string& value, bool overwrite
 /// (они различаются по годам).
 inline
 void				tm_to_real_time(struct tm* date);
+
+/// Аналог системного dup().
+int					unix_dup(int fd) throw(m::Exception);
 
 /// Аналог системного dup().
 void				unix_dup(int oldfd, int newfd) throw(m::Exception);

@@ -275,6 +275,24 @@ Glib::ustring get_time_left_string(Time time_left, bool show_zero_values)
 
 
 
+Glib::ustring get_within_hour_time_left_string(Time time_left)
+{
+	const Time minute = 60;
+
+	// В пределах часа
+	if(time_left <= 60 * 60)
+	{
+		return
+			m::to_string( time_left / minute ) + _Q("minutes|m") + " " +
+			m::to_string( time_left % minute ) + _Q("seconds|s");
+	}
+	// Такого большого времени быть не должно, но обработать его мы обязаны.
+	else
+		return get_time_left_string(time_left);
+}
+
+
+
 bool is_empty_string(const Glib::ustring& string)
 {
 	M_FOR_CONST_IT(string, it)

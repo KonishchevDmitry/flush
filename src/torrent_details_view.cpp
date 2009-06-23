@@ -54,7 +54,6 @@
 		MLIB_GLADE_GET_WIDGET(glade, "size",						this->size);
 		MLIB_GLADE_GET_WIDGET(glade, "requested_size",				this->requested_size);
 		MLIB_GLADE_GET_WIDGET(glade, "downloaded_requested_size",	this->downloaded_requested_size);
-		MLIB_GLADE_GET_WIDGET(glade, "complete_persent",			this->complete_percent);
 
 		MLIB_GLADE_GET_WIDGET(glade, "total_download",				this->total_download);
 		MLIB_GLADE_GET_WIDGET(glade, "total_payload_download",		this->total_payload_download);
@@ -72,6 +71,9 @@
 
 		MLIB_GLADE_GET_WIDGET(glade, "peers",						this->peers);
 		MLIB_GLADE_GET_WIDGET(glade, "seeds",						this->seeds);
+
+		MLIB_GLADE_GET_WIDGET(glade, "next_announce",				this->next_announce);
+		MLIB_GLADE_GET_WIDGET(glade, "announce_interval",			this->announce_interval);
 
 		MLIB_GLADE_GET_WIDGET(glade, "time_added",					this->time_added);
 		MLIB_GLADE_GET_WIDGET(glade, "time_left",					this->time_left);
@@ -106,7 +108,6 @@
 		this->set_string(	this->size,							""	);
 		this->set_string(	this->requested_size,				""	);
 		this->set_string(	this->downloaded_requested_size,	""	);
-		this->set_string(	this->complete_percent,				""	);
 
 		this->set_string(	this->total_download,				""	);
 		this->set_string(	this->total_payload_download,		""	);
@@ -219,7 +220,6 @@
 				this->set_size(		this->size,							details.size);
 				this->set_size(		this->requested_size,				details.requested_size);
 				this->set_size(		this->downloaded_requested_size,	details.downloaded_requested_size);
-				this->set_string(	this->complete_percent,				m::to_string(details.get_complete_percent()) + " %");
 
 				this->set_size(		this->total_download,				details.total_download);
 				this->set_size(		this->total_payload_download,		details.total_payload_download);
@@ -237,6 +237,11 @@
 
 				this->set_string(	this->peers,						m::to_string(details.peers_num));
 				this->set_string(	this->seeds,						m::to_string(details.seeds_num));
+
+
+				this->set_string(	this->next_announce,				m::get_within_hour_time_left_string(details.next_announce));
+				this->set_string(	this->announce_interval,			m::get_time_left_string(details.announce_interval));
+
 
 				this->set_time(		this->time_added,					details.time_added);
 				this->set_string(	this->time_left,					m::get_time_left_string(details.get_time_left()));

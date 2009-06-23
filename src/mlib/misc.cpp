@@ -47,7 +47,7 @@
 namespace m
 {
 
-uint16_t PORT_MIN = 0;
+uint16_t PORT_MIN = 1;
 uint16_t PORT_MAX = 65535;
 
 
@@ -558,6 +558,18 @@ void setenv(const std::string& name, const std::string& value, bool overwrite) t
 {
 	if(::setenv(U2L(name).c_str(), U2L(value).c_str(), overwrite))
 		M_THROW(EE(errno));
+}
+
+
+
+int unix_dup(int fd) throw(m::Exception)
+{
+	int new_fd = dup(fd);
+
+	if(new_fd == -1)
+		M_THROW(__("Can't duplicate a file descriptor: %1.", EE(errno)));
+	else
+		return new_fd;
 }
 
 

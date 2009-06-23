@@ -120,5 +120,6 @@ ui/dialog.temporary_action.glade
 ui/preferences.daemon.automation.glade
 ui/preferences.daemon.network.glade
 ui/preferences.daemon.network.ip_filter.glade 
+ui/preferences.daemon.network.misc.glade 
 ui/torrent_info_tabs.details.glade
 

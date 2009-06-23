@@ -42,7 +42,6 @@
 			Gtk::Label*				size;
 			Gtk::Label*				requested_size;
 			Gtk::Label*				downloaded_requested_size;
-			Gtk::Label*				complete_percent;
 
 			Gtk::Label*				total_download;
 			Gtk::Label*				total_payload_download;
@@ -60,6 +59,9 @@
 
 			Gtk::Label*				peers;
 			Gtk::Label*				seeds;
+
+			Gtk::Label*				next_announce;
+			Gtk::Label*				announce_interval;
 
 			Gtk::Label*				time_added;
 			Gtk::Label*				time_left;

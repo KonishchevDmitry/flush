@@ -160,14 +160,10 @@ namespace
 
 
 
-	const int Daemon_settings_light::default_listen_start_port = 6000;
-	const int Daemon_settings_light::default_listen_end_port = 8000;
-
-
-
 	Daemon_settings_light::Daemon_settings_light(void)
 	:
-		listen_ports_range(this->default_listen_start_port, this->default_listen_end_port),
+		listen_random_port(true),
+		listen_ports_range(6000, 8000),
 
 		lsd(false),
 		upnp(false),
@@ -176,7 +172,10 @@ namespace
 		pex(true),
 
 		max_uploads(-1),
-		max_connections(-1)
+		max_connections(-1),
+
+		use_max_announce_interval(false),
+		max_announce_interval(30 * 60)
 	{
 	}
 // Daemon_settings_light <--
@@ -486,6 +485,11 @@ namespace
 			{
 				CHECK_OPTION_TYPE(setting, m::libconfig::Version_type, continue)
 			}
+			else if(m::is_eq(setting_name, "listen_random_port"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				this->listen_random_port = setting;
+			}
 			else if(m::is_eq(setting_name, "listen_ports_range"))
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeArray, continue)
@@ -498,13 +502,19 @@ namespace
 
 				CHECK_OPTION_TYPE(setting[0], libconfig::Setting::TypeInt, continue)
 
-				if
+				// Для совместимости с версиями < 0.7
+				COMPATIBILITY
+				if(config_version < M_GET_VERSION(0, 7, 0) && static_cast<int>(setting[0]) == 0)
+					this->listen_random_port = true;
+				else if
 				(
 					static_cast<int>(setting[0]) < m::PORT_MIN || static_cast<int>(setting[0]) > m::PORT_MAX ||
 					static_cast<int>(setting[1]) < m::PORT_MIN || static_cast<int>(setting[1]) > m::PORT_MAX ||
 					static_cast<int>(setting[0]) > static_cast<int>(setting[1])
 				)
 				{
+					this->listen_random_port = true;
+
 					bad_option_value(
 						setting,
 						_C(
@@ -517,6 +527,8 @@ namespace
 					this->listen_ports_range = std::pair<int, int>(setting[0], setting[1]);
 			}
 			else if(
+				// Для совместимости с версиями < 0.5
+				COMPATIBILITY
 				config_version < M_GET_VERSION(0, 5, 0) && (
 					m::is_eq(setting_name, "auto_delete_torrents") ||
 					m::is_eq(setting_name, "auto_delete_torrents_with_data") ||
@@ -589,8 +601,28 @@ namespace
 
 				if(static_cast<int>(setting) < -1)
 					bad_option_value(setting, static_cast<int>(setting));
+				else
+					this->max_connections = setting;
+			}
+			else if(m::is_eq(setting_name, "enable_max_announce_interval"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				this->use_max_announce_interval = setting;
+			}
+			else if(m::is_eq(setting_name, "max_announce_interval"))
+			{
+				CHECK_OPTION_TYPE(setting, m::libconfig::Time_type, continue)
 
-				this->max_connections = setting;
+				const Time min_interval = 5 * 60;
+				m::libconfig::Time interval = static_cast<m::libconfig::Time>(setting);
+
+				if(interval < min_interval)
+				{
+					bad_option_value(setting, interval);
+					interval = min_interval;
+				}
+
+				this->max_announce_interval = interval;
 			}
 			else if(m::is_eq(setting_name, "ip_filter"))
 			{
@@ -689,6 +721,11 @@ namespace
 			else
 				unknown_option(setting);
 		}
+
+		// Для совместимости с версиями < 0.7
+		COMPATIBILITY
+		if(config_version < M_GET_VERSION(0, 7, 0))
+			this->listen_random_port = false;
 	}
 
 
@@ -790,6 +827,7 @@ namespace
 			config_root.add("version", m::libconfig::Version_type) = static_cast<m::libconfig::Version>(APP_VERSION);
 			config_root.add("libtorrent_version", m::libconfig::Version_type) = static_cast<m::libconfig::Version>(M_LT_GET_VERSION());
 
+			config_root.add("listen_random_port", libconfig::Setting::TypeBoolean) = this->listen_random_port;
 			{
 				libconfig::Setting& setting = config_root.add("listen_ports_range", libconfig::Setting::TypeArray);
 				setting.add(libconfig::Setting::TypeInt) = this->listen_ports_range.first;
@@ -808,6 +846,11 @@ namespace
 
 			config_root.add("max_uploads", libconfig::Setting::TypeInt) = this->max_uploads;
 			config_root.add("max_connections", libconfig::Setting::TypeInt) = this->max_connections;
+
+			config_root.add("enable_max_announce_interval", libconfig::Setting::TypeBoolean) =
+				this->use_max_announce_interval;
+			config_root.add("max_announce_interval", m::libconfig::Time_type) =
+				static_cast<m::libconfig::Time>(this->max_announce_interval);
 
 			// IP фильтр -->
 				if(!this->ip_filter.empty())

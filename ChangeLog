@@ -1,3 +1,10 @@
+[+] "Random port" setting in the Daemon::Network::Misc settings tab.
+[+] "Next announce" and "Announce interval" elements in the torrent's details
+tab.
+[+] "Max announce interval" setting in the Daemon::Network::Misc settings tab.
+[+] More compact torrent's details tab.
+
+
 0.6 (2009.06.11)
 [+] Ability to choose torrent file's character set encoding in the open
 torrent dialog.

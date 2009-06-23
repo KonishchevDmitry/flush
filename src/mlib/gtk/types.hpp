@@ -63,7 +63,9 @@
 	#endif
 
 	#ifdef MLIB_ENABLE_ALIASES
-		using m::gtk::Glade_xml;
+		#ifdef MLIB_ENABLE_GLADE
+			using m::gtk::Glade_xml;
+		#endif
 	#endif
 
 #endif

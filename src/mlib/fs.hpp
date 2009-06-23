@@ -411,7 +411,7 @@
 		void			unix_utime(const std::string& path, const Stat& file_stat);
 
 		/// Аналог системного write.
-		ssize_t			unix_write(int fd, void* buf, size_t size, bool non_block = false) throw(m::Sys_exception);
+		ssize_t			unix_write(int fd, const void* buf, size_t size, bool non_block = false) throw(m::Sys_exception);
 	}
 	}
 

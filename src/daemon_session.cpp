@@ -32,6 +32,7 @@
 	#include <map>
 #endif
 
+#include <boost/date_time/posix_time/posix_time_duration.hpp>
 #include <boost/ref.hpp>
 #include <boost/thread.hpp>
 
@@ -118,16 +119,13 @@ namespace
 
 
 
+	/// Инициирует получение пиров от трекера заранее, если установленный в
+	/// данный момент интервал получения пиров превышает max_announce_interval.
+	void	force_torrent_reannounce_if_needed(lt::torrent_handle& handle, Time max_announce_interval);
+
 	/// Функция сравнения двух торрентов по времени раздачи.
 	inline
-	bool Torrent_seeding_time_compare(const Seeding_torrent& a, const Seeding_torrent& b);
-
-
-
-	bool Torrent_seeding_time_compare(const Seeding_torrent& a, const Seeding_torrent& b)
-	{
-		return a.seed_time < b.seed_time;
-	}
+	bool	Torrent_seeding_time_compare(const Seeding_torrent& a, const Seeding_torrent& b);
 
 
 
@@ -188,6 +186,32 @@ namespace
 			if(this->error_string.size() > max_msg_size)
 				this->error_string = this->error_string.substr(0, max_msg_size) + "...";
 		}
+	}
+
+
+
+	void force_torrent_reannounce_if_needed(lt::torrent_handle& handle, Time max_announce_interval)
+	{
+		try
+		{
+			if(!handle.is_paused())
+			{
+				lt::torrent_status status = handle.status();
+
+				if(status.next_announce.total_seconds() > max_announce_interval)
+					handle.force_reannounce( boost::posix_time::seconds(max_announce_interval) );
+			}
+		}
+		catch(lt::invalid_handle&)
+		{
+		}
+	}
+
+
+
+	bool Torrent_seeding_time_compare(const Seeding_torrent& a, const Seeding_torrent& b)
+	{
+		return a.seed_time < b.seed_time;
 	}
 }
 
@@ -2054,15 +2078,22 @@ void Daemon_session::set_sequential_download(Torrent& torrent, bool value) throw
 
 void Daemon_session::set_settings(const Daemon_settings& settings, const bool init_settings)
 {
-	// Диапазон портов для прослушивания
-	if(this->settings.listen_ports_range != settings.listen_ports_range || init_settings)
-	{
-		this->settings.listen_ports_range = settings.listen_ports_range;
+	// Диапазон портов для прослушивания -->
+		if(
+			this->settings.listen_random_port != settings.listen_random_port ||
+			this->settings.listen_ports_range != settings.listen_ports_range || init_settings
+		)
+		{
+			this->settings.listen_random_port = settings.listen_random_port;
+			this->settings.listen_ports_range = settings.listen_ports_range;
 
-		// Порт и 0.0.0.0 присваивать обязательно - иначе из Интернета качаться не будет.
-		this->session->listen_on(this->settings.listen_ports_range, "0.0.0.0");
-	}
-
+			this->session->listen_on(
+				settings.listen_random_port ? std::make_pair(0, 0) : this->settings.listen_ports_range,
+				// "0.0.0.0" присваивать обязательно - иначе из Интернета качаться не будет.
+				"0.0.0.0"
+			);
+		}
+	// Диапазон портов для прослушивания <--
 
 	// DHT -->
 		if(this->is_dht_started() != settings.dht || init_settings)
@@ -2148,6 +2179,23 @@ void Daemon_session::set_settings(const Daemon_settings& settings, const bool in
 		this->settings.max_connections = settings.max_connections;
 		this->session->set_max_connections(settings.max_connections);
 	}
+
+	// Максимальный интервал между запросами пиров у трекера -->
+		if(
+			settings.use_max_announce_interval && (
+				this->settings.use_max_announce_interval != settings.use_max_announce_interval ||
+				this->settings.max_announce_interval != settings.max_announce_interval
+			) && !init_settings
+		)
+		{
+			// Вносим изменения для всех активных в данный момент торрентов
+			M_FOR_IT(this->torrents, it)
+				force_torrent_reannounce_if_needed(it->second.handle, settings.max_announce_interval);
+		}
+
+		this->settings.use_max_announce_interval = settings.use_max_announce_interval;
+		this->settings.max_announce_interval = settings.max_announce_interval;
+	// Максимальный интервал между запросами пиров у трекера <--
 
 	// IP фильтр -->
 		if(this->settings.ip_filter != settings.ip_filter)
@@ -2452,17 +2500,24 @@ void Daemon_session::operator()(void)
 					}
 					else
 					{
-						// Скачивание торрента завершено.
-						// Данное сообщение необходимо обработать по особому.
-						if( dynamic_cast<lt::torrent_finished_alert*>(alert.get()) )
+						// Получен список пиров от трекера
+						if( dynamic_cast<lt::tracker_reply_alert*>(alert.get()) )
 						{
-							{
-								boost::mutex::scoped_lock lock(this->mutex);
-								this->finished_torrents.push_back( dynamic_cast<lt::torrent_alert*>( alert.get() )->handle );
-							}
+							// Изменяем интервал запроса списка пиров от
+							// трекера, если это необходимо.
 
-							// Извещаем демон о завершении скачивания торрента
-							this->torrent_finished_signal();
+							Time max_announce_interval = 0;
+
+							gdk_threads_enter();
+								if(this->settings.use_max_announce_interval)
+									max_announce_interval = this->settings.max_announce_interval;
+							gdk_threads_leave();
+
+							if(max_announce_interval)
+							{
+								lt::torrent_handle& handle = static_cast<lt::torrent_alert*>( alert.get() )->handle;
+								force_torrent_reannounce_if_needed(handle, max_announce_interval);
+							}
 						}
 						// Не удалось соединиться с трекером.
 						// Данное сообщение необходимо обработать по особому.
@@ -2479,6 +2534,18 @@ void Daemon_session::operator()(void)
 							// Извещаем демон о получении сообщения об ошибке
 							// соединения с трекером.
 							priv->tracker_error_signal();
+						}
+						// Скачивание торрента завершено.
+						// Данное сообщение необходимо обработать по особому.
+						else if( dynamic_cast<lt::torrent_finished_alert*>(alert.get()) )
+						{
+							{
+								boost::mutex::scoped_lock lock(this->mutex);
+								this->finished_torrents.push_back( static_cast<lt::torrent_alert*>( alert.get() )->handle );
+							}
+
+							// Извещаем демон о завершении скачивания торрента
+							this->torrent_finished_signal();
 						}
 
 						// Передаем сообщение пользователю -->

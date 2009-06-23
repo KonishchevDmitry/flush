@@ -40,11 +40,13 @@
 
 
 
+	namespace Settings_window_aux { class Private; }
+
 	/// Окно изменения настроек клиента и демона.
 	class Settings_window: public m::gtk::Dialog
 	{
 		private:
-			class Private;
+			typedef Settings_window_aux::Private Private;
 
 			enum Section {
 				CLIENT,
@@ -151,33 +153,6 @@
 				// GUI <--
 			// client <--
 
-			// daemon -->
-				// Network -->
-					// Ports -->
-						Gtk::SpinButton		listen_port_from;
-						Gtk::SpinButton		listen_port_to;
-						Gtk::Label			listen_port;
-					// Ports <--
-
-					// Extras -->
-						Gtk::CheckButton	dht;
-						Gtk::CheckButton	lsd;
-						Gtk::CheckButton	upnp;
-						Gtk::CheckButton	natpmp;
-						Gtk::CheckButton	smart_ban;
-						Gtk::CheckButton	pex;
-					// Extras <--
-
-					// Bandwidth -->
-						Gtk::SpinButton		download_rate_limit;
-						Gtk::SpinButton		upload_rate_limit;
-
-						Gtk::SpinButton		max_uploads;
-						Gtk::SpinButton		max_connections;
-					// Bandwidth <--
-				// Network <--
-			// daemon <--
-
 
 		private:
 			/// Добавляет SpinButton.
@@ -226,9 +201,6 @@
 
 			/// Обработчик сигнала на переключение флажка "Copy on finished to path".
 			void			on_copy_finished_to_path_toggled_callback(void);
-
-			/// Обработчик сигнала на изменение диапазона прослушиваемых портов.
-			void			on_listen_port_range_change_callback(void);
 
 			/// Обработчик сигнала на нажатие на кнопку "OK".
 			void			on_ok_button_callback(void);

@@ -682,6 +682,9 @@
 		public:
 			Torrent_info(const Torrent& torrent);
 
+		protected:
+			Torrent_info(void);
+
 
 		public:
 			/// Бит, который всегда устанавливается в false. Используется
@@ -795,6 +798,10 @@
 			/// скачивания торрента.
 			Time			get_time_left(void) const;
 
+		protected:
+			/// Производит всю необходимую работу по конструированию объекта.
+			void			init(const Torrent& torrent, const lt::torrent_status& torrent_status);
+
 		private:
 			/// Возвращает Status, соответствующий lt::torrent_status.
 			Status			get_status(const lt::torrent_status& torrent_status) const;
@@ -813,6 +820,15 @@
 			Torrent_details(const Torrent& torrent);
 
 		public:
+
+			/// Время, через которое libtorrent отправит очередной запрос
+			/// трекеру.
+			Time		next_announce;
+
+			/// Интервал между запросами, который рекомендует использовать
+			/// трекер.
+			Time		announce_interval;
+
 			/// URL, с которого был скачан торрент.
 			std::string	publisher_url;
 
