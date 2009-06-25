@@ -27,6 +27,7 @@
 
 #include "application.hpp"
 #include "client_settings.hpp"
+#include "gui_lib.hpp"
 #include "main.hpp"
 #include "main_window.hpp"
 #include "open_torrent_dialog.hpp"
@@ -89,7 +90,7 @@ Open_torrent_dialog::Private::Encoding_model_columns::Encoding_model_columns(voi
 Open_torrent_dialog::Open_torrent_dialog(Gtk::Window& parent_window)
 :
 	Gtk::FileChooserDialog(
-		parent_window, _("Please choose a torrent file"),
+		parent_window, format_window_title(_("Please choose a torrent file")),
 		Gtk::FILE_CHOOSER_ACTION_OPEN
 	),
 	priv( new Private )

@@ -43,6 +43,7 @@
 
 #include "client_settings.hpp"
 #include "daemon_settings.hpp"
+#include "gui_lib.hpp"
 #include "ip_filter.hpp"
 #include "settings_window.hpp"
 
@@ -184,7 +185,7 @@ namespace Settings_window_aux
 
 Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* client_settings, Daemon_settings* daemon_settings)
 :
-	m::gtk::Dialog(parent_window, std::string(APP_NAME) + ": " + _("Preferences")),
+	m::gtk::Dialog(parent_window, format_window_title(_("Preferences"))),
 
 	priv(new Private),
 
@@ -192,36 +193,16 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 	daemon_settings(*daemon_settings),
 
 	download_to_dialog(
-		*this, _("Please select torrents download directory"),
+		*this, format_window_title(_("Please select torrents download directory")),
 		Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER
 	),
 	download_to_button(download_to_dialog),
 
 	copy_finished_to_dialog(
-		*this, _("Please select directory for finished downloads copying"),
+		*this, format_window_title(_("Please select directory for finished downloads copying")),
 		Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER
 	),
 	copy_finished_to_button(copy_finished_to_dialog)
-
-//	auto_load_torrents_from_dialog(
-//		*this, _("Please select directory for torrents auto load"),
-//		Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER
-//	),
-//	auto_load_torrents_from_button(auto_load_torrents_from_dialog),
-
-//	auto_load_torrents_to_dialog(
-//		*this, _("Please select torrents download directory"),
-//		Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER
-//	),
-//	auto_load_torrents_to_button(auto_load_torrents_to_dialog),
-//
-//	auto_load_torrents_copy_to_dialog(
-//		*this, _("Please select directory for finished downloads copying"),
-//		Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER
-//	),
-//	auto_load_torrents_copy_to_button(auto_load_torrents_copy_to_dialog),
-//
-//	auto_delete_torrents_vbox(false, m::gtk::VBOX_SPACING)
 {
 	const int tabs_border_width = m::gtk::BOX_BORDER_WIDTH * 3;
 

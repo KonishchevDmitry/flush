@@ -1,7 +1,6 @@
 /**************************************************************************
 *                                                                         *
-*   Flush - GTK-based BitTorrent client                                   *
-*   http://sourceforge.net/projects/flush                                 *
+*   MLib - library of some useful things for internal usage               *
 *                                                                         *
 *   Copyright (C) 2009, Konishchev Dmitry                                 *
 *   http://konishchevdmitry.blogspot.com/                                 *
@@ -19,21 +18,29 @@
 **************************************************************************/
 
 
-#ifndef HEADER_GUI_LIB
-	#define HEADER_GUI_LIB
+#ifdef MLIB_ENABLE_GTK
 
-	#include <glibmm/ustring.h>
+#include <gdk/gdk.h>
 
-	#include <mlib/gtk/misc.hxx>
+#include "main.hpp"
 
 
-	/// Форматирует заголовок окна стандартным заранее определенным образом.
-	Glib::ustring				format_window_title(const Glib::ustring& title = "");
 
-	/// Аналог m::gtk::ok_cancel_dialog, но только не принимает параметр с
-	/// родительским окном, т. к. всегда использует в качестве него главное
-	/// окно приложения.
-	m::gtk::Dialog_response		ok_cancel_dialog(const std::string& title, const std::string& message);
+namespace m { namespace gtk {
+
+Scoped_enter::Scoped_enter(void)
+{
+	gdk_threads_enter();
+}
+
+
+
+Scoped_enter::~Scoped_enter(void)
+{
+	gdk_threads_leave();
+}
+
+}}
 
 #endif
 

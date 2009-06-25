@@ -12,9 +12,12 @@ libmlib_gtk_a_SOURCES = \
 	glade.hpp \
 	link_button.cpp \
 	link_button.hpp \
+	main.cpp \
+	main.hpp \
 	misc.cpp \
 	misc.hh \
 	misc.hpp \
+	misc.hxx \
 	paned.cpp \
 	paned.hpp \
 	paned_settings.cpp \

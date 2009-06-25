@@ -38,8 +38,6 @@
 
 #include <glibmm/main.h>
 
-#include <gdk/gdk.h>
-
 #include <libtorrent/extensions/smart_ban.hpp>
 #include <libtorrent/extensions/ut_pex.hpp>
 #include <libtorrent/alert.hpp>
@@ -51,6 +49,7 @@
 #include <libtorrent/torrent_info.hpp>
 #include <libtorrent/version.hpp>
 
+#include <mlib/gtk/main.hpp>
 #include <mlib/async_fs.hpp>
 #include <mlib/fs.hpp>
 #include <mlib/libtorrent.hpp>
@@ -1058,15 +1057,15 @@ void Daemon_session::finish_torrent(Torrent& torrent)
 		m::async_fs::copy_files(
 			torrent.id,
 			src_path, dest_path, files_paths,
-			_("Copying finished torrent failed"),
+			_("Copying finished torrent's files failed"),
 			__(
-				"Copying finished torrent '%1' from '%2' to '%3' failed.",
+				"Copying finished torrent's '%1' files from '%2' to '%3' failed.",
 				torrent.name, src_path, dest_path
 			)
 		);
 
 		MLIB_D(_C(
-			"Copying finished torrent '%1' from '%2' to '%3' has been scheduled.",
+			"Copying finished torrent's files '%1' from '%2' to '%3' has been scheduled.",
 			torrent.name, src_path, dest_path
 		));
 
@@ -1519,20 +1518,26 @@ void Daemon_session::load_torrents_from_config(void) throw(m::Exception)
 
 
 
+void Daemon_session::on_fs_watcher_cb(void)
+{
+	m::gtk::Scoped_enter gtk_lock;
+	this->auto_load_torrents();
+}
+
+
+
 bool Daemon_session::on_save_session_callback(void)
 {
-	gdk_threads_enter();
+	m::gtk::Scoped_enter gtk_lock;
 
-		try
-		{
-			this->save_session();
-		}
-		catch(m::Exception& e)
-		{
-			MLIB_W(_("Saving session failed"), __("Saving session failed. %1", EE(e)));
-		}
-
-	gdk_threads_leave();
+	try
+	{
+		this->save_session();
+	}
+	catch(m::Exception& e)
+	{
+		MLIB_W(_("Saving session failed"), __("Saving session failed. %1", EE(e)));
+	}
 
 	return true;
 }
@@ -1541,10 +1546,8 @@ bool Daemon_session::on_save_session_callback(void)
 
 bool Daemon_session::on_temporary_action_expired_cb(void)
 {
-	gdk_threads_enter();
-		this->interrupt_temporary_action(true);
-	gdk_threads_leave();
-
+	m::gtk::Scoped_enter gtk_lock;
+	this->interrupt_temporary_action(true);
 	return false;
 }
 
@@ -1552,6 +1555,7 @@ bool Daemon_session::on_temporary_action_expired_cb(void)
 
 void Daemon_session::on_torrent_finished_callback(void)
 {
+	m::gtk::Scoped_enter gtk_lock;
 	std::deque<lt::torrent_handle> finished_torrents;
 
 	{
@@ -1577,6 +1581,7 @@ void Daemon_session::on_torrent_finished_callback(void)
 
 void Daemon_session::on_torrent_resume_data_callback(void)
 {
+	m::gtk::Scoped_enter gtk_lock;
 	Torrent_id torrent_id;
 	lt::entry resume_data;
 
@@ -1595,6 +1600,7 @@ void Daemon_session::on_torrent_resume_data_callback(void)
 
 void Daemon_session::on_tracker_error_cb(void)
 {
+	m::gtk::Scoped_enter gtk_lock;
 	std::deque<Tracker_error> tracker_errors;
 
 	{
@@ -1621,38 +1627,36 @@ void Daemon_session::on_tracker_error_cb(void)
 
 bool Daemon_session::on_update_torrents_statistics_callback(void)
 {
-	gdk_threads_enter();
+	m::gtk::Scoped_enter gtk_lock;
 
-		time_t current_time = time(NULL);
-		time_t time_diff = current_time - this->last_update_torrent_statistics_time;
-		this->last_update_torrent_statistics_time = current_time;
+	time_t current_time = time(NULL);
+	time_t time_diff = current_time - this->last_update_torrent_statistics_time;
+	this->last_update_torrent_statistics_time = current_time;
 
-		// Если, к примеру, были переведены часы.
-		if(time_diff < 0)
-			time_diff = UPDATE_TORRENTS_STATISTICS_TIMEOUT;
+	// Если, к примеру, были переведены часы.
+	if(time_diff < 0)
+		time_diff = UPDATE_TORRENTS_STATISTICS_TIMEOUT;
 
-		M_FOR_IT(this->torrents, it)
-		{
-			Torrent& torrent = it->second;
-			Torrent_info torrent_info = torrent.get_info();
+	M_FOR_IT(this->torrents, it)
+	{
+		Torrent& torrent = it->second;
+		Torrent_info torrent_info = torrent.get_info();
 
-			if(
-				torrent.seeding && (
-					torrent_info.status == Torrent_info::SEEDING ||
-					torrent_info.status == Torrent_info::UPLOADING
-				) && !torrent_info.paused
-			)
-				torrent.time_seeding += time_diff;
-
-			torrent.seeding = (
+		if(
+			torrent.seeding && (
 				torrent_info.status == Torrent_info::SEEDING ||
 				torrent_info.status == Torrent_info::UPLOADING
-			) && !torrent_info.paused;
-		}
+			) && !torrent_info.paused
+		)
+			torrent.time_seeding += time_diff;
 
-		this->automate();
+		torrent.seeding = (
+			torrent_info.status == Torrent_info::SEEDING ||
+			torrent_info.status == Torrent_info::UPLOADING
+		) && !torrent_info.paused;
+	}
 
-	gdk_threads_leave();
+	this->automate();
 
 	return true;
 }
@@ -2358,7 +2362,7 @@ void Daemon_session::start(void)
 		// Обработчик сигнала на появление новых торрентов для автоматического
 		// добавления.
 		this->fs_watcher_connection = this->fs_watcher.connect(
-			sigc::mem_fun(*this, &Daemon_session::auto_load_torrents)
+			sigc::mem_fun(*this, &Daemon_session::on_fs_watcher_cb)
 		);
 	// <--
 }
@@ -2508,10 +2512,12 @@ void Daemon_session::operator()(void)
 
 							Time max_announce_interval = 0;
 
-							gdk_threads_enter();
+							{
+								m::gtk::Scoped_enter gtk_lock;
+
 								if(this->settings.use_max_announce_interval)
 									max_announce_interval = this->settings.max_announce_interval;
-							gdk_threads_leave();
+							}
 
 							if(max_announce_interval)
 							{

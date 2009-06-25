@@ -28,6 +28,7 @@
 #include <mlib/gtk/glade.hpp>
 
 #include "client_settings.hpp"
+#include "gui_lib.hpp"
 #include "main.hpp"
 #include "temporary_action_dialog.hpp"
 
@@ -236,8 +237,8 @@ void Temporary_action_dialog::init(Gtk::Window& parent_window, Temporary_action 
 
 		title = __Q("Temporary pause downloads|Temporary %1 %2", action_string, group_string);
 
-		this->set_title(_C("%1: %2", APP_NAME, title));
-		priv->title_label->set_label("<b>" + title + "</b>");
+		this->set_title(format_window_title(title));
+		priv->title_label->set_label("<b>" + Glib::Markup::escape_text(title) + "</b>");
 	}
 	// Загловок окна <--
 }

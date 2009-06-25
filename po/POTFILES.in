@@ -11,9 +11,12 @@ src/mlib/gtk/glade.hh
 src/mlib/gtk/glade.hpp
 src/mlib/gtk/link_button.cpp
 src/mlib/gtk/link_button.hpp
+src/mlib/gtk/main.cpp
+src/mlib/gtk/main.hpp
 src/mlib/gtk/misc.cpp
 src/mlib/gtk/misc.hh
 src/mlib/gtk/misc.hpp
+src/mlib/gtk/misc.hxx
 src/mlib/gtk/paned.cpp
 src/mlib/gtk/paned.hpp
 src/mlib/gtk/paned_settings.cpp

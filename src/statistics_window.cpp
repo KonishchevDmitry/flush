@@ -27,10 +27,11 @@
 #include <gtkmm/stock.h>
 #include <gtkmm/table.h>
 
-#include "mlib/gtk/misc.hpp"
-#include "mlib/gtk/vbox.hpp"
+#include <mlib/gtk/misc.hpp>
+#include <mlib/gtk/vbox.hpp>
 
 #include "daemon_proxy.hpp"
+#include "gui_lib.hpp"
 #include "main.hpp"
 #include "statistics_window.hpp"
 
@@ -38,7 +39,7 @@
 
 Statistics_window::Statistics_window(Gtk::Window& parent_window)
 :
-	Gtk::Dialog(std::string(APP_NAME) + ": " + _("Statistics"), parent_window),
+	Gtk::Dialog(format_window_title(_("Statistics")), parent_window),
 
 	rows_num(0),
 	columns_num(2),

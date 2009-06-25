@@ -28,7 +28,7 @@
 #include <gtkmm/treeview.h>
 #include <gtkmm/window.h>
 
-#include "mlib/gtk/misc.hpp"
+#include <mlib/gtk/misc.hpp>
 
 #include "main.hpp"
 #include "trackers_view.hpp"

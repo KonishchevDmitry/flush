@@ -29,6 +29,8 @@
 
 #include <gtkmm/dialog.h>
 
+#include <mlib/gtk/main.hpp>
+
 #include "application.hpp"
 #include "client_cmd_options.hpp"
 #include "daemon_proxy.hpp"

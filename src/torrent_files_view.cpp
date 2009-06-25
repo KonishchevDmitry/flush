@@ -42,6 +42,7 @@
 #include "application.hpp"
 #include "client_settings.hpp"
 #include "daemon_proxy.hpp"
+#include "gui_lib.hpp"
 #include "main.hpp"
 #include "torrent_files_view.hpp"
 
@@ -75,7 +76,7 @@ namespace
 
 		Change_path_dialog::Change_path_dialog(Gtk::Window& parent, const std::string& path)
 		:
-			Gtk::Dialog(std::string(APP_NAME) + ": " + _("Change file or directory path"), parent)
+			Gtk::Dialog(format_window_title(_("Change file or directory path")), parent)
 		{
 			this->set_resizable(false);
 

@@ -48,6 +48,7 @@
 
 #include <mlib/gtk/action.hpp>
 #include <mlib/gtk/glade.hpp>
+#include <mlib/gtk/main.hpp>
 #include <mlib/gtk/toolbar.hpp>
 #include <mlib/gtk/vbox.hpp>
 
@@ -57,6 +58,7 @@
 #include "create_torrent_dialog.hpp"
 #include "daemon_proxy.hpp"
 #include "daemon_settings.hpp"
+#include "gui_lib.hpp"
 #include "log_view.hpp"
 #include "main.hpp"
 #include "main_window.hpp"
@@ -166,7 +168,7 @@
 	{
 		std::string title = this->traffic_type == DOWNLOAD ? _("Set download rate limit") : _("Set upload rate limit");
 
-		this->set_title(std::string(APP_NAME) + ": " + title);
+		this->set_title(format_window_title(title));
 		this->set_resizable(false);
 
 		if(!parent.is_visible())
@@ -186,7 +188,7 @@
 
 		this->rate_limit_button = Gtk::manage(new Gtk::SpinButton);
 			this->rate_limit_button->set_range(-1, INT_MAX);
-			this->rate_limit_button->set_increments(1, 1000);
+			this->rate_limit_button->set_increments(1, 100);
 
 			this->rate_limit_button->signal_activate().connect(sigc::mem_fun(
 				*this, &Change_rate_limit_dialog::on_rate_limit_button_activate_callback
@@ -251,10 +253,10 @@ Main_window::Main_window(const Main_window_settings& settings)
 	Main_window_settings& main_window_settings = client_settings.gui.main_window;
 
 	// Заголовок окна -->
-		if(get_application().get_config_dir_path() == get_default_config_dir_path())
-			this->gui->orig_window_title = std::string(APP_NAME);
-		else
-			this->gui->orig_window_title = std::string(APP_NAME) + " (" + get_application().get_config_dir_path() + ")";
+		this->gui->orig_window_title = format_window_title();
+
+		if(get_application().get_config_dir_path() != get_default_config_dir_path())
+			this->gui->orig_window_title += " (" + get_application().get_config_dir_path() + ")";
 
 		this->set_title(this->gui->orig_window_title);
 	// Заголовок окна <--
@@ -881,10 +883,8 @@ void Main_window::on_create_callback(void)
 
 bool Main_window::on_gui_update_timeout(void)
 {
-	gdk_threads_enter();
-		this->update_gui(false);
-	gdk_threads_leave();
-
+	m::gtk::Scoped_enter gtk_lock;
+	this->update_gui(false);
 	return true;
 }
 
@@ -954,10 +954,8 @@ void Main_window::on_resume_torrents_callback(Torrents_group group)
 
 bool Main_window::on_save_settings_timeout(void)
 {
-	gdk_threads_enter();
-		this->save_settings();
-	gdk_threads_leave();
-
+	m::gtk::Scoped_enter gtk_lock;
+	this->save_settings();
 	return true;
 }
 

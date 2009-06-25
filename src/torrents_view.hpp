@@ -24,6 +24,8 @@
 
 	#include <boost/shared_ptr.hpp>
 
+	#include <gdk/gdkevents.h>
+
 	#include <gtkmm/cellrendererprogress.h>
 	#include <gtkmm/liststore.h>
 	#include <gtkmm/treemodel.h>
@@ -203,6 +205,9 @@
 			/// Загружает изображение, символизирующее текущее состояние
 			/// торрента.
 			Glib::RefPtr<Gdk::Pixbuf>	load_status_icon(const std::string& icon_name, int height);
+
+			/// Обработчик сигнала на нажатие клавиши на клавиатуре.
+			bool						on_key_press_event_cb(const GdkEventKey* event);
 
 			/// Обработчик сигнала на нажатие правой кнопки мыши.
 			virtual void				on_mouse_right_button_click(const GdkEventButton* const event);

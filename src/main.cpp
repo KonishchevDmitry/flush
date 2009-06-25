@@ -44,6 +44,8 @@
 
 #include <gtk/gtkicontheme.h>
 
+#include <glibmm/markup.h>
+
 #include <gtkmm/box.h>
 #include <gtkmm/expander.h>
 #include <gtkmm/icontheme.h>
@@ -62,6 +64,7 @@
 #include <mlib/misc.hpp>
 
 #include "application.hpp"
+#include "gui_lib.hpp"
 #include "main.hpp"
 #include "main_window.hpp"
 #include "client_cmd_options.hpp"
@@ -140,7 +143,7 @@ namespace
 		if(is_gui_mode())
 		{
 			Gtk::MessageDialog dialog("", false, Gtk::MESSAGE_WARNING, Gtk::BUTTONS_OK);
-			dialog.set_title(__("%1: Error", APP_NAME));
+			dialog.set_title(format_window_title(_("Error")));
 			if(title.empty())
 				dialog.set_message(__("Starting %1 failed:", APP_NAME));
 			else
@@ -230,7 +233,7 @@ namespace
 					debug_info = L2U(argv[3]);
 
 
-				m::gtk::Window error_window(__("%1: Critical error", APP_NAME));
+				m::gtk::Window error_window(format_window_title(_("Critical error")));
 				error_window.set_border_width(m::gtk::WINDOW_BORDER_WIDTH * 2);
 				error_window.set_resizable(false);
 
@@ -248,7 +251,7 @@ namespace
 
 				// Title -->
 					Gtk::Label title_label;
-					title_label.set_markup(std::string("<b>") + _("Critical error") + "</b>");
+					title_label.set_markup("<span weight='bold' size='larger'>" + Glib::Markup::escape_text(_("Critical error")) + "</span>");
 					title_label.set_selectable();
 					title_label.set_line_wrap();
 					title_label.set_alignment(0, 0);
@@ -402,10 +405,7 @@ Gtk::Dialog* create_message_dialog(Gtk::Window& parent_window, Message_type type
 	}
 	// <--
 
-	message_dialog = new Gtk::Dialog(
-		_C("%1: %2", APP_NAME, title),
-		parent_window, true
-	);
+	message_dialog = new Gtk::Dialog(format_window_title(title), parent_window, true);
 	message_dialog->set_border_width(m::gtk::WINDOW_BORDER_WIDTH);
 	message_dialog->set_resizable(false);
 
@@ -427,7 +427,7 @@ Gtk::Dialog* create_message_dialog(Gtk::Window& parent_window, Message_type type
 	// Title -->
 	{
 		Gtk::Label* title_label = Gtk::manage( new Gtk::Label() );
-		title_label->set_markup(std::string("<b>") + title + "</b>");
+		title_label->set_markup("<span weight='bold' size='larger'>" + Glib::Markup::escape_text(title) + "</span>");
 		title_label->set_line_wrap();
 		title_label->set_selectable();
 		title_label->set_alignment(0, 0);

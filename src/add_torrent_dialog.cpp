@@ -35,6 +35,7 @@
 #include "add_torrent_dialog.hpp"
 #include "application.hpp"
 #include "client_settings.hpp"
+#include "gui_lib.hpp"
 #include "main.hpp"
 #include "torrent_files_view.hpp"
 
@@ -43,22 +44,21 @@
 Add_torrent_dialog::Add_torrent_dialog(Gtk::Window& parent_window, const std::string& torrent_path, const std::string& torrent_encoding) throw(m::Exception)
 :
 	m::gtk::Window(
-		parent_window,
-		std::string(APP_NAME) + ": " + _("Adding torrent"),
+		parent_window, format_window_title(_("Adding torrent")),
 		get_client_settings().gui.add_torrent_dialog.window,
 		640, 480
 	),
 
 	download_to_dialog(
 		*this,
-		_("Please select torrent download directory"),
+		format_window_title(_("Please select torrent download directory")),
 		Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER
 	),
 	download_to_button(download_to_dialog),
 
 	copy_when_finished_to_dialog(
 		*this,
-		_("Please select directory for finished downloads copying"),
+		format_window_title(_("Please select directory for finished downloads copying")),
 		Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER
 	),
 	copy_when_finished_to_button(copy_when_finished_to_dialog),

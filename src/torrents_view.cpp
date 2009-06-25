@@ -29,6 +29,9 @@
 	#include <map>
 #endif
 
+#include <gdk/gdkevents.h>
+#include <gdk/gdkkeysyms.h>
+
 #include <gtk/gtkiconfactory.h>
 #include <gtk/gtkversion.h>
 
@@ -352,6 +355,10 @@
 
 		// Устанавливаем обработчик сигнала на активацию строки TreeView.
 		this->signal_row_activated().connect(sigc::mem_fun(*this, &Torrents_view::on_row_activated_callback));
+
+		// Обработчик сигнала на нажатие клавиши на клавиатуре.
+		this->signal_key_press_event().connect(
+			sigc::mem_fun(*this, &Torrents_view::on_key_press_event_cb));
 	}
 
 
@@ -411,6 +418,21 @@
 		{
 			return this->render_icon(Gtk::Stock::MISSING_IMAGE, Gtk::ICON_SIZE_MENU);
 		}
+	}
+
+
+
+	bool Torrents_view::on_key_press_event_cb(const GdkEventKey* event)
+	{
+		if(event->keyval == GDK_Delete || event->keyval == GDK_KP_Delete)
+		{
+			if(event->state & GDK_SHIFT_MASK)
+				this->process_torrents(REMOVE_WITH_DATA);
+			else
+				this->process_torrents(REMOVE);
+		}
+
+		return false;
 	}
 
 

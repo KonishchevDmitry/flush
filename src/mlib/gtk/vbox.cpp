@@ -22,6 +22,8 @@
 
 #include <string>
 
+#include <glibmm/markup.h>
+
 #include <gtkmm/label.h>
 #include <gtkmm/separator.h>
 
@@ -39,7 +41,7 @@ void add_big_header(Gtk::VBox& parent_vbox, const std::string& header_string, bo
 	parent_vbox.pack_start(*hbox, false, false);
 
 	Gtk::Label* label = Gtk::manage(new Gtk::Label());
-	label->set_markup("<b><big>" + header_string + "</big></b>");
+	label->set_markup("<b><big>" + Glib::Markup::escape_text(header_string) + "</big></b>");
 	label->set_alignment( centered ? Gtk::ALIGN_CENTER : Gtk::ALIGN_LEFT );
 	hbox->pack_start(*label, true, true);
 
@@ -58,7 +60,7 @@ void add_header(Gtk::VBox& parent_vbox, const std::string& header_string, bool c
 	parent_vbox.pack_start(*hbox, false, false);
 
 	Gtk::Label* label = Gtk::manage(new Gtk::Label());
-	label->set_markup("<b>" + header_string + "</b>");
+	label->set_markup("<b>" + Glib::Markup::escape_text(header_string) + "</b>");
 	label->set_alignment( centered ? Gtk::ALIGN_CENTER : Gtk::ALIGN_LEFT );
 	hbox->pack_start(*label, true, true);
 }

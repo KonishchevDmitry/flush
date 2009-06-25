@@ -30,6 +30,7 @@
 #include <mlib/gtk/vbox.hpp>
 
 #include "daemon_proxy.hpp"
+#include "gui_lib.hpp"
 #include "main.hpp"
 #include "main_window.hpp"
 #include "torrent_options_view.hpp"
@@ -244,7 +245,7 @@ void Torrent_options_view::on_copy_when_finished_toggled_callback(void)
 void Torrent_options_view::on_select_copy_when_finished_to_callback(void)
 {
 	Gtk::FileChooserDialog dialog(
-		get_main_window(), _("Please choose a directory for torrent finished files copying"),
+		get_main_window(), format_window_title(_("Please choose a directory for torrent finished files copying")),
 		Gtk::FILE_CHOOSER_ACTION_SELECT_FOLDER
 	);
 

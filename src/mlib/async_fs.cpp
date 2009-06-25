@@ -30,6 +30,7 @@
 
 #include <glibmm/dispatcher.h>
 
+#include "gtk/main.hpp"
 #include "async_fs.hpp"
 #include "fs.hpp"
 #include "misc.hpp"
@@ -320,7 +321,12 @@ namespace
 			this->finished_tasks.pop();
 		}
 
-		this->task_finished_signal(id);
+		{
+		#ifdef MLIB_ENABLE_GTK
+			m::gtk::Scoped_enter;
+		#endif
+			this->task_finished_signal(id);
+		}
 	}
 #endif
 

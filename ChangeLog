@@ -3,6 +3,10 @@
 tab.
 [+] "Max announce interval" setting in the Daemon::Network::Misc settings tab.
 [+] More compact torrent's details tab.
+[+] Deleting torrents by Delete key and deleting torrents with data by Shift +
+Delete keys.
+[+] Some small GUI enhancements.
+[*] Fixed bug, due to which GUI may freeze and do not to response.
 
 
 0.6 (2009.06.11)

@@ -346,6 +346,10 @@
 			/// все торренты из прошлой сессии.
 			void						load_torrents_from_config(void) throw(m::Exception);
 
+			/// Обработчик сигнала на появление новых торрентов для автоматического
+			/// добавления.
+			void						on_fs_watcher_cb(void);
+
 			/// Обработчик сигнала на автоматическое сохранение текущей сессии.
 			bool						on_save_session_callback(void);
 

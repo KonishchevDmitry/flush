@@ -25,11 +25,13 @@
 #include <string>
 #include <vector>
 
-#include "mlib/libtorrent.hpp"
+#include <mlib/gtk/main.hpp>
+#include <mlib/libtorrent.hpp>
 
 #include "daemon.hpp"
 #include "daemon_proxy.hpp"
 #include "daemon_types.hpp"
+#include "gui_lib.hpp"
 
 
 
@@ -150,6 +152,7 @@ void Daemon_proxy::interrupt_temporary_action(bool complete) throw(m::Exception)
 
 void Daemon_proxy::on_messages_callback(void)
 {
+	m::gtk::Scoped_enter gtk_lock;
 	std::deque<Daemon_message> messages;
 	this->daemon->get_messages(messages);
 	this->daemon_messages_signal(messages);

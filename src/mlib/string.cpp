@@ -446,12 +446,28 @@ std::string speed_to_string(Speed speed, bool show_zero_values)
 	if(speed == 0)
 	{
 		if(show_zero_values)
-			return _("0 B/s");
+			return _("0 KB/s");
 		else
 			return "";
 	}
+	// Значения, меньшие десятка тысяч байт, size_to_string() отображает в
+	// байтах, что для скорости является не очень естественным представлением.
+	else if(speed < 10 * 1000)
+	{
+		if(speed >= 100)
+		{
+			int fraction = int(speed * 10 / 1024 % 10);
+
+			if(fraction)
+				return m::to_string(speed / 1024) + "." + m::to_string(fraction) + " " + _("KB/s");
+			else
+				return m::to_string(speed / 1024) + " " + _("KB/s");
+		}
+		else
+			return m::to_string(speed) + " " + _("B/s");
+	}
 	else if(speed > 0)
-		return size_to_string(speed) + _("/s");
+		return size_to_string(speed, show_zero_values) + _("/s");
 	else
 	{
 		if(show_zero_values)

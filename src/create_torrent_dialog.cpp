@@ -35,11 +35,13 @@
 
 #include <libtorrent/create_torrent.hpp>
 
-#include "mlib/fs.hpp"
-#include "mlib/gtk/vbox.hpp"
+#include <mlib/gtk/main.hpp>
+#include <mlib/gtk/vbox.hpp>
+#include <mlib/fs.hpp>
 
 #include "application.hpp"
 #include "create_torrent_dialog.hpp"
+#include "gui_lib.hpp"
 #include "main.hpp"
 #include "trackers_view.hpp"
 
@@ -82,43 +84,23 @@ namespace
 	class Progress_dialog: public Gtk::Dialog
 	{
 		private:
-			class Break_torrent_creating
-			{
-			};
+			class Break_torrent_creating {};
 
 
 		public:
 			Progress_dialog(Gtk::Window& parent_window, const Torrent_source& torrent_source);
-			~Progress_dialog(void);
 
 
 		private:
 			Gtk::ProgressBar*					progress_bar;
-			double								progress;
 
 			boost::mutex						mutex;
-
-			/// Поток для создания торрента.
-			boost::thread*						thread;
 
 			/// Определяет, нужно ли прервать процесс создания торрента.
 			bool								is_cancel;
 
 			/// Данные, на основе которых создается торрент.
 			Torrent_source						torrent_source;
-
-			/// Сигнал на изменение прогресса в создании торрента.
-			Glib::Dispatcher					progress_signal;
-
-			/// Если при создании торрента происходит ошибка, то она
-			/// сохраняется в данной переменной.
-			std::auto_ptr<m::Exception>			error;
-
-			/// Если торрент был успешно создан, выставляется в true;
-			bool								is_created;
-
-			/// Сигнал на завершение процесса создания торрента.
-			Glib::Dispatcher					finished_signal;
 
 
 		public:
@@ -140,12 +122,6 @@ namespace
 
 			/// Обработчик сигнала на закрытие окна.
 			bool			on_close_callback(GdkEventAny* event);
-
-			/// Обработчик сигнала на завершение процесса создания торрента.
-			void 			on_finished_callback(void);
-
-			/// Обработчик сигнала на изменение прогресса в создании торрента.
-			void 			on_progress_changed_callback(void);
 
 
 		public:
@@ -178,11 +154,9 @@ namespace
 	// Progress_dialog -->
 		Progress_dialog::Progress_dialog(Gtk::Window& parent_window, const Torrent_source& torrent_source)
 		:
-			Gtk::Dialog(std::string(APP_NAME) + ": " + _("Hashing files..."), parent_window, true),
-			thread(NULL),
+			Gtk::Dialog(format_window_title(_("Hashing files...")), parent_window, true),
 			is_cancel(false),
-			torrent_source(torrent_source),
-			is_created(false)
+			torrent_source(torrent_source)
 		{
 			this->property_destroy_with_parent() = true;
 			this->set_border_width(m::gtk::BOX_BORDER_WIDTH);
@@ -221,29 +195,8 @@ namespace
 				sigc::mem_fun(*this, &Progress_dialog::on_close_callback)
 			);
 
-			/// Сигнал на изменение прогресса в создании торрента.
-			this->progress_signal.connect(
-				sigc::mem_fun(*this, &Progress_dialog::on_progress_changed_callback)
-			);
-
-			/// Сигнал на завершение процесса создания торрента.
-			this->finished_signal.connect(
-				sigc::mem_fun(*this, &Progress_dialog::on_finished_callback)
-			);
-
 			// Запускаем процесс создания торрента
-			this->thread = new boost::thread(boost::ref(*this));
-		}
-
-
-
-		Progress_dialog::~Progress_dialog(void)
-		{
-			if(this->thread)
-			{
-				this->thread->join();
-				delete this->thread;
-			}
+			boost::thread(boost::ref(*this));
 		}
 
 
@@ -262,9 +215,12 @@ namespace
 
 		void Progress_dialog::on_cancel_button_callback(void)
 		{
-			boost::mutex::scoped_lock lock(this->mutex);
 			this->get_vbox()->set_sensitive(false);
-			this->is_cancel = true;
+
+			{
+				boost::mutex::scoped_lock lock(this->mutex);
+				this->is_cancel = true;
+			}
 		}
 
 
@@ -279,59 +235,17 @@ namespace
 
 		void Progress_dialog::set_hash_progress(Size progress, Size hash_num) throw(Break_torrent_creating)
 		{
-			boost::mutex::scoped_lock lock(this->mutex);
-
-			if(this->is_cancel)
-				throw Break_torrent_creating();
-			else
 			{
-				this->progress = double(Size_float(progress) / Size_float(hash_num));
-				this->progress_signal();
+				boost::mutex::scoped_lock lock(this->mutex);
+
+				if(this->is_cancel)
+					throw Break_torrent_creating();
 			}
-		}
 
-
-
-		void Progress_dialog::on_finished_callback(void)
-		{
-			if(this->is_created)
 			{
-				Gtk::Window* parent_window = this->get_transient_for();
-
-				MLIB_I(
-					_("Torrent created"),
-					__(
-						"Torrent '%1' has been created successfully.",
-						this->torrent_source.save_path
-					)
-				);
-
-				delete parent_window;
+				m::gtk::Scoped_enter gtk_lock;
+				this->progress_bar->set_fraction( double(Size_float(progress) / Size_float(hash_num)) );
 			}
-			else
-			{
-				if(this->error.get())
-				{
-					show_warning_message(
-						*this, _("Creating torrent failed"),
-						__(
-							"Creating torrent '%1' failed. %2",
-							this->torrent_source.save_path, EE(*this->error)
-						)
-					);
-				}
-
-				delete this;
-			}
-		}
-
-
-
-		void Progress_dialog::on_progress_changed_callback(void)
-		{
-			boost::mutex::scoped_lock lock(this->mutex);
-
-			this->progress_bar->set_fraction(this->progress);
 		}
 
 
@@ -508,19 +422,44 @@ namespace
 					}
 				// Пишем *.torrent файл <--
 
-				this->is_created = true;
+				// Закрываем окно создания торрента -->
+				{
+					m::gtk::Scoped_enter gtk_lock;
+
+					MLIB_I(
+						_("Torrent created"),
+						__(
+							"Torrent '%1' has been created successfully.",
+							this->torrent_source.save_path
+						)
+					);
+
+					delete this->get_transient_for();
+				}
+				// Закрываем окно создания торрента <--
 			}
 			catch(Break_torrent_creating)
 			{
 				MLIB_D(_C("Creating torrent '%1' has been canceled.", this->torrent_source.save_path));
+
+				{
+					m::gtk::Scoped_enter gtk_lock;
+					delete this;
+				}
 			}
 			catch(m::Exception& e)
 			{
-				this->error = std::auto_ptr<m::Exception>(new m::Exception(e));
-			}
+				{
+					m::gtk::Scoped_enter gtk_lock;
 
-			// Оповещаем внешнюю среду о завершении процесса создания торрента.
-			this->finished_signal();
+					show_warning_message(
+						*this, _("Creating torrent failed"),
+						__("Creating torrent '%1' failed. %2", this->torrent_source.save_path, EE(e))
+					);
+
+					delete this;
+				}
+			}
 		}
 	// Progress_dialog <--
 }
@@ -542,7 +481,7 @@ namespace
 	:
 		m::gtk::Window(
 			parent_window,
-			std::string(APP_NAME) + ": " + _("Creating torrent"),
+			format_window_title(_("Creating torrent")),
 			get_application().get_client_settings().gui.create_torrent_dialog.window, -1, -1
 		),
 
@@ -734,7 +673,7 @@ namespace
 
 			// Запрашиваем путь для сохранения *.torrent файла -->
 				Gtk::FileChooserDialog dialog(
-					*this, _("Please choose a file to save the torrent"),
+					*this, format_window_title(_("Please choose a file to save the torrent")),
 					Gtk::FILE_CHOOSER_ACTION_SAVE
 				);
 
@@ -792,12 +731,10 @@ namespace
 
 		Gtk::FileChooserDialog dialog(
 			*this,
-			(
+			format_window_title(
 				directory
-				?
-					_("Please choose a directory to create torrent from")
-				:
-					_("Please choose a file to create torrent from")
+				? _("Please choose a directory to create torrent from")
+				: _("Please choose a file to create torrent from")
 			),
 			(
 				directory

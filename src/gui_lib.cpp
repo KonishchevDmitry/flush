@@ -26,6 +26,17 @@
 #include "main_window.hpp"
 
 
+
+Glib::ustring format_window_title(const Glib::ustring& title)
+{
+	if(title == "")
+		return APP_NAME;
+	else
+		return title + " - " + std::string(APP_NAME);
+}
+
+
+
 m::gtk::Dialog_response ok_cancel_dialog(const std::string& title, const std::string& message)
 {
 	return m::gtk::ok_cancel_dialog(get_main_window(), title, message);

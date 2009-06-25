@@ -26,6 +26,7 @@
 
 	#include <gtkmm/treemodelcolumn.h>
 
+	#include "misc.hxx"
 	#include "types.hpp"
 
 
@@ -73,14 +74,6 @@
 	/// [TABLE_ROWS_SPACING]
 	/// Torrent name:[TABLE_NAME_VALUE_SPACING]some torrent name[TABLE_NAME_VALUE_COLUMNS_SPACING]Torrent name:[TABLE_NAME_VALUE_SPACING]some torrent name
 	extern int TABLE_NAME_VALUE_COLUMNS_SPACING;
-
-
-	enum Dialog_response {
-		RESPONSE_OK,
-		RESPONSE_CANCEL,
-		RESPONSE_YES,
-		RESPONSE_NO
-	};
 
 
 
