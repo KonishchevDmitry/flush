@@ -124,7 +124,6 @@
 	};
 
 
-
 	class Torrents_view_columns: public m::gtk::Tree_view_columns
 	{
 		public:
@@ -168,6 +167,12 @@
 	};
 
 
+	class Torrents_view_filter: private Virtual
+	{
+		public:
+			virtual bool	operator()(const Torrent_info& info) const = 0;
+	};
+
 
 	class Torrents_view: public m::gtk::Tree_view<Torrents_view_columns, Torrents_view_model_columns, Gtk::ListStore>
 	{
@@ -199,13 +204,9 @@
 			void						save_settings(Torrents_view_settings& settings) const;
 
 			/// Иницииурет обновление виджета.
-			void						update(std::vector<Torrent_info>::iterator infos_it, const std::vector<Torrent_info>::iterator& infos_end_it);
+			void						update(const std::vector<Torrent_info>& torrents, const Torrents_view_filter& filter);
 
 		private:
-			/// Загружает изображение, символизирующее текущее состояние
-			/// торрента.
-			Glib::RefPtr<Gdk::Pixbuf>	load_status_icon(const std::string& icon_name, int height);
-
 			/// Обработчик сигнала на нажатие клавиши на клавиатуре.
 			bool						on_key_press_event_cb(const GdkEventKey* event);
 

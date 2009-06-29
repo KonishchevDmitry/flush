@@ -17,6 +17,7 @@
 *   GNU General Public License for more details.                          *
 *                                                                         *
 **************************************************************************/
+#define _STREAM_COMPAT
 
 
 #include <fstream>
@@ -932,6 +933,7 @@ namespace
 			{
 				real_config_path = m::fs::config::start_writing(config_path);
 				config.writeFile(U2L(real_config_path).c_str());
+				m::fs::sync_file(real_config_path);
 				m::fs::config::end_writing(config_path);
 			}
 			catch(m::Exception& e)
@@ -950,42 +952,38 @@ namespace
 
 	void Daemon_settings::write_dht_state(const std::string& dht_state_path) const throw(m::Exception)
 	{
-		std::string real_dht_state_path;
-
 		try
 		{
-			real_dht_state_path = m::fs::config::start_writing(dht_state_path);
-		}
-		catch(m::Exception& e)
-		{
-			M_THROW(__("Writing DHT state to file '%1' failed. %2", dht_state_path, EE(e)));
-		}
+			// Генерирует m::Exception.
+			std::string real_dht_state_path = m::fs::config::start_writing(dht_state_path);
 
-		try
-		{
-			std::ofstream dht_state_file;
+			try
+			{
+				std::ofstream dht_state_file;
 
-			dht_state_file.exceptions(std::ofstream::failbit | std::ofstream::badbit);
+				dht_state_file.exceptions(std::ofstream::failbit | std::ofstream::badbit);
 
-			dht_state_file.open(
-				U2L(real_dht_state_path).c_str(),
-				std::ios::out | std::ios::binary | std::ios::trunc
-			);
+				dht_state_file.open(
+					U2L(real_dht_state_path).c_str(),
+					std::ios::out | std::ios::binary | std::ios::trunc
+				);
 
-			lt::bencode(
-				std::ostream_iterator<char>(dht_state_file),
-				this->dht_state
-			);
+				lt::bencode(
+					std::ostream_iterator<char>(dht_state_file),
+					this->dht_state
+				);
 
-			dht_state_file.close();
-		}
-		catch(std::ofstream::failure& e)
-		{
-			M_THROW(__("Can't write DHT state to file '%1': %2.", real_dht_state_path, EE(errno)));
-		}
+				dht_state_file.close();
+			}
+			catch(std::ofstream::failure& e)
+			{
+				M_THROW(__("Can't write DHT state to file '%1': %2.", real_dht_state_path, EE(errno)));
+			}
 
-		try
-		{
+			// Генерирует m::Exception.
+			m::fs::sync_file(real_dht_state_path);
+
+			// Генерирует m::Exception.
 			m::fs::config::end_writing(dht_state_path);
 		}
 		catch(m::Exception& e)
@@ -1628,6 +1626,7 @@ namespace
 			{
 				real_config_path = m::fs::config::start_writing(config_path);
 				config.writeFile(U2L(real_config_path).c_str());
+				m::fs::sync_file(real_config_path);
 				m::fs::config::end_writing(config_path);
 			}
 			catch(m::Exception& e)
@@ -1660,46 +1659,38 @@ namespace
 			return;
 		}
 
-
-		std::ofstream resume_data_file;
-		std::string real_resume_data_path;
-
 		try
 		{
-			real_resume_data_path = m::fs::config::start_writing(resume_data_path);
-		}
-		catch(m::Exception& e)
-		{
-			M_THROW(__("Writing torrent resume data to file '%1' failed. %2", resume_data_path, EE(e)));
-		}
+			// Генерирует m::Exception.
+			std::string real_resume_data_path = m::fs::config::start_writing(resume_data_path);
 
-		try
-		{
-			resume_data_file.exceptions(std::ofstream::failbit | std::ofstream::badbit);
-			resume_data_file.open(U2L(real_resume_data_path).c_str(), std::ios::out | std::ios::binary | std::ios::trunc);
-
-			// Пишем версию libtorrent, которая производила запись resume data -->
+			try
 			{
-				Version cur_lt_version = m::lt::get_version();
-				resume_data_file.write(reinterpret_cast<const char*>(&cur_lt_version), sizeof cur_lt_version);
+				std::ofstream resume_data_file;
+				resume_data_file.exceptions(std::ofstream::failbit | std::ofstream::badbit);
+				resume_data_file.open(U2L(real_resume_data_path).c_str(), std::ios::out | std::ios::binary | std::ios::trunc);
+
+				// Пишем версию libtorrent, которая производила запись resume data -->
+				{
+					Version cur_lt_version = m::lt::get_version();
+					resume_data_file.write(reinterpret_cast<const char*>(&cur_lt_version), sizeof cur_lt_version);
+				}
+				// Пишем версию libtorrent, которая производила запись resume data <--
+
+				std::ostream_iterator<char> file_iterator(resume_data_file);
+				lt::bencode(file_iterator, this->resume_data);
+
+				resume_data_file.close();
 			}
-			// Пишем версию libtorrent, которая производила запись resume data <--
+			catch(std::ofstream::failure& e)
+			{
+				M_THROW(__("Can't write torrent resume data to file '%1': %2.", real_resume_data_path, EE(errno)));
+			}
 
-			std::ostream_iterator<char> file_iterator(resume_data_file);
-			lt::bencode(file_iterator, this->resume_data);
+			// Генерирует m::Exception.
+			m::fs::sync_file(real_resume_data_path);
 
-			resume_data_file.close();
-		}
-		catch(std::ofstream::failure& e)
-		{
-			// Чтобы деструктор не сгенерировал исключение.
-			resume_data_file.exceptions(std::ofstream::goodbit);
-
-			M_THROW(__("Can't write torrent resume data to file '%1': %2.", real_resume_data_path, EE(errno)));
-		}
-
-		try
-		{
+			// Генерирует m::Exception.
 			m::fs::config::end_writing(resume_data_path);
 		}
 		catch(m::Exception& e)

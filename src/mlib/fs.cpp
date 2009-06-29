@@ -1116,6 +1116,23 @@ Glib::ustring strip_extension(const Glib::ustring& file_name)
 
 
 
+void sync_file(const std::string& path) throw(m::Exception)
+{
+	try
+	{
+		m::File_holder file(m::fs::unix_open(U2L(path), O_APPEND));
+
+		if(fsync(file.get()))
+			M_THROW_SYS(errno);
+	}
+	catch(m::Exception& e)
+	{
+		M_THROW(__("Unable to synchronize data for file '%1' with storage device: %2.", path, EE(e)));
+	}
+}
+
+
+
 Stat unix_fstat(int fd) throw(m::Sys_exception)
 {
 	struct stat stat_buf;

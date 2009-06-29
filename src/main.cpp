@@ -89,50 +89,34 @@
 
 
 
-const std::string APP_CUSTOM_ICON_TORRENT_WAITING_FOR_DOWNLOAD					= "torrent-waiting-for-download";
-const std::string APP_CUSTOM_ICON_TORRENT_WAITING_FOR_DOWNLOAD_BROCKEN_TRACKER	= "torrent-waiting-for-download-brocken-tracker";
-const std::string APP_CUSTOM_ICON_TORRENT_DOWNLOADING							= "torrent-downloading";
-const std::string APP_CUSTOM_ICON_TORRENT_DOWNLOADING_BROCKEN_TRACKER			= "torrent-downloading-brocken-tracker";
-const std::string APP_CUSTOM_ICON_TORRENT_SEEDING								= "torrent-seeding";
-const std::string APP_CUSTOM_ICON_TORRENT_SEEDING_BROCKEN_TRACKER				= "torrent-seeding-brocken-tracker";
-const std::string APP_CUSTOM_ICON_TORRENT_UPLOADING								= "torrent-uploading";
-const std::string APP_CUSTOM_ICON_TORRENT_UPLOADING_BROCKEN_TRACKER				= "torrent-uploading-brocken-tracker";
-
-const std::string APP_CUSTOM_ICON_UPLOAD										= "upload";
-const std::string APP_CUSTOM_ICON_DOWNLOAD_AND_UPLOAD							= "download-and-upload";
-const std::string APP_CUSTOM_ICON_DOWNLOAD										= "download";
-const std::string APP_CUSTOM_ICON_STATISTICS									= "statistics";
-
-
-
 namespace
 {
 	/// Warning-функция для стадии инициализации программы.
 	/// В отличии от обычной, завершает программу и,
 	/// если программа запущена в графической среде,
 	/// отображает графическое сообщение.
-	void app_init_warning_function(const char* file, const int line, const std::string& title, const std::string& message);
+	void	app_init_warning_function(const char* file, const int line, const std::string& title, const std::string& message);
 
 	/// Error-функция. Отличается от стандартной тем, что в
 	/// графическом режиме отображает окно с ошибкой.
-	void error_function(const char* file, const int line, const std::string& message);
+	void	error_function(const char* file, const int line, const std::string& message);
 
 	/// Проверяет, запущена ли программа в режиме отображения
 	/// ошибки. Если да - осуществляет работу в режиме
 	/// отображения ошибки.
-	void error_mode_check(int argc, char *argv[]);
+	void	error_mode_check(int argc, char *argv[]);
 
 	/// Обработчик нажатия на кнопку OK в окне отображения ошибки.
-	void on_error_window_ok_button_callback(void);
+	void	on_error_window_ok_button_callback(void);
 
 	/// Наш собственный обработчик сигнала на нажатие по кнопке-ссылке.
-	void on_linkbutton_uri_callback(Gtk::LinkButton* button, const Glib::ustring& uri);
+	void	on_linkbutton_uri_callback(Gtk::LinkButton* button, const Glib::ustring& uri);
 
 	/// Выводит на консоль Error сообщение.
-	void print_error(const char* file, const int line, const std::string& message, const std::string& debug_info);
+	void	print_error(const char* file, const int line, const std::string& message, const std::string& debug_info);
 
 	/// Обработчик сигнала SIGCHLD.
-	void sigchld_handler(int signal_no);
+	void	sigchld_handler(int signal_no);
 
 
 

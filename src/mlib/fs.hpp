@@ -371,6 +371,10 @@
 		/// Удаляет расширение из имени файла.
 		Glib::ustring	strip_extension(const Glib::ustring& file_name);
 
+		/// Сбрасывает все данные файла path, которые находятся в буферах ядра,
+		/// на диск.
+		void			sync_file(const std::string& path) throw(m::Exception);
+
 		/// Аналог системного fstat.
 		Stat			unix_fstat(int fd) throw(m::Sys_exception);
 

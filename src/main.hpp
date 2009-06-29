@@ -22,24 +22,6 @@
 #ifndef HEADER_MAIN
 	#define HEADER_MAIN
 
-	// Реальные имена собственных иконок -->
-		extern const std::string APP_CUSTOM_ICON_TORRENT_WAITING_FOR_DOWNLOAD;
-		extern const std::string APP_CUSTOM_ICON_TORRENT_WAITING_FOR_DOWNLOAD_BROCKEN_TRACKER;
-		extern const std::string APP_CUSTOM_ICON_TORRENT_DOWNLOADING;
-		extern const std::string APP_CUSTOM_ICON_TORRENT_DOWNLOADING_BROCKEN_TRACKER;
-		extern const std::string APP_CUSTOM_ICON_TORRENT_SEEDING;
-		extern const std::string APP_CUSTOM_ICON_TORRENT_SEEDING_BROCKEN_TRACKER;
-		extern const std::string APP_CUSTOM_ICON_TORRENT_UPLOADING;
-		extern const std::string APP_CUSTOM_ICON_TORRENT_UPLOADING_BROCKEN_TRACKER;
-
-		extern const std::string APP_CUSTOM_ICON_UPLOAD;
-		extern const std::string APP_CUSTOM_ICON_DOWNLOAD_AND_UPLOAD;
-		extern const std::string APP_CUSTOM_ICON_DOWNLOAD;
-		extern const std::string APP_CUSTOM_ICON_STATISTICS;
-	// Реальные имена собственных иконок <--
-
-
-
 	/// Создает диалог для отображения сообщения.
 	Gtk::Dialog*		create_message_dialog(Gtk::Window& parent_window, Message_type type, std::string title, Glib::ustring message);
 

@@ -10359,7 +10359,7 @@ subdirs="$subdirs dbus-c++"
 
 
 
-ac_config_files="$ac_config_files man/Makefile man/ru/Makefile po/Makefile.in src/Makefile src/mlib/Makefile src/mlib/gtk/Makefile ui/Makefile flush.desktop Makefile"
+ac_config_files="$ac_config_files icons/Makefile man/Makefile man/ru/Makefile po/Makefile.in src/Makefile src/mlib/Makefile src/mlib/forwards/Makefile src/mlib/forwards/gdkmm/Makefile src/mlib/forwards/gtkmm/Makefile src/mlib/gtk/Makefile ui/Makefile flush.desktop Makefile"
 
 
 cat >confcache <<\_ACEOF
@@ -11005,11 +11005,15 @@ do
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "po-directories") CONFIG_COMMANDS="$CONFIG_COMMANDS po-directories" ;;
+    "icons/Makefile") CONFIG_FILES="$CONFIG_FILES icons/Makefile" ;;
     "man/Makefile") CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
     "man/ru/Makefile") CONFIG_FILES="$CONFIG_FILES man/ru/Makefile" ;;
     "po/Makefile.in") CONFIG_FILES="$CONFIG_FILES po/Makefile.in" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "src/mlib/Makefile") CONFIG_FILES="$CONFIG_FILES src/mlib/Makefile" ;;
+    "src/mlib/forwards/Makefile") CONFIG_FILES="$CONFIG_FILES src/mlib/forwards/Makefile" ;;
+    "src/mlib/forwards/gdkmm/Makefile") CONFIG_FILES="$CONFIG_FILES src/mlib/forwards/gdkmm/Makefile" ;;
+    "src/mlib/forwards/gtkmm/Makefile") CONFIG_FILES="$CONFIG_FILES src/mlib/forwards/gtkmm/Makefile" ;;
     "src/mlib/gtk/Makefile") CONFIG_FILES="$CONFIG_FILES src/mlib/gtk/Makefile" ;;
     "ui/Makefile") CONFIG_FILES="$CONFIG_FILES ui/Makefile" ;;
     "flush.desktop") CONFIG_FILES="$CONFIG_FILES flush.desktop" ;;

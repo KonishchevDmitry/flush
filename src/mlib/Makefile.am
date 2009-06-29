@@ -1,4 +1,4 @@
-SUBDIRS = gtk
+SUBDIRS = forwards gtk
 
 noinst_LIBRARIES = libmlib.a
 

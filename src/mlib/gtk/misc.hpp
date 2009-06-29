@@ -24,6 +24,9 @@
 
 	#include <string>
 
+	#include <gdkmm/pixbuf.h>
+
+	#include <gtkmm/stock.h>
 	#include <gtkmm/treemodelcolumn.h>
 
 	#include "misc.hxx"
@@ -84,6 +87,16 @@
 	/// пользователь кликнул мышкой именно по нему, а не по любому
 	/// GtkCellRenderer'у данной колонки.
 	void			activate_cell_renderer_toggle_tree_mode(void);
+
+	/// Возвращает Stock'овую иконку.
+	Glib::RefPtr<
+	Gdk::Pixbuf>	get_stock_icon(const Gtk::StockID& id, const Gtk::IconSize& size);
+
+	/// Возвращает иконку с именем name из текущей темы или иконку
+	/// несуществующего изображения, если иконки с таким именем нет в текущей
+	/// теме.
+	Glib::RefPtr<
+	Gdk::Pixbuf>	get_theme_icon(const std::string& name, const Gtk::IconSize& size);
 
 	/// Возвращает кнопку, находящуюся в заголовке колонки GtkTreeView,
 	/// или NULL, если кнопку найти не удалось.

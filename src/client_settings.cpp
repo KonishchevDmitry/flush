@@ -27,6 +27,7 @@
 #include <mlib/gtk/toolbar.hpp>
 #include <mlib/fs.hpp>
 
+#include "categories_view.hpp"
 #include "client_settings.hpp"
 
 
@@ -43,49 +44,156 @@
 
 namespace
 {
-	/// Выводит отладочное сообщение о неверном значении опции.
-	template<class T>
-	void bad_option_value(const libconfig::Setting& setting, T value);
 
-	/// Выводит отладочное сообщение о неверной кодировке, в которой
-	/// представлено значение опции.
-	void invalid_option_utf_value(const libconfig::Setting& setting);
+/// Выводит отладочное сообщение о неверном значении опции.
+template<class T>
+void bad_option_value(const libconfig::Setting& setting, T value);
 
-	/// Выводит отладочное сообщение о неизвестной опции.
-	void unknown_option(const libconfig::Setting& setting);
+/// Выводит отладочное сообщение о неверной кодировке, в которой
+/// представлено значение опции.
+void invalid_option_utf_value(const libconfig::Setting& setting);
 
-
-
-	template<class T>
-	void bad_option_value(const libconfig::Setting& setting, T value)
-	{
-		MLIB_SW(__(
-			"Client config: Bad option '%1' value '%2' at line %3.",
-			setting.getName(), value, setting.getSourceLine()
-		));
-	}
+/// Выводит отладочное сообщение о неизвестной опции.
+void unknown_option(const libconfig::Setting& setting);
 
 
 
-	void invalid_option_utf_value(const libconfig::Setting& setting)
-	{
-		MLIB_SW(__(
-			"Client config: Invalid option '%1' UTF-8 value at line %2.",
-			setting.getName(), setting.getSourceLine()
-		));
-	}
-
-
-
-	void unknown_option(const libconfig::Setting& setting)
-	{
-		MLIB_SW(__(
-			"Client config: Unknown option '%1' at line %2.",
-			setting.getName(), setting.getSourceLine()
-		));
-	}
+template<class T>
+void bad_option_value(const libconfig::Setting& setting, T value)
+{
+	MLIB_SW(__(
+		"Client config: Bad option '%1' value '%2' at line %3.",
+		setting.getName(), value, setting.getSourceLine()
+	));
 }
 
+
+
+void invalid_option_utf_value(const libconfig::Setting& setting)
+{
+	MLIB_SW(__(
+		"Client config: Invalid option '%1' UTF-8 value at line %2.",
+		setting.getName(), setting.getSourceLine()
+	));
+}
+
+
+
+void unknown_option(const libconfig::Setting& setting)
+{
+	MLIB_SW(__(
+		"Client config: Unknown option '%1' at line %2.",
+		setting.getName(), setting.getSourceLine()
+	));
+}
+
+}
+
+
+
+namespace config
+{
+
+class Config
+{
+	public:
+		virtual void	read(const libconfig::Setting& root) = 0;
+		virtual void	write(libconfig::Setting& root) const = 0;
+};
+
+
+
+class Categories_view: public ::Categories_view_settings, public Config
+{
+	public:
+		virtual void	read(const libconfig::Setting& root);
+		virtual void	write(libconfig::Setting& root) const;
+};
+
+
+
+template <typename smart_ptr>
+const Config*	get(const smart_ptr& ptr);
+
+template <typename smart_ptr>
+Config*			get(smart_ptr& ptr);
+
+
+
+template <typename smart_ptr>
+const Config* get(const smart_ptr& ptr)
+{
+	const Config* config = dynamic_cast<const Config*>(ptr.get());
+	MLIB_A(config);
+	return config;
+}
+
+
+
+template <typename smart_ptr>
+Config* get(smart_ptr& ptr)
+{
+	Config* config = dynamic_cast<Config*>(ptr.get());
+	MLIB_A(config);
+	return config;
+}
+
+
+
+// Categories_view -->
+	void Categories_view::read(const libconfig::Setting& root)
+	{
+		for(int setting_id = 0; setting_id < root.getLength(); setting_id++)
+		{
+			const libconfig::Setting& setting = root[setting_id];
+			const char* setting_name = setting.getName();
+
+			if(m::is_eq(setting_name, "visible"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				this->visible = setting;
+			}
+			else if(m::is_eq(setting_name, "show_names"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				this->show_names = setting;
+			}
+			else if(m::is_eq(setting_name, "selected_items"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeArray, continue)
+				this->selected_items.clear();
+
+				if(setting.getLength())
+				{
+					CHECK_OPTION_TYPE(setting[0], libconfig::Setting::TypeString, continue)
+					this->selected_items.reserve(setting.getLength());
+
+					for(int i = 0; i < setting.getLength(); i++)
+						this->selected_items.push_back(static_cast<const char*>(setting[i]));
+				}
+			}
+			else
+				unknown_option(setting);
+		}
+	}
+
+
+
+	void Categories_view::write(libconfig::Setting& root) const
+	{
+		root.add("visible", libconfig::Setting::TypeBoolean) = this->visible;
+		root.add("show_names", libconfig::Setting::TypeBoolean) = this->show_names;
+
+		{
+			libconfig::Setting& setting = root.add("selected_items", libconfig::Setting::TypeArray);
+
+			M_FOR_CONST_IT(this->selected_items, it)
+				setting.add(libconfig::Setting::TypeString) = *it;
+		}
+	}
+// Categories_view_config <--
+
+}
 
 
 // Tree_view_settings -->
@@ -208,7 +316,7 @@ namespace
 			if(m::is_eq(setting_name, "position"))
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeInt, continue)
-				
+
 				if(static_cast<int>(setting) < 0)
 					bad_option_value(setting, static_cast<int>(setting));
 				else
@@ -275,6 +383,21 @@ namespace
 
 
 // Torrents_viewport_settings -->
+	Torrents_viewport_settings::Torrents_viewport_settings(void)
+	:
+		categories_view(new config::Categories_view)
+	{
+	}
+
+
+
+	Torrents_viewport_settings::~Torrents_viewport_settings(void)
+	{
+		// Для работы умных указателей.
+	}
+
+
+
 	void Torrents_viewport_settings::read_config(const libconfig::Setting& config_root, Version client_version)
 	{
 		for(int i = 0; i < config_root.getLength(); i++)
@@ -291,6 +414,11 @@ namespace
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeGroup, continue)
 				this->torrents_view_and_torrent_infos_vpaned.read_config(setting);
+			}
+			else if(m::is_eq(setting_name, "categories_view"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeGroup, continue)
+				config::get(this->categories_view)->read(setting);
 			}
 			else if(m::is_eq(setting_name, "torrents_view"))
 			{
@@ -334,6 +462,10 @@ namespace
 
 		this->torrents_view_and_torrent_infos_vpaned.write_config(
 			config_root.add("torrents_view_and_torrent_infos_vpaned", libconfig::Setting::TypeGroup)
+		);
+
+		config::get(this->categories_view)->write(
+			config_root.add("categories_view", libconfig::Setting::TypeGroup)
 		);
 
 		this->torrents_view.write_config(
@@ -973,6 +1105,7 @@ namespace
 			{
 				std::string real_config_path = m::fs::config::start_writing(config_path);
 				config.writeFile(U2L(real_config_path).c_str());
+				m::fs::sync_file(real_config_path);
 				m::fs::config::end_writing(config_path);
 			}
 			catch(m::Exception& e)

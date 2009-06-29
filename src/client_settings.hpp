@@ -22,12 +22,18 @@
 #ifndef HEADER_CLIENT_SETTINGS
 	#define HEADER_CLIENT_SETTINGS
 
+	#include <memory>
 	#include <string>
+
+	#include <boost/noncopyable.hpp>
 
 	#include <mlib/gtk/paned_settings.hpp>
 	#include <mlib/gtk/toolbar.hpp>
 	#include <mlib/gtk/tree_view_settings.hpp>
 	#include <mlib/gtk/window_settings.hpp>
+
+	#include "categories_view.hxx"
+	#include "client_settings.hxx"
 
 
 	#define GUI_MIN_UPDATE_INTERVAL ( 1000 / 25 )
@@ -44,12 +50,6 @@
 			void read_column_config(const libconfig::Setting& config_root, m::gtk::Tree_view_column_settings& column);
 			void write_column_config(libconfig::Setting& config_root, const m::gtk::Tree_view_column_settings& column) const;
 	};
-
-
-
-	typedef Tree_view_settings Torrents_view_settings;
-	typedef Tree_view_settings Torrent_files_view_settings;
-	typedef Tree_view_settings Torrent_peers_view_settings;
 
 
 
@@ -71,16 +71,22 @@
 
 
 
-	class Torrents_viewport_settings
+	class Torrents_viewport_settings: private boost::noncopyable
 	{
 		public:
-			std::string						info_widget;
+			Torrents_viewport_settings(void);
+			~Torrents_viewport_settings(void);
 
-			Paned_settings					torrents_view_and_torrent_infos_vpaned;
-			Torrents_view_settings			torrents_view;
 
-			Torrent_files_view_settings		torrent_files_view;
-			Torrent_files_view_settings		torrent_peers_view;
+		public:
+			std::string								info_widget;
+
+			Paned_settings							torrents_view_and_torrent_infos_vpaned;
+			std::auto_ptr<Categories_view_settings>	categories_view;
+			Torrents_view_settings					torrents_view;
+
+			Torrent_files_view_settings				torrent_files_view;
+			Torrent_files_view_settings				torrent_peers_view;
 
 
 		public:

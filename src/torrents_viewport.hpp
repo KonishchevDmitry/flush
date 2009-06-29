@@ -22,21 +22,27 @@
 #ifndef HEADER_TORRENTS_VIEWPORT
 	#define HEADER_TORRENTS_VIEWPORT
 
+	#include <boost/scoped_ptr.hpp>
+
 	#include <gtkmm/box.h>
-	#include <gtkmm/frame.h>
 	#include <gtkmm/notebook.h>
 	#include <gtkmm/scrolledwindow.h>
 	#include <gtkmm/togglebutton.h>
 
 	#include <mlib/gtk/paned.hpp>
+	#include <mlib/gtk/signal_proxy.hxx>
 
 	#include "client_settings.hpp"
 
 
 
+	namespace Torrents_viewport_aux { class Private; }
+
 	class Torrents_viewport: public Gtk::VBox
 	{
 		private:
+			typedef Torrents_viewport_aux::Private Private;
+
 			/// Контейнер для хранения InfoWidget.
 			struct Info_widget_handle
 			{
@@ -52,24 +58,15 @@
 			Torrents_viewport(const Torrents_viewport_settings& settings);
 
 
-		public:
-			/// Сигнал на изменение списка действий, которые можно выполнить над
-			/// торрентом(ами), выделенным(ми) в данный момент.
-			sigc::signal<void,
-				Torrent_process_actions>		torrent_process_actions_changed_signal;
-
 		private:
+			boost::scoped_ptr<Private>			priv;
+
 			/// Содержит либо только список торрентов, либо список торрентов
 			/// с информационными виджетами.
 			Gtk::VBox							main_vbox;
 
 			/// Содержит кнопки переключения информационных виджетов.
 			Gtk::HBox							info_toggle_buttons_hbox;
-
-
-			Gtk::Frame							torrents_view_frame;
-			Gtk::ScrolledWindow					torrents_view_scrolled_window;
-			Torrents_view*						torrents_view;
 
 
 			m::gtk::VPaned						torrents_view_and_torrent_infos_vpaned;
@@ -110,31 +107,33 @@
 			/// Информационные виджеты.
 			std::vector<Info_widget_handle>		info_widgets;
 
-			/// Указатель на текущий информационный виджет.
-			Info_widget*						current_info_widget;
-
-			/// Выделенный в данный момент торрент.
-			Torrent_id							cur_torrent_id;
-
 
 		public:
 			/// Возвращает виджет, отображающий лог.
 			inline
-			Log_view&		get_log_view(void) const
-							{ return *this->log_view; }
-
-			/// Обработчик сигнала на изменение списка выделенных торрентов.
-			void			on_torrent_selected_callback(const Torrent_id& torrent_id);
+			Log_view&					get_log_view(void) const
+										{ return *this->log_view; }
 
 			/// Выполняет требуемое действие над выбранными в данный момент
 			/// торрентами.
-			void			process_torrents(Torrent_process_action action);
+			void						process_torrents(Torrent_process_action action);
+
+			/// Отображает или скрывает список категорий торрентов.
+			void						show_categories(bool show = true);
+
+			/// Отображает или скрывает имена категорий.
+			void						show_categories_names(bool show = true);
 
 			/// Инициирует обновление виджета.
-			void			update(std::vector<Torrent_info>::iterator infos_it, const std::vector<Torrent_info>::iterator& infos_end_it);
+			void						update(void);
 
 			/// Сохраняет настройки виджета.
-			void			save_settings(Torrents_viewport_settings& settings) const;
+			void						save_settings(Torrents_viewport_settings& settings) const;
+
+			/// Сигнал на изменение списка действий, которые можно выполнить над
+			/// торрентом(ами), выделенным(ми) в данный момент.
+			m::gtk::Signal_proxy<void,
+			Torrent_process_actions>	signal_torrent_process_actions_changed(void);
 
 		private:
 			/// Добавляет виджет в список информационных виджетов. Данный виджет будет отображаться

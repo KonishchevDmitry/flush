@@ -61,7 +61,9 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
 am_flush_OBJECTS = flush-add_torrent_dialog.$(OBJEXT) \
-	flush-application.$(OBJEXT) flush-client_cmd_options.$(OBJEXT) \
+	flush-app_icons.$(OBJEXT) flush-application.$(OBJEXT) \
+	flush-categories_view.$(OBJEXT) \
+	flush-client_cmd_options.$(OBJEXT) \
 	flush-client_settings.$(OBJEXT) \
 	flush-create_torrent_dialog.$(OBJEXT) flush-common.$(OBJEXT) \
 	flush-daemon.$(OBJEXT) flush-daemon_fs.$(OBJEXT) \
@@ -266,9 +268,13 @@ EXTRA_DIST = dbus_introspect.xml
 flush_SOURCES = \
 	add_torrent_dialog.cpp \
 	add_torrent_dialog.hpp \
+	app_icons.cpp \
+	app_icons.hpp \
 	application.cpp \
 	application.hh \
 	application.hpp \
+	categories_view.cpp \
+	categories_view.hpp \
 	client_cmd_options.cpp \
 	client_cmd_options.hpp \
 	client_settings.cpp \
@@ -402,7 +408,9 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-add_torrent_dialog.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-app_icons.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-application.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-categories_view.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-client_cmd_options.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-client_settings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-common.Po@am__quote@
@@ -458,6 +466,20 @@ flush-add_torrent_dialog.obj: add_torrent_dialog.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-add_torrent_dialog.obj `if test -f 'add_torrent_dialog.cpp'; then $(CYGPATH_W) 'add_torrent_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/add_torrent_dialog.cpp'; fi`
 
+flush-app_icons.o: app_icons.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-app_icons.o -MD -MP -MF $(DEPDIR)/flush-app_icons.Tpo -c -o flush-app_icons.o `test -f 'app_icons.cpp' || echo '$(srcdir)/'`app_icons.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-app_icons.Tpo $(DEPDIR)/flush-app_icons.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='app_icons.cpp' object='flush-app_icons.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-app_icons.o `test -f 'app_icons.cpp' || echo '$(srcdir)/'`app_icons.cpp
+
+flush-app_icons.obj: app_icons.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-app_icons.obj -MD -MP -MF $(DEPDIR)/flush-app_icons.Tpo -c -o flush-app_icons.obj `if test -f 'app_icons.cpp'; then $(CYGPATH_W) 'app_icons.cpp'; else $(CYGPATH_W) '$(srcdir)/app_icons.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-app_icons.Tpo $(DEPDIR)/flush-app_icons.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='app_icons.cpp' object='flush-app_icons.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-app_icons.obj `if test -f 'app_icons.cpp'; then $(CYGPATH_W) 'app_icons.cpp'; else $(CYGPATH_W) '$(srcdir)/app_icons.cpp'; fi`
+
 flush-application.o: application.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-application.o -MD -MP -MF $(DEPDIR)/flush-application.Tpo -c -o flush-application.o `test -f 'application.cpp' || echo '$(srcdir)/'`application.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-application.Tpo $(DEPDIR)/flush-application.Po
@@ -471,6 +493,20 @@ flush-application.obj: application.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='application.cpp' object='flush-application.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-application.obj `if test -f 'application.cpp'; then $(CYGPATH_W) 'application.cpp'; else $(CYGPATH_W) '$(srcdir)/application.cpp'; fi`
+
+flush-categories_view.o: categories_view.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-categories_view.o -MD -MP -MF $(DEPDIR)/flush-categories_view.Tpo -c -o flush-categories_view.o `test -f 'categories_view.cpp' || echo '$(srcdir)/'`categories_view.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-categories_view.Tpo $(DEPDIR)/flush-categories_view.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='categories_view.cpp' object='flush-categories_view.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-categories_view.o `test -f 'categories_view.cpp' || echo '$(srcdir)/'`categories_view.cpp
+
+flush-categories_view.obj: categories_view.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-categories_view.obj -MD -MP -MF $(DEPDIR)/flush-categories_view.Tpo -c -o flush-categories_view.obj `if test -f 'categories_view.cpp'; then $(CYGPATH_W) 'categories_view.cpp'; else $(CYGPATH_W) '$(srcdir)/categories_view.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-categories_view.Tpo $(DEPDIR)/flush-categories_view.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='categories_view.cpp' object='flush-categories_view.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-categories_view.obj `if test -f 'categories_view.cpp'; then $(CYGPATH_W) 'categories_view.cpp'; else $(CYGPATH_W) '$(srcdir)/categories_view.cpp'; fi`
 
 flush-client_cmd_options.o: client_cmd_options.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-client_cmd_options.o -MD -MP -MF $(DEPDIR)/flush-client_cmd_options.Tpo -c -o flush-client_cmd_options.o `test -f 'client_cmd_options.cpp' || echo '$(srcdir)/'`client_cmd_options.cpp

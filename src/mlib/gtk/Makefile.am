@@ -22,6 +22,11 @@ libmlib_gtk_a_SOURCES = \
 	paned.hpp \
 	paned_settings.cpp \
 	paned_settings.hpp \
+	signal_proxy.hh \
+	signal_proxy.hpp \
+	signal_proxy.hxx\
+	signals_holder.cpp \
+	signals_holder.hpp\
 	toolbar.cpp \
 	toolbar.hpp \
 	tree_view.cpp \

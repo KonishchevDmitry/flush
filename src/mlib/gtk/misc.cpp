@@ -23,8 +23,14 @@
 #include <string>
 
 #include <gtk/gtkcellrenderertoggle.h>
+#include <gtk/gtkversion.h>
 
+#include <gdkmm/pixbuf.h>
+
+#include <gtkmm/box.h>
+#include <gtkmm/icontheme.h>
 #include <gtkmm/messagedialog.h>
+#include <gtkmm/stock.h>
 #include <gtkmm/treeview.h>
 #include <gtkmm/treeviewcolumn.h>
 #include <gtkmm/window.h>
@@ -109,6 +115,41 @@ void activate_cell_renderer_toggle_tree_mode(void)
 	cell_class = GTK_CELL_RENDERER_CLASS(GTK_WIDGET_GET_CLASS(toggle_renderer));
 	cell_class->activate = gtk_cell_renderer_toggle_activate;
 	gtk_object_destroy(GTK_OBJECT(toggle_renderer));
+}
+
+
+
+Glib::RefPtr<Gdk::Pixbuf> get_stock_icon(const Gtk::StockID& id, const Gtk::IconSize& size)
+{
+	static Gtk::HBox some_widget;
+	return some_widget.render_icon(id, size);
+}
+
+
+
+Glib::RefPtr<Gdk::Pixbuf> get_theme_icon(const std::string& name, const Gtk::IconSize& size)
+{
+	gint width;
+	gint height;
+
+	MLIB_A(Gtk::IconSize::lookup(size, width, height));
+
+	try
+	{
+		return Gtk::IconTheme::get_default()->load_icon(
+			name, height
+			// Внимание!
+			// В Ubuntu 8.04 (gtkmm-2.4 2.12) этот параметр обязателен. В
+			// Ubuntu 9.04 (gtkmm-2.4 2.16) он точно не обязателен.
+		#if !GTK_CHECK_VERSION(2, 16, 0)
+			, static_cast<Gtk::IconLookupFlags>(0)
+		#endif
+		);
+	}
+	catch(Gtk::IconThemeError&)
+	{
+		return m::gtk::get_stock_icon(Gtk::Stock::MISSING_IMAGE, size);
+	}
 }
 
 

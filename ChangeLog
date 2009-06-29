@@ -5,7 +5,8 @@ tab.
 [+] More compact torrent's details tab.
 [+] Deleting torrents by Delete key and deleting torrents with data by Shift +
 Delete keys.
-[+] Some small GUI enhancements.
+[+] Some small GUI and internal enhancements.
+[+] Torrent's categories sidebar (all, paused, seeding, etc.).
 [*] Fixed bug, due to which GUI may freeze and do not to response.
 
 

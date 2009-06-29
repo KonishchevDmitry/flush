@@ -49,11 +49,14 @@
 #include <mlib/gtk/action.hpp>
 #include <mlib/gtk/glade.hpp>
 #include <mlib/gtk/main.hpp>
+#include <mlib/gtk/signal_proxy.hpp>
 #include <mlib/gtk/toolbar.hpp>
 #include <mlib/gtk/vbox.hpp>
 
 #include "add_torrent_dialog.hpp"
+#include "app_icons.hpp"
 #include "application.hpp"
+#include "categories_view.hpp"
 #include "client_settings.hpp"
 #include "create_torrent_dialog.hpp"
 #include "daemon_proxy.hpp"
@@ -122,8 +125,27 @@
 
 			Glib::RefPtr<Gtk::UIManager>		ui_manager;
 
+			/// Текущая "привязка" сигнала на автоматическое сохранение
+			/// настроек.
+			sigc::connection					autosave_settings_connection;
+
+			/// Текущая "привязка" сигнала на изменение списка доступных в
+			/// данный момент действий, которые можно совершить над выделенными
+			/// торрентами.
+			sigc::connection					torrent_process_actions_changed_connection;
+
 			/// Текущая "привязка" сигнала на обновление GUI.
 			sigc::connection					update_timeout_connection;
+
+
+		public:
+			/// Обработчик сигнала по клику на пункте меню "Отображать
+			/// имена категорий".
+			void	on_show_categories_names_toggle_cb(Glib::RefPtr<Gtk::ToggleAction> action);
+
+			/// Обработчик сигнала по клику на пункте меню "Отображать
+			/// категории".
+			void	on_show_categories_toggle_cb(Glib::RefPtr<Gtk::ToggleAction> action);
 	};
 
 
@@ -133,6 +155,20 @@
 		has_been_showed(false),
 		iconified(false)
 	{
+	}
+
+
+
+	void Main_window::Gui::on_show_categories_names_toggle_cb(Glib::RefPtr<Gtk::ToggleAction> action)
+	{
+		this->torrents_viewport->show_categories_names(action->get_active());
+	}
+
+
+
+	void Main_window::Gui::on_show_categories_toggle_cb(Glib::RefPtr<Gtk::ToggleAction> action)
+	{
+		this->torrents_viewport->show_categories(action->get_active());
 	}
 // Gui <--
 
@@ -288,8 +324,7 @@ Main_window::Main_window(const Main_window_settings& settings)
 
 			action_group->add(Gtk::Action::create("edit", _("_Edit")));
 			action_group->add(
-				m::gtk::create_action_with_icon_name("statistics",
-					APP_CUSTOM_ICON_STATISTICS, _("_Statistics"), ""),
+				app_icons::create_action("statistics", app_icons::ICON_STATISTICS, _("_Statistics")),
 				sigc::mem_fun(*this, &Main_window::on_show_statistics_callback)
 			);
 			action_group->add(
@@ -299,75 +334,108 @@ Main_window::Main_window(const Main_window_settings& settings)
 
 
 			action_group->add(Gtk::Action::create("view", _("_View")));
-			this->gui->menu_show_toolbar_action = Gtk::ToggleAction::create(
-				"show_toolbar", _("Show _toolbar"), "",
-				get_client_settings().gui.show_toolbar
-			);
-			action_group->add(
-				this->gui->menu_show_toolbar_action,
-				sigc::mem_fun(*this, &Main_window::on_show_toolbar_toggled_callback)
-			);
 
-			// Стиль панели инструментов -->
+			// Toolbar -->
+				action_group->add(Gtk::Action::create("toolbar", _("_Toolbar")));
+
+				this->gui->menu_show_toolbar_action = Gtk::ToggleAction::create(
+					"toolbar/show", _Q("'Show ...' toggle|Show"), "",
+					get_client_settings().gui.show_toolbar
+				);
+				action_group->add(
+					this->gui->menu_show_toolbar_action,
+					sigc::mem_fun(*this, &Main_window::on_show_toolbar_toggled_callback)
+				);
+
+				// Стиль панели инструментов -->
+				{
+					Gtk::RadioButtonGroup radio_group;
+					std::map< m::gtk::toolbar::Style, Glib::RefPtr<Gtk::RadioAction> > toolbar_style_buttons;
+
+					action_group->add(Gtk::Action::create("toolbar/style", _("Toolbar _style")));
+
+					action_group->add(
+						toolbar_style_buttons[m::gtk::toolbar::DEFAULT] = Gtk::RadioAction::create(
+							radio_group, "toolbar/style/default", _("_Desktop default")
+						),
+						sigc::bind<m::gtk::toolbar::Style>(
+							sigc::mem_fun(*this, &Main_window::change_toolbar_style),
+							m::gtk::toolbar::DEFAULT
+						)
+					);
+
+					action_group->add(
+						toolbar_style_buttons[m::gtk::toolbar::ICONS] = Gtk::RadioAction::create(
+							radio_group, "toolbar/style/icons", _("_Icons")
+						),
+						sigc::bind<m::gtk::toolbar::Style>(
+							sigc::mem_fun(*this, &Main_window::change_toolbar_style),
+							m::gtk::toolbar::ICONS
+						)
+					);
+
+					action_group->add(
+						toolbar_style_buttons[m::gtk::toolbar::TEXT] = Gtk::RadioAction::create(
+							radio_group, "toolbar/style/text", _("_Text")
+						),
+						sigc::bind<m::gtk::toolbar::Style>(
+							sigc::mem_fun(*this, &Main_window::change_toolbar_style),
+							m::gtk::toolbar::TEXT
+						)
+					);
+
+					action_group->add(
+						toolbar_style_buttons[m::gtk::toolbar::BOTH] = Gtk::RadioAction::create(
+							radio_group, "toolbar/style/both", _("_Both")
+						),
+						sigc::bind<m::gtk::toolbar::Style>(
+							sigc::mem_fun(*this, &Main_window::change_toolbar_style),
+							m::gtk::toolbar::BOTH
+						)
+					);
+
+					action_group->add(
+						toolbar_style_buttons[m::gtk::toolbar::BOTH_HORIZ] = Gtk::RadioAction::create(
+							radio_group, "toolbar/style/both_horiz", _("Both _horizontal")
+						),
+						sigc::bind<m::gtk::toolbar::Style>(
+							sigc::mem_fun(*this, &Main_window::change_toolbar_style),
+							m::gtk::toolbar::BOTH_HORIZ
+						)
+					);
+
+					toolbar_style_buttons[get_client_settings().gui.toolbar_style]->set_active();
+				}
+				// Стиль панели инструментов <--
+			// Toolbar <--
+
+			// Categories <--
 			{
-				Gtk::RadioButtonGroup radio_group;
-				std::map< m::gtk::toolbar::Style, Glib::RefPtr<Gtk::RadioAction> > toolbar_style_buttons;
+				Glib::RefPtr<Gtk::ToggleAction> action;
 
-				action_group->add(Gtk::Action::create("toolbar_style", _("Toolbar _style")));
+				action_group->add(Gtk::Action::create("categories", _("_Categories")));
 
+				action = Gtk::ToggleAction::create(
+					"categories/show", _Q("'Show ...' toggle|Show"), "",
+					get_client_settings().gui.main_window.torrents_viewport.categories_view->visible
+				);
 				action_group->add(
-					toolbar_style_buttons[m::gtk::toolbar::DEFAULT] = Gtk::RadioAction::create(
-						radio_group, "toolbar_style_default", _("_Desktop default")
-					),
-					sigc::bind<m::gtk::toolbar::Style>(
-						sigc::mem_fun(*this, &Main_window::change_toolbar_style),
-						m::gtk::toolbar::DEFAULT
-					)
+					action,
+					sigc::bind< Glib::RefPtr<Gtk::ToggleAction> >(
+						sigc::mem_fun(*this->gui, &Main_window::Gui::on_show_categories_toggle_cb), action)
 				);
 
-				action_group->add(
-					toolbar_style_buttons[m::gtk::toolbar::ICONS] = Gtk::RadioAction::create(
-						radio_group, "toolbar_style_icons", _("_Icons")
-					),
-					sigc::bind<m::gtk::toolbar::Style>(
-						sigc::mem_fun(*this, &Main_window::change_toolbar_style),
-						m::gtk::toolbar::ICONS
-					)
+				action = Gtk::ToggleAction::create(
+					"categories/show_names", _("Show names"), "",
+					get_client_settings().gui.main_window.torrents_viewport.categories_view->show_names
 				);
-
 				action_group->add(
-					toolbar_style_buttons[m::gtk::toolbar::TEXT] = Gtk::RadioAction::create(
-						radio_group, "toolbar_style_text", _("_Text")
-					),
-					sigc::bind<m::gtk::toolbar::Style>(
-						sigc::mem_fun(*this, &Main_window::change_toolbar_style),
-						m::gtk::toolbar::TEXT
-					)
+					action,
+					sigc::bind< Glib::RefPtr<Gtk::ToggleAction> >(
+						sigc::mem_fun(*this->gui, &Main_window::Gui::on_show_categories_names_toggle_cb), action)
 				);
-
-				action_group->add(
-					toolbar_style_buttons[m::gtk::toolbar::BOTH] = Gtk::RadioAction::create(
-						radio_group, "toolbar_style_both", _("_Both")
-					),
-					sigc::bind<m::gtk::toolbar::Style>(
-						sigc::mem_fun(*this, &Main_window::change_toolbar_style),
-						m::gtk::toolbar::BOTH
-					)
-				);
-
-				action_group->add(
-					toolbar_style_buttons[m::gtk::toolbar::BOTH_HORIZ] = Gtk::RadioAction::create(
-						radio_group, "toolbar_style_both_horiz", _("Both _horizontal")
-					),
-					sigc::bind<m::gtk::toolbar::Style>(
-						sigc::mem_fun(*this, &Main_window::change_toolbar_style),
-						m::gtk::toolbar::BOTH_HORIZ
-					)
-				);
-
-				toolbar_style_buttons[get_client_settings().gui.toolbar_style]->set_active();
 			}
-			// Стиль панели инструментов <--
+			// Categories <--
 
 			// Torrents -->
 				action_group->add(Gtk::Action::create("torrents", _("_Torrents")));
@@ -375,24 +443,21 @@ Main_window::Main_window(const Main_window_settings& settings)
 
 				action_group->add(Gtk::Action::create("resume", Gtk::Stock::MEDIA_PLAY, _("_Resume")));
 				action_group->add(
-					m::gtk::create_action_with_icon_name("resume/all",
-						APP_CUSTOM_ICON_DOWNLOAD_AND_UPLOAD, _("_All"), ""),
+					app_icons::create_action("resume/all", app_icons::ICON_DOWNLOAD_AND_UPLOAD, _("_All")),
 					sigc::bind<Torrents_group>(
 						sigc::mem_fun(*this, &Main_window::on_resume_torrents_callback),
 						ALL
 					)
 				);
 				action_group->add(
-					m::gtk::create_action_with_icon_name("resume/downloads",
-						APP_CUSTOM_ICON_DOWNLOAD, _("_Downloads"), ""),
+					app_icons::create_action("resume/downloads", app_icons::ICON_DOWNLOAD, _("_Downloads")),
 					sigc::bind<Torrents_group>(
 						sigc::mem_fun(*this, &Main_window::on_resume_torrents_callback),
 						DOWNLOADS
 					)
 				);
 				action_group->add(
-					m::gtk::create_action_with_icon_name("resume/uploads",
-						APP_CUSTOM_ICON_UPLOAD, _("_Uploads"), ""),
+					app_icons::create_action("resume/uploads", app_icons::ICON_UPLOAD, _("_Uploads")),
 					sigc::bind<Torrents_group>(
 						sigc::mem_fun(*this, &Main_window::on_resume_torrents_callback),
 						UPLOADS
@@ -402,24 +467,21 @@ Main_window::Main_window(const Main_window_settings& settings)
 
 				action_group->add(Gtk::Action::create("pause", Gtk::Stock::MEDIA_PAUSE, _("_Pause")));
 				action_group->add(
-					m::gtk::create_action_with_icon_name("pause/all",
-						APP_CUSTOM_ICON_DOWNLOAD_AND_UPLOAD, _("_All"), ""),
+					app_icons::create_action("pause/all", app_icons::ICON_DOWNLOAD_AND_UPLOAD, _("_All")),
 					sigc::bind<Torrents_group>(
 						sigc::mem_fun(*this, &Main_window::on_pause_torrents_callback),
 						ALL
 					)
 				);
 				action_group->add(
-					m::gtk::create_action_with_icon_name("pause/downloads",
-						APP_CUSTOM_ICON_DOWNLOAD, _("_Downloads"), ""),
+					app_icons::create_action("pause/downloads", app_icons::ICON_DOWNLOAD, _("_Downloads")),
 					sigc::bind<Torrents_group>(
 						sigc::mem_fun(*this, &Main_window::on_pause_torrents_callback),
 						DOWNLOADS
 					)
 				);
 				action_group->add(
-					m::gtk::create_action_with_icon_name("pause/uploads",
-						APP_CUSTOM_ICON_UPLOAD, _("_Uploads"), ""),
+					app_icons::create_action("pause/uploads", app_icons::ICON_UPLOAD, _("_Uploads")),
 					sigc::bind<Torrents_group>(
 						sigc::mem_fun(*this, &Main_window::on_pause_torrents_callback),
 						UPLOADS
@@ -433,24 +495,21 @@ Main_window::Main_window(const Main_window_settings& settings)
 					action_group->add(gui->resume_temporary);
 
 					action_group->add(
-						m::gtk::create_action_with_icon_name("resume_temporary/all",
-							APP_CUSTOM_ICON_DOWNLOAD_AND_UPLOAD, _("_All"), ""),
+						app_icons::create_action("resume_temporary/all", app_icons::ICON_DOWNLOAD_AND_UPLOAD, _("_All")),
 						sigc::bind< std::pair<Temporary_action,Torrents_group> >(
 							sigc::mem_fun(*this, &Main_window::on_temporary_process_torrents_cb),
 							std::pair<Temporary_action,Torrents_group>( TEMPORARY_ACTION_RESUME, ALL )
 						)
 					);
 					action_group->add(
-						m::gtk::create_action_with_icon_name("resume_temporary/downloads",
-							APP_CUSTOM_ICON_DOWNLOAD, _("_Downloads"), ""),
+						app_icons::create_action("resume_temporary/downloads", app_icons::ICON_DOWNLOAD, _("_Downloads")),
 						sigc::bind< std::pair<Temporary_action,Torrents_group> >(
 							sigc::mem_fun(*this, &Main_window::on_temporary_process_torrents_cb),
 							std::pair<Temporary_action,Torrents_group>( TEMPORARY_ACTION_RESUME, DOWNLOADS )
 						)
 					);
 					action_group->add(
-						m::gtk::create_action_with_icon_name("resume_temporary/uploads",
-							APP_CUSTOM_ICON_UPLOAD, _("_Uploads"), ""),
+						app_icons::create_action("resume_temporary/uploads", app_icons::ICON_UPLOAD, _("_Uploads")),
 						sigc::bind< std::pair<Temporary_action,Torrents_group> >(
 							sigc::mem_fun(*this, &Main_window::on_temporary_process_torrents_cb),
 							std::pair<Temporary_action,Torrents_group>( TEMPORARY_ACTION_RESUME, UPLOADS )
@@ -463,24 +522,21 @@ Main_window::Main_window(const Main_window_settings& settings)
 					action_group->add(gui->pause_temporary);
 
 					action_group->add(
-						m::gtk::create_action_with_icon_name("pause_temporary/all",
-							APP_CUSTOM_ICON_DOWNLOAD_AND_UPLOAD, _("_All"), ""),
+						app_icons::create_action("pause_temporary/all", app_icons::ICON_DOWNLOAD_AND_UPLOAD, _("_All")),
 						sigc::bind< std::pair<Temporary_action,Torrents_group> >(
 							sigc::mem_fun(*this, &Main_window::on_temporary_process_torrents_cb),
 							std::pair<Temporary_action,Torrents_group>( TEMPORARY_ACTION_PAUSE, ALL )
 						)
 					);
 					action_group->add(
-						m::gtk::create_action_with_icon_name("pause_temporary/downloads",
-							APP_CUSTOM_ICON_DOWNLOAD, _("_Downloads"), ""),
+						app_icons::create_action("pause_temporary/downloads", app_icons::ICON_DOWNLOAD, _("_Downloads")),
 						sigc::bind< std::pair<Temporary_action,Torrents_group> >(
 							sigc::mem_fun(*this, &Main_window::on_temporary_process_torrents_cb),
 							std::pair<Temporary_action,Torrents_group>( TEMPORARY_ACTION_PAUSE, DOWNLOADS )
 						)
 					);
 					action_group->add(
-						m::gtk::create_action_with_icon_name("pause_temporary/uploads",
-							APP_CUSTOM_ICON_UPLOAD, _("_Uploads"), ""),
+						app_icons::create_action("pause_temporary/uploads", app_icons::ICON_UPLOAD, _("_Uploads")),
 						sigc::bind< std::pair<Temporary_action,Torrents_group> >(
 							sigc::mem_fun(*this, &Main_window::on_temporary_process_torrents_cb),
 							std::pair<Temporary_action,Torrents_group>( TEMPORARY_ACTION_PAUSE, UPLOADS )
@@ -505,16 +561,15 @@ Main_window::Main_window(const Main_window_settings& settings)
 
 
 			action_group->add(
-				m::gtk::create_action_with_icon_name("set_upload_rate_limit",
-					APP_CUSTOM_ICON_UPLOAD, _("Set _upload rate limit"), ""),
+				app_icons::create_action("set_upload_rate_limit", app_icons::ICON_UPLOAD, _("Set _upload rate limit")),
 				sigc::bind<Traffic_type>(
 					sigc::mem_fun(*this, &Main_window::on_change_rate_limit_callback),
 					UPLOAD
 				)
 			);
 			action_group->add(
-				m::gtk::create_action_with_icon_name("set_download_rate_limit",
-					APP_CUSTOM_ICON_DOWNLOAD, _("Set _download rate limit"), ""),
+				app_icons::create_action("set_download_rate_limit",
+					app_icons::ICON_DOWNLOAD_AND_UPLOAD, _("Set _download rate limit")),
 				sigc::bind<Traffic_type>(
 					sigc::mem_fun(*this, &Main_window::on_change_rate_limit_callback),
 					DOWNLOAD
@@ -546,14 +601,20 @@ Main_window::Main_window(const Main_window_settings& settings)
 			"		</menu>"
 
 			"		<menu action='view'>"
-			"			<menuitem action='show_toolbar'/>"
-			"				<menu action='toolbar_style'>"
-			"					<menuitem action='toolbar_style_default'/>"
-			"					<menuitem action='toolbar_style_icons'/>"
-			"					<menuitem action='toolbar_style_text'/>"
-			"					<menuitem action='toolbar_style_both'/>"
-			"					<menuitem action='toolbar_style_both_horiz'/>"
+			"			<menu action='toolbar'>"
+			"				<menuitem action='toolbar/show'/>"
+			"				<menu action='toolbar/style'>"
+			"					<menuitem action='toolbar/style/default'/>"
+			"					<menuitem action='toolbar/style/icons'/>"
+			"					<menuitem action='toolbar/style/text'/>"
+			"					<menuitem action='toolbar/style/both'/>"
+			"					<menuitem action='toolbar/style/both_horiz'/>"
 			"				</menu>"
+			"			</menu>"
+			"			<menu action='categories'>"
+			"				<menuitem action='categories/show'/>"
+			"				<menuitem action='categories/show_names'/>"
+			"			</menu>"
 			"		</menu>"
 
 			"		<menu action='torrents'>"
@@ -759,7 +820,7 @@ Main_window::Main_window(const Main_window_settings& settings)
 
 		button = Gtk::manage(new Gtk::ToolButton());
 		button->set_label(_("Statistics"));
-		button->set_icon_name(APP_CUSTOM_ICON_STATISTICS);
+		app_icons::set_for_tool_button(*button, app_icons::ICON_STATISTICS);
 		button->set_tooltip_text(_("Statistics"));
 		button->set_is_important();
 		this->gui->toolbar.append(
@@ -792,13 +853,14 @@ Main_window::Main_window(const Main_window_settings& settings)
 	// Обновление доступных в данный момент кнопок -->
 		this->on_torrent_process_actions_changed_callback(0);
 
-		this->gui->torrents_viewport->torrent_process_actions_changed_signal.connect(
-			sigc::mem_fun(*this, &Main_window::on_torrent_process_actions_changed_callback)
-		);
+		gui->torrent_process_actions_changed_connection =
+			this->gui->torrents_viewport->signal_torrent_process_actions_changed().connect(
+				sigc::mem_fun(*this, &Main_window::on_torrent_process_actions_changed_callback)
+			);
 	// Обновление доступных в данный момент кнопок <--
 
 	// Автоматическое сохранение настроек
-	Glib::signal_timeout().connect(
+	gui->autosave_settings_connection = Glib::signal_timeout().connect(
 		sigc::mem_fun(*this, &Main_window::on_save_settings_timeout), SAVE_SETTINGS_INTERVAL
 	);
 
@@ -828,6 +890,9 @@ Main_window::Main_window(const Main_window_settings& settings)
 
 Main_window::~Main_window(void)
 {
+	gui->autosave_settings_connection.disconnect();
+	gui->torrent_process_actions_changed_connection.disconnect();
+	gui->update_timeout_connection.disconnect();
 	delete gui;
 }
 
@@ -1349,23 +1414,9 @@ void Main_window::update_gui(bool force)
 			update_flags &= ~UPDATE_TRAY;
 	// Определяем, какие элементы нам необходимо обновить <--
 
-	// Обновляем список торрентов -->
-		if(update_flags & UPDATE_WIDGETS)
-		{
-			std::vector<Torrent_info> torrents_info;
-
-			try
-			{
-				get_daemon_proxy().get_torrents(torrents_info);
-			}
-			catch(m::Exception& e)
-			{
-				MLIB_W(EE(e));
-			}
-
-			this->gui->torrents_viewport->update(torrents_info.begin(), torrents_info.end());
-		}
-	// Обновляем список торрентов <--
+	// Обновляем список торрентов
+	if(update_flags & UPDATE_WIDGETS)
+		this->gui->torrents_viewport->update();
 
 	// Получаем информацию о текущей сессии
 	// и отображаем ее в элементах GUI.

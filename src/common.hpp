@@ -148,6 +148,16 @@
 
 
 
+	/// Класс, от которого можно наследоваться при создании виртуальных
+	/// классов, чтобы не создавать для каждого из них виртуальный деструктор.
+	class Virtual
+	{
+		public:
+			virtual ~Virtual(void) {}
+	};
+
+
+
 	/// Определяет способ "очистки" старых торрентов.
 	class Auto_clean_type
 	{
@@ -611,74 +621,6 @@
 			};
 
 
-			/// Тип, идентифицирующий изображение, символизирующее текущее состояние
-			/// торрента.
-			///
-			/// Типы необходимо располагать в таком порядке, чтобы при сортировке они
-			/// выстраивались в логическую цепочку.
-			enum Status_icon_id
-			{
-				/// На паузе.
-				/// + Ошибка трекера.
-				TORRENT_STATUS_ICON_PAUSED_BROCKEN_TRACKER,
-
-				/// На паузе.
-				TORRENT_STATUS_ICON_PAUSED,
-
-				/// Выделяется место на диске.
-				/// + Ошибка трекера.
-				TORRENT_STATUS_ICON_ALLOCATING_BROCKEN_TRACKER,
-
-				/// Выделяется место на диске.
-				TORRENT_STATUS_ICON_ALLOCATING,
-
-				/// Данные торрента проверяются, или стоят в очереди на проверку.
-				/// + Ошибка трекера.
-				TORRENT_STATUS_ICON_CHECKING_BROCKEN_TRACKER,
-
-				/// Данные торрента проверяются, или стоят в очереди на проверку.
-				TORRENT_STATUS_ICON_CHECKING,
-
-				/// Скачивается (данные не идут).
-				/// + Ошибка трекера.
-				TORRENT_STATUS_ICON_WAITING_FOR_DOWNLOAD_BROCKEN_TRACKER,
-
-				/// Скачивается (данные не идут).
-				TORRENT_STATUS_ICON_WAITING_FOR_DOWNLOAD,
-
-				/// Скачивается (данные идут).
-				/// + Ошибка трекера.
-				TORRENT_STATUS_ICON_DOWNLOADING_BROCKEN_TRACKER,
-
-				/// Скачивается (данные идут).
-				TORRENT_STATUS_ICON_DOWNLOADING,
-
-				/// Раздается (данные не идут).
-				/// + Ошибка трекера.
-				TORRENT_STATUS_ICON_SEEDING_BROCKEN_TRACKER,
-
-				/// Раздается (данные не идут).
-				TORRENT_STATUS_ICON_SEEDING,
-
-				/// Раздается (данные идут).
-				/// + Ошибка трекера.
-				TORRENT_STATUS_ICON_UPLOADING_BROCKEN_TRACKER,
-
-				/// Раздается (данные идут).
-				TORRENT_STATUS_ICON_UPLOADING,
-
-				/// Неизвестное состояние.
-				/// + Ошибка трекера.
-				TORRENT_STATUS_ICON_UNKNOWN_BROCKEN_TRACKER,
-
-				/// Неизвестное состояние.
-				TORRENT_STATUS_ICON_UNKNOWN,
-
-				/// Количество доступных статусов.
-				TORRENT_STATUS_ICON_SIZE
-			};
-
-
 		public:
 			Torrent_info(const Torrent& torrent);
 
@@ -773,7 +715,7 @@
 			bool			trackers_exists;
 
 			/// true, если попытка соединиться с трекером завершилась неудачей.
-			bool			tracker_brocken;
+			bool			tracker_broken;
 
 			/// Текущий трекер, или "", если в данный момент нет установленного
 			/// соединения с трекером.
@@ -786,10 +728,6 @@
 
 			/// Возвращает текущий рейтинг торрента.
 			Share_ratio		get_share_ratio(void) const;
-
-			/// Возвращает идентификатор изображения, символизирующее текущий
-			/// статус торрента.
-			Status_icon_id	get_status_icon_id(void) const;
 
 			/// Возвращает строку статуса.
 			std::string		get_status_string(void) const;

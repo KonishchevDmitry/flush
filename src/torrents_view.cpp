@@ -32,11 +32,7 @@
 #include <gdk/gdkevents.h>
 #include <gdk/gdkkeysyms.h>
 
-#include <gtk/gtkiconfactory.h>
-#include <gtk/gtkversion.h>
-
 #include <gtkmm/actiongroup.h>
-#include <gtkmm/icontheme.h>
 #include <gtkmm/liststore.h>
 #include <gtkmm/menu.h>
 #include <gtkmm/stock.h>
@@ -48,12 +44,185 @@
 #include <mlib/fs.hpp>
 #include <mlib/libtorrent.hpp>
 
+#include "app_icons.hpp"
 #include "application.hpp"
 #include "client_settings.hpp"
 #include "daemon_proxy.hpp"
 #include "gui_lib.hpp"
 #include "main.hpp"
 #include "torrents_view.hpp"
+
+
+
+namespace
+{
+	/// Тип, идентифицирующий изображение, символизирующее текущее состояние
+	/// торрента.
+	///
+	/// Типы необходимо располагать в таком порядке, чтобы при сортировке они
+	/// выстраивались в логическую цепочку.
+	enum Status_icon_id
+	{
+		/// Выделяется место на диске.
+		/// + На паузе.
+		STATUS_ICON_ALLOCATING_PAUSED,
+
+		/// Выделяется место на диске.
+		/// + Ошибка трекера.
+		STATUS_ICON_ALLOCATING_BROKEN_TRACKER,
+
+		/// Выделяется место на диске.
+		STATUS_ICON_ALLOCATING,
+
+		/// Данные торрента проверяются, или стоят в очереди на проверку.
+		/// + На паузе.
+		STATUS_ICON_CHECKING_PAUSED,
+
+		/// Данные торрента проверяются, или стоят в очереди на проверку.
+		/// + Ошибка трекера.
+		STATUS_ICON_CHECKING_BROKEN_TRACKER,
+
+		/// Данные торрента проверяются, или стоят в очереди на проверку.
+		STATUS_ICON_CHECKING,
+
+		/// Скачивается (данные не идут).
+		/// + На паузе.
+		STATUS_ICON_WAITING_FOR_DOWNLOAD_PAUSED,
+
+		/// Скачивается (данные не идут).
+		/// + Ошибка трекера.
+		STATUS_ICON_WAITING_FOR_DOWNLOAD_BROKEN_TRACKER,
+
+		/// Скачивается (данные не идут).
+		STATUS_ICON_WAITING_FOR_DOWNLOAD,
+
+		/// Скачивается (данные идут).
+		/// + На паузе.
+		STATUS_ICON_DOWNLOADING_PAUSED,
+
+		/// Скачивается (данные идут).
+		/// + Ошибка трекера.
+		STATUS_ICON_DOWNLOADING_BROKEN_TRACKER,
+
+		/// Скачивается (данные идут).
+		STATUS_ICON_DOWNLOADING,
+
+		/// Раздается (данные не идут).
+		/// + На паузе.
+		STATUS_ICON_SEEDING_PAUSED,
+
+		/// Раздается (данные не идут).
+		/// + Ошибка трекера.
+		STATUS_ICON_SEEDING_BROKEN_TRACKER,
+
+		/// Раздается (данные не идут).
+		STATUS_ICON_SEEDING,
+
+		/// Раздается (данные идут).
+		STATUS_ICON_UPLOADING_PAUSED,
+
+		/// Раздается (данные идут).
+		/// + Ошибка трекера.
+		STATUS_ICON_UPLOADING_BROKEN_TRACKER,
+
+		/// Раздается (данные идут).
+		STATUS_ICON_UPLOADING,
+
+		/// Неизвестное состояние.
+		STATUS_ICON_UNKNOWN,
+
+		/// Количество доступных статусов.
+		STATUS_ICON_SIZE
+	};
+
+
+
+	/// Возвращает идентификатор изображения, символизирующего текущий
+	/// статус торрента.
+	Status_icon_id	get_status_icon_id(const Torrent_info& info);
+
+
+
+	Status_icon_id get_status_icon_id(const Torrent_info& info)
+	{
+		switch(info.status)
+		{
+			case Torrent_info::ALLOCATING:
+			{
+				if(info.paused)
+					return STATUS_ICON_ALLOCATING_PAUSED;
+				else if(info.tracker_broken)
+					return STATUS_ICON_ALLOCATING_BROKEN_TRACKER;
+				else
+					return STATUS_ICON_ALLOCATING;
+			}
+			break;
+
+			case Torrent_info::QUEUED_FOR_CHECKING:
+			case Torrent_info::CHECKING_FILES:
+			{
+				if(info.paused)
+					return STATUS_ICON_CHECKING_PAUSED;
+				else if(info.tracker_broken)
+					return STATUS_ICON_CHECKING_BROKEN_TRACKER;
+				else
+					return STATUS_ICON_CHECKING;
+			}
+			break;
+
+			case Torrent_info::WAITING_FOR_METADATA_DOWNLOAD:
+			case Torrent_info::WAITING_FOR_DOWNLOAD:
+			{
+				if(info.paused)
+					return STATUS_ICON_WAITING_FOR_DOWNLOAD_PAUSED;
+				else if(info.tracker_broken)
+					return STATUS_ICON_WAITING_FOR_DOWNLOAD_BROKEN_TRACKER;
+				else
+					return STATUS_ICON_WAITING_FOR_DOWNLOAD;
+			}
+			break;
+
+			case Torrent_info::DOWNLOADING_METADATA:
+			case Torrent_info::DOWNLOADING:
+			{
+				if(info.paused)
+					return STATUS_ICON_DOWNLOADING_PAUSED;
+				else if(info.tracker_broken)
+					return STATUS_ICON_DOWNLOADING_BROKEN_TRACKER;
+				else
+					return STATUS_ICON_DOWNLOADING;
+			}
+			break;
+
+			case Torrent_info::SEEDING:
+			{
+				if(info.paused)
+					return STATUS_ICON_SEEDING_PAUSED;
+				else if(info.tracker_broken)
+					return STATUS_ICON_SEEDING_BROKEN_TRACKER;
+				else
+					return STATUS_ICON_SEEDING;
+			}
+			break;
+
+			case Torrent_info::UPLOADING:
+			{
+				if(info.paused)
+					return STATUS_ICON_UPLOADING_PAUSED;
+				else if(info.tracker_broken)
+					return STATUS_ICON_UPLOADING_BROKEN_TRACKER;
+				else
+					return STATUS_ICON_UPLOADING;
+			}
+			break;
+
+			case Torrent_info::UNKNOWN:
+			default:
+				return STATUS_ICON_UNKNOWN;
+				break;
+		}
+	}
+}
 
 
 
@@ -245,7 +414,7 @@
 				Glib::RefPtr<Gtk::UIManager>	ui_manager;
 
 				/// Изображения, символизирующие различные статусы торрента.
-				Glib::RefPtr<Gdk::Pixbuf>		status_icons[Torrent_info::TORRENT_STATUS_ICON_SIZE];
+				Glib::RefPtr<Gdk::Pixbuf>		status_icons[STATUS_ICON_SIZE];
 		};
 
 
@@ -310,44 +479,47 @@
 		// Всплывающее меню <--
 
 		// Изображения, символизирующие различные статусы торрента -->
-		{
-			gint width;
-			gint height;
+			priv->status_icons[STATUS_ICON_ALLOCATING_PAUSED] =
+				app_icons::get_pixbuf(app_icons::ICON_TORRENT_ALLOCATING_PAUSED, Gtk::ICON_SIZE_MENU);
+			priv->status_icons[STATUS_ICON_ALLOCATING_BROKEN_TRACKER] =
+				app_icons::get_pixbuf(app_icons::ICON_TORRENT_ALLOCATING_WITH_BROKEN_TRACKER, Gtk::ICON_SIZE_MENU);
+			priv->status_icons[STATUS_ICON_ALLOCATING] =
+				app_icons::get_pixbuf(app_icons::ICON_TORRENT_ALLOCATING, Gtk::ICON_SIZE_MENU);
 
-			MLIB_A(gtk_icon_size_lookup(GTK_ICON_SIZE_MENU, &width, &height));
+			priv->status_icons[STATUS_ICON_CHECKING_PAUSED] =
+				app_icons::get_pixbuf(app_icons::ICON_TORRENT_CHECKING_PAUSED, Gtk::ICON_SIZE_MENU);
+			priv->status_icons[STATUS_ICON_CHECKING_BROKEN_TRACKER] =
+				app_icons::get_pixbuf(app_icons::ICON_TORRENT_CHECKING_WITH_BROKEN_TRACKER, Gtk::ICON_SIZE_MENU);
+			priv->status_icons[STATUS_ICON_CHECKING] =
+				app_icons::get_pixbuf(app_icons::ICON_TORRENT_CHECKING, Gtk::ICON_SIZE_MENU);
 
-			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_PAUSED_BROCKEN_TRACKER] =
-			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_PAUSED] =
-				this->render_icon(Gtk::Stock::MEDIA_PAUSE, Gtk::ICON_SIZE_MENU);
+			priv->status_icons[STATUS_ICON_WAITING_FOR_DOWNLOAD_PAUSED] =
+				app_icons::get_pixbuf(app_icons::ICON_TORRENT_WAITING_FOR_DOWNLOAD_PAUSED, Gtk::ICON_SIZE_MENU);
+			priv->status_icons[STATUS_ICON_WAITING_FOR_DOWNLOAD_BROKEN_TRACKER] =
+				app_icons::get_pixbuf(app_icons::ICON_TORRENT_WAITING_FOR_DOWNLOAD_WITH_BROKEN_TRACKER, Gtk::ICON_SIZE_MENU);
+			priv->status_icons[STATUS_ICON_WAITING_FOR_DOWNLOAD] =
+				app_icons::get_pixbuf(app_icons::ICON_TORRENT_WAITING_FOR_DOWNLOAD, Gtk::ICON_SIZE_MENU);
 
-			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_ALLOCATING_BROCKEN_TRACKER] =
-			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_ALLOCATING] =
-				this->render_icon(Gtk::Stock::HARDDISK, Gtk::ICON_SIZE_MENU);
+			priv->status_icons[STATUS_ICON_DOWNLOADING_PAUSED] =
+				app_icons::get_pixbuf(app_icons::ICON_TORRENT_DOWNLOADING_PAUSED, Gtk::ICON_SIZE_MENU);
+			priv->status_icons[STATUS_ICON_DOWNLOADING_BROKEN_TRACKER] =
+				app_icons::get_pixbuf(app_icons::ICON_TORRENT_DOWNLOADING_WITH_BROKEN_TRACKER, Gtk::ICON_SIZE_MENU);
+			priv->status_icons[STATUS_ICON_DOWNLOADING] =
+				app_icons::get_pixbuf(app_icons::ICON_TORRENT_DOWNLOADING, Gtk::ICON_SIZE_MENU);
 
-			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_CHECKING_BROCKEN_TRACKER] =
-			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_CHECKING] =
-				this->render_icon(Gtk::Stock::FIND, Gtk::ICON_SIZE_MENU);
+			priv->status_icons[STATUS_ICON_SEEDING_PAUSED] =
+				app_icons::get_pixbuf(app_icons::ICON_TORRENT_SEEDING_PAUSED, Gtk::ICON_SIZE_MENU);
+			priv->status_icons[STATUS_ICON_SEEDING_BROKEN_TRACKER] =
+				app_icons::get_pixbuf(app_icons::ICON_TORRENT_SEEDING_WITH_BROKEN_TRACKER, Gtk::ICON_SIZE_MENU);
+			priv->status_icons[STATUS_ICON_SEEDING] =
+				app_icons::get_pixbuf(app_icons::ICON_TORRENT_SEEDING, Gtk::ICON_SIZE_MENU);
 
-			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_WAITING_FOR_DOWNLOAD_BROCKEN_TRACKER] =
-				this->load_status_icon(APP_CUSTOM_ICON_TORRENT_WAITING_FOR_DOWNLOAD_BROCKEN_TRACKER, height);
-			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_WAITING_FOR_DOWNLOAD] =
-				this->load_status_icon(APP_CUSTOM_ICON_TORRENT_WAITING_FOR_DOWNLOAD, height);
-
-			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_DOWNLOADING_BROCKEN_TRACKER] =
-				this->load_status_icon(APP_CUSTOM_ICON_TORRENT_DOWNLOADING_BROCKEN_TRACKER, height);
-			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_DOWNLOADING] =
-				this->load_status_icon(APP_CUSTOM_ICON_TORRENT_DOWNLOADING, height);
-
-			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_SEEDING_BROCKEN_TRACKER] =
-				this->load_status_icon(APP_CUSTOM_ICON_TORRENT_SEEDING_BROCKEN_TRACKER, height);
-			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_SEEDING] =
-				this->load_status_icon(APP_CUSTOM_ICON_TORRENT_SEEDING, height);
-
-			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_UPLOADING_BROCKEN_TRACKER] =
-				this->load_status_icon(APP_CUSTOM_ICON_TORRENT_UPLOADING_BROCKEN_TRACKER, height);
-			priv->status_icons[Torrent_info::TORRENT_STATUS_ICON_UPLOADING] =
-				this->load_status_icon(APP_CUSTOM_ICON_TORRENT_UPLOADING, height);
-		}
+			priv->status_icons[STATUS_ICON_UPLOADING_PAUSED] =
+				app_icons::get_pixbuf(app_icons::ICON_TORRENT_UPLOADING_PAUSED, Gtk::ICON_SIZE_MENU);
+			priv->status_icons[STATUS_ICON_UPLOADING_BROKEN_TRACKER] =
+				app_icons::get_pixbuf(app_icons::ICON_TORRENT_UPLOADING_WITH_BROKEN_TRACKER, Gtk::ICON_SIZE_MENU);
+			priv->status_icons[STATUS_ICON_UPLOADING] =
+				app_icons::get_pixbuf(app_icons::ICON_TORRENT_UPLOADING, Gtk::ICON_SIZE_MENU);
 		// Изображения, символизирующие различные статусы торрента <--
 
 		// Устанавливаем обработчик сигнала на изменение списка выделенных торрентов
@@ -396,28 +568,6 @@
 		}
 
 		return actions;
-	}
-
-
-
-	Glib::RefPtr<Gdk::Pixbuf> Torrents_view::load_status_icon(const std::string& icon_name, int height)
-	{
-		try
-		{
-			return Gtk::IconTheme::get_default()->load_icon(
-				icon_name, height
-				// Внимание!
-				// В Ubuntu 8.04 (gtkmm-2.4 2.12) этот параметр обязателен. В
-				// Ubuntu 9.04 (gtkmm-2.4 2.16) он точно не обязателен.
-			#if !GTK_CHECK_VERSION(2, 16, 0)
-				, static_cast<Gtk::IconLookupFlags>(0)
-			#endif
-			);
-		}
-		catch(Gtk::IconThemeError&)
-		{
-			return this->render_icon(Gtk::Stock::MISSING_IMAGE, Gtk::ICON_SIZE_MENU);
-		}
 	}
 
 
@@ -658,7 +808,7 @@
 
 
 
-	void Torrents_view::update(std::vector<Torrent_info>::iterator infos_it, const std::vector<Torrent_info>::iterator& infos_end_it)
+	void Torrents_view::update(const std::vector<Torrent_info>& torrents, const Torrents_view_filter& filter)
 	{
 		bool show_zero_values = get_client_settings().gui.show_zero_values;
 		bool show_zero_setting_changed = show_zero_values != priv->last_show_zero_values_setting;
@@ -673,8 +823,9 @@
 			std::map<Torrent_id, Torrent_info> infos;
 		#endif
 
-			for(; infos_it != infos_end_it; infos_it++)
-				infos.insert(std::pair<Torrent_id, Torrent_info>(infos_it->id, *infos_it));
+			M_FOR_CONST_IT(torrents, it)
+				if(filter(*it))
+					infos.insert(std::pair<Torrent_id, Torrent_info>(it->id, *it));
 		// Создаем индекс по информации о торрентах <--
 
 		// Удаляем те строки, которые уже не актуальны -->
@@ -801,7 +952,7 @@
 
 		// Status icon -->
 		{
-			Torrent_info::Status_icon_id status_icon_id = torrent_info.get_status_icon_id();
+			Status_icon_id status_icon_id = get_status_icon_id(torrent_info);
 
 			if(m::gtk::update_row(row, this->model_columns.status_icon_id, status_icon_id) || force_update)
 				row[this->model_columns.status_icon] = priv->status_icons[status_icon_id];

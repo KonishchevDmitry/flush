@@ -387,11 +387,15 @@ dnl Libraries inside of package <--
 
 
 AC_CONFIG_FILES([
+	icons/Makefile
 	man/Makefile
 	man/ru/Makefile
 	po/Makefile.in
 	src/Makefile
 	src/mlib/Makefile
+	src/mlib/forwards/Makefile
+	src/mlib/forwards/gdkmm/Makefile
+	src/mlib/forwards/gtkmm/Makefile
 	src/mlib/gtk/Makefile
 	ui/Makefile
 	flush.desktop

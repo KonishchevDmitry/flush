@@ -7,9 +7,13 @@ bin_PROGRAMS = flush
 flush_SOURCES = \
 	add_torrent_dialog.cpp \
 	add_torrent_dialog.hpp \
+	app_icons.cpp \
+	app_icons.hpp \
 	application.cpp \
 	application.hh \
 	application.hpp \
+	categories_view.cpp \
+	categories_view.hpp \
 	client_cmd_options.cpp \
 	client_cmd_options.hpp \
 	client_settings.cpp \

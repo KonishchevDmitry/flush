@@ -612,94 +612,6 @@
 
 
 
-	Torrent_info::Status_icon_id Torrent_info::get_status_icon_id(void) const
-	{
-		if(this->paused)
-		{
-			if(this->tracker_brocken)
-				return TORRENT_STATUS_ICON_PAUSED_BROCKEN_TRACKER;
-			else
-				return TORRENT_STATUS_ICON_PAUSED;
-		}
-		else
-		{
-			switch(this->status)
-			{
-				case Torrent_info::ALLOCATING:
-				{
-					if(this->tracker_brocken)
-						return TORRENT_STATUS_ICON_ALLOCATING_BROCKEN_TRACKER;
-					else
-						return TORRENT_STATUS_ICON_ALLOCATING;
-				}
-				break;
-
-				case Torrent_info::QUEUED_FOR_CHECKING:
-				case Torrent_info::CHECKING_FILES:
-				{
-					if(this->tracker_brocken)
-						return TORRENT_STATUS_ICON_CHECKING_BROCKEN_TRACKER;
-					else
-						return TORRENT_STATUS_ICON_CHECKING;
-				}
-				break;
-
-				case Torrent_info::WAITING_FOR_METADATA_DOWNLOAD:
-				case Torrent_info::WAITING_FOR_DOWNLOAD:
-				{
-					if(this->tracker_brocken)
-						return TORRENT_STATUS_ICON_WAITING_FOR_DOWNLOAD_BROCKEN_TRACKER;
-					else
-						return TORRENT_STATUS_ICON_WAITING_FOR_DOWNLOAD;
-				}
-				break;
-
-				case Torrent_info::DOWNLOADING_METADATA:
-				case Torrent_info::DOWNLOADING:
-				{
-					if(this->tracker_brocken)
-						return TORRENT_STATUS_ICON_DOWNLOADING_BROCKEN_TRACKER;
-					else
-						return TORRENT_STATUS_ICON_DOWNLOADING;
-				}
-				break;
-
-				case Torrent_info::SEEDING:
-				{
-					if(this->tracker_brocken)
-						return TORRENT_STATUS_ICON_SEEDING_BROCKEN_TRACKER;
-					else
-						return TORRENT_STATUS_ICON_SEEDING;
-				}
-				break;
-
-				case Torrent_info::UPLOADING:
-				{
-					if(this->tracker_brocken)
-						return TORRENT_STATUS_ICON_UPLOADING_BROCKEN_TRACKER;
-					else
-						return TORRENT_STATUS_ICON_UPLOADING;
-				}
-				break;
-
-				case Torrent_info::UNKNOWN:
-				{
-					if(this->tracker_brocken)
-						return TORRENT_STATUS_ICON_UNKNOWN_BROCKEN_TRACKER;
-					else
-						return TORRENT_STATUS_ICON_UNKNOWN;
-				}
-				break;
-
-				default:
-					MLIB_LE();
-					break;
-			}
-		}
-	}
-
-
-
 	std::string Torrent_info::get_status_string(void) const
 	{
 		#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
@@ -853,7 +765,7 @@
 			MLIB_LE();
 		}
 
-		this->tracker_brocken =
+		this->tracker_broken =
 			this->trackers_exists && torrent_status.current_tracker.empty() &&
 			!torrent.tracker_error.empty();
 		this->current_tracker = torrent_status.current_tracker;
@@ -897,7 +809,7 @@
 
 			this->requested_size			!=	i.requested_size			||
 			this->trackers_exists			!=	i.trackers_exists			||
-			this->tracker_brocken			!=	i.tracker_brocken			||
+			this->tracker_broken			!=	i.tracker_broken			||
 			this->current_tracker			!=	i.current_tracker			||
 
 			this->processed					!=	i.processed					||
@@ -929,7 +841,7 @@
 			{
 				if(this->current_tracker.empty())
 				{
-					if(this->tracker_brocken)
+					if(this->tracker_broken)
 						this->tracker_status = torrent.tracker_error;
 					else
 						this->tracker_status = _Q("Tracker status is not given yet|Not given yet");

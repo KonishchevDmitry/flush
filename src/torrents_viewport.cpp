@@ -19,11 +19,20 @@
 **************************************************************************/
 
 
+#include <gtkmm/box.h>
+#include <gtkmm/frame.h>
 #include <gtkmm/scrolledwindow.h>
 #include <gtkmm/stock.h>
 
+#include <mlib/gtk/signal_proxy.hpp>
+#include <mlib/gtk/signals_holder.hpp>
+
+#include "categories_view.hpp"
 #include "client_settings.hpp"
+#include "daemon_proxy.hpp"
 #include "log_view.hpp"
+#include "main_window.hpp"
+#include "main.hpp"
 #include "torrent_details_view.hpp"
 #include "torrent_files_view.hpp"
 #include "torrent_options_view.hpp"
@@ -31,8 +40,140 @@
 #include "torrents_view.hpp"
 #include "torrents_viewport.hpp"
 
-#include "main_window.hpp"
-#include "main.hpp"
+
+//#warning
+//#include <gtkmm/separator.h>
+namespace Torrents_viewport_aux
+{
+
+class Private
+{
+	public:
+		Private(const Torrents_viewport_settings& settings);
+
+	public:
+		/// Сигнал на изменение списка действий, которые можно выполнить над
+		/// торрентом(ами), выделенным(ми) в данный момент.
+		sigc::signal<void,
+		Torrent_process_actions>	torrent_process_actions_changed_signal;
+
+
+		std::vector<Torrent_info>	torrents;
+
+
+		Gtk::HBox*					torrents_hbox;
+
+		Categories_view*			categories_view;
+
+		Gtk::Frame					torrents_view_frame;
+		Gtk::ScrolledWindow			torrents_view_scrolled_window;
+		Torrents_view*				torrents_view;
+
+
+		/// Указатель на текущий информационный виджет.
+		Info_widget*				current_info_widget;
+
+		/// Выделенный в данный момент торрент.
+		Torrent_id					cur_torrent_id;
+
+
+		m::gtk::Signals_holder		sholder;
+
+
+	public:
+		/// Обработчик сигнала на изменение списка выделенных торрентов.
+		void	on_torrent_selected_callback(const Torrent_id& torrent_id);
+
+		/// Перерисовывает виджет, отображающий список торрентов.
+		void	redraw(void);
+};
+
+
+
+Private::Private(const Torrents_viewport_settings& settings)
+:
+	current_info_widget(NULL)
+{
+	this->torrents_hbox = Gtk::manage( new Gtk::HBox );
+
+	// Categories_view
+	this->categories_view = Gtk::manage( new Categories_view(*settings.categories_view) );
+	this->torrents_hbox->pack_start(*this->categories_view, false, false);
+
+//	this->torrents_hbox->pack_start(*Gtk::manage( new Gtk::VSeparator ), false, false);
+
+	// Torrents_view -->
+		this->torrents_view = Gtk::manage( new Torrents_view(settings.torrents_view) );
+		this->torrents_view_scrolled_window.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
+		this->torrents_view_scrolled_window.add(*this->torrents_view);
+		this->torrents_view_frame.add(this->torrents_view_scrolled_window);
+
+		// Сигнал на изменение списка выделенных торрентов
+		this->sholder.push(
+			this->torrents_view->torrent_selected_signal.connect(
+				sigc::mem_fun(*this, &Private::on_torrent_selected_callback))
+		);
+
+		this->torrents_hbox->pack_start(this->torrents_view_frame, true, true);
+	// Torrents_view <--
+
+	// Обработчик сигнала на изменение списка интересующих пользователя
+	// категорий.
+	this->sholder.push(
+		this->categories_view->signal_changed().connect(
+			sigc::mem_fun(*this, &Private::redraw))
+	);
+}
+
+
+
+void Private::on_torrent_selected_callback(const Torrent_id& torrent_id)
+{
+	this->cur_torrent_id = torrent_id;
+
+	// Сообщаем "наверх" о том, что действия, которые можно выполнять над
+	// выделенными в данный момент торрентами изменились.
+	this->torrent_process_actions_changed_signal(
+		this->torrents_view->get_available_actions());
+
+	if(this->current_info_widget)
+		this->current_info_widget->torrent_changed(this->cur_torrent_id);
+}
+
+
+
+void Private::redraw(void)
+{
+	class Filter: public Torrents_view_filter, public Categories_filter
+	{
+		public:
+			Filter(const Categories_filter& filter)
+			: Categories_filter(filter) {}
+
+		private:
+			Filter(void);
+
+
+		public:
+			virtual bool operator()(const Torrent_info& info) const
+			{
+				return Categories_filter::operator()(info);
+			}
+	};
+
+
+	Filter filter = this->categories_view->get_filter();
+
+	this->torrents_view->update(this->torrents, filter);
+
+	// Сообщаем "наверх" о том, что действия, которые можно выполнять над
+	// выделенными в данный момент торрентами изменились.
+	this->torrent_process_actions_changed_signal(
+		this->torrents_view->get_available_actions());
+}
+
+}
+
 
 
 Torrents_viewport::Info_widget_handle::Info_widget_handle(const std::string& name, Gtk::ToggleButton& button, Info_widget& widget)
@@ -49,25 +190,15 @@ Torrents_viewport::Torrents_viewport(const Torrents_viewport_settings& settings)
 :
 	Gtk::VBox(),
 
+	priv(new Private(settings)),
+
 	torrents_view_and_torrent_infos_vpaned(settings.torrents_view_and_torrent_infos_vpaned),
 
 	info_mode(false),
-	toggle_in_process(false),
-
-	current_info_widget(NULL)
+	toggle_in_process(false)
 {
-	// Torrents_view -->
-		this->torrents_view = Gtk::manage(new Torrents_view(settings.torrents_view));
-		this->torrents_view_scrolled_window.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
-		this->torrents_view_scrolled_window.add(*this->torrents_view);
-		this->torrents_view_frame.add(this->torrents_view_scrolled_window);
-
-		// Сигнал на изменение списка выделенных торрентов -->
-			this->torrents_view->torrent_selected_signal.connect(
-				sigc::mem_fun(*this, &Torrents_viewport::on_torrent_selected_callback)
-			);
-		// Сигнал на изменение списка выделенных торрентов <--
-	// Torrents_view <--
+	// Т. к. по умолчанию режим без отображения информационных виджетов
+	this->main_vbox.add(*priv->torrents_hbox);
 
 	// torrent_infos_notebook -->
 		this->torrent_infos_notebook.set_show_tabs(false);
@@ -160,8 +291,6 @@ Torrents_viewport::Torrents_viewport(const Torrents_viewport_settings& settings)
 		// Log_view <--
 	// Информационные виджеты <--
 
-	// Т. к. по умолчанию режим без отображения информационных виджетов
-	this->main_vbox.add(this->torrents_view_frame);
 	this->torrents_view_and_torrent_infos_vpaned.show_all();
 
 	// Упаковываем основные контейнеры -->
@@ -239,20 +368,20 @@ void Torrents_viewport::on_toggle_info_callback(Gtk::ToggleButton* toggled_butto
 				if(this->info_widgets[i].button == toggled_button)
 				{
 					this->torrent_infos_notebook.set_current_page(i);
-					this->current_info_widget = this->info_widgets[i].widget;
+					priv->current_info_widget = this->info_widgets[i].widget;
 					break;
 				}
 			}
 
-			MLIB_A(this->current_info_widget);
+			MLIB_A(priv->current_info_widget);
 
 			// Инициируем перерисовку виджета
-			this->current_info_widget->update(this->cur_torrent_id);
+			priv->current_info_widget->update(priv->cur_torrent_id);
 		}
 		// Переключаемся на нужную вкладку <--
 	}
 	else
-		this->current_info_widget = NULL;
+		priv->current_info_widget = NULL;
 
 	// Включаем соответствующий режим
 	this->set_info_mode(toggled_button->get_active());
@@ -262,41 +391,31 @@ void Torrents_viewport::on_toggle_info_callback(Gtk::ToggleButton* toggled_butto
 
 
 
-void Torrents_viewport::on_torrent_selected_callback(const Torrent_id& torrent_id)
-{
-	this->cur_torrent_id = torrent_id;
-
-	// Сообщаем "наверх" о том, что действия, которые можно выполнять над
-	// выделенными в данный момент торрентами изменились.
-	this->torrent_process_actions_changed_signal(
-		this->torrents_view->get_available_actions()
-	);
-
-	if(this->current_info_widget)
-		this->current_info_widget->torrent_changed(this->cur_torrent_id);
-}
-
-
-
 void Torrents_viewport::process_torrents(Torrent_process_action action)
 {
-	this->torrents_view->process_torrents(action);
+	priv->torrents_view->process_torrents(action);
 }
 
 
 
-void Torrents_viewport::update(std::vector<Torrent_info>::iterator infos_it, const std::vector<Torrent_info>::iterator& infos_end_it)
+void Torrents_viewport::update(void)
 {
-	this->torrents_view->update(infos_it, infos_end_it);
+	std::vector<Torrent_info> torrents;
 
-	// Сообщаем "наверх" о том, что действия, которые можно выполнять над
-	// выделенными в данный момент торрентами изменились.
-	this->torrent_process_actions_changed_signal(
-		this->torrents_view->get_available_actions()
-	);
+	try
+	{
+		get_daemon_proxy().get_torrents(torrents);
+	}
+	catch(m::Exception& e)
+	{
+		MLIB_W(EE(e));
+	}
 
-	if(this->current_info_widget)
-		this->current_info_widget->update(this->cur_torrent_id);
+	priv->torrents.swap(torrents);
+	priv->redraw();
+
+	if(priv->current_info_widget)
+		priv->current_info_widget->update(priv->cur_torrent_id);
 }
 
 
@@ -307,11 +426,11 @@ void Torrents_viewport::save_settings(Torrents_viewport_settings& settings) cons
 	{
 		settings.info_widget = "";
 
-		if(this->current_info_widget)
+		if(priv->current_info_widget)
 		{
 			for(size_t widget_id = 0; widget_id < this->info_widgets.size(); widget_id++)
 			{
-				if(this->info_widgets[widget_id].widget == this->current_info_widget)
+				if(this->info_widgets[widget_id].widget == priv->current_info_widget)
 				{
 					settings.info_widget = this->info_widgets[widget_id].name;
 					break;
@@ -322,7 +441,8 @@ void Torrents_viewport::save_settings(Torrents_viewport_settings& settings) cons
 	// info_widget <--
 
 	this->torrents_view_and_torrent_infos_vpaned.save_settings(settings.torrents_view_and_torrent_infos_vpaned);
-	this->torrents_view->save_settings(settings.torrents_view);
+	priv->categories_view->save_settings(settings.categories_view.get());
+	priv->torrents_view->save_settings(settings.torrents_view);
 	this->torrent_files_view->save_settings(settings.torrent_files_view);
 	this->torrent_peers_view->save_settings(settings.torrent_peers_view);
 }
@@ -336,17 +456,41 @@ void Torrents_viewport::set_info_mode(bool info_mode)
 
 	if(info_mode)
 	{
-		this->main_vbox.remove(this->torrents_view_frame);
-		this->torrents_view_and_torrent_infos_vpaned.add1(this->torrents_view_frame);
+		this->main_vbox.remove(*priv->torrents_hbox);
+		this->torrents_view_and_torrent_infos_vpaned.pack1(*priv->torrents_hbox, false, false);
 		this->main_vbox.add(this->torrents_view_and_torrent_infos_vpaned);
 	}
 	else
 	{
-		this->torrents_view_and_torrent_infos_vpaned.remove(this->torrents_view_frame);
+		this->torrents_view_and_torrent_infos_vpaned.remove(*priv->torrents_hbox);
 		this->main_vbox.remove(this->torrents_view_and_torrent_infos_vpaned);
-		this->main_vbox.add(this->torrents_view_frame);
+		this->main_vbox.add(*priv->torrents_hbox);
 	}
 
 	this->info_mode = info_mode;
+}
+
+
+
+void Torrents_viewport::show_categories(bool show)
+{
+	if(show)
+		priv->categories_view->show();
+	else
+		priv->categories_view->hide();
+}
+
+
+
+void Torrents_viewport::show_categories_names(bool show)
+{
+	priv->categories_view->show_names(show);
+}
+
+
+
+m::gtk::Signal_proxy<void, Torrent_process_actions> Torrents_viewport::signal_torrent_process_actions_changed(void)
+{
+	return priv->torrent_process_actions_changed_signal;
 }
 
