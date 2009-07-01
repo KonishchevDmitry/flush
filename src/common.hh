@@ -146,7 +146,8 @@
 
 
 
-	void Torrent_file_settings::set_priority_by_name(const std::string& name) throw(m::Exception)
+	/// @throw - m::Exception.
+	void Torrent_file_settings::set_priority_by_name(const std::string& name)
 	{
 		this->priority = Torrent_file_settings::get_priority_by_name(name);
 	}

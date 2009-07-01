@@ -291,8 +291,11 @@
 
 
 		public:
-			void read_config(const std::string& config_path) throw(m::Exception);
-			void write_config(const std::string& config_path) const throw(m::Exception);
+			/// @throw - m::Exception.
+			void read_config(const std::string& config_path);
+
+			/// @throw - m::Exception.
+			void write_config(const std::string& config_path) const;
 	};
 
 #endif

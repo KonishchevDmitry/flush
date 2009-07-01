@@ -118,7 +118,8 @@ class Fs_watcher::Implementation
 			/// Если directory == "", то это означает, что необходимо
 			/// прекратить мониторинг директории, если какая-либо директория в
 			/// данный момент мониторится.
-			void				set_watching_directory(const std::string& directory) throw(m::Exception);
+			/// @throw - m::Exception.
+			void				set_watching_directory(const std::string& directory);
 
 			/// Снимает текущую директорию с мониторинга (если такая существует).
 			void				unset_watching_directory(void);
@@ -304,7 +305,7 @@ std::string Fs_watcher::Implementation::get_watching_directory(void)
 
 
 
-void Fs_watcher::Implementation::set_watching_directory(const std::string& directory) throw(m::Exception)
+void Fs_watcher::Implementation::set_watching_directory(const std::string& directory)
 {
 	MLIB_D(_C("Setting new watching directory '%1'...", directory));
 
@@ -491,7 +492,7 @@ std::string Fs_watcher::get_watching_directory(void)
 
 
 
-void Fs_watcher::set_watching_directory(const std::string& directory) throw(m::Exception)
+void Fs_watcher::set_watching_directory(const std::string& directory)
 {
 	this->impl->set_watching_directory(directory);
 }

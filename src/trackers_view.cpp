@@ -156,7 +156,7 @@ Trackers_view::~Trackers_view(void)
 
 
 
-void Trackers_view::append(const std::string& url) throw(m::Exception)
+void Trackers_view::append(const std::string& url)
 {
 	std::string tracker_url = m::trim(url);
 

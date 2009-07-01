@@ -58,7 +58,7 @@ Client_cmd_options::Client_cmd_options(void)
 
 
 template<class T>
-void Client_cmd_options::greater_or_equal_check(const std::string option_name, const T value, T target_value) throw(m::Exception)
+void Client_cmd_options::greater_or_equal_check(const std::string option_name, const T value, T target_value)
 {
 	if(target_value < value)
 		M_THROW(__("Bad option '%1' value '%2'.", option_name, value));
@@ -66,7 +66,7 @@ void Client_cmd_options::greater_or_equal_check(const std::string option_name, c
 
 
 
-void Client_cmd_options::parse(int argc, char *argv[]) throw(m::Exception)
+void Client_cmd_options::parse(int argc, char *argv[])
 {
 	bool show_version = false;
 	Glib::OptionContext cmd_parser(_("torrent_path"));
@@ -236,7 +236,7 @@ void Client_cmd_options::parse(int argc, char *argv[]) throw(m::Exception)
 
 
 
-void Client_cmd_options::start_stop_check(const std::string option_name, const std::string& string_value, Torrents_group* target_value) throw(m::Exception)
+void Client_cmd_options::start_stop_check(const std::string option_name, const std::string& string_value, Torrents_group* target_value)
 {
 	if(string_value == "")
 		*target_value = NONE;

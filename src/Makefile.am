@@ -42,7 +42,6 @@ flush_SOURCES = \
 	log_view.cpp \
 	log_view.hpp \
 	main.cpp \
-	main.hh \
 	main.hpp \
 	main_window.cpp \
 	main_window.hpp \

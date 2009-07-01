@@ -41,7 +41,7 @@
 
 
 
-Add_torrent_dialog::Add_torrent_dialog(Gtk::Window& parent_window, const std::string& torrent_path, const std::string& torrent_encoding) throw(m::Exception)
+Add_torrent_dialog::Add_torrent_dialog(Gtk::Window& parent_window, const std::string& torrent_path, const std::string& torrent_encoding)
 :
 	m::gtk::Window(
 		parent_window, format_window_title(_("Adding torrent")),

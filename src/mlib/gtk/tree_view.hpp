@@ -199,10 +199,12 @@ class Tree_view: public Gtk::TreeView
 		bool					column_drag_function(Gtk::TreeView*, Gtk::TreeViewColumn*, Gtk::TreeViewColumn*, Gtk::TreeViewColumn*);
 
 		/// Возвращает колонку по ее идентификатору.
-		Gtk::TreeViewColumn*	get_column_by_id(const std::string& column_id) const throw(m::Exception);
+		/// @throw - m::Exception.
+		Gtk::TreeViewColumn*	get_column_by_id(const std::string& column_id) const;
 
 		/// Возвращает имя колонки.
-		std::string				get_column_id(const Gtk::TreeViewColumn* column) const throw(m::Exception);
+		/// @throw - m::Exception.
+		std::string				get_column_id(const Gtk::TreeViewColumn* column) const;
 
 		/// Обрабатывает нажатие правой кнопки мыши на TreeView для реализации
 		/// всплывающего меню (выделяет или снимает выделение с тех строк, для

@@ -183,18 +183,18 @@
 
 		public:
 			/// Получает тип из строки.
-			static
-			Auto_clean_type		from_string(const std::string& string) throw(m::Exception);
+			/// @throw - m::Exception.
+			static Auto_clean_type	from_string(const std::string& string);
 
 			/// Изменяет на тип type, если он является более строгим, чем
 			/// текущий.
-			void				set_if_stricter(const Auto_clean_type& type);
+			void					set_if_stricter(const Auto_clean_type& type);
 
 			/// Преобразовывает тип в StockID.
-			Gtk::StockID		to_stock_id(void) const;
+			Gtk::StockID			to_stock_id(void) const;
 
 			/// Преобразовывает тип в строку.
-			std::string			to_string(void) const;
+			std::string				to_string(void) const;
 
 		public:
 			/// Переключает тип на следующий по списку.
@@ -380,7 +380,8 @@
 
 		public:
 			/// Проверяет фильтр на ошибки.
-			void	check(void) const throw(m::Exception);
+			/// @throw - m::Exception.
+			void	check(void) const;
 
 
 		public:
@@ -557,8 +558,9 @@
 		std::string	get_default_priority_name(void);
 
 		/// Возвращает приоритет по его имени.
+		/// @throw - m::Exception.
 		static
-		Priority	get_priority_by_name(const std::string& name) throw(m::Exception);
+		Priority	get_priority_by_name(const std::string& name);
 
 		/// Возвращает строковое представление приоритета в соответствии с
 		/// текущей локалью.
@@ -579,8 +581,9 @@
 		std::string	get_priority_name(void) const;
 
 		/// Устанавливает приоритет по его имени.
+		/// @throw - m::Exception.
 		inline
-		void		set_priority_by_name(const std::string& name) throw(m::Exception);
+		void		set_priority_by_name(const std::string& name);
 	};
 
 

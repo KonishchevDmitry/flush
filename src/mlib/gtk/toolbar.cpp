@@ -92,7 +92,7 @@ Style convert(Gtk::ToolbarStyle style)
 
 
 
-Style get_style_from_string(const std::string& string) throw(m::Exception)
+Style get_style_from_string(const std::string& string)
 {
 	if(string == "default")
 		return DEFAULT;

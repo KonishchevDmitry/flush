@@ -108,13 +108,15 @@ namespace
 			/// Всегда возвращает true.
 			/// Генерирует Break_torrent_creating, если необходимо
 			/// прервать процесс создания торрента.
-			bool			check_added_file(const boost::filesystem::path& path) throw(Break_torrent_creating);
+			/// @throw - Break_torrent_creating.
+			bool			check_added_file(const boost::filesystem::path& path);
 
 			/// Устанавливает текущий прогресс хэшированя файлов
 			/// торрента.
 			/// Генерирует Break_torrent_creating, если необходимо
 			/// прервать процесс создания торрента.
-			void			set_hash_progress(Size progress, Size hash_num) throw(Break_torrent_creating);
+			/// @throw - Break_torrent_creating.
+			void			set_hash_progress(Size progress, Size hash_num);
 
 		private:
 			/// При нажатии на кнопку Cancel.
@@ -201,7 +203,7 @@ namespace
 
 
 
-		bool Progress_dialog::check_added_file(const boost::filesystem::path& path) throw(Break_torrent_creating)
+		bool Progress_dialog::check_added_file(const boost::filesystem::path& path)
 		{
 			boost::mutex::scoped_lock lock(this->mutex);
 
@@ -233,7 +235,7 @@ namespace
 
 
 
-		void Progress_dialog::set_hash_progress(Size progress, Size hash_num) throw(Break_torrent_creating)
+		void Progress_dialog::set_hash_progress(Size progress, Size hash_num)
 		{
 			{
 				boost::mutex::scoped_lock lock(this->mutex);

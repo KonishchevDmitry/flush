@@ -82,7 +82,7 @@ namespace config
 
 
 
-	std::string start_reading(const std::string& config_path) throw(m::Exception)
+	std::string start_reading(const std::string& config_path)
 	{
 		if(m::fs::is_exists(config_path))
 			return config_path;
@@ -94,7 +94,7 @@ namespace config
 
 
 
-	std::string start_writing(const std::string& config_path) throw(m::Exception)
+	std::string start_writing(const std::string& config_path)
 	{
 		if(!m::fs::is_exists(config_path) && m::fs::is_exists(get_temp_config_file_path(config_path)))
 			m::fs::cp(get_temp_config_file_path(config_path), config_path);
@@ -104,7 +104,7 @@ namespace config
 
 
 
-	void end_writing(const std::string& config_path) throw(m::Exception)
+	void end_writing(const std::string& config_path)
 	{
 		if(m::fs::is_exists(config_path))
 			m::fs::rm(config_path);
@@ -158,7 +158,7 @@ namespace tree
 
 
 
-	void cp(const std::string& src_prefix, const std::string& dest_prefix, const Directory_const_ptr& root) throw(m::Exception)
+	void cp(const std::string& src_prefix, const std::string& dest_prefix, const Directory_const_ptr& root)
 	{
 		Errors_pool errors;
 
@@ -258,7 +258,7 @@ namespace tree
 
 
 
-	Directory_ptr create(const std::vector<std::string>& files) throw(m::Exception)
+	Directory_ptr create(const std::vector<std::string>& files)
 	{
 		Directory_ptr root( new Directory("root") );
 
@@ -358,7 +358,7 @@ namespace tree
 
 
 
-	void rm(const std::string& prefix, const Directory_const_ptr& root) throw(m::Exception)
+	void rm(const std::string& prefix, const Directory_const_ptr& root)
 	{
 		Errors_pool errors;
 
@@ -439,11 +439,12 @@ namespace tree
 namespace
 {
 	/// Базовая для is_exists и is_lexists функция.
-	bool is_exists_base(const std::string& path, bool link_mode, bool error_on_missing_parent) throw(m::Exception);
+	/// @throw - m::Exception.
+	bool is_exists_base(const std::string& path, bool link_mode, bool error_on_missing_parent);
 
 
 
-	bool is_exists_base(const std::string& path, bool link_mode, bool error_on_missing_parent) throw(m::Exception)
+	bool is_exists_base(const std::string& path, bool link_mode, bool error_on_missing_parent)
 	{
 		struct stat stat_buf;
 
@@ -519,7 +520,7 @@ namespace fs
 
 
 
-	Path& Path::absolute(void) throw(m::Exception)
+	Path& Path::absolute(void)
 	{
 		if(!this->is_absolute())
 			*this = Path(unix_get_cwd() + "/" + this->string()).normalize();
@@ -555,7 +556,7 @@ namespace fs
 
 
 
-	Path Path::get_absolute(void) throw(m::Exception)
+	Path Path::get_absolute(void)
 	{
 		return Path(*this).absolute();
 	}
@@ -787,7 +788,7 @@ bool check_extension(const std::string& file_name, const std::string& extension)
 
 
 
-void copy_file(const std::string& from_path, const std::string& to_path, bool error_on_exists) throw(m::Exception)
+void copy_file(const std::string& from_path, const std::string& to_path, bool error_on_exists)
 {
 	// TODO:
 	// Обработать ситуацию, когда тип файла меняется после
@@ -824,7 +825,7 @@ void copy_file(const std::string& from_path, const std::string& to_path, bool er
 
 
 
-void copy_files(const std::string& src_root, const std::string& dest_root, const std::vector<std::string>& files) throw(m::Exception)
+void copy_files(const std::string& src_root, const std::string& dest_root, const std::vector<std::string>& files)
 {
 	MLIB_D(_C("Copying files from '%1' to '%2'...", src_root, dest_root));
 		try
@@ -857,7 +858,7 @@ void copy_files(const std::string& src_root, const std::string& dest_root, const
 
 
 
-void cp(const std::string& from, const std::string& to) throw(m::Exception)
+void cp(const std::string& from, const std::string& to)
 {
 	// TODO:
 	// Обработать ситуацию, когда тип файла меняется после
@@ -959,7 +960,7 @@ std::string get_user_home_path(void)
 
 
 
-bool is_exists(const std::string& path, bool error_on_missing_parent) throw(m::Exception)
+bool is_exists(const std::string& path, bool error_on_missing_parent)
 {
 	return is_exists_base(path, false, error_on_missing_parent);
 }
@@ -980,13 +981,13 @@ bool is_exists_without_errors(const std::string& path)
 
 
 
-bool is_lexists(const std::string& path) throw(m::Exception)
+bool is_lexists(const std::string& path)
 {
 	return is_exists_base(path, true, true);
 }
 
 
-bool mkdir_if_not_exists(const std::string& path) throw(m::Exception)
+bool mkdir_if_not_exists(const std::string& path)
 {
 	if(is_lexists(path))
 	{
@@ -1004,7 +1005,7 @@ bool mkdir_if_not_exists(const std::string& path) throw(m::Exception)
 
 
 
-void mkdir_if_not_exists_with_race_conditions(const std::string& path) throw(m::Exception)
+void mkdir_if_not_exists_with_race_conditions(const std::string& path)
 {
 	try
 	{
@@ -1026,7 +1027,7 @@ void mkdir_if_not_exists_with_race_conditions(const std::string& path) throw(m::
 
 
 
-void rm(const std::string& path) throw(m::Exception)
+void rm(const std::string& path)
 {
 	try
 	{
@@ -1087,7 +1088,7 @@ void rm(const std::string& path) throw(m::Exception)
 
 
 
-void rm_files_with_empty_dirs(const std::string& root, const std::vector<std::string>& files) throw(m::Exception)
+void rm_files_with_empty_dirs(const std::string& root, const std::vector<std::string>& files)
 {
 	MLIB_D(_C("Removing files with empty directories from '%1'...", root));
 		m::fs::tree::rm(Path(root).normalize().string() + "/", m::fs::tree::create(files));
@@ -1096,7 +1097,7 @@ void rm_files_with_empty_dirs(const std::string& root, const std::vector<std::st
 
 
 
-void rm_if_exists(const std::string& path) throw(m::Exception)
+void rm_if_exists(const std::string& path)
 {
 	if(is_lexists(path))
 		rm(path);
@@ -1116,7 +1117,7 @@ Glib::ustring strip_extension(const Glib::ustring& file_name)
 
 
 
-void sync_file(const std::string& path) throw(m::Exception)
+void sync_file(const std::string& path)
 {
 	try
 	{
@@ -1133,7 +1134,7 @@ void sync_file(const std::string& path) throw(m::Exception)
 
 
 
-Stat unix_fstat(int fd) throw(m::Sys_exception)
+Stat unix_fstat(int fd)
 {
 	struct stat stat_buf;
 
@@ -1145,7 +1146,7 @@ Stat unix_fstat(int fd) throw(m::Sys_exception)
 
 
 
-std::string unix_get_cwd(void) throw(m::Sys_exception)
+std::string unix_get_cwd(void)
 {
 	char *cwd;
 
@@ -1161,7 +1162,7 @@ std::string unix_get_cwd(void) throw(m::Sys_exception)
 
 
 
-Stat unix_lstat(const std::string& path) throw(m::Sys_exception)
+Stat unix_lstat(const std::string& path)
 {
 	struct stat stat_buf;
 
@@ -1173,7 +1174,7 @@ Stat unix_lstat(const std::string& path) throw(m::Sys_exception)
 
 
 
-void unix_mkdir(const std::string& path) throw(m::Sys_exception)
+void unix_mkdir(const std::string& path)
 {
 	if(mkdir(U2L(path).c_str(), 0777))
 		M_THROW_SYS(errno);
@@ -1181,7 +1182,7 @@ void unix_mkdir(const std::string& path) throw(m::Sys_exception)
 
 
 
-int unix_open(const std::string& path, int flags, mode_t mode) throw(m::Sys_exception)
+int unix_open(const std::string& path, int flags, mode_t mode)
 {
 	int fd;
 
@@ -1193,7 +1194,7 @@ int unix_open(const std::string& path, int flags, mode_t mode) throw(m::Sys_exce
 
 
 
-std::string unix_readlink(const std::string& path) throw(m::Sys_exception)
+std::string unix_readlink(const std::string& path)
 {
 	char target_path_buf[M_FILE_PATH_MAX_SIZE];
 	int written_bytes;
@@ -1212,7 +1213,7 @@ std::string unix_readlink(const std::string& path) throw(m::Sys_exception)
 
 
 
-ssize_t unix_read(int fd, void* buf, size_t size, bool non_block) throw(m::Sys_exception)
+ssize_t unix_read(int fd, void* buf, size_t size, bool non_block)
 {
 	ssize_t readed_bytes;
 
@@ -1237,7 +1238,7 @@ ssize_t unix_read(int fd, void* buf, size_t size, bool non_block) throw(m::Sys_e
 
 
 
-void unix_rename(const std::string& from, const std::string& to) throw(m::Sys_exception)
+void unix_rename(const std::string& from, const std::string& to)
 {
 	if(rename(U2L(from).c_str(), U2L(to).c_str()))
 		M_THROW_SYS(errno);
@@ -1245,7 +1246,7 @@ void unix_rename(const std::string& from, const std::string& to) throw(m::Sys_ex
 
 
 
-void unix_rmdir(const std::string& path) throw(m::Sys_exception)
+void unix_rmdir(const std::string& path)
 {
 	if(rmdir(U2L(path).c_str()))
 		M_THROW_SYS(errno);
@@ -1253,7 +1254,7 @@ void unix_rmdir(const std::string& path) throw(m::Sys_exception)
 
 
 
-Stat unix_stat(const std::string& path) throw(m::Sys_exception)
+Stat unix_stat(const std::string& path)
 {
 	struct stat stat_buf;
 
@@ -1265,7 +1266,7 @@ Stat unix_stat(const std::string& path) throw(m::Sys_exception)
 
 
 
-void unix_symlink(const std::string& old_path, const std::string& new_path) throw(m::Sys_exception)
+void unix_symlink(const std::string& old_path, const std::string& new_path)
 {
 	if(symlink(U2L(old_path).c_str(), U2L(new_path).c_str()) < 0)
 		M_THROW_SYS(errno);
@@ -1273,7 +1274,7 @@ void unix_symlink(const std::string& old_path, const std::string& new_path) thro
 
 
 
-void unix_unlink(const std::string& path) throw(m::Sys_exception)
+void unix_unlink(const std::string& path)
 {
 	if(unlink(U2L(path).c_str()))
 		M_THROW_SYS(errno);
@@ -1293,7 +1294,7 @@ void unix_utime(const std::string& path, const Stat& file_stat)
 
 
 
-ssize_t unix_write(int fd, const void* buf, size_t size, bool non_block) throw(m::Sys_exception)
+ssize_t unix_write(int fd, const void* buf, size_t size, bool non_block)
 {
 	ssize_t written_bytes;
 

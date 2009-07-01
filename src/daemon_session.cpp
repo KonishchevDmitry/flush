@@ -455,7 +455,7 @@ Daemon_session::~Daemon_session(void)
 
 
 
-void Daemon_session::add_torrent(const std::string& torrent_path, const New_torrent_settings& new_torrent_settings, bool error_if_not_exists) throw(m::Exception)
+void Daemon_session::add_torrent(const std::string& torrent_path, const New_torrent_settings& new_torrent_settings, bool error_if_not_exists)
 {
 	Torrent_id torrent_id;
 
@@ -467,7 +467,7 @@ void Daemon_session::add_torrent(const std::string& torrent_path, const New_torr
 
 
 
-Torrent_id Daemon_session::add_torrent_to_config(const std::string& torrent_path, const New_torrent_settings& new_torrent_settings, bool error_if_not_exists) const throw(m::Exception)
+Torrent_id Daemon_session::add_torrent_to_config(const std::string& torrent_path, const New_torrent_settings& new_torrent_settings, bool error_if_not_exists) const
 {
 	MLIB_D(_C("Adding torrent '%1' to config...", torrent_path));
 
@@ -735,7 +735,7 @@ void Daemon_session::add_torrent_to_session(m::lt::Torrent_metadata torrent_meta
 
 
 
-void Daemon_session::auto_clean_torrent(const Torrent_id& id, const std::string& name, const Auto_clean_type& clean_type) throw(m::Exception)
+void Daemon_session::auto_clean_torrent(const Torrent_id& id, const std::string& name, const Auto_clean_type& clean_type)
 {
 	MLIB_D(_C("Auto cleaning torrent '%1' (%2) [%3]...", name, id, clean_type.type));
 
@@ -788,7 +788,7 @@ void Daemon_session::auto_clean_torrent(const Torrent_id& id, const std::string&
 
 
 
-void Daemon_session::auto_load_if_torrent(const std::string& torrent_path) throw(m::Exception)
+void Daemon_session::auto_load_if_torrent(const std::string& torrent_path)
 {
 	bool is_torrent_file = false;
 
@@ -1111,7 +1111,7 @@ Speed Daemon_session::get_rate_limit(Traffic_type traffic_type) const
 
 
 
-Session_status Daemon_session::get_session_status(void) const throw(m::Exception)
+Session_status Daemon_session::get_session_status(void) const
 {
 	return Session_status(
 		this->statistics, this->session->status(),
@@ -1141,7 +1141,7 @@ Daemon_settings Daemon_session::get_settings(void) const
 
 
 
-const Torrent& Daemon_session::get_torrent(const Torrent_full_id& full_id) const throw(m::Exception)
+const Torrent& Daemon_session::get_torrent(const Torrent_full_id& full_id) const
 {
 	const Torrent& torrent = this->get_torrent(full_id.id);
 	
@@ -1153,7 +1153,7 @@ const Torrent& Daemon_session::get_torrent(const Torrent_full_id& full_id) const
 
 
 
-Torrent& Daemon_session::get_torrent(const Torrent_full_id& full_id) throw(m::Exception)
+Torrent& Daemon_session::get_torrent(const Torrent_full_id& full_id)
 {
 	Torrent& torrent = this->get_torrent(full_id.id);
 	
@@ -1165,7 +1165,7 @@ Torrent& Daemon_session::get_torrent(const Torrent_full_id& full_id) throw(m::Ex
 
 
 
-const Torrent& Daemon_session::get_torrent(const Torrent_id& torrent_id) const throw(m::Exception)
+const Torrent& Daemon_session::get_torrent(const Torrent_id& torrent_id) const
 {
 	Torrents_container::const_iterator torrent_iter = this->torrents.find(torrent_id);
 
@@ -1178,7 +1178,7 @@ const Torrent& Daemon_session::get_torrent(const Torrent_id& torrent_id) const t
 
 
 
-Torrent& Daemon_session::get_torrent(const Torrent_id& torrent_id) throw(m::Exception)
+Torrent& Daemon_session::get_torrent(const Torrent_id& torrent_id)
 {
 	Torrents_container::iterator torrent_iter = this->torrents.find(torrent_id);
 
@@ -1191,14 +1191,14 @@ Torrent& Daemon_session::get_torrent(const Torrent_id& torrent_id) throw(m::Exce
 
 
 
-const Torrent& Daemon_session::get_torrent(const lt::torrent_handle& torrent_handle) const throw(m::Exception)
+const Torrent& Daemon_session::get_torrent(const lt::torrent_handle& torrent_handle) const
 {
 	return this->get_torrent(Torrent_id(torrent_handle.info_hash()));
 }
 
 
 
-Torrent& Daemon_session::get_torrent(const lt::torrent_handle& torrent_handle) throw(m::Exception)
+Torrent& Daemon_session::get_torrent(const lt::torrent_handle& torrent_handle)
 {
 	return this->get_torrent(Torrent_id(torrent_handle.info_hash()));
 }
@@ -1378,7 +1378,7 @@ bool Daemon_session::is_torrent_exists(const Torrent_id& torrent_id) const
 
 
 
-void Daemon_session::load_torrent(const Torrent_id& torrent_id) throw(m::Exception)
+void Daemon_session::load_torrent(const Torrent_id& torrent_id)
 {
 	MLIB_D(_C("Loading torrent '%1'...", torrent_id));
 
@@ -1426,7 +1426,7 @@ void Daemon_session::load_torrent(const Torrent_id& torrent_id) throw(m::Excepti
 
 
 
-void Daemon_session::load_torrents_from_auto_load_dir(void) throw(m::Exception)
+void Daemon_session::load_torrents_from_auto_load_dir(void)
 {
 	if(this->settings.torrents_auto_load.is)
 	{
@@ -1476,7 +1476,7 @@ void Daemon_session::load_torrents_from_auto_load_dir(void) throw(m::Exception)
 
 
 
-void Daemon_session::load_torrents_from_config(void) throw(m::Exception)
+void Daemon_session::load_torrents_from_config(void)
 {
 	try
 	{
@@ -1733,7 +1733,7 @@ void Daemon_session::process_torrents_temporary(Temporary_action action, Torrent
 
 
 
-void Daemon_session::recheck_torrent(const Torrent_id& torrent_id) throw(m::Exception)
+void Daemon_session::recheck_torrent(const Torrent_id& torrent_id)
 {
 	try
 	{
@@ -1747,7 +1747,7 @@ void Daemon_session::recheck_torrent(const Torrent_id& torrent_id) throw(m::Exce
 
 
 
-void Daemon_session::remove_torrent(const Torrent_id& torrent_id) throw(m::Exception)
+void Daemon_session::remove_torrent(const Torrent_id& torrent_id)
 {
 	// Удаляем из самой сессии
 	this->remove_torrent_from_session(torrent_id);
@@ -1758,14 +1758,14 @@ void Daemon_session::remove_torrent(const Torrent_id& torrent_id) throw(m::Excep
 
 
 
-void Daemon_session::remove_torrent_from_config(const Torrent_id& torrent_id) const throw(m::Exception)
+void Daemon_session::remove_torrent_from_config(const Torrent_id& torrent_id) const
 {
 	m::fs::rm(this->get_torrent_dir_path(torrent_id));
 }
 
 
 
-void Daemon_session::remove_torrent_from_session(const Torrent_id& torrent_id) throw(m::Exception)
+void Daemon_session::remove_torrent_from_session(const Torrent_id& torrent_id)
 {
 	Torrent& torrent = this->get_torrent(torrent_id);
 
@@ -1783,7 +1783,7 @@ void Daemon_session::remove_torrent_from_session(const Torrent_id& torrent_id) t
 
 
 
-void Daemon_session::remove_torrent_with_data(const Torrent_id& torrent_id) throw(m::Exception)
+void Daemon_session::remove_torrent_with_data(const Torrent_id& torrent_id)
 {
 	Torrent& torrent = this->get_torrent(torrent_id);
 
@@ -1849,7 +1849,7 @@ void Daemon_session::reset_statistics(void)
 
 
 
-void Daemon_session::resume_torrent(Torrent& torrent) throw(m::Exception)
+void Daemon_session::resume_torrent(Torrent& torrent)
 {
 	bool paused = false;
 
@@ -1921,7 +1921,7 @@ void Daemon_session::rollback_temporary_action(void)
 
 
 
-void Daemon_session::save_session(void) throw(m::Exception)
+void Daemon_session::save_session(void)
 {
 	MLIB_D("Saving session...");
 
@@ -1995,7 +1995,7 @@ void Daemon_session::schedule_torrent_settings_saving(const Torrent& torrent)
 
 
 
-void Daemon_session::set_copy_when_finished(Torrent& torrent, bool copy, const std::string& to) throw(m::Exception)
+void Daemon_session::set_copy_when_finished(Torrent& torrent, bool copy, const std::string& to)
 {
 	if(copy && !Path(to).is_absolute())
 		M_THROW(__("Invalid copy when finished to path '%1'.", to));
@@ -2008,7 +2008,7 @@ void Daemon_session::set_copy_when_finished(Torrent& torrent, bool copy, const s
 
 
 
-void Daemon_session::set_files_download_status(Torrent& torrent, const std::vector<int>& files_ids, bool download) throw(m::Exception)
+void Daemon_session::set_files_download_status(Torrent& torrent, const std::vector<int>& files_ids, bool download)
 {
 	Errors_pool errors;
 	std::vector<Torrent_file_settings>& files_settings = torrent.files_settings;
@@ -2030,7 +2030,7 @@ void Daemon_session::set_files_download_status(Torrent& torrent, const std::vect
 
 
 
-void Daemon_session::set_files_priority(Torrent& torrent, const std::vector<int>& files_ids, const Torrent_file_settings::Priority priority) throw(m::Exception)
+void Daemon_session::set_files_priority(Torrent& torrent, const std::vector<int>& files_ids, const Torrent_file_settings::Priority priority)
 {
 	Errors_pool errors;
 	std::vector<Torrent_file_settings>& files_settings = torrent.files_settings;
@@ -2072,7 +2072,7 @@ void Daemon_session::set_rate_limit(Traffic_type traffic_type, Speed speed)
 
 
 
-void Daemon_session::set_sequential_download(Torrent& torrent, bool value) throw(m::Exception)
+void Daemon_session::set_sequential_download(Torrent& torrent, bool value)
 {
 	torrent.handle.set_sequential_download(value);
 	torrent.download_settings_revision++;

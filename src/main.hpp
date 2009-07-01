@@ -26,23 +26,14 @@
 	Gtk::Dialog*		create_message_dialog(Gtk::Window& parent_window, Message_type type, std::string title, Glib::ustring message);
 
 	/// Возвращает объект application.
-#ifndef DEVELOP_MODE
-	inline
-#endif
 	Application&		get_application(void);
 
 	/// Возвращает текущие настройки клиента.
-#ifndef DEVELOP_MODE
-	inline
-#endif
 	Client_settings&	get_client_settings(void);
 
 	/// Возвращает proxy объект демона.
 	/// Сделана для того, чтобы не подключать заголовочный
 	/// файл Application, когда необходим только он.
-#ifndef DEVELOP_MODE
-	inline
-#endif
 	Daemon_proxy&		get_daemon_proxy(void);
 
 	/// Возвращает путь к директории с конфигурационными файлами
@@ -52,9 +43,6 @@
 	/// Возвращает главное окно приложения.
 	/// Сделана для того, чтобы не подключать заголовочный
 	/// файл Application, когда необходимо только окно.
-#ifndef DEVELOP_MODE
-	inline
-#endif
 	Main_window&		get_main_window(void);
 
 	/// Определяет, в каком режиме запущена программа.
@@ -92,14 +80,7 @@
 	void				show_warning_message(Gtk::Widget& parent_widget, const std::string& title, const std::string& message);
 
 	/// Инициирует обновление графического интерфейса.
-#ifndef DEVELOP_MODE
-	inline
-#endif
 	void				update_gui(void);
 
-#endif
-
-#ifndef DEVELOP_MODE
-	#include "main.hh"
 #endif
 

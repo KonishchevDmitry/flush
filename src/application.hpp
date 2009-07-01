@@ -123,7 +123,8 @@
 			void				add_message(const Message& message);
 
 			/// Добавляет торрент в текущую сессию.
-			void				add_torrent(const std::string& torrent_path, const New_torrent_settings& torrent_settings) throw(m::Exception);
+			/// @throw - m::Exception.
+			void				add_torrent(const std::string& torrent_path, const New_torrent_settings& torrent_settings);
 
 			/// Возвращает текущий экземпляр Application.
 			static inline
@@ -157,7 +158,8 @@
 			void				save_settings(void);
 
 			/// Инициирует начало работы приложения.
-			void				start(void) throw(m::Exception);
+			/// @throw - m::Exception.
+			void				start(void);
 
 		private:
 			/// Получает опции командной строки и производит все необходимые действия

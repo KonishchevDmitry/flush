@@ -182,7 +182,7 @@ namespace
 
 
 
-	void Buffer::load_file(const std::string &file_path) throw(m::Sys_exception)
+	void Buffer::load_file(const std::string &file_path)
 	{
 		try
 		{
@@ -243,7 +243,7 @@ namespace
 
 
 
-	void Buffer::write_file(const std::string& file_path) const throw(m::Sys_exception)
+	void Buffer::write_file(const std::string& file_path) const
 	{
 		try
 		{
@@ -457,7 +457,7 @@ namespace
 
 
 
-void close_all_fds(void) throw(m::Exception)
+void close_all_fds(void)
 {
 	struct rlimit limits;
 
@@ -507,7 +507,7 @@ void* realloc(void *ptr, const size_t size)
 
 
 
-void run(const std::string& cmd_name, const std::vector<std::string>& args) throw(m::Exception)
+void run(const std::string& cmd_name, const std::vector<std::string>& args)
 {
 	if(!m::unix_fork())
 	{
@@ -554,7 +554,7 @@ void run(const std::string& cmd_name, const std::vector<std::string>& args) thro
 
 
 
-void setenv(const std::string& name, const std::string& value, bool overwrite) throw(m::Exception)
+void setenv(const std::string& name, const std::string& value, bool overwrite)
 {
 	if(::setenv(U2L(name).c_str(), U2L(value).c_str(), overwrite))
 		M_THROW(EE(errno));
@@ -562,7 +562,7 @@ void setenv(const std::string& name, const std::string& value, bool overwrite) t
 
 
 
-int unix_dup(int fd) throw(m::Exception)
+int unix_dup(int fd)
 {
 	int new_fd = dup(fd);
 
@@ -574,7 +574,7 @@ int unix_dup(int fd) throw(m::Exception)
 
 
 
-void unix_dup(int oldfd, int newfd) throw(m::Exception)
+void unix_dup(int oldfd, int newfd)
 {
 	if(dup2(oldfd, newfd) == -1)
 		M_THROW(__("Can't duplicate a file descriptor: %1.", EE(errno)));
@@ -582,7 +582,7 @@ void unix_dup(int oldfd, int newfd) throw(m::Exception)
 
 
 
-void unix_execvp(const std::string& command, const std::vector<std::string>& args) throw(m::Sys_exception)
+void unix_execvp(const std::string& command, const std::vector<std::string>& args)
 {
 	std::vector<std::string> argv_strings;
 	argv_strings.reserve(args.size() + 1);
@@ -608,7 +608,7 @@ void unix_execvp(const std::string& command, const std::vector<std::string>& arg
 
 
 
-pid_t unix_fork(void) throw(m::Exception)
+pid_t unix_fork(void)
 {
 	pid_t pid = fork();
 
@@ -620,7 +620,7 @@ pid_t unix_fork(void) throw(m::Exception)
 
 
 
-std::pair<int, int> unix_pipe(void) throw(m::Exception)
+std::pair<int, int> unix_pipe(void)
 {
 	int fds[2];
 

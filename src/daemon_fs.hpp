@@ -30,7 +30,8 @@
 			/// Создает все необходимые директории, в которых будут
 			/// храниться конфигурационные файлы, если они еще не
 			/// существуют.
-			void			create_config_dirs(void) const throw(m::Exception);
+			/// @throw - m::Exception.
+			void			create_config_dirs(void) const;
 
 			/// Возвращает путь к директории с конфигурационными файлами.
 			std::string		get_config_dir_path(void) const;

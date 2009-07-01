@@ -27,7 +27,7 @@
 
 
 
-void Daemon_fs::create_config_dirs(void) const throw(m::Exception)
+void Daemon_fs::create_config_dirs(void) const
 {
 	// torrents dir -->
 		std::string torrents_dir_path = this->get_torrents_dir_path();

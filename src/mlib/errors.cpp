@@ -233,7 +233,7 @@ namespace m {
 
 
 // Errors_pool -->
-	void Errors_pool::throw_if_exists(void) const throw(m::Exception)
+	void Errors_pool::throw_if_exists(void) const
 	{
 		if(static_cast<const std::string>(*this) != "")
 			M_THROW(static_cast<const std::string>(*this));

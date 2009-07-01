@@ -169,9 +169,9 @@
 			/// Записывает в files список файлов торрента, а в statuses текущий статус файлов.
 			/// Если переданная ревизия равна текущей, то не пишет в files ничего и заполняет
 			/// только statuses.
+			/// @throw - m::Exception.
 			/// @return - текущую ревизию.
-			virtual
-			Revision			get_files_info(std::vector<Torrent_file> *files, std::vector<Torrent_file_status>* statuses, Revision revision) throw(m::Exception) = 0;
+			virtual Revision	get_files_info(std::vector<Torrent_file> *files, std::vector<Torrent_file_status>* statuses, Revision revision) = 0;
 
 			/// Обработчик сигнала на изменение настроек файлов.
 			void				on_change_files_settings_callback(Action action);
@@ -188,16 +188,16 @@
 			void				on_toggle_download_status_callback(const Glib::ustring& path_string);
 
 			/// Устанавливает флаг скачивания для файлов с идентификаторами files_ids.
-			virtual
-			void				set_files_download_status(const std::vector<int>& files_ids, bool download) throw(m::Exception) = 0;
+			/// @throw - m::Exception.
+			virtual void		set_files_download_status(const std::vector<int>& files_ids, bool download) = 0;
 
 			/// Устанавливает новые пути для файлов.
-			virtual
-			void				set_files_new_paths(const std::vector<std::string>& paths) throw(m::Exception) = 0;
+			/// @throw - m::Exception.
+			virtual void		set_files_new_paths(const std::vector<std::string>& paths) = 0;
 
 			/// Устанавливает приоритет priority для файлов с идентификаторами files_ids.
-			virtual
-			void				set_files_priority(const std::vector<int>& files_ids, Torrent_file_settings::Priority priority) throw(m::Exception) = 0;
+			/// @throw - m::Exception.
+			virtual void		set_files_priority(const std::vector<int>& files_ids, Torrent_file_settings::Priority priority) = 0;
 
 			/// Заполняет модель файлами торрента.
 			void				update_files(void);
@@ -239,20 +239,24 @@
 			/// Записывает в files список файлов торрента, а в statuses текущий статус файлов.
 			/// Если переданная ревизия равна текущей, то не пишет в files ничего и заполняет
 			/// только statuses.
+			/// @throw - m::Exception.
 			/// @return - текущую ревизию.
-			Revision	get_files_info(std::vector<Torrent_file> *files, std::vector<Torrent_file_status>* statuses, Revision revision) throw(m::Exception);
+			Revision	get_files_info(std::vector<Torrent_file> *files, std::vector<Torrent_file_status>* statuses, Revision revision);
 
 			/// Обработчик сигнала на активацию строки TreeView.
 			void		on_row_activated_callback(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
 
 			/// Устанавливает флаг скачивания для файлов с идентификаторами files_ids.
-			void		set_files_download_status(const std::vector<int>& files_ids, bool download) throw(m::Exception);
+			/// @throw - m::Exception.
+			void		set_files_download_status(const std::vector<int>& files_ids, bool download);
 
 			/// Устанавливает новые пути для файлов.
-			void		set_files_new_paths(const std::vector<std::string>& paths) throw(m::Exception);
+			/// @throw - m::Exception.
+			void		set_files_new_paths(const std::vector<std::string>& paths);
 
 			/// Устанавливает приоритет priority для файлов с идентификаторами files_ids.
-			void		set_files_priority(const std::vector<int>& files_ids, Torrent_file_settings::Priority priority) throw(m::Exception);
+			/// @throw - m::Exception.
+			void		set_files_priority(const std::vector<int>& files_ids, Torrent_file_settings::Priority priority);
 	};
 
 
@@ -265,7 +269,8 @@
 		public Torrent_files_view
 	{
 		public:
-			Torrent_files_static_view(const lt::torrent_info& torrent_info, const Torrent_files_view_settings& settings) throw(m::Exception);
+			/// @throw - m::Exception.
+			Torrent_files_static_view(const lt::torrent_info& torrent_info, const Torrent_files_view_settings& settings);
 
 
 		private:
@@ -287,17 +292,21 @@
 			/// Записывает в files список файлов торрента, а в statuses текущий статус файлов.
 			/// Если переданная ревизия равна текущей, то не пишет в files ничего и заполняет
 			/// только statuses.
+			/// @throw - m::Exception.
 			/// @return - текущую ревизию.
-			Revision			get_files_info(std::vector<Torrent_file> *files, std::vector<Torrent_file_status>* statuses, Revision revision) throw(m::Exception);
+			Revision			get_files_info(std::vector<Torrent_file> *files, std::vector<Torrent_file_status>* statuses, Revision revision);
 
 			/// Устанавливает флаг скачивания для файлов с идентификаторами files_ids.
-			void				set_files_download_status(const std::vector<int>& files_ids, bool download) throw(m::Exception);
+			/// @throw - m::Exception.
+			void				set_files_download_status(const std::vector<int>& files_ids, bool download);
 
 			/// Устанавливает новые пути для файлов.
-			void				set_files_new_paths(const std::vector<std::string>& paths) throw(m::Exception);
+			/// @throw - m::Exception.
+			void				set_files_new_paths(const std::vector<std::string>& paths);
 
 			/// Устанавливает приоритет priority для файлов с идентификаторами files_ids.
-			void				set_files_priority(const std::vector<int>& files_ids, Torrent_file_settings::Priority priority) throw(m::Exception);
+			/// @throw - m::Exception.
+			void				set_files_priority(const std::vector<int>& files_ids, Torrent_file_settings::Priority priority);
 	};
 
 

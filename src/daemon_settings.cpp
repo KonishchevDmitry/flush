@@ -214,7 +214,7 @@ namespace
 
 
 
-	void Daemon_settings::read(const std::string& config_dir_path, Daemon_statistics* statistics) throw(m::Exception)
+	void Daemon_settings::read(const std::string& config_dir_path, Daemon_statistics* statistics)
 	{
 		Errors_pool errors;
 
@@ -428,7 +428,7 @@ namespace
 
 
 
-	void Daemon_settings::read_config(const std::string& config_path, Daemon_statistics* statistics) throw(m::Exception)
+	void Daemon_settings::read_config(const std::string& config_path, Daemon_statistics* statistics)
 	{
 		libconfig::Config config;
 		std::string real_config_path = config_path;
@@ -731,7 +731,7 @@ namespace
 
 
 
-	void Daemon_settings::read_dht_state(std::string dht_state_path) throw(m::Exception)
+	void Daemon_settings::read_dht_state(std::string dht_state_path)
 	{
 		try
 		{
@@ -792,7 +792,7 @@ namespace
 
 
 
-	void Daemon_settings::write(const std::string& config_dir_path, const Session_status& session_status) const throw(m::Exception)
+	void Daemon_settings::write(const std::string& config_dir_path, const Session_status& session_status) const
 	{
 		Errors_pool errors;
 
@@ -819,7 +819,7 @@ namespace
 
 
 
-	void Daemon_settings::write_config(const std::string& config_path, const Session_status& session_status) const throw(m::Exception)
+	void Daemon_settings::write_config(const std::string& config_path, const Session_status& session_status) const
 	{
 		libconfig::Config config;
 		libconfig::Setting& config_root = config.getRoot();
@@ -950,7 +950,7 @@ namespace
 
 
 
-	void Daemon_settings::write_dht_state(const std::string& dht_state_path) const throw(m::Exception)
+	void Daemon_settings::write_dht_state(const std::string& dht_state_path) const
 	{
 		try
 		{
@@ -1101,7 +1101,7 @@ namespace
 
 
 
-	void Torrent_settings::read(const std::string& settings_dir_path) throw(m::Exception)
+	void Torrent_settings::read(const std::string& settings_dir_path)
 	{
 		Errors_pool errors;
 
@@ -1128,7 +1128,7 @@ namespace
 
 
 
-	void Torrent_settings::read_config(const std::string& config_path) throw(m::Exception)
+	void Torrent_settings::read_config(const std::string& config_path)
 	{
 		Version daemon_version = M_GET_VERSION(0, 0, 0);
 		libconfig::Config config;
@@ -1434,7 +1434,7 @@ namespace
 
 
 
-	void Torrent_settings::read_config_data(libconfig::Config* config, const std::string& config_path) throw(m::Exception)
+	void Torrent_settings::read_config_data(libconfig::Config* config, const std::string& config_path)
 	{
 		std::string real_config_path = config_path;
 
@@ -1461,7 +1461,7 @@ namespace
 
 
 
-	void Torrent_settings::read_resume_data(std::string resume_data_path) throw(m::Exception)
+	void Torrent_settings::read_resume_data(std::string resume_data_path)
 	{
 		try
 		{
@@ -1534,7 +1534,7 @@ namespace
 
 
 
-	void Torrent_settings::write(const std::string& settings_dir_path) const throw(m::Exception)
+	void Torrent_settings::write(const std::string& settings_dir_path) const
 	{
 		Errors_pool errors;
 
@@ -1561,7 +1561,7 @@ namespace
 
 
 
-	void Torrent_settings::write_config(const std::string& config_path) const throw(m::Exception)
+	void Torrent_settings::write_config(const std::string& config_path) const
 	{
 		libconfig::Config config;
 		libconfig::Setting& config_root = config.getRoot();
@@ -1643,7 +1643,7 @@ namespace
 
 
 
-	void Torrent_settings::write_resume_data(const std::string& resume_data_path) const throw(m::Exception)
+	void Torrent_settings::write_resume_data(const std::string& resume_data_path) const
 	{
 		if(this->resume_data == lt::entry())
 		{

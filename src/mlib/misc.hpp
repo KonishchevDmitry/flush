@@ -162,7 +162,8 @@ class Buffer
 
 		/// Загружает файл в буфер.
 		/// Генерирует исключение, если файл имеет слишком большой размер.
-		void		load_file(const std::string &file_path) throw(m::Sys_exception);
+		/// @throw - m::Sys_exception.
+		void		load_file(const std::string &file_path);
 
 		/// Увеличивает буфер, если это необходимо, на столько,
 		/// чтобы в него могло поместиться еще reserve_size байт,
@@ -176,7 +177,8 @@ class Buffer
 		Buffer &	set_pos(int new_pos);
 
 		/// Записывает данные буфера в файл.
-		void		write_file(const std::string& file_path) const throw(m::Sys_exception);
+		/// @throw - m::Sys_exception.
+		void		write_file(const std::string& file_path) const;
 
 
 	public:
@@ -287,7 +289,8 @@ class Semaphore: public boost::noncopyable
 
 
 /// Закрывает все файловые дескрипторы, оставляя только stdin, stdout и stderr.
-void				close_all_fds(void) throw(m::Exception);
+/// @throw - m::Exception.
+void				close_all_fds(void);
 
 /// Возвращает строку копирайта.
 /// @param start_year - год, в котором была написана программа.
@@ -329,10 +332,12 @@ void*				realloc(void *ptr, const size_t size);
 /// Запускает приложение.
 /// Внимание! Прежде чем вызывать данную функцию приложение должно позаботиться
 /// о том, чтобы процесс не создавал процессов-зомби.
-void				run(const std::string& cmd_name, const std::vector<std::string>& args) throw(m::Exception);
+/// @throw - m::Exception.
+void				run(const std::string& cmd_name, const std::vector<std::string>& args);
 
 /// Обертка над setenv.
-void				setenv(const std::string& name, const std::string& value, bool overwrite) throw(m::Exception);
+/// @throw - m::Exception.
+void				setenv(const std::string& name, const std::string& value, bool overwrite);
 
 /// Преобразовывает время в структуре tm в реальное время
 /// (они различаются по годам).
@@ -340,19 +345,24 @@ inline
 void				tm_to_real_time(struct tm* date);
 
 /// Аналог системного dup().
-int					unix_dup(int fd) throw(m::Exception);
+/// @throw - m::Exception.
+int					unix_dup(int fd);
 
 /// Аналог системного dup().
-void				unix_dup(int oldfd, int newfd) throw(m::Exception);
+/// @throw - m::Exception.
+void				unix_dup(int oldfd, int newfd);
 
 /// Аналог системного unix_execvp;
-void				unix_execvp(const std::string& command, const std::vector<std::string>& args) throw(m::Sys_exception);
+/// @throw - m::Sys_exception.
+void				unix_execvp(const std::string& command, const std::vector<std::string>& args);
 
 /// Аналог системного fork().
-pid_t				unix_fork(void) throw(m::Exception);
+/// @throw - m::Exception.
+pid_t				unix_fork(void);
 
 /// Аналог системного pipe().
-std::pair<int, int>	unix_pipe(void) throw(m::Exception);
+/// @throw - m::Exception.
+std::pair<int, int>	unix_pipe(void);
 
 }
 

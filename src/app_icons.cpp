@@ -42,16 +42,18 @@ namespace
 
 	/// Возвращает StockID, который соответствует иконке id. Если id не
 	/// соответствует ни одна Stock'овая иконка, генерирует Invalid_icon_id.
-	Gtk::StockID	get_stock_id(Id id) throw(Invalid_icon_id);
+	/// @throw - Invalid_icon_id.
+	Gtk::StockID	get_stock_id(Id id);
 
 	/// Возвращает имя иконки, которое соответствует иконке id внутри текущей
 	/// темы. Если id не соответствует ни одна иконка в текущей теме, генерирует
 	/// Invalid_icon_id.
-	std::string		get_theme_name(Id id) throw(Invalid_icon_id);
+	/// @throw - Invalid_icon_id.
+	std::string		get_theme_name(Id id);
 
 
 
-	Gtk::StockID get_stock_id(Id id) throw(Invalid_icon_id)
+	Gtk::StockID get_stock_id(Id id)
 	{
 		// В данный момент не используется ни одна Stock'овая иконка.
 
@@ -65,7 +67,7 @@ namespace
 
 
 
-	std::string get_theme_name(Id id) throw(Invalid_icon_id)
+	std::string get_theme_name(Id id)
 	{
 		std::string name;
 

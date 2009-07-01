@@ -84,7 +84,8 @@
 			///
 			/// Внимание! Принимаемый массив строк должен быть в кодировке
 			/// локали.
-			void						parse(int argc, char *argv[]) throw(m::Exception);
+			/// @throw - m::Exception.
+			void						parse(int argc, char *argv[]);
 
 			/// "Перегоняет" полученные переменные обратно в массив
 			/// аргументов командной строки.
@@ -96,12 +97,14 @@
 
 		private:
 			/// Производит проверку переданного значения - оно должно быть больше либо равно value.
+			/// @throw - m::Exception.
 			template<class T>
-			void	greater_or_equal_check(const std::string option_name, const T value, T target_value) throw(m::Exception);
+			void	greater_or_equal_check(const std::string option_name, const T value, T target_value);
 
 			/// Производит проверку полученных значений для start и stop и
 			/// устанавливает в соответствии с ними значения членов класса.
-			void	start_stop_check(const std::string option_name, const std::string& string_value, Torrents_group* target_value) throw(m::Exception);
+			/// @throw - m::Exception.
+			void	start_stop_check(const std::string option_name, const std::string& string_value, Torrents_group* target_value);
 	};
 
 #endif

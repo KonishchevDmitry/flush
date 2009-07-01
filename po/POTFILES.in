@@ -101,7 +101,6 @@ src/gui_lib.hpp
 src/log_view.cpp
 src/log_view.hpp
 src/main.cpp
-src/main.hh
 src/main.hpp
 src/main_window.cpp
 src/main_window.hpp

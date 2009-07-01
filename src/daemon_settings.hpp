@@ -196,10 +196,12 @@
 
 		public:
 			/// Считывает все настройки из конфига.
-			void				read(const std::string& config_dir_path, Daemon_statistics* statistics) throw(m::Exception);
+			/// @throw - m::Exception.
+			void				read(const std::string& config_dir_path, Daemon_statistics* statistics);
 
 			/// Записывает все настройки в конфиг.
-			void				write(const std::string& config_dir_path, const Session_status& session_status) const throw(m::Exception);
+			/// @throw - m::Exception.
+			void				write(const std::string& config_dir_path, const Session_status& session_status) const;
 
 		private:
 			void				assign(const Daemon_settings_light &settings);
@@ -214,19 +216,23 @@
 			void				read_auto_load_settings(const libconfig::Setting& group_setting);
 
 			/// Считывает настройки из конфигурационного файла.
-			void				read_config(const std::string& config_path, Daemon_statistics* statistics) throw(m::Exception);
+			/// @throw - m::Exception.
+			void				read_config(const std::string& config_path, Daemon_statistics* statistics);
 
 			/// Считывает из конфика сессию DHT.
-			void				read_dht_state(std::string dht_state_path) throw(m::Exception);
+			/// @throw - m::Exception.
+			void				read_dht_state(std::string dht_state_path);
 
 			/// Считывает настройки IP фильтра.
 			void				read_ip_filter_settings(const libconfig::Setting& filter_setting);
 
 			/// Сохраняет настройки в конфигурационный файл.
-			void				write_config(const std::string& config_path, const Session_status& session_status) const throw(m::Exception);
+			/// @throw - m::Exception.
+			void				write_config(const std::string& config_path, const Session_status& session_status) const;
 
 			/// Записывает DHT сессию в конфиг.
-			void				write_dht_state(const std::string& dht_state_path) const throw(m::Exception);
+			/// @throw - m::Exception.
+			void				write_dht_state(const std::string& dht_state_path) const;
 
 
 		public:
@@ -323,28 +329,35 @@
 			std::string	get_encoding_from_config(const std::string& settings_dir_path);
 
 			/// Читает все необходимые настройки.
-			void		read(const std::string& settings_dir_path) throw(m::Exception);
+			/// @throw - m::Exception.
+			void		read(const std::string& settings_dir_path);
 
 			/// Записывает все необходимые настройки.
-			void		write(const std::string& settings_dir_path) const throw(m::Exception);
+			/// @throw - m::Exception.
+			void		write(const std::string& settings_dir_path) const;
 
 		private:
 			/// Читает настройки из конфигурационного файла торрента.
-			void	read_config(const std::string& config_path) throw(m::Exception);
+			/// @throw - m::Exception.
+			void	read_config(const std::string& config_path);
 
 			/// Считывает конфигурационный файл, возвращая описывающую его
 			/// структуру.
 			static
-			void	read_config_data(libconfig::Config* config, const std::string& config_path) throw(m::Exception);
+			/// @throw - m::Exception.
+			void	read_config_data(libconfig::Config* config, const std::string& config_path);
 
 			/// Читает resume data торрента.
-			void	read_resume_data(std::string resume_data_path) throw(m::Exception);
+			/// @throw - m::Exception.
+			void	read_resume_data(std::string resume_data_path);
 
 			/// Записывает настройки в конфигурационный файл торрента.
-			void	write_config(const std::string& config_path) const throw(m::Exception);
+			/// @throw - m::Exception.
+			void	write_config(const std::string& config_path) const;
 
 			/// Записывает resume data торрента.
-			void	write_resume_data(const std::string& resume_data_path) const throw(m::Exception);
+			/// @throw - m::Exception.
+			void	write_resume_data(const std::string& resume_data_path) const;
 	};
 
 #endif

@@ -173,7 +173,8 @@ namespace Categories_view_aux
 	std::string			get_category_name(Torrent_category category);
 
 	/// Возвращает категорию по ее имени.
-	Torrent_category	get_category_by_name(std::string name) throw(m::Exception);
+	/// @throw - m::Exception.
+	Torrent_category	get_category_by_name(std::string name);
 
 
 
@@ -270,7 +271,7 @@ namespace Categories_view_aux
 
 
 
-	Torrent_category get_category_by_name(std::string name) throw(m::Exception)
+	Torrent_category get_category_by_name(std::string name)
 	{
 		if(name == "paused")
 			return CATEGORY_PAUSED;
@@ -318,7 +319,6 @@ namespace Categories_view_aux
 		show_counters(settings.show_counters),
 		has_only_name(false)
 	{
-	#warning throw
 		this->tree_view.set_headers_visible(true);
 		this->tree_view.set_tooltip_column(this->columns.tooltip.index());
 
@@ -364,8 +364,9 @@ namespace Categories_view_aux
 			}
 
 			Gtk::TreeRow row;
+			Gtk::TreeRow all_row;
 
-			row = *this->model->append();
+			row = all_row = *this->model->append();
 			row[this->columns.id] = CATEGORY_ALL;
 			row[this->columns.icon] = app_icons::get_pixbuf(app_icons::ICON_TORRENTS_ALL, Gtk::ICON_SIZE_MENU);
 			row[this->columns.tooltip] = _("All torrents");
@@ -413,7 +414,7 @@ namespace Categories_view_aux
 			if(selected_items & CATEGORY_BROKEN_TRACKER) this->selection->select(row);
 
 			if(selected_items == CATEGORY_ALL)
-				this->selection->select(this->rows[ROW_ALL]);
+				this->selection->select(all_row);
 		}
 		// Заполняем модель <--
 

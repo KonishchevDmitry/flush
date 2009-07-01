@@ -1016,7 +1016,7 @@ Config* get(smart_ptr& ptr)
 
 
 // Client_settings -->
-	void Client_settings::read_config(const std::string& config_path) throw(m::Exception)
+	void Client_settings::read_config(const std::string& config_path)
 	{
 		libconfig::Config config;
 		std::string real_config_path = config_path;
@@ -1089,7 +1089,7 @@ Config* get(smart_ptr& ptr)
 
 
 
-	void Client_settings::write_config(const std::string& config_path) const throw(m::Exception)
+	void Client_settings::write_config(const std::string& config_path) const
 	{
 		libconfig::Config config;
 		libconfig::Setting& config_root = config.getRoot();

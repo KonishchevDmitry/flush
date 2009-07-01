@@ -39,7 +39,7 @@
 
 
 
-	Auto_clean_type Auto_clean_type::from_string(const std::string& string) throw(m::Exception)
+	Auto_clean_type Auto_clean_type::from_string(const std::string& string)
 	{
 		if(string == "none")
 			return NONE;
@@ -220,7 +220,7 @@
 
 
 
-	void Ip_filter_rule::check(void) const throw(m::Exception)
+	void Ip_filter_rule::check(void) const
 	{
 		std::string ip;
 		lt::address_v4 from_address;
@@ -366,7 +366,7 @@
 
 
 
-	Torrent_file_settings::Priority Torrent_file_settings::get_priority_by_name(const std::string& name) throw(m::Exception)
+	Torrent_file_settings::Priority Torrent_file_settings::get_priority_by_name(const std::string& name)
 	{
 		if(name == "normal")
 			return NORMAL;

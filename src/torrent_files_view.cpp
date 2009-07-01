@@ -976,7 +976,7 @@ namespace
 
 
 
-	Revision Torrent_files_dynamic_view::get_files_info(std::vector<Torrent_file> *files, std::vector<Torrent_file_status>* statuses, Revision revision) throw(m::Exception)
+	Revision Torrent_files_dynamic_view::get_files_info(std::vector<Torrent_file> *files, std::vector<Torrent_file_status>* statuses, Revision revision)
 	{
 		if(this->cur_torrent_id)
 		{
@@ -1028,7 +1028,7 @@ namespace
 
 
 
-	void Torrent_files_dynamic_view::set_files_download_status(const std::vector<int>& files_ids, bool download) throw(m::Exception)
+	void Torrent_files_dynamic_view::set_files_download_status(const std::vector<int>& files_ids, bool download)
 	{
 		// Сообщаем демону об изменениях в скачиваемых файлах
 		get_daemon_proxy().set_files_download_status(this->cur_torrent_id, files_ids, download);
@@ -1036,7 +1036,7 @@ namespace
 
 
 
-	void Torrent_files_dynamic_view::set_files_new_paths(const std::vector<std::string>& paths) throw(m::Exception)
+	void Torrent_files_dynamic_view::set_files_new_paths(const std::vector<std::string>& paths)
 	{
 		// Пока данная возможность не реализована, и управление до сюда дойти
 		// не должно.
@@ -1045,7 +1045,7 @@ namespace
 
 
 
-	void Torrent_files_dynamic_view::set_files_priority(const std::vector<int>& files_ids, Torrent_file_settings::Priority priority) throw(m::Exception)
+	void Torrent_files_dynamic_view::set_files_priority(const std::vector<int>& files_ids, Torrent_file_settings::Priority priority)
 	{
 		// Сообщаем демону об изменениях в приоритетах
 		get_daemon_proxy().set_files_priority(this->cur_torrent_id, files_ids, priority);
@@ -1068,7 +1068,7 @@ namespace
 
 
 // Torrent_files_static_view -->
-	Torrent_files_static_view::Torrent_files_static_view(const lt::torrent_info& torrent_info, const Torrent_files_view_settings& settings) throw(m::Exception)
+	Torrent_files_static_view::Torrent_files_static_view(const lt::torrent_info& torrent_info, const Torrent_files_view_settings& settings)
 	:
 		Torrent_files_view(true, settings),
 		files_revision(FIRST_REVISION)
@@ -1089,7 +1089,7 @@ namespace
 
 
 
-	Revision Torrent_files_static_view::get_files_info(std::vector<Torrent_file> *files, std::vector<Torrent_file_status>* statuses, Revision revision) throw(m::Exception)
+	Revision Torrent_files_static_view::get_files_info(std::vector<Torrent_file> *files, std::vector<Torrent_file_status>* statuses, Revision revision)
 	{
 		if(revision != this->files_revision)
 			*files = this->files;
@@ -1114,7 +1114,7 @@ namespace
 
 
 
-	void Torrent_files_static_view::set_files_download_status(const std::vector<int>& files_ids, bool download) throw(m::Exception)
+	void Torrent_files_static_view::set_files_download_status(const std::vector<int>& files_ids, bool download)
 	{
 		for(size_t i = 0; i < files_ids.size(); i++)
 			this->files_settings[files_ids[i]].download = download;
@@ -1122,7 +1122,7 @@ namespace
 
 
 
-	void Torrent_files_static_view::set_files_new_paths(const std::vector<std::string>& paths) throw(m::Exception)
+	void Torrent_files_static_view::set_files_new_paths(const std::vector<std::string>& paths)
 	{
 		MLIB_A(paths.size() == this->files.size());
 
@@ -1144,7 +1144,7 @@ namespace
 
 
 
-	void Torrent_files_static_view::set_files_priority(const std::vector<int>& files_ids, Torrent_file_settings::Priority priority) throw(m::Exception)
+	void Torrent_files_static_view::set_files_priority(const std::vector<int>& files_ids, Torrent_file_settings::Priority priority)
 	{
 		for(size_t i = 0; i < files_ids.size(); i++)
 			this->files_settings[files_ids[i]].priority = priority;

@@ -64,7 +64,8 @@
 
 		private:
 			/// Добавляет торрент в список.
-			void						append(const std::string& url) throw(m::Exception);
+			/// @throw - m::Exception.
+			void						append(const std::string& url);
 
 			/// При нажатии на кнопку "Добавить трекер".
 			void 						on_add_callback(void);

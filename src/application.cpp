@@ -174,7 +174,7 @@ void Application::add_message(const Message& message)
 
 
 
-void Application::add_torrent(const std::string& torrent_path, const New_torrent_settings& torrent_settings) throw(m::Exception)
+void Application::add_torrent(const std::string& torrent_path, const New_torrent_settings& torrent_settings)
 {
 	get_daemon_proxy().add_torrent(torrent_path, torrent_settings);
 }
@@ -396,7 +396,7 @@ void Application::save_settings(void)
 
 
 
-void Application::start(void) throw(m::Exception)
+void Application::start(void)
 {
 	// Запускаем демон
 	this->daemon_proxy->start();

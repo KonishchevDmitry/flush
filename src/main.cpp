@@ -64,24 +64,12 @@
 #include <mlib/misc.hpp>
 
 #include "application.hpp"
+#include "client_settings.hpp"
+#include "daemon_proxy.hpp"
 #include "gui_lib.hpp"
 #include "main.hpp"
 #include "main_window.hpp"
 #include "client_cmd_options.hpp"
-
-
-#ifdef DEVELOP_MODE
-	// Для ускорения сборки в процессе разработки
-	// используются функции для доступа к различным
-	// часто используемым объектам.
-	//
-	// В режиме разработки они реализованы как обычные
-	// функции, а в обычном режиме, в котором увеличение
-	// времени компиляции за счет необходимости
-	// подключения лишних заголовочных файлов практически
-	// не мешает - как inline функции.
-	#include "main.hh"
-#endif
 
 
 #define DBUS_SESSION_LINK_NAME "dbus_session"
@@ -460,9 +448,37 @@ Gtk::Dialog* create_message_dialog(Gtk::Window& parent_window, Message_type type
 
 
 
+Application& get_application(void)
+{
+	return *Application::get();
+}
+
+
+
+Client_settings& get_client_settings(void)
+{
+	return Application::get()->get_client_settings();
+}
+
+
+
+Daemon_proxy& get_daemon_proxy(void)
+{
+	return Application::get()->get_daemon_proxy();
+}
+
+
+
 std::string get_default_config_dir_path(void)
 {
 	return Path(m::fs::get_user_home_path()) / DEFAULT_CONFIG_DIR_NAME;
+}
+
+
+
+Main_window& get_main_window(void)
+{
+	return Application::get()->get_main_window();
 }
 
 
@@ -578,6 +594,13 @@ void show_warning_message(Gtk::Widget& parent_widget, const std::string& title, 
 		show_warning_message(*window, title, message);
 	else
 		show_warning_message(get_main_window(), title, message);
+}
+
+
+
+void update_gui(void)
+{
+	get_main_window().update_gui();
 }
 
 

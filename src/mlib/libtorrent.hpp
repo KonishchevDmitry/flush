@@ -81,32 +81,39 @@ class Torrent_metadata
 
 
 /// Возвращает список путей скачанных файлов торрента torrent_handle.
-std::vector<std::string>	get_torrent_downloaded_files_paths(const libtorrent::torrent_handle& torrent_handle) throw(libtorrent::invalid_handle);
+/// @throw - libtorrent::invalid_handle.
+std::vector<std::string>	get_torrent_downloaded_files_paths(const libtorrent::torrent_handle& torrent_handle);
 
 /// Преобразовывает file_path в путь, используемый для представления
 /// расположения файлов торрента. Если file_path невозможно преобразовать в такой
 /// путь, то генерирует исключение.
-std::string					get_torrent_file_path(const std::string& file_path) throw(m::Exception);
+/// @throw - m::Exception.
+std::string					get_torrent_file_path(const std::string& file_path);
 
 /// Возвращает списк файлов торрента torrent_info.
-std::vector<Torrent_file>	get_torrent_files(const libtorrent::torrent_info& torrent_info) throw(m::Exception);
+/// @throw - m::Exception.
+std::vector<Torrent_file>	get_torrent_files(const libtorrent::torrent_info& torrent_info);
 
 /// Возвращает списк файлов торрента torrent_path.
-std::vector<Torrent_file>	get_torrent_files(const std::string& torrent_path, const std::string& encoding) throw(m::Exception);
+/// @throw - m::Exception.
+std::vector<Torrent_file>	get_torrent_files(const std::string& torrent_path, const std::string& encoding);
 
 /// Возвращает список путей файлов торрента torrent_info.
 std::vector<std::string>	get_torrent_files_paths(const libtorrent::torrent_info& torrent_info);
 
 /// Возвращает libtorrent::torrent_info, соответствующий
 /// торренту, данные которого хранятся в буфере.
-Torrent_metadata			get_torrent_metadata(const m::Buffer& torrent_data, const std::string& encoding) throw(m::Exception);
+/// @throw - m::Exception.
+Torrent_metadata			get_torrent_metadata(const m::Buffer& torrent_data, const std::string& encoding);
 
 /// Возвращает libtorrent::torrent_info, соответствующий
 /// торренту torrent_path.
-Torrent_metadata			get_torrent_metadata(const std::string& torrent_path, const std::string& encoding) throw(m::Exception);
+/// @throw - m::Exception.
+Torrent_metadata			get_torrent_metadata(const std::string& torrent_path, const std::string& encoding);
 
 /// Возвращает список трекеров торрента.
-std::vector<std::string>	get_torrent_trackers(const libtorrent::torrent_handle& torrent_handle) throw(lt::invalid_handle);
+/// @throw - lt::invalid_handle.
+std::vector<std::string>	get_torrent_trackers(const libtorrent::torrent_handle& torrent_handle);
 
 /// Возвращает список трекеров торрента.
 std::vector<std::string>	get_torrent_trackers(const libtorrent::torrent_info& torrent_info);

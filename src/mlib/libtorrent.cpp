@@ -48,7 +48,7 @@ Torrent_metadata::Torrent_metadata(const lt::torrent_info& info, const std::stri
 
 
 
-std::vector<std::string> get_torrent_downloaded_files_paths(const libtorrent::torrent_handle& torrent_handle) throw(libtorrent::invalid_handle)
+std::vector<std::string> get_torrent_downloaded_files_paths(const libtorrent::torrent_handle& torrent_handle)
 {
 	std::vector<std::string> torrent_files;
 
@@ -74,7 +74,7 @@ std::vector<std::string> get_torrent_downloaded_files_paths(const libtorrent::to
 
 
 
-std::string get_torrent_file_path(const std::string& file_path) throw(m::Exception)
+std::string get_torrent_file_path(const std::string& file_path)
 {
 	Path path = Path("/" + file_path).normalize();
 	std::string path_string = path.string();
@@ -87,7 +87,7 @@ std::string get_torrent_file_path(const std::string& file_path) throw(m::Excepti
 
 
 
-std::vector<Torrent_file> get_torrent_files(const lt::torrent_info& torrent_info) throw(m::Exception)
+std::vector<Torrent_file> get_torrent_files(const lt::torrent_info& torrent_info)
 {
 	Torrent_file torrent_file;
 	std::vector<Torrent_file> torrent_files;
@@ -110,7 +110,7 @@ std::vector<Torrent_file> get_torrent_files(const lt::torrent_info& torrent_info
 
 
 
-std::vector<Torrent_file> get_torrent_files(const std::string& torrent_path, const std::string& encoding) throw(m::Exception)
+std::vector<Torrent_file> get_torrent_files(const std::string& torrent_path, const std::string& encoding)
 {
 	return get_torrent_files(get_torrent_metadata(torrent_path, encoding).info);
 }
@@ -133,7 +133,7 @@ std::vector<std::string> get_torrent_files_paths(const libtorrent::torrent_info&
 
 
 
-Torrent_metadata get_torrent_metadata(const m::Buffer& torrent_data, const std::string& encoding) throw(m::Exception)
+Torrent_metadata get_torrent_metadata(const m::Buffer& torrent_data, const std::string& encoding)
 {
 	class Invalid_torrent_file {};
 
@@ -348,7 +348,7 @@ Torrent_metadata get_torrent_metadata(const m::Buffer& torrent_data, const std::
 
 
 
-Torrent_metadata get_torrent_metadata(const std::string& torrent_path, const std::string& encoding) throw(m::Exception)
+Torrent_metadata get_torrent_metadata(const std::string& torrent_path, const std::string& encoding)
 {
 	m::Buffer torrent_data;
 
@@ -368,7 +368,7 @@ Torrent_metadata get_torrent_metadata(const std::string& torrent_path, const std
 
 
 
-std::vector<std::string> get_torrent_trackers(const libtorrent::torrent_handle& torrent_handle) throw(lt::invalid_handle)
+std::vector<std::string> get_torrent_trackers(const libtorrent::torrent_handle& torrent_handle)
 {
 	std::vector<std::string> trackers;
 

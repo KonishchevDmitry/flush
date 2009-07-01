@@ -174,7 +174,7 @@ editing_start(void)
 
 template<class Tree_view_columns, class Model_columns, class Model_type>
 Gtk::TreeViewColumn* Tree_view<Tree_view_columns, Model_columns, Model_type>::
-get_column_by_id(const std::string& column_id) const throw(m::Exception)
+get_column_by_id(const std::string& column_id) const
 {
 	std::map<std::string, Gtk::TreeViewColumn*>::const_iterator columns_iter =
 		this->columns.columns_by_ids.find(column_id);
@@ -190,7 +190,7 @@ get_column_by_id(const std::string& column_id) const throw(m::Exception)
 
 template<class Tree_view_columns, class Model_columns, class Model_type>
 std::string Tree_view<Tree_view_columns, Model_columns, Model_type>::
-get_column_id(const Gtk::TreeViewColumn* column) const throw(m::Exception)
+get_column_id(const Gtk::TreeViewColumn* column) const
 {
 	std::map<Gtk::TreeViewColumn*, std::string>::const_iterator ids_iter =
 		this->columns.ids_by_columns.find(const_cast<Gtk::TreeViewColumn *>(column));

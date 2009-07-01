@@ -113,7 +113,8 @@
 		class Errors_pool: public std::string
 		{
 			public:
-				void	throw_if_exists(void) const throw(m::Exception);
+				/// @throw - m::Exception.
+				void	throw_if_exists(void) const;
 
 
 			public:

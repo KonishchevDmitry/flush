@@ -78,7 +78,8 @@ namespace m
 			std::string			get_watching_directory(void);
 
 			/// Задает директорию для мониторинга и очищает очередь новых файлов.
-			void				set_watching_directory(const std::string& directory) throw(m::Exception);
+			/// @throw - m::Exception.
+			void				set_watching_directory(const std::string& directory);
 
 			/// Снимает текущую директорию с мониторинга (если такая существует).
 			void				unset_watching_directory(void);

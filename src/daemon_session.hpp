@@ -157,7 +157,8 @@
 			/// @param torrent_path - путь к файлу торрента.
 			/// @param error_if_not_exists - определяет, является ли ошибкой,
 			/// если файл торрента уже не существует.
-			void						add_torrent(const std::string& torrent_path, const New_torrent_settings& torrent_settings, bool error_if_not_exists = true) throw(m::Exception);
+			/// @throw - m::Exception.
+			void						add_torrent(const std::string& torrent_path, const New_torrent_settings& torrent_settings, bool error_if_not_exists = true);
 
 			/// Записывает в messages сообщения демона, если они есть.
 			void						get_messages(std::deque<Daemon_message>& messages);
@@ -166,7 +167,8 @@
 			Speed						get_rate_limit(Traffic_type traffic_type) const;
 
 			/// Возвращает информацию о текущей сессии.
-			Session_status				get_session_status(void) const throw(m::Exception);
+			/// @throw - m::Exception.
+			Session_status				get_session_status(void) const;
 
 			/// Возвращает текущие настройки демона.
 			Daemon_settings				get_settings(void) const;
@@ -201,13 +203,15 @@
 			/// @param error_if_not_exists - определяет, является ли ошибкой,
 			/// если файл торрента уже не существует.
 			///
+			/// @throw - m::Exception.
+			///
 			/// @return - валидный Torrent_id, если торрент был добавлен в
 			/// конфиг. Если торрент не был добавлен в конфиг, и это не является
 			/// ошибкой, то возвращает невалидный Torrent_id. Это может
 			/// произойти, к примеру, когда добавляется торрент, который уже
 			/// присутствует в сессии, но в настройках было указано, что
 			/// добавление торрента-дубликата не является ошибкой.
-			Torrent_id					add_torrent_to_config(const std::string& torrent_path, const New_torrent_settings& new_torrent_settings, bool error_if_not_exists) const throw(m::Exception);
+			Torrent_id					add_torrent_to_config(const std::string& torrent_path, const New_torrent_settings& new_torrent_settings, bool error_if_not_exists) const;
 
 			/// Добавляет торрент к сессии.
 			void						add_torrent_to_session(m::lt::Torrent_metadata torrent_metadata, const Torrent_settings& torrent_settings);
@@ -217,22 +221,28 @@
 			void						finish_torrent(Torrent& torrent);
 
 			/// Возвращает ссылку на торрент по его полному идентификатору.
-			const Torrent&				get_torrent(const Torrent_full_id& full_id) const throw(m::Exception);
+			/// @throw - m::Exception.
+			const Torrent&				get_torrent(const Torrent_full_id& full_id) const;
 
 			/// Возвращает ссылку на торрент по его полному идентификатору.
-			Torrent&					get_torrent(const Torrent_full_id& full_id) throw(m::Exception);
+			/// @throw - m::Exception.
+			Torrent&					get_torrent(const Torrent_full_id& full_id);
 
 			/// Возвращает ссылку на торрент по его идентификатору.
-			const Torrent&				get_torrent(const Torrent_id& torrent_id) const throw(m::Exception);
+			/// @throw - m::Exception.
+			const Torrent&				get_torrent(const Torrent_id& torrent_id) const;
 
 			/// Возвращает ссылку на торрент по его идентификатору.
-			Torrent&					get_torrent(const Torrent_id& torrent_id) throw(m::Exception);
+			/// @throw - m::Exception.
+			Torrent&					get_torrent(const Torrent_id& torrent_id);
 
 			/// Возвращает ссылку на торрент по его хэндлу.
-			const Torrent&				get_torrent(const lt::torrent_handle& torrent_handle) const throw(m::Exception);
+			/// @throw - m::Exception.
+			const Torrent&				get_torrent(const lt::torrent_handle& torrent_handle) const;
 
 			/// Возвращает ссылку на торрент по его хэндлу.
-			Torrent&					get_torrent(const lt::torrent_handle& torrent_handle) throw(m::Exception);
+			/// @throw - m::Exception.
+			Torrent&					get_torrent(const lt::torrent_handle& torrent_handle);
 
 			/// Возвращает подробную информацию о торренте.
 			Torrent_details				get_torrent_details(const Torrent& torrent) const;
@@ -272,38 +282,49 @@
 			void						process_torrents_temporary(Temporary_action action, Torrents_group group, Time time);
 
 			/// Ставит торрент в очередь на перепроверку.
-			void						recheck_torrent(const Torrent_id& torrent_id) throw(m::Exception);
+			/// @throw - m::Exception.
+			void						recheck_torrent(const Torrent_id& torrent_id);
 
 			/// Удаляет торрент.
-			void						remove_torrent(const Torrent_id& torrent_id) throw(m::Exception);
+			/// @throw - m::Exception.
+			void						remove_torrent(const Torrent_id& torrent_id);
 
 			/// Удаляет конфигурационные файлы торрента.
-			void						remove_torrent_from_config(const Torrent_id& torrent_id) const throw(m::Exception);
+			/// @throw - m::Exception.
+			void						remove_torrent_from_config(const Torrent_id& torrent_id) const;
 
 			/// Удаляет торрент из текущей сессии.
-			void						remove_torrent_from_session(const Torrent_id& torrent_id) throw(m::Exception);
+			/// @throw - m::Exception.
+			void						remove_torrent_from_session(const Torrent_id& torrent_id);
 
 			/// Удаляет торрент вместе с данными (скачанными файлами).
-			void						remove_torrent_with_data(const Torrent_id& torrent_id) throw(m::Exception);
+			/// @throw - m::Exception.
+			void						remove_torrent_with_data(const Torrent_id& torrent_id);
 
 			/// Возобновляет работу с торрентом.
-			void						resume_torrent(Torrent& torrent) throw(m::Exception);
+			/// @throw - m::Exception.
+			void						resume_torrent(Torrent& torrent);
 
 			/// Сохраняет настройки всех торрентов текущей сессии.
-			void						save_session(void) throw(m::Exception);
+			/// @throw - m::Exception.
+			void						save_session(void);
 
 			/// Устанавливает параметры копирования файлов торрента по завершении их скачивания.
-			void						set_copy_when_finished(Torrent& torrent, bool copy, const std::string& to) throw(m::Exception);
+			/// @throw - m::Exception.
+			void						set_copy_when_finished(Torrent& torrent, bool copy, const std::string& to);
 
 			/// Устанавливает флаг скачивания для файлов с идентификаторами files_ids.
-			void						set_files_download_status(Torrent& torrent, const std::vector<int>& files_ids, bool download) throw(m::Exception);
+			/// @throw - m::Exception.
+			void						set_files_download_status(Torrent& torrent, const std::vector<int>& files_ids, bool download);
 
 			/// Устанавливает приоритет для файлов, идентификторы которых содержатся в списке files_id.
-			void						set_files_priority(Torrent& torrent, const std::vector<int>& files_ids, const Torrent_file_settings::Priority priority) throw(m::Exception);
+			/// @throw - m::Exception.
+			void						set_files_priority(Torrent& torrent, const std::vector<int>& files_ids, const Torrent_file_settings::Priority priority);
 
 			/// Устанавливает, режим скачивания торрента - последовательный или
 			/// в зависимости от доступности частей торрента.
-			void						set_sequential_download(Torrent& torrent, bool value) throw(m::Exception);
+			/// @throw - m::Exception.
+			void						set_sequential_download(Torrent& torrent, bool value);
 
 			/// Задает список трекеров торрента.
 			void						set_torrent_trackers(Torrent& torrent, const std::vector<std::string>& trackers);
@@ -313,11 +334,13 @@
 
 		private:
 			/// "Избавляется" от торрента указанным методом.
-			void						auto_clean_torrent(const Torrent_id& id, const std::string& name, const Auto_clean_type& clean_type) throw(m::Exception);
+			/// @throw - m::Exception.
+			void						auto_clean_torrent(const Torrent_id& id, const std::string& name, const Auto_clean_type& clean_type);
 
 			/// Выполняет все необходимые действия для автоматической загрузки
 			/// торрента torrent_path, если он является торрентом.
-			void						auto_load_if_torrent(const std::string& torrent_path) throw(m::Exception);
+			/// @throw - m::Exception.
+			void						auto_load_if_torrent(const std::string& torrent_path);
 
 			/// Загружает торренты, которые находятся в данный момент в очереди
 			/// на автоматическую подгрузку.
@@ -335,16 +358,19 @@
 			bool						is_dht_started(void) const;
 
 			/// Загружает торрент в сессию по его идентификатору.
-			void						load_torrent(const Torrent_id& torrent_id) throw(m::Exception);
+			/// @throw - m::Exception.
+			void						load_torrent(const Torrent_id& torrent_id);
 
 			/// Загружает торренты из директории для автоматической загрузки
 			/// торрентов, если это необходимо.
-			void						load_torrents_from_auto_load_dir(void) throw(m::Exception);
+			/// @throw - m::Exception.
+			void						load_torrents_from_auto_load_dir(void);
 
 			/// Загружает все сохраненные торренты.
 			/// Запускается при старте демона, чтобы добавить
 			/// все торренты из прошлой сессии.
-			void						load_torrents_from_config(void) throw(m::Exception);
+			/// @throw - m::Exception.
+			void						load_torrents_from_config(void);
 
 			/// Обработчик сигнала на появление новых торрентов для автоматического
 			/// добавления.

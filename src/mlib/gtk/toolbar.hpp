@@ -53,7 +53,8 @@
 
 	/// Возвращает стиль по его строковому представлению.
 	/// В случае ошибки возвращает стиль DEFAULT.
-	Style				get_style_from_string(const std::string& string) throw(m::Exception);
+	/// @throw - m::Exception.
+	Style				get_style_from_string(const std::string& string);
 
 	/// Возвращает строковое имя типа.
 	std::string			get_style_string_representation(Style style);
