@@ -140,6 +140,10 @@
 
 		public:
 			/// Обработчик сигнала по клику на пункте меню "Отображать
+			/// счетчики в категориях".
+			void	on_show_categories_counters_toggle_cb(Glib::RefPtr<Gtk::ToggleAction> action);
+
+			/// Обработчик сигнала по клику на пункте меню "Отображать
 			/// имена категорий".
 			void	on_show_categories_names_toggle_cb(Glib::RefPtr<Gtk::ToggleAction> action);
 
@@ -155,6 +159,13 @@
 		has_been_showed(false),
 		iconified(false)
 	{
+	}
+
+
+
+	void Main_window::Gui::on_show_categories_counters_toggle_cb(Glib::RefPtr<Gtk::ToggleAction> action)
+	{
+		this->torrents_viewport->show_categories_counters(action->get_active());
 	}
 
 
@@ -434,6 +445,16 @@ Main_window::Main_window(const Main_window_settings& settings)
 					sigc::bind< Glib::RefPtr<Gtk::ToggleAction> >(
 						sigc::mem_fun(*this->gui, &Main_window::Gui::on_show_categories_names_toggle_cb), action)
 				);
+
+				action = Gtk::ToggleAction::create(
+					"categories/show_counters", _("Show counters"), "",
+					get_client_settings().gui.main_window.torrents_viewport.categories_view->show_counters
+				);
+				action_group->add(
+					action,
+					sigc::bind< Glib::RefPtr<Gtk::ToggleAction> >(
+						sigc::mem_fun(*this->gui, &Main_window::Gui::on_show_categories_counters_toggle_cb), action)
+				);
 			}
 			// Categories <--
 
@@ -569,7 +590,7 @@ Main_window::Main_window(const Main_window_settings& settings)
 			);
 			action_group->add(
 				app_icons::create_action("set_download_rate_limit",
-					app_icons::ICON_DOWNLOAD_AND_UPLOAD, _("Set _download rate limit")),
+					app_icons::ICON_DOWNLOAD, _("Set _download rate limit")),
 				sigc::bind<Traffic_type>(
 					sigc::mem_fun(*this, &Main_window::on_change_rate_limit_callback),
 					DOWNLOAD
@@ -614,6 +635,7 @@ Main_window::Main_window(const Main_window_settings& settings)
 			"			<menu action='categories'>"
 			"				<menuitem action='categories/show'/>"
 			"				<menuitem action='categories/show_names'/>"
+			"				<menuitem action='categories/show_counters'/>"
 			"			</menu>"
 			"		</menu>"
 

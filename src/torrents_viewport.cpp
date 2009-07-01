@@ -41,8 +41,6 @@
 #include "torrents_viewport.hpp"
 
 
-//#warning
-//#include <gtkmm/separator.h>
 namespace Torrents_viewport_aux
 {
 
@@ -84,8 +82,11 @@ class Private
 		/// Обработчик сигнала на изменение списка выделенных торрентов.
 		void	on_torrent_selected_callback(const Torrent_id& torrent_id);
 
+		/// Перерисовывает виджет, отображающий категории торрентов.
+		void	redraw_categories_view(void);
+
 		/// Перерисовывает виджет, отображающий список торрентов.
-		void	redraw(void);
+		void	redraw_torrents_view(void);
 };
 
 
@@ -99,8 +100,6 @@ Private::Private(const Torrents_viewport_settings& settings)
 	// Categories_view
 	this->categories_view = Gtk::manage( new Categories_view(*settings.categories_view) );
 	this->torrents_hbox->pack_start(*this->categories_view, false, false);
-
-//	this->torrents_hbox->pack_start(*Gtk::manage( new Gtk::VSeparator ), false, false);
 
 	// Torrents_view -->
 		this->torrents_view = Gtk::manage( new Torrents_view(settings.torrents_view) );
@@ -121,7 +120,13 @@ Private::Private(const Torrents_viewport_settings& settings)
 	// категорий.
 	this->sholder.push(
 		this->categories_view->signal_changed().connect(
-			sigc::mem_fun(*this, &Private::redraw))
+			sigc::mem_fun(*this, &Private::redraw_torrents_view))
+	);
+
+	// Обработчик сигнала на требование информации о текущих торрентах.
+	this->sholder.push(
+		this->categories_view->signal_needs_update().connect(
+			sigc::mem_fun(*this, &Private::redraw_categories_view))
 	);
 }
 
@@ -142,7 +147,14 @@ void Private::on_torrent_selected_callback(const Torrent_id& torrent_id)
 
 
 
-void Private::redraw(void)
+void Private::redraw_categories_view(void)
+{
+	this->categories_view->update(this->torrents);
+}
+
+
+
+void Private::redraw_torrents_view(void)
 {
 	class Filter: public Torrents_view_filter, public Categories_filter
 	{
@@ -398,28 +410,6 @@ void Torrents_viewport::process_torrents(Torrent_process_action action)
 
 
 
-void Torrents_viewport::update(void)
-{
-	std::vector<Torrent_info> torrents;
-
-	try
-	{
-		get_daemon_proxy().get_torrents(torrents);
-	}
-	catch(m::Exception& e)
-	{
-		MLIB_W(EE(e));
-	}
-
-	priv->torrents.swap(torrents);
-	priv->redraw();
-
-	if(priv->current_info_widget)
-		priv->current_info_widget->update(priv->cur_torrent_id);
-}
-
-
-
 void Torrents_viewport::save_settings(Torrents_viewport_settings& settings) const
 {
 	// info_widget -->
@@ -489,8 +479,39 @@ void Torrents_viewport::show_categories_names(bool show)
 
 
 
+void Torrents_viewport::show_categories_counters(bool show)
+{
+	priv->categories_view->show_counters(show);
+}
+
+
+
 m::gtk::Signal_proxy<void, Torrent_process_actions> Torrents_viewport::signal_torrent_process_actions_changed(void)
 {
 	return priv->torrent_process_actions_changed_signal;
+}
+
+
+
+void Torrents_viewport::update(void)
+{
+	std::vector<Torrent_info> torrents;
+
+	try
+	{
+		get_daemon_proxy().get_torrents(torrents);
+	}
+	catch(m::Exception& e)
+	{
+		MLIB_W(EE(e));
+	}
+
+	priv->torrents.swap(torrents);
+
+	priv->redraw_categories_view();
+	priv->redraw_torrents_view();
+
+	if(priv->current_info_widget)
+		priv->current_info_widget->update(priv->cur_torrent_id);
 }
 

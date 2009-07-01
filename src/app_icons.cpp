@@ -53,12 +53,10 @@ namespace
 
 	Gtk::StockID get_stock_id(Id id) throw(Invalid_icon_id)
 	{
+		// В данный момент не используется ни одна Stock'овая иконка.
+
 		switch(id)
 		{
-			case ICON_PAUSED_TORRENT:
-				return Gtk::Stock::MEDIA_PAUSE;
-				break;
-
 			default:
 				throw Invalid_icon_id();
 				break;

@@ -124,6 +124,9 @@
 			/// Отображает или скрывает имена категорий.
 			void						show_categories_names(bool show = true);
 
+			/// Отображает или скрывает счетчики в категориях.
+			void						show_categories_counters(bool show = true);
+
 			/// Инициирует обновление виджета.
 			void						update(void);
 

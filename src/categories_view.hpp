@@ -61,6 +61,7 @@ class Categories_view_settings: private Virtual
 	public:
 		bool						visible;
 		bool						show_names;
+		bool						show_counters;
 		std::vector<std::string>	selected_items;
 };
 
@@ -92,11 +93,21 @@ class Categories_view: public Gtk::VBox
 		/// Сохраняет текущие настройки.
 		void						save_settings(Settings* settings) const;
 
+		/// Отображать или нет счетчики.
+		void						show_counters(bool show = true);
+
 		/// Отображать или нет имена категорий.
 		void						show_names(bool show = true);
 
 		/// Сигнал на изменение выделенных в данный момент категорий.
 		m::gtk::Signal_proxy<void>	signal_changed(void);
+
+		/// Сигнал, извещающий о том, что виджет нуждается в том, чтобы ему
+		/// передали информацию о текущих торрентах (обязателен к подключению).
+		m::gtk::Signal_proxy<void>	signal_needs_update(void);
+
+		/// Обновляет статистику по текущим торрентам, если это необходимо.
+		void						update(const std::vector<Torrent_info>& torrents);
 };
 
 #endif

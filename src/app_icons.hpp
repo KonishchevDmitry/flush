@@ -51,9 +51,6 @@ enum Id
 	/// Скачивание и раздача.
 	ICON_DOWNLOAD_AND_UPLOAD,
 
-	/// Торрент на паузе.
-	ICON_PAUSED_TORRENT,
-
 	/// Статистика торрента/сессии.
 	ICON_STATISTICS,
 

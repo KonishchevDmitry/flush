@@ -158,6 +158,11 @@ Config* get(smart_ptr& ptr)
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
 				this->show_names = setting;
 			}
+			else if(m::is_eq(setting_name, "show_counters"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				this->show_counters = setting;
+			}
 			else if(m::is_eq(setting_name, "selected_items"))
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeArray, continue)
@@ -183,6 +188,7 @@ Config* get(smart_ptr& ptr)
 	{
 		root.add("visible", libconfig::Setting::TypeBoolean) = this->visible;
 		root.add("show_names", libconfig::Setting::TypeBoolean) = this->show_names;
+		root.add("show_counters", libconfig::Setting::TypeBoolean) = this->show_counters;
 
 		{
 			libconfig::Setting& setting = root.add("selected_items", libconfig::Setting::TypeArray);
