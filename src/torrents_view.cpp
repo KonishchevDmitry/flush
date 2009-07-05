@@ -966,7 +966,7 @@ namespace
 
 		m::gtk::update_row(
 			row, this->model_columns.status,
-			torrent_info.get_status_string() + " " + m::to_string(torrent_info.progress) + " %"
+			torrent_info.get_status_string() + " " + m::to_string(torrent_info.progress) + "%"
 		);
 		m::gtk::update_row(row, this->model_columns.progress, torrent_info.progress);
 
@@ -980,7 +980,7 @@ namespace
 			int complete_percent = torrent_info.get_complete_percent();
 
 			if(m::gtk::update_row(row, this->model_columns.complete_percent, complete_percent) || force_update)
-				m::gtk::update_row(row, this->model_columns.complete_percent_string, m::to_string(complete_percent) + " %");
+				m::gtk::update_row(row, this->model_columns.complete_percent_string, m::to_string(complete_percent) + "%");
 		}
 		// Complete percent <--
 

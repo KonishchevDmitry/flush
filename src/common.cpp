@@ -2,8 +2,10 @@
 #include <string>
 #include <limits>
 
-#if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 35, 0)
+#if M_BOOST_GET_VERSION() > M_GET_VERSION(1, 35, 0)
 	#include <boost/exception.hpp>
+#elif M_BOOST_GET_VERSION() == M_GET_VERSION(1, 35, 0)
+	#include <boost/system/system_error.hpp>
 #endif
 
 #include <glibmm/convert.h>
@@ -234,8 +236,10 @@
 			ip = this->to;
 			to_address = lt::address_v4::from_string(ip);
 		}
-	#if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 35, 0)
+	#if M_BOOST_GET_VERSION() > M_GET_VERSION(1, 35, 0)
 		catch(boost::exception&)
+	#elif M_BOOST_GET_VERSION() == M_GET_VERSION(1, 35, 0)
+		catch(boost::system::system_error&)
 	#else
 		catch(asio::system_error&)
 	#endif
