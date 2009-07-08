@@ -943,6 +943,13 @@ void Main_window::hide(void)
 
 
 
+bool Main_window::is_visible_in_wm(void)
+{
+	return !(this->get_skip_taskbar_hint() && this->get_skip_pager_hint());
+}
+
+
+
 void Main_window::on_change_rate_limit_callback(Traffic_type traffic_type)
 {
 	Change_rate_limit_dialog dialog(*this, traffic_type);;
@@ -1251,7 +1258,10 @@ bool Main_window::on_window_state_changed_callback(const GdkEventWindowState* st
 		// Если окно свернули, то скрываем окно в трей, если этого требуют
 		// настройки. При восстановлении окна всегда отображаем его - настройки
 		// могли поменяться, пока оно было свернуто.
-		if(!this->gui->iconified || get_client_settings().gui.minimize_to_tray)
+		if(
+			!this->gui->iconified ||
+			( get_client_settings().gui.show_tray_icon && get_client_settings().gui.minimize_to_tray )
+		)
 			this->set_visible_in_wm(!this->gui->iconified);
 
 		if(!this->gui->iconified)
@@ -1424,7 +1434,7 @@ void Main_window::update_gui(bool force)
 			{
 				update_flags &= ~UPDATE_WIDGETS;
 
-				if(get_client_settings().gui.minimize_to_tray)
+				if(!this->is_visible_in_wm())
 					update_flags &= ~UPDATE_WINDOW_TITLE;
 			}
 		}

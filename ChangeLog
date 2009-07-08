@@ -7,7 +7,8 @@ tab.
 Delete keys.
 [+] Some small GUI and internal enhancements.
 [+] Torrent's categories sidebar (all, paused, seeding, etc.).
-[*] Fixed bug, due to which GUI may freeze and do not to response.
+[*] Fixed bug, due to which GUI could freeze and do not to response.
+[*] Fixed bug, due to which GUI could be iconified to non-existent tray.
 
 
 0.6 (2009.06.11)

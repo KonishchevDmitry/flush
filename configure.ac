@@ -242,17 +242,18 @@ dnl Available libraries <--
 
 
 dnl compiler flags -->
-	if test "X$develop_mode" = "Xyes"
-	then
-		CXXFLAGS="$CXXFLAGS -O0 -g -Wall"
-	fi
-
 	COMMON_CPPFLAGS=""
 	APP_DEPENDENCIES=""
 	APP_LDADD=""
 
 	dnl Including config.h anywhere
 	COMMON_CPPFLAGS="-include \$(top_builddir)/config.h -I \$(top_srcdir)/src"
+
+	if test "X$develop_mode" = "Xyes"
+	then
+		COMMON_CPPFLAGS="$COMMON_CPPFLAGS"
+		CXXFLAGS="$CXXFLAGS -O0 -g -Wall"
+	fi
 
 	dnl libraries -->
 		dnl boost -->
