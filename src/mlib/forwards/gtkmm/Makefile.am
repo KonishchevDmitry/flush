@@ -1,4 +1,4 @@
-noinst_DATA = \
+EXTRA_DIST = \
 	action.h \
 	toolbutton.h
 

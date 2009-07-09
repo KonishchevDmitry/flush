@@ -1,3 +1,3 @@
-noinst_DATA = \
+EXTRA_DIST = \
 	pixbuf.h
 
