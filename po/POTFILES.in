@@ -79,11 +79,11 @@ src/client_cmd_options.hpp
 src/client_settings.cpp
 src/client_settings.hpp
 src/client_settings.hxx
-src/create_torrent_dialog.cpp
-src/create_torrent_dialog.hpp
 src/common.cpp
 src/common.hh
 src/common.hpp
+src/create_torrent_dialog.cpp
+src/create_torrent_dialog.hpp
 src/daemon.cpp
 src/daemon_fs.cpp
 src/daemon_fs.hpp

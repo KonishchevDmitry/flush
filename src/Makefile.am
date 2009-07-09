@@ -14,15 +14,17 @@ flush_SOURCES = \
 	application.hpp \
 	categories_view.cpp \
 	categories_view.hpp \
+	categories_view.hxx \
 	client_cmd_options.cpp \
 	client_cmd_options.hpp \
 	client_settings.cpp \
 	client_settings.hpp \
-	create_torrent_dialog.cpp \
-	create_torrent_dialog.hpp \
+	client_settings.hxx \
 	common.cpp \
 	common.hh \
 	common.hpp \
+	create_torrent_dialog.cpp \
+	create_torrent_dialog.hpp \
 	daemon.cpp \
 	daemon_fs.cpp \
 	daemon_fs.hpp \

@@ -22,6 +22,7 @@
 	#define MLIB_ENABLE_ALIASES
 #endif
 
+#include <sys/epoll.h>
 #include <sys/resource.h>
 #include <sys/time.h>
 #include <fcntl.h>
@@ -376,51 +377,89 @@ namespace
 
 	bool Connection::wait_for_with_owning(int fd, bool prioritize_fd)
 	{
-		int rval;
-		fd_set fds;
+		int rval = -1;
+		File_holder epoll_fd;
 
-		while(1)
+		try
 		{
-			FD_ZERO(&fds);
-			FD_SET(this->read_fd, &fds);
-			FD_SET(fd, &fds);
+			epoll_event event;
 
-			do
-				rval = select(std::max(this->read_fd, fd) + 1, &fds, NULL, NULL, NULL);
-			while(rval < 0 && errno == EINTR);
+			epoll_fd.set(unix_epoll_create());
 
-			if(rval < 0)
-				MLIB_E(__("Select error: %1.", strerror(errno)));
+			event.events = EPOLLIN;
+			event.data.fd = fd;
+			unix_epoll_ctl(epoll_fd.get(), EPOLL_CTL_ADD, fd, &event);
 
-			if(prioritize_fd)
+			event.events = EPOLLIN;
+			event.data.fd = this->read_fd;
+			unix_epoll_ctl(epoll_fd.get(), EPOLL_CTL_ADD, this->read_fd, &event);
+		}
+		catch(m::Sys_exception& e)
+		{
+			MLIB_E(__("Error while creating epoll instance: %1.", EE(e)));
+		}
+
+		try
+		{
+			while(rval == -1)
 			{
-				if(FD_ISSET(fd, &fds))
-					return true;
-				else if(FD_ISSET(this->read_fd, &fds))
+				bool fd_event = false;
+				bool connection_event = false;
+
 				{
-					if(this->get())
-						return false;
+					struct epoll_event events[2];
+
+					int events_num = unix_epoll_wait(epoll_fd.get(), events, M_STATIC_ARRAY_SIZE(events), -1);
+					MLIB_A(events_num);
+
+					for(int i = 0; i < events_num; i++)
+					{
+						if(events[i].data.fd == fd)
+							fd_event = true;
+						else if(events[i].data.fd == this->read_fd)
+							connection_event = true;
+						else
+							MLIB_LE();
+					}
+				}
+
+				if(prioritize_fd)
+				{
+					if(fd_event)
+						rval = true;
 					else
-						continue;
+					{
+						if(this->get())
+							rval = false;
+					}
 				}
 				else
-					MLIB_LE();
-			}
-			else
-			{
-				if(FD_ISSET(this->read_fd, &fds))
 				{
-					if(this->get())
-						return false;
+					if(connection_event)
+					{
+						if(this->get())
+							rval = false;
+					}
 					else
-						continue;
+						rval = true;
 				}
-				else if(FD_ISSET(fd, &fds))
-					return true;
-				else
-					MLIB_LE();
 			}
 		}
+		catch(m::Sys_exception& e)
+		{
+			MLIB_E(__("Error while using epoll instance: %1.", EE(e)));
+		}
+
+		try
+		{
+			epoll_fd.close();
+		}
+		catch(m::Sys_exception& e)
+		{
+			MLIB_E(__("Error while closing epoll instance: %1.", EE(e)));
+		}
+
+		return rval;
 	}
 // Connection <--
 
@@ -562,6 +601,20 @@ void setenv(const std::string& name, const std::string& value, bool overwrite)
 
 
 
+void unix_close(int fd)
+{
+	int rval;
+
+	do
+		rval = ::close(fd);
+	while(rval && errno == EINTR);
+
+	if(rval)
+		M_THROW_SYS(errno);
+}
+
+
+
 int unix_dup(int fd)
 {
 	int new_fd = dup(fd);
@@ -578,6 +631,37 @@ void unix_dup(int oldfd, int newfd)
 {
 	if(dup2(oldfd, newfd) == -1)
 		M_THROW(__("Can't duplicate a file descriptor: %1.", EE(errno)));
+}
+
+
+
+void unix_epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)
+{
+	if(epoll_ctl(epfd, op, fd, event))
+		M_THROW_SYS(errno);
+}
+
+
+
+int unix_epoll_create(void)
+{
+	int fd = epoll_create1(0);
+	if(fd < 0)
+		M_THROW_SYS(errno);
+	else
+		return fd;
+}
+
+
+
+int unix_epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout)
+{
+	int rval = epoll_wait(epfd, events, maxevents, timeout);
+
+	if(rval < 0)
+		M_THROW_SYS(errno);
+	else
+		return rval;
 }
 
 

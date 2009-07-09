@@ -38,6 +38,8 @@
 #include "types.hpp"
 
 
+struct epoll_event;
+
 
 // Макроопределения для обхода контейнеров.
 // Сделаны для того, чтобы избежать написания очень длинных
@@ -245,17 +247,15 @@ class File_holder: public boost::noncopyable
 
 
 	public:
-		inline
-		void	close(void);
+		/// @throw - m::Sys_exception.
+		inline void	close(void);
 
-		inline
-		int		get(void) const;
+		inline int	get(void) const;
 
-		inline
-		void	reset(void);
+		inline int	reset(void);
 
-		inline
-		void	set(int fd);
+		/// @throw - m::Sys_exception.
+		inline void	set(int fd);
 };
 
 
@@ -344,6 +344,10 @@ void				setenv(const std::string& name, const std::string& value, bool overwrite
 inline
 void				tm_to_real_time(struct tm* date);
 
+/// Аналог системного close().
+/// @throw - m::Exception.
+void				unix_close(int fd);
+
 /// Аналог системного dup().
 /// @throw - m::Exception.
 int					unix_dup(int fd);
@@ -351,6 +355,18 @@ int					unix_dup(int fd);
 /// Аналог системного dup().
 /// @throw - m::Exception.
 void				unix_dup(int oldfd, int newfd);
+
+/// Аналог системного epoll_ctl().
+/// @throw - m::Sys_exception.
+void				unix_epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);
+
+/// Аналог системного epoll_create().
+/// @throw - m::Sys_exception.
+int					unix_epoll_create(void);
+
+/// Аналог системного epoll_wait().
+/// @throw - m::Sys_exception.
+int					unix_epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);
 
 /// Аналог системного unix_execvp;
 /// @throw - m::Sys_exception.

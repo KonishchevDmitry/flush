@@ -47,15 +47,21 @@ size_t Buffer::get_size(void) const
 
 	File_holder::~File_holder(void)
 	{
-		this->close();
+		try
+		{
+			this->close();
+		}
+		catch(m::Sys_exception&)
+		{
+		}
 	}
 
 
 
 	void File_holder::close(void)
 	{
-		if(this->fd >= 0)
-			::close(fd);
+		if(this->get() >= 0)
+			unix_close(this->reset());
 	}
 
 
@@ -67,9 +73,11 @@ size_t Buffer::get_size(void) const
 
 
 
-	void File_holder::reset(void)
+	int File_holder::reset(void)
 	{
+		int fd = this->fd;
 		this->fd = -1;
+		return fd;
 	}
 
 

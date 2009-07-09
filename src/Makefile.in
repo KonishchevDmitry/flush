@@ -64,14 +64,13 @@ am_flush_OBJECTS = flush-add_torrent_dialog.$(OBJEXT) \
 	flush-app_icons.$(OBJEXT) flush-application.$(OBJEXT) \
 	flush-categories_view.$(OBJEXT) \
 	flush-client_cmd_options.$(OBJEXT) \
-	flush-client_settings.$(OBJEXT) \
-	flush-create_torrent_dialog.$(OBJEXT) flush-common.$(OBJEXT) \
-	flush-daemon.$(OBJEXT) flush-daemon_fs.$(OBJEXT) \
-	flush-daemon_proxy.$(OBJEXT) flush-daemon_session.$(OBJEXT) \
-	flush-daemon_settings.$(OBJEXT) flush-daemon_types.$(OBJEXT) \
-	flush-gui_lib.$(OBJEXT) flush-ip_filter.$(OBJEXT) \
-	flush-log_view.$(OBJEXT) flush-main.$(OBJEXT) \
-	flush-main_window.$(OBJEXT) \
+	flush-client_settings.$(OBJEXT) flush-common.$(OBJEXT) \
+	flush-create_torrent_dialog.$(OBJEXT) flush-daemon.$(OBJEXT) \
+	flush-daemon_fs.$(OBJEXT) flush-daemon_proxy.$(OBJEXT) \
+	flush-daemon_session.$(OBJEXT) flush-daemon_settings.$(OBJEXT) \
+	flush-daemon_types.$(OBJEXT) flush-gui_lib.$(OBJEXT) \
+	flush-ip_filter.$(OBJEXT) flush-log_view.$(OBJEXT) \
+	flush-main.$(OBJEXT) flush-main_window.$(OBJEXT) \
 	flush-open_torrent_dialog.$(OBJEXT) \
 	flush-settings_window.$(OBJEXT) \
 	flush-statistics_window.$(OBJEXT) \
@@ -275,15 +274,17 @@ flush_SOURCES = \
 	application.hpp \
 	categories_view.cpp \
 	categories_view.hpp \
+	categories_view.hxx \
 	client_cmd_options.cpp \
 	client_cmd_options.hpp \
 	client_settings.cpp \
 	client_settings.hpp \
-	create_torrent_dialog.cpp \
-	create_torrent_dialog.hpp \
+	client_settings.hxx \
 	common.cpp \
 	common.hh \
 	common.hpp \
+	create_torrent_dialog.cpp \
+	create_torrent_dialog.hpp \
 	daemon.cpp \
 	daemon_fs.cpp \
 	daemon_fs.hpp \
@@ -535,20 +536,6 @@ flush-client_settings.obj: client_settings.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-client_settings.obj `if test -f 'client_settings.cpp'; then $(CYGPATH_W) 'client_settings.cpp'; else $(CYGPATH_W) '$(srcdir)/client_settings.cpp'; fi`
 
-flush-create_torrent_dialog.o: create_torrent_dialog.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-create_torrent_dialog.o -MD -MP -MF $(DEPDIR)/flush-create_torrent_dialog.Tpo -c -o flush-create_torrent_dialog.o `test -f 'create_torrent_dialog.cpp' || echo '$(srcdir)/'`create_torrent_dialog.cpp
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-create_torrent_dialog.Tpo $(DEPDIR)/flush-create_torrent_dialog.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='create_torrent_dialog.cpp' object='flush-create_torrent_dialog.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-create_torrent_dialog.o `test -f 'create_torrent_dialog.cpp' || echo '$(srcdir)/'`create_torrent_dialog.cpp
-
-flush-create_torrent_dialog.obj: create_torrent_dialog.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-create_torrent_dialog.obj -MD -MP -MF $(DEPDIR)/flush-create_torrent_dialog.Tpo -c -o flush-create_torrent_dialog.obj `if test -f 'create_torrent_dialog.cpp'; then $(CYGPATH_W) 'create_torrent_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/create_torrent_dialog.cpp'; fi`
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-create_torrent_dialog.Tpo $(DEPDIR)/flush-create_torrent_dialog.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='create_torrent_dialog.cpp' object='flush-create_torrent_dialog.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-create_torrent_dialog.obj `if test -f 'create_torrent_dialog.cpp'; then $(CYGPATH_W) 'create_torrent_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/create_torrent_dialog.cpp'; fi`
-
 flush-common.o: common.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-common.o -MD -MP -MF $(DEPDIR)/flush-common.Tpo -c -o flush-common.o `test -f 'common.cpp' || echo '$(srcdir)/'`common.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-common.Tpo $(DEPDIR)/flush-common.Po
@@ -562,6 +549,20 @@ flush-common.obj: common.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='common.cpp' object='flush-common.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-common.obj `if test -f 'common.cpp'; then $(CYGPATH_W) 'common.cpp'; else $(CYGPATH_W) '$(srcdir)/common.cpp'; fi`
+
+flush-create_torrent_dialog.o: create_torrent_dialog.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-create_torrent_dialog.o -MD -MP -MF $(DEPDIR)/flush-create_torrent_dialog.Tpo -c -o flush-create_torrent_dialog.o `test -f 'create_torrent_dialog.cpp' || echo '$(srcdir)/'`create_torrent_dialog.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-create_torrent_dialog.Tpo $(DEPDIR)/flush-create_torrent_dialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='create_torrent_dialog.cpp' object='flush-create_torrent_dialog.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-create_torrent_dialog.o `test -f 'create_torrent_dialog.cpp' || echo '$(srcdir)/'`create_torrent_dialog.cpp
+
+flush-create_torrent_dialog.obj: create_torrent_dialog.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-create_torrent_dialog.obj -MD -MP -MF $(DEPDIR)/flush-create_torrent_dialog.Tpo -c -o flush-create_torrent_dialog.obj `if test -f 'create_torrent_dialog.cpp'; then $(CYGPATH_W) 'create_torrent_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/create_torrent_dialog.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-create_torrent_dialog.Tpo $(DEPDIR)/flush-create_torrent_dialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='create_torrent_dialog.cpp' object='flush-create_torrent_dialog.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-create_torrent_dialog.obj `if test -f 'create_torrent_dialog.cpp'; then $(CYGPATH_W) 'create_torrent_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/create_torrent_dialog.cpp'; fi`
 
 flush-daemon.o: daemon.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon.o -MD -MP -MF $(DEPDIR)/flush-daemon.Tpo -c -o flush-daemon.o `test -f 'daemon.cpp' || echo '$(srcdir)/'`daemon.cpp

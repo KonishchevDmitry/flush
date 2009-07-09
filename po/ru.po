@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2009-07-09 12:12+0400\n"
+"POT-Creation-Date: 2009-07-09 16:21+0400\n"
 "Last-Translator: Konishchev Dmitry <konishchev@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -223,77 +223,87 @@ msgstr "Ошибка при чтении торрент файла '%1': %2."
 msgid "Logical error"
 msgstr "Логическая ошибка"
 
-#: src/mlib/misc.cpp:111
+#: src/mlib/misc.cpp:112
 msgid "[[gettimeofday time getting error]]"
 msgstr "[[ошибка gettimeofday]]"
 
-#: src/mlib/misc.cpp:176 src/mlib/misc.cpp:238
+#: src/mlib/misc.cpp:177 src/mlib/misc.cpp:239
 msgid "Buffer positioning error."
 msgstr "Ошибка позиционирования буфера."
 
-#: src/mlib/misc.cpp:307 src/mlib/misc.cpp:628
+#: src/mlib/misc.cpp:308 src/mlib/misc.cpp:712
 #, qt-format
 msgid "Can't create a pipe: %1."
 msgstr "Не удалось создать pipe: %1."
 
-#: src/mlib/misc.cpp:316
+#: src/mlib/misc.cpp:317
 #, qt-format
 msgid "Can't set flags for a pipe: %1."
 msgstr "Не удалось задать флаги для pipe'а: %1."
 
-#: src/mlib/misc.cpp:324 src/mlib/misc.cpp:327
+#: src/mlib/misc.cpp:325 src/mlib/misc.cpp:328
 #, qt-format
 msgid "Error while closing a pipe: %1."
 msgstr "Ошибка при закрытии pipe'а: %1."
 
-#: src/mlib/misc.cpp:347
+#: src/mlib/misc.cpp:348
 #, qt-format
 msgid "Can't read from a pipe: %1."
 msgstr "Не удалось прочитать данные из pipe'а: %1."
 
-#: src/mlib/misc.cpp:372
+#: src/mlib/misc.cpp:373
 #, qt-format
 msgid "Can't write to a pipe: %1."
 msgstr "Не удалось записать данные в pipe: %1."
 
-#: src/mlib/misc.cpp:393
+#: src/mlib/misc.cpp:399
 #, qt-format
-msgid "Select error: %1."
-msgstr "Ошибка системного вызова select: %1."
+msgid "Error while creating epoll instance: %1."
+msgstr "Ошибка при создании экземпляра epoll: %1."
 
-#: src/mlib/misc.cpp:465
+#: src/mlib/misc.cpp:450
+#, qt-format
+msgid "Error while using epoll instance: %1."
+msgstr "Ошибка при использовании экземпляра epoll: %1."
+
+#: src/mlib/misc.cpp:459
+#, qt-format
+msgid "Error while closing epoll instance: %1."
+msgstr "Ошибка при закрытии экземпляра epoll: %1."
+
+#: src/mlib/misc.cpp:504
 #, qt-format
 msgid "Can't get max opened files limit: %1."
 msgstr ""
 "Не удалось получить значение ограничения на максимальное количество "
 "одновременно открытых файлов: %1."
 
-#: src/mlib/misc.cpp:483
+#: src/mlib/misc.cpp:522
 #, qt-format
 msgid "Copyright (C) %1-%2 %3."
 msgstr "Copyright (C) %1-%2 %3."
 
-#: src/mlib/misc.cpp:486
+#: src/mlib/misc.cpp:525
 #, qt-format
 msgid "Copyright (C) %1 %2."
 msgstr "Copyright (C) %1 %2."
 
-#: src/mlib/misc.cpp:503
+#: src/mlib/misc.cpp:542
 #, qt-format
 msgid "Realloc failed: %1."
 msgstr "Ошибка realloc: %1."
 
-#: src/mlib/misc.cpp:547
+#: src/mlib/misc.cpp:586
 #, qt-format
 msgid "Running command '%1' failed: %2."
 msgstr "Запуск команды '%1' завершился неудачей: %2."
 
-#: src/mlib/misc.cpp:570 src/mlib/misc.cpp:580
+#: src/mlib/misc.cpp:623 src/mlib/misc.cpp:633
 #, qt-format
 msgid "Can't duplicate a file descriptor: %1."
 msgstr "Не удалось создать копию файлового дескриптора: %1."
 
-#: src/mlib/misc.cpp:616
+#: src/mlib/misc.cpp:700
 #, qt-format
 msgid "Can't fork the process: %1."
 msgstr "Не удалось клонировать процесс: %1."
@@ -674,6 +684,95 @@ msgstr "Запись конфигурационного файла '%1' заве
 msgid "Can't write configuration file '%1': %2."
 msgstr "Ошибка при записи конфигурационного файла '%1': %2."
 
+#: src/common.cpp:55
+#, qt-format
+msgid "invalid auto clean action type '%1'"
+msgstr "неверное имя действия автоматической очистки торрентов ('%1')"
+
+#: src/common.cpp:247
+#, qt-format
+msgid "invalid IP address '%1'"
+msgstr "недопустимый IP-адрес '%1'"
+
+#: src/common.cpp:251
+#, qt-format
+msgid "invalid IP range %1-%2"
+msgstr "недопустимый диапазон IP-адресов %1-%2"
+
+#: src/common.cpp:340
+msgid "normal"
+msgstr "нормальный"
+
+#: src/common.cpp:344
+msgid "high"
+msgstr "высокий"
+
+#: src/common.cpp:380
+#, qt-format
+msgid "Invalid file priority name: '%1'."
+msgstr "Неправильное имя приоритета: '%1'."
+
+#: src/common.cpp:499
+msgid "[Invalid encoding]"
+msgstr "[Неверная кодировка]"
+
+#: src/common.cpp:629 src/common.cpp:632 src/common.cpp:686
+msgid "(short)|Paused"
+msgstr "На паузе"
+
+#: src/common.cpp:640
+msgid "(short)|Allocating"
+msgstr "Создание файлов"
+
+#: src/common.cpp:644
+msgid "(short)|Queued for checking"
+msgstr "В очереди на проверку"
+
+#: src/common.cpp:648
+msgid "(short)|Checking files"
+msgstr "Проверка файлов"
+
+#: src/common.cpp:652
+msgid "Waiting for metadata download (short)|Metadata down wait"
+msgstr "Ожид. скач. метаданных"
+
+#: src/common.cpp:656
+msgid "Downloading metadata (short)|Metadata down"
+msgstr "Скач. метаданных"
+
+#: src/common.cpp:660
+msgid "Waiting for download (short)|Download wait"
+msgstr "Ожид. скач."
+
+#: src/common.cpp:664
+msgid "(short)|Downloading"
+msgstr "Скачивание"
+
+#: src/common.cpp:668
+msgid "(short)|Seeding"
+msgstr "Раздача"
+
+#: src/common.cpp:672
+msgid "(short)|Uploading"
+msgstr "Отдача"
+
+#: src/common.cpp:676
+msgid "(short)|Unknown"
+msgstr "Неизвестно"
+
+#: src/common.cpp:851
+msgid "Tracker status is not given yet|Not given yet"
+msgstr "Еще не получен"
+
+#: src/common.cpp:854
+#, qt-format
+msgid "OK (%1)"
+msgstr "ОК (%1)"
+
+#: src/common.cpp:857
+msgid "There are no trackers has been setted for this torrent"
+msgstr "Для данного торрента не было задано ни одного трекера"
+
 #: src/create_torrent_dialog.cpp:159
 msgid "Hashing files..."
 msgstr "Хэширование файлов..."
@@ -786,95 +885,6 @@ msgstr ""
 #: src/create_torrent_dialog.cpp:739
 msgid "Please choose a file to create torrent from"
 msgstr "Пожалуйста, выберите файл, из которого необходимо создать торрент."
-
-#: src/common.cpp:55
-#, qt-format
-msgid "invalid auto clean action type '%1'"
-msgstr "неверное имя действия автоматической очистки торрентов ('%1')"
-
-#: src/common.cpp:247
-#, qt-format
-msgid "invalid IP address '%1'"
-msgstr "недопустимый IP-адрес '%1'"
-
-#: src/common.cpp:251
-#, qt-format
-msgid "invalid IP range %1-%2"
-msgstr "недопустимый диапазон IP-адресов %1-%2"
-
-#: src/common.cpp:340
-msgid "normal"
-msgstr "нормальный"
-
-#: src/common.cpp:344
-msgid "high"
-msgstr "высокий"
-
-#: src/common.cpp:380
-#, qt-format
-msgid "Invalid file priority name: '%1'."
-msgstr "Неправильное имя приоритета: '%1'."
-
-#: src/common.cpp:499
-msgid "[Invalid encoding]"
-msgstr "[Неверная кодировка]"
-
-#: src/common.cpp:629 src/common.cpp:632 src/common.cpp:686
-msgid "(short)|Paused"
-msgstr "На паузе"
-
-#: src/common.cpp:640
-msgid "(short)|Allocating"
-msgstr "Создание файлов"
-
-#: src/common.cpp:644
-msgid "(short)|Queued for checking"
-msgstr "В очереди на проверку"
-
-#: src/common.cpp:648
-msgid "(short)|Checking files"
-msgstr "Проверка файлов"
-
-#: src/common.cpp:652
-msgid "Waiting for metadata download (short)|Metadata down wait"
-msgstr "Ожид. скач. метаданных"
-
-#: src/common.cpp:656
-msgid "Downloading metadata (short)|Metadata down"
-msgstr "Скач. метаданных"
-
-#: src/common.cpp:660
-msgid "Waiting for download (short)|Download wait"
-msgstr "Ожид. скач."
-
-#: src/common.cpp:664
-msgid "(short)|Downloading"
-msgstr "Скачивание"
-
-#: src/common.cpp:668
-msgid "(short)|Seeding"
-msgstr "Раздача"
-
-#: src/common.cpp:672
-msgid "(short)|Uploading"
-msgstr "Отдача"
-
-#: src/common.cpp:676
-msgid "(short)|Unknown"
-msgstr "Неизвестно"
-
-#: src/common.cpp:851
-msgid "Tracker status is not given yet|Not given yet"
-msgstr "Еще не получен"
-
-#: src/common.cpp:854
-#, qt-format
-msgid "OK (%1)"
-msgstr "ОК (%1)"
-
-#: src/common.cpp:857
-msgid "There are no trackers has been setted for this torrent"
-msgstr "Для данного торрента не было задано ни одного трекера"
 
 #: src/daemon.cpp:194
 #, qt-format
@@ -2608,3 +2618,6 @@ msgstr "Статус трекера:"
 #: ui/torrent_info_tabs.details.glade:653
 msgid "Publisher URL:"
 msgstr "URL источника:"
+
+#~ msgid "Select error: %1."
+#~ msgstr "Ошибка системного вызова select: %1."
