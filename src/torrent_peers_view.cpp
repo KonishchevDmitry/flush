@@ -281,7 +281,7 @@
 
 
 		if(m::gtk::update_row(row, this->model_columns.availability, peer.availability) || force_update)
-			m::gtk::update_row(row, this->model_columns.availability_string, m::to_string(peer.availability) + " %");
+			m::gtk::update_row(row, this->model_columns.availability_string, m::to_string(peer.availability) + "%");
 
 		if(m::gtk::update_row(row, this->model_columns.hash_fails, peer.hash_fails) || zeros_force_update)
 		{

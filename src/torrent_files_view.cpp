@@ -759,7 +759,7 @@ namespace
 						row[this->model_columns.size] = size;
 						row[this->model_columns.size_string] = m::size_to_string(size);
 						row[this->model_columns.progress] = 0;
-						row[this->model_columns.progress_string] = "0 %";
+						row[this->model_columns.progress_string] = "0%";
 
 						break;
 					}
@@ -779,7 +779,7 @@ namespace
 						cur_dir.row[this->model_columns.id] = -1;
 						cur_dir.row[this->model_columns.name] = name;
 						cur_dir.row[this->model_columns.progress] = 0;
-						cur_dir.row[this->model_columns.progress_string] = "0 %";
+						cur_dir.row[this->model_columns.progress_string] = "0%";
 					}
 				}
 			// <--
@@ -905,7 +905,7 @@ namespace
 							progress = 100;
 
 						if(m::gtk::update_row(row, this->model_columns.progress, progress))
-							m::gtk::update_row(row, this->model_columns.progress_string, m::to_string(progress) + " %");
+							m::gtk::update_row(row, this->model_columns.progress_string, m::to_string(progress) + "%");
 					// progress <--
 				// Статус дочерней директории <--
 			}
@@ -954,7 +954,7 @@ namespace
 					}
 
 					if(m::gtk::update_row(row, this->model_columns.progress, progress))
-						m::gtk::update_row(row, this->model_columns.progress_string, m::to_string(progress) + " %");
+						m::gtk::update_row(row, this->model_columns.progress_string, m::to_string(progress) + "%");
 				// Статус файла <--
 			}
 		}

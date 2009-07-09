@@ -76,7 +76,7 @@
             <property name="visible">True</property>
             <child>
               <widget class="GtkRadioButton" id="custom_port">
-                <property name="label" translatable="yes">Custom port range: </property>
+                <property name="label" translatable="yes">Custom port range:</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
@@ -87,6 +87,16 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="label14">
+                <property name="visible">True</property>
+                <property name="label"> </property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
@@ -145,7 +155,7 @@
               </widget>
               <packing>
                 <property name="expand">False</property>
-                <property name="position">1</property>
+                <property name="position">2</property>
               </packing>
             </child>
           </widget>
@@ -169,11 +179,21 @@
             <child>
               <widget class="GtkLabel" id="label5">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">Currently listen port: </property>
+                <property name="label" translatable="yes">Current listen port:</property>
               </widget>
               <packing>
                 <property name="expand">False</property>
                 <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="label15">
+                <property name="visible">True</property>
+                <property name="label"> </property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="position">2</property>
               </packing>
             </child>
             <child>
@@ -182,7 +202,7 @@
               </widget>
               <packing>
                 <property name="expand">False</property>
-                <property name="position">2</property>
+                <property name="position">3</property>
               </packing>
             </child>
           </widget>

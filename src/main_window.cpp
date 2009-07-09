@@ -350,7 +350,7 @@ Main_window::Main_window(const Main_window_settings& settings)
 				action_group->add(Gtk::Action::create("toolbar", _("_Toolbar")));
 
 				this->gui->menu_show_toolbar_action = Gtk::ToggleAction::create(
-					"toolbar/show", _Q("'Show ...' toggle|Show"), "",
+					"toolbar/show", _Q("'Show ...' toggle|_Show"), "",
 					get_client_settings().gui.show_toolbar
 				);
 				action_group->add(
@@ -427,7 +427,7 @@ Main_window::Main_window(const Main_window_settings& settings)
 				action_group->add(Gtk::Action::create("categories", _("_Categories")));
 
 				action = Gtk::ToggleAction::create(
-					"categories/show", _Q("'Show ...' toggle|Show"), "",
+					"categories/show", _Q("'Show ...' toggle|_Show"), "",
 					get_client_settings().gui.main_window.torrents_viewport.categories_view->visible
 				);
 				action_group->add(
@@ -437,7 +437,7 @@ Main_window::Main_window(const Main_window_settings& settings)
 				);
 
 				action = Gtk::ToggleAction::create(
-					"categories/show_names", _("Show names"), "",
+					"categories/show_names", _("Show _names"), "",
 					get_client_settings().gui.main_window.torrents_viewport.categories_view->show_names
 				);
 				action_group->add(
@@ -447,7 +447,7 @@ Main_window::Main_window(const Main_window_settings& settings)
 				);
 
 				action = Gtk::ToggleAction::create(
-					"categories/show_counters", _("Show counters"), "",
+					"categories/show_counters", _("Show _counters"), "",
 					get_client_settings().gui.main_window.torrents_viewport.categories_view->show_counters
 				);
 				action_group->add(

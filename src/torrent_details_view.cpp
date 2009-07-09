@@ -213,7 +213,7 @@
 				this->status->set_text(
 					"  " + details.name + ": " +
 					details.get_status_string() + " " +
-					m::to_string(details.progress) + " %  "
+					m::to_string(details.progress) + "%  "
 				);
 				this->status->set_fraction( static_cast<double>(details.progress) / 100 );
 
