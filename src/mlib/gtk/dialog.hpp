@@ -25,8 +25,9 @@
 	#include <gtkmm/dialog.h>
 	#include <gtkmm/window.h>
 
-	#include "misc.hpp"
-	#include "window_settings.hpp"
+	#include <mlib/gtk/main.hpp>
+	#include <mlib/gtk/misc.hxx>
+	#include <mlib/gtk/window_settings.hpp>
 
 
 	namespace m { namespace gtk {

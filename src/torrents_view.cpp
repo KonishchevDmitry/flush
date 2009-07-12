@@ -23,6 +23,7 @@
 
 #include <string>
 
+#include <mlib/main.hpp>
 #if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 36, 0)
 	#include <boost/unordered_map.hpp>
 #else
@@ -43,10 +44,12 @@
 #include <mlib/gtk/tree_view.hpp>
 #include <mlib/fs.hpp>
 #include <mlib/libtorrent.hpp>
+#include <mlib/string.hpp>
 
 #include "app_icons.hpp"
 #include "application.hpp"
 #include "client_settings.hpp"
+#include "common.hpp"
 #include "daemon_proxy.hpp"
 #include "gui_lib.hpp"
 #include "main.hpp"

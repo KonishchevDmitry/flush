@@ -25,6 +25,8 @@
 	#include <gtkmm/dialog.h>
 	#include <gtkmm/table.h>
 
+	#include "common.hpp"
+
 
 	/// Окно для отображения статистической информации о текущей и прошлых
 	/// сессиях.

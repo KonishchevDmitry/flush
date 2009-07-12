@@ -18,8 +18,6 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
-
 #include <gdk/gdk.h>
 
 #include "main.hpp"
@@ -27,6 +25,21 @@
 
 
 namespace m { namespace gtk {
+
+const unsigned int MOUSE_LEFT_BUTTON = 1;
+const unsigned int MOUSE_RIGHT_BUTTON = 3;
+
+int WINDOW_BORDER_WIDTH = 5;
+int BOX_BORDER_WIDTH = WINDOW_BORDER_WIDTH ;
+
+int HBOX_SPACING = 5;
+int VBOX_SPACING = 5;
+
+int TABLE_NAME_VALUE_SPACING = HBOX_SPACING * 2;
+int TABLE_ROWS_SPACING = VBOX_SPACING;
+int TABLE_NAME_VALUE_COLUMNS_SPACING = HBOX_SPACING * 10;
+
+
 
 Scoped_enter::Scoped_enter(void)
 {
@@ -41,6 +54,4 @@ Scoped_enter::~Scoped_enter(void)
 }
 
 }}
-
-#endif
 

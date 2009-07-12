@@ -18,7 +18,6 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
 #ifndef HEADER_MLIB_GTK_PANED_SETTINGS
 #define HEADER_MLIB_GTK_PANED_SETTINGS
 
@@ -39,6 +38,5 @@ namespace m { namespace gtk {
 
 }}
 
-#endif
 #endif
 

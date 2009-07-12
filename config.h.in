@@ -114,6 +114,10 @@
 /* Enable libconfig support for mlib */
 #undef MLIB_ENABLE_LIBCONFIG
 
+/* Disable including library's forwards declarations for compile time reducing
+   */
+#undef MLIB_ENABLE_LIBS_FORWARDS
+
 /* Enable libtorrent support for mlib */
 #undef MLIB_ENABLE_LIBTORRENT
 

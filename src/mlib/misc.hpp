@@ -22,116 +22,15 @@
 #define HEADER_MLIB_MISC
 
 #include <semaphore.h>
-#include <unistd.h>
 
-#include <string>
-#include <utility>
-#include <vector>
-
-#include <boost/type_traits/add_const.hpp>
-#include <boost/type_traits/remove_const.hpp>
-#include <boost/typeof/typeof.hpp>
 #include <boost/noncopyable.hpp>
-#include <boost/version.hpp>
 
-#include "errors.hpp"
-#include "types.hpp"
+#include <mlib/main.hpp>
 
-
-struct epoll_event;
-
-
-// Макроопределения для обхода контейнеров.
-// Сделаны для того, чтобы избежать написания очень длинных
-// for инcтрукций.
-// -->
-	#define M_FOR_IT(container, iter) \
-		for( \
-			boost::remove_const<BOOST_TYPEOF(container)>::type::iterator iter = (container).begin(), \
-			mlib_end_iter = (container).end(); \
-			iter != mlib_end_iter; ++iter \
-		)
-
-	#define M_FOR_CONST_IT(container, iter) \
-		for( \
-			boost::add_const<BOOST_TYPEOF(container)>::type::const_iterator iter = (container).begin(), \
-			mlib_end_iter = (container).end(); \
-			iter != mlib_end_iter; ++iter \
-		)
-
-	#define M_FOR_REVERSE_IT(container, iter) \
-		for( \
-			boost::remove_const<BOOST_TYPEOF(container)>::type::reverse_iterator iter = (container).rbegin(), \
-			mlib_end_iter = (container).rend(); \
-			iter != mlib_end_iter; ++iter \
-		)
-
-	#define M_FOR_CONST_REVERSE_IT(container, iter) \
-		for( \
-			boost::add_const<BOOST_TYPEOF(container)>::type::const_reverse_iterator iter = (container).rbegin(), \
-			mlib_end_iter = (container).rend(); \
-			iter != mlib_end_iter; ++iter \
-		)
-// <--
-
-/// Возвращает тип переменной. Удобен в тех случаях, когда необходимо, к
-/// примеру, получить тип итератора по контейнеру:
-/// std::vector<int> vec;
-/// M_TYPEOF(vec)::iterator vec_iter;
-#define M_TYPEOF(variable) m::Get_type<BOOST_TYPEOF(variable)>::type
-
-/// Возвращает тип итератора для контейнера container.
-/// std::vector<int> vec;
-/// M_ITER_TYPE(vec) vec_iter;
-#define M_ITER_TYPE(container) M_TYPEOF(container)::iterator
-
-/// Возвращает тип константного итератора для контейнера container.
-/// std::vector<int> vec;
-/// M_CONST_ITER_TYPE(vec) vec_iter;
-#define M_CONST_ITER_TYPE(container) M_TYPEOF(container)::const_iterator
-
-/// Подсчитывает размер статического массива.
-#define M_STATIC_ARRAY_SIZE(array) ( sizeof array / sizeof *array )
-
-/// Необходима только для работы с препроцессором. Там, где номер
-/// версии используется не в условиях препроцессора, лучше использовать
-/// m::get_version().
-#define M_GET_VERSION(major, minor, sub_minor) ( (major) * 1000000 + (minor) * 1000 + (sub_minor) )
-
-/// Необходима только для работы с препроцессором. Там, где номер
-/// версии используется не в условиях препроцессора, лучше использовать
-/// m::get_major_minor_version().
-#define M_GET_MAJOR_MINOR_VERSION(version) ( (version) / 1000 * 1000 )
-
-/// Возвращает версию boost.
-#define M_BOOST_GET_VERSION() M_GET_VERSION(BOOST_VERSION / 100000, BOOST_VERSION / 100 % 1000, BOOST_VERSION % 100)
-
-#ifdef MLIB_ENABLE_LIBTORRENT
-	#include <libtorrent/version.hpp>
-
-	// До 0.14.3 LIBTORRENT_VERSION_TINY не существовало
-	#if LIBTORRENT_VERSION_MAJOR == 0 && LIBTORRENT_VERSION_MINOR <= 14
-		#ifndef LIBTORRENT_VERSION_TINY
-			#define LIBTORRENT_VERSION_TINY 0
-		#endif
-	#endif
-
-	/// Необходима только для работы с препроцессором. Там, где номер
-	/// версии используется не в условиях препроцессора, лучше использовать
-	/// m::libtorrent::get_version().
-	#define M_LT_GET_VERSION() ( (LIBTORRENT_VERSION_MAJOR) * 1000000 + (LIBTORRENT_VERSION_MINOR) * 1000 + (LIBTORRENT_VERSION_TINY) )
-	#define M_LT_GET_MAJOR_MINOR_VERSION() ( (LIBTORRENT_VERSION_MAJOR) * 1000000 + (LIBTORRENT_VERSION_MINOR) * 1000 )
-#endif
-
+#include "misc.hxx"
 
 
 namespace m {
-
-/// Минимальный номер сетевого порта.
-extern uint16_t PORT_MIN;
-
-/// Максимальный номер сетевого порта.
-extern uint16_t PORT_MAX;
 
 
 class Buffer
@@ -156,8 +55,7 @@ class Buffer
 		char *		get_data(void) const;
 
 		/// Возвращает текущий размер буфера.
-		inline
-		size_t		get_size(void) const;
+		size_t		get_size(void) const { return this->size; }
 
 		/// Смещает текущую позицию в буфере.
 		Buffer &	increase_pos(const int inc);
@@ -228,47 +126,6 @@ class Connection
 
 
 
-/// Предназначен для автоматического закрытия файловых дескрипторов.
-class File_holder: public boost::noncopyable
-{
-	public:
-		inline
-		File_holder(void);
-
-		inline
-		File_holder(int fd);
-
-		inline
-		~File_holder(void);
-
-
-	private:
-		int	fd;
-
-
-	public:
-		/// @throw - m::Sys_exception.
-		inline void	close(void);
-
-		inline int	get(void) const;
-
-		inline int	reset(void);
-
-		/// @throw - m::Sys_exception.
-		inline void	set(int fd);
-};
-
-
-
-/// Предназначен для получения типа (метапрограммирование).
-template<class T>
-struct Get_type
-{
-	typedef T type;
-};
-
-
-
 /// Обертка над UNIX семафором.
 class Semaphore: public boost::noncopyable
 {
@@ -288,6 +145,14 @@ class Semaphore: public boost::noncopyable
 
 
 
+/// Минимальный номер сетевого порта.
+extern uint16_t PORT_MIN;
+
+/// Максимальный номер сетевого порта.
+extern uint16_t PORT_MAX;
+
+
+
 /// Закрывает все файловые дескрипторы, оставляя только stdin, stdout и stderr.
 /// @throw - m::Exception.
 void				close_all_fds(void);
@@ -295,35 +160,6 @@ void				close_all_fds(void);
 /// Возвращает строку копирайта.
 /// @param start_year - год, в котором была написана программа.
 std::string			get_copyright_string(const std::string& author, const int start_year);
-
-/// Возвращает строку-префикс для сообщений, которые пишутся в лог.
-std::string			get_log_debug_prefix(const char* file, int line);
-
-/// Возвращает major версию.
-inline
-int					get_major_version(Version version);
-
-/// Возвращает версию, включающую в себя major и minor версии,
-/// т. е., иными словами, это та же version, но с обнуленной
-/// sub-minor версией.
-inline
-Version				get_major_minor_version(Version version);
-
-/// Возвращает minor версию.
-inline
-int					get_minor_version(Version version);
-
-/// Возвращает sub-minor версию.
-inline
-int					get_sub_minor_version(Version version);
-
-/// Создает числовое представление версии.
-inline
-Version				get_version(int major, int minor, int sub_minor);
-
-/// Проверяет, является ли версия правильно сформированной.
-inline
-bool				is_valid_version(Version version);
 
 /// Аналогична страндартному realloc, но в случае неудачной
 /// попытки выделения памяти вызывает m::error.
@@ -335,55 +171,8 @@ void*				realloc(void *ptr, const size_t size);
 /// @throw - m::Exception.
 void				run(const std::string& cmd_name, const std::vector<std::string>& args);
 
-/// Обертка над setenv.
-/// @throw - m::Exception.
-void				setenv(const std::string& name, const std::string& value, bool overwrite);
-
-/// Преобразовывает время в структуре tm в реальное время
-/// (они различаются по годам).
-inline
-void				tm_to_real_time(struct tm* date);
-
-/// Аналог системного close().
-/// @throw - m::Exception.
-void				unix_close(int fd);
-
-/// Аналог системного dup().
-/// @throw - m::Exception.
-int					unix_dup(int fd);
-
-/// Аналог системного dup().
-/// @throw - m::Exception.
-void				unix_dup(int oldfd, int newfd);
-
-/// Аналог системного epoll_ctl().
-/// @throw - m::Sys_exception.
-void				unix_epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);
-
-/// Аналог системного epoll_create().
-/// @throw - m::Sys_exception.
-int					unix_epoll_create(void);
-
-/// Аналог системного epoll_wait().
-/// @throw - m::Sys_exception.
-int					unix_epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);
-
-/// Аналог системного unix_execvp;
-/// @throw - m::Sys_exception.
-void				unix_execvp(const std::string& command, const std::vector<std::string>& args);
-
-/// Аналог системного fork().
-/// @throw - m::Exception.
-pid_t				unix_fork(void);
-
-/// Аналог системного pipe().
-/// @throw - m::Exception.
-std::pair<int, int>	unix_pipe(void);
 
 }
 
-#include "misc.hh"
-
 #endif
-
 

@@ -30,10 +30,13 @@
 #include <gtkmm/label.h>
 #include <gtkmm/progressbar.h>
 
+#include <mlib/string.hpp>
+
 #include <mlib/gtk/glade.hpp>
 #include <mlib/gtk/misc.hpp>
 
 #include "application.hpp"
+#include "common.hpp"
 #include "daemon_proxy.hpp"
 #include "main.hpp"
 #include "torrent_details_view.hpp"

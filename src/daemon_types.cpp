@@ -30,6 +30,7 @@
 
 #include <mlib/libtorrent.hpp>
 
+#include "common.hpp"
 #include "daemon_settings.hpp"
 #include "daemon_types.hpp"
 

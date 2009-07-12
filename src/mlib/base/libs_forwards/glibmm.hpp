@@ -18,16 +18,12 @@
 **************************************************************************/
 
 
-#ifdef MLIB_DEVELOP_MODE
-	#ifndef HEADER_MLIB_FORWARDS_GTKMM_TOOLBUTTON
-	#define HEADER_MLIB_FORWARDS_GTKMM_TOOLBUTTON
+#ifndef HEADER_MLIB_LIBS_FORWARDS_GLIBMM
+#define HEADER_MLIB_LIBS_FORWARDS_GLIBMM
 
-		namespace Gtk {
-			class ToolButton;
-		}
+namespace Glib {
+	class Dispatcher;
+}
 
-	#endif
-#else
-	#include <gtkmm/toolbutton.h>
 #endif
 

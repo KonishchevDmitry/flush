@@ -18,12 +18,12 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
 #ifndef HEADER_MLIB_GTK_TREE_VIEW_SETTINGS
 #define HEADER_MLIB_GTK_TREE_VIEW_SETTINGS
 
-#include <string>
 #include <deque>
+
+#include <mlib/gtk/main.hpp>
 
 
 namespace m { namespace gtk {
@@ -75,6 +75,5 @@ namespace m { namespace gtk {
 
 }}
 
-#endif
 #endif
 

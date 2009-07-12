@@ -40,6 +40,7 @@
 #include <mlib/fs.hpp>
 
 #include "application.hpp"
+#include "common.hpp"
 #include "create_torrent_dialog.hpp"
 #include "gui_lib.hpp"
 #include "main.hpp"
@@ -274,7 +275,7 @@ namespace
 					{
 						throw;
 					}
-					catch(boost::fs::basic_filesystem_error<boost::fs::path>& e)
+					catch(fs::basic_filesystem_error<fs::path>& e)
 					{
 						M_THROW(__(
 							"Error while reading torrent files. File '%1': %2.",
@@ -321,7 +322,7 @@ namespace
 					{
 						throw;
 					}
-					catch(boost::fs::basic_filesystem_error<boost::fs::path>& e)
+					catch(fs::basic_filesystem_error<fs::path>& e)
 					{
 						M_THROW(__(
 							"Error while reading torrent files. File '%1': %2.",
@@ -412,7 +413,7 @@ namespace
 					{
 						M_THROW(__(
 							"Can't write torrent file '%1': %2.",
-							this->torrent_source.save_path, EE(errno)
+							this->torrent_source.save_path, EE()
 						));
 					}
 					catch(...)

@@ -18,49 +18,18 @@
 **************************************************************************/
 
 
-namespace m { namespace libtorrent {
+#ifndef HEADER_MLIB_LIBS_FORWARDS_LIBCONFIG
+#define HEADER_MLIB_LIBS_FORWARDS_LIBCONFIG
 
-Torrent_file::Torrent_file(void)
-{
+namespace libconfig {
+
+	class FileIOException;
+	class ParseException;
+
+	class Config;
+	class Setting;
+
 }
 
-
-
-Torrent_file::Torrent_file(int id, const std::string& path, Size size)
-:
-	id(id),
-	path(path),
-	size(size)
-{
-}
-
-
-
-std::string Torrent_file::get_path(void)
-{
-	return this->path;
-}
-
-
-
-void Torrent_file::set_path(std::string path)
-{
-	this->path = path;
-}
-
-
-
-bool Torrent_file::operator<(const Torrent_file& file) const
-{
-	return this->path < file.path;
-}
-
-
-
-Version get_version(void)
-{
-	return ::m::get_version(LIBTORRENT_VERSION_MAJOR, LIBTORRENT_VERSION_MINOR, 0);
-}
-
-}}
+#endif
 

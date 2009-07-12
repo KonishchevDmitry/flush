@@ -26,9 +26,11 @@
 
 #include <mlib/gtk/toolbar.hpp>
 #include <mlib/fs.hpp>
+#include <mlib/libconfig.hpp>
 
 #include "categories_view.hpp"
 #include "client_settings.hpp"
+#include "common.hpp"
 
 
 #define CHECK_OPTION_TYPE(setting, type, action)																		\
@@ -1035,11 +1037,11 @@ Config* get(smart_ptr& ptr)
 				m::fs::get_abs_path_lazy(config_path), EE(e)
 			));
 		}
-		catch(libconfig::FileIOException e)
+		catch(libconfig::FileIOException& e)
 		{
 			M_THROW(__("Can't read configuration file '%1': %2.", m::fs::get_abs_path_lazy(real_config_path), EE(e)));
 		}
-		catch(libconfig::ParseException e)
+		catch(libconfig::ParseException& e)
 		{
 			M_THROW(__("Can't parse configuration file '%1': %2.", m::fs::get_abs_path_lazy(real_config_path), EE(e)));
 		}
@@ -1055,10 +1057,10 @@ Config* get(smart_ptr& ptr)
 				CHECK_OPTION_TYPE(setting, m::libconfig::Version_type, M_THROW_EMPTY())
 				client_version = static_cast<m::libconfig::Version>(setting);
 			}
-			catch(m::Exception)
+			catch(m::Exception&)
 			{
 			}
-			catch(libconfig::SettingNotFoundException)
+			catch(libconfig::SettingNotFoundException&)
 			{
 			}
 		// Получаем версию клиента, который производил запись конфига <--
@@ -1121,7 +1123,7 @@ Config* get(smart_ptr& ptr)
 					m::fs::get_abs_path_lazy(config_path), EE(e)
 				));
 			}
-			catch(libconfig::FileIOException e)
+			catch(libconfig::FileIOException& e)
 			{
 				M_THROW(__(
 					"Can't write configuration file '%1': %2.",

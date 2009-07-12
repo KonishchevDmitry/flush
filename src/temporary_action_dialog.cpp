@@ -28,6 +28,7 @@
 #include <mlib/gtk/glade.hpp>
 
 #include "client_settings.hpp"
+#include "common.hpp"
 #include "gui_lib.hpp"
 #include "main.hpp"
 #include "temporary_action_dialog.hpp"

@@ -32,6 +32,7 @@
 	#include <mlib/libtorrent.hpp>
 
 	#include "client_settings.hpp"
+	#include "common.hpp"
 
 
 

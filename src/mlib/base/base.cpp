@@ -18,76 +18,13 @@
 **************************************************************************/
 
 
-namespace m
-{
-
-size_t Buffer::get_size(void) const
-{
-	return this->size;
-}
+#include "base.hpp"
 
 
-
-// File_holder -->
-	File_holder::File_holder(void)
-	:
-		fd(-1)
-	{
-	}
+namespace m {
 
 
-
-	File_holder::File_holder(int fd)
-	:
-		fd(fd)
-	{
-	}
-
-
-
-	File_holder::~File_holder(void)
-	{
-		try
-		{
-			this->close();
-		}
-		catch(m::Sys_exception&)
-		{
-		}
-	}
-
-
-
-	void File_holder::close(void)
-	{
-		if(this->get() >= 0)
-			unix_close(this->reset());
-	}
-
-
-
-	int File_holder::get(void) const
-	{
-		return this->fd;
-	}
-
-
-
-	int File_holder::reset(void)
-	{
-		int fd = this->fd;
-		this->fd = -1;
-		return fd;
-	}
-
-
-
-	void File_holder::set(int fd)
-	{
-		this->close();
-		this->fd = fd;
-	}
-// File_holder <--
+const Version NO_VERSION = 0;
 
 
 
@@ -131,12 +68,6 @@ bool is_valid_version(Version version)
 	return version > 0;
 }
 
-
-
-void tm_to_real_time(struct tm* date)
-{
-	date->tm_year += 1900;
-}
 
 }
 

@@ -18,18 +18,14 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
 #ifndef HEADER_MLIB_GTK_TOOLBAR
 	#define HEADER_MLIB_GTK_TOOLBAR
 
 	/// Слегка облегчает работу с Gtk::Toolbar.
 
-	#include <string>
-
 	#include <gtkmm/toolbar.h>
 
-	#include <mlib/errors.hpp>
-	#include "types.hpp"
+	#include <mlib/main.hpp>
 
 
 	namespace m { namespace gtk { namespace toolbar {
@@ -64,6 +60,5 @@
 
 	}}}
 
-#endif
 #endif
 

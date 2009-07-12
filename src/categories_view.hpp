@@ -29,6 +29,7 @@
 #include <mlib/gtk/signal_proxy.hxx>
 
 #include "categories_view.hxx"
+#include "common.hpp"
 
 
 namespace Categories_view_aux { class Impl; }

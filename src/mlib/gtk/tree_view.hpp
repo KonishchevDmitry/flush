@@ -18,11 +18,9 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
 #ifndef HEADER_MLIB_GTK_TREE_VIEW
 #define HEADER_MLIB_GTK_TREE_VIEW
 
-#include <string>
 #include <deque>
 
 #include <gtkmm/actiongroup.h>
@@ -31,14 +29,8 @@
 #include <gtkmm/treeviewcolumn.h>
 #include <gtkmm/uimanager.h>
 
-#include "../messages.hpp"
-#include "../misc.hpp"
-#include "../string.hpp"
-#include "../types.hpp"
-
-#include "misc.hpp"
-#include "tree_view_settings.hpp"
-#include "types.hpp"
+#include <mlib/gtk/main.hpp>
+#include <mlib/gtk/tree_view_settings.hpp>
 
 
 #define M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(id, description)					\
@@ -234,6 +226,5 @@ class Tree_view: public Gtk::TreeView
 
 #include "tree_view.hh"
 
-#endif
 #endif
 

@@ -1,12 +1,26 @@
+/**************************************************************************
+*                                                                         *
+*   Flush - GTK-based BitTorrent client                                   *
+*   http://sourceforge.net/projects/flush                                 *
+*                                                                         *
+*   Copyright (C) 2009, Konishchev Dmitry                                 *
+*   http://konishchevdmitry.blogspot.com/                                 *
+*                                                                         *
+*   This program is free software; you can redistribute it and/or modify  *
+*   it under the terms of the GNU General Public License as published by  *
+*   the Free Software Foundation; either version 3 of the License, or     *
+*   (at your option) any later version.                                   *
+*                                                                         *
+*   This program is distributed in the hope that it will be useful,       *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+*   GNU General Public License for more details.                          *
+*                                                                         *
+**************************************************************************/
+
 #include <memory>
 #include <string>
 #include <limits>
-
-#if M_BOOST_GET_VERSION() > M_GET_VERSION(1, 35, 0)
-	#include <boost/exception.hpp>
-#elif M_BOOST_GET_VERSION() == M_GET_VERSION(1, 35, 0)
-	#include <boost/system/system_error.hpp>
-#endif
 
 #include <glibmm/convert.h>
 #include <glibmm/regex.h>
@@ -20,7 +34,17 @@
 #include <libtorrent/torrent_handle.hpp>
 #include <libtorrent/torrent_info.hpp>
 
+#include <mlib/main.hpp>
+#include <mlib/string.hpp>
+
+#include "common.hpp"
 #include "daemon_types.hpp"
+
+#if M_BOOST_GET_VERSION() > M_GET_VERSION(1, 35, 0)
+	#include <boost/exception.hpp>
+#elif M_BOOST_GET_VERSION() == M_GET_VERSION(1, 35, 0)
+	#include <boost/system/system_error.hpp>
+#endif
 
 
 

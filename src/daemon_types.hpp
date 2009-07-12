@@ -24,6 +24,7 @@
 
 	#include <libtorrent/torrent_handle.hpp>
 
+	#include "common.hpp"
 	#include "daemon_settings.hpp"
 
 

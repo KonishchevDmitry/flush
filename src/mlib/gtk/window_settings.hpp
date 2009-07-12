@@ -18,7 +18,6 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
 #ifndef HEADER_MLIB_GTK_WINDOW_SETTINGS
 #define HEADER_MLIB_GTK_WINDOW_SETTINGS
 
@@ -38,6 +37,5 @@ class Window_settings
 
 }}
 
-#endif
 #endif
 

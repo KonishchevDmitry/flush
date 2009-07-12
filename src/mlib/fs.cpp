@@ -18,52 +18,30 @@
 **************************************************************************/
 
 
-#ifndef MLIB_ENABLE_ALIASES
-	#define MLIB_ENABLE_ALIASES
-#endif
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 #include <cerrno>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <utime.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
-#include <boost/version.hpp>
+
+#include <glibmm/miscutils.h>
+
+#include <mlib/main.hpp>
+#include <mlib/sys.hpp>
 
 #include "fs.hpp"
-#include "messages.hpp"
-#include "misc.hpp"
-#include "string.hpp"
 
-#define M_FILE_PATH_MAX_SIZE 1024
+
+namespace boost_fs = boost::filesystem;
 
 
 
-namespace m
-{
-namespace error_string
-{
-	std::string get(const boost::fs::basic_filesystem_error<boost::fs::path>& error)
-	{
-		#if M_BOOST_GET_VERSION() < M_GET_VERSION(1, 35, 0)
-			M_LIBRARY_COMPATIBILITY
-			return strerror(error.system_error());
-		#else
-			return strerror(error.code().value());
-		#endif
-	}
-}
-}
+namespace m { namespace fs {
 
 
-
-namespace m
-{
-namespace fs
-{
 namespace config
 {
 	namespace
@@ -84,9 +62,9 @@ namespace config
 
 	std::string start_reading(const std::string& config_path)
 	{
-		if(m::fs::is_exists(config_path))
+		if(is_exists(config_path))
 			return config_path;
-		else if(m::fs::is_exists(get_temp_config_file_path(config_path)))
+		else if(is_exists(get_temp_config_file_path(config_path)))
 			return get_temp_config_file_path(config_path);
 		else
 			return config_path;
@@ -96,8 +74,8 @@ namespace config
 
 	std::string start_writing(const std::string& config_path)
 	{
-		if(!m::fs::is_exists(config_path) && m::fs::is_exists(get_temp_config_file_path(config_path)))
-			m::fs::cp(get_temp_config_file_path(config_path), config_path);
+		if(!is_exists(config_path) && is_exists(get_temp_config_file_path(config_path)))
+			cp(get_temp_config_file_path(config_path), config_path);
 
 		return get_temp_config_file_path(config_path);
 	}
@@ -106,21 +84,15 @@ namespace config
 
 	void end_writing(const std::string& config_path)
 	{
-		if(m::fs::is_exists(config_path))
-			m::fs::rm(config_path);
+		if(is_exists(config_path))
+			rm(config_path);
 
-		m::fs::unix_rename(get_temp_config_file_path(config_path), config_path);
+		sys::unix_rename(get_temp_config_file_path(config_path), config_path);
 	}
 }
-}
-}
 
 
 
-namespace m
-{
-namespace fs
-{
 namespace tree
 {
 // File -->
@@ -182,7 +154,7 @@ namespace tree
 			{
 				try
 				{
-					m::fs::copy_file(src_path, dest_path, true);
+					copy_file(src_path, dest_path, true);
 				}
 				catch(m::Exception& e)
 				{
@@ -197,7 +169,7 @@ namespace tree
 
 					try
 					{
-						m::fs::tree::cp(src_path + "/", dest_path + "/", boost::dynamic_pointer_cast<const Directory>(file));
+						tree::cp(src_path + "/", dest_path + "/", boost::dynamic_pointer_cast<const Directory>(file));
 					}
 					catch(m::Exception& e)
 					{
@@ -209,11 +181,11 @@ namespace tree
 						// Копируем время модификации с исходной директории -->
 							if(new_dir_created)
 							{
-								Stat dir_stat;
+								sys::Stat dir_stat;
 
 								try
 								{
-									dir_stat = unix_stat(src_path);
+									dir_stat = sys::unix_stat(src_path);
 								}
 								catch(m::Exception& e)
 								{
@@ -227,7 +199,7 @@ namespace tree
 
 								try
 								{
-									unix_utime(dest_path, dir_stat);
+									sys::unix_utime(dest_path, dir_stat);
 								}
 								catch(m::Exception& e)
 								{
@@ -376,7 +348,7 @@ namespace tree
 
 			try
 			{
-				if(!m::fs::is_exists(file_path, false))
+				if(!is_exists(file_path, false))
 					continue;
 			}
 			catch(m::Exception& e)
@@ -391,7 +363,7 @@ namespace tree
 
 				try
 				{
-					unix_unlink(file_path);
+					sys::unix_unlink(file_path);
 				}
 				catch(m::Exception& e)
 				{
@@ -404,7 +376,7 @@ namespace tree
 
 				try
 				{
-					m::fs::tree::rm(file_path + "/", boost::dynamic_pointer_cast<const Directory>(file));
+					tree::rm(file_path + "/", boost::dynamic_pointer_cast<const Directory>(file));
 				}
 				catch(m::Exception& e)
 				{
@@ -414,12 +386,12 @@ namespace tree
 				try
 				{
 					// Если директория пуста
-					if(boost::fs::directory_iterator(U2L(file_path)) == boost::fs::directory_iterator())
-						unix_rmdir(file_path);
+					if(boost_fs::directory_iterator(U2L(file_path)) == boost_fs::directory_iterator())
+						sys::unix_rmdir(file_path);
 				}
 				catch(boost::filesystem::filesystem_error)
 				{
-					errors += __("Can't read directory '%1': %2.", file_path, EE(errno));
+					errors += __("Can't read directory '%1': %2.", file_path, EE());
 				}
 				catch(m::Exception& e)
 				{
@@ -430,8 +402,6 @@ namespace tree
 
 		errors.throw_if_exists();
 	}
-}
-}
 }
 
 
@@ -459,12 +429,12 @@ namespace
 			{
 				std::string parent_dir_path = Path(path).dirname();
 
-				if(!stat(U2L(parent_dir_path).c_str(), &stat_buf))
+				if(!::stat(U2L(parent_dir_path).c_str(), &stat_buf))
 					return 0;
 				else if(errno == ENOENT)
 					M_THROW(_("parent directory is not exists"));
 				else
-					M_THROW(EE(errno));
+					M_THROW(EE());
 			}
 			else
 				return 0;
@@ -474,16 +444,11 @@ namespace
 		// (судя по пути) не является директорией
 		// и т. п.
 		else
-			M_THROW(EE(errno));
+			M_THROW(EE());
 	}
 }
 
 
-
-namespace m
-{
-namespace fs
-{
 
 // Path -->
 	Path::Path(void)
@@ -493,28 +458,28 @@ namespace fs
 
 
 	Path::Path(const char* path_string)
-	: boost::fs::path(path_string)
+	: boost_fs::path(path_string)
 	{
 	}
 
 
 
 	Path::Path(const std::string& path_string)
-	: boost::fs::path(path_string)
+	: boost_fs::path(path_string)
 	{
 	}
 
 
 
 	Path::Path(const Glib::ustring& path_string)
-	: boost::fs::path(path_string)
+	: boost_fs::path(path_string)
 	{
 	}
 
 
 
-	Path::Path(const boost::fs::path& path)
-	: boost::fs::path(path)
+	Path::Path(const boost_fs::path& path)
+	: boost_fs::path(path)
 	{
 	}
 
@@ -523,7 +488,7 @@ namespace fs
 	Path& Path::absolute(void)
 	{
 		if(!this->is_absolute())
-			*this = Path(unix_get_cwd() + "/" + this->string()).normalize();
+			*this = Path(sys::unix_get_cwd() + "/" + this->string()).normalize();
 
 		return *this;
 	}
@@ -628,7 +593,7 @@ namespace fs
 			std::vector<std::string> path_components;
 
 			{
-				boost::fs::path::iterator it = this->begin();
+				boost_fs::path::iterator it = this->begin();
 
 				if(*it == "/")
 				{
@@ -740,38 +705,6 @@ namespace fs
 
 
 
-// Stat -->
-	Stat::Stat(void)
-	{
-	}
-
-
-
-	Stat::Stat(const struct stat& c_stat)
-	:
-		dev(c_stat.st_dev),
-		ino(c_stat.st_ino),
-		mode(c_stat.st_mode),
-		nlink(c_stat.st_nlink),
-		uid(c_stat.st_uid),
-		gid(c_stat.st_gid),
-		rdev(c_stat.st_rdev),
-		size(c_stat.st_size),
-		blksize(c_stat.st_blksize),
-		blocks(c_stat.st_blocks),
-		atime(c_stat.st_atime),
-		mtime(c_stat.st_mtime),
-		ctime(c_stat.st_ctime)
-	{
-	}
-// Stat <--
-
-
-
-const size_t MAX_FILE_PATH_SIZE = 1024;
-
-
-
 bool check_extension(const std::string& file_name, const std::string& extension)
 {
 	size_t name_size = file_name.size();
@@ -792,33 +725,33 @@ void copy_file(const std::string& from_path, const std::string& to_path, bool er
 {
 	// TODO:
 	// Обработать ситуацию, когда тип файла меняется после
-	// выполнения unix_lstat.
+	// выполнения sys::unix_lstat().
 	// Также не копируются права доступа.
 
-	Stat file_stat = unix_lstat(from_path);
+	sys::Stat file_stat = sys::unix_lstat(from_path);
 
 	if(error_on_exists)
-		if(m::fs::is_exists(to_path, false))
+		if(is_exists(to_path, false))
 			M_THROW(_("file is already exists"));
 
 	if(file_stat.is_reg())
 	{
 		try
 		{
-			boost::fs::copy_file(U2L(from_path), U2L(to_path));
+			boost_fs::copy_file(U2L(from_path), U2L(to_path));
 
 			// m::Exception
-			unix_utime(to_path, file_stat);
+			sys::unix_utime(to_path, file_stat);
 		}
 		catch(boost::filesystem::filesystem_error)
 		{
-			M_THROW(EE(errno));
+			M_THROW(EE());
 		}
 	}
 	else if(file_stat.is_dir())
 		M_THROW(_("it is a directory"));
 	else if(file_stat.is_lnk())
-		unix_symlink(unix_readlink(from_path), to_path);
+		sys::unix_symlink(sys::unix_readlink(from_path), to_path);
 	else
 		M_THROW(_("it is a special file"));
 }
@@ -830,7 +763,7 @@ void copy_files(const std::string& src_root, const std::string& dest_root, const
 	MLIB_D(_C("Copying files from '%1' to '%2'...", src_root, dest_root));
 		try
 		{
-			if(!m::fs::is_exists(src_root, false))
+			if(!is_exists(src_root, false))
 				M_THROW(__("No such file or directory ('%1').", src_root));
 		}
 		catch(m::Exception& e)
@@ -840,7 +773,7 @@ void copy_files(const std::string& src_root, const std::string& dest_root, const
 
 		try
 		{
-			if(!m::fs::is_exists(dest_root, false))
+			if(!is_exists(dest_root, false))
 				M_THROW(__("No such file or directory ('%1').", dest_root));
 		}
 		catch(m::Exception& e)
@@ -848,10 +781,10 @@ void copy_files(const std::string& src_root, const std::string& dest_root, const
 			M_THROW(__("Can't stat '%1': %2.", dest_root, EE(e)));
 		}
 
-		m::fs::tree::cp(
+		tree::cp(
 			Path(src_root).normalize().string() + "/",
 			Path(dest_root).normalize().string() + "/",
-			m::fs::tree::create(files)
+			tree::create(files)
 		);
 	MLIB_D("All files has been copied successfully.");
 }
@@ -867,15 +800,15 @@ void cp(const std::string& from, const std::string& to)
 
 	try
 	{
-		boost::fs::path from_path(U2L(from));
-		boost::fs::path to_path(U2L(to));
-		boost::fs::directory_iterator end_it;
+		boost_fs::path from_path(U2L(from));
+		boost_fs::path to_path(U2L(to));
+		boost_fs::directory_iterator end_it;
 
-		if(boost::fs::is_directory(from_path))
+		if(boost_fs::is_directory(from_path))
 		{
 			try
 			{
-				unix_mkdir(to);
+				sys::unix_mkdir(to);
 			}
 			catch(m::Exception& e)
 			{
@@ -884,14 +817,14 @@ void cp(const std::string& from, const std::string& to)
 
 			m::Errors_pool errors;
 
-				for(boost::fs::directory_iterator it(from_path); it != end_it; it++)
+				for(boost_fs::directory_iterator it(from_path); it != end_it; it++)
 				{
 					try
 					{
 						#if BOOST_VERSION / 100 <= 1035
-							m::fs::cp( L2U((from_path / it->leaf()).string()), L2U((to_path / it->leaf()).string()) );
+							cp( L2U((from_path / it->leaf()).string()), L2U((to_path / it->leaf()).string()) );
 						#else
-							m::fs::cp( L2U((from_path / it->filename()).string()), L2U((to_path / it->filename()).string()) );
+							cp( L2U((from_path / it->filename()).string()), L2U((to_path / it->filename()).string()) );
 						#endif
 					}
 					catch(m::Exception& e)
@@ -906,7 +839,7 @@ void cp(const std::string& from, const std::string& to)
 		{
 			try
 			{
-				m::fs::copy_file(from, to);
+				copy_file(from, to);
 			}
 			catch(m::Exception& e)
 			{
@@ -916,7 +849,7 @@ void cp(const std::string& from, const std::string& to)
 	}
 	catch(boost::filesystem::filesystem_error)
 	{
-		M_THROW(__("Error while reading '%1': %2.", from, EE(errno)));
+		M_THROW(__("Error while reading '%1': %2.", from, EE()));
 	}
 }
 
@@ -946,7 +879,7 @@ std::string get_user_home_path(void)
 		// домашняя папка. Имя папки специально содержит кириллические символы
 		// - так лучше всего тестировать работу с различными локалями, т. к.
 		// ошибки сразу же вылезают наружу.
-		static std::string home_path = unix_get_cwd() + "/домашняя папка";
+		static std::string home_path = sys::unix_get_cwd() + "/домашняя папка";
 		return home_path;
 	#else
 		std::string user_home_path = Glib::get_home_dir();
@@ -991,14 +924,14 @@ bool mkdir_if_not_exists(const std::string& path)
 {
 	if(is_lexists(path))
 	{
-		if(!unix_stat(path).is_dir())
+		if(!sys::unix_stat(path).is_dir())
 			M_THROW(__("file '%1' is already exists", path));
 
 		return false;
 	}
 	else
 	{
-		unix_mkdir(path);
+		sys::unix_mkdir(path);
 		return true;
 	}
 }
@@ -1015,7 +948,7 @@ void mkdir_if_not_exists_with_race_conditions(const std::string& path)
 	{
 		try
 		{
-			if(unix_stat(path).is_dir())
+			if(sys::unix_stat(path).is_dir())
 				return;
 		}
 		catch(m::Exception)
@@ -1033,16 +966,16 @@ void rm(const std::string& path)
 	{
 		if(is_lexists(path))
 		{
-			if(unix_lstat(path).is_dir())
+			if(sys::unix_lstat(path).is_dir())
 			{
 				try
 				{
-					boost::fs::path dir_path(U2L(path));
-					boost::fs::directory_iterator end_it;
+					boost_fs::path dir_path(U2L(path));
+					boost_fs::directory_iterator end_it;
 
 					m::Errors_pool errors;
 
-						for(boost::fs::directory_iterator it(dir_path); it != end_it; it++)
+						for(boost_fs::directory_iterator it(dir_path); it != end_it; it++)
 						{
 							try
 							{
@@ -1060,7 +993,7 @@ void rm(const std::string& path)
 
 						try
 						{
-							unix_rmdir(path);
+							sys::unix_rmdir(path);
 						}
 						catch(m::Exception& e)
 						{
@@ -1071,11 +1004,11 @@ void rm(const std::string& path)
 				}
 				catch(boost::filesystem::filesystem_error)
 				{
-					M_THROW(__("Error while reading '%1': %2.", path, EE(errno)));
+					M_THROW(__("Error while reading '%1': %2.", path, EE()));
 				}
 			}
 			else
-				unix_unlink(path);
+				sys::unix_unlink(path);
 		}
 		else
 			M_THROW(__("file or directory '%1' is not exists", path));
@@ -1091,7 +1024,7 @@ void rm(const std::string& path)
 void rm_files_with_empty_dirs(const std::string& root, const std::vector<std::string>& files)
 {
 	MLIB_D(_C("Removing files with empty directories from '%1'...", root));
-		m::fs::tree::rm(Path(root).normalize().string() + "/", m::fs::tree::create(files));
+		tree::rm(Path(root).normalize().string() + "/", tree::create(files));
 	MLIB_D("All files has been successfully removed.");
 }
 
@@ -1121,7 +1054,7 @@ void sync_file(const std::string& path)
 {
 	try
 	{
-		m::File_holder file(m::fs::unix_open(U2L(path), O_APPEND));
+		sys::File_holder file(sys::unix_open(U2L(path), O_APPEND));
 
 		if(fsync(file.get()))
 			M_THROW_SYS(errno);
@@ -1133,187 +1066,21 @@ void sync_file(const std::string& path)
 }
 
 
-
-Stat unix_fstat(int fd)
-{
-	struct stat stat_buf;
-
-	if(fstat(fd, &stat_buf))
-		M_THROW_SYS(errno);
-
-	return stat_buf;
-}
+}}
 
 
 
-std::string unix_get_cwd(void)
-{
-	char *cwd;
+namespace m {
 
-	if( (cwd = get_current_dir_name()) )
+	std::string EE(const boost_fs::basic_filesystem_error<boost_fs::path>& error)
 	{
-		std::string cwd_string = cwd;
-		free(cwd);
-		return L2U(cwd_string);
+		#if M_BOOST_GET_VERSION() < M_GET_VERSION(1, 35, 0)
+			M_LIBRARY_COMPATIBILITY
+			return strerror(error.system_error());
+		#else
+			return strerror(error.code().value());
+		#endif
 	}
-	else
-		M_THROW_SYS(errno);
-}
 
-
-
-Stat unix_lstat(const std::string& path)
-{
-	struct stat stat_buf;
-
-	if(lstat(U2L(path).c_str(), &stat_buf))
-		M_THROW_SYS(errno);
-
-	return stat_buf;
-}
-
-
-
-void unix_mkdir(const std::string& path)
-{
-	if(mkdir(U2L(path).c_str(), 0777))
-		M_THROW_SYS(errno);
-}
-
-
-
-int unix_open(const std::string& path, int flags, mode_t mode)
-{
-	int fd;
-
-	if( (fd = open(U2L(path).c_str(), flags, mode)) >= 0 )
-		return fd;
-	else
-		M_THROW_SYS(errno);
-}
-
-
-
-std::string unix_readlink(const std::string& path)
-{
-	char target_path_buf[M_FILE_PATH_MAX_SIZE];
-	int written_bytes;
-
-	written_bytes = readlink(U2L(path).c_str(), target_path_buf, M_FILE_PATH_MAX_SIZE);
-
-	if(written_bytes >= M_FILE_PATH_MAX_SIZE)
-		M_THROW_SYS(ENAMETOOLONG, _("too big link target path"));
-	else if(written_bytes < 0)
-		M_THROW_SYS(errno);
-
-	target_path_buf[written_bytes] = '\0';
-
-	return L2U(target_path_buf);
-}
-
-
-
-ssize_t unix_read(int fd, void* buf, size_t size, bool non_block)
-{
-	ssize_t readed_bytes;
-
-	while(1)
-	{
-		if( (readed_bytes = read(fd, buf, size)) < 0 )
-		{
-			if(errno == EWOULDBLOCK && non_block)
-				return 0;
-			else if(errno == EINTR)
-				continue;
-			else
-				M_THROW_SYS(errno);
-		}
-		else
-		{
-			errno = 0;
-			return readed_bytes;
-		}
-	}
-}
-
-
-
-void unix_rename(const std::string& from, const std::string& to)
-{
-	if(rename(U2L(from).c_str(), U2L(to).c_str()))
-		M_THROW_SYS(errno);
-}
-
-
-
-void unix_rmdir(const std::string& path)
-{
-	if(rmdir(U2L(path).c_str()))
-		M_THROW_SYS(errno);
-}
-
-
-
-Stat unix_stat(const std::string& path)
-{
-	struct stat stat_buf;
-
-	if(stat(U2L(path).c_str(), &stat_buf))
-		M_THROW_SYS(errno);
-
-	return stat_buf;
-}
-
-
-
-void unix_symlink(const std::string& old_path, const std::string& new_path)
-{
-	if(symlink(U2L(old_path).c_str(), U2L(new_path).c_str()) < 0)
-		M_THROW_SYS(errno);
-}
-
-
-
-void unix_unlink(const std::string& path)
-{
-	if(unlink(U2L(path).c_str()))
-		M_THROW_SYS(errno);
-}
-
-
-
-void unix_utime(const std::string& path, const Stat& file_stat)
-{
-	struct utimbuf time_buf;
-	time_buf.actime = file_stat.atime;
-	time_buf.modtime = file_stat.mtime;
-
-	if(utime(U2L(path).c_str(), &time_buf))
-		M_THROW_SYS(errno);
-}
-
-
-
-ssize_t unix_write(int fd, const void* buf, size_t size, bool non_block)
-{
-	ssize_t written_bytes;
-
-	while(1)
-	{
-		if( (written_bytes = write(fd, buf, size)) < 0 )
-		{
-			if(errno == EWOULDBLOCK && non_block)
-				return 0;
-			else if(errno == EINTR)
-				continue;
-			else
-				M_THROW_SYS(errno);
-		}
-		else
-			return written_bytes;
-	}
-}
-
-}
 }
 

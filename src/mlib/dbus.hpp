@@ -18,55 +18,16 @@
 **************************************************************************/
 
 
-namespace m { namespace fs {
+#ifndef HEADER_MLIB_DBUS
+#define HEADER_MLIB_DBUS
 
+#include <dbus-c++/error.h>
 
-bool Stat::is_blk(void)
-{
-	return S_ISBLK(this->mode);
+namespace m {
+
+std::string		EE(const DBus::Error& error);
+
 }
 
-
-
-bool Stat::is_chr(void)
-{
-	return S_ISCHR(this->mode);
-}
-
-
-
-bool Stat::is_dir(void)
-{
-	return S_ISDIR(this->mode);
-}
-
-
-
-bool Stat::is_fifo(void)
-{
-	return S_ISFIFO(this->mode);
-}
-
-
-
-bool Stat::is_lnk(void)
-{
-	return S_ISLNK(this->mode);
-}
-
-
-
-bool Stat::is_reg(void)
-{
-	return S_ISREG(this->mode);
-}
-
-
-
-bool Stat::is_sock(void)
-{
-	return S_ISSOCK(this->mode);
-}
-
-}}
+#endif
 

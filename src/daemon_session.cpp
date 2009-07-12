@@ -26,12 +26,6 @@
 #include <utility>
 #include <vector>
 
-#if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 36, 0)
-	#include <boost/unordered_map.hpp>
-#else
-	#include <map>
-#endif
-
 #include <boost/date_time/posix_time/posix_time_duration.hpp>
 #include <boost/ref.hpp>
 #include <boost/thread.hpp>
@@ -52,10 +46,20 @@
 #include <mlib/gtk/main.hpp>
 #include <mlib/async_fs.hpp>
 #include <mlib/fs.hpp>
+#include <mlib/main.hpp>
+#include <mlib/misc.hpp>
+#include <mlib/sys.hpp>
 #include <mlib/libtorrent.hpp>
 
+#include "common.hpp"
 #include "daemon_session.hpp"
 #include "daemon_types.hpp"
+
+#if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 36, 0)
+	#include <boost/unordered_map.hpp>
+#else
+	#include <map>
+#endif
 
 
 #define TORRENT_FILE_NAME "torrent.torrent"
@@ -527,7 +531,7 @@ Torrent_id Daemon_session::add_torrent_to_config(const std::string& torrent_path
 	// -->
 		try
 		{
-			m::fs::unix_mkdir(torrent_dir_path);
+			m::sys::unix_mkdir(torrent_dir_path);
 		}
 		catch(m::Exception& e)
 		{
@@ -799,7 +803,7 @@ void Daemon_session::auto_load_if_torrent(const std::string& torrent_path)
 		{
 			try
 			{
-				m::fs::Stat file_stat = m::fs::unix_stat(torrent_path);
+				m::sys::Stat file_stat = m::sys::unix_stat(torrent_path);
 
 				// К примеру, Firefox сначала создает пустой файл
 				// *.torrent и файл *.torrent.part, закрывает *.torrent и

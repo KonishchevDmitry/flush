@@ -1,5 +1,6 @@
 uidir = $(datadir)/$(PACKAGE)/ui
 dist_ui_DATA = \
+	dialog.rss_settings.glade \
 	dialog.temporary_action.glade \
 	preferences.daemon.automation.glade \
 	preferences.daemon.network.glade \

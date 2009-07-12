@@ -22,12 +22,16 @@
 #ifndef HEADER_APP_ICONS
 #define HEADER_APP_ICONS
 
-#include <mlib/forwards/gdkmm/pixbuf.h>
+#ifndef MLIB_ENABLE_LIBS_FORWARDS
+	#include <gdkmm/pixbuf.h>
 
-#include <mlib/forwards/gtkmm/action.h>
-#include <mlib/forwards/gtkmm/toolbutton.h>
+	#include <gtkmm/action.h>
+	#include <gtkmm/toolbutton.h>
+#endif
 
 #include <gtkmm/enums.h>
+
+#include "common.hpp"
 
 
 namespace app_icons
@@ -149,6 +153,10 @@ enum Id
 };
 
 
+
+/// Используется только для того, чтобы в программе можно было легко найти код,
+/// в котором явно прописано имя иконки.
+const char*					app_icon(const char* icon_name);
 
 /// Создает Gtk::Action с иконкой id.
 Glib::RefPtr<Gtk::Action>	create_action(const Glib::ustring& name, Id id, const Glib::ustring& label = Glib::ustring(), const Glib::ustring& tooltip = Glib::ustring());

@@ -182,11 +182,13 @@ dnl config.h -->
 	fi
 
 	AH_TEMPLATE([MLIB_DEVELOP_MODE], [Is mlib compiling in develop mode])
+	AH_TEMPLATE([MLIB_ENABLE_LIBS_FORWARDS], [Disable including library's forwards declarations for compile time reducing])
 	AH_TEMPLATE([DEVELOP_MODE], [Is application compiling in develop mode])
 	if test "X$develop_mode" = "Xyes"
 	then
 		AC_DEFINE([DEVELOP_MODE])
 		AC_DEFINE([MLIB_DEVELOP_MODE])
+		AC_DEFINE([MLIB_ENABLE_LIBS_FORWARDS])
 	fi
 
 	AH_TEMPLATE([_LARGEFILE_SOURCE], [Large files support])
@@ -355,8 +357,8 @@ dnl compiler flags -->
 	APP_LDADD="$APP_LDADD $LIBINTL"
 
 	MLIB_CPPFLAGS="$COMMON_CPPFLAGS"
-	MLIB_LIBRARIES="\$(top_builddir)/src/mlib/libmlib.a \$(top_builddir)/src/mlib/gtk/libmlib_gtk.a"
-	APP_CPPFLAGS="$COMMON_CPPFLAGS -I \$(top_srcdir)/src/mlib/src -include \$(top_srcdir)/src/common.hpp"
+	MLIB_LIBRARIES="\$(top_builddir)/src/mlib/base/libmlib_base.a \$(top_builddir)/src/mlib/libmlib.a \$(top_builddir)/src/mlib/gtk/libmlib_gtk.a"
+	APP_CPPFLAGS="$COMMON_CPPFLAGS"
 	APP_DEPENDENCIES="$APP_DEPENDENCIES $MLIB_LIBRARIES"
 	APP_LDADD="$APP_LDADD $MLIB_LIBRARIES"
 
@@ -394,9 +396,8 @@ AC_CONFIG_FILES([
 	po/Makefile.in
 	src/Makefile
 	src/mlib/Makefile
-	src/mlib/forwards/Makefile
-	src/mlib/forwards/gdkmm/Makefile
-	src/mlib/forwards/gtkmm/Makefile
+	src/mlib/base/Makefile
+	src/mlib/base/libs_forwards/Makefile
 	src/mlib/gtk/Makefile
 	ui/Makefile
 	flush.desktop

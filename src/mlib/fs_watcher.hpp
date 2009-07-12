@@ -25,13 +25,10 @@
 // какой-либо директорией на предмет появления в ней новых файлов.
 
 
-#include <string>
-
 #include <sigc++/connection.h>
 #include <sigc++/slot.h>
 
-#include "types.hpp"
-#include "errors.hpp"
+#include <mlib/main.hpp>
 
 
 

@@ -29,10 +29,13 @@
 
 #include <gtkmm/dialog.h>
 
+#include <mlib/misc.hpp>
+
 #include <mlib/gtk/main.hpp>
 
 #include "application.hpp"
 #include "client_cmd_options.hpp"
+#include "common.hpp"
 #include "daemon_proxy.hpp"
 #include "daemon_settings.hpp"
 #include "main.hpp"
@@ -51,15 +54,15 @@ namespace
 	#endif
 
 	/// Функция для отображения информационных сообщений пользователю.
-	void info_function(const char* file, const int line, const std::string& title, const std::string& message);
+	void info_function(const char* file, size_t line, const std::string& title, const std::string& message);
 
 	/// Функция для отображения предупреждений пользователю.
-	void warning_function(const char* file, const int line, const std::string& title, const std::string& message);
+	void warning_function(const char* file, size_t line, const std::string& title, const std::string& message);
 
 
 
 	#ifdef DEVELOP_MODE
-		void silent_warning_function(const char* file, const int line, const std::string& message)
+		void silent_warning_function(const char* file, size_t line, const std::string& message)
 		{
 			print_silent_warning(file, line, message);
 			get_application().add_message( Message(WARNING, _("Silent warning"), message) );
@@ -68,7 +71,7 @@ namespace
 
 
 
-	void info_function(const char* file, const int line, const std::string& title, const std::string& message)
+	void info_function(const char* file, size_t line, const std::string& title, const std::string& message)
 	{
 		print_info(file, line, title, message);
 		get_application().add_message( Message(INFO, title, message) );
@@ -76,7 +79,7 @@ namespace
 
 
 
-	void warning_function(const char* file, const int line, const std::string& title, const std::string& message)
+	void warning_function(const char* file, size_t line, const std::string& title, const std::string& message)
 	{
 		print_warning(file, line, title, message);
 		get_application().add_message( Message(WARNING, title, message) );

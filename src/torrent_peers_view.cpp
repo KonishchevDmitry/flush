@@ -22,6 +22,7 @@
 #include <stack>
 #include <algorithm>
 
+#include <mlib/main.hpp>
 #if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 36, 0)
 	#include <boost/unordered_map.hpp>
 #else
@@ -32,8 +33,10 @@
 
 #include <mlib/gtk/misc.hpp>
 #include <mlib/gtk/tree_view.hpp>
+#include <mlib/string.hpp>
 
 #include "client_settings.hpp"
+#include "common.hpp"
 #include "daemon_proxy.hpp"
 #include "main.hpp"
 #include "torrent_peers_view.hpp"

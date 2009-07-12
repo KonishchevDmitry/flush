@@ -28,9 +28,12 @@
 #include <libtorrent/entry.hpp>
 
 #include <mlib/fs.hpp>
+#include <mlib/libconfig.hpp>
 #include <mlib/libtorrent.hpp>
 #include <mlib/misc.hpp>
+#include <mlib/string.hpp>
 
+#include "common.hpp"
 #include "daemon_settings.hpp"
 #include "daemon_types.hpp"
 
@@ -977,7 +980,7 @@ namespace
 			}
 			catch(std::ofstream::failure& e)
 			{
-				M_THROW(__("Can't write DHT state to file '%1': %2.", real_dht_state_path, EE(errno)));
+				M_THROW(__("Can't write DHT state to file '%1': %2.", real_dht_state_path, EE()));
 			}
 
 			// Генерирует m::Exception.
@@ -1684,7 +1687,7 @@ namespace
 			}
 			catch(std::ofstream::failure& e)
 			{
-				M_THROW(__("Can't write torrent resume data to file '%1': %2.", real_resume_data_path, EE(errno)));
+				M_THROW(__("Can't write torrent resume data to file '%1': %2.", real_resume_data_path, EE()));
 			}
 
 			// Генерирует m::Exception.

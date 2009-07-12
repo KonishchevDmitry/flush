@@ -1,2 +1,0 @@
-SUBDIRS = gdkmm gtkmm
-

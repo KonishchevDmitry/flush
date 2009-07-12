@@ -29,6 +29,7 @@
 
 #include "categories_view.hpp"
 #include "client_settings.hpp"
+#include "common.hpp"
 #include "daemon_proxy.hpp"
 #include "log_view.hpp"
 #include "main_window.hpp"

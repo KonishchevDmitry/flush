@@ -18,14 +18,12 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
 #ifndef HEADER_MLIB_GTK_VBOX
 #define HEADER_MLIB_GTK_VBOX
 
-#include <string>
-#include <deque>
-
 #include <gtkmm/box.h>
+
+#include <mlib/gtk/main.hpp>
 
 
 namespace m { namespace gtk { namespace vbox {
@@ -56,6 +54,5 @@ void	add_widget_with_labeled_widget(Gtk::VBox& parent_vbox, Gtk::Widget& labeled
 
 }}}
 
-#endif
 #endif
 

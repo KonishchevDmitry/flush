@@ -18,9 +18,6 @@
 **************************************************************************/
 
 
-#ifndef HEADER_MLIB_ASYNC_FS
-#define HEADER_MLIB_ASYNC_FS
-
 // Предоставляет функции для выполнения ассинхронных операций
 // с файловой системой, таких как копирование, удаление файлов и т. п.
 //
@@ -30,11 +27,14 @@
 // Если объявлено макроопределение MLIB_ASYNC_FS_GLIB_SIGNALS, то по завершении
 // каждой задачи генерирует сигнал.
 
+#ifndef HEADER_MLIB_ASYNC_FS
+#define HEADER_MLIB_ASYNC_FS
 
-#include <string>
+#ifndef MLIB_ENABLE_LIBS_FORWARDS
+	#include <glibmm/dispatcher.h>
+#endif
 
-#include "types.hpp"
-
+#include <mlib/main.hpp>
 
 
 namespace m { namespace async_fs {
@@ -95,7 +95,7 @@ Task_id							rm_if_exists(const std::string& group, const std::string& path, co
 sigc::signal<void, Task_id>&	signal(void);
 #endif
 
-} }
+}}
 
 #endif
 

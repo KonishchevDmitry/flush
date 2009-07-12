@@ -25,6 +25,8 @@
 #include <gtkmm/liststore.h>
 #include <gtkmm/treeview.h>
 
+#include <mlib/main.hpp>
+
 #include "controlled_list.hpp"
 
 

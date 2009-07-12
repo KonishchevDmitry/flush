@@ -18,109 +18,27 @@
 **************************************************************************/
 
 
-#ifndef MLIB_ENABLE_ALIASES
-	#define MLIB_ENABLE_ALIASES
-#endif
-
 #include <sys/epoll.h>
 #include <sys/resource.h>
 #include <sys/time.h>
 #include <fcntl.h>
-#include <semaphore.h>
-#include <stdint.h>
 #include <unistd.h>
 
-#include <cerrno>
-#include <ctime>
 
-#include <algorithm>
+#include <cerrno>
 #include <fstream>
 
-#include <boost/scoped_array.hpp>
+#include <mlib/main.hpp>
+#include <mlib/sys.hpp>
 
-#include "messages.hpp"
 #include "misc.hpp"
-#include "string.hpp"
-#include "types.hpp"
 
 
+namespace m {
 
-namespace m
-{
 
 uint16_t PORT_MIN = 1;
 uint16_t PORT_MAX = 65535;
-
-
-
-namespace
-{
-	/// Возвращает строку с именем файла и номером строки в нем для помещения ее в лог.
-	std::string		get_log_src_path_string(const char* file, int line);
-
-	/// Возвращает строку с текущим временем для помещения ее в лог.
-	std::string		get_log_time_string(void);
-}
-
-
-
-namespace
-{
-	std::string get_log_src_path_string(const char* file, int line)
-	{
-		// Внимание!
-		// Функция не должна выводить какие-либо сообщения, и использовать Format,
-		// т. к. они сами будут вызывать ее.
-
-		const int max_file_path_string_len = 20;
-		const int max_file_path_string_size = max_file_path_string_len + 1;
-
-		// На всякий случай выделим по-больше - кто знает, как целое число
-		// представляется в текущей локали...
-		const int max_line_string_len = 4 * 2;
-		const int max_line_string_size = max_line_string_len + 1;
-
-		char file_buf[max_file_path_string_size];
-		char line_buf[max_line_string_size ];
-
-		int diff = strlen(file) - max_file_path_string_len;
-
-		if(diff > 0)
-			file += diff;
-
-		snprintf(file_buf, max_file_path_string_size, "%*s", max_file_path_string_len, file);
-		snprintf(line_buf, max_line_string_size, "%04d", line);
-
-		return std::string(file_buf) + ":" + line_buf;
-	}
-
-
-
-	std::string get_log_time_string(void)
-	{
-		// Внимание!
-		// Функция не должна выводить какие-либо сообщения, и использовать Format,
-		// т. к. они сами будут вызывать ее.
-
-		const int time_string_len = 8;
-		const int max_string_size = time_string_len + 4 + 1;
-		char time_string_buf[max_string_size] = { '\0' };
-		struct timeval tv;
-		struct tm tm_val;
-
-		if(gettimeofday(&tv, NULL) < 0)
-			return _("[[gettimeofday time getting error]]");
-
-		strftime(time_string_buf, max_string_size, "%H:%M:%S", localtime_r(&tv.tv_sec, &tm_val));
-		snprintf(
-			time_string_buf + time_string_len,
-			max_string_size - time_string_len,
-			".%03d", int(tv.tv_usec / 1000)
-		);
-
-		return time_string_buf;
-	}
-}
 
 
 
@@ -378,21 +296,21 @@ namespace
 	bool Connection::wait_for_with_owning(int fd, bool prioritize_fd)
 	{
 		int rval = -1;
-		File_holder epoll_fd;
+		sys::File_holder epoll_fd;
 
 		try
 		{
 			epoll_event event;
 
-			epoll_fd.set(unix_epoll_create());
+			epoll_fd.set(sys::unix_epoll_create());
 
 			event.events = EPOLLIN;
 			event.data.fd = fd;
-			unix_epoll_ctl(epoll_fd.get(), EPOLL_CTL_ADD, fd, &event);
+			sys::unix_epoll_ctl(epoll_fd.get(), EPOLL_CTL_ADD, fd, &event);
 
 			event.events = EPOLLIN;
 			event.data.fd = this->read_fd;
-			unix_epoll_ctl(epoll_fd.get(), EPOLL_CTL_ADD, this->read_fd, &event);
+			sys::unix_epoll_ctl(epoll_fd.get(), EPOLL_CTL_ADD, this->read_fd, &event);
 		}
 		catch(m::Sys_exception& e)
 		{
@@ -409,7 +327,7 @@ namespace
 				{
 					struct epoll_event events[2];
 
-					int events_num = unix_epoll_wait(epoll_fd.get(), events, M_STATIC_ARRAY_SIZE(events), -1);
+					int events_num = sys::unix_epoll_wait(epoll_fd.get(), events, M_STATIC_ARRAY_SIZE(events), -1);
 					MLIB_A(events_num);
 
 					for(int i = 0; i < events_num; i++)
@@ -495,13 +413,12 @@ namespace
 
 
 
-
 void close_all_fds(void)
 {
 	struct rlimit limits;
 
 	if(getrlimit(RLIMIT_OFILE, &limits))
-		M_THROW(__("Can't get max opened files limit: %1.", EE(errno)));
+		M_THROW(__("Can't get max opened files limit: %1.", EE()));
 
 	for(int fd = STDERR_FILENO + 1; fd < (int) limits.rlim_max; fd++)
 		close(fd);
@@ -516,7 +433,7 @@ std::string get_copyright_string(const std::string& author, const int start_year
 
 	if(localtime_r(&current_time, &date))
 	{
-		m::tm_to_real_time(&date);
+		sys::tm_to_real_time(&date);
 
 		if(date.tm_year > start_year)
 			return __("Copyright (C) %1-%2 %3.", start_year, date.tm_year, author);
@@ -527,19 +444,12 @@ std::string get_copyright_string(const std::string& author, const int start_year
 
 
 
-std::string	get_log_debug_prefix(const char* file, int line)
-{
-	return "(" + get_log_time_string() + ") (" + get_log_src_path_string(file, line) + "): ";
-}
-
-
-
 void* realloc(void *ptr, const size_t size)
 {
 	ptr = ::realloc(ptr, size);
 
 	if(ptr == NULL && size)
-		MLIB_E(__("Realloc failed: %1.", EE(errno)));
+		MLIB_E(__("Realloc failed: %1.", EE()));
 
 	return ptr;
 }
@@ -548,7 +458,7 @@ void* realloc(void *ptr, const size_t size)
 
 void run(const std::string& cmd_name, const std::vector<std::string>& args)
 {
-	if(!m::unix_fork())
+	if(!sys::unix_fork())
 	{
 		// Дочерний процесс
 
@@ -579,7 +489,7 @@ void run(const std::string& cmd_name, const std::vector<std::string>& args)
 			// Формируем массив аргументов <--
 
 			if(execvp(U2L(cmd_name).c_str(), argv) < 0)
-				M_THROW(EE(errno));
+				M_THROW(EE());
 		}
 		catch(m::Exception& e)
 		{
@@ -591,128 +501,6 @@ void run(const std::string& cmd_name, const std::vector<std::string>& args)
 	}
 }
 
-
-
-void setenv(const std::string& name, const std::string& value, bool overwrite)
-{
-	if(::setenv(U2L(name).c_str(), U2L(value).c_str(), overwrite))
-		M_THROW(EE(errno));
-}
-
-
-
-void unix_close(int fd)
-{
-	int rval;
-
-	do
-		rval = ::close(fd);
-	while(rval && errno == EINTR);
-
-	if(rval)
-		M_THROW_SYS(errno);
-}
-
-
-
-int unix_dup(int fd)
-{
-	int new_fd = dup(fd);
-
-	if(new_fd == -1)
-		M_THROW(__("Can't duplicate a file descriptor: %1.", EE(errno)));
-	else
-		return new_fd;
-}
-
-
-
-void unix_dup(int oldfd, int newfd)
-{
-	if(dup2(oldfd, newfd) == -1)
-		M_THROW(__("Can't duplicate a file descriptor: %1.", EE(errno)));
-}
-
-
-
-void unix_epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)
-{
-	if(epoll_ctl(epfd, op, fd, event))
-		M_THROW_SYS(errno);
-}
-
-
-
-int unix_epoll_create(void)
-{
-	int fd = epoll_create(0);
-	if(fd < 0)
-		M_THROW_SYS(errno);
-	else
-		return fd;
-}
-
-
-
-int unix_epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout)
-{
-	int rval = epoll_wait(epfd, events, maxevents, timeout);
-
-	if(rval < 0)
-		M_THROW_SYS(errno);
-	else
-		return rval;
-}
-
-
-
-void unix_execvp(const std::string& command, const std::vector<std::string>& args)
-{
-	std::vector<std::string> argv_strings;
-	argv_strings.reserve(args.size() + 1);
-
-	argv_strings.push_back(U2L(command));
-	M_FOR_CONST_IT(args, it)
-		argv_strings.push_back(U2L(*it));
-
-	boost::scoped_array<char*> argv(new char*[argv_strings.size() + 1]);
-
-	{
-		char** arg = argv.get();
-
-		M_FOR_CONST_IT(argv_strings, it)
-			*arg++ = const_cast<char*>(it->c_str());
-
-		*arg = NULL;
-	}
-
-	if(execvp(U2L(command).c_str(), argv.get()) < 0)
-		M_THROW_SYS(errno);
-}
-
-
-
-pid_t unix_fork(void)
-{
-	pid_t pid = fork();
-
-	if(pid == -1)
-		M_THROW(__("Can't fork the process: %1.", EE(errno)));
-	else
-		return pid;
-}
-
-
-
-std::pair<int, int> unix_pipe(void)
-{
-	int fds[2];
-
-	if(pipe(fds) == -1)
-		M_THROW(__("Can't create a pipe: %1.", EE(errno)));
-	else
-		return std::pair<int, int>(fds[0], fds[1]);
-}
 
 }
 

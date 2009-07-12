@@ -30,6 +30,7 @@
 	#include <mlib/gtk/tree_view.hpp>
 
 	#include "client_settings.hpp"
+	#include "common.hpp"
 
 
 

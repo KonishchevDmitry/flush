@@ -27,6 +27,10 @@
 
 	#include <boost/noncopyable.hpp>
 
+	#ifndef MLIB_ENABLE_LIBS_FORWARDS
+		#include <libconfig.h++>
+	#endif
+
 	#include <mlib/gtk/paned_settings.hpp>
 	#include <mlib/gtk/toolbar.hpp>
 	#include <mlib/gtk/tree_view_settings.hpp>
@@ -34,6 +38,7 @@
 
 	#include "categories_view.hxx"
 	#include "client_settings.hxx"
+	#include "common.hpp"
 
 
 	#define GUI_MIN_UPDATE_INTERVAL ( 1000 / 25 )

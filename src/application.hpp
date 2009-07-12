@@ -31,8 +31,13 @@
 	#include "adaptor_glue.hpp"
 	#include "proxy_glue.hpp"
 
+	#ifndef MLIB_ENABLE_LIBS_FORWARDS
+		#include <gtkmm/dialog.h>
+	#endif
+
 	#include "client_cmd_options.hpp"
 	#include "client_settings.hpp"
+	#include "common.hpp"
 	#include "daemon_proxy.hpp"
 
 

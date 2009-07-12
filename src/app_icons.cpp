@@ -30,8 +30,10 @@
 #include <mlib/gtk/misc.hpp>
 
 #include "app_icons.hpp"
+#include "common.hpp"
 
 
+#warning
 
 namespace app_icons
 {
@@ -158,6 +160,13 @@ namespace
 
 		return name;
 	}
+}
+
+
+
+const char* app_icon(const char* icon_name)
+{
+	return icon_name;
 }
 
 

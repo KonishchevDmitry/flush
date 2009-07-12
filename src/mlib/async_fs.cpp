@@ -30,19 +30,16 @@
 
 #include <glibmm/dispatcher.h>
 
-#include "gtk/main.hpp"
+#include <mlib/gtk/main.hpp>
+
+#include <mlib/fs.hpp>
+#include <mlib/main.hpp>
+#include <mlib/misc.hpp>
+
 #include "async_fs.hpp"
-#include "fs.hpp"
-#include "misc.hpp"
-#include "messages.hpp"
-#include "string.hpp"
 
 
-
-namespace m
-{
-namespace async_fs
-{
+namespace m { namespace async_fs {
 
 /// Обеспечивает асинхронную работу с файловой системой.
 /// Предполагается, что объект будет глобальным, а, следовательно, уничтожаться
@@ -456,7 +453,7 @@ namespace
 				switch(task.type)
 				{
 					case Task::COPY:
-						m::fs::cp(task.args[0], task.args[1]);
+						fs::cp(task.args[0], task.args[1]);
 						break;
 
 					case Task::COPY_FILES:
@@ -467,24 +464,24 @@ namespace
 						std::string dest_root = task.args[0];
 						task.args.erase(task.args.begin());
 
-						m::fs::copy_files(src_root, dest_root, task.args);
+						fs::copy_files(src_root, dest_root, task.args);
 					}
 					break;
 
 					case Task::REMOVE:
-						m::fs::rm(task.args[0]);
+						fs::rm(task.args[0]);
 						break;
 
 					case Task::REMOVE_FILES_WITH_EMPTY_DIRS:
 					{
 						std::string root = task.args[0];
 						task.args.erase(task.args.begin());
-						m::fs::rm_files_with_empty_dirs(root, task.args);
+						fs::rm_files_with_empty_dirs(root, task.args);
 					}
 					break;
 
 					case Task::REMOVE_IF_EXISTS:
-						m::fs::rm_if_exists(task.args[0]);
+						fs::rm_if_exists(task.args[0]);
 						break;
 
 					case Task::NONE:
@@ -493,7 +490,7 @@ namespace
 						break;
 				}
 			}
-			catch(m::Exception& e)
+			catch(Exception& e)
 			{
 				if(!task.error_string.empty())
 					task.error_string += " ";
@@ -592,7 +589,7 @@ Task_id rm_if_exists(const std::string& group, const std::string& path, const st
 		return ASYNC_FS.signal();
 	}
 #endif
-}
 
-}
+
+}}
 

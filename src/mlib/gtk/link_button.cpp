@@ -18,12 +18,11 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
-
-
 #include <gtk/gtkversion.h>
 
 #include <gtkmm/linkbutton.h>
+
+#include <mlib/gtk/main.hpp>
 
 #include "link_button.hpp"
 
@@ -99,6 +98,4 @@ sigc::signal<void>& Link_button::signal_clicked(void)
 }
 
 }}
-
-#endif
 

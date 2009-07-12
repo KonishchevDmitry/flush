@@ -18,10 +18,10 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
+#include <mlib/gtk/main.hpp>
+#include <mlib/gtk/paned_settings.hpp>
 
 #include "paned.hpp"
-#include "paned_settings.hpp"
 
 namespace m { namespace gtk {
 
@@ -39,6 +39,4 @@ namespace m { namespace gtk {
 	}
 
 }}
-
-#endif
 

@@ -27,9 +27,11 @@
 #include <glibmm/optioncontext.h>
 
 #include <mlib/fs.hpp>
+#include <mlib/misc.hpp>
 
 #include "main.hpp"
 #include "client_cmd_options.hpp"
+#include "common.hpp"
 
 
 
@@ -180,7 +182,7 @@ void Client_cmd_options::parse(int argc, char *argv[])
 		{
 			cmd_parser.parse(argc, argv);
 		}
-		catch(Glib::OptionError e)
+		catch(Glib::OptionError& e)
 		{
 			M_THROW(EE(e));
 		}

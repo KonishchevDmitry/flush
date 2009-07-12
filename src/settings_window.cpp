@@ -37,11 +37,15 @@
 #include <gtkmm/treestore.h>
 #include <gtkmm/window.h>
 
+#include <mlib/misc.hpp>
+#include <mlib/string.hpp>
+
 #include <mlib/gtk/glade.hpp>
 #include <mlib/gtk/tree_view.hpp>
 #include <mlib/gtk/vbox.hpp>
 
 #include "client_settings.hpp"
+#include "common.hpp"
 #include "daemon_settings.hpp"
 #include "gui_lib.hpp"
 #include "ip_filter.hpp"

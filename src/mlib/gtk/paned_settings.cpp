@@ -18,8 +18,6 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
-
 #include "paned_settings.hpp"
 
 namespace m { namespace gtk {
@@ -31,6 +29,4 @@ Paned_settings::Paned_settings(void)
 }
 
 }}
-
-#endif
 

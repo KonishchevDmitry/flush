@@ -18,31 +18,31 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_LIBTORRENT
 #ifndef HEADER_MLIB_LIBTORRENT
 #define HEADER_MLIB_LIBTORRENT
 
 #include <deque>
-#include <string>
-#include <vector>
 
-#include <libtorrent/torrent_handle.hpp>
+#ifndef MLIB_ENABLE_LIBS_FORWARDS
+	#include <libtorrent/bencode.hpp>
+	#include <libtorrent/torrent_handle.hpp>
+#endif
 
-#include "errors.hpp"
-#include "misc.hpp"
-#include "types.hpp"
+#include <libtorrent/torrent_info.hpp>
+
+#include <mlib/main.hpp>
+#include <mlib/misc.hxx>
 
 
-namespace m { namespace libtorrent {
+namespace m {
 
+
+namespace libtorrent {
 
 struct Torrent_file
 {
-	inline
-	Torrent_file(void);
-
-	inline
-	Torrent_file(int id, const std::string& path, Size size);
+	explicit Torrent_file(void) {}
+	explicit Torrent_file(int id, const std::string& path, Size size);
 
 
 	int				id;
@@ -50,14 +50,11 @@ struct Torrent_file
 	Size			size;
 
 
-	inline
 	std::string		get_path(void);
 
-	inline
 	void			set_path(std::string);
 
-	inline
-	bool operator<(const Torrent_file& file) const;
+	bool operator<(const Torrent_file& file) const { return this->path < file.path; }
 };
 
 
@@ -119,13 +116,21 @@ std::vector<std::string>	get_torrent_trackers(const libtorrent::torrent_handle& 
 std::vector<std::string>	get_torrent_trackers(const libtorrent::torrent_info& torrent_info);
 
 /// Возвращает текущую версию libtorrent.
-inline
 Version						get_version(void);
 
-}}
+}
 
-#include "libtorrent.hh"
 
+std::string		EE(const libtorrent::duplicate_torrent& error);
+std::string		EE(const libtorrent::invalid_encoding& error);
+std::string		EE(const libtorrent::invalid_torrent_file& error);
+
+
+}
+
+#ifdef MLIB_ENABLE_ALIASES
+	using m::EE;
 #endif
+
 #endif
 

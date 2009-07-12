@@ -246,6 +246,7 @@ libmlib_gtk_a_SOURCES = \
 	glade.cpp \
 	glade.hh \
 	glade.hpp \
+	glade.hxx \
 	link_button.cpp \
 	link_button.hpp \
 	main.cpp \
@@ -270,7 +271,6 @@ libmlib_gtk_a_SOURCES = \
 	tree_view.hpp \
 	tree_view_settings.cpp \
 	tree_view_settings.hpp \
-	types.hpp \
 	vbox.cpp \
 	vbox.hpp \
 	window.cpp \

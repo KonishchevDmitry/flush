@@ -25,6 +25,7 @@
 	#include <string>
 	#include <deque>
 
+	#include "common.hpp"
 
 
 	class Client_cmd_options

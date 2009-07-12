@@ -45,6 +45,7 @@
 	#include <mlib/fs_watcher.hpp>
 	#include <mlib/libtorrent.hpp>
 
+	#include "common.hpp"
 	#include "daemon_fs.hpp"
 	#include "daemon_types.hpp"
 

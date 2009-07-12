@@ -34,6 +34,7 @@
 
 	#include <mlib/gtk/window.hpp>
 
+	#include "common.hpp"
 	#include "torrent_files_view.hpp"
 
 

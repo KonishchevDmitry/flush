@@ -21,6 +21,7 @@
 
 #include <mlib/gtk/misc.hpp>
 
+#include "common.hpp"
 #include "gui_lib.hpp"
 #include "main.hpp"
 #include "main_window.hpp"

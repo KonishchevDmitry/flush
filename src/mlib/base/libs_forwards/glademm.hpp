@@ -18,16 +18,12 @@
 **************************************************************************/
 
 
-#ifdef MLIB_DEVELOP_MODE
-	#ifndef HEADER_MLIB_FORWARDS_GTKMM_ACTION
-	#define HEADER_MLIB_FORWARDS_GTKMM_ACTION
+#ifndef HEADER_MLIB_LIBS_FORWARDS_GLADEMM
+#define HEADER_MLIB_LIBS_FORWARDS_GLADEMM
 
-		namespace Gtk {
-			class Action;
-		}
+namespace Gnome { namespace Glade {
+	class Xml;
+}}
 
-	#endif
-#else
-	#include <gtkmm/action.h>
 #endif
 

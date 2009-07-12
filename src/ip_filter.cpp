@@ -32,6 +32,7 @@
 #include <mlib/gtk/controlled_list.hpp>
 #include <mlib/gtk/glade.hpp>
 
+#include "common.hpp"
 #include "ip_filter.hpp"
 #include "main.hpp"
 

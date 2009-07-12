@@ -49,6 +49,8 @@ flush_SOURCES = \
 	main_window.hpp \
 	open_torrent_dialog.cpp \
 	open_torrent_dialog.hpp \
+	rss_settings_dialog.cpp \
+	rss_settings_dialog.hpp \
 	settings_window.cpp \
 	settings_window.hpp \
 	statistics_window.cpp \

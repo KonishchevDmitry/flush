@@ -18,7 +18,6 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
 #include "window_settings.hpp"
 
 namespace m { namespace gtk {
@@ -31,6 +30,4 @@ Window_settings::Window_settings(void)
 }
 
 }}
-
-#endif
 

@@ -29,6 +29,7 @@
 #include <mlib/gtk/misc.hpp>
 #include <mlib/gtk/vbox.hpp>
 
+#include "common.hpp"
 #include "daemon_proxy.hpp"
 #include "gui_lib.hpp"
 #include "main.hpp"

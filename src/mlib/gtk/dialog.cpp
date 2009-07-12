@@ -20,7 +20,9 @@
 
 #ifdef MLIB_ENABLE_GTK
 
-#include "../string.hpp"
+#include <mlib/main.hpp>
+
+#include <mlib/gtk/misc.hxx>
 
 #include "dialog.hpp"
 

@@ -18,12 +18,28 @@
 **************************************************************************/
 
 
-namespace m
-{
-	void assert_exp(const char* file, const int line, bool expression)
-	{
-		if(!expression)
-			m::logical_error(file, line);
-	}
+#ifndef HEADER_MLIB_LIBS_FORWARDS_LIBTORRENT
+#define HEADER_MLIB_LIBS_FORWARDS_LIBTORRENT
+
+namespace libtorrent {
+
+	class duplicate_torrent;
+	class invalid_encoding;
+	class invalid_torrent_file;
+
+	class alert;
+	class big_number;
+	class entry;
+	class peer_info;
+	class session_status;
+	class torrent_alert;
+	class torrent_handle;
+	class torrent_info;
+	class torrent_status;
+
+	typedef big_number sha1_hash;
+
 }
+
+#endif
 

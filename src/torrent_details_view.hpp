@@ -24,6 +24,14 @@
 
 	#include <gtkmm/box.h>
 
+	#ifndef MLIB_ENABLE_LIBS_FORWARDS
+		#include <gtkmm/eventbox.h>
+		#include <gtkmm/label.h>
+		#include <gtkmm/progressbar.h>
+	#endif
+
+	#include "common.hpp"
+
 
 	class Table;
 

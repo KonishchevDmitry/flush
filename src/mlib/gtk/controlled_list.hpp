@@ -23,11 +23,10 @@
 #ifndef HEADER_MLIB_CONTROLLED_LIST
 	#define HEADER_MLIB_CONTROLLED_LIST
 
-
-	#include <string>
-
 	#include <gtkmm/liststore.h>
 	#include <gtkmm/treeview.h>
+
+	#include <mlib/main.hpp>
 
 
 	namespace m { namespace gtk {

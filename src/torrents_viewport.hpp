@@ -33,6 +33,7 @@
 	#include <mlib/gtk/signal_proxy.hxx>
 
 	#include "client_settings.hpp"
+	#include "common.hpp"
 
 
 

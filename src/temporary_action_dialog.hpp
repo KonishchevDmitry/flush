@@ -31,6 +31,8 @@
 
 	#include <mlib/gtk/dialog.hpp>
 
+	#include "common.hpp"
+
 
 
 	namespace Temporary_action_dialog_aux { class Private; }

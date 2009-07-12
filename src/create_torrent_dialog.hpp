@@ -26,8 +26,15 @@
 
 	#include <gtkmm/treemodel.h>
 
+	#ifndef MLIB_ENABLE_LIBS_FORWARDS
+		#include <gtkmm/checkbutton.h>
+		#include <gtkmm/combobox.h>
+		#include <gtkmm/entry.h>
+	#endif
+
 	#include <mlib/gtk/window.hpp>
 
+	#include "common.hpp"
 
 
 	/// Диалог, отображаемый при создании *.torrent файла.

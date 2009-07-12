@@ -18,16 +18,13 @@
 **************************************************************************/
 
 
-#ifdef MLIB_DEVELOP_MODE
-	#ifndef HEADER_MLIB_FORWARDS_GDKMM_PIXBUF
-	#define HEADER_MLIB_FORWARDS_GDKMM_PIXBUF
+#ifndef HEADER_MLIB_LIBTORRENT_FWD
+#define HEADER_MLIB_LIBTORRENT_FWD
 
-		namespace Gdk {
-			class Pixbuf;
-		}
+namespace m { namespace libtorrent {
+	struct	Torrent_file;
+	class	Torrent_metadata;
+}}
 
-	#endif
-#else
-	#include <gdkmm/pixbuf.h>
 #endif
 

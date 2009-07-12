@@ -18,14 +18,15 @@
 **************************************************************************/
 
 
-#include "../messages.hpp"
-#include "../string.hpp"
+#include <libglademm/xml.h>
+
+#include <mlib/main.hpp>
 
 
 namespace m { namespace glade {
 
 template<class T_widget>
-T_widget* get_widget(const char* file, int line, const Glib::RefPtr<Gnome::Glade::Xml>& xml, const Glib::ustring& name, T_widget*& widget)
+T_widget* get_widget(const char* file, int line, const Glade_xml& xml, const Glib::ustring& name, T_widget*& widget)
 {
 	widget = NULL;
 
@@ -43,7 +44,7 @@ T_widget* get_widget(const char* file, int line, const Glib::RefPtr<Gnome::Glade
 
 
 template<class T_widget>
-T_widget* get_widget_derived(const char* file, int line, const Glib::RefPtr<Gnome::Glade::Xml>& xml, const Glib::ustring& name, T_widget*& widget)
+T_widget* get_widget_derived(const char* file, int line, const Glade_xml& xml, const Glib::ustring& name, T_widget*& widget)
 {
 	widget = NULL;
 

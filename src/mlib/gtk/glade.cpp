@@ -20,15 +20,14 @@
 
 #ifdef MLIB_ENABLE_GLADE
 
-#include "glade.hpp"
+#include <mlib/main.hpp>
 
-#include "../messages.hpp"
-#include "../string.hpp"
+#include "glade.hpp"
 
 
 namespace m { namespace glade {
 
-Glib::RefPtr<Gnome::Glade::Xml> create(const char* file, int line, const std::string& filename, const Glib::ustring& root, const Glib::ustring& domain)
+Glade_xml create(const char* file, int line, const std::string& filename, const Glib::ustring& root, const Glib::ustring& domain)
 {
 	try
 	{
@@ -42,7 +41,7 @@ Glib::RefPtr<Gnome::Glade::Xml> create(const char* file, int line, const std::st
 
 
 
-Gtk::Widget* get_widget(const char* file, int line, const Glib::RefPtr<Gnome::Glade::Xml>& xml, const Glib::ustring &name)
+Gtk::Widget* get_widget(const char* file, int line, const Glade_xml& xml, const Glib::ustring &name)
 {
 	Gtk::Widget* widget = NULL;
 
@@ -62,5 +61,4 @@ Gtk::Widget* get_widget(const char* file, int line, const Glib::RefPtr<Gnome::Gl
 }}
 
 #endif
-
 

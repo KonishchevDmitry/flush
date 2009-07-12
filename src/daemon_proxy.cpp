@@ -28,6 +28,7 @@
 #include <mlib/gtk/main.hpp>
 #include <mlib/libtorrent.hpp>
 
+#include "common.hpp"
 #include "daemon.hpp"
 #include "daemon_proxy.hpp"
 #include "daemon_types.hpp"

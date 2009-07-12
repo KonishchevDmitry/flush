@@ -22,6 +22,7 @@
 #include <gtkmm/scrolledwindow.h>
 #include <gtkmm/textview.h>
 
+#include "common.hpp"
 #include "log_view.hpp"
 
 

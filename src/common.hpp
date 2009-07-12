@@ -18,24 +18,21 @@
 *                                                                         *
 **************************************************************************/
 
+#ifndef HEADER_COMMON
+	#define HEADER_COMMON
 
-#ifndef HEADER_TYPES
-	#define HEADER_TYPES
+	#ifndef MLIB_ENABLE_LIBS_FORWARDS
+		#include <gtkmm/stockid.h>
 
-	/// Конфигурационный файл autotools.
-	#include <config.h>
+		#include <libtorrent/alert.hpp>
+		#include <libtorrent/peer_id.hpp>
+		#include <libtorrent/peer_info.hpp>
+		#include <libtorrent/session_status.hpp>
+		#include <libtorrent/torrent_handle.hpp>
+	#endif
 
-	#include <string>
-	#include <sstream>
-	#include <vector>
-
-	#include <mlib/gtk/types.hpp>
-
-	#include <mlib/errors.hpp>
-	#include <mlib/messages.hpp>
-	#include <mlib/misc.hpp>
-	#include <mlib/string.hpp>
-	#include <mlib/types.hpp>
+	#include <mlib/libtorrent.hxx>
+	#include <mlib/main.hpp>
 
 
 	/// Этим символом будет помечаться весь код, который написан

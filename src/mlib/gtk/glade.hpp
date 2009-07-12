@@ -25,9 +25,11 @@
 	#include <glibmm/refptr.h>
 	#include <glibmm/ustring.h>
 
-	#include <libglademm/xml.h>
+	#ifndef MLIB_ENABLE_LIBS_FORWARDS
+		#include <gtkmm/widget.h>
+	#endif
 
-	#include "types.hpp"
+	#include "glade.hxx"
 
 
 	#define MLIB_GLADE_CREATE(args...) m::glade::create(__FILE__, __LINE__, args)
@@ -39,21 +41,21 @@
 
 	/// Аналог Gnome::Glade::Xml::create, но только в случае неудачи
 	/// аварийно завершает работу программы.
-	Glib::RefPtr<Gnome::Glade::Xml>	create(const char* file, int line, const std::string& filename, const Glib::ustring& root = Glib::ustring(), const Glib::ustring& domain = Glib::ustring());
+	Glade_xml		create(const char* file, int line, const std::string& filename, const Glib::ustring& root = Glib::ustring(), const Glib::ustring& domain = Glib::ustring());
 
 	/// Аналог Gnome::Glade::Xml::get_widget, но не проверяет widget на NULL и в
 	/// случае неудачи аварийно завершает работу программы.
-	Gtk::Widget* 					get_widget(const char* file, int line, const Glib::RefPtr<Gnome::Glade::Xml>& xml, const Glib::ustring &name);
+	Gtk::Widget*	get_widget(const char* file, int line, const Glade_xml& xml, const Glib::ustring &name);
 
 	/// Аналог Gnome::Glade::Xml::get_widget, но не проверяет widget на NULL и в
 	/// случае неудачи аварийно завершает работу программы.
 	template<class T_widget>
-	T_widget*						get_widget(const char* file, int line, const Glib::RefPtr<Gnome::Glade::Xml>& xml, const Glib::ustring& name, T_widget*& widget);
+	T_widget*		get_widget(const char* file, int line, const Glade_xml& xml, const Glib::ustring& name, T_widget*& widget);
 
 	/// Аналог Gnome::Glade::Xml::get_widget_derived, но не проверяет widget на
 	/// NULL и в случае неудачи аварийно завершает работу программы.
 	template<class T_widget>
-	T_widget*						get_widget_derived(const char* file, int line, const Glib::RefPtr<Gnome::Glade::Xml>& xml, const Glib::ustring& name, T_widget*& widget);
+	T_widget*		get_widget_derived(const char* file, int line, const Glade_xml& xml, const Glib::ustring& name, T_widget*& widget);
 
 	}}
 

@@ -60,11 +60,13 @@
 #include <mlib/gtk/misc.hpp>
 #include <mlib/gtk/vbox.hpp>
 #include <mlib/gtk/window.hpp>
+#include <mlib/dbus.hpp>
 #include <mlib/fs.hpp>
-#include <mlib/misc.hpp>
+#include <mlib/sys.hpp>
 
 #include "application.hpp"
 #include "client_settings.hpp"
+#include "common.hpp"
 #include "daemon_proxy.hpp"
 #include "gui_lib.hpp"
 #include "main.hpp"
@@ -83,11 +85,11 @@ namespace
 	/// В отличии от обычной, завершает программу и,
 	/// если программа запущена в графической среде,
 	/// отображает графическое сообщение.
-	void	app_init_warning_function(const char* file, const int line, const std::string& title, const std::string& message);
+	void	app_init_warning_function(const char* file, size_t line, const std::string& title, const std::string& message);
 
 	/// Error-функция. Отличается от стандартной тем, что в
 	/// графическом режиме отображает окно с ошибкой.
-	void	error_function(const char* file, const int line, const std::string& message);
+	void	error_function(const char* file, size_t line, const std::string& message);
 
 	/// Проверяет, запущена ли программа в режиме отображения
 	/// ошибки. Если да - осуществляет работу в режиме
@@ -101,14 +103,14 @@ namespace
 	void	on_linkbutton_uri_callback(Gtk::LinkButton* button, const Glib::ustring& uri);
 
 	/// Выводит на консоль Error сообщение.
-	void	print_error(const char* file, const int line, const std::string& message, const std::string& debug_info);
+	void	print_error(const char* file, size_t line, const std::string& message, const std::string& debug_info);
 
 	/// Обработчик сигнала SIGCHLD.
 	void	sigchld_handler(int signal_no);
 
 
 
-	void app_init_warning_function(const char* file, const int line, const std::string& title, const std::string& message)
+	void app_init_warning_function(const char* file, size_t line, const std::string& title, const std::string& message)
 	{
 		print_warning(file, line, title, message);
 
@@ -130,7 +132,7 @@ namespace
 
 
 
-	void error_function(const char* file, const int line, const std::string& message)
+	void error_function(const char* file, size_t line, const std::string& message)
 	{
 		const char* locale_settings[] = {
 			"LANG",
@@ -287,7 +289,7 @@ namespace
 
 
 
-	void print_error(const char* file, const int line, const std::string& message, const std::string& debug_info)
+	void print_error(const char* file, size_t line, const std::string& message, const std::string& debug_info)
 	{
 		std::cerr
 			#ifdef DEBUG_MODE
@@ -633,11 +635,11 @@ int main(int argc, char *argv[])
 
 		#ifdef ENABLE_NLS
 			if(!bindtextdomain(APP_UNIX_NAME, APP_LOCALE_PATH))
-				MLIB_D(_C("Unable to bind text domain: %1.", EE(errno)));
+				MLIB_D(_C("Unable to bind text domain: %1.", EE()));
 			else if(!bind_textdomain_codeset(APP_UNIX_NAME, "UTF-8"))
-				MLIB_D(_C("Unable to bind text domain codeset: %1.", EE(errno)));
+				MLIB_D(_C("Unable to bind text domain codeset: %1.", EE()));
 			else if(!textdomain(APP_UNIX_NAME))
-				MLIB_D(_C("Unable to set text domain: %1.", EE(errno)));
+				MLIB_D(_C("Unable to set text domain: %1.", EE()));
 		#endif
 	// gettext <--
 
@@ -714,7 +716,7 @@ int main(int argc, char *argv[])
 
 			try
 			{
-				config_dir_fd = m::fs::unix_open(cmd_options.config_path, O_RDONLY);
+				config_dir_fd = m::sys::unix_open(cmd_options.config_path, O_RDONLY);
 			}
 			catch(m::Exception& e)
 			{
@@ -722,11 +724,11 @@ int main(int argc, char *argv[])
 			}
 
 
-			m::fs::Stat config_dir_stat;
+			m::sys::Stat config_dir_stat;
 
 			try
 			{
-				config_dir_stat = m::fs::unix_fstat(config_dir_fd);
+				config_dir_stat = m::sys::unix_fstat(config_dir_fd);
 			}
 			catch(m::Exception& e)
 			{
@@ -742,7 +744,7 @@ int main(int argc, char *argv[])
 
 			if(fchdir(config_dir_fd))
 			{
-				MLIB_W(__("Error! Can't change current directory to config directory '%1': %2.", cmd_options.config_path, EE(errno)));
+				MLIB_W(__("Error! Can't change current directory to config directory '%1': %2.", cmd_options.config_path, EE()));
 				close(config_dir_fd);
 			}
 
@@ -778,7 +780,7 @@ int main(int argc, char *argv[])
 
 				try
 				{
-					dbus_address = m::fs::unix_readlink(DBUS_SESSION_LINK_NAME);
+					dbus_address = m::sys::unix_readlink(DBUS_SESSION_LINK_NAME);
 				}
 				catch(m::Exception& e)
 				{
@@ -790,7 +792,7 @@ int main(int argc, char *argv[])
 
 				try
 				{
-					m::setenv(DBUS_SESSION_ENV_NAME, dbus_address, true);
+					m::sys::setenv(DBUS_SESSION_ENV_NAME, dbus_address, true);
 				}
 				catch(m::Exception& e)
 				{
@@ -865,7 +867,7 @@ int main(int argc, char *argv[])
 		else
 			has_owner = dbus_connection->has_name(dbus_name.c_str());
 	}
-	catch(DBus::Error e)
+	catch(DBus::Error& e)
 	{
 		MLIB_W(_("DBus error"), EE(e));
 	}
@@ -915,7 +917,7 @@ int main(int argc, char *argv[])
 
 			try
 			{
-				m::fs::unix_symlink(dbus_session_address, DBUS_SESSION_LINK_NAME);
+				m::sys::unix_symlink(dbus_session_address, DBUS_SESSION_LINK_NAME);
 			}
 			catch(m::Exception& e)
 			{

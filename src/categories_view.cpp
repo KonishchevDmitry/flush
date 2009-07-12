@@ -34,6 +34,7 @@
 
 #include "app_icons.hpp"
 #include "categories_view.hpp"
+#include "common.hpp"
 
 
 namespace Categories_view_aux

@@ -18,10 +18,6 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
-
-#include <string>
-
 #include <gtk/gtkcellrenderertoggle.h>
 #include <gtk/gtkversion.h>
 
@@ -35,28 +31,13 @@
 #include <gtkmm/treeviewcolumn.h>
 #include <gtkmm/window.h>
 
-#include "../string.hpp"
+#include <mlib/gtk/main.hpp>
 
 #include "misc.hpp"
 
 
 
 namespace m { namespace gtk {
-
-const unsigned int MOUSE_LEFT_BUTTON = 1;
-const unsigned int MOUSE_RIGHT_BUTTON = 3;
-
-int WINDOW_BORDER_WIDTH = 5;
-int BOX_BORDER_WIDTH = WINDOW_BORDER_WIDTH ;
-
-int HBOX_SPACING = 5;
-int VBOX_SPACING = 5;
-
-int TABLE_NAME_VALUE_SPACING = HBOX_SPACING * 2;
-int TABLE_ROWS_SPACING = VBOX_SPACING;
-int TABLE_NAME_VALUE_COLUMNS_SPACING = HBOX_SPACING * 10;
-
-
 
 namespace
 {
@@ -250,6 +231,4 @@ bool yes_no_dialog(Gtk::Window& parent_window, const std::string& title, const s
 }
 
 }}
-
-#endif
 

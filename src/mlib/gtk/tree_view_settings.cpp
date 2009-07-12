@@ -18,9 +18,9 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
+#include <deque>
 
-#include <string>
+#include <mlib/gtk/main.hpp>
 
 #include "tree_view_settings.hpp"
 
@@ -74,6 +74,4 @@ int TREE_VIEW_COLUMNS_MAX_WIDTH = 2000;
 // Tree_view_settings <--
 
 }}
-
-#endif
 

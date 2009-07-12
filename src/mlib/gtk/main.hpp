@@ -18,11 +18,14 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
 #ifndef HEADER_MLIB_GTK_MAIN
 #define HEADER_MLIB_GTK_MAIN
 
+#include <mlib/main.hpp>
+
+
 namespace m { namespace gtk {
+
 
 /// Аналог gdk_threads_enter()/gdk_threads_leave().
 class Scoped_enter
@@ -32,8 +35,53 @@ class Scoped_enter
 		~Scoped_enter(void);
 };
 
+
+
+extern const unsigned int MOUSE_LEFT_BUTTON;
+extern const unsigned int MOUSE_RIGHT_BUTTON;
+
+/// Используется при создании Gtk::Window:
+/// window.set_border_width(WINDOW_BORDER_WIDTH)
+extern int WINDOW_BORDER_WIDTH;
+
+/// Используется при создании Gtk::Window:
+/// box.set_border_width(BOX_BORDER_WIDTH)
+extern int BOX_BORDER_WIDTH;
+
+/// Используется при создании Gtk::HBox:
+/// Gtk::HBox(false, m::gtk::HBOX_SPACING)
+extern int HBOX_SPACING;
+
+/// Используется при создании Gtk::VBox:
+/// Gtk::VBox(false, m::gtk::VBOX_SPACING)
+extern int VBOX_SPACING;
+
+/// Используется при формировании таблиц.
+///
+/// Например:
+/// Torrent name:[TABLE_NAME_VALUE_SPACING]some torrent name
+extern int TABLE_NAME_VALUE_SPACING;
+
+/// Используется при формировании таблиц.
+/// Величина отступа между строками.
+///
+/// Например:
+/// Torrent name:[TABLE_NAME_VALUE_SPACING]some torrent name
+/// [TABLE_ROWS_SPACING]
+/// Torrent name:[TABLE_NAME_VALUE_SPACING]some torrent name
+extern int TABLE_ROWS_SPACING;
+
+/// Используется при формировании таблиц.
+/// Величина отступа между колонками, содержащими пары (имя, значение).
+///
+/// Например:
+/// Torrent name:[TABLE_NAME_VALUE_SPACING]some torrent name[TABLE_NAME_VALUE_COLUMNS_SPACING]Torrent name:[TABLE_NAME_VALUE_SPACING]some torrent name
+/// [TABLE_ROWS_SPACING]
+/// Torrent name:[TABLE_NAME_VALUE_SPACING]some torrent name[TABLE_NAME_VALUE_COLUMNS_SPACING]Torrent name:[TABLE_NAME_VALUE_SPACING]some torrent name
+extern int TABLE_NAME_VALUE_COLUMNS_SPACING;
+
+
 }}
 
-#endif
 #endif
 

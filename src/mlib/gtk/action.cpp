@@ -20,8 +20,9 @@
 
 #ifdef MLIB_ENABLE_GTK
 
-
 #include <gtk/gtkversion.h>
+
+#include <gtkmm/action.h>
 
 #include "action.hpp"
 

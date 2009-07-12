@@ -22,7 +22,9 @@
 #include <string>
 
 #include <mlib/fs.hpp>
+#include <mlib/sys.hpp>
 
+#include "common.hpp"
 #include "daemon_fs.hpp"
 
 
@@ -49,7 +51,7 @@ std::string Daemon_fs::get_config_dir_path(void) const
 {
 	try
 	{
-		return m::fs::unix_get_cwd();
+		return m::sys::unix_get_cwd();
 	}
 	catch(m::Exception)
 	{

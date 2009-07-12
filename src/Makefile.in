@@ -72,6 +72,7 @@ am_flush_OBJECTS = flush-add_torrent_dialog.$(OBJEXT) \
 	flush-ip_filter.$(OBJEXT) flush-log_view.$(OBJEXT) \
 	flush-main.$(OBJEXT) flush-main_window.$(OBJEXT) \
 	flush-open_torrent_dialog.$(OBJEXT) \
+	flush-rss_settings_dialog.$(OBJEXT) \
 	flush-settings_window.$(OBJEXT) \
 	flush-statistics_window.$(OBJEXT) \
 	flush-temporary_action_dialog.$(OBJEXT) \
@@ -309,6 +310,8 @@ flush_SOURCES = \
 	main_window.hpp \
 	open_torrent_dialog.cpp \
 	open_torrent_dialog.hpp \
+	rss_settings_dialog.cpp \
+	rss_settings_dialog.hpp \
 	settings_window.cpp \
 	settings_window.hpp \
 	statistics_window.cpp \
@@ -427,6 +430,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-main_window.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-open_torrent_dialog.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-rss_settings_dialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-settings_window.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-statistics_window.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-temporary_action_dialog.Po@am__quote@
@@ -731,6 +735,20 @@ flush-open_torrent_dialog.obj: open_torrent_dialog.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='open_torrent_dialog.cpp' object='flush-open_torrent_dialog.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-open_torrent_dialog.obj `if test -f 'open_torrent_dialog.cpp'; then $(CYGPATH_W) 'open_torrent_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/open_torrent_dialog.cpp'; fi`
+
+flush-rss_settings_dialog.o: rss_settings_dialog.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-rss_settings_dialog.o -MD -MP -MF $(DEPDIR)/flush-rss_settings_dialog.Tpo -c -o flush-rss_settings_dialog.o `test -f 'rss_settings_dialog.cpp' || echo '$(srcdir)/'`rss_settings_dialog.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-rss_settings_dialog.Tpo $(DEPDIR)/flush-rss_settings_dialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='rss_settings_dialog.cpp' object='flush-rss_settings_dialog.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-rss_settings_dialog.o `test -f 'rss_settings_dialog.cpp' || echo '$(srcdir)/'`rss_settings_dialog.cpp
+
+flush-rss_settings_dialog.obj: rss_settings_dialog.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-rss_settings_dialog.obj -MD -MP -MF $(DEPDIR)/flush-rss_settings_dialog.Tpo -c -o flush-rss_settings_dialog.obj `if test -f 'rss_settings_dialog.cpp'; then $(CYGPATH_W) 'rss_settings_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/rss_settings_dialog.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-rss_settings_dialog.Tpo $(DEPDIR)/flush-rss_settings_dialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='rss_settings_dialog.cpp' object='flush-rss_settings_dialog.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-rss_settings_dialog.obj `if test -f 'rss_settings_dialog.cpp'; then $(CYGPATH_W) 'rss_settings_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/rss_settings_dialog.cpp'; fi`
 
 flush-settings_window.o: settings_window.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-settings_window.o -MD -MP -MF $(DEPDIR)/flush-settings_window.Tpo -c -o flush-settings_window.o `test -f 'settings_window.cpp' || echo '$(srcdir)/'`settings_window.cpp

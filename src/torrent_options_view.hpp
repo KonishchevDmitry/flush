@@ -24,6 +24,8 @@
 
 	#include <gtkmm/box.h>
 
+	#include "common.hpp"
+
 
 	class Torrent_options_view
 	:

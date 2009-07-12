@@ -18,16 +18,14 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
-
-#include <string>
-
 #include <gtk/gtkcellrenderertoggle.h>
 
 #include <gtkmm/treeviewcolumn.h>
 
+#include <mlib/gtk/main.hpp>
+#include <mlib/gtk/tree_view_settings.hpp>
+
 #include "tree_view.hpp"
-#include "tree_view_settings.hpp"
 
 
 namespace m { namespace gtk {
@@ -123,6 +121,4 @@ namespace m { namespace gtk {
 // Tree_view_columns <--
 
 }}
-
-#endif
 

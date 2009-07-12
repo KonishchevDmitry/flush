@@ -18,14 +18,13 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
 #ifndef HEADER_MLIB_GTK_WINDOW
 	#define HEADER_MLIB_GTK_WINDOW
 
 	#include <gtkmm/window.h>
 
-	#include "misc.hpp"
-	#include "window_settings.hpp"
+	#include <mlib/gtk/main.hpp>
+	#include <mlib/gtk/window_settings.hpp>
 
 
 	namespace m { namespace gtk {
@@ -52,6 +51,5 @@
 
 	}}
 
-#endif
 #endif
 

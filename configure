@@ -6941,6 +6941,8 @@ _ACEOF
 
 
 
+
+
 	if test "X$develop_mode" = "Xyes"
 	then
 		cat >>confdefs.h <<\_ACEOF
@@ -6949,6 +6951,10 @@ _ACEOF
 
 		cat >>confdefs.h <<\_ACEOF
 #define MLIB_DEVELOP_MODE 1
+_ACEOF
+
+		cat >>confdefs.h <<\_ACEOF
+#define MLIB_ENABLE_LIBS_FORWARDS 1
 _ACEOF
 
 	fi
@@ -10326,8 +10332,8 @@ fi
 		APP_LDADD="$APP_LDADD $LIBINTL"
 
 	MLIB_CPPFLAGS="$COMMON_CPPFLAGS"
-	MLIB_LIBRARIES="\$(top_builddir)/src/mlib/libmlib.a \$(top_builddir)/src/mlib/gtk/libmlib_gtk.a"
-	APP_CPPFLAGS="$COMMON_CPPFLAGS -I \$(top_srcdir)/src/mlib/src -include \$(top_srcdir)/src/common.hpp"
+	MLIB_LIBRARIES="\$(top_builddir)/src/mlib/base/libmlib_base.a \$(top_builddir)/src/mlib/libmlib.a \$(top_builddir)/src/mlib/gtk/libmlib_gtk.a"
+	APP_CPPFLAGS="$COMMON_CPPFLAGS"
 	APP_DEPENDENCIES="$APP_DEPENDENCIES $MLIB_LIBRARIES"
 	APP_LDADD="$APP_LDADD $MLIB_LIBRARIES"
 
@@ -10360,7 +10366,7 @@ subdirs="$subdirs dbus-c++"
 
 
 
-ac_config_files="$ac_config_files icons/Makefile man/Makefile man/ru/Makefile po/Makefile.in src/Makefile src/mlib/Makefile src/mlib/forwards/Makefile src/mlib/forwards/gdkmm/Makefile src/mlib/forwards/gtkmm/Makefile src/mlib/gtk/Makefile ui/Makefile flush.desktop Makefile"
+ac_config_files="$ac_config_files icons/Makefile man/Makefile man/ru/Makefile po/Makefile.in src/Makefile src/mlib/Makefile src/mlib/base/Makefile src/mlib/base/libs_forwards/Makefile src/mlib/gtk/Makefile ui/Makefile flush.desktop Makefile"
 
 
 cat >confcache <<\_ACEOF
@@ -11012,9 +11018,8 @@ do
     "po/Makefile.in") CONFIG_FILES="$CONFIG_FILES po/Makefile.in" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "src/mlib/Makefile") CONFIG_FILES="$CONFIG_FILES src/mlib/Makefile" ;;
-    "src/mlib/forwards/Makefile") CONFIG_FILES="$CONFIG_FILES src/mlib/forwards/Makefile" ;;
-    "src/mlib/forwards/gdkmm/Makefile") CONFIG_FILES="$CONFIG_FILES src/mlib/forwards/gdkmm/Makefile" ;;
-    "src/mlib/forwards/gtkmm/Makefile") CONFIG_FILES="$CONFIG_FILES src/mlib/forwards/gtkmm/Makefile" ;;
+    "src/mlib/base/Makefile") CONFIG_FILES="$CONFIG_FILES src/mlib/base/Makefile" ;;
+    "src/mlib/base/libs_forwards/Makefile") CONFIG_FILES="$CONFIG_FILES src/mlib/base/libs_forwards/Makefile" ;;
     "src/mlib/gtk/Makefile") CONFIG_FILES="$CONFIG_FILES src/mlib/gtk/Makefile" ;;
     "ui/Makefile") CONFIG_FILES="$CONFIG_FILES ui/Makefile" ;;
     "flush.desktop") CONFIG_FILES="$CONFIG_FILES flush.desktop" ;;

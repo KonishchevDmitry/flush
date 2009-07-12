@@ -18,11 +18,12 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
 #ifndef HEADER_MLIB_GTK_LINK_BUTTON
 	#define HEADER_MLIB_GTK_LINK_BUTTON
 
 	#include <gtkmm/box.h>
+
+	#include <mlib/gtk/main.hpp>
 
 
 	namespace m { namespace gtk {
@@ -70,6 +71,5 @@
 
 	}}
 
-#endif
 #endif
 

@@ -25,8 +25,13 @@
 	#include <string>
 	#include <deque>
 
+	#ifndef MLIB_ENABLE_LIBS_FORWARDS
+		#include <libconfig.h++>
+	#endif
+
 	#include <libtorrent/entry.hpp>
 
+	#include "common.hpp"
 
 
 	/// Облегченная структура для хранения тех настроек, которые невозможно

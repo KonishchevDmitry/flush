@@ -26,6 +26,8 @@
 
 	#include <libglademm/xml.h>
 
+	#include "common.hpp"
+
 
 	/// Список правил IP фильтра.
 	class Ip_filter: public Gtk::VBox

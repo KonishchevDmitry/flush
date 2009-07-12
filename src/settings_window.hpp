@@ -35,8 +35,18 @@
 	#include <gtkmm/treestore.h>
 	#include <gtkmm/window.h>
 
+	#ifndef MLIB_ENABLE_LIBS_FORWARDS
+		#include <gtkmm/box.h>
+		#include <gtkmm/button.h>
+		#include <gtkmm/label.h>
+		#include <gtkmm/linkbutton.h>
+		#include <gtkmm/spinbutton.h>
+	#endif
+
 	#include <mlib/gtk/dialog.hpp>
 	#include <mlib/gtk/tree_view.hpp>
+
+	#include "common.hpp"
 
 
 

@@ -18,447 +18,312 @@
 **************************************************************************/
 
 
+// Предоставляет функции для выполнения операций с файловой системой,
+// таких как копирование, удаление файлов, манипуляции с путями и т. п.
+
 #ifndef HEADER_MLIB_FS
-	#define HEADER_MLIB_FS
+#define HEADER_MLIB_FS
 
-	// Предоставляет функции для выполнения операций с файловой системой,
-	// таких как копирование, удаление файлов, манипуляции с путями и т. п.
+#include <map>
 
-	#include <sys/stat.h>
+#include <boost/filesystem/path.hpp>
+#include <boost/shared_ptr.hpp>
 
-	#include <map>
-	#include <sstream>
-	#include <string>
-
-	#include <boost/filesystem/path.hpp>
-	#include <boost/shared_ptr.hpp>
-
-	#include <glibmm/miscutils.h>
-	#include <glibmm/ustring.h>
-
-	#include "errors.hpp"
-	#include "types.hpp"
+#include <mlib/main.hpp>
 
 
 
-	namespace error_string
+namespace m {
+
+
+namespace fs {
+
+/// Предоставляет некоторые общие функции при работе с
+/// конфигурационными файлами.
+namespace config
+{
+	/// Фиксирует в файле config_path изменения, сделанные во временном
+	/// файле, возвращенном функцией start_writing.
+	///
+	/// Предназначена для использования вместе со start_reading в целях
+	/// обеспечения защиты от порчи конфигурационных файлов при крахе
+	/// программы/системы во время их записи.
+	///
+	/// @throw - m::Exception.
+	void	end_writing(const std::string& config_path);
+
+	/// Возвращает путь к конфигурационному файлу или к временному файлу,
+	/// в зависимости от того, была ли прервана работа программы в прошлый
+	/// раз при записи конфигурационного файла.
+	///
+	/// Предназначена для использования вместе со start_writing в целях
+	/// обеспечения защиты от порчи конфигурационных файлов при крахе
+	/// программы/системы во время их записи.
+	///
+	/// @throw - m::Exception.
+	std::string start_reading(const std::string& config_path);
+
+	/// Возвращает путь к временному по отношению к config_path файлу.
+	/// Программа должна сначала сохранить конфиг во временный файл,
+	/// а затем выполнить end_writing, чтобы зафиксировать изменения
+	/// в исходном файле.
+	///
+	/// Предназначена для использования вместе со start_reading в целях
+	/// обеспечения защиты от порчи конфигурационных файлов при крахе
+	/// программы/системы во время их записи.
+	///
+	/// @throw - m::Exception.
+	std::string	start_writing(const std::string& config_path);
+}
+
+
+
+/// Предоставляет функции и классы для построения дерева файлов и
+/// каталогов и функции для осуществления над ним различных операций,
+/// таких как копирование и удаление (реальных файлов).
+namespace tree
+{
+	class File;
+	class Directory;
+
+	typedef boost::shared_ptr<File> File_ptr;
+	typedef boost::shared_ptr<const File> File_const_ptr;
+
+	typedef boost::shared_ptr<Directory> Directory_ptr;
+	typedef boost::shared_ptr<const Directory> Directory_const_ptr;
+
+	typedef std::map<std::string, File_ptr> Children;
+
+
+
+	class File
 	{
-		/// Возвращает строку с ошибкой, которая соответствует данному
-		/// исключению.
-		/// Используется функцией EE().
-		std::string		get(const boost::fs::basic_filesystem_error<boost::fs::path>& error);
-	}
+		protected:
+			enum Type { FILE, DIRECTORY };
 
 
-	namespace m
+		public:
+					File(const std::string& name);
+			virtual	~File(void) {};
+
+		protected:
+			File(Type type, const std::string& name);
+
+
+		public:
+			const std::string	name;
+
+		private:
+			const Type			type;
+
+
+		public:
+			/// Определяет, является ли файл обычным файлом или
+			/// директорией.
+			bool	is_file(void) const;
+	};
+
+
+
+	class Directory: public File
 	{
-	namespace fs
-	{
-		/// Предоставляет некоторые общие функции при работе с
-		/// конфигурационными файлами.
-		namespace config
-		{
-			/// Фиксирует в файле config_path изменения, сделанные во временном
-			/// файле, возвращенном функцией start_writing.
-			///
-			/// Предназначена для использования вместе со start_reading в целях
-			/// обеспечения защиты от порчи конфигурационных файлов при крахе
-			/// программы/системы во время их записи.
-			///
-			/// @throw - m::Exception.
-			void	end_writing(const std::string& config_path);
+		public:
+			Directory(const std::string& name);
 
-			/// Возвращает путь к конфигурационному файлу или к временному файлу,
-			/// в зависимости от того, была ли прервана работа программы в прошлый
-			/// раз при записи конфигурационного файла.
-			///
-			/// Предназначена для использования вместе со start_writing в целях
-			/// обеспечения защиты от порчи конфигурационных файлов при крахе
-			/// программы/системы во время их записи.
-			///
-			/// @throw - m::Exception.
-			std::string start_reading(const std::string& config_path);
 
-			/// Возвращает путь к временному по отношению к config_path файлу.
-			/// Программа должна сначала сохранить конфиг во временный файл,
-			/// а затем выполнить end_writing, чтобы зафиксировать изменения
-			/// в исходном файле.
-			///
-			/// Предназначена для использования вместе со start_reading в целях
-			/// обеспечения защиты от порчи конфигурационных файлов при крахе
-			/// программы/системы во время их записи.
-			///
-			/// @throw - m::Exception.
-			std::string	start_writing(const std::string& config_path);
-		}
+		public:
+			Children	children;
+	};
 
 
 
-		/// Предоставляет функции и классы для построения дерева файлов и
-		/// каталогов и функции для осуществления над ним различных операций,
-		/// таких как копирование и удаление (реальных файлов).
-		namespace tree
-		{
-			class File;
-			class Directory;
+	/// Копирует все файлы дерева.
+	/// @throw - m::Exception.
+	void			cp(const std::string& src_prefix, const std::string& dest_prefix, const Directory_const_ptr& root);
 
-			typedef boost::shared_ptr<File> File_ptr;
-			typedef boost::shared_ptr<const File> File_const_ptr;
+	/// Создает дерево файлов и каталогов из списка файлов.
+	/// @throw - m::Exception.
+	Directory_ptr	create(const std::vector<std::string>& files);
 
-			typedef boost::shared_ptr<Directory> Directory_ptr;
-			typedef boost::shared_ptr<const Directory> Directory_const_ptr;
+	/// Удаляет все файлы дерева и директории, если они пусты.
+	/// @throw - m::Exception.
+	void			rm(const std::string& prefix, const Directory_const_ptr& root);
+}
 
-			typedef std::map<std::string, File_ptr> Children;
 
 
+/// Внимание! Очень медленная реализация.
+/// Сделана буквально на коленке.
+/// Если в дальнейшем планируется активное
+/// использование, то необходима доработка.
+class Path: public boost::filesystem::path
+{
+	public:
+		Path(void);
+		Path(const char* path_string);
+		Path(const std::string& path_string);
+		Path(const Glib::ustring& path_string);
+		Path(const boost::filesystem::path& path);
 
-			class File
-			{
-				protected:
-					enum Type { FILE, DIRECTORY };
 
+	private:
+		boost::filesystem::path		path;
 
-				public:
-							File(const std::string& name);
-					virtual	~File(void) {};
 
-				protected:
-					File(Type type, const std::string& name);
-
-
-				public:
-					const std::string	name;
-
-				private:
-					const Type			type;
-
-
-				public:
-					/// Определяет, является ли файл обычным файлом или
-					/// директорией.
-					bool	is_file(void) const;
-			};
-
-
-
-			class Directory: public File
-			{
-				public:
-					Directory(const std::string& name);
-
-
-				public:
-					Children	children;
-			};
-
-
-
-			/// Копирует все файлы дерева.
-			/// @throw - m::Exception.
-			void			cp(const std::string& src_prefix, const std::string& dest_prefix, const Directory_const_ptr& root);
-
-			/// Создает дерево файлов и каталогов из списка файлов.
-			/// @throw - m::Exception.
-			Directory_ptr	create(const std::vector<std::string>& files);
-
-			/// Удаляет все файлы дерева и директории, если они пусты.
-			/// @throw - m::Exception.
-			void			rm(const std::string& prefix, const Directory_const_ptr& root);
-		}
-
-
-
-		/// Внимание! Очень медленная реализация.
-		/// Сделана буквально на коленке.
-		/// Если в дальнейшем планируется активное
-		/// использование, то необходима доработка.
-		class Path: public boost::fs::path
-		{
-			public:
-				Path(void);
-				Path(const char* path_string);
-				Path(const std::string& path_string);
-				Path(const Glib::ustring& path_string);
-				Path(const boost::fs::path& path);
-
-
-			private:
-				boost::fs::path		path;
-
-
-			public:
-				/// Делает путь абсолютным.
-				/// @throw - m::Exception.
-				Path&			absolute(void);
-
-				/// Возвращает имя файла.
-				/// Внимание! Для "../../../" возвращает "..".
-				std::string		basename(void) const;
-
-				/// Возвращает родительскую директорию.
-				std::string		dirname(void) const;
-
-				/// Возвращает абсолютный путь.
-				/// @throw - m::Exception.
-				Path			get_absolute(void);
-
-				/// Возвращает нормализованный путь.
-				Path			get_normalized(void) const;
-
-				/// Определяет, абсолютный ли это путь или нет.
-				bool			is_absolute(void) const;
-
-				/// Определяет, является ли путь простым, а именно, не содержит
-				/// ли он в себе "../", "/./" и т. д.
-				bool			is_simple(void) const;
-
-				/// Нормализует путь.
-				Path&			normalize(void);
-
-
-			public:
-				Path operator/(const char* path) const;
-				Path operator/(const std::string& path) const;
-				Path operator/(const Path& path) const;
-				operator std::string() const;
-				operator Glib::ustring() const;
-		};
-
-		/// Для работы Glib::ustring::compose.
-		std::wostream&	operator<<(std::wostream& stream, const Path& path);
-
-
-
-		/// Возвращается функцией unix_stat и содержит информацию
-		/// о файле.
-		class Stat
-		{
-			public:
-				Stat(void);
-				Stat(const struct stat& c_stat);
-
-
-			public:
-				/// ID of device containing file.
-				dev_t		dev;
-
-				/// Inode number.
-				ino_t		ino;
-
-				/// Protection.
-				mode_t		mode;
-
-				/// Number of hard links.
-				nlink_t		nlink;
-
-				/// User ID of owner.
-				uid_t		uid;
-
-				/// Group ID of owner.
-				gid_t		gid;
-
-				/// Device ID (if special file).
-				dev_t		rdev;
-
-				/// Total size, in bytes.
-				off_t		size;
-
-				/// Blocksize for file system I/O.
-				blksize_t	blksize;
-
-				/// Number of blocks allocated.
-				blkcnt_t	blocks;
-
-				/// Time of last access.
-				time_t		atime;
-
-				/// Time of last modification.
-				time_t		mtime;
-
-				/// Time of last status change.
-				time_t		ctime;
-
-
-			public:
-				inline
-				bool		is_blk(void);
-				inline
-				bool		is_chr(void);
-				inline
-				bool		is_dir(void);
-				inline
-				bool		is_fifo(void);
-				inline
-				bool		is_lnk(void);
-				inline
-				bool		is_reg(void);
-				inline
-				bool		is_sock(void);
-		};
-
-
-
-		/// Если требуется выделить статический буфер для размещения в нем пути
-		/// к файлу, то размер буфера лучше задавать по этой константе.
-		/// Предполагается, что, если это не ошибочная ситуация, длина пути не
-		/// должена привысить данной величины.
-		extern const size_t MAX_FILE_PATH_SIZE;
-
-
-
-		/// Проверяет, имеет ли файл file_name расширение extension.
-		bool			check_extension(const std::string& file_name, const std::string& extension);
-
-		/// Копирует файл/ссылку (не директорию) из from_path в to_path.
-		/// @param error_on_exists - если true, то в случае, когда такой файл
-		/// уже существует, будет сгенерировано исключение.
+	public:
+		/// Делает путь абсолютным.
 		/// @throw - m::Exception.
-		void			copy_file(const std::string& from_path, const std::string& to_path, bool error_on_exists = false);
+		Path&			absolute(void);
 
-		/// Копирует все файлы, перечисленные в массиве files, получая их пути
-		/// путем сложения src_root и элемента массива files. Причем пути к
-		/// файлам могут начинаться с "/" так, как будто они находятся в корне
-		/// файловой системы, которым является src_root.
+		/// Возвращает имя файла.
+		/// Внимание! Для "../../../" возвращает "..".
+		std::string		basename(void) const;
+
+		/// Возвращает родительскую директорию.
+		std::string		dirname(void) const;
+
+		/// Возвращает абсолютный путь.
 		/// @throw - m::Exception.
-		void			copy_files(const std::string& src_root, const std::string& dest_root, const std::vector<std::string>& files);
+		Path			get_absolute(void);
 
-		/// Рекурсивно копирует дерево директорий (аналогично cp -r).
-		/// @throw - m::Exception.
-		void			cp(const std::string& from, const std::string& to);
+		/// Возвращает нормализованный путь.
+		Path			get_normalized(void) const;
 
-		/// Возвращает абсолютный путь, если path таким не является.
-		/// В случае, если абсолютный путь получить не удалось,
-		/// возвращает path.
-		std::string		get_abs_path_lazy(const std::string& path);
+		/// Определяет, абсолютный ли это путь или нет.
+		bool			is_absolute(void) const;
 
-		/// Возвращает путь к домашней директории пользователя.
-		/// Если его получить не удалось, аварийно завершает программу.
-		std::string		get_user_home_path(void);
+		/// Определяет, является ли путь простым, а именно, не содержит
+		/// ли он в себе "../", "/./" и т. д.
+		bool			is_simple(void) const;
 
-		/// Проверяет, существует файл или нет (ходит по ссылкам).
-		/// Генерирует исключение, если родительской директории файла
-		/// не существует, или не хватает прав на определение существования
-		/// файла.
-		/// @param error_on_missing_parent - если false, то исключение не
-		/// генерируется, если родительской директории не существует.
-		/// @throw - m::Exception.
-		bool			is_exists(const std::string& path, bool error_on_missing_parent = true);
+		/// Нормализует путь.
+		Path&			normalize(void);
 
-		/// Проверяет, существует файл или нет (ходит по ссылкам).
-		/// При ошибках не генерирует исключений, а просто возвращает false.
-		bool			is_exists_without_errors(const std::string& path);
 
-		/// Проверяет, существует файл или нет (не ходит по ссылкам).
-		/// Генерирует исключение, если родительской директории файла
-		/// не существует, или не хватает прав на определение существования
-		/// файла.
-		/// @throw - m::Exception.
-		bool			is_lexists(const std::string& path);
+	public:
+		Path operator/(const char* path) const;
+		Path operator/(const std::string& path) const;
+		Path operator/(const Path& path) const;
+		operator std::string() const;
+		operator Glib::ustring() const;
+};
 
-		/// Создает директорию, если ее еще не существует.
-		/// @throw - m::Exception.
-		/// @return - true, если директория была создана данным вызовом и
-		/// false, если она уже существовала.
-		bool			mkdir_if_not_exists(const std::string& path);
+/// Для работы Glib::ustring::compose.
+std::wostream&	operator<<(std::wostream& stream, const Path& path);
 
-		/// Создает директорию, если ее еще не существует.
-		/// Если между проверкой существования директории
-		/// и ее созданием другой процесс создаст эту же
-		/// директорию, то не возвращает ошибки.
-		/// @throw - m::Exception.
-		void			mkdir_if_not_exists_with_race_conditions(const std::string& path);
 
-		/// Удаляет файл или дерево каталогов.
-		/// Если такого файла не существует, или из-за прав
-		/// доступа нет возможности определить, есть ли такой
-		/// файл или нет, то генерирует исключение.
-		/// @throw - m::Exception.
-		void			rm(const std::string& path);
 
-		/// Удаляет все файлы, перечисленные в массиве files, получая их пути
-		/// путем сложения root и элемента массива files. Причем пути к файлам
-		/// могут начинаться с "/" так, как будто они находятся в корне
-		/// файловой системы, которым является root. После удаления файлов
-		/// также удаляются все пустые директории находящиеся между root и
-		/// удаляемыми файлами.
-		/// Если указанного файла не существует, то это не является ошибкой.
-		/// @throw - m::Exception.
-		void			rm_files_with_empty_dirs(const std::string& root, const std::vector<std::string>& files);
+/// Если требуется выделить статический буфер для размещения в нем пути
+/// к файлу, то размер буфера лучше задавать по этой константе.
+/// Предполагается, что, если это не ошибочная ситуация, длина пути не
+/// должена привысить данной величины.
+extern const size_t MAX_FILE_PATH_SIZE;
 
-		/// Удаляет файл или дерево каталогов, если они существуют.
-		/// @throw - m::Exception.
-		void			rm_if_exists(const std::string& path);
 
-		/// Удаляет расширение из имени файла.
-		Glib::ustring	strip_extension(const Glib::ustring& file_name);
 
-		/// Сбрасывает все данные файла path, которые находятся в буферах ядра,
-		/// на диск.
-		/// @throw - m::Exception.
-		void			sync_file(const std::string& path);
+/// Проверяет, имеет ли файл file_name расширение extension.
+bool			check_extension(const std::string& file_name, const std::string& extension);
 
-		/// Аналог системного fstat.
-		/// @throw - m::Sys_exception.
-		Stat			unix_fstat(int fd);
+/// Копирует файл/ссылку (не директорию) из from_path в to_path.
+/// @param error_on_exists - если true, то в случае, когда такой файл
+/// уже существует, будет сгенерировано исключение.
+/// @throw - m::Exception.
+void			copy_file(const std::string& from_path, const std::string& to_path, bool error_on_exists = false);
 
-		/// Аналог системного get_cwd.
-		/// @throw - m::Sys_exception.
-		std::string		unix_get_cwd(void);
+/// Копирует все файлы, перечисленные в массиве files, получая их пути
+/// путем сложения src_root и элемента массива files. Причем пути к
+/// файлам могут начинаться с "/" так, как будто они находятся в корне
+/// файловой системы, которым является src_root.
+/// @throw - m::Exception.
+void			copy_files(const std::string& src_root, const std::string& dest_root, const std::vector<std::string>& files);
 
-		/// Аналог системного lstat.
-		/// @throw - m::Sys_exception.
-		Stat			unix_lstat(const std::string& path);
+/// Рекурсивно копирует дерево директорий (аналогично cp -r).
+/// @throw - m::Exception.
+void			cp(const std::string& from, const std::string& to);
 
-		/// Аналог системного mkdir.
-		/// @throw - m::Sys_exception.
-		void			unix_mkdir(const std::string& path);
+/// Возвращает абсолютный путь, если path таким не является.
+/// В случае, если абсолютный путь получить не удалось,
+/// возвращает path.
+std::string		get_abs_path_lazy(const std::string& path);
 
-		/// Аналог системного open.
-		/// @throw - m::Sys_exception.
-		int				unix_open(const std::string& path, int flags, mode_t mode = 0);
+/// Возвращает путь к домашней директории пользователя.
+/// Если его получить не удалось, аварийно завершает программу.
+std::string		get_user_home_path(void);
 
-		/// Аналог системного read.
-		/// @throw - m::Sys_exception.
-		ssize_t			unix_read(int fd, void* buf, size_t size, bool non_block = false);
+/// Проверяет, существует файл или нет (ходит по ссылкам).
+/// Генерирует исключение, если родительской директории файла
+/// не существует, или не хватает прав на определение существования
+/// файла.
+/// @param error_on_missing_parent - если false, то исключение не
+/// генерируется, если родительской директории не существует.
+/// @throw - m::Exception.
+bool			is_exists(const std::string& path, bool error_on_missing_parent = true);
 
-		/// Аналог системного readlink.
-		/// @throw - m::Sys_exception.
-		std::string		unix_readlink(const std::string& path);
+/// Проверяет, существует файл или нет (ходит по ссылкам).
+/// При ошибках не генерирует исключений, а просто возвращает false.
+bool			is_exists_without_errors(const std::string& path);
 
-		/// Аналог системного rename.
-		/// @throw - m::Sys_exception.
-		void			unix_rename(const std::string& from, const std::string& to);
+/// Проверяет, существует файл или нет (не ходит по ссылкам).
+/// Генерирует исключение, если родительской директории файла
+/// не существует, или не хватает прав на определение существования
+/// файла.
+/// @throw - m::Exception.
+bool			is_lexists(const std::string& path);
 
-		/// Аналог системного rmdir.
-		/// @throw - m::Sys_exception.
-		void			unix_rmdir(const std::string& path);
+/// Создает директорию, если ее еще не существует.
+/// @throw - m::Exception.
+/// @return - true, если директория была создана данным вызовом и
+/// false, если она уже существовала.
+bool			mkdir_if_not_exists(const std::string& path);
 
-		/// Аналог системного stat.
-		/// @throw - m::Sys_exception.
-		Stat			unix_stat(const std::string& path);
+/// Создает директорию, если ее еще не существует.
+/// Если между проверкой существования директории
+/// и ее созданием другой процесс создаст эту же
+/// директорию, то не возвращает ошибки.
+/// @throw - m::Exception.
+void			mkdir_if_not_exists_with_race_conditions(const std::string& path);
 
-		/// Аналог системного symlink.
-		/// @throw - m::Sys_exception.
-		void			unix_symlink(const std::string& old_path, const std::string& new_path);
+/// Удаляет файл или дерево каталогов.
+/// Если такого файла не существует, или из-за прав
+/// доступа нет возможности определить, есть ли такой
+/// файл или нет, то генерирует исключение.
+/// @throw - m::Exception.
+void			rm(const std::string& path);
 
-		/// Аналог системного unlink.
-		/// @throw - m::Sys_exception.
-		void			unix_unlink(const std::string& path);
+/// Удаляет все файлы, перечисленные в массиве files, получая их пути
+/// путем сложения root и элемента массива files. Причем пути к файлам
+/// могут начинаться с "/" так, как будто они находятся в корне
+/// файловой системы, которым является root. После удаления файлов
+/// также удаляются все пустые директории находящиеся между root и
+/// удаляемыми файлами.
+/// Если указанного файла не существует, то это не является ошибкой.
+/// @throw - m::Exception.
+void			rm_files_with_empty_dirs(const std::string& root, const std::vector<std::string>& files);
 
-		/// Аналог системного utime.
-		void			unix_utime(const std::string& path, const Stat& file_stat);
+/// Удаляет файл или дерево каталогов, если они существуют.
+/// @throw - m::Exception.
+void			rm_if_exists(const std::string& path);
 
-		/// Аналог системного write.
-		/// @throw - m::Sys_exception.
-		ssize_t			unix_write(int fd, const void* buf, size_t size, bool non_block = false);
-	}
-	}
+/// Удаляет расширение из имени файла.
+Glib::ustring	strip_extension(const Glib::ustring& file_name);
 
-	#include "fs.hh"
+/// Сбрасывает все данные файла path, которые находятся в буферах ядра,
+/// на диск.
+/// @throw - m::Exception.
+void			sync_file(const std::string& path);
 
-	#ifdef MLIB_ENABLE_ALIASES
-		using m::fs::Path;
-	#endif
+}
+
+
+std::string		EE(const boost::filesystem::basic_filesystem_error<boost::filesystem::path>& error);
+
+
+}
+
+#ifdef MLIB_ENABLE_ALIASES
+	using m::EE;
+	using m::fs::Path;
+#endif
 
 #endif
 

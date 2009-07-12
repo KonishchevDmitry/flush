@@ -46,6 +46,10 @@
 #include <gtkmm/toolbutton.h>
 #include <gtkmm/uimanager.h>
 
+#include <mlib/main.hpp>
+#include <mlib/misc.hpp>
+#include <mlib/string.hpp>
+
 #include <mlib/gtk/action.hpp>
 #include <mlib/gtk/glade.hpp>
 #include <mlib/gtk/main.hpp>
@@ -58,6 +62,7 @@
 #include "application.hpp"
 #include "categories_view.hpp"
 #include "client_settings.hpp"
+#include "common.hpp"
 #include "create_torrent_dialog.hpp"
 #include "daemon_proxy.hpp"
 #include "daemon_settings.hpp"
@@ -66,6 +71,7 @@
 #include "main.hpp"
 #include "main_window.hpp"
 #include "open_torrent_dialog.hpp"
+#include "rss_settings_dialog.hpp"
 #include "settings_window.hpp"
 #include "statistics_window.hpp"
 #include "temporary_action_dialog.hpp"
@@ -334,6 +340,10 @@ Main_window::Main_window(const Main_window_settings& settings)
 
 
 			action_group->add(Gtk::Action::create("edit", _("_Edit")));
+			action_group->add(
+				m::gtk::create_action_with_icon_name("rss", app_icons::app_icon("rss"), _("_RSS")),
+				sigc::mem_fun(*this, &Main_window::on_show_statistics_callback)
+			);
 			action_group->add(
 				app_icons::create_action("statistics", app_icons::ICON_STATISTICS, _("_Statistics")),
 				sigc::mem_fun(*this, &Main_window::on_show_statistics_callback)
@@ -617,6 +627,9 @@ Main_window::Main_window(const Main_window_settings& settings)
 			"		</menu>"
 
 			"		<menu action='edit'>"
+#ifdef DEVELOP_MODE
+			"			<menuitem action='rss'/>"
+#endif
 			"			<menuitem action='statistics'/>"
 			"			<menuitem action='preferences'/>"
 			"		</menu>"

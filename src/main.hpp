@@ -22,6 +22,14 @@
 #ifndef HEADER_MAIN
 	#define HEADER_MAIN
 
+	#ifndef MLIB_ENABLE_LIBS_FORWARDS
+		#include <gtkmm/dialog.h>
+		#include <gtkmm/window.h>
+	#endif
+
+	#include "common.hpp"
+
+
 	/// Создает диалог для отображения сообщения.
 	Gtk::Dialog*		create_message_dialog(Gtk::Window& parent_window, Message_type type, std::string title, Glib::ustring message);
 

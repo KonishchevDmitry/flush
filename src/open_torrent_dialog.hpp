@@ -27,6 +27,7 @@
 	#include <gtkmm/filechooserdialog.h>
 	#include <gtkmm/window.h>
 
+	#include "common.hpp"
 
 
 	/// Окно выбора *.torrent файла для открытия.

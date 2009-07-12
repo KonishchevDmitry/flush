@@ -29,7 +29,9 @@
 #include <gtkmm/window.h>
 
 #include <mlib/gtk/misc.hpp>
+#include <mlib/string.hpp>
 
+#include "common.hpp"
 #include "main.hpp"
 #include "trackers_view.hpp"
 

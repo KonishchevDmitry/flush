@@ -37,16 +37,14 @@
 
 #include <glibmm/dispatcher.h>
 
-#include "errors.hpp"
 #ifdef MLIB_ENABLE_INOTIFY
-	#include "fs.hpp"
+	#include <mlib/fs.hpp>
+	#include <mlib/sys.hpp>
+	#include <mlib/misc.hpp>
 #endif
-	#include "fs_watcher.hpp"
-#ifdef MLIB_ENABLE_INOTIFY
-	#include "misc.hpp"
-	#include "messages.hpp"
-#endif
-#include "string.hpp"
+#include <mlib/main.hpp>
+
+#include "fs_watcher.hpp"
 
 
 
@@ -79,7 +77,7 @@ class Fs_watcher::Implementation
 
 
 			/// Связь между потоками.
-			Connection				connection;
+			m::Connection			connection;
 
 			/// Дескриптор запущенного в данный момент потока, если он запущен.
 			boost::thread*			thread;
@@ -232,8 +230,8 @@ std::string Fs_watcher::Implementation::get_watching_directory(void)
 
 				try
 				{
-					m::fs::Stat file_stat;
-					file_stat = unix_lstat(m::fs::Path(watching_directory) / file_name);
+					m::sys::Stat file_stat;
+					file_stat = m::sys::unix_lstat(Path(watching_directory) / file_name);
 
 					// На только что созданные файлы не
 					// обращаем внимания - ждем, пока в них
@@ -373,7 +371,7 @@ void Fs_watcher::Implementation::unset_watching_directory(void)
 	void Fs_watcher::Implementation::operator()(void)
 	{
 		std::string watching_directory;
-		char events_buf[sizeof(struct inotify_event) + m::fs::MAX_FILE_PATH_SIZE];
+		char events_buf[sizeof(struct inotify_event) + m::sys::FILE_PATH_MAX_SIZE];
 
 		{
 			boost::mutex::scoped_lock lock(this->mutex);
@@ -393,7 +391,7 @@ void Fs_watcher::Implementation::unset_watching_directory(void)
 
 					try
 					{
-						end_ptr += m::fs::unix_read(
+						end_ptr += m::sys::unix_read(
 							this->fd, &events_buf, sizeof events_buf
 						);
 

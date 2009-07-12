@@ -18,14 +18,9 @@
 **************************************************************************/
 
 
-#ifndef MLIB_ENABLE_ALIASES
-	#define MLIB_ENABLE_ALIASES
-#endif
+#include <mlib/gtk/main.hpp>
 
 #include "toolbar.hpp"
-
-#include <mlib/messages.hpp>
-#include <mlib/string.hpp>
 
 
 

@@ -26,6 +26,8 @@
 
 	#include <mlib/gtk/misc.hxx>
 
+	#include "common.hpp"
+
 
 	/// Форматирует заголовок окна стандартным заранее определенным образом.
 	Glib::ustring				format_window_title(const Glib::ustring& title = "");

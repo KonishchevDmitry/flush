@@ -20,6 +20,10 @@
 
 #ifdef MLIB_ENABLE_LIBTORRENT
 
+#ifndef MLIB_ENABLE_ALIASES
+	#define MLIB_ENABLE_ALIASES
+#endif
+
 #include <algorithm>
 
 #include <libtorrent/bencode.hpp>
@@ -28,15 +32,44 @@
 #include <libtorrent/torrent_info.hpp>
 #include <libtorrent/version.hpp>
 
-#include "fs.hpp"
+#include <mlib/fs.hpp>
+#include <mlib/main.hpp>
+#include <mlib/misc.hpp>
+#include <mlib/string.hpp>
+
 #include "libtorrent.hpp"
-#include "misc.hpp"
-#include "string.hpp"
-#include "types.hpp"
 
 
 
-namespace m { namespace libtorrent {
+namespace m {
+
+
+namespace libtorrent {
+
+// Torrent_file -->
+	Torrent_file::Torrent_file(int id, const std::string& path, Size size)
+	:
+		id(id),
+		path(path),
+		size(size)
+	{
+	}
+
+
+
+	std::string Torrent_file::get_path(void)
+	{
+		return this->path;
+	}
+
+
+
+	void Torrent_file::set_path(std::string path)
+	{
+		this->path = path;
+	}
+// Torrent_file <--
+
 
 
 Torrent_metadata::Torrent_metadata(const lt::torrent_info& info, const std::string& publisher_url)
@@ -183,7 +216,7 @@ Torrent_metadata get_torrent_metadata(const m::Buffer& torrent_data, const std::
 			// Имя -->
 			{
 				const lazy_entry* name_entry;
-			
+
 				if( (name_entry = info_entry->dict_find_string("name.utf-8")) )
 					torrent_name = m::validate_utf(name_entry->string_value());
 				else if( (name_entry = info_entry->dict_find_string("name")) )
@@ -399,7 +432,38 @@ std::vector<std::string> get_torrent_trackers(const libtorrent::torrent_info& to
 	return trackers;
 }
 
-}}
+
+
+Version get_version(void)
+{
+	return ::m::get_version(LIBTORRENT_VERSION_MAJOR, LIBTORRENT_VERSION_MINOR, 0);
+}
+
+}
+
+
+
+std::string EE(const libtorrent::duplicate_torrent& error)
+{
+	return _("torrent is already exists in this session");
+}
+
+
+
+std::string EE(const libtorrent::invalid_encoding& error)
+{
+	return _("bad torrent data");
+}
+
+
+
+std::string EE(const libtorrent::invalid_torrent_file& error)
+{
+	return _("this is not a torrent file");
+}
+
+
+}
 
 #endif
 

@@ -18,13 +18,13 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
 #ifndef HEADER_MLIB_GTK_PANED
 #define HEADER_MLIB_GTK_PANED
 
 #include <gtkmm/paned.h>
 
-#include "paned_settings.hpp"
+#include <mlib/gtk/main.hpp>
+#include <mlib/gtk/paned_settings.hpp>
 
 
 namespace m { namespace gtk {
@@ -46,6 +46,5 @@ class VPaned: public Gtk::VPaned
 
 }}
 
-#endif
 #endif
 

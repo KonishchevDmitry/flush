@@ -29,10 +29,12 @@
 #include <gtkmm/scrolledwindow.h>
 #include <gtkmm/stock.h>
 
-#include <mlib/libtorrent.hpp>
 #include <mlib/gtk/vbox.hpp>
+#include <mlib/libtorrent.hpp>
+#include <mlib/string.hpp>
 
 #include "add_torrent_dialog.hpp"
+#include "common.hpp"
 #include "application.hpp"
 #include "client_settings.hpp"
 #include "gui_lib.hpp"

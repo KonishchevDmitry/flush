@@ -26,11 +26,12 @@
 
 	#include <gtkmm/window.h>
 
+	#include <mlib/gtk/main.hpp>
 	#include <mlib/gtk/toolbar.hpp>
-	#include <mlib/gtk/types.hpp>
 	#include <mlib/gtk/window.hpp>
 
 	#include "client_settings.hpp"
+	#include "common.hpp"
 
 
 

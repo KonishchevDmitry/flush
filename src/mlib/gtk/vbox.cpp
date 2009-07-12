@@ -18,18 +18,13 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
-
-#include <string>
-
 #include <glibmm/markup.h>
 
 #include <gtkmm/label.h>
 #include <gtkmm/separator.h>
 
-#include "../string.hpp"
+#include <mlib/gtk/main.hpp>
 
-#include "misc.hpp"
 #include "vbox.hpp"
 
 
@@ -117,6 +112,4 @@ void add_widget_with_labeled_widget(Gtk::VBox& parent_vbox, Gtk::Widget& labeled
 }
 
 }}}
-
-#endif
 

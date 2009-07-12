@@ -24,6 +24,8 @@
 
 	#include <string>
 
+	#include "common.hpp"
+
 	class Daemon_fs
 	{
 		protected:

@@ -19,9 +19,13 @@
 
 
 #include <gtkmm/toggleaction.h>
+#include <gtkmm/toggleaction.h>
 #include <gtkmm/treemodel.h>
 #include <gtkmm/treepath.h>
 #include <gtkmm/treeview.h>
+
+#include <mlib/gtk/main.hpp>
+#include <mlib/gtk/misc.hpp>
 
 
 

@@ -27,6 +27,7 @@
 
 #include "application.hpp"
 #include "client_settings.hpp"
+#include "common.hpp"
 #include "gui_lib.hpp"
 #include "main.hpp"
 #include "main_window.hpp"

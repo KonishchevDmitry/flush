@@ -18,55 +18,59 @@
 **************************************************************************/
 
 
-#ifndef HEADER_MLIB_GTK_TYPES
-	#define HEADER_MLIB_GTK_TYPES
+namespace m { namespace sys {
 
-	#ifdef MLIB_ENABLE_GTK
-		namespace Gtk
+
+// File_holder -->
+	File_holder::File_holder(void) : fd(-1) { }
+	File_holder::File_holder(int fd) : fd(fd) { }
+
+
+
+	File_holder::~File_holder(void)
+	{
+		try
 		{
-			class Button;
-			class ComboBox;
-			class Dialog;
-			class Entry;
-			class EventBox;
-			class FileChooserDialog;
-			class LinkButton;
-			class ListStore;
-			class ListViewText;
-			class MessageDialog;
-			class ProgressBar;
-			class StockID;
-			class Table;
-			class Toolbar;
-			class TreeRow;
-			class TreeViewColumn;
-			class TreeView;
-			class Widget;
-			class Window;
+			this->close();
 		}
+		catch(m::Sys_exception&)
+		{
+		}
+	}
 
-		namespace m { namespace gtk {
-			class Link_button;
-		}}
-	#endif
 
-	#ifdef MLIB_ENABLE_GLADE
-		namespace Gnome { namespace Glade {
-			class Xml;
-		}}
 
-		#include <glibmm/refptr.h>
+	void File_holder::close(void)
+	{
+		if(this->get() >= 0)
+			unix_close(this->reset());
+	}
 
-		namespace m { namespace gtk {
-			typedef ::Glib::RefPtr< ::Gnome::Glade::Xml > Glade_xml;
-		}}
-	#endif
 
-	#ifdef MLIB_ENABLE_ALIASES
-		#ifdef MLIB_ENABLE_GLADE
-			using m::gtk::Glade_xml;
-		#endif
-	#endif
 
-#endif
+	int File_holder::get(void) const
+	{
+		return this->fd;
+	}
+
+
+
+	int File_holder::reset(void)
+	{
+		int fd = this->fd;
+		this->fd = -1;
+		return fd;
+	}
+
+
+
+	void File_holder::set(int fd)
+	{
+		this->close();
+		this->fd = fd;
+	}
+// File_holder <--
+
+
+}}
 

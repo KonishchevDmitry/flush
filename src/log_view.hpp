@@ -26,6 +26,8 @@
 
 	#include <gtkmm/textview.h>
 
+	#include "common.hpp"
+
 
 
 	/// Виджет для отображения лога.

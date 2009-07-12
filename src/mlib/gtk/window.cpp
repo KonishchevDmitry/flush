@@ -18,12 +18,10 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
-
-#include "../string.hpp"
+#include <mlib/gtk/main.hpp>
+#include <mlib/gtk/window_settings.hpp>
 
 #include "window.hpp"
-#include "window_settings.hpp"
 
 
 namespace m { namespace gtk {
@@ -74,6 +72,4 @@ void Window::save_settings(Settings& settings) const
 }
 
 }}
-
-#endif
 

@@ -26,6 +26,7 @@
 	#include <string>
 	#include <vector>
 
+	#include "common.hpp"
 	#include "daemon_session.hpp"
 
 	class Daemon: public Daemon_session
