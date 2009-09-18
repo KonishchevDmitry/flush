@@ -33,7 +33,6 @@
 #include "common.hpp"
 
 
-#warning
 
 namespace app_icons
 {

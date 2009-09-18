@@ -24,6 +24,10 @@ src/mlib/gtk/controlled_list.cpp
 src/mlib/gtk/controlled_list.hpp
 src/mlib/gtk/dialog.cpp
 src/mlib/gtk/dialog.hpp
+src/mlib/gtk/dispatcher.cpp
+src/mlib/gtk/dispatcher.hh
+src/mlib/gtk/dispatcher.hpp
+src/mlib/gtk/dispatcher.hxx
 src/mlib/gtk/glade.cpp
 src/mlib/gtk/glade.hh
 src/mlib/gtk/glade.hpp
@@ -43,8 +47,6 @@ src/mlib/gtk/paned_settings.hpp
 src/mlib/gtk/signal_proxy.hh
 src/mlib/gtk/signal_proxy.hpp
 src/mlib/gtk/signal_proxy.hxx
-src/mlib/gtk/signals_holder.cpp
-src/mlib/gtk/signals_holder.hpp
 src/mlib/gtk/toolbar.cpp
 src/mlib/gtk/toolbar.hpp
 src/mlib/gtk/tree_view.cpp
@@ -75,6 +77,8 @@ src/mlib/main.hpp
 src/mlib/misc.cpp
 src/mlib/misc.hpp
 src/mlib/misc.hxx
+src/mlib/signals_holder.cpp
+src/mlib/signals_holder.hpp
 src/mlib/string.cpp
 src/mlib/string.hpp
 src/mlib/sys.cpp
@@ -125,8 +129,6 @@ src/main_window.cpp
 src/main_window.hpp
 src/open_torrent_dialog.cpp
 src/open_torrent_dialog.hpp
-src/rss_settings_dialog.cpp
-src/rss_settings_dialog.hpp
 src/settings_window.cpp
 src/settings_window.hpp
 src/statistics_window.cpp
@@ -148,7 +150,6 @@ src/torrents_viewport.cpp
 src/torrents_viewport.hpp
 src/trackers_view.cpp
 src/trackers_view.hpp
-ui/dialog.rss_settings.glade
 ui/dialog.temporary_action.glade
 ui/preferences.daemon.automation.glade
 ui/preferences.daemon.network.glade

@@ -40,7 +40,7 @@
 
 		public:
 			Dialog(BaseObjectType* cobject);
-			Dialog(Gtk::Window& parent_window, const std::string& title, const Settings& settings = Settings(), int width = -1, int height = -1, int border_width = m::gtk::WINDOW_BORDER_WIDTH);
+			Dialog(Gtk::Window& parent_window, const std::string& title = "", const Settings& settings = Settings(), int width = -1, int height = -1, int border_width = m::gtk::WINDOW_BORDER_WIDTH);
 
 		public:
 			/// Предназначена для инициализации виджета после конструирования

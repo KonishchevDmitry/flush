@@ -1,3 +1,7 @@
+[+] Internal fixes and code enhancements.
+[*] Fixed some small bugs.
+
+
 0.7 (2009.07.09)
 [+] "Random port" setting in the Daemon::Network::Misc settings tab.
 [+] "Next announce" and "Announce interval" elements in the torrent's details

@@ -198,3 +198,10 @@ void Daemon::start(void)
 	Daemon_session::start();
 }
 
+
+
+void Daemon::stop(void)
+{
+	Daemon_session::stop();
+}
+

@@ -7,6 +7,10 @@ libmlib_gtk_a_SOURCES = \
 	controlled_list.hpp \
 	dialog.cpp \
 	dialog.hpp \
+	dispatcher.cpp \
+	dispatcher.hh \
+	dispatcher.hpp \
+	dispatcher.hxx \
 	glade.cpp \
 	glade.hh \
 	glade.hpp \
@@ -26,8 +30,6 @@ libmlib_gtk_a_SOURCES = \
 	signal_proxy.hh \
 	signal_proxy.hpp \
 	signal_proxy.hxx\
-	signals_holder.cpp \
-	signals_holder.hpp\
 	toolbar.cpp \
 	toolbar.hpp \
 	tree_view.cpp \

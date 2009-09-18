@@ -18,21 +18,11 @@
 **************************************************************************/
 
 
-#include <gtkmm/treemodelcolumn.h>
+#include <boost/signals/connection.hpp>
 
 namespace m { namespace gtk {
-
-template<class Column_type, class Value_type>
-bool update_row(const Gtk::TreeRow& row, const Gtk::TreeModelColumn<Column_type>& column, const Value_type& value)
-{
-	if(row[column] == value)
-		return false;
-	else
-	{
-		row[column] = value;
-		return true;
-	}
-}
-
+	template <class T> class Dispatcher;
+	typedef Dispatcher<void (void)> Dispatcher_void;
+	typedef boost::signals::connection Dispatcher_connection;
 }}
 

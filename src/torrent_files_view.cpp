@@ -33,6 +33,7 @@
 #include <gtkmm/treemodel.h>
 #include <gtkmm/treestore.h>
 
+#include <mlib/gtk/dialog.hpp>
 #include <mlib/gtk/misc.hpp>
 #include <mlib/gtk/tree_view.hpp>
 #include <mlib/gtk/vbox.hpp>
@@ -54,7 +55,7 @@ namespace
 {
 	// Change_path_dialog -->
 		/// Диалог изменения расположения файла (папки)
-		class Change_path_dialog: public Gtk::Dialog
+		class Change_path_dialog: public m::gtk::Dialog
 		{
 			public:
 				Change_path_dialog(Gtk::Window& parent, const std::string& path);
@@ -78,7 +79,7 @@ namespace
 
 		Change_path_dialog::Change_path_dialog(Gtk::Window& parent, const std::string& path)
 		:
-			Gtk::Dialog(format_window_title(_("Change file or directory path")), parent)
+			m::gtk::Dialog(parent, format_window_title(_("Change file or directory path")))
 		{
 			this->set_resizable(false);
 
@@ -114,7 +115,7 @@ namespace
 
 		bool Change_path_dialog::run(std::string* path)
 		{
-			if(Gtk::Dialog::run() == Gtk::RESPONSE_OK)
+			if(m::gtk::Dialog::run() == Gtk::RESPONSE_OK)
 			{
 				Path new_path = Path("/" + this->path_entry->get_text()).normalize();
 

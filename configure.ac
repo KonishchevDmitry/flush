@@ -108,23 +108,6 @@ dnl Configuring command line options -->
 		]
 	)
 
-	AC_ARG_ENABLE([inotify],
-		[AS_HELP_STRING([--disable-inotify],
-			[disable inotify support for application])],
-		[
-			if test "X$enableval" = "Xyes"
-			then
-				enable_inotify=yes
-			else
-				enable_inotify=no
-			fi
-		],
-		[
-			enable_inotify=yes
-		]
-	)
-
-
 	if test "X$develop_mode" = "Xyes"
 	then
 		dnl Debug mode always enabled in develop mode
@@ -136,13 +119,15 @@ dnl Configuring command line options -->
 		package_libconfig=no
 		package_libtorrent=no
 	fi
-
-	AC_MSG_NOTICE([debug mode: $debug_mode])
-	AC_MSG_NOTICE([develop mode: $develop_mode])
-	AC_MSG_NOTICE([disable bundle package: $disable_bundle_package])
-	AC_MSG_NOTICE([using package libconfig: $package_libconfig])
-	AC_MSG_NOTICE([using package libtorrent: $package_libtorrent])
 dnl Configuring command line options <--
+
+
+dnl Inotify support -->
+	AC_CHECK_HEADER([sys/inotify.h],
+		[ enable_inotify=yes ],
+		[ enable_inotify=no ]
+	)
+dnl Inotify support <--
 
 
 dnl config.h -->
@@ -230,19 +215,6 @@ dnl config.h <--
 AM_CONDITIONAL([DEVELOP_MODE], [test "X$develop_mode" = "Xyes"])
 
 
-dnl Available libraries -->
-	if test "X$enable_inotify" = "Xyes"
-	then
-		AC_CHECK_HEADER([sys/inotify.h],
-			[],
-			[
-				AC_MSG_ERROR([unable to find inotify library. You may compile package without inotify library if it is not exists in your distro by --disable-inotify configure script option.])
-			]
-		)
-	fi
-dnl Available libraries <--
-
-
 dnl compiler flags -->
 	COMMON_CPPFLAGS=""
 	APP_DEPENDENCIES=""
@@ -273,6 +245,13 @@ dnl compiler flags -->
 				AC_MSG_ERROR([unable to find Boost.Filesystem library.])
 			fi
 			APP_LDADD="$APP_LDADD $BOOST_FILESYSTEM_LIB"
+
+			AX_BOOST_SIGNALS
+			if test -z "$BOOST_SIGNALS_LIB"
+			then
+				AC_MSG_ERROR([unable to find Boost.Signals library.])
+			fi
+			APP_LDADD="$APP_LDADD $BOOST_SIGNALS_LIB"
 
 			AX_BOOST_THREAD
 			if test -z "$BOOST_THREAD_LIB"
@@ -387,6 +366,14 @@ dnl Libraries inside of package -->
 
 	AC_SUBST([PACKAGE_LIBRARIES_SUBDIRS])
 dnl Libraries inside of package <--
+
+
+AC_MSG_NOTICE([debug mode: $debug_mode])
+AC_MSG_NOTICE([develop mode: $develop_mode])
+AC_MSG_NOTICE([disable bundle package: $disable_bundle_package])
+AC_MSG_NOTICE([using package libconfig: $package_libconfig])
+AC_MSG_NOTICE([using package libtorrent: $package_libtorrent])
+AC_MSG_NOTICE([enable inotify: $enable_inotify])
 
 
 AC_CONFIG_FILES([

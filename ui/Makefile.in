@@ -32,13 +32,15 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+@DEVELOP_MODE_TRUE@am__append_1 = dialog.rss_settings.glade
 subdir = ui
-DIST_COMMON = $(dist_ui_DATA) $(srcdir)/Makefile.am \
+DIST_COMMON = $(am__dist_ui_DATA_DIST) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/acx_pthread.m4 \
 	$(top_srcdir)/m4/ax_boost_base.m4 \
 	$(top_srcdir)/m4/ax_boost_filesystem.m4 \
+	$(top_srcdir)/m4/ax_boost_signals.m4 \
 	$(top_srcdir)/m4/ax_boost_thread.m4 \
 	$(top_srcdir)/m4/check_ssl.m4 $(top_srcdir)/m4/gettext.m4 \
 	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/lib-ld.m4 \
@@ -52,6 +54,12 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 SOURCES =
 DIST_SOURCES =
+am__dist_ui_DATA_DIST = dialog.temporary_action.glade \
+	preferences.daemon.automation.glade \
+	preferences.daemon.network.glade \
+	preferences.daemon.network.ip_filter.glade \
+	preferences.daemon.network.misc.glade \
+	torrent_info_tabs.details.glade dialog.rss_settings.glade
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -74,6 +82,7 @@ AWK = @AWK@
 BOOST_CPPFLAGS = @BOOST_CPPFLAGS@
 BOOST_FILESYSTEM_LIB = @BOOST_FILESYSTEM_LIB@
 BOOST_LDFLAGS = @BOOST_LDFLAGS@
+BOOST_SIGNALS_LIB = @BOOST_SIGNALS_LIB@
 BOOST_THREAD_LIB = @BOOST_THREAD_LIB@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
@@ -213,14 +222,12 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 uidir = $(datadir)/$(PACKAGE)/ui
-dist_ui_DATA = \
-	dialog.temporary_action.glade \
+dist_ui_DATA = dialog.temporary_action.glade \
 	preferences.daemon.automation.glade \
 	preferences.daemon.network.glade \
 	preferences.daemon.network.ip_filter.glade \
 	preferences.daemon.network.misc.glade \
-	torrent_info_tabs.details.glade
-
+	torrent_info_tabs.details.glade $(am__append_1)
 all: all-am
 
 .SUFFIXES:

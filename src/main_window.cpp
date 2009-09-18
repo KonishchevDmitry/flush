@@ -51,6 +51,7 @@
 #include <mlib/string.hpp>
 
 #include <mlib/gtk/action.hpp>
+#include <mlib/gtk/dialog.hpp>
 #include <mlib/gtk/glade.hpp>
 #include <mlib/gtk/main.hpp>
 #include <mlib/gtk/signal_proxy.hpp>
@@ -193,7 +194,7 @@
 
 // Change_rate_limit_dialog -->
 	/// Диалог изменения скорости скачивания/раздачи.
-	class Change_rate_limit_dialog: public Gtk::Dialog
+	class Change_rate_limit_dialog: public m::gtk::Dialog
 	{
 		public:
 			Change_rate_limit_dialog(Gtk::Window& parent, Traffic_type traffic_type);
@@ -216,7 +217,7 @@
 
 	Change_rate_limit_dialog::Change_rate_limit_dialog(Gtk::Window& parent, Traffic_type traffic_type)
 	:
-		Gtk::Dialog("", parent),
+		m::gtk::Dialog(parent),
 		traffic_type(traffic_type)
 	{
 		std::string title = this->traffic_type == DOWNLOAD ? _("Set download rate limit") : _("Set upload rate limit");
@@ -274,7 +275,7 @@
 			return;
 		}
 
-		if(Gtk::Dialog::run() == Gtk::RESPONSE_OK)
+		if(m::gtk::Dialog::run() == Gtk::RESPONSE_OK)
 		{
 			try
 			{
@@ -1040,7 +1041,7 @@ void Main_window::on_quit_callback(void)
 	this->save_settings();
 
 	// Может и не завершить работу, если открыт хотя бы один диалог.
-	Gtk::Main::quit();
+	get_application().close();
 }
 
 

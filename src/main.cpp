@@ -21,6 +21,7 @@
 
 #include <fcntl.h>
 #include <locale.h>
+#include <pthread.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -47,6 +48,7 @@
 #include <glibmm/markup.h>
 
 #include <gtkmm/box.h>
+#include <gtkmm/dialog.h>
 #include <gtkmm/expander.h>
 #include <gtkmm/icontheme.h>
 #include <gtkmm/image.h>
@@ -107,6 +109,43 @@ namespace
 
 	/// Обработчик сигнала SIGCHLD.
 	void	sigchld_handler(int signal_no);
+
+
+
+	#if 0
+		/// Собственный мьютекс для блокирования GDK.
+		pthread_mutex_t CUSTOM_GDK_MUTEX = PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
+
+
+		/// Собственная функция для блокирования GDK.
+		void	custom_gdk_threads_enter(void);
+
+		/// Собственная функция для разблокирования GDK.
+		void	custom_gdk_threads_leave(void);
+
+
+		void custom_gdk_threads_enter(void)
+		{
+			#ifdef DEBUG_MODE
+				MLIB_A(!pthread_mutex_lock(&CUSTOM_GDK_MUTEX));
+			#else
+				pthread_mutex_lock(&CUSTOM_GDK_MUTEX);
+			#endif
+		}
+
+
+		void custom_gdk_threads_leave(void)
+		{
+			#ifdef DEBUG_MODE
+				MLIB_A(!pthread_mutex_unlock(&CUSTOM_GDK_MUTEX));
+			#else
+				pthread_mutex_unlock(&CUSTOM_GDK_MUTEX);
+			#endif
+		}
+
+
+		gdk_threads_set_lock_functions(custom_gdk_threads_enter, custom_gdk_threads_leave);
+	#endif
 
 
 
@@ -181,8 +220,10 @@ namespace
 
 		print_error(file, line, message, debug_info);
 
-		if(is_gui_mode())
-			execl(APP_BIN_PATH, APP_BIN_PATH, "--error-mode", message.c_str(), debug_info.c_str(), NULL);
+		#ifndef DEBUG_MODE
+			if(is_gui_mode())
+				execl(APP_BIN_PATH, APP_BIN_PATH, "--error-mode", message.c_str(), debug_info.c_str(), NULL);
+		#endif
 
 		abort();
 	}
@@ -380,6 +421,7 @@ Gtk::Dialog* create_message_dialog(Gtk::Window& parent_window, Message_type type
 	// <--
 
 	message_dialog = new Gtk::Dialog(format_window_title(title), parent_window, true);
+	message_dialog->property_destroy_with_parent() = true;
 	message_dialog->set_border_width(m::gtk::WINDOW_BORDER_WIDTH);
 	message_dialog->set_resizable(false);
 
@@ -596,6 +638,13 @@ void show_warning_message(Gtk::Widget& parent_widget, const std::string& title, 
 		show_warning_message(*window, title, message);
 	else
 		show_warning_message(get_main_window(), title, message);
+}
+
+
+
+void stop_application(void)
+{
+	get_application().stop();
 }
 
 
@@ -943,11 +992,12 @@ int main(int argc, char *argv[])
 		m::set_warning_function(NULL);
 
 
-		Application app(cmd_options, *dbus_connection, DBUS_PATH, dbus_name);
+		// Объект сам позаботится о своем уничтожении
+		Application* app = new Application(cmd_options, *dbus_connection, DBUS_PATH, dbus_name);
 
 		try
 		{
-			app.start();
+			app->start();
 			Gtk::Main::run();
 
 			// Удаляем созданную ссылку -->

@@ -40,8 +40,9 @@ Daemon_proxy::Daemon_proxy(const std::string& daemon_config_path)
 :
 	daemon(new Daemon(daemon_config_path))
 {
-	/// Обработчик сигнала на приход сообщения от демона (libtorrent).
-	this->daemon->messages_signal.connect(sigc::mem_fun(*this, &Daemon_proxy::on_messages_callback));
+	// Обработчик сигнала на приход сообщения от демона (libtorrent)
+	this->signals_holder.push(this->daemon->messages_signal.connect(
+		sigc::mem_fun(this->daemon_message_signal, &M_TYPEOF(this->daemon_message_signal)::emit)));
 }
 
 
@@ -151,16 +152,6 @@ void Daemon_proxy::interrupt_temporary_action(bool complete)
 
 
 
-void Daemon_proxy::on_messages_callback(void)
-{
-	m::gtk::Scoped_enter gtk_lock;
-	std::deque<Daemon_message> messages;
-	this->daemon->get_messages(messages);
-	this->daemon_messages_signal(messages);
-}
-
-
-
 void Daemon_proxy::process_torrents(const std::vector<Torrent_id>& torrents_ids, Torrent_process_action action)
 {
 	this->daemon->process_torrents(torrents_ids, action);
@@ -250,6 +241,13 @@ void Daemon_proxy::start(void)
 void Daemon_proxy::start_torrents(const Torrents_group group)
 {
 	this->daemon->start_torrents(group);
+}
+
+
+
+void Daemon_proxy::stop(void)
+{
+	this->daemon->stop();
 }
 
 

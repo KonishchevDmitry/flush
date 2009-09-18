@@ -43,8 +43,10 @@ dist_categories_16_DATA = \
 	hicolor/16x16/categories/torrents-tracker-error.png
 
 
+if DEVELOP_MODE
 mimetypes_16dir = $(datadir)/@PACKAGE@/icons/hicolor/16x16/mimetypes
 dist_mimetypes_16_DATA = hicolor/16x16/mimetypes/rss.png
+endif
 
 
 status_16dir = $(datadir)/@PACKAGE@/icons/hicolor/16x16/status

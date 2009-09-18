@@ -19,6 +19,8 @@
 **************************************************************************/
 
 
+#include <cstdlib>
+
 #include <algorithm>
 #include <iterator>
 #include <queue>
@@ -27,7 +29,11 @@
 
 #include <dbus-c++/dbus.h>
 
+#include <sigc++/signal.h>
+
 #include <gtkmm/dialog.h>
+#include <gtkmm/main.h>
+#include <gtkmm/window.h>
 
 #include <mlib/misc.hpp>
 
@@ -43,7 +49,6 @@
 
 
 #define CLIENT_CONFIG_FILE_NAME "client.conf"
-
 
 
 namespace
@@ -88,13 +93,52 @@ namespace
 
 
 
+namespace Application_aux
+{
+
+	class Private
+	{
+		public:
+			Private(void);
+
+
+		public:
+			/// Сигнализирует о том, что в данный момент производится
+			/// завершение работы приложения.
+			bool						stopping;
+	};
+
+
+
+	Private::Private(void)
+	:
+		stopping(false)
+	{
+	}
+}
+
+
+
 Application* Application::ptr = NULL;
+
+// TODO:
+//
+// В принципе, ничего плохого в этом нет, т. к. Application - singleton, но не
+// красиво. :)
+//
+// static он сделан потому, что Glib::Dispatcher необходимо удалять из потока
+// main loop, что довольно проблемматично.
+//
+// Использовать m::gtk::Dispatcher в данном случае нельзя, т. к. он требует
+// входа в критическую секцию GTK.
+Glib::Dispatcher Application::message_signal;
 
 
 
 Application::Application(const Client_cmd_options& cmd_options, DBus::Connection& dbus_connection, const std::string& dbus_path, const std::string& dbus_name)
 :
 	DBus::ObjectAdaptor(dbus_connection, dbus_path.c_str()),
+	priv(new Private),
 	cmd_options(cmd_options),
 	message_dialog(NULL),
 	main_window(NULL)
@@ -139,9 +183,8 @@ Application::Application(const Client_cmd_options& cmd_options, DBus::Connection
 	this->message_signal.connect(sigc::mem_fun(*this, &Application::on_message_callback));
 
 	/// Сигнал на получение сообщений от демона.
-	this->daemon_proxy->daemon_messages_signal.connect(
-		sigc::mem_fun(*this, &Application::on_daemon_messages_callback)
-	);
+	this->daemon_proxy->daemon_message_signal.connect(
+		sigc::mem_fun(*this, &Application::on_daemon_message_cb));
 }
 
 
@@ -150,7 +193,8 @@ Application::~Application(void)
 {
 	MLIB_A(this->ptr);
 
-	// Устанавливаем функцию по умолчанию для отображения сообщений пользователю.
+	// Устанавливаем функцию по умолчанию для отображения сообщений
+	// пользователю.
 	m::set_warning_function(NULL);
 
 	delete this->main_window;
@@ -184,8 +228,28 @@ void Application::add_torrent(const std::string& torrent_path, const New_torrent
 
 
 
+void Application::close(void)
+{
+	priv->stopping = true;
+
+	// Скрываем все открытые окна, тем самым создавая иллюзию быстрого
+	// завершения работы.
+	BOOST_FOREACH(Gtk::Window* window, Gtk::Window::list_toplevels())
+		window->hide();
+
+	// Инициируем остановку демона
+	this->daemon_proxy->stop();
+}
+
+
+
 void Application::dbus_cmd_options(const std::vector<std::string>& cmd_options_strings)
 {
+	m::gtk::Scoped_enter gtk_lock;
+
+	if(priv->stopping)
+		return;
+
 	// Переводим строки из UTF-8 в кодировку локали -->
 		std::vector<std::string> cmd_options_locale_strings;
 		cmd_options_locale_strings.reserve(cmd_options_strings.size());
@@ -236,57 +300,24 @@ void Application::dbus_cmd_options(const std::vector<std::string>& cmd_options_s
 
 
 
-void Application::on_daemon_messages_callback(const std::deque<Daemon_message>& messages)
+void Application::on_daemon_message_cb(const Daemon_message& message)
 {
-	for(size_t i = 0; i < messages.size(); i++)
-	{
-		const Daemon_message& message = messages[i];
-
-		this->main_window->add_daemon_message(message);
-		
-		if(message.get_type() == Daemon_message::WARNING)
-			MLIB_W(message);
-	}
+	this->main_window->add_daemon_message(message);
+	
+	if(message.get_type() == Daemon_message::WARNING)
+		MLIB_W(message);
 }
 
 
 
 void Application::on_message_callback(void)
 {
+	m::gtk::Scoped_enter lock;
+
 	// Если уже отображается сообщение, то откладываем
 	// отображение текущего сообщения.
-	if(this->message_dialog)
-		return;
-
-	Message message;
-
-	// Если в очереди есть сообщения, то извлекаем
-	// из нее самое старое, иначе возвращаем управление.
-	// -->
-	{
-		boost::mutex::scoped_lock lock(this->mutex);
-
-		if(this->messages.empty())
-			return;
-		else
-		{
-			message = this->messages.front();
-			this->messages.pop();
-		}
-	}
-	// <--
-
-	// Отображаем сообщение -->
-		this->message_dialog = create_message_dialog(
-			*this->main_window, message.type, message.title, message.message
-		);
-
-		this->message_dialog->signal_response().connect(
-			sigc::mem_fun(*this, &Application::on_message_response_callback)
-		);
-
-		this->message_dialog->show();
-	// Отображаем сообщение <--
+	if(!this->message_dialog)
+		this->show_next_message();
 }
 
 
@@ -299,7 +330,7 @@ void Application::on_message_response_callback(int response)
 	this->message_dialog = NULL;
 
 	// Отображаем следующее сообщение в очереди.
-	this->on_message_callback();
+	this->show_next_message();
 }
 
 
@@ -399,6 +430,41 @@ void Application::save_settings(void)
 
 
 
+void Application::show_next_message(void)
+{
+	Message message;
+
+	// Если в очереди есть сообщения, то извлекаем
+	// из нее самое старое, иначе возвращаем управление.
+	// -->
+	{
+		boost::mutex::scoped_lock lock(this->mutex);
+
+		if(this->messages.empty())
+			return;
+		else
+		{
+			message = this->messages.front();
+			this->messages.pop();
+		}
+	}
+	// <--
+
+	// Отображаем сообщение -->
+		this->message_dialog = create_message_dialog(
+			*this->main_window, message.type, message.title, message.message
+		);
+
+		this->message_dialog->signal_response().connect(
+			sigc::mem_fun(*this, &Application::on_message_response_callback)
+		);
+
+		this->message_dialog->show();
+	// Отображаем сообщение <--
+}
+
+
+
 void Application::start(void)
 {
 	// Запускаем демон
@@ -408,6 +474,33 @@ void Application::start(void)
 	this->process_cmd_options(this->cmd_options);
 
 	update_gui();
+}
+
+
+
+void Application::stop(void)
+{
+	// Это наша страховка. Если в результате какой-нибудь ошибки останется
+	// открытым хотя бы один диалог с вызванным методом run(), то
+	// Gtk::Main::quit() не даст нужного результата и приложение не завершится,
+	// а будет работать main loop, образованный этим диалогом, в котором и
+	// запустится данный idle и обработает ошибку.
+	Glib::signal_idle().connect(sigc::mem_fun(*this, &Application::stop_checker));
+
+	MLIB_D("Application stopped. Destroying it...");
+	delete this;
+
+	MLIB_D("Stopping main loop...");
+	Gtk::Main::quit();
+}
+
+
+
+bool Application::stop_checker(void)
+{
+	MLIB_W(_("Error: unable to close all application's windows."));
+	std::exit(EXIT_FAILURE);
+	return false;
 }
 
 

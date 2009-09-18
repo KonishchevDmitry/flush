@@ -27,6 +27,7 @@
 // Если объявлено макроопределение MLIB_ASYNC_FS_GLIB_SIGNALS, то по завершении
 // каждой задачи генерирует сигнал.
 
+
 #ifndef HEADER_MLIB_ASYNC_FS
 #define HEADER_MLIB_ASYNC_FS
 
@@ -35,6 +36,14 @@
 #endif
 
 #include <mlib/main.hpp>
+
+
+#ifdef MLIB_ASYNC_FS_GLIB_SIGNALS
+	// Не работает. :) Раньше работало,
+	// но не понадобилось, а когда перевел весь код на m::gtk::Dispatcher,
+	// изменения вносить не стал.
+	#error
+#endif
 
 
 namespace m { namespace async_fs {

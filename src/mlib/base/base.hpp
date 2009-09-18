@@ -25,6 +25,7 @@
 
 #include <string>
 
+#include <boost/foreach.hpp>
 #include <boost/type_traits/add_const.hpp>
 #include <boost/type_traits/remove_const.hpp>
 #include <boost/typeof/typeof.hpp>
@@ -130,6 +131,17 @@ struct Get_type
 {
 	typedef T type;
 };
+
+
+
+/// Класс, от которого можно наследоваться при создании виртуальных
+/// классов, чтобы не создавать для каждого из них виртуальный деструктор.
+class Virtual
+{
+	public:
+		virtual ~Virtual(void) {}
+};
+
 
 
 // Типы -->

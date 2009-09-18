@@ -35,6 +35,7 @@
 
 #include <libtorrent/create_torrent.hpp>
 
+#include <mlib/gtk/dialog.hpp>
 #include <mlib/gtk/main.hpp>
 #include <mlib/gtk/vbox.hpp>
 #include <mlib/fs.hpp>
@@ -82,7 +83,7 @@ namespace
 	/// Диалог, отображаемый во время хеширования файлов торрента.
 	/// Производит всю работу по созданию торрента.
 	/// В случае успеха закрывает родительское окно.
-	class Progress_dialog: public Gtk::Dialog
+	class Progress_dialog: public m::gtk::Dialog
 	{
 		private:
 			class Break_torrent_creating {};
@@ -157,14 +158,11 @@ namespace
 	// Progress_dialog -->
 		Progress_dialog::Progress_dialog(Gtk::Window& parent_window, const Torrent_source& torrent_source)
 		:
-			Gtk::Dialog(format_window_title(_("Hashing files...")), parent_window, true),
+			m::gtk::Dialog(parent_window, format_window_title(_("Hashing files..."))),
 			is_cancel(false),
 			torrent_source(torrent_source)
 		{
-			this->property_destroy_with_parent() = true;
-			this->set_border_width(m::gtk::BOX_BORDER_WIDTH);
 			this->set_resizable(false);
-
 
 			Gtk::VBox* main_vbox = this->get_vbox();
 			main_vbox->set_spacing(m::gtk::VBOX_SPACING);

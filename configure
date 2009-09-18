@@ -671,14 +671,15 @@ DBUSXX_LDADD
 dbus_LIBS
 dbus_CFLAGS
 BOOST_THREAD_LIB
+BOOST_SIGNALS_LIB
 BOOST_FILESYSTEM_LIB
 BOOST_LDFLAGS
 BOOST_CPPFLAGS
+DEVELOP_MODE_FALSE
+DEVELOP_MODE_TRUE
 EGREP
 GREP
 CXXCPP
-DEVELOP_MODE_FALSE
-DEVELOP_MODE_TRUE
 POSUB
 LTLIBINTL
 LIBINTL
@@ -803,10 +804,10 @@ enable_develop_mode
 enable_bundle_package
 enable_system_libconfig
 enable_system_libtorrent
-enable_inotify
 with_boost
 with_boost_libdir
 with_boost_filesystem
+with_boost_signals
 with_boost_thread
 with_ssl
 '
@@ -1484,7 +1485,6 @@ Optional Features:
   --enable-system-libtorrent
                           use system libtorrent-rasterbar library (only for
                           bundle package)
-  --disable-inotify       disable inotify support for application
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -1506,6 +1506,10 @@ Optional Packages:
                           use the Filesystem library from boost - it is
                           possible to specify a certain library for the linker
                           e.g. --with-boost-filesystem=boost_filesystem-gcc-mt
+  --with-boost-signals[=special-lib]
+                          use the Signals library from boost - it is possible
+                          to specify a certain library for the linker e.g.
+                          --with-boost-signals=boost_signals-gcc-mt-d
   --with-boost-thread[=special-lib]
                           use the Thread library from boost - it is possible
                           to specify a certain library for the linker e.g.
@@ -6830,25 +6834,6 @@ if test "${enable_system_libtorrent+set}" = set; then
 fi
 
 
-	# Check whether --enable-inotify was given.
-if test "${enable_inotify+set}" = set; then
-  enableval=$enable_inotify;
-			if test "X$enableval" = "Xyes"
-			then
-				enable_inotify=yes
-			else
-				enable_inotify=no
-			fi
-
-else
-
-			enable_inotify=yes
-
-
-fi
-
-
-
 	if test "X$develop_mode" = "Xyes"
 	then
 				debug_mode=yes
@@ -6860,188 +6845,8 @@ fi
 		package_libtorrent=no
 	fi
 
-	{ $as_echo "$as_me:$LINENO: debug mode: $debug_mode" >&5
-$as_echo "$as_me: debug mode: $debug_mode" >&6;}
-	{ $as_echo "$as_me:$LINENO: develop mode: $develop_mode" >&5
-$as_echo "$as_me: develop mode: $develop_mode" >&6;}
-	{ $as_echo "$as_me:$LINENO: disable bundle package: $disable_bundle_package" >&5
-$as_echo "$as_me: disable bundle package: $disable_bundle_package" >&6;}
-	{ $as_echo "$as_me:$LINENO: using package libconfig: $package_libconfig" >&5
-$as_echo "$as_me: using package libconfig: $package_libconfig" >&6;}
-	{ $as_echo "$as_me:$LINENO: using package libtorrent: $package_libtorrent" >&5
-$as_echo "$as_me: using package libtorrent: $package_libtorrent" >&6;}
 
-
-
-
-
-
-
-	cat >>confdefs.h <<_ACEOF
-#define APP_NAME "$PACKAGE_NAME"
-_ACEOF
-
-
-
-
-	cat >>confdefs.h <<_ACEOF
-#define APP_UNIX_NAME "$PACKAGE"
-_ACEOF
-
-
-
-
-	APP_MAJOR_VERSION=`echo "$PACKAGE_VERSION" | awk -F. '{ print $1; }'`
-	cat >>confdefs.h <<_ACEOF
-#define APP_MAJOR_VERSION $APP_MAJOR_VERSION
-_ACEOF
-
-
-
-
-	APP_MINOR_VERSION=`echo "$PACKAGE_VERSION" | awk -F. '{ print $2; }'`
-	cat >>confdefs.h <<_ACEOF
-#define APP_MINOR_VERSION $APP_MINOR_VERSION
-_ACEOF
-
-
-
-
-	APP_SUB_MINOR_VERSION=`echo "$PACKAGE_VERSION" | awk -F. '{ if($3 == "") print 0; else print $3; }'`
-	cat >>confdefs.h <<_ACEOF
-#define APP_SUB_MINOR_VERSION $APP_SUB_MINOR_VERSION
-_ACEOF
-
-
-
-
-	cat >>confdefs.h <<_ACEOF
-#define APP_VERSION_STRING "$PACKAGE_VERSION"
-_ACEOF
-
-
-
-
-
-
-
-	if test "X$debug_mode" = "Xyes"
-	then
-		cat >>confdefs.h <<\_ACEOF
-#define MLIB_DEBUG_MODE 1
-_ACEOF
-
-		cat >>confdefs.h <<\_ACEOF
-#define DEBUG_MODE 1
-_ACEOF
-
-	fi
-
-
-
-
-
-
-
-	if test "X$develop_mode" = "Xyes"
-	then
-		cat >>confdefs.h <<\_ACEOF
-#define DEVELOP_MODE 1
-_ACEOF
-
-		cat >>confdefs.h <<\_ACEOF
-#define MLIB_DEVELOP_MODE 1
-_ACEOF
-
-		cat >>confdefs.h <<\_ACEOF
-#define MLIB_ENABLE_LIBS_FORWARDS 1
-_ACEOF
-
-	fi
-
-
-
-	cat >>confdefs.h <<\_ACEOF
-#define _LARGEFILE_SOURCE 1
-_ACEOF
-
-
-
-
-	cat >>confdefs.h <<\_ACEOF
-#define _FILE_OFFSET_BITS 64
-_ACEOF
-
-
-
-
-	cat >>confdefs.h <<\_ACEOF
-#define MLIB_ENABLE_ALIASES 1
-_ACEOF
-
-
-
-
-	cat >>confdefs.h <<\_ACEOF
-#define MLIB_ENABLE_DBUS 1
-_ACEOF
-
-
-
-
-	if test "X$enable_inotify" = "Xyes"
-	then
-		cat >>confdefs.h <<\_ACEOF
-#define MLIB_ENABLE_INOTIFY 1
-_ACEOF
-
-	fi
-
-
-
-	cat >>confdefs.h <<\_ACEOF
-#define MLIB_ENABLE_LIBCONFIG 1
-_ACEOF
-
-
-
-
-	cat >>confdefs.h <<\_ACEOF
-#define MLIB_ENABLE_LIBTORRENT 1
-_ACEOF
-
-
-
-
-	cat >>confdefs.h <<\_ACEOF
-#define MLIB_ENABLE_GTK 1
-_ACEOF
-
-
-
-
-	cat >>confdefs.h <<\_ACEOF
-#define MLIB_ENABLE_GLADE 1
-_ACEOF
-
-
-
-
-
-
- if test "X$develop_mode" = "Xyes"; then
-  DEVELOP_MODE_TRUE=
-  DEVELOP_MODE_FALSE='#'
-else
-  DEVELOP_MODE_TRUE='#'
-  DEVELOP_MODE_FALSE=
-fi
-
-
-
-	if test "X$enable_inotify" = "Xyes"
-	then
-		ac_ext=cpp
+	ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
@@ -7792,18 +7597,180 @@ $as_echo "$ac_cv_header_sys_inotify_h" >&6; }
 
 fi
 if test "x$ac_cv_header_sys_inotify_h" = x""yes; then
-  :
+   enable_inotify=yes
 else
-
-				{ { $as_echo "$as_me:$LINENO: error: unable to find inotify library. You may compile package without inotify library if it is not exists in your distro by --disable-inotify configure script option." >&5
-$as_echo "$as_me: error: unable to find inotify library. You may compile package without inotify library if it is not exists in your distro by --disable-inotify configure script option." >&2;}
-   { (exit 1); exit 1; }; }
-
+   enable_inotify=no
 
 fi
 
 
+
+
+
+
+
+
+
+	cat >>confdefs.h <<_ACEOF
+#define APP_NAME "$PACKAGE_NAME"
+_ACEOF
+
+
+
+
+	cat >>confdefs.h <<_ACEOF
+#define APP_UNIX_NAME "$PACKAGE"
+_ACEOF
+
+
+
+
+	APP_MAJOR_VERSION=`echo "$PACKAGE_VERSION" | awk -F. '{ print $1; }'`
+	cat >>confdefs.h <<_ACEOF
+#define APP_MAJOR_VERSION $APP_MAJOR_VERSION
+_ACEOF
+
+
+
+
+	APP_MINOR_VERSION=`echo "$PACKAGE_VERSION" | awk -F. '{ print $2; }'`
+	cat >>confdefs.h <<_ACEOF
+#define APP_MINOR_VERSION $APP_MINOR_VERSION
+_ACEOF
+
+
+
+
+	APP_SUB_MINOR_VERSION=`echo "$PACKAGE_VERSION" | awk -F. '{ if($3 == "") print 0; else print $3; }'`
+	cat >>confdefs.h <<_ACEOF
+#define APP_SUB_MINOR_VERSION $APP_SUB_MINOR_VERSION
+_ACEOF
+
+
+
+
+	cat >>confdefs.h <<_ACEOF
+#define APP_VERSION_STRING "$PACKAGE_VERSION"
+_ACEOF
+
+
+
+
+
+
+
+	if test "X$debug_mode" = "Xyes"
+	then
+		cat >>confdefs.h <<\_ACEOF
+#define MLIB_DEBUG_MODE 1
+_ACEOF
+
+		cat >>confdefs.h <<\_ACEOF
+#define DEBUG_MODE 1
+_ACEOF
+
 	fi
+
+
+
+
+
+
+
+	if test "X$develop_mode" = "Xyes"
+	then
+		cat >>confdefs.h <<\_ACEOF
+#define DEVELOP_MODE 1
+_ACEOF
+
+		cat >>confdefs.h <<\_ACEOF
+#define MLIB_DEVELOP_MODE 1
+_ACEOF
+
+		cat >>confdefs.h <<\_ACEOF
+#define MLIB_ENABLE_LIBS_FORWARDS 1
+_ACEOF
+
+	fi
+
+
+
+	cat >>confdefs.h <<\_ACEOF
+#define _LARGEFILE_SOURCE 1
+_ACEOF
+
+
+
+
+	cat >>confdefs.h <<\_ACEOF
+#define _FILE_OFFSET_BITS 64
+_ACEOF
+
+
+
+
+	cat >>confdefs.h <<\_ACEOF
+#define MLIB_ENABLE_ALIASES 1
+_ACEOF
+
+
+
+
+	cat >>confdefs.h <<\_ACEOF
+#define MLIB_ENABLE_DBUS 1
+_ACEOF
+
+
+
+
+	if test "X$enable_inotify" = "Xyes"
+	then
+		cat >>confdefs.h <<\_ACEOF
+#define MLIB_ENABLE_INOTIFY 1
+_ACEOF
+
+	fi
+
+
+
+	cat >>confdefs.h <<\_ACEOF
+#define MLIB_ENABLE_LIBCONFIG 1
+_ACEOF
+
+
+
+
+	cat >>confdefs.h <<\_ACEOF
+#define MLIB_ENABLE_LIBTORRENT 1
+_ACEOF
+
+
+
+
+	cat >>confdefs.h <<\_ACEOF
+#define MLIB_ENABLE_GTK 1
+_ACEOF
+
+
+
+
+	cat >>confdefs.h <<\_ACEOF
+#define MLIB_ENABLE_GLADE 1
+_ACEOF
+
+
+
+
+
+
+ if test "X$develop_mode" = "Xyes"; then
+  DEVELOP_MODE_TRUE=
+  DEVELOP_MODE_FALSE='#'
+else
+  DEVELOP_MODE_TRUE='#'
+  DEVELOP_MODE_FALSE=
+fi
+
 
 
 	COMMON_CPPFLAGS=""
@@ -8490,6 +8457,366 @@ $as_echo "$as_me: error: unable to find Boost.Filesystem library." >&2;}
    { (exit 1); exit 1; }; }
 			fi
 			APP_LDADD="$APP_LDADD $BOOST_FILESYSTEM_LIB"
+
+
+
+# Check whether --with-boost-signals was given.
+if test "${with_boost_signals+set}" = set; then
+  withval=$with_boost_signals;
+        if test "$withval" = "no"; then
+			want_boost="no"
+        elif test "$withval" = "yes"; then
+            want_boost="yes"
+            ax_boost_user_signals_lib=""
+        else
+		    want_boost="yes"
+        	ax_boost_user_signals_lib="$withval"
+		fi
+
+else
+  want_boost="yes"
+
+fi
+
+
+	if test "x$want_boost" = "xyes"; then
+
+		CPPFLAGS_SAVED="$CPPFLAGS"
+		CPPFLAGS="$CPPFLAGS $BOOST_CPPFLAGS"
+		export CPPFLAGS
+
+		LDFLAGS_SAVED="$LDFLAGS"
+		LDFLAGS="$LDFLAGS $BOOST_LDFLAGS"
+		export LDFLAGS
+
+        { $as_echo "$as_me:$LINENO: checking whether the Boost::Signals library is available" >&5
+$as_echo_n "checking whether the Boost::Signals library is available... " >&6; }
+if test "${ax_cv_boost_signals+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+		 cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <boost/signal.hpp>
+
+int
+main ()
+{
+boost::signal<void ()> sig;
+                                    return 0;
+
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext
+if { (ac_try="$ac_compile"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_compile") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest.$ac_objext; then
+  ax_cv_boost_signals=yes
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	ax_cv_boost_signals=no
+fi
+
+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+         ac_ext=cpp
+ac_cpp='$CXXCPP $CPPFLAGS'
+ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
+
+
+fi
+{ $as_echo "$as_me:$LINENO: result: $ax_cv_boost_signals" >&5
+$as_echo "$ax_cv_boost_signals" >&6; }
+		if test "x$ax_cv_boost_signals" = "xyes"; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_BOOST_SIGNALS /**/
+_ACEOF
+
+            BOOSTLIBDIR=`echo $BOOST_LDFLAGS | sed -e 's/[^\/]*//'`
+            if test "x$ax_boost_user_signals_lib" = "x"; then
+                for libextension in `ls $BOOSTLIBDIR/libboost_signals*.{so,a}* 2>/dev/null | sed 's,.*/,,' | sed -e 's;^lib\(boost_signals.*\)\.so.*$;\1;' -e 's;^lib\(boost_signals.*\)\.a*$;\1;'` ; do
+                     ax_lib=${libextension}
+				    as_ac_Lib=`$as_echo "ac_cv_lib_$ax_lib''_exit" | $as_tr_sh`
+{ $as_echo "$as_me:$LINENO: checking for exit in -l$ax_lib" >&5
+$as_echo_n "checking for exit in -l$ax_lib... " >&6; }
+if { as_var=$as_ac_Lib; eval "test \"\${$as_var+set}\" = set"; }; then
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-l$ax_lib  $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char exit ();
+int
+main ()
+{
+return exit ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (ac_try="$ac_link"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_link") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest$ac_exeext && {
+	 test "$cross_compiling" = yes ||
+	 $as_test_x conftest$ac_exeext
+       }; then
+  eval "$as_ac_Lib=yes"
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	eval "$as_ac_Lib=no"
+fi
+
+rm -rf conftest.dSYM
+rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
+      conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+ac_res=`eval 'as_val=${'$as_ac_Lib'}
+		 $as_echo "$as_val"'`
+	       { $as_echo "$as_me:$LINENO: result: $ac_res" >&5
+$as_echo "$ac_res" >&6; }
+as_val=`eval 'as_val=${'$as_ac_Lib'}
+		 $as_echo "$as_val"'`
+   if test "x$as_val" = x""yes; then
+  BOOST_SIGNALS_LIB="-l$ax_lib";  link_signals="yes"; break
+else
+  link_signals="no"
+fi
+
+  				done
+                if test "x$link_signals" != "xyes"; then
+                for libextension in `ls $BOOSTLIBDIR/boost_signals*.{dll,a}* 2>/dev/null | sed 's,.*/,,' | sed -e 's;^\(boost_signals.*\)\.dll.*$;\1;' -e 's;^\(boost_signals.*\)\.a*$;\1;'` ; do
+                     ax_lib=${libextension}
+				    as_ac_Lib=`$as_echo "ac_cv_lib_$ax_lib''_exit" | $as_tr_sh`
+{ $as_echo "$as_me:$LINENO: checking for exit in -l$ax_lib" >&5
+$as_echo_n "checking for exit in -l$ax_lib... " >&6; }
+if { as_var=$as_ac_Lib; eval "test \"\${$as_var+set}\" = set"; }; then
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-l$ax_lib  $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char exit ();
+int
+main ()
+{
+return exit ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (ac_try="$ac_link"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_link") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest$ac_exeext && {
+	 test "$cross_compiling" = yes ||
+	 $as_test_x conftest$ac_exeext
+       }; then
+  eval "$as_ac_Lib=yes"
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	eval "$as_ac_Lib=no"
+fi
+
+rm -rf conftest.dSYM
+rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
+      conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+ac_res=`eval 'as_val=${'$as_ac_Lib'}
+		 $as_echo "$as_val"'`
+	       { $as_echo "$as_me:$LINENO: result: $ac_res" >&5
+$as_echo "$ac_res" >&6; }
+as_val=`eval 'as_val=${'$as_ac_Lib'}
+		 $as_echo "$as_val"'`
+   if test "x$as_val" = x""yes; then
+  BOOST_SIGNALS_LIB="-l$ax_lib";  link_signals="yes"; break
+else
+  link_signals="no"
+fi
+
+  				done
+                fi
+
+            else
+               for ax_lib in $ax_boost_user_signals_lib boost_signals-$ax_boost_user_signals_lib; do
+				      as_ac_Lib=`$as_echo "ac_cv_lib_$ax_lib''_main" | $as_tr_sh`
+{ $as_echo "$as_me:$LINENO: checking for main in -l$ax_lib" >&5
+$as_echo_n "checking for main in -l$ax_lib... " >&6; }
+if { as_var=$as_ac_Lib; eval "test \"\${$as_var+set}\" = set"; }; then
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-l$ax_lib  $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+
+int
+main ()
+{
+return main ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (ac_try="$ac_link"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_link") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest$ac_exeext && {
+	 test "$cross_compiling" = yes ||
+	 $as_test_x conftest$ac_exeext
+       }; then
+  eval "$as_ac_Lib=yes"
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	eval "$as_ac_Lib=no"
+fi
+
+rm -rf conftest.dSYM
+rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
+      conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+ac_res=`eval 'as_val=${'$as_ac_Lib'}
+		 $as_echo "$as_val"'`
+	       { $as_echo "$as_me:$LINENO: result: $ac_res" >&5
+$as_echo "$ac_res" >&6; }
+as_val=`eval 'as_val=${'$as_ac_Lib'}
+		 $as_echo "$as_val"'`
+   if test "x$as_val" = x""yes; then
+  BOOST_SIGNALS_LIB="-l$ax_lib";  link_signals="yes"; break
+else
+  link_signals="no"
+fi
+
+                  done
+
+            fi
+			if test "x$link_signals" != "xyes"; then
+				{ { $as_echo "$as_me:$LINENO: error: Could not link against $ax_lib !" >&5
+$as_echo "$as_me: error: Could not link against $ax_lib !" >&2;}
+   { (exit 1); exit 1; }; }
+			fi
+		fi
+
+		CPPFLAGS="$CPPFLAGS_SAVED"
+    	LDFLAGS="$LDFLAGS_SAVED"
+	fi
+
+			if test -z "$BOOST_SIGNALS_LIB"
+			then
+				{ { $as_echo "$as_me:$LINENO: error: unable to find Boost.Signals library." >&5
+$as_echo "$as_me: error: unable to find Boost.Signals library." >&2;}
+   { (exit 1); exit 1; }; }
+			fi
+			APP_LDADD="$APP_LDADD $BOOST_SIGNALS_LIB"
 
 
 
@@ -10364,6 +10691,20 @@ subdirs="$subdirs dbus-c++"
 	fi
 
 
+
+
+{ $as_echo "$as_me:$LINENO: debug mode: $debug_mode" >&5
+$as_echo "$as_me: debug mode: $debug_mode" >&6;}
+{ $as_echo "$as_me:$LINENO: develop mode: $develop_mode" >&5
+$as_echo "$as_me: develop mode: $develop_mode" >&6;}
+{ $as_echo "$as_me:$LINENO: disable bundle package: $disable_bundle_package" >&5
+$as_echo "$as_me: disable bundle package: $disable_bundle_package" >&6;}
+{ $as_echo "$as_me:$LINENO: using package libconfig: $package_libconfig" >&5
+$as_echo "$as_me: using package libconfig: $package_libconfig" >&6;}
+{ $as_echo "$as_me:$LINENO: using package libtorrent: $package_libtorrent" >&5
+$as_echo "$as_me: using package libtorrent: $package_libtorrent" >&6;}
+{ $as_echo "$as_me:$LINENO: enable inotify: $enable_inotify" >&5
+$as_echo "$as_me: enable inotify: $enable_inotify" >&6;}
 
 
 ac_config_files="$ac_config_files icons/Makefile man/Makefile man/ru/Makefile po/Makefile.in src/Makefile src/mlib/Makefile src/mlib/base/Makefile src/mlib/base/libs_forwards/Makefile src/mlib/gtk/Makefile ui/Makefile flush.desktop Makefile"

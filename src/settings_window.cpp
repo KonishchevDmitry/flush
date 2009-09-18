@@ -211,6 +211,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 	const int tabs_border_width = m::gtk::BOX_BORDER_WIDTH * 3;
 
 	this->set_resizable(false);
+	this->remove();
 
 	Gtk::VBox* main_vbox = Gtk::manage(new Gtk::VBox(false, m::gtk::VBOX_SPACING));
 	this->add(*main_vbox);

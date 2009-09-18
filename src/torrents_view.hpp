@@ -168,7 +168,7 @@
 	};
 
 
-	class Torrents_view_filter: private Virtual
+	class Torrents_view_filter: private m::Virtual
 	{
 		public:
 			virtual bool	operator()(const Torrent_info& info) const = 0;

@@ -33,6 +33,7 @@ namespace m { namespace gtk {
 	:
 		Gtk::Dialog(cobject)
 	{
+		this->property_destroy_with_parent() = true;
 	}
 
 
@@ -41,6 +42,7 @@ namespace m { namespace gtk {
 	:
 		Gtk::Dialog(title, parent_window, true)
 	{
+		this->property_destroy_with_parent() = true;
 		this->set_border_width(border_width);
 		this->set_title(title);
 
@@ -54,8 +56,6 @@ namespace m { namespace gtk {
 
 		if(settings.width > 0 && settings.height > 0)
 			this->resize(settings.width, settings.height);
-
-		this->remove();
 	}
 
 

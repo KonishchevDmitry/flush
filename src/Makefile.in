@@ -33,10 +33,14 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = flush$(EXEEXT)
-@DEVELOP_MODE_TRUE@am__append_1 = -D \
+@DEVELOP_MODE_TRUE@am__append_1 = \
+@DEVELOP_MODE_TRUE@	rss_settings_dialog.cpp \
+@DEVELOP_MODE_TRUE@	rss_settings_dialog.hpp
+
+@DEVELOP_MODE_TRUE@am__append_2 = -D \
 @DEVELOP_MODE_TRUE@	APP_UI_PATH='"$(abs_top_srcdir)/ui"' -D \
 @DEVELOP_MODE_TRUE@	APP_CUSTOM_ICONS_PATH='"$(abs_top_srcdir)/icons"'
-@DEVELOP_MODE_FALSE@am__append_2 = -D \
+@DEVELOP_MODE_FALSE@am__append_3 = -D \
 @DEVELOP_MODE_FALSE@	APP_UI_PATH='"$(datadir)/$(PACKAGE)/ui"' \
 @DEVELOP_MODE_FALSE@	-D \
 @DEVELOP_MODE_FALSE@	APP_CUSTOM_ICONS_PATH='"$(datadir)/$(PACKAGE)/icons"'
@@ -46,6 +50,7 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/acx_pthread.m4 \
 	$(top_srcdir)/m4/ax_boost_base.m4 \
 	$(top_srcdir)/m4/ax_boost_filesystem.m4 \
+	$(top_srcdir)/m4/ax_boost_signals.m4 \
 	$(top_srcdir)/m4/ax_boost_thread.m4 \
 	$(top_srcdir)/m4/check_ssl.m4 $(top_srcdir)/m4/gettext.m4 \
 	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/lib-ld.m4 \
@@ -60,6 +65,32 @@ CONFIG_CLEAN_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
+am__flush_SOURCES_DIST = add_torrent_dialog.cpp add_torrent_dialog.hpp \
+	app_icons.cpp app_icons.hpp application.cpp application.hh \
+	application.hpp categories_view.cpp categories_view.hpp \
+	categories_view.hxx client_cmd_options.cpp \
+	client_cmd_options.hpp client_settings.cpp client_settings.hpp \
+	client_settings.hxx common.cpp common.hh common.hpp \
+	create_torrent_dialog.cpp create_torrent_dialog.hpp daemon.cpp \
+	daemon_fs.cpp daemon_fs.hpp daemon.hpp daemon_proxy.cpp \
+	daemon_proxy.hpp daemon_session.cpp daemon_session.hpp \
+	daemon_settings.cpp daemon_settings.hpp daemon_types.cpp \
+	daemon_types.hpp gui_lib.cpp gui_lib.hpp ip_filter.cpp \
+	ip_filter.hpp log_view.cpp log_view.hpp main.cpp main.hpp \
+	main_window.cpp main_window.hpp open_torrent_dialog.cpp \
+	open_torrent_dialog.hpp settings_window.cpp \
+	settings_window.hpp statistics_window.cpp \
+	statistics_window.hpp temporary_action_dialog.cpp \
+	temporary_action_dialog.hpp torrent_details_view.cpp \
+	torrent_details_view.hpp torrent_files_view.cpp \
+	torrent_files_view.hh torrent_files_view.hpp \
+	torrent_options_view.cpp torrent_options_view.hpp \
+	torrent_peers_view.cpp torrent_peers_view.hpp \
+	torrents_view.cpp torrents_view.hpp torrents_viewport.cpp \
+	torrents_viewport.hpp trackers_view.cpp trackers_view.hpp \
+	rss_settings_dialog.cpp rss_settings_dialog.hpp
+@DEVELOP_MODE_TRUE@am__objects_1 =  \
+@DEVELOP_MODE_TRUE@	flush-rss_settings_dialog.$(OBJEXT)
 am_flush_OBJECTS = flush-add_torrent_dialog.$(OBJEXT) \
 	flush-app_icons.$(OBJEXT) flush-application.$(OBJEXT) \
 	flush-categories_view.$(OBJEXT) \
@@ -72,7 +103,6 @@ am_flush_OBJECTS = flush-add_torrent_dialog.$(OBJEXT) \
 	flush-ip_filter.$(OBJEXT) flush-log_view.$(OBJEXT) \
 	flush-main.$(OBJEXT) flush-main_window.$(OBJEXT) \
 	flush-open_torrent_dialog.$(OBJEXT) \
-	flush-rss_settings_dialog.$(OBJEXT) \
 	flush-settings_window.$(OBJEXT) \
 	flush-statistics_window.$(OBJEXT) \
 	flush-temporary_action_dialog.$(OBJEXT) \
@@ -82,9 +112,9 @@ am_flush_OBJECTS = flush-add_torrent_dialog.$(OBJEXT) \
 	flush-torrent_peers_view.$(OBJEXT) \
 	flush-torrents_view.$(OBJEXT) \
 	flush-torrents_viewport.$(OBJEXT) \
-	flush-trackers_view.$(OBJEXT)
-am__objects_1 =
-nodist_flush_OBJECTS = $(am__objects_1)
+	flush-trackers_view.$(OBJEXT) $(am__objects_1)
+am__objects_2 =
+nodist_flush_OBJECTS = $(am__objects_2)
 flush_OBJECTS = $(am_flush_OBJECTS) $(nodist_flush_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
@@ -99,7 +129,7 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = $(flush_SOURCES) $(nodist_flush_SOURCES)
-DIST_SOURCES = $(flush_SOURCES)
+DIST_SOURCES = $(am__flush_SOURCES_DIST)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
 	install-dvi-recursive install-exec-recursive \
@@ -125,6 +155,7 @@ AWK = @AWK@
 BOOST_CPPFLAGS = @BOOST_CPPFLAGS@
 BOOST_FILESYSTEM_LIB = @BOOST_FILESYSTEM_LIB@
 BOOST_LDFLAGS = @BOOST_LDFLAGS@
+BOOST_SIGNALS_LIB = @BOOST_SIGNALS_LIB@
 BOOST_THREAD_LIB = @BOOST_THREAD_LIB@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
@@ -265,83 +296,38 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = mlib
 EXTRA_DIST = dbus_introspect.xml
-flush_SOURCES = \
-	add_torrent_dialog.cpp \
-	add_torrent_dialog.hpp \
-	app_icons.cpp \
-	app_icons.hpp \
-	application.cpp \
-	application.hh \
-	application.hpp \
-	categories_view.cpp \
-	categories_view.hpp \
-	categories_view.hxx \
-	client_cmd_options.cpp \
-	client_cmd_options.hpp \
-	client_settings.cpp \
-	client_settings.hpp \
-	client_settings.hxx \
-	common.cpp \
-	common.hh \
-	common.hpp \
-	create_torrent_dialog.cpp \
-	create_torrent_dialog.hpp \
-	daemon.cpp \
-	daemon_fs.cpp \
-	daemon_fs.hpp \
-	daemon.hpp \
-	daemon_proxy.cpp \
-	daemon_proxy.hpp \
-	daemon_session.cpp \
-	daemon_session.hpp \
-	daemon_settings.cpp \
-	daemon_settings.hpp \
-	daemon_types.cpp \
-	daemon_types.hpp \
-	gui_lib.cpp \
-	gui_lib.hpp \
-	ip_filter.cpp \
-	ip_filter.hpp \
-	log_view.cpp \
-	log_view.hpp \
-	main.cpp \
-	main.hpp \
-	main_window.cpp \
-	main_window.hpp \
-	open_torrent_dialog.cpp \
-	open_torrent_dialog.hpp \
-	rss_settings_dialog.cpp \
-	rss_settings_dialog.hpp \
-	settings_window.cpp \
-	settings_window.hpp \
-	statistics_window.cpp \
-	statistics_window.hpp \
-	temporary_action_dialog.cpp \
-	temporary_action_dialog.hpp \
-	torrent_details_view.cpp \
-	torrent_details_view.hpp \
-	torrent_files_view.cpp \
-	torrent_files_view.hh \
-	torrent_files_view.hpp \
-	torrent_options_view.cpp \
-	torrent_options_view.hpp \
-	torrent_peers_view.cpp \
-	torrent_peers_view.hpp \
-	torrents_view.cpp \
-	torrents_view.hpp \
-	torrents_viewport.cpp \
-	torrents_viewport.hpp \
-	trackers_view.cpp \
-	trackers_view.hpp
-
+flush_SOURCES = add_torrent_dialog.cpp add_torrent_dialog.hpp \
+	app_icons.cpp app_icons.hpp application.cpp application.hh \
+	application.hpp categories_view.cpp categories_view.hpp \
+	categories_view.hxx client_cmd_options.cpp \
+	client_cmd_options.hpp client_settings.cpp client_settings.hpp \
+	client_settings.hxx common.cpp common.hh common.hpp \
+	create_torrent_dialog.cpp create_torrent_dialog.hpp daemon.cpp \
+	daemon_fs.cpp daemon_fs.hpp daemon.hpp daemon_proxy.cpp \
+	daemon_proxy.hpp daemon_session.cpp daemon_session.hpp \
+	daemon_settings.cpp daemon_settings.hpp daemon_types.cpp \
+	daemon_types.hpp gui_lib.cpp gui_lib.hpp ip_filter.cpp \
+	ip_filter.hpp log_view.cpp log_view.hpp main.cpp main.hpp \
+	main_window.cpp main_window.hpp open_torrent_dialog.cpp \
+	open_torrent_dialog.hpp settings_window.cpp \
+	settings_window.hpp statistics_window.cpp \
+	statistics_window.hpp temporary_action_dialog.cpp \
+	temporary_action_dialog.hpp torrent_details_view.cpp \
+	torrent_details_view.hpp torrent_files_view.cpp \
+	torrent_files_view.hh torrent_files_view.hpp \
+	torrent_options_view.cpp torrent_options_view.hpp \
+	torrent_peers_view.cpp torrent_peers_view.hpp \
+	torrents_view.cpp torrents_view.hpp torrents_viewport.cpp \
+	torrents_viewport.hpp trackers_view.cpp trackers_view.hpp \
+	$(am__append_1)
 dbus_glues = adaptor_glue.hpp proxy_glue.hpp
 nodist_flush_SOURCES = $(dbus_glues)
 BUILT_SOURCES = $(dbus_glues)
 CLEANFILES = $(dbus_glues)
 flush_DEPENDENCIES = @APP_DEPENDENCIES@
 flush_CPPFLAGS = @APP_CPPFLAGS@ -D \
-	APP_BIN_PATH='"$(bindir)/$(PACKAGE)"' $(am__append_1) \
-	$(am__append_2) -D APP_LOCALE_PATH='"$(localedir)"'
+	APP_BIN_PATH='"$(bindir)/$(PACKAGE)"' $(am__append_2) \
+	$(am__append_3) -D APP_LOCALE_PATH='"$(localedir)"'
 flush_LDADD = @APP_LDADD@
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
@@ -736,20 +722,6 @@ flush-open_torrent_dialog.obj: open_torrent_dialog.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-open_torrent_dialog.obj `if test -f 'open_torrent_dialog.cpp'; then $(CYGPATH_W) 'open_torrent_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/open_torrent_dialog.cpp'; fi`
 
-flush-rss_settings_dialog.o: rss_settings_dialog.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-rss_settings_dialog.o -MD -MP -MF $(DEPDIR)/flush-rss_settings_dialog.Tpo -c -o flush-rss_settings_dialog.o `test -f 'rss_settings_dialog.cpp' || echo '$(srcdir)/'`rss_settings_dialog.cpp
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-rss_settings_dialog.Tpo $(DEPDIR)/flush-rss_settings_dialog.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='rss_settings_dialog.cpp' object='flush-rss_settings_dialog.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-rss_settings_dialog.o `test -f 'rss_settings_dialog.cpp' || echo '$(srcdir)/'`rss_settings_dialog.cpp
-
-flush-rss_settings_dialog.obj: rss_settings_dialog.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-rss_settings_dialog.obj -MD -MP -MF $(DEPDIR)/flush-rss_settings_dialog.Tpo -c -o flush-rss_settings_dialog.obj `if test -f 'rss_settings_dialog.cpp'; then $(CYGPATH_W) 'rss_settings_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/rss_settings_dialog.cpp'; fi`
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-rss_settings_dialog.Tpo $(DEPDIR)/flush-rss_settings_dialog.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='rss_settings_dialog.cpp' object='flush-rss_settings_dialog.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-rss_settings_dialog.obj `if test -f 'rss_settings_dialog.cpp'; then $(CYGPATH_W) 'rss_settings_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/rss_settings_dialog.cpp'; fi`
-
 flush-settings_window.o: settings_window.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-settings_window.o -MD -MP -MF $(DEPDIR)/flush-settings_window.Tpo -c -o flush-settings_window.o `test -f 'settings_window.cpp' || echo '$(srcdir)/'`settings_window.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-settings_window.Tpo $(DEPDIR)/flush-settings_window.Po
@@ -889,6 +861,20 @@ flush-trackers_view.obj: trackers_view.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='trackers_view.cpp' object='flush-trackers_view.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-trackers_view.obj `if test -f 'trackers_view.cpp'; then $(CYGPATH_W) 'trackers_view.cpp'; else $(CYGPATH_W) '$(srcdir)/trackers_view.cpp'; fi`
+
+flush-rss_settings_dialog.o: rss_settings_dialog.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-rss_settings_dialog.o -MD -MP -MF $(DEPDIR)/flush-rss_settings_dialog.Tpo -c -o flush-rss_settings_dialog.o `test -f 'rss_settings_dialog.cpp' || echo '$(srcdir)/'`rss_settings_dialog.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-rss_settings_dialog.Tpo $(DEPDIR)/flush-rss_settings_dialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='rss_settings_dialog.cpp' object='flush-rss_settings_dialog.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-rss_settings_dialog.o `test -f 'rss_settings_dialog.cpp' || echo '$(srcdir)/'`rss_settings_dialog.cpp
+
+flush-rss_settings_dialog.obj: rss_settings_dialog.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-rss_settings_dialog.obj -MD -MP -MF $(DEPDIR)/flush-rss_settings_dialog.Tpo -c -o flush-rss_settings_dialog.obj `if test -f 'rss_settings_dialog.cpp'; then $(CYGPATH_W) 'rss_settings_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/rss_settings_dialog.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-rss_settings_dialog.Tpo $(DEPDIR)/flush-rss_settings_dialog.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='rss_settings_dialog.cpp' object='flush-rss_settings_dialog.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-rss_settings_dialog.obj `if test -f 'rss_settings_dialog.cpp'; then $(CYGPATH_W) 'rss_settings_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/rss_settings_dialog.cpp'; fi`
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.

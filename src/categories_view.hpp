@@ -53,7 +53,7 @@ class Categories_filter
 
 
 /// Объект, хранящий все настройки Categories_view.
-class Categories_view_settings: private Virtual
+class Categories_view_settings: private m::Virtual
 {
 	public:
 		Categories_view_settings(void);

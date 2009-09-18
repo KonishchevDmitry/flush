@@ -18,21 +18,12 @@
 **************************************************************************/
 
 
-#include <gtkmm/treemodelcolumn.h>
+#ifndef HEADER_MLIB_LIBS_FORWARDS_SIGCPP
+#define HEADER_MLIB_LIBS_FORWARDS_SIGCPP
 
-namespace m { namespace gtk {
-
-template<class Column_type, class Value_type>
-bool update_row(const Gtk::TreeRow& row, const Gtk::TreeModelColumn<Column_type>& column, const Value_type& value)
-{
-	if(row[column] == value)
-		return false;
-	else
-	{
-		row[column] = value;
-		return true;
-	}
+namespace sigc {
+	class connection;
 }
 
-}}
+#endif
 

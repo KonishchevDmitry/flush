@@ -20,33 +20,33 @@
 
 
 #ifndef HEADER_DAEMON_FS
-	#define HEADER_DAEMON_FS
+#define HEADER_DAEMON_FS
 
-	#include <string>
+#include <string>
 
-	#include "common.hpp"
+#include "common.hpp"
 
-	class Daemon_fs
-	{
-		protected:
-			/// Создает все необходимые директории, в которых будут
-			/// храниться конфигурационные файлы, если они еще не
-			/// существуют.
-			/// @throw - m::Exception.
-			void			create_config_dirs(void) const;
+class Daemon_fs
+{
+	protected:
+		/// Создает все необходимые директории, в которых будут
+		/// храниться конфигурационные файлы, если они еще не
+		/// существуют.
+		/// @throw - m::Exception.
+		void			create_config_dirs(void) const;
 
-			/// Возвращает путь к директории с конфигурационными файлами.
-			std::string		get_config_dir_path(void) const;
+		/// Возвращает путь к директории с конфигурационными файлами.
+		std::string		get_config_dir_path(void) const;
 
-			/// Возвращает путь к файлам торрента torrent_id.
-			std::string		get_torrent_dir_path(const Torrent_id& torrent_id) const;
+		/// Возвращает путь к файлам торрента torrent_id.
+		std::string		get_torrent_dir_path(const Torrent_id& torrent_id) const;
 
-			/// Возвращает путь к папке, в которую по умолчанию сохраняются файлы торрентов.
-			std::string		get_torrents_download_path(void) const;
+		/// Возвращает путь к папке, в которую по умолчанию сохраняются файлы торрентов.
+		std::string		get_torrents_download_path(void) const;
 
-			/// Возвращает путь к папке, хранящей информацию о торретах.
-			std::string		get_torrents_dir_path(void) const;
-	};
+		/// Возвращает путь к папке, хранящей информацию о торретах.
+		std::string		get_torrents_dir_path(void) const;
+};
 
 #endif
 

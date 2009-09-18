@@ -49,8 +49,6 @@ flush_SOURCES = \
 	main_window.hpp \
 	open_torrent_dialog.cpp \
 	open_torrent_dialog.hpp \
-	rss_settings_dialog.cpp \
-	rss_settings_dialog.hpp \
 	settings_window.cpp \
 	settings_window.hpp \
 	statistics_window.cpp \
@@ -72,6 +70,12 @@ flush_SOURCES = \
 	torrents_viewport.hpp \
 	trackers_view.cpp \
 	trackers_view.hpp
+
+if DEVELOP_MODE
+flush_SOURCES += \
+	rss_settings_dialog.cpp \
+	rss_settings_dialog.hpp
+endif
 
 dbus_glues = adaptor_glue.hpp proxy_glue.hpp
 nodist_flush_SOURCES = $(dbus_glues)

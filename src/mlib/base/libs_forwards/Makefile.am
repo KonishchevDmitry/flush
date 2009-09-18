@@ -4,5 +4,6 @@ EXTRA_DIST = \
 	glibmm.hpp \
 	gtkmm.hpp \
 	libconfig.hpp \
-	libtorrent.hpp
+	libtorrent.hpp \
+	sigc++.hpp
 

@@ -320,7 +320,7 @@ namespace
 
 		{
 		#ifdef MLIB_ENABLE_GTK
-			m::gtk::Scoped_enter;
+			m::gtk::Scoped_enter gtk_lock;
 		#endif
 			this->task_finished_signal(id);
 		}

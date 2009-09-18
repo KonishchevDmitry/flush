@@ -153,7 +153,11 @@ int unix_epoll_create(void)
 
 int unix_epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout)
 {
-	int rval = epoll_wait(epfd, events, maxevents, timeout);
+	int rval;
+
+	do
+		rval = epoll_wait(epfd, events, maxevents, timeout);
+	while(rval < 0 && errno == EINTR);
 
 	if(rval < 0)
 		M_THROW_SYS(errno);

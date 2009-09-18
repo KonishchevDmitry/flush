@@ -28,6 +28,7 @@
 #include <sigc++/connection.h>
 #include <sigc++/slot.h>
 
+#include <mlib/gtk/dispatcher.hxx>
 #include <mlib/main.hpp>
 
 
@@ -56,11 +57,11 @@ namespace m
 
 		public:
 			/// Очищает очередь новых файлов.
-			void				clear(void);
+			void							clear(void);
 
 			/// Подключает обработчик сигнала на появление нового файла в
 			/// мониторящейся директории.
-			sigc::connection	connect(const sigc::slot<void>& slot);
+			m::gtk::Dispatcher_connection	connect(const sigc::slot<void>& slot);
 
 			/// Извлекает путь к файлу из очереди новых файлов.
 			/// Если директория была перемещена или удалена, то в очередь
@@ -68,18 +69,18 @@ namespace m
 			///
 			/// @return - true, если файл был извлечен, или false, если в
 			/// очереди больше не осталось файлов.
-			bool				get(std::string* file_path);
+			bool							get(std::string* file_path);
 
 			/// Возвращает директорию, которая мониторится в данный момент, или
 			/// "", если директория не мониторится.
-			std::string			get_watching_directory(void);
+			std::string						get_watching_directory(void);
 
 			/// Задает директорию для мониторинга и очищает очередь новых файлов.
 			/// @throw - m::Exception.
-			void				set_watching_directory(const std::string& directory);
+			void							set_watching_directory(const std::string& directory);
 
 			/// Снимает текущую директорию с мониторинга (если такая существует).
-			void				unset_watching_directory(void);
+			void							unset_watching_directory(void);
 	};
 }
 

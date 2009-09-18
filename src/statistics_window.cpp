@@ -40,9 +40,16 @@
 
 
 
+namespace
+{
+	enum { RESPONSE_RESET };
+}
+
+
+
 Statistics_window::Statistics_window(Gtk::Window& parent_window)
 :
-	Gtk::Dialog(format_window_title(_("Statistics")), parent_window),
+	m::gtk::Dialog(parent_window, format_window_title(_("Statistics"))),
 
 	rows_num(0),
 	columns_num(2),
@@ -112,7 +119,7 @@ void Statistics_window::attach_value(const std::string& name, const std::string&
 void Statistics_window::on_reset_callback(void)
 {
 	if(m::gtk::yes_no_dialog(*this, _("Reset statistics?"), _("Are you sure want to reset statistics?")))
-		this->response(Gtk::RESPONSE_CANCEL);
+		this->response(RESPONSE_RESET);
 }
 
 
@@ -193,7 +200,7 @@ void Statistics_window::run(void)
 		this->show_all_children();
 		this->set_resizable(false);
 
-		if(Gtk::Dialog::run() == Gtk::RESPONSE_CANCEL)
+		if(m::gtk::Dialog::run() == RESPONSE_RESET)
 		{
 			// Пользователь дал команду на сброс статистики
 			// m::Exception

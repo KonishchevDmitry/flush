@@ -25,7 +25,7 @@
 #include <gtkmm/stock.h>
 
 #include <mlib/gtk/signal_proxy.hpp>
-#include <mlib/gtk/signals_holder.hpp>
+#include <mlib/signals_holder.hpp>
 
 #include "categories_view.hpp"
 #include "client_settings.hpp"
@@ -76,7 +76,7 @@ class Private
 		Torrent_id					cur_torrent_id;
 
 
-		m::gtk::Signals_holder		sholder;
+		m::Signals_holder			sholder;
 
 
 	public:

@@ -35,6 +35,8 @@
 		#include <gtkmm/dialog.h>
 	#endif
 
+	#include <glibmm/dispatcher.h>
+
 	#include "client_cmd_options.hpp"
 	#include "client_settings.hpp"
 	#include "common.hpp"
@@ -70,6 +72,11 @@
 
 
 
+	namespace Application_aux {
+		class Private;
+	}
+
+
 	/// Класс, представляющий все приложение в целом и хранящий
 	/// все основные его классы.
 	class Application
@@ -78,6 +85,10 @@
 		public DBus::IntrospectableAdaptor,
 		public DBus::ObjectAdaptor
 	{
+		private:
+			typedef Application_aux::Private Private;
+
+
 		public:
 			Application(const Client_cmd_options& cmd_options, DBus::Connection& dbus_connection, const std::string& dbus_path, const std::string& dbus_name);
 			~Application(void);
@@ -85,8 +96,9 @@
 
 		private:
 			/// Указатель на текущий экземпляр Application.
-			static
-			Application*				ptr;
+			static Application*			ptr;
+
+			boost::scoped_ptr<Private>	priv;
 
 
 			/// Опции командной строки, с которыми было запущено приложение.
@@ -108,7 +120,7 @@
 
 			/// Сигнал, генерируемый при добавлении нового сообщения
 			/// для отображения его пользователю.
-			Glib::Dispatcher			message_signal;
+			static Glib::Dispatcher		message_signal;
 
 			/// Окно с сообщением, отображаемым в данный момент
 			/// или NULL, если в данный момент сообщение не отображается.
@@ -130,6 +142,9 @@
 			/// Добавляет торрент в текущую сессию.
 			/// @throw - m::Exception.
 			void				add_torrent(const std::string& torrent_path, const New_torrent_settings& torrent_settings);
+
+			/// Инициирует завершение работы с приложением.
+			void				close(void);
 
 			/// Возвращает текущий экземпляр Application.
 			static inline
@@ -166,13 +181,18 @@
 			/// @throw - m::Exception.
 			void				start(void);
 
+			/// Эту функцию вызывает подсистема приложения, ответственная за
+			/// завершение его работы, когда все демоны и пр. уже остановлены в
+			/// результате вызова метода close().
+			void				stop(void);
+
 		private:
 			/// Получает опции командной строки и производит все необходимые действия
 			/// по их обработке.
 			void				dbus_cmd_options(const std::vector<std::string>& cmd_options_strings);
 
 			/// Обработчик сигнала на получение сообщений от демона.
-			void				on_daemon_messages_callback(const std::deque<Daemon_message>& messages);
+			void				on_daemon_message_cb(const Daemon_message& message);
 
 			/// Обработчик сигнала на получение нового сообщения для отображения пользователю.
 			void				on_message_callback(void);
@@ -182,6 +202,12 @@
 
 			/// Производит обработку переданных опций командной строки.
 			void				process_cmd_options(const Client_cmd_options& cmd_options);
+
+			/// Отображает очередное сообщение.
+			void				show_next_message(void);
+
+			/// См. описание в stop().
+			bool				stop_checker(void);
 	};
 
 

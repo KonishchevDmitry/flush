@@ -20,6 +20,8 @@ libmlib_a_SOURCES = \
 	misc.cpp \
 	misc.hpp \
 	misc.hxx \
+	signals_holder.cpp \
+	signals_holder.hpp\
 	string.cpp \
 	string.hpp \
 	sys.cpp \

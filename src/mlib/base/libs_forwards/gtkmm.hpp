@@ -23,26 +23,28 @@
 
 namespace Gtk {
 
-	class Button;
-	class ComboBox;
-	class Dialog;
-	class Entry;
-	class EventBox;
-	class FileChooserDialog;
-	class LinkButton;
-	class ListStore;
-	class ListViewText;
-	class MessageDialog;
-	class ProgressBar;
-	class StockID;
-	class Table;
-	class Toolbar;
-	class ToolButton;
-	class TreeRow;
-	class TreeView;
-	class TreeViewColumn;
-	class Widget;
-	class Window;
+								class Button;
+								class ComboBox;
+								class Dialog;
+								class Entry;
+								class EventBox;
+								class FileChooserDialog;
+								class IconSize;
+								class LinkButton;
+								class ListStore;
+								class ListViewText;
+								class MessageDialog;
+								class ProgressBar;
+								class StockID;
+								class Table;
+								class Toolbar;
+								class ToolButton;
+template <class Column_type>	class TreeModelColumn;
+								class TreeRow;
+								class TreeView;
+								class TreeViewColumn;
+								class Widget;
+								class Window;
 
 }
 

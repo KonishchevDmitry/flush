@@ -19,7 +19,6 @@
 **************************************************************************/
 
 
-#include <deque>
 #include <list>
 #include <memory>
 #include <string>
@@ -43,17 +42,21 @@
 #include <libtorrent/torrent_info.hpp>
 #include <libtorrent/version.hpp>
 
+#include <mlib/gtk/dispatcher.hpp>
 #include <mlib/gtk/main.hpp>
 #include <mlib/async_fs.hpp>
 #include <mlib/fs.hpp>
+#include <mlib/fs_watcher.hpp>
+#include <mlib/libtorrent.hpp>
 #include <mlib/main.hpp>
 #include <mlib/misc.hpp>
+#include <mlib/signals_holder.hpp>
 #include <mlib/sys.hpp>
-#include <mlib/libtorrent.hpp>
 
 #include "common.hpp"
 #include "daemon_session.hpp"
 #include "daemon_types.hpp"
+#include "main.hpp"
 
 #if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 36, 0)
 	#include <boost/unordered_map.hpp>
@@ -72,6 +75,14 @@
 
 namespace
 {
+	#if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 36, 0)
+		typedef boost::unordered_map<Torrent_id, Torrent> Torrents_container;
+	#else
+		typedef std::map<Torrent_id, Torrent> Torrents_container;
+	#endif
+
+
+
 	class Cleaned_torrent
 	{
 		public:
@@ -108,6 +119,44 @@ namespace
 
 
 
+	/// Инициирует получение пиров от трекера заранее, если установленный в
+	/// данный момент интервал получения пиров превышает max_announce_interval.
+	void	force_torrent_reannounce_if_needed(lt::torrent_handle& handle, Time max_announce_interval);
+
+	/// Функция сравнения двух торрентов по времени раздачи.
+	inline
+	bool	Torrent_seeding_time_compare(const Seeding_torrent& a, const Seeding_torrent& b);
+
+
+
+	void force_torrent_reannounce_if_needed(lt::torrent_handle& handle, Time max_announce_interval)
+	{
+		try
+		{
+			if(!handle.is_paused())
+			{
+				lt::torrent_status status = handle.status();
+
+				if(status.next_announce.total_seconds() > max_announce_interval)
+					handle.force_reannounce( boost::posix_time::seconds(max_announce_interval) );
+			}
+		}
+		catch(lt::invalid_handle&)
+		{
+		}
+	}
+
+
+
+	bool Torrent_seeding_time_compare(const Seeding_torrent& a, const Seeding_torrent& b)
+	{
+		return a.seed_time < b.seed_time;
+	}
+}
+
+
+
+// Tracker_error -->
 	/// Класс, описывающий ошибку соединения с трекером.
 	class Tracker_error
 	{
@@ -119,16 +168,6 @@ namespace
 			Torrent_id	torrent_id;
 			std::string	error_string;
 	};
-
-
-
-	/// Инициирует получение пиров от трекера заранее, если установленный в
-	/// данный момент интервал получения пиров превышает max_announce_interval.
-	void	force_torrent_reannounce_if_needed(lt::torrent_handle& handle, Time max_announce_interval);
-
-	/// Функция сравнения двух торрентов по времени раздачи.
-	inline
-	bool	Torrent_seeding_time_compare(const Seeding_torrent& a, const Seeding_torrent& b);
 
 
 
@@ -190,39 +229,14 @@ namespace
 				this->error_string = this->error_string.substr(0, max_msg_size) + "...";
 		}
 	}
-
-
-
-	void force_torrent_reannounce_if_needed(lt::torrent_handle& handle, Time max_announce_interval)
-	{
-		try
-		{
-			if(!handle.is_paused())
-			{
-				lt::torrent_status status = handle.status();
-
-				if(status.next_announce.total_seconds() > max_announce_interval)
-					handle.force_reannounce( boost::posix_time::seconds(max_announce_interval) );
-			}
-		}
-		catch(lt::invalid_handle&)
-		{
-		}
-	}
-
-
-
-	bool Torrent_seeding_time_compare(const Seeding_torrent& a, const Seeding_torrent& b)
-	{
-		return a.seed_time < b.seed_time;
-	}
-}
+// Tracker_error <--
 
 
 
 // Private -->
 namespace Daemon_session_aux
 {
+
 	class Private
 	{
 		public:
@@ -230,6 +244,17 @@ namespace Daemon_session_aux
 
 
 		public:
+			/// Сигнализирует о том, что в данный момент запущен процесс
+			/// завершения сессии.
+			bool								session_stopping;
+
+			/// Текущая libtorrent сессия.
+			lt::session							session;
+
+
+			/// Настройки текущей сессии.
+			Daemon_settings_light				settings;
+
 			/// За время существования сессии в нее могут добавляться и
 			/// удаляться торренты с одинаковыми идентификаторами. Данный
 			/// контейнер хранит текущие порядковые номера для каждого
@@ -240,31 +265,100 @@ namespace Daemon_session_aux
 			std::map<Torrent_id, size_t>				torrents_serial_numbers;
 		#endif
 
+			/// Торренты текущей сессии.
+			Torrents_container					torrents;
+
+			/// Время последнего обновления статистики.
+			time_t								last_update_torrent_statistics_time;
+
+			/// Статистика по прошлым и текущей сессиям.
+			Daemon_statistics					statistics;
+
+
+			/// Удерживает сигналы, которые необходимо отсоединить перед
+			/// остановкой сессии.
+			m::Signals_holder					before_stopping_sholder;
+
+			/// Удерживает сигналы, которые необходимо отсоединить после
+			/// остановки сессии.
+			m::Signals_holder					after_stopping_sholder;
+
+
+			/// Сигнал для остановки messages_thread.
+			M_LIBRARY_COMPATIBILITY
+			/// Boost 1.34 не предоставляет возможности завершить выполение
+			/// потока, поэтому используем данный флаг.
+			volatile bool						stop_messages_thread;
+
+			/// Поток для получения сообщений от libtorrent.
+			std::auto_ptr<boost::thread>		messages_thread;
+
+
+			/// Сигнал на получение очередной resume data от libtorrent.
+			m::gtk::Dispatcher<
+			void (const Torrent_id&,
+			boost::shared_ptr<lt::entry>)>		torrent_resume_data_signal;
+
+			/// Количество resume data, которые были запрошены у libtorrent, но
+			/// еще не были получены и обработаны.
+			size_t								pending_torrent_resume_data;
+
 
 			/// Сигнал на получение ошибки соединения с трекером.
-			Glib::Dispatcher			tracker_error_signal;
+			m::gtk::Dispatcher<
+			void (const Tracker_error&)>		tracker_error_signal;
 
-			/// Очередь ошибок соединения с трекером, ожидающих обработки.
-			std::deque<Tracker_error>	tracker_errors;
+			/// Сигнал на завершение скачивания торрента.
+			m::gtk::Dispatcher<
+			void (const lt::torrent_handle&)>	torrent_finished_signal;
 
 
 			/// Активное в данный момент "временное действие".
-			Temporary_action			temporary_action;
+			Temporary_action					temporary_action;
 
 			/// Сигнал на истечение срока "временного действия".
-			sigc::connection			temporary_action_expired_connection;
+			sigc::connection					temporary_action_expired_connection;
 
 			/// Торренты, к которым было применено "временное действие".
-			std::list<Torrent_full_id>	temporary_action_torrents;
+			std::list<Torrent_full_id>			temporary_action_torrents;
+
+
+			/// Объект, с помощью которого производятся наблюдения за
+			/// изменениями в файловой системе.
+			m::Fs_watcher						fs_watcher;
+
+
+		public:
+			/// Переводит сессию в остановленное состояние, если для этого
+			/// пришло время.
+			void	set_stopped_state_if_needed(void);
 	};
 
 
 
 	Private::Private(void)
 	:
+		session_stopping(false),
+		session(lt::fingerprint("LT", LIBTORRENT_VERSION_MAJOR, LIBTORRENT_VERSION_MINOR, 0, 0), 0),
+
+		last_update_torrent_statistics_time(time(NULL)),
+
+		stop_messages_thread(false),
+
+		pending_torrent_resume_data(0),
+
 		temporary_action(TEMPORARY_ACTION_NONE)
 	{
 	}
+
+
+
+	void Private::set_stopped_state_if_needed(void)
+	{
+		if(this->session_stopping && !pending_torrent_resume_data)
+			this->stop_messages_thread = true;
+	}
+
 }
 // Private <--
 
@@ -272,16 +366,10 @@ namespace Daemon_session_aux
 
 Daemon_session::Daemon_session(const std::string& config_dir_path)
 :
-	Daemon_fs(),
-	priv(new Private),
-	is_stop(false),
-	messages_thread(NULL),
-	pending_torrent_resume_data(0),
-	last_update_torrent_statistics_time(time(NULL)),
-	session(new lt::session(lt::fingerprint("LT", LIBTORRENT_VERSION_MAJOR, LIBTORRENT_VERSION_MINOR, 0, 0), 0))
+	priv(new Private)
 {
 	// Устанавливаем уровень сообщений, которые мы будем принимать от libtorrent -->
-		this->session->set_alert_mask(
+		priv->session.set_alert_mask(
 			lt::alert::error_notification |
 			lt::alert::port_mapping_notification |
 			lt::alert::storage_notification |
@@ -294,7 +382,7 @@ Daemon_session::Daemon_session(const std::string& config_dir_path)
 
 	// Настройки libtorrent -->
 	{
-		lt::session_settings lt_settings = this->session->settings();
+		lt::session_settings lt_settings = priv->session.settings();
 
 		lt_settings.user_agent = _C("%1 %2", APP_NAME, APP_VERSION_STRING);
 		lt_settings.ignore_limits_on_local_network = false;
@@ -304,7 +392,7 @@ Daemon_session::Daemon_session(const std::string& config_dir_path)
 		// их количество до 999.
 		lt_settings.num_want = 10000;
 
-		this->session->set_settings(lt_settings);
+		priv->session.set_settings(lt_settings);
 	}
 	// Настройки libtorrent <--
 
@@ -315,7 +403,7 @@ Daemon_session::Daemon_session(const std::string& config_dir_path)
 		// Читаем конфиг -->
 			try
 			{
-				daemon_settings.read(this->get_config_dir_path(), &this->statistics);
+				daemon_settings.read(this->get_config_dir_path(), &priv->statistics);
 			}
 			catch(m::Exception& e)
 			{
@@ -328,133 +416,43 @@ Daemon_session::Daemon_session(const std::string& config_dir_path)
 	// Задаем начальные настройки демона <--
 
 	// Обработчик сигнала на автоматическое сохранение текущей сессии
-	this->save_session_connection = Glib::signal_timeout().connect(
+	priv->before_stopping_sholder.push(Glib::signal_timeout().connect(
 		sigc::mem_fun(*this, &Daemon_session::on_save_session_callback),
 		SAVE_SESSION_TIMEOUT
-	);
+	));
 
 	// Обработчик сигнала на обновление статистической информации о торрентах
-	this->update_torrents_statistics_connection = Glib::signal_timeout().connect(
+	priv->before_stopping_sholder.push(Glib::signal_timeout().connect(
 		sigc::mem_fun(*this, &Daemon_session::on_update_torrents_statistics_callback),
 		UPDATE_TORRENTS_STATISTICS_TIMEOUT * 1000 // раз в минуту
-	);
+	));
 
 	// Обработчик сигнала на получение очередной resume data от libtorrent.
-	this->torrent_resume_data_signal.connect(
+	priv->after_stopping_sholder.push(priv->torrent_resume_data_signal.connect(
 		sigc::mem_fun(*this, &Daemon_session::on_torrent_resume_data_callback)
-	);
+	));
 
 	// Обработчик сигнала на завершение скачивания торрента.
-	this->torrent_finished_signal.connect(
+	priv->before_stopping_sholder.push(priv->torrent_finished_signal.connect(
 		sigc::mem_fun(*this, &Daemon_session::on_torrent_finished_callback)
-	);
+	));
 
 	// Обработчик сигнала на получение сообщения об ошибке соединения с
 	// трекером.
-	priv->tracker_error_signal.connect(
+	priv->before_stopping_sholder.push(priv->tracker_error_signal.connect(
 		sigc::mem_fun(*this, &Daemon_session::on_tracker_error_cb)
-	);
+	));
 
 	// Поток для получения сообщений от libtorrent.
-	this->messages_thread = new boost::thread(boost::ref(*this));
+	priv->messages_thread = std::auto_ptr<boost::thread>(
+		new boost::thread(boost::ref(*this)) );
 }
 
 
 
 Daemon_session::~Daemon_session(void)
 {
-	// Т. к. работа завершается, то можно считать, что время "как бы истекло".
-	this->interrupt_temporary_action(true);
-
-	// Сигнал на автоматическое сохранение текущей сессии
-	this->save_session_connection.disconnect();
-
-	// Сигнал на обновление статистической информации о торрентах
-	this->update_torrents_statistics_connection.disconnect();
-
-	// Сигнал на появление новых торрентов для автоматического
-	// добавления.
-	this->fs_watcher_connection.disconnect();
-
-	// Останавливаем поток для получения сообщений от libtorrent -->
-		if(this->messages_thread)
-		{
-			{
-				boost::mutex::scoped_lock lock(this->mutex);
-				this->is_stop = true;
-			}
-
-			this->messages_thread->join();
-			delete this->messages_thread;
-		}
-	// Останавливаем поток для получения сообщений от libtorrent <--
-
-	// Старые resume data нас уже не интересуют - просто отбрасываем их и
-	// генерируем новые.
-	this->pending_torrent_resume_data -= this->torrents_resume_data.size();
-
-	// Останавливаем сессию, чтобы прекратить скачивание торрентов.
-	this->session->pause();
-
-	// Сохраняем текущую сессию -->
-	{
-		try
-		{
-			this->save_session();
-		}
-		catch(m::Exception& e)
-		{
-			MLIB_W(_("Saving session failed"), __("Saving session failed. %1", EE(e)));
-		}
-
-		// Ожидаем получения запрошенных resume data -->
-			MLIB_D("Waiting for pending resume data...");
-
-			while(this->pending_torrent_resume_data)
-			{
-				if(this->session->wait_for_alert(lt::time_duration(INT_MAX)))
-				{
-					std::auto_ptr<lt::alert> alert;
-
-					while( this->pending_torrent_resume_data && (alert = this->session->pop_alert()).get() )
-					{
-						if( dynamic_cast<lt::save_resume_data_alert*>(alert.get()) )
-						{
-							pending_torrent_resume_data--;
-
-							lt::save_resume_data_alert* resume_data_alert = dynamic_cast<lt::save_resume_data_alert*>(alert.get());
-							Torrent_id torrent_id = Torrent_id(resume_data_alert->handle);
-
-							MLIB_D(_C("Gotten resume data for torrent '%1'.", torrent_id));
-							this->save_torrent_settings_if_exists(torrent_id, *resume_data_alert->resume_data);
-						}
-						else if( dynamic_cast<lt::save_resume_data_failed_alert*>(alert.get()) )
-						{
-							// Насколько я понял, получение
-							// lt::save_resume_data_failed_alert не означает
-							// какую-то внутреннюю ошибку. Данный alert
-							// возвращается в случае, если к моменту генерации
-							// resume data торрент был уже удален или он
-							// находится в таком состоянии, в котором resume
-							// data получить не возможно, к примеру, когда
-							// данные только проверяются.
-
-							pending_torrent_resume_data--;
-
-							lt::save_resume_data_failed_alert* failed_alert = dynamic_cast<lt::save_resume_data_failed_alert*>(alert.get());
-							Torrent_id torrent_id = Torrent_id(failed_alert->handle);
-
-							MLIB_D(_C("Gotten failed resume data for torrent '%1': %2.", torrent_id, failed_alert->msg));
-							this->save_torrent_settings_if_exists(torrent_id, lt::entry());
-						}
-					}
-				}
-			}
-		// Ожидаем получения запрошенных resume data <--
-	}
-	// Сохраняем текущую сессию <--
-
-	delete this->session;
+	// Для работы умных указателей
 }
 
 
@@ -702,7 +700,7 @@ void Daemon_session::add_torrent_to_session(m::lt::Torrent_metadata torrent_meta
 			params.auto_managed = false;
 			params.duplicate_is_error = true;
 
-			torrent_handle = this->session->add_torrent(params);
+			torrent_handle = priv->session.add_torrent(params);
 		}
 		catch(lt::duplicate_torrent e)
 		{
@@ -734,7 +732,7 @@ void Daemon_session::add_torrent_to_session(m::lt::Torrent_metadata torrent_meta
 	}
 
 	// Добавляем торрент в список торрентов сессии
-	this->torrents.insert(std::pair<Torrent_id, Torrent>(torrent_id, torrent));
+	priv->torrents.insert(std::pair<Torrent_id, Torrent>(torrent_id, torrent));
 }
 
 
@@ -837,11 +835,11 @@ void Daemon_session::auto_load_if_torrent(const std::string& torrent_path)
 			this->add_torrent(
 				torrent_path,
 				New_torrent_settings(
-					true, this->settings.torrents_auto_load.to,
+					true, priv->settings.torrents_auto_load.to,
 					(
-						this->settings.torrents_auto_load.copy
+						priv->settings.torrents_auto_load.copy
 						?
-							this->settings.torrents_auto_load.copy_to
+							priv->settings.torrents_auto_load.copy_to
 						:
 							""
 					),
@@ -852,7 +850,7 @@ void Daemon_session::auto_load_if_torrent(const std::string& torrent_path)
 		// Добавляем торрент в сессию <--
 
 		// Удаляем загруженный *.torrent файл -->
-			if(this->settings.torrents_auto_load.delete_loaded)
+			if(priv->settings.torrents_auto_load.delete_loaded)
 			{
 				try
 				{
@@ -880,7 +878,7 @@ void Daemon_session::auto_load_torrents(void)
 	Errors_pool errors;
 	std::string torrent_path;
 
-	while(this->fs_watcher.get(&torrent_path))
+	while(priv->fs_watcher.get(&torrent_path))
 	{
 		// Появился новый файл
 		if(torrent_path != "")
@@ -910,18 +908,18 @@ void Daemon_session::auto_load_torrents(void)
 				_("Automatic torrents loading failed"),
 				__(
 					"Directory '%1' has been deleted or moved.",
-					this->settings.torrents_auto_load.from
+					priv->settings.torrents_auto_load.from
 				)
 			);
 
 			// "Сбрасываем" мониторинг
-			this->fs_watcher.unset_watching_directory();
+			priv->fs_watcher.unset_watching_directory();
 
 			// Выкидываем все, что осталось в очереди
-			this->fs_watcher.clear();
+			priv->fs_watcher.clear();
 
 			// Оключаем мониторинг в настройках
-			this->settings.torrents_auto_load.is = false;
+			priv->settings.torrents_auto_load.is = false;
 		}
 	}
 
@@ -934,7 +932,7 @@ void Daemon_session::auto_load_torrents(void)
 void Daemon_session::automate(void)
 {
 	Errors_pool errors;
-	Daemon_settings::Auto_clean& clean = this->settings.torrents_auto_clean;
+	Daemon_settings::Auto_clean& clean = priv->settings.torrents_auto_clean;
 
 	MLIB_D("Checking for automation needs...");
 
@@ -945,7 +943,7 @@ void Daemon_session::automate(void)
 
 			std::vector<Cleaned_torrent> cleaned_torrents;
 
-			M_FOR_CONST_IT(this->torrents, it)
+			M_FOR_CONST_IT(priv->torrents, it)
 			{
 				const Torrent& torrent = it->second;
 
@@ -991,13 +989,13 @@ void Daemon_session::automate(void)
 	// Ограничение на максимальное время раздачи и максимальный рейтинг <--
 
 	// Ограничение на количество раздаваемых торрентов -->
-		if(clean.max_seeding_torrents_type && this->torrents.size() > static_cast<size_t>(clean.max_seeding_torrents))
+		if(clean.max_seeding_torrents_type && priv->torrents.size() > static_cast<size_t>(clean.max_seeding_torrents))
 		{
 			MLIB_D("Checking for max seeding torrents...");
 
 			std::vector<Seeding_torrent> seeding_torrents;
 
-			M_FOR_CONST_IT(this->torrents, it)
+			M_FOR_CONST_IT(priv->torrents, it)
 			{
 				const Torrent& torrent = it->second;
 
@@ -1085,26 +1083,16 @@ void Daemon_session::finish_torrent(Torrent& torrent)
 
 
 
-void Daemon_session::get_messages(std::deque<Daemon_message>& messages)
-{
-	messages.clear();
-
-	boost::mutex::scoped_lock lock(this->mutex);
-	messages.swap(this->messages);
-}
-
-
-
 Speed Daemon_session::get_rate_limit(Traffic_type traffic_type) const
 {
 	switch(traffic_type)
 	{
 		case DOWNLOAD:
-			return get_rate_limit_from_lt(this->session->download_rate_limit());
+			return get_rate_limit_from_lt(priv->session.download_rate_limit());
 			break;
 
 		case UPLOAD:
-			return get_rate_limit_from_lt(this->session->upload_rate_limit());
+			return get_rate_limit_from_lt(priv->session.upload_rate_limit());
 			break;
 
 		default:
@@ -1118,7 +1106,7 @@ Speed Daemon_session::get_rate_limit(Traffic_type traffic_type) const
 Session_status Daemon_session::get_session_status(void) const
 {
 	return Session_status(
-		this->statistics, this->session->status(),
+		priv->statistics, priv->session.status(),
 		this->get_rate_limit(DOWNLOAD), this->get_rate_limit(UPLOAD),
 		priv->temporary_action != TEMPORARY_ACTION_NONE
 	);
@@ -1128,14 +1116,14 @@ Session_status Daemon_session::get_session_status(void) const
 
 Daemon_settings Daemon_session::get_settings(void) const
 {
-	Daemon_settings settings = this->settings;
+	Daemon_settings settings = priv->settings;
 
-	settings.listen_port = this->session->is_listening() ? this->session->listen_port() : -1;
+	settings.listen_port = priv->session.is_listening() ? priv->session.listen_port() : -1;
 
 	settings.dht = this->is_dht_started();
 
 	if(settings.dht)
-		settings.dht_state = this->session->dht_state();
+		settings.dht_state = priv->session.dht_state();
 
 	settings.download_rate_limit = this->get_rate_limit(DOWNLOAD);
 	settings.upload_rate_limit = this->get_rate_limit(UPLOAD);
@@ -1148,7 +1136,7 @@ Daemon_settings Daemon_session::get_settings(void) const
 const Torrent& Daemon_session::get_torrent(const Torrent_full_id& full_id) const
 {
 	const Torrent& torrent = this->get_torrent(full_id.id);
-	
+
 	if(torrent.serial_number == full_id.serial_number)
 		return torrent;
 	else
@@ -1160,7 +1148,7 @@ const Torrent& Daemon_session::get_torrent(const Torrent_full_id& full_id) const
 Torrent& Daemon_session::get_torrent(const Torrent_full_id& full_id)
 {
 	Torrent& torrent = this->get_torrent(full_id.id);
-	
+
 	if(torrent.serial_number == full_id.serial_number)
 		return torrent;
 	else
@@ -1171,10 +1159,10 @@ Torrent& Daemon_session::get_torrent(const Torrent_full_id& full_id)
 
 const Torrent& Daemon_session::get_torrent(const Torrent_id& torrent_id) const
 {
-	Torrents_container::const_iterator torrent_iter = this->torrents.find(torrent_id);
+	Torrents_container::const_iterator torrent_iter = priv->torrents.find(torrent_id);
 
 	// Торрента с таким ID уже нет
-	if(torrent_iter == this->torrents.end())
+	if(torrent_iter == priv->torrents.end())
 		M_THROW(__("Bad torrent id '%1'.", torrent_id));
 
 	return torrent_iter->second;
@@ -1184,10 +1172,10 @@ const Torrent& Daemon_session::get_torrent(const Torrent_id& torrent_id) const
 
 Torrent& Daemon_session::get_torrent(const Torrent_id& torrent_id)
 {
-	Torrents_container::iterator torrent_iter = this->torrents.find(torrent_id);
+	Torrents_container::iterator torrent_iter = priv->torrents.find(torrent_id);
 
 	// Торрента с таким ID уже нет
-	if(torrent_iter == this->torrents.end())
+	if(torrent_iter == priv->torrents.end())
 		M_THROW(__("Bad torrent id '%1'.", torrent_id));
 
 	return torrent_iter->second;
@@ -1339,9 +1327,9 @@ std::vector<std::string> Daemon_session::get_torrent_trackers(const Torrent& tor
 void Daemon_session::get_torrents_info(std::vector<Torrent_info>& torrents_info) const
 {
 	torrents_info.clear();
-	torrents_info.reserve(this->torrents.size());
+	torrents_info.reserve(priv->torrents.size());
 
-	M_FOR_CONST_IT(this->torrents, it)
+	M_FOR_CONST_IT(priv->torrents, it)
 		torrents_info.push_back(it->second.get_info());
 }
 
@@ -1370,14 +1358,14 @@ void Daemon_session::interrupt_temporary_action(bool complete)
 
 bool Daemon_session::is_dht_started(void) const
 {
-	return !(this->session->dht_state() == lt::entry());
+	return !(priv->session.dht_state() == lt::entry());
 }
 
 
 
 bool Daemon_session::is_torrent_exists(const Torrent_id& torrent_id) const
 {
-	return this->torrents.find(torrent_id) != this->torrents.end();
+	return priv->torrents.find(torrent_id) != priv->torrents.end();
 }
 
 
@@ -1432,9 +1420,9 @@ void Daemon_session::load_torrent(const Torrent_id& torrent_id)
 
 void Daemon_session::load_torrents_from_auto_load_dir(void)
 {
-	if(this->settings.torrents_auto_load.is)
+	if(priv->settings.torrents_auto_load.is)
 	{
-		Path torrents_dir_path = this->settings.torrents_auto_load.from;
+		Path torrents_dir_path = priv->settings.torrents_auto_load.from;
 
 		// Загружаем каждый торрент в директории -->
 			try
@@ -1522,14 +1510,6 @@ void Daemon_session::load_torrents_from_config(void)
 
 
 
-void Daemon_session::on_fs_watcher_cb(void)
-{
-	m::gtk::Scoped_enter gtk_lock;
-	this->auto_load_torrents();
-}
-
-
-
 bool Daemon_session::on_save_session_callback(void)
 {
 	m::gtk::Scoped_enter gtk_lock;
@@ -1557,73 +1537,41 @@ bool Daemon_session::on_temporary_action_expired_cb(void)
 
 
 
-void Daemon_session::on_torrent_finished_callback(void)
+void Daemon_session::on_torrent_finished_callback(const lt::torrent_handle& torrent_handle)
 {
-	m::gtk::Scoped_enter gtk_lock;
-	std::deque<lt::torrent_handle> finished_torrents;
-
+	try
 	{
-		boost::mutex::scoped_lock lock(this->mutex);
-		finished_torrents.swap(this->finished_torrents);
+		this->finish_torrent(this->get_torrent(torrent_handle));
 	}
-
-	for(size_t i = 0; i < finished_torrents.size(); i++)
+	catch(m::Exception&)
 	{
-		try
-		{
-			this->finish_torrent(this->get_torrent(finished_torrents[i]));
-		}
-		catch(m::Exception&)
-		{
-			// Такого торрента уже не существует, следовательно,
-			// это сообщение уже не актуально.
-		}
+		// Такого торрента уже не существует, следовательно,
+		// это сообщение уже не актуально.
 	}
 }
 
 
 
-void Daemon_session::on_torrent_resume_data_callback(void)
+void Daemon_session::on_torrent_resume_data_callback(const Torrent_id& torrent_id, boost::shared_ptr<lt::entry> resume_data)
 {
-	m::gtk::Scoped_enter gtk_lock;
-	Torrent_id torrent_id;
-	lt::entry resume_data;
-
-	{
-		boost::mutex::scoped_lock lock(this->mutex);
-		torrent_id = this->torrents_resume_data.front().first;
-		resume_data = this->torrents_resume_data.front().second;
-		this->torrents_resume_data.pop();
-	}
-
-	this->pending_torrent_resume_data--;
-	save_torrent_settings_if_exists(torrent_id, resume_data);
+	this->save_torrent_settings_if_exists(torrent_id, *resume_data);
+	priv->pending_torrent_resume_data--;
+	priv->set_stopped_state_if_needed();
 }
 
 
 
-void Daemon_session::on_tracker_error_cb(void)
+void Daemon_session::on_tracker_error_cb(const Tracker_error& error)
 {
-	m::gtk::Scoped_enter gtk_lock;
-	std::deque<Tracker_error> tracker_errors;
-
+	try
 	{
-		boost::mutex::scoped_lock lock(this->mutex);
-		tracker_errors.swap(priv->tracker_errors);
+		Torrent& torrent = this->get_torrent(error.torrent_id);
+		torrent.tracker_error = error.error_string;
 	}
-
-	M_FOR_CONST_IT(tracker_errors, it)
+	catch(m::Exception&)
 	{
-		try
-		{
-			Torrent& torrent = this->get_torrent(it->torrent_id);
-			torrent.tracker_error = it->error_string;
-		}
-		catch(m::Exception&)
-		{
-			// Такого торрента уже не существует, следовательно,
-			// это сообщение уже не актуально.
-		}
+		// Такого торрента уже не существует, следовательно,
+		// это сообщение уже не актуально.
 	}
 }
 
@@ -1634,14 +1582,14 @@ bool Daemon_session::on_update_torrents_statistics_callback(void)
 	m::gtk::Scoped_enter gtk_lock;
 
 	time_t current_time = time(NULL);
-	time_t time_diff = current_time - this->last_update_torrent_statistics_time;
-	this->last_update_torrent_statistics_time = current_time;
+	time_t time_diff = current_time - priv->last_update_torrent_statistics_time;
+	priv->last_update_torrent_statistics_time = current_time;
 
 	// Если, к примеру, были переведены часы.
 	if(time_diff < 0)
 		time_diff = UPDATE_TORRENTS_STATISTICS_TIMEOUT;
 
-	M_FOR_IT(this->torrents, it)
+	M_FOR_IT(priv->torrents, it)
 	{
 		Torrent& torrent = it->second;
 		Torrent_info torrent_info = torrent.get_info();
@@ -1710,7 +1658,7 @@ void Daemon_session::process_torrents_temporary(Temporary_action action, Torrent
 			break;
 	}
 
-	M_FOR_IT(this->torrents, it)
+	M_FOR_IT(priv->torrents, it)
 	{
 		Torrent& torrent = it->second;
 
@@ -1775,14 +1723,14 @@ void Daemon_session::remove_torrent_from_session(const Torrent_id& torrent_id)
 
 	try
 	{
-		this->session->remove_torrent(torrent.handle);
+		priv->session.remove_torrent(torrent.handle);
 	}
 	catch(lt::invalid_handle e)
 	{
 		MLIB_W(__("Bad torrent id: '%1'.", torrent.id));
 	}
 
-	this->torrents.erase(torrent_id);
+	priv->torrents.erase(torrent_id);
 }
 
 
@@ -1848,7 +1796,7 @@ void Daemon_session::remove_torrent_with_data(const Torrent_id& torrent_id)
 
 void Daemon_session::reset_statistics(void)
 {
-	this->statistics.reset(this->session->status());
+	priv->statistics.reset(priv->session.status());
 }
 
 
@@ -1930,7 +1878,7 @@ void Daemon_session::save_session(void)
 	MLIB_D("Saving session...");
 
 	// Планируем сохранение настроек торрентов
-	M_FOR_CONST_IT(this->torrents, it)
+	M_FOR_CONST_IT(priv->torrents, it)
 		this->schedule_torrent_settings_saving(it->second);
 
 	// Пишем конфиг демона -->
@@ -1940,7 +1888,7 @@ void Daemon_session::save_session(void)
 			settings.write(
 				this->get_config_dir_path(),
 				Session_status(
-					this->statistics, this->session->status(),
+					priv->statistics, priv->session.status(),
 					this->get_rate_limit(DOWNLOAD), this->get_rate_limit(UPLOAD),
 					priv->temporary_action != TEMPORARY_ACTION_NONE
 				)
@@ -1957,9 +1905,9 @@ void Daemon_session::save_session(void)
 
 void Daemon_session::save_torrent_settings_if_exists(const Torrent_id& torrent_id, const lt::entry& resume_data)
 {
-	Torrents_container::const_iterator torrent_it = this->torrents.find(torrent_id);
+	Torrents_container::const_iterator torrent_it = priv->torrents.find(torrent_id);
 
-	if(torrent_it != this->torrents.end())
+	if(torrent_it != priv->torrents.end())
 	{
 		try
 		{
@@ -1994,7 +1942,7 @@ void Daemon_session::schedule_torrent_settings_saving(const Torrent& torrent)
 		MLIB_LE();
 	}
 
-	this->pending_torrent_resume_data++;
+	priv->pending_torrent_resume_data++;
 }
 
 
@@ -2061,11 +2009,11 @@ void Daemon_session::set_rate_limit(Traffic_type traffic_type, Speed speed)
 	switch(traffic_type)
 	{
 		case DOWNLOAD:
-			this->session->set_download_rate_limit(get_lt_rate_limit(speed));
+			priv->session.set_download_rate_limit(get_lt_rate_limit(speed));
 			break;
 
 		case UPLOAD:
-			this->session->set_upload_rate_limit(get_lt_rate_limit(speed));
+			priv->session.set_upload_rate_limit(get_lt_rate_limit(speed));
 			break;
 
 		default:
@@ -2088,15 +2036,15 @@ void Daemon_session::set_settings(const Daemon_settings& settings, const bool in
 {
 	// Диапазон портов для прослушивания -->
 		if(
-			this->settings.listen_random_port != settings.listen_random_port ||
-			this->settings.listen_ports_range != settings.listen_ports_range || init_settings
+			priv->settings.listen_random_port != settings.listen_random_port ||
+			priv->settings.listen_ports_range != settings.listen_ports_range || init_settings
 		)
 		{
-			this->settings.listen_random_port = settings.listen_random_port;
-			this->settings.listen_ports_range = settings.listen_ports_range;
+			priv->settings.listen_random_port = settings.listen_random_port;
+			priv->settings.listen_ports_range = settings.listen_ports_range;
 
-			this->session->listen_on(
-				settings.listen_random_port ? std::make_pair(0, 0) : this->settings.listen_ports_range,
+			priv->session.listen_on(
+				settings.listen_random_port ? std::make_pair(0, 0) : priv->settings.listen_ports_range,
 				// "0.0.0.0" присваивать обязательно - иначе из Интернета качаться не будет.
 				"0.0.0.0"
 			);
@@ -2109,42 +2057,42 @@ void Daemon_session::set_settings(const Daemon_settings& settings, const bool in
 			if(settings.dht)
 			{
 				if(init_settings)
-					this->session->start_dht(settings.dht_state);
+					priv->session.start_dht(settings.dht_state);
 				else
-					this->session->start_dht();
+					priv->session.start_dht();
 			}
 			else
-				this->session->stop_dht();
+				priv->session.stop_dht();
 		}
 	// DHT <--
 
 	// LSD -->
-		if(this->settings.lsd != settings.lsd || init_settings)
+		if(priv->settings.lsd != settings.lsd || init_settings)
 		{
-			if( (this->settings.lsd = settings.lsd) )
-				this->session->start_lsd();
+			if( (priv->settings.lsd = settings.lsd) )
+				priv->session.start_lsd();
 			else
-				this->session->stop_lsd();
+				priv->session.stop_lsd();
 		}
 	// LSD <--
 
 	// UPnP -->
-		if(this->settings.upnp != settings.upnp || init_settings)
+		if(priv->settings.upnp != settings.upnp || init_settings)
 		{
-			if( (this->settings.upnp = settings.upnp) )
-				this->session->start_upnp();
+			if( (priv->settings.upnp = settings.upnp) )
+				priv->session.start_upnp();
 			else
-				this->session->stop_upnp();
+				priv->session.stop_upnp();
 		}
 	// UPnP <--
 
 	// NAT-PMP -->
-		if(this->settings.natpmp != settings.natpmp || init_settings)
+		if(priv->settings.natpmp != settings.natpmp || init_settings)
 		{
-			if( (this->settings.natpmp = settings.natpmp) )
-				this->session->start_natpmp();
+			if( (priv->settings.natpmp = settings.natpmp) )
+				priv->session.start_natpmp();
 			else
-				this->session->stop_natpmp();
+				priv->session.stop_natpmp();
 		}
 	// NAT-PMP <--
 
@@ -2152,15 +2100,15 @@ void Daemon_session::set_settings(const Daemon_settings& settings, const bool in
 	{
 		// Расширения можно только подключать, отключить их уже нельзя
 		// -->
-			if( settings.smart_ban && ( !this->settings.smart_ban || init_settings) )
-				this->session->add_extension(&lt::create_smart_ban_plugin);
+			if( settings.smart_ban && ( !priv->settings.smart_ban || init_settings) )
+				priv->session.add_extension(&lt::create_smart_ban_plugin);
 
-			if( settings.pex && ( !this->settings.pex || init_settings) )
-				this->session->add_extension(&lt::create_ut_pex_plugin);
+			if( settings.pex && ( !priv->settings.pex || init_settings) )
+				priv->session.add_extension(&lt::create_ut_pex_plugin);
 		// <--
 
-		this->settings.smart_ban = settings.smart_ban;
-		this->settings.pex = settings.pex;
+		priv->settings.smart_ban = settings.smart_ban;
+		priv->settings.pex = settings.pex;
 	}
 	// smart_ban, pex <--
 
@@ -2174,39 +2122,39 @@ void Daemon_session::set_settings(const Daemon_settings& settings, const bool in
 
 	// Максимальное количество соединений для раздачи,
 	// которое может быть открыто.
-	if(this->settings.max_uploads != settings.max_uploads || init_settings)
+	if(priv->settings.max_uploads != settings.max_uploads || init_settings)
 	{
-		this->settings.max_uploads = settings.max_uploads;
-		this->session->set_max_uploads(settings.max_uploads);
+		priv->settings.max_uploads = settings.max_uploads;
+		priv->session.set_max_uploads(settings.max_uploads);
 	}
 
 	// Максимальное количество соединений, которое может
 	// быть открыто.
-	if(this->settings.max_connections != settings.max_connections || init_settings)
+	if(priv->settings.max_connections != settings.max_connections || init_settings)
 	{
-		this->settings.max_connections = settings.max_connections;
-		this->session->set_max_connections(settings.max_connections);
+		priv->settings.max_connections = settings.max_connections;
+		priv->session.set_max_connections(settings.max_connections);
 	}
 
 	// Максимальный интервал между запросами пиров у трекера -->
 		if(
 			settings.use_max_announce_interval && (
-				this->settings.use_max_announce_interval != settings.use_max_announce_interval ||
-				this->settings.max_announce_interval != settings.max_announce_interval
+				priv->settings.use_max_announce_interval != settings.use_max_announce_interval ||
+				priv->settings.max_announce_interval != settings.max_announce_interval
 			) && !init_settings
 		)
 		{
 			// Вносим изменения для всех активных в данный момент торрентов
-			M_FOR_IT(this->torrents, it)
+			M_FOR_IT(priv->torrents, it)
 				force_torrent_reannounce_if_needed(it->second.handle, settings.max_announce_interval);
 		}
 
-		this->settings.use_max_announce_interval = settings.use_max_announce_interval;
-		this->settings.max_announce_interval = settings.max_announce_interval;
+		priv->settings.use_max_announce_interval = settings.use_max_announce_interval;
+		priv->settings.max_announce_interval = settings.max_announce_interval;
 	// Максимальный интервал между запросами пиров у трекера <--
 
 	// IP фильтр -->
-		if(this->settings.ip_filter != settings.ip_filter)
+		if(priv->settings.ip_filter != settings.ip_filter)
 		{
 			lt::ip_filter ip_filter;
 
@@ -2221,20 +2169,20 @@ void Daemon_session::set_settings(const Daemon_settings& settings, const bool in
 				);
 			}
 
-			this->session->set_ip_filter(ip_filter);
-			this->settings.ip_filter = settings.ip_filter;
+			priv->session.set_ip_filter(ip_filter);
+			priv->settings.ip_filter = settings.ip_filter;
 		}
 	// IP фильтр <--
 
 	// Настройки автоматической "подгрузки" *.torrent файлов. -->
 	{
-		Daemon_settings::Torrents_auto_load& auto_load = this->settings.torrents_auto_load;
+		Daemon_settings::Torrents_auto_load& auto_load = priv->settings.torrents_auto_load;
 
 		// Если настройки не эквивалентны
 		if(!auto_load.equal(settings.torrents_auto_load))
 		{
 			// "Сбрасываем" мониторинг
-			this->fs_watcher.unset_watching_directory();
+			priv->fs_watcher.unset_watching_directory();
 
 			// Загружаем оставшиеся в очереди торренты со старыми
 			// настройками.
@@ -2248,7 +2196,7 @@ void Daemon_session::set_settings(const Daemon_settings& settings, const bool in
 				// Вносим изменения в мониторинг -->
 					try
 					{
-						this->fs_watcher.set_watching_directory(auto_load.from);
+						priv->fs_watcher.set_watching_directory(auto_load.from);
 					}
 					catch(m::Exception& e)
 					{
@@ -2290,9 +2238,9 @@ void Daemon_session::set_settings(const Daemon_settings& settings, const bool in
 	// Настройки автоматической "подгрузки" *.torrent файлов. <--
 
 	// Настройки автоматической "очистки" от старых торрентов -->
-		if(this->settings.torrents_auto_clean != settings.torrents_auto_clean)
+		if(priv->settings.torrents_auto_clean != settings.torrents_auto_clean)
 		{
-			this->settings.torrents_auto_clean = settings.torrents_auto_clean;
+			priv->settings.torrents_auto_clean = settings.torrents_auto_clean;
 
 			// Чтобы изменения сразу же вступили в силу
 			this->automate();
@@ -2365,9 +2313,9 @@ void Daemon_session::start(void)
 
 		// Обработчик сигнала на появление новых торрентов для автоматического
 		// добавления.
-		this->fs_watcher_connection = this->fs_watcher.connect(
-			sigc::mem_fun(*this, &Daemon_session::on_fs_watcher_cb)
-		);
+		priv->before_stopping_sholder.push(priv->fs_watcher.connect(
+			sigc::mem_fun(*this, &Daemon_session::auto_load_torrents)
+		));
 	// <--
 }
 
@@ -2377,7 +2325,7 @@ void Daemon_session::start_torrents(const Torrents_group group)
 {
 	MLIB_D(_C("Starting torrents [%1].", static_cast<int>(group)));
 
-	M_FOR_IT(this->torrents, it)
+	M_FOR_IT(priv->torrents, it)
 	{
 		Torrent& torrent = it->second;
 		Torrent_info torrent_info(torrent);
@@ -2407,11 +2355,49 @@ void Daemon_session::start_torrents(const Torrents_group group)
 
 
 
+void Daemon_session::stop(void)
+{
+	MLIB_D("Gotten stop session signal.");
+
+	if(!priv->session_stopping)
+	{
+		MLIB_D("Stopping the session...");
+
+		priv->session_stopping = true;
+
+		// Останавливаем сессию, чтобы прекратить скачивание торрентов
+		priv->session.pause();
+
+		// Т. к. работа завершается, то можно считать, что время "как бы истекло".
+		this->interrupt_temporary_action(true);
+
+		// Отсоединяем все сигналы, которые могут изменить состояние сессии
+		priv->before_stopping_sholder.disconnect();
+
+		// Сохраняем текущую сессию -->
+			try
+			{
+				this->save_session();
+			}
+			catch(m::Exception& e)
+			{
+				MLIB_W(_("Saving session failed"), __("Saving session failed. %1", EE(e)));
+			}
+		// Сохраняем текущую сессию <--
+
+		// Если нет необходимости сохранять настройки торрентов, то сразу
+		// переходим на стадию завершения работы сессии.
+		priv->set_stopped_state_if_needed();
+	}
+}
+
+
+
 void Daemon_session::stop_torrents(const Torrents_group group)
 {
 	MLIB_D(_C("Stopping torrents [%1].", static_cast<int>(group)));
 
-	M_FOR_IT(this->torrents, it)
+	M_FOR_IT(priv->torrents, it)
 	{
 		Torrent& torrent = it->second;
 		Torrent_info torrent_info(torrent);
@@ -2445,136 +2431,125 @@ void Daemon_session::operator()(void)
 {
 	while(1)
 	{
+		if(priv->stop_messages_thread)
 		{
-			boost::mutex::scoped_lock lock(this->mutex);
+			MLIB_D("Session is ready for destroying. Sending signal to the application...");
 
-			if(this->is_stop)
-			{
-				MLIB_D("Daemon messages thread ending it's work.");
-				return;
-			}
+			m::gtk::Scoped_enter lock;
+			stop_application();
+
+			return;
 		}
 
-		if(this->session->wait_for_alert(lt::time_duration(static_cast<int64_t>(THREAD_CANCEL_RESPONSE_TIMEOUT * 1000))))
+
+		if(priv->session.wait_for_alert(lt::time_duration(static_cast<int64_t>(THREAD_CANCEL_RESPONSE_TIMEOUT * 1000))))
 		{
-			int added_messages = 0;
 			std::auto_ptr<lt::alert> alert;
 
-			while( (alert = this->session->pop_alert()).get() )
+			while( (alert = priv->session.pop_alert()).get() )
 			{
-				Daemon_message message = Daemon_message(*alert);
+				Daemon_message message(*alert);
 
+				// Resume data
+				if( dynamic_cast<lt::save_resume_data_alert*>(alert.get()) )
 				{
-					// Resume data
-					if( dynamic_cast<lt::save_resume_data_alert*>(alert.get()) )
+					lt::save_resume_data_alert* resume_data_alert = dynamic_cast<lt::save_resume_data_alert*>(alert.get());
+					Torrent_id torrent_id = Torrent_id(resume_data_alert->handle);
+
+					MLIB_D(_C("Gotten resume data for torrent '%1'.", torrent_id));
+
+					// Извещаем демон о получении новой resume data -->
 					{
-						lt::save_resume_data_alert* resume_data_alert = dynamic_cast<lt::save_resume_data_alert*>(alert.get());
-						Torrent_id torrent_id = Torrent_id(resume_data_alert->handle);
+						m::gtk::Scoped_enter lock;
 
-						MLIB_D(_C("Gotten resume data for torrent '%1'.", torrent_id));
+						boost::shared_ptr<lt::entry> resume_data = resume_data_alert->resume_data;
+						// Чтобы вне критической секции GTK не было обращений к
+						// данным resume_data из разных потоков.
+						resume_data_alert->resume_data.reset();
 
-						{
-							boost::mutex::scoped_lock lock(this->mutex);
-							this->torrents_resume_data.push(Torrent_resume_data(torrent_id, *resume_data_alert->resume_data));
-						}
-
-						// Извещаем демон о получении новой resume data.
-						this->torrent_resume_data_signal();
+						priv->torrent_resume_data_signal(torrent_id, resume_data);
 					}
-					// Invalid resume data
-					else if( dynamic_cast<lt::save_resume_data_failed_alert*>(alert.get()) )
+					// Извещаем демон о получении новой resume data <--
+				}
+				// Invalid resume data
+				else if( dynamic_cast<lt::save_resume_data_failed_alert*>(alert.get()) )
+				{
+					// Насколько я понял, получение
+					// lt::save_resume_data_failed_alert не означает
+					// какую-то внутреннюю ошибку. Данный alert
+					// возвращается в случае, если к моменту генерации
+					// resume data торрент был уже удален или он
+					// находится в таком состоянии, в котором resume
+					// data получить невозможно, к примеру, когда
+					// данные только проверяются.
+
+					lt::save_resume_data_failed_alert* failed_alert = dynamic_cast<lt::save_resume_data_failed_alert*>(alert.get());
+					Torrent_id torrent_id = Torrent_id(failed_alert->handle);
+
+					MLIB_D(_C("Gotten failed resume data for torrent '%1': %2.", torrent_id, failed_alert->msg));
+
+					// Извещаем демон о получении новой resume data -->
 					{
-						// Насколько я понял, получение
-						// lt::save_resume_data_failed_alert не означает
-						// какую-то внутреннюю ошибку. Данный alert
-						// возвращается в случае, если к моменту генерации
-						// resume data торрент был уже удален или он
-						// находится в таком состоянии, в котором resume
-						// data получить невозможно, к примеру, когда
-						// данные только проверяются.
-
-						lt::save_resume_data_failed_alert* failed_alert = dynamic_cast<lt::save_resume_data_failed_alert*>(alert.get());
-						Torrent_id torrent_id = Torrent_id(failed_alert->handle);
-
-						MLIB_D(_C("Gotten failed resume data for torrent '%1': %2.", torrent_id, failed_alert->msg));
-
-						{
-							boost::mutex::scoped_lock lock(this->mutex);
-							this->torrents_resume_data.push(Torrent_resume_data(torrent_id, lt::entry()));
-						}
-
-						// Извещаем демон о получении новой resume data.
-						this->torrent_resume_data_signal();
+						m::gtk::Scoped_enter lock;
+						boost::shared_ptr<lt::entry> resume_data(new lt::entry);
+						priv->torrent_resume_data_signal(torrent_id, resume_data);
 					}
-					else
+					// Извещаем демон о получении новой resume data <--
+				}
+				else
+				{
+					// Получен список пиров от трекера
+					if( dynamic_cast<lt::tracker_reply_alert*>(alert.get()) )
 					{
-						// Получен список пиров от трекера
-						if( dynamic_cast<lt::tracker_reply_alert*>(alert.get()) )
+						// Изменяем интервал запроса списка пиров от
+						// трекера, если это необходимо.
+
+						Time max_announce_interval = 0;
+
 						{
-							// Изменяем интервал запроса списка пиров от
-							// трекера, если это необходимо.
+							m::gtk::Scoped_enter gtk_lock;
 
-							Time max_announce_interval = 0;
-
-							{
-								m::gtk::Scoped_enter gtk_lock;
-
-								if(this->settings.use_max_announce_interval)
-									max_announce_interval = this->settings.max_announce_interval;
-							}
-
-							if(max_announce_interval)
-							{
-								lt::torrent_handle& handle = static_cast<lt::torrent_alert*>( alert.get() )->handle;
-								force_torrent_reannounce_if_needed(handle, max_announce_interval);
-							}
-						}
-						// Не удалось соединиться с трекером.
-						// Данное сообщение необходимо обработать по особому.
-						else if( dynamic_cast<lt::tracker_error_alert*>(alert.get()) )
-						{
-							{
-								boost::mutex::scoped_lock lock(this->mutex);
-
-								priv->tracker_errors.push_back(Tracker_error(
-									*static_cast<lt::tracker_error_alert*>(alert.get())
-								));
-							}
-
-							// Извещаем демон о получении сообщения об ошибке
-							// соединения с трекером.
-							priv->tracker_error_signal();
-						}
-						// Скачивание торрента завершено.
-						// Данное сообщение необходимо обработать по особому.
-						else if( dynamic_cast<lt::torrent_finished_alert*>(alert.get()) )
-						{
-							{
-								boost::mutex::scoped_lock lock(this->mutex);
-								this->finished_torrents.push_back( static_cast<lt::torrent_alert*>( alert.get() )->handle );
-							}
-
-							// Извещаем демон о завершении скачивания торрента
-							this->torrent_finished_signal();
+							if(priv->settings.use_max_announce_interval)
+								max_announce_interval = priv->settings.max_announce_interval;
 						}
 
-						// Передаем сообщение пользователю -->
-							{
-								boost::mutex::scoped_lock lock(this->mutex);
-								this->messages.push_back(message);
-							}
-
-							added_messages++;
-						// Передаем сообщение пользователю <--
+						if(max_announce_interval)
+						{
+							lt::torrent_handle& handle = static_cast<lt::torrent_alert*>( alert.get() )->handle;
+							force_torrent_reannounce_if_needed(handle, max_announce_interval);
+						}
 					}
+					// Не удалось соединиться с трекером.
+					// Данное сообщение необходимо обработать по особому.
+					else if( dynamic_cast<lt::tracker_error_alert*>(alert.get()) )
+					{
+						m::gtk::Scoped_enter lock;
+
+						// Извещаем демон о получении сообщения об ошибке
+						// соединения с трекером.
+						priv->tracker_error_signal(
+							Tracker_error( *static_cast<lt::tracker_error_alert*>(alert.get()) )
+						);
+					}
+					// Скачивание торрента завершено.
+					// Данное сообщение необходимо обработать по особому.
+					else if( dynamic_cast<lt::torrent_finished_alert*>(alert.get()) )
+					{
+						// Извещаем демон о завершении скачивания торрента
+						m::gtk::Scoped_enter lock;
+						priv->torrent_finished_signal( static_cast<lt::torrent_alert*>( alert.get() )->handle );
+					}
+
+					// Передаем сообщение пользователю -->
+					{
+						m::gtk::Scoped_enter lock;
+						this->messages_signal(message);
+					}
+					// Передаем сообщение пользователю <--
 				}
 
 				MLIB_D(_C("libtorrent alert: %1", message.get()));
 			}
-
-			// Информируем клиент о поступлении новых сообщений.
-			if(added_messages)
-				this->messages_signal();
 		}
 	}
 }

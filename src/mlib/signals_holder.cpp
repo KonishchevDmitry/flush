@@ -18,16 +18,34 @@
 **************************************************************************/
 
 
-#include <algorithm>
-#include <functional>
-#include <vector>
-
 #include <sigc++/connection.h>
+
+#include <mlib/gtk/dispatcher.hpp>
+
+#include <mlib/main.hpp>
 
 #include "signals_holder.hpp"
 
 
-namespace m { namespace gtk {
+namespace m {
+
+
+template <class T>
+class Abstract_connection: public Signals_holder_aux::Connection
+{
+	public:
+		Abstract_connection(const T& connection)
+		: connection(connection) {}
+
+	private:
+		T connection;
+
+	public:
+		void disconnect(void)
+		{ this->connection.disconnect(); }
+};
+
+
 
 Signals_holder::~Signals_holder(void)
 {
@@ -38,8 +56,8 @@ Signals_holder::~Signals_holder(void)
 
 void Signals_holder::disconnect(void)
 {
-	std::for_each(this->connections.begin(), this->connections.end(),
-		std::mem_fun_ref(&sigc::connection::disconnect));
+	BOOST_FOREACH(Connection_ptr& connection, this->connections)
+		connection->disconnect();
 	this->connections.clear();
 }
 
@@ -47,8 +65,18 @@ void Signals_holder::disconnect(void)
 
 void Signals_holder::push(const sigc::connection& connection)
 {
-	this->connections.push_back(connection);
+	this->connections.push_back(Connection_ptr(
+		new Abstract_connection<sigc::connection>(connection) ));
 }
 
-}}
+
+
+void Signals_holder::push(const m::gtk::Dispatcher_connection& connection)
+{
+	this->connections.push_back(Connection_ptr(
+		new Abstract_connection<m::gtk::Dispatcher_connection>(connection) ));
+}
+
+
+}
 

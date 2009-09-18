@@ -35,13 +35,13 @@
 	#include <boost/thread/mutex.hpp>
 #endif
 
-#include <glibmm/dispatcher.h>
-
 #ifdef MLIB_ENABLE_INOTIFY
 	#include <mlib/fs.hpp>
 	#include <mlib/sys.hpp>
 	#include <mlib/misc.hpp>
 #endif
+#include <mlib/gtk/dispatcher.hpp>
+#include <mlib/gtk/main.hpp>
 #include <mlib/main.hpp>
 
 #include "fs_watcher.hpp"
@@ -62,43 +62,43 @@ class Fs_watcher::Implementation
 
 		private:
 			/// Для синхронизации потоков.
-			boost::mutex			mutex;
+			boost::mutex				mutex;
 
 
 			/// Дескриптор inotify.
-			int						fd;
+			int							fd;
 
 			/// Дескриптор мониторящегося в данный момент запроса.
-			int						watch_fd;
+			int							watch_fd;
 
 
 			/// Директория, мониторящаяся данный момент.
-			std::string				watching_directory;
+			std::string					watching_directory;
 
 
 			/// Связь между потоками.
-			m::Connection			connection;
+			m::Connection				connection;
 
 			/// Дескриптор запущенного в данный момент потока, если он запущен.
-			boost::thread*			thread;
+			boost::thread*				thread;
 
 
 			/// Файлы, которые были обнаружены в мониторящейся в данный момент
 			/// директории.
-			std::queue<std::string>	new_files;
+			std::queue<std::string>		new_files;
 	#endif
 
 			/// Сигнал, который будет породжаться в момент получения информации
 			/// о том, что в директорию был добавлен файл.
-			Glib::Dispatcher		new_file_signal;
+			m::gtk::Dispatcher_void		new_file_signal;
 
 		public:
 			/// Очищает очередь новых файлов.
-			void				clear(void);
+			void							clear(void);
 
 			/// Подключает обработчик сигнала на появление нового файла в
 			/// мониторящейся директории.
-			sigc::connection	connect(const sigc::slot<void>& slot);
+			m::gtk::Dispatcher_connection	connect(const sigc::slot<void>& slot);
 
 			/// Извлекает путь к файлу из очереди новых файлов.
 			/// Если директория была перемещена или удалена, то в очередь
@@ -106,21 +106,21 @@ class Fs_watcher::Implementation
 			///
 			/// @return - true, если файл был извлечен, или false, если в
 			/// очереди больше не осталось файлов.
-			bool				get(std::string* file_path);
+			bool							get(std::string* file_path);
 
 			/// Возвращает директорию, которая мониторится в данный момент, или
 			/// "".
-			std::string			get_watching_directory(void);
+			std::string						get_watching_directory(void);
 
 			/// Задает директорию для мониторинга.
 			/// Если directory == "", то это означает, что необходимо
 			/// прекратить мониторинг директории, если какая-либо директория в
 			/// данный момент мониторится.
 			/// @throw - m::Exception.
-			void				set_watching_directory(const std::string& directory);
+			void							set_watching_directory(const std::string& directory);
 
 			/// Снимает текущую директорию с мониторинга (если такая существует).
-			void				unset_watching_directory(void);
+			void							unset_watching_directory(void);
 
 
 	#ifdef MLIB_ENABLE_INOTIFY
@@ -172,7 +172,7 @@ void Fs_watcher::Implementation::clear(void)
 
 
 
-sigc::connection Fs_watcher::Implementation::connect(const sigc::slot<void>& slot)
+m::gtk::Dispatcher_connection Fs_watcher::Implementation::connect(const sigc::slot<void>& slot)
 {
 	return this->new_file_signal.connect(slot);
 }
@@ -292,9 +292,12 @@ std::string Fs_watcher::Implementation::get_watching_directory(void)
 			}
 			// Помещаем файл в очередь <--
 
-			// Оповещаем всех интересующихся о появлении нового
-			// события.
-			this->new_file_signal();
+			{
+				// Оповещаем всех интересующихся о появлении нового
+				// события.
+				m::gtk::Scoped_enter lock;
+				this->new_file_signal();
+			}
 		}
 		else
 			MLIB_D("This event is not interesting for us.");
@@ -469,7 +472,7 @@ void Fs_watcher::clear(void)
 
 
 
-sigc::connection Fs_watcher::connect(const sigc::slot<void>& slot)
+m::gtk::Dispatcher_connection Fs_watcher::connect(const sigc::slot<void>& slot)
 {
 	return this->impl->connect(slot);
 }

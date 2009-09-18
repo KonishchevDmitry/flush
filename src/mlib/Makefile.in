@@ -38,6 +38,7 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/acx_pthread.m4 \
 	$(top_srcdir)/m4/ax_boost_base.m4 \
 	$(top_srcdir)/m4/ax_boost_filesystem.m4 \
+	$(top_srcdir)/m4/ax_boost_signals.m4 \
 	$(top_srcdir)/m4/ax_boost_thread.m4 \
 	$(top_srcdir)/m4/check_ssl.m4 $(top_srcdir)/m4/gettext.m4 \
 	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/lib-ld.m4 \
@@ -58,7 +59,8 @@ am_libmlib_a_OBJECTS = libmlib_a-async_fs.$(OBJEXT) \
 	libmlib_a-dbus.$(OBJEXT) libmlib_a-fs.$(OBJEXT) \
 	libmlib_a-fs_watcher.$(OBJEXT) libmlib_a-libconfig.$(OBJEXT) \
 	libmlib_a-libtorrent.$(OBJEXT) libmlib_a-misc.$(OBJEXT) \
-	libmlib_a-string.$(OBJEXT) libmlib_a-sys.$(OBJEXT)
+	libmlib_a-signals_holder.$(OBJEXT) libmlib_a-string.$(OBJEXT) \
+	libmlib_a-sys.$(OBJEXT)
 libmlib_a_OBJECTS = $(am_libmlib_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
@@ -99,6 +101,7 @@ AWK = @AWK@
 BOOST_CPPFLAGS = @BOOST_CPPFLAGS@
 BOOST_FILESYSTEM_LIB = @BOOST_FILESYSTEM_LIB@
 BOOST_LDFLAGS = @BOOST_LDFLAGS@
+BOOST_SIGNALS_LIB = @BOOST_SIGNALS_LIB@
 BOOST_THREAD_LIB = @BOOST_THREAD_LIB@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
@@ -257,6 +260,8 @@ libmlib_a_SOURCES = \
 	misc.cpp \
 	misc.hpp \
 	misc.hxx \
+	signals_holder.cpp \
+	signals_holder.hpp\
 	string.cpp \
 	string.hpp \
 	sys.cpp \
@@ -318,6 +323,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_a-libconfig.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_a-libtorrent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_a-misc.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_a-signals_holder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_a-string.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_a-sys.Po@am__quote@
 
@@ -432,6 +438,20 @@ libmlib_a-misc.obj: misc.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='misc.cpp' object='libmlib_a-misc.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-misc.obj `if test -f 'misc.cpp'; then $(CYGPATH_W) 'misc.cpp'; else $(CYGPATH_W) '$(srcdir)/misc.cpp'; fi`
+
+libmlib_a-signals_holder.o: signals_holder.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-signals_holder.o -MD -MP -MF $(DEPDIR)/libmlib_a-signals_holder.Tpo -c -o libmlib_a-signals_holder.o `test -f 'signals_holder.cpp' || echo '$(srcdir)/'`signals_holder.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_a-signals_holder.Tpo $(DEPDIR)/libmlib_a-signals_holder.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='signals_holder.cpp' object='libmlib_a-signals_holder.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-signals_holder.o `test -f 'signals_holder.cpp' || echo '$(srcdir)/'`signals_holder.cpp
+
+libmlib_a-signals_holder.obj: signals_holder.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-signals_holder.obj -MD -MP -MF $(DEPDIR)/libmlib_a-signals_holder.Tpo -c -o libmlib_a-signals_holder.obj `if test -f 'signals_holder.cpp'; then $(CYGPATH_W) 'signals_holder.cpp'; else $(CYGPATH_W) '$(srcdir)/signals_holder.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_a-signals_holder.Tpo $(DEPDIR)/libmlib_a-signals_holder.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='signals_holder.cpp' object='libmlib_a-signals_holder.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-signals_holder.obj `if test -f 'signals_holder.cpp'; then $(CYGPATH_W) 'signals_holder.cpp'; else $(CYGPATH_W) '$(srcdir)/signals_holder.cpp'; fi`
 
 libmlib_a-string.o: string.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-string.o -MD -MP -MF $(DEPDIR)/libmlib_a-string.Tpo -c -o libmlib_a-string.o `test -f 'string.cpp' || echo '$(srcdir)/'`string.cpp

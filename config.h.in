@@ -39,6 +39,9 @@
 /* define if the Boost::Filesystem library is available */
 #undef HAVE_BOOST_FILESYSTEM
 
+/* define if the Boost::Signals library is available */
+#undef HAVE_BOOST_SIGNALS
+
 /* define if the Boost::Thread library is available */
 #undef HAVE_BOOST_THREAD
 

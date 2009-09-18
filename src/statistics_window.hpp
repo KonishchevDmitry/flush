@@ -20,55 +20,55 @@
 
 
 #ifndef HEADER_STATISTICS_WINDOW
-	#define HEADER_STATISTICS_WINDOW
+#define HEADER_STATISTICS_WINDOW
 
-	#include <gtkmm/dialog.h>
-	#include <gtkmm/table.h>
+#include <gtkmm/table.h>
 
-	#include "common.hpp"
+#include <mlib/gtk/dialog.hpp>
 
-
-	/// Окно для отображения статистической информации о текущей и прошлых
-	/// сессиях.
-	class Statistics_window: public Gtk::Dialog
-	{
-		public:
-			Statistics_window(Gtk::Window& parent_window);
+#include "common.hpp"
 
 
-		private:
-			int				rows_num;
-			const int		columns_num;
-			Gtk::Table		table;
+/// Окно для отображения статистической информации о текущей и прошлых
+/// сессиях.
+class Statistics_window: public m::gtk::Dialog
+{
+	public:
+		Statistics_window(Gtk::Window& parent_window);
 
 
-		public:
-			// Отображает окно со статистической информацией.
-			void	run(void);
+	private:
+		int					rows_num;
+		const int			columns_num;
+		Gtk::Table			table;
 
-		private:
-			/// Добавляет одну строку в таблицу.
-			void	add_row(void);
 
-			/// Добавляет разделительную линию.
-			void	attach_separator(void);
+	public:
+		// Отображает окно со статистической информацией.
+		void	run(void);
 
-			/// Добавляет еще одно share ratio.
-			void	attach_share_ratio(const std::string& name, Share_ratio ratio);
+	private:
+		/// Добавляет одну строку в таблицу.
+		void	add_row(void);
 
-			/// Добавляет еще один размер.
-			void	attach_size(const std::string& name, Size size);
+		/// Добавляет разделительную линию.
+		void	attach_separator(void);
 
-			/// Добавляет еще одно время.
-			void	attach_time(const std::string& name, Time time);
+		/// Добавляет еще одно share ratio.
+		void	attach_share_ratio(const std::string& name, Share_ratio ratio);
 
-			/// Добавляет еще одно значение.
-			void	attach_value(const std::string& name, const std::string& value);
+		/// Добавляет еще один размер.
+		void	attach_size(const std::string& name, Size size);
 
-			/// Обработчик сигнала на нажатие кнопки "Reset".
-			void	on_reset_callback(void);
-	};
+		/// Добавляет еще одно время.
+		void	attach_time(const std::string& name, Time time);
+
+		/// Добавляет еще одно значение.
+		void	attach_value(const std::string& name, const std::string& value);
+
+		/// Обработчик сигнала на нажатие кнопки "Reset".
+		void	on_reset_callback(void);
+};
 
 #endif
-
 
