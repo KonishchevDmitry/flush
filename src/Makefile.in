@@ -33,14 +33,10 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = flush$(EXEEXT)
-@DEVELOP_MODE_TRUE@am__append_1 = \
-@DEVELOP_MODE_TRUE@	rss_settings_dialog.cpp \
-@DEVELOP_MODE_TRUE@	rss_settings_dialog.hpp
-
-@DEVELOP_MODE_TRUE@am__append_2 = -D \
+@DEVELOP_MODE_TRUE@am__append_1 = -D \
 @DEVELOP_MODE_TRUE@	APP_UI_PATH='"$(abs_top_srcdir)/ui"' -D \
 @DEVELOP_MODE_TRUE@	APP_CUSTOM_ICONS_PATH='"$(abs_top_srcdir)/icons"'
-@DEVELOP_MODE_FALSE@am__append_3 = -D \
+@DEVELOP_MODE_FALSE@am__append_2 = -D \
 @DEVELOP_MODE_FALSE@	APP_UI_PATH='"$(datadir)/$(PACKAGE)/ui"' \
 @DEVELOP_MODE_FALSE@	-D \
 @DEVELOP_MODE_FALSE@	APP_CUSTOM_ICONS_PATH='"$(datadir)/$(PACKAGE)/icons"'
@@ -65,32 +61,6 @@ CONFIG_CLEAN_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
-am__flush_SOURCES_DIST = add_torrent_dialog.cpp add_torrent_dialog.hpp \
-	app_icons.cpp app_icons.hpp application.cpp application.hh \
-	application.hpp categories_view.cpp categories_view.hpp \
-	categories_view.hxx client_cmd_options.cpp \
-	client_cmd_options.hpp client_settings.cpp client_settings.hpp \
-	client_settings.hxx common.cpp common.hh common.hpp \
-	create_torrent_dialog.cpp create_torrent_dialog.hpp daemon.cpp \
-	daemon_fs.cpp daemon_fs.hpp daemon.hpp daemon_proxy.cpp \
-	daemon_proxy.hpp daemon_session.cpp daemon_session.hpp \
-	daemon_settings.cpp daemon_settings.hpp daemon_types.cpp \
-	daemon_types.hpp gui_lib.cpp gui_lib.hpp ip_filter.cpp \
-	ip_filter.hpp log_view.cpp log_view.hpp main.cpp main.hpp \
-	main_window.cpp main_window.hpp open_torrent_dialog.cpp \
-	open_torrent_dialog.hpp settings_window.cpp \
-	settings_window.hpp statistics_window.cpp \
-	statistics_window.hpp temporary_action_dialog.cpp \
-	temporary_action_dialog.hpp torrent_details_view.cpp \
-	torrent_details_view.hpp torrent_files_view.cpp \
-	torrent_files_view.hh torrent_files_view.hpp \
-	torrent_options_view.cpp torrent_options_view.hpp \
-	torrent_peers_view.cpp torrent_peers_view.hpp \
-	torrents_view.cpp torrents_view.hpp torrents_viewport.cpp \
-	torrents_viewport.hpp trackers_view.cpp trackers_view.hpp \
-	rss_settings_dialog.cpp rss_settings_dialog.hpp
-@DEVELOP_MODE_TRUE@am__objects_1 =  \
-@DEVELOP_MODE_TRUE@	flush-rss_settings_dialog.$(OBJEXT)
 am_flush_OBJECTS = flush-add_torrent_dialog.$(OBJEXT) \
 	flush-app_icons.$(OBJEXT) flush-application.$(OBJEXT) \
 	flush-categories_view.$(OBJEXT) \
@@ -112,10 +82,12 @@ am_flush_OBJECTS = flush-add_torrent_dialog.$(OBJEXT) \
 	flush-torrent_peers_view.$(OBJEXT) \
 	flush-torrents_view.$(OBJEXT) \
 	flush-torrents_viewport.$(OBJEXT) \
-	flush-trackers_view.$(OBJEXT) $(am__objects_1)
-am__objects_2 =
-nodist_flush_OBJECTS = $(am__objects_2)
+	flush-trackers_view.$(OBJEXT)
+am__objects_1 =
+nodist_flush_OBJECTS = $(am__objects_1)
 flush_OBJECTS = $(am_flush_OBJECTS) $(nodist_flush_OBJECTS)
+flush_LINK = $(CXXLD) $(flush_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
+	$(LDFLAGS) -o $@
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__depfiles_maybe = depfiles
@@ -129,7 +101,7 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = $(flush_SOURCES) $(nodist_flush_SOURCES)
-DIST_SOURCES = $(am__flush_SOURCES_DIST)
+DIST_SOURCES = $(flush_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
 	install-dvi-recursive install-exec-recursive \
@@ -146,6 +118,7 @@ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
 APP_CPPFLAGS = @APP_CPPFLAGS@
+APP_CXXFLAGS = @APP_CXXFLAGS@
 APP_DEPENDENCIES = @APP_DEPENDENCIES@
 APP_LDADD = @APP_LDADD@
 AUTOCONF = @AUTOCONF@
@@ -198,6 +171,7 @@ LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
 MLIB_CPPFLAGS = @MLIB_CPPFLAGS@
+MLIB_CXXFLAGS = @MLIB_CXXFLAGS@
 MSGFMT = @MSGFMT@
 MSGFMT_015 = @MSGFMT_015@
 MSGMERGE = @MSGMERGE@
@@ -296,38 +270,82 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = mlib
 EXTRA_DIST = dbus_introspect.xml
-flush_SOURCES = add_torrent_dialog.cpp add_torrent_dialog.hpp \
-	app_icons.cpp app_icons.hpp application.cpp application.hh \
-	application.hpp categories_view.cpp categories_view.hpp \
-	categories_view.hxx client_cmd_options.cpp \
-	client_cmd_options.hpp client_settings.cpp client_settings.hpp \
-	client_settings.hxx common.cpp common.hh common.hpp \
-	create_torrent_dialog.cpp create_torrent_dialog.hpp daemon.cpp \
-	daemon_fs.cpp daemon_fs.hpp daemon.hpp daemon_proxy.cpp \
-	daemon_proxy.hpp daemon_session.cpp daemon_session.hpp \
-	daemon_settings.cpp daemon_settings.hpp daemon_types.cpp \
-	daemon_types.hpp gui_lib.cpp gui_lib.hpp ip_filter.cpp \
-	ip_filter.hpp log_view.cpp log_view.hpp main.cpp main.hpp \
-	main_window.cpp main_window.hpp open_torrent_dialog.cpp \
-	open_torrent_dialog.hpp settings_window.cpp \
-	settings_window.hpp statistics_window.cpp \
-	statistics_window.hpp temporary_action_dialog.cpp \
-	temporary_action_dialog.hpp torrent_details_view.cpp \
-	torrent_details_view.hpp torrent_files_view.cpp \
-	torrent_files_view.hh torrent_files_view.hpp \
-	torrent_options_view.cpp torrent_options_view.hpp \
-	torrent_peers_view.cpp torrent_peers_view.hpp \
-	torrents_view.cpp torrents_view.hpp torrents_viewport.cpp \
-	torrents_viewport.hpp trackers_view.cpp trackers_view.hpp \
-	$(am__append_1)
+flush_SOURCES = \
+	add_torrent_dialog.cpp \
+	add_torrent_dialog.hpp \
+	app_icons.cpp \
+	app_icons.hpp \
+	application.cpp \
+	application.hh \
+	application.hpp \
+	categories_view.cpp \
+	categories_view.hpp \
+	categories_view.hxx \
+	client_cmd_options.cpp \
+	client_cmd_options.hpp \
+	client_settings.cpp \
+	client_settings.hpp \
+	client_settings.hxx \
+	common.cpp \
+	common.hh \
+	common.hpp \
+	create_torrent_dialog.cpp \
+	create_torrent_dialog.hpp \
+	daemon.cpp \
+	daemon_fs.cpp \
+	daemon_fs.hpp \
+	daemon.hpp \
+	daemon_proxy.cpp \
+	daemon_proxy.hpp \
+	daemon_session.cpp \
+	daemon_session.hpp \
+	daemon_settings.cpp \
+	daemon_settings.hpp \
+	daemon_types.cpp \
+	daemon_types.hpp \
+	gui_lib.cpp \
+	gui_lib.hpp \
+	ip_filter.cpp \
+	ip_filter.hpp \
+	log_view.cpp \
+	log_view.hpp \
+	main.cpp \
+	main.hpp \
+	main_window.cpp \
+	main_window.hpp \
+	open_torrent_dialog.cpp \
+	open_torrent_dialog.hpp \
+	settings_window.cpp \
+	settings_window.hpp \
+	statistics_window.cpp \
+	statistics_window.hpp \
+	temporary_action_dialog.cpp \
+	temporary_action_dialog.hpp \
+	torrent_details_view.cpp \
+	torrent_details_view.hpp \
+	torrent_files_view.cpp \
+	torrent_files_view.hh \
+	torrent_files_view.hpp \
+	torrent_options_view.cpp \
+	torrent_options_view.hpp \
+	torrent_peers_view.cpp \
+	torrent_peers_view.hpp \
+	torrents_view.cpp \
+	torrents_view.hpp \
+	torrents_viewport.cpp \
+	torrents_viewport.hpp \
+	trackers_view.cpp \
+	trackers_view.hpp
+
 dbus_glues = adaptor_glue.hpp proxy_glue.hpp
 nodist_flush_SOURCES = $(dbus_glues)
 BUILT_SOURCES = $(dbus_glues)
 CLEANFILES = $(dbus_glues)
 flush_DEPENDENCIES = @APP_DEPENDENCIES@
 flush_CPPFLAGS = @APP_CPPFLAGS@ -D \
-	APP_BIN_PATH='"$(bindir)/$(PACKAGE)"' $(am__append_2) \
-	$(am__append_3) -D APP_LOCALE_PATH='"$(localedir)"'
+	APP_BIN_PATH='"$(bindir)/$(PACKAGE)"' $(am__append_1) \
+	$(am__append_2) -D APP_LOCALE_PATH='"$(localedir)"'
+flush_CXXFLAGS = @APP_CXXFLAGS@
 flush_LDADD = @APP_LDADD@
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
@@ -388,7 +406,7 @@ clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
 flush$(EXEEXT): $(flush_OBJECTS) $(flush_DEPENDENCIES) 
 	@rm -f flush$(EXEEXT)
-	$(CXXLINK) $(flush_OBJECTS) $(flush_LDADD) $(LIBS)
+	$(flush_LINK) $(flush_OBJECTS) $(flush_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -416,7 +434,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-main_window.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-open_torrent_dialog.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-rss_settings_dialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-settings_window.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-statistics_window.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flush-temporary_action_dialog.Po@am__quote@
@@ -443,438 +460,424 @@ distclean-compile:
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
 flush-add_torrent_dialog.o: add_torrent_dialog.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-add_torrent_dialog.o -MD -MP -MF $(DEPDIR)/flush-add_torrent_dialog.Tpo -c -o flush-add_torrent_dialog.o `test -f 'add_torrent_dialog.cpp' || echo '$(srcdir)/'`add_torrent_dialog.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-add_torrent_dialog.o -MD -MP -MF $(DEPDIR)/flush-add_torrent_dialog.Tpo -c -o flush-add_torrent_dialog.o `test -f 'add_torrent_dialog.cpp' || echo '$(srcdir)/'`add_torrent_dialog.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-add_torrent_dialog.Tpo $(DEPDIR)/flush-add_torrent_dialog.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='add_torrent_dialog.cpp' object='flush-add_torrent_dialog.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-add_torrent_dialog.o `test -f 'add_torrent_dialog.cpp' || echo '$(srcdir)/'`add_torrent_dialog.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-add_torrent_dialog.o `test -f 'add_torrent_dialog.cpp' || echo '$(srcdir)/'`add_torrent_dialog.cpp
 
 flush-add_torrent_dialog.obj: add_torrent_dialog.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-add_torrent_dialog.obj -MD -MP -MF $(DEPDIR)/flush-add_torrent_dialog.Tpo -c -o flush-add_torrent_dialog.obj `if test -f 'add_torrent_dialog.cpp'; then $(CYGPATH_W) 'add_torrent_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/add_torrent_dialog.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-add_torrent_dialog.obj -MD -MP -MF $(DEPDIR)/flush-add_torrent_dialog.Tpo -c -o flush-add_torrent_dialog.obj `if test -f 'add_torrent_dialog.cpp'; then $(CYGPATH_W) 'add_torrent_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/add_torrent_dialog.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-add_torrent_dialog.Tpo $(DEPDIR)/flush-add_torrent_dialog.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='add_torrent_dialog.cpp' object='flush-add_torrent_dialog.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-add_torrent_dialog.obj `if test -f 'add_torrent_dialog.cpp'; then $(CYGPATH_W) 'add_torrent_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/add_torrent_dialog.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-add_torrent_dialog.obj `if test -f 'add_torrent_dialog.cpp'; then $(CYGPATH_W) 'add_torrent_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/add_torrent_dialog.cpp'; fi`
 
 flush-app_icons.o: app_icons.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-app_icons.o -MD -MP -MF $(DEPDIR)/flush-app_icons.Tpo -c -o flush-app_icons.o `test -f 'app_icons.cpp' || echo '$(srcdir)/'`app_icons.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-app_icons.o -MD -MP -MF $(DEPDIR)/flush-app_icons.Tpo -c -o flush-app_icons.o `test -f 'app_icons.cpp' || echo '$(srcdir)/'`app_icons.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-app_icons.Tpo $(DEPDIR)/flush-app_icons.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='app_icons.cpp' object='flush-app_icons.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-app_icons.o `test -f 'app_icons.cpp' || echo '$(srcdir)/'`app_icons.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-app_icons.o `test -f 'app_icons.cpp' || echo '$(srcdir)/'`app_icons.cpp
 
 flush-app_icons.obj: app_icons.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-app_icons.obj -MD -MP -MF $(DEPDIR)/flush-app_icons.Tpo -c -o flush-app_icons.obj `if test -f 'app_icons.cpp'; then $(CYGPATH_W) 'app_icons.cpp'; else $(CYGPATH_W) '$(srcdir)/app_icons.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-app_icons.obj -MD -MP -MF $(DEPDIR)/flush-app_icons.Tpo -c -o flush-app_icons.obj `if test -f 'app_icons.cpp'; then $(CYGPATH_W) 'app_icons.cpp'; else $(CYGPATH_W) '$(srcdir)/app_icons.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-app_icons.Tpo $(DEPDIR)/flush-app_icons.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='app_icons.cpp' object='flush-app_icons.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-app_icons.obj `if test -f 'app_icons.cpp'; then $(CYGPATH_W) 'app_icons.cpp'; else $(CYGPATH_W) '$(srcdir)/app_icons.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-app_icons.obj `if test -f 'app_icons.cpp'; then $(CYGPATH_W) 'app_icons.cpp'; else $(CYGPATH_W) '$(srcdir)/app_icons.cpp'; fi`
 
 flush-application.o: application.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-application.o -MD -MP -MF $(DEPDIR)/flush-application.Tpo -c -o flush-application.o `test -f 'application.cpp' || echo '$(srcdir)/'`application.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-application.o -MD -MP -MF $(DEPDIR)/flush-application.Tpo -c -o flush-application.o `test -f 'application.cpp' || echo '$(srcdir)/'`application.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-application.Tpo $(DEPDIR)/flush-application.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='application.cpp' object='flush-application.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-application.o `test -f 'application.cpp' || echo '$(srcdir)/'`application.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-application.o `test -f 'application.cpp' || echo '$(srcdir)/'`application.cpp
 
 flush-application.obj: application.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-application.obj -MD -MP -MF $(DEPDIR)/flush-application.Tpo -c -o flush-application.obj `if test -f 'application.cpp'; then $(CYGPATH_W) 'application.cpp'; else $(CYGPATH_W) '$(srcdir)/application.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-application.obj -MD -MP -MF $(DEPDIR)/flush-application.Tpo -c -o flush-application.obj `if test -f 'application.cpp'; then $(CYGPATH_W) 'application.cpp'; else $(CYGPATH_W) '$(srcdir)/application.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-application.Tpo $(DEPDIR)/flush-application.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='application.cpp' object='flush-application.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-application.obj `if test -f 'application.cpp'; then $(CYGPATH_W) 'application.cpp'; else $(CYGPATH_W) '$(srcdir)/application.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-application.obj `if test -f 'application.cpp'; then $(CYGPATH_W) 'application.cpp'; else $(CYGPATH_W) '$(srcdir)/application.cpp'; fi`
 
 flush-categories_view.o: categories_view.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-categories_view.o -MD -MP -MF $(DEPDIR)/flush-categories_view.Tpo -c -o flush-categories_view.o `test -f 'categories_view.cpp' || echo '$(srcdir)/'`categories_view.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-categories_view.o -MD -MP -MF $(DEPDIR)/flush-categories_view.Tpo -c -o flush-categories_view.o `test -f 'categories_view.cpp' || echo '$(srcdir)/'`categories_view.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-categories_view.Tpo $(DEPDIR)/flush-categories_view.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='categories_view.cpp' object='flush-categories_view.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-categories_view.o `test -f 'categories_view.cpp' || echo '$(srcdir)/'`categories_view.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-categories_view.o `test -f 'categories_view.cpp' || echo '$(srcdir)/'`categories_view.cpp
 
 flush-categories_view.obj: categories_view.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-categories_view.obj -MD -MP -MF $(DEPDIR)/flush-categories_view.Tpo -c -o flush-categories_view.obj `if test -f 'categories_view.cpp'; then $(CYGPATH_W) 'categories_view.cpp'; else $(CYGPATH_W) '$(srcdir)/categories_view.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-categories_view.obj -MD -MP -MF $(DEPDIR)/flush-categories_view.Tpo -c -o flush-categories_view.obj `if test -f 'categories_view.cpp'; then $(CYGPATH_W) 'categories_view.cpp'; else $(CYGPATH_W) '$(srcdir)/categories_view.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-categories_view.Tpo $(DEPDIR)/flush-categories_view.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='categories_view.cpp' object='flush-categories_view.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-categories_view.obj `if test -f 'categories_view.cpp'; then $(CYGPATH_W) 'categories_view.cpp'; else $(CYGPATH_W) '$(srcdir)/categories_view.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-categories_view.obj `if test -f 'categories_view.cpp'; then $(CYGPATH_W) 'categories_view.cpp'; else $(CYGPATH_W) '$(srcdir)/categories_view.cpp'; fi`
 
 flush-client_cmd_options.o: client_cmd_options.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-client_cmd_options.o -MD -MP -MF $(DEPDIR)/flush-client_cmd_options.Tpo -c -o flush-client_cmd_options.o `test -f 'client_cmd_options.cpp' || echo '$(srcdir)/'`client_cmd_options.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-client_cmd_options.o -MD -MP -MF $(DEPDIR)/flush-client_cmd_options.Tpo -c -o flush-client_cmd_options.o `test -f 'client_cmd_options.cpp' || echo '$(srcdir)/'`client_cmd_options.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-client_cmd_options.Tpo $(DEPDIR)/flush-client_cmd_options.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='client_cmd_options.cpp' object='flush-client_cmd_options.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-client_cmd_options.o `test -f 'client_cmd_options.cpp' || echo '$(srcdir)/'`client_cmd_options.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-client_cmd_options.o `test -f 'client_cmd_options.cpp' || echo '$(srcdir)/'`client_cmd_options.cpp
 
 flush-client_cmd_options.obj: client_cmd_options.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-client_cmd_options.obj -MD -MP -MF $(DEPDIR)/flush-client_cmd_options.Tpo -c -o flush-client_cmd_options.obj `if test -f 'client_cmd_options.cpp'; then $(CYGPATH_W) 'client_cmd_options.cpp'; else $(CYGPATH_W) '$(srcdir)/client_cmd_options.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-client_cmd_options.obj -MD -MP -MF $(DEPDIR)/flush-client_cmd_options.Tpo -c -o flush-client_cmd_options.obj `if test -f 'client_cmd_options.cpp'; then $(CYGPATH_W) 'client_cmd_options.cpp'; else $(CYGPATH_W) '$(srcdir)/client_cmd_options.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-client_cmd_options.Tpo $(DEPDIR)/flush-client_cmd_options.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='client_cmd_options.cpp' object='flush-client_cmd_options.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-client_cmd_options.obj `if test -f 'client_cmd_options.cpp'; then $(CYGPATH_W) 'client_cmd_options.cpp'; else $(CYGPATH_W) '$(srcdir)/client_cmd_options.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-client_cmd_options.obj `if test -f 'client_cmd_options.cpp'; then $(CYGPATH_W) 'client_cmd_options.cpp'; else $(CYGPATH_W) '$(srcdir)/client_cmd_options.cpp'; fi`
 
 flush-client_settings.o: client_settings.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-client_settings.o -MD -MP -MF $(DEPDIR)/flush-client_settings.Tpo -c -o flush-client_settings.o `test -f 'client_settings.cpp' || echo '$(srcdir)/'`client_settings.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-client_settings.o -MD -MP -MF $(DEPDIR)/flush-client_settings.Tpo -c -o flush-client_settings.o `test -f 'client_settings.cpp' || echo '$(srcdir)/'`client_settings.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-client_settings.Tpo $(DEPDIR)/flush-client_settings.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='client_settings.cpp' object='flush-client_settings.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-client_settings.o `test -f 'client_settings.cpp' || echo '$(srcdir)/'`client_settings.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-client_settings.o `test -f 'client_settings.cpp' || echo '$(srcdir)/'`client_settings.cpp
 
 flush-client_settings.obj: client_settings.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-client_settings.obj -MD -MP -MF $(DEPDIR)/flush-client_settings.Tpo -c -o flush-client_settings.obj `if test -f 'client_settings.cpp'; then $(CYGPATH_W) 'client_settings.cpp'; else $(CYGPATH_W) '$(srcdir)/client_settings.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-client_settings.obj -MD -MP -MF $(DEPDIR)/flush-client_settings.Tpo -c -o flush-client_settings.obj `if test -f 'client_settings.cpp'; then $(CYGPATH_W) 'client_settings.cpp'; else $(CYGPATH_W) '$(srcdir)/client_settings.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-client_settings.Tpo $(DEPDIR)/flush-client_settings.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='client_settings.cpp' object='flush-client_settings.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-client_settings.obj `if test -f 'client_settings.cpp'; then $(CYGPATH_W) 'client_settings.cpp'; else $(CYGPATH_W) '$(srcdir)/client_settings.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-client_settings.obj `if test -f 'client_settings.cpp'; then $(CYGPATH_W) 'client_settings.cpp'; else $(CYGPATH_W) '$(srcdir)/client_settings.cpp'; fi`
 
 flush-common.o: common.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-common.o -MD -MP -MF $(DEPDIR)/flush-common.Tpo -c -o flush-common.o `test -f 'common.cpp' || echo '$(srcdir)/'`common.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-common.o -MD -MP -MF $(DEPDIR)/flush-common.Tpo -c -o flush-common.o `test -f 'common.cpp' || echo '$(srcdir)/'`common.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-common.Tpo $(DEPDIR)/flush-common.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='common.cpp' object='flush-common.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-common.o `test -f 'common.cpp' || echo '$(srcdir)/'`common.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-common.o `test -f 'common.cpp' || echo '$(srcdir)/'`common.cpp
 
 flush-common.obj: common.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-common.obj -MD -MP -MF $(DEPDIR)/flush-common.Tpo -c -o flush-common.obj `if test -f 'common.cpp'; then $(CYGPATH_W) 'common.cpp'; else $(CYGPATH_W) '$(srcdir)/common.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-common.obj -MD -MP -MF $(DEPDIR)/flush-common.Tpo -c -o flush-common.obj `if test -f 'common.cpp'; then $(CYGPATH_W) 'common.cpp'; else $(CYGPATH_W) '$(srcdir)/common.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-common.Tpo $(DEPDIR)/flush-common.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='common.cpp' object='flush-common.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-common.obj `if test -f 'common.cpp'; then $(CYGPATH_W) 'common.cpp'; else $(CYGPATH_W) '$(srcdir)/common.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-common.obj `if test -f 'common.cpp'; then $(CYGPATH_W) 'common.cpp'; else $(CYGPATH_W) '$(srcdir)/common.cpp'; fi`
 
 flush-create_torrent_dialog.o: create_torrent_dialog.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-create_torrent_dialog.o -MD -MP -MF $(DEPDIR)/flush-create_torrent_dialog.Tpo -c -o flush-create_torrent_dialog.o `test -f 'create_torrent_dialog.cpp' || echo '$(srcdir)/'`create_torrent_dialog.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-create_torrent_dialog.o -MD -MP -MF $(DEPDIR)/flush-create_torrent_dialog.Tpo -c -o flush-create_torrent_dialog.o `test -f 'create_torrent_dialog.cpp' || echo '$(srcdir)/'`create_torrent_dialog.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-create_torrent_dialog.Tpo $(DEPDIR)/flush-create_torrent_dialog.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='create_torrent_dialog.cpp' object='flush-create_torrent_dialog.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-create_torrent_dialog.o `test -f 'create_torrent_dialog.cpp' || echo '$(srcdir)/'`create_torrent_dialog.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-create_torrent_dialog.o `test -f 'create_torrent_dialog.cpp' || echo '$(srcdir)/'`create_torrent_dialog.cpp
 
 flush-create_torrent_dialog.obj: create_torrent_dialog.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-create_torrent_dialog.obj -MD -MP -MF $(DEPDIR)/flush-create_torrent_dialog.Tpo -c -o flush-create_torrent_dialog.obj `if test -f 'create_torrent_dialog.cpp'; then $(CYGPATH_W) 'create_torrent_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/create_torrent_dialog.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-create_torrent_dialog.obj -MD -MP -MF $(DEPDIR)/flush-create_torrent_dialog.Tpo -c -o flush-create_torrent_dialog.obj `if test -f 'create_torrent_dialog.cpp'; then $(CYGPATH_W) 'create_torrent_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/create_torrent_dialog.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-create_torrent_dialog.Tpo $(DEPDIR)/flush-create_torrent_dialog.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='create_torrent_dialog.cpp' object='flush-create_torrent_dialog.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-create_torrent_dialog.obj `if test -f 'create_torrent_dialog.cpp'; then $(CYGPATH_W) 'create_torrent_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/create_torrent_dialog.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-create_torrent_dialog.obj `if test -f 'create_torrent_dialog.cpp'; then $(CYGPATH_W) 'create_torrent_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/create_torrent_dialog.cpp'; fi`
 
 flush-daemon.o: daemon.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon.o -MD -MP -MF $(DEPDIR)/flush-daemon.Tpo -c -o flush-daemon.o `test -f 'daemon.cpp' || echo '$(srcdir)/'`daemon.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon.o -MD -MP -MF $(DEPDIR)/flush-daemon.Tpo -c -o flush-daemon.o `test -f 'daemon.cpp' || echo '$(srcdir)/'`daemon.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-daemon.Tpo $(DEPDIR)/flush-daemon.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='daemon.cpp' object='flush-daemon.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon.o `test -f 'daemon.cpp' || echo '$(srcdir)/'`daemon.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon.o `test -f 'daemon.cpp' || echo '$(srcdir)/'`daemon.cpp
 
 flush-daemon.obj: daemon.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon.obj -MD -MP -MF $(DEPDIR)/flush-daemon.Tpo -c -o flush-daemon.obj `if test -f 'daemon.cpp'; then $(CYGPATH_W) 'daemon.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon.obj -MD -MP -MF $(DEPDIR)/flush-daemon.Tpo -c -o flush-daemon.obj `if test -f 'daemon.cpp'; then $(CYGPATH_W) 'daemon.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-daemon.Tpo $(DEPDIR)/flush-daemon.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='daemon.cpp' object='flush-daemon.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon.obj `if test -f 'daemon.cpp'; then $(CYGPATH_W) 'daemon.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon.obj `if test -f 'daemon.cpp'; then $(CYGPATH_W) 'daemon.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon.cpp'; fi`
 
 flush-daemon_fs.o: daemon_fs.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon_fs.o -MD -MP -MF $(DEPDIR)/flush-daemon_fs.Tpo -c -o flush-daemon_fs.o `test -f 'daemon_fs.cpp' || echo '$(srcdir)/'`daemon_fs.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon_fs.o -MD -MP -MF $(DEPDIR)/flush-daemon_fs.Tpo -c -o flush-daemon_fs.o `test -f 'daemon_fs.cpp' || echo '$(srcdir)/'`daemon_fs.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-daemon_fs.Tpo $(DEPDIR)/flush-daemon_fs.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='daemon_fs.cpp' object='flush-daemon_fs.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon_fs.o `test -f 'daemon_fs.cpp' || echo '$(srcdir)/'`daemon_fs.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon_fs.o `test -f 'daemon_fs.cpp' || echo '$(srcdir)/'`daemon_fs.cpp
 
 flush-daemon_fs.obj: daemon_fs.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon_fs.obj -MD -MP -MF $(DEPDIR)/flush-daemon_fs.Tpo -c -o flush-daemon_fs.obj `if test -f 'daemon_fs.cpp'; then $(CYGPATH_W) 'daemon_fs.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon_fs.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon_fs.obj -MD -MP -MF $(DEPDIR)/flush-daemon_fs.Tpo -c -o flush-daemon_fs.obj `if test -f 'daemon_fs.cpp'; then $(CYGPATH_W) 'daemon_fs.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon_fs.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-daemon_fs.Tpo $(DEPDIR)/flush-daemon_fs.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='daemon_fs.cpp' object='flush-daemon_fs.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon_fs.obj `if test -f 'daemon_fs.cpp'; then $(CYGPATH_W) 'daemon_fs.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon_fs.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon_fs.obj `if test -f 'daemon_fs.cpp'; then $(CYGPATH_W) 'daemon_fs.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon_fs.cpp'; fi`
 
 flush-daemon_proxy.o: daemon_proxy.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon_proxy.o -MD -MP -MF $(DEPDIR)/flush-daemon_proxy.Tpo -c -o flush-daemon_proxy.o `test -f 'daemon_proxy.cpp' || echo '$(srcdir)/'`daemon_proxy.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon_proxy.o -MD -MP -MF $(DEPDIR)/flush-daemon_proxy.Tpo -c -o flush-daemon_proxy.o `test -f 'daemon_proxy.cpp' || echo '$(srcdir)/'`daemon_proxy.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-daemon_proxy.Tpo $(DEPDIR)/flush-daemon_proxy.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='daemon_proxy.cpp' object='flush-daemon_proxy.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon_proxy.o `test -f 'daemon_proxy.cpp' || echo '$(srcdir)/'`daemon_proxy.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon_proxy.o `test -f 'daemon_proxy.cpp' || echo '$(srcdir)/'`daemon_proxy.cpp
 
 flush-daemon_proxy.obj: daemon_proxy.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon_proxy.obj -MD -MP -MF $(DEPDIR)/flush-daemon_proxy.Tpo -c -o flush-daemon_proxy.obj `if test -f 'daemon_proxy.cpp'; then $(CYGPATH_W) 'daemon_proxy.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon_proxy.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon_proxy.obj -MD -MP -MF $(DEPDIR)/flush-daemon_proxy.Tpo -c -o flush-daemon_proxy.obj `if test -f 'daemon_proxy.cpp'; then $(CYGPATH_W) 'daemon_proxy.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon_proxy.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-daemon_proxy.Tpo $(DEPDIR)/flush-daemon_proxy.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='daemon_proxy.cpp' object='flush-daemon_proxy.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon_proxy.obj `if test -f 'daemon_proxy.cpp'; then $(CYGPATH_W) 'daemon_proxy.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon_proxy.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon_proxy.obj `if test -f 'daemon_proxy.cpp'; then $(CYGPATH_W) 'daemon_proxy.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon_proxy.cpp'; fi`
 
 flush-daemon_session.o: daemon_session.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon_session.o -MD -MP -MF $(DEPDIR)/flush-daemon_session.Tpo -c -o flush-daemon_session.o `test -f 'daemon_session.cpp' || echo '$(srcdir)/'`daemon_session.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon_session.o -MD -MP -MF $(DEPDIR)/flush-daemon_session.Tpo -c -o flush-daemon_session.o `test -f 'daemon_session.cpp' || echo '$(srcdir)/'`daemon_session.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-daemon_session.Tpo $(DEPDIR)/flush-daemon_session.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='daemon_session.cpp' object='flush-daemon_session.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon_session.o `test -f 'daemon_session.cpp' || echo '$(srcdir)/'`daemon_session.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon_session.o `test -f 'daemon_session.cpp' || echo '$(srcdir)/'`daemon_session.cpp
 
 flush-daemon_session.obj: daemon_session.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon_session.obj -MD -MP -MF $(DEPDIR)/flush-daemon_session.Tpo -c -o flush-daemon_session.obj `if test -f 'daemon_session.cpp'; then $(CYGPATH_W) 'daemon_session.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon_session.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon_session.obj -MD -MP -MF $(DEPDIR)/flush-daemon_session.Tpo -c -o flush-daemon_session.obj `if test -f 'daemon_session.cpp'; then $(CYGPATH_W) 'daemon_session.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon_session.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-daemon_session.Tpo $(DEPDIR)/flush-daemon_session.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='daemon_session.cpp' object='flush-daemon_session.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon_session.obj `if test -f 'daemon_session.cpp'; then $(CYGPATH_W) 'daemon_session.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon_session.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon_session.obj `if test -f 'daemon_session.cpp'; then $(CYGPATH_W) 'daemon_session.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon_session.cpp'; fi`
 
 flush-daemon_settings.o: daemon_settings.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon_settings.o -MD -MP -MF $(DEPDIR)/flush-daemon_settings.Tpo -c -o flush-daemon_settings.o `test -f 'daemon_settings.cpp' || echo '$(srcdir)/'`daemon_settings.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon_settings.o -MD -MP -MF $(DEPDIR)/flush-daemon_settings.Tpo -c -o flush-daemon_settings.o `test -f 'daemon_settings.cpp' || echo '$(srcdir)/'`daemon_settings.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-daemon_settings.Tpo $(DEPDIR)/flush-daemon_settings.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='daemon_settings.cpp' object='flush-daemon_settings.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon_settings.o `test -f 'daemon_settings.cpp' || echo '$(srcdir)/'`daemon_settings.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon_settings.o `test -f 'daemon_settings.cpp' || echo '$(srcdir)/'`daemon_settings.cpp
 
 flush-daemon_settings.obj: daemon_settings.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon_settings.obj -MD -MP -MF $(DEPDIR)/flush-daemon_settings.Tpo -c -o flush-daemon_settings.obj `if test -f 'daemon_settings.cpp'; then $(CYGPATH_W) 'daemon_settings.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon_settings.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon_settings.obj -MD -MP -MF $(DEPDIR)/flush-daemon_settings.Tpo -c -o flush-daemon_settings.obj `if test -f 'daemon_settings.cpp'; then $(CYGPATH_W) 'daemon_settings.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon_settings.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-daemon_settings.Tpo $(DEPDIR)/flush-daemon_settings.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='daemon_settings.cpp' object='flush-daemon_settings.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon_settings.obj `if test -f 'daemon_settings.cpp'; then $(CYGPATH_W) 'daemon_settings.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon_settings.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon_settings.obj `if test -f 'daemon_settings.cpp'; then $(CYGPATH_W) 'daemon_settings.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon_settings.cpp'; fi`
 
 flush-daemon_types.o: daemon_types.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon_types.o -MD -MP -MF $(DEPDIR)/flush-daemon_types.Tpo -c -o flush-daemon_types.o `test -f 'daemon_types.cpp' || echo '$(srcdir)/'`daemon_types.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon_types.o -MD -MP -MF $(DEPDIR)/flush-daemon_types.Tpo -c -o flush-daemon_types.o `test -f 'daemon_types.cpp' || echo '$(srcdir)/'`daemon_types.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-daemon_types.Tpo $(DEPDIR)/flush-daemon_types.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='daemon_types.cpp' object='flush-daemon_types.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon_types.o `test -f 'daemon_types.cpp' || echo '$(srcdir)/'`daemon_types.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon_types.o `test -f 'daemon_types.cpp' || echo '$(srcdir)/'`daemon_types.cpp
 
 flush-daemon_types.obj: daemon_types.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon_types.obj -MD -MP -MF $(DEPDIR)/flush-daemon_types.Tpo -c -o flush-daemon_types.obj `if test -f 'daemon_types.cpp'; then $(CYGPATH_W) 'daemon_types.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon_types.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-daemon_types.obj -MD -MP -MF $(DEPDIR)/flush-daemon_types.Tpo -c -o flush-daemon_types.obj `if test -f 'daemon_types.cpp'; then $(CYGPATH_W) 'daemon_types.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon_types.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-daemon_types.Tpo $(DEPDIR)/flush-daemon_types.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='daemon_types.cpp' object='flush-daemon_types.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon_types.obj `if test -f 'daemon_types.cpp'; then $(CYGPATH_W) 'daemon_types.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon_types.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-daemon_types.obj `if test -f 'daemon_types.cpp'; then $(CYGPATH_W) 'daemon_types.cpp'; else $(CYGPATH_W) '$(srcdir)/daemon_types.cpp'; fi`
 
 flush-gui_lib.o: gui_lib.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-gui_lib.o -MD -MP -MF $(DEPDIR)/flush-gui_lib.Tpo -c -o flush-gui_lib.o `test -f 'gui_lib.cpp' || echo '$(srcdir)/'`gui_lib.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-gui_lib.o -MD -MP -MF $(DEPDIR)/flush-gui_lib.Tpo -c -o flush-gui_lib.o `test -f 'gui_lib.cpp' || echo '$(srcdir)/'`gui_lib.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-gui_lib.Tpo $(DEPDIR)/flush-gui_lib.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='gui_lib.cpp' object='flush-gui_lib.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-gui_lib.o `test -f 'gui_lib.cpp' || echo '$(srcdir)/'`gui_lib.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-gui_lib.o `test -f 'gui_lib.cpp' || echo '$(srcdir)/'`gui_lib.cpp
 
 flush-gui_lib.obj: gui_lib.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-gui_lib.obj -MD -MP -MF $(DEPDIR)/flush-gui_lib.Tpo -c -o flush-gui_lib.obj `if test -f 'gui_lib.cpp'; then $(CYGPATH_W) 'gui_lib.cpp'; else $(CYGPATH_W) '$(srcdir)/gui_lib.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-gui_lib.obj -MD -MP -MF $(DEPDIR)/flush-gui_lib.Tpo -c -o flush-gui_lib.obj `if test -f 'gui_lib.cpp'; then $(CYGPATH_W) 'gui_lib.cpp'; else $(CYGPATH_W) '$(srcdir)/gui_lib.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-gui_lib.Tpo $(DEPDIR)/flush-gui_lib.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='gui_lib.cpp' object='flush-gui_lib.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-gui_lib.obj `if test -f 'gui_lib.cpp'; then $(CYGPATH_W) 'gui_lib.cpp'; else $(CYGPATH_W) '$(srcdir)/gui_lib.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-gui_lib.obj `if test -f 'gui_lib.cpp'; then $(CYGPATH_W) 'gui_lib.cpp'; else $(CYGPATH_W) '$(srcdir)/gui_lib.cpp'; fi`
 
 flush-ip_filter.o: ip_filter.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-ip_filter.o -MD -MP -MF $(DEPDIR)/flush-ip_filter.Tpo -c -o flush-ip_filter.o `test -f 'ip_filter.cpp' || echo '$(srcdir)/'`ip_filter.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-ip_filter.o -MD -MP -MF $(DEPDIR)/flush-ip_filter.Tpo -c -o flush-ip_filter.o `test -f 'ip_filter.cpp' || echo '$(srcdir)/'`ip_filter.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-ip_filter.Tpo $(DEPDIR)/flush-ip_filter.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ip_filter.cpp' object='flush-ip_filter.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-ip_filter.o `test -f 'ip_filter.cpp' || echo '$(srcdir)/'`ip_filter.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-ip_filter.o `test -f 'ip_filter.cpp' || echo '$(srcdir)/'`ip_filter.cpp
 
 flush-ip_filter.obj: ip_filter.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-ip_filter.obj -MD -MP -MF $(DEPDIR)/flush-ip_filter.Tpo -c -o flush-ip_filter.obj `if test -f 'ip_filter.cpp'; then $(CYGPATH_W) 'ip_filter.cpp'; else $(CYGPATH_W) '$(srcdir)/ip_filter.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-ip_filter.obj -MD -MP -MF $(DEPDIR)/flush-ip_filter.Tpo -c -o flush-ip_filter.obj `if test -f 'ip_filter.cpp'; then $(CYGPATH_W) 'ip_filter.cpp'; else $(CYGPATH_W) '$(srcdir)/ip_filter.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-ip_filter.Tpo $(DEPDIR)/flush-ip_filter.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='ip_filter.cpp' object='flush-ip_filter.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-ip_filter.obj `if test -f 'ip_filter.cpp'; then $(CYGPATH_W) 'ip_filter.cpp'; else $(CYGPATH_W) '$(srcdir)/ip_filter.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-ip_filter.obj `if test -f 'ip_filter.cpp'; then $(CYGPATH_W) 'ip_filter.cpp'; else $(CYGPATH_W) '$(srcdir)/ip_filter.cpp'; fi`
 
 flush-log_view.o: log_view.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-log_view.o -MD -MP -MF $(DEPDIR)/flush-log_view.Tpo -c -o flush-log_view.o `test -f 'log_view.cpp' || echo '$(srcdir)/'`log_view.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-log_view.o -MD -MP -MF $(DEPDIR)/flush-log_view.Tpo -c -o flush-log_view.o `test -f 'log_view.cpp' || echo '$(srcdir)/'`log_view.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-log_view.Tpo $(DEPDIR)/flush-log_view.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='log_view.cpp' object='flush-log_view.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-log_view.o `test -f 'log_view.cpp' || echo '$(srcdir)/'`log_view.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-log_view.o `test -f 'log_view.cpp' || echo '$(srcdir)/'`log_view.cpp
 
 flush-log_view.obj: log_view.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-log_view.obj -MD -MP -MF $(DEPDIR)/flush-log_view.Tpo -c -o flush-log_view.obj `if test -f 'log_view.cpp'; then $(CYGPATH_W) 'log_view.cpp'; else $(CYGPATH_W) '$(srcdir)/log_view.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-log_view.obj -MD -MP -MF $(DEPDIR)/flush-log_view.Tpo -c -o flush-log_view.obj `if test -f 'log_view.cpp'; then $(CYGPATH_W) 'log_view.cpp'; else $(CYGPATH_W) '$(srcdir)/log_view.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-log_view.Tpo $(DEPDIR)/flush-log_view.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='log_view.cpp' object='flush-log_view.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-log_view.obj `if test -f 'log_view.cpp'; then $(CYGPATH_W) 'log_view.cpp'; else $(CYGPATH_W) '$(srcdir)/log_view.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-log_view.obj `if test -f 'log_view.cpp'; then $(CYGPATH_W) 'log_view.cpp'; else $(CYGPATH_W) '$(srcdir)/log_view.cpp'; fi`
 
 flush-main.o: main.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-main.o -MD -MP -MF $(DEPDIR)/flush-main.Tpo -c -o flush-main.o `test -f 'main.cpp' || echo '$(srcdir)/'`main.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-main.o -MD -MP -MF $(DEPDIR)/flush-main.Tpo -c -o flush-main.o `test -f 'main.cpp' || echo '$(srcdir)/'`main.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-main.Tpo $(DEPDIR)/flush-main.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='main.cpp' object='flush-main.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-main.o `test -f 'main.cpp' || echo '$(srcdir)/'`main.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-main.o `test -f 'main.cpp' || echo '$(srcdir)/'`main.cpp
 
 flush-main.obj: main.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-main.obj -MD -MP -MF $(DEPDIR)/flush-main.Tpo -c -o flush-main.obj `if test -f 'main.cpp'; then $(CYGPATH_W) 'main.cpp'; else $(CYGPATH_W) '$(srcdir)/main.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-main.obj -MD -MP -MF $(DEPDIR)/flush-main.Tpo -c -o flush-main.obj `if test -f 'main.cpp'; then $(CYGPATH_W) 'main.cpp'; else $(CYGPATH_W) '$(srcdir)/main.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-main.Tpo $(DEPDIR)/flush-main.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='main.cpp' object='flush-main.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-main.obj `if test -f 'main.cpp'; then $(CYGPATH_W) 'main.cpp'; else $(CYGPATH_W) '$(srcdir)/main.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-main.obj `if test -f 'main.cpp'; then $(CYGPATH_W) 'main.cpp'; else $(CYGPATH_W) '$(srcdir)/main.cpp'; fi`
 
 flush-main_window.o: main_window.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-main_window.o -MD -MP -MF $(DEPDIR)/flush-main_window.Tpo -c -o flush-main_window.o `test -f 'main_window.cpp' || echo '$(srcdir)/'`main_window.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-main_window.o -MD -MP -MF $(DEPDIR)/flush-main_window.Tpo -c -o flush-main_window.o `test -f 'main_window.cpp' || echo '$(srcdir)/'`main_window.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-main_window.Tpo $(DEPDIR)/flush-main_window.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='main_window.cpp' object='flush-main_window.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-main_window.o `test -f 'main_window.cpp' || echo '$(srcdir)/'`main_window.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-main_window.o `test -f 'main_window.cpp' || echo '$(srcdir)/'`main_window.cpp
 
 flush-main_window.obj: main_window.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-main_window.obj -MD -MP -MF $(DEPDIR)/flush-main_window.Tpo -c -o flush-main_window.obj `if test -f 'main_window.cpp'; then $(CYGPATH_W) 'main_window.cpp'; else $(CYGPATH_W) '$(srcdir)/main_window.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-main_window.obj -MD -MP -MF $(DEPDIR)/flush-main_window.Tpo -c -o flush-main_window.obj `if test -f 'main_window.cpp'; then $(CYGPATH_W) 'main_window.cpp'; else $(CYGPATH_W) '$(srcdir)/main_window.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-main_window.Tpo $(DEPDIR)/flush-main_window.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='main_window.cpp' object='flush-main_window.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-main_window.obj `if test -f 'main_window.cpp'; then $(CYGPATH_W) 'main_window.cpp'; else $(CYGPATH_W) '$(srcdir)/main_window.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-main_window.obj `if test -f 'main_window.cpp'; then $(CYGPATH_W) 'main_window.cpp'; else $(CYGPATH_W) '$(srcdir)/main_window.cpp'; fi`
 
 flush-open_torrent_dialog.o: open_torrent_dialog.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-open_torrent_dialog.o -MD -MP -MF $(DEPDIR)/flush-open_torrent_dialog.Tpo -c -o flush-open_torrent_dialog.o `test -f 'open_torrent_dialog.cpp' || echo '$(srcdir)/'`open_torrent_dialog.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-open_torrent_dialog.o -MD -MP -MF $(DEPDIR)/flush-open_torrent_dialog.Tpo -c -o flush-open_torrent_dialog.o `test -f 'open_torrent_dialog.cpp' || echo '$(srcdir)/'`open_torrent_dialog.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-open_torrent_dialog.Tpo $(DEPDIR)/flush-open_torrent_dialog.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='open_torrent_dialog.cpp' object='flush-open_torrent_dialog.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-open_torrent_dialog.o `test -f 'open_torrent_dialog.cpp' || echo '$(srcdir)/'`open_torrent_dialog.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-open_torrent_dialog.o `test -f 'open_torrent_dialog.cpp' || echo '$(srcdir)/'`open_torrent_dialog.cpp
 
 flush-open_torrent_dialog.obj: open_torrent_dialog.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-open_torrent_dialog.obj -MD -MP -MF $(DEPDIR)/flush-open_torrent_dialog.Tpo -c -o flush-open_torrent_dialog.obj `if test -f 'open_torrent_dialog.cpp'; then $(CYGPATH_W) 'open_torrent_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/open_torrent_dialog.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-open_torrent_dialog.obj -MD -MP -MF $(DEPDIR)/flush-open_torrent_dialog.Tpo -c -o flush-open_torrent_dialog.obj `if test -f 'open_torrent_dialog.cpp'; then $(CYGPATH_W) 'open_torrent_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/open_torrent_dialog.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-open_torrent_dialog.Tpo $(DEPDIR)/flush-open_torrent_dialog.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='open_torrent_dialog.cpp' object='flush-open_torrent_dialog.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-open_torrent_dialog.obj `if test -f 'open_torrent_dialog.cpp'; then $(CYGPATH_W) 'open_torrent_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/open_torrent_dialog.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-open_torrent_dialog.obj `if test -f 'open_torrent_dialog.cpp'; then $(CYGPATH_W) 'open_torrent_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/open_torrent_dialog.cpp'; fi`
 
 flush-settings_window.o: settings_window.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-settings_window.o -MD -MP -MF $(DEPDIR)/flush-settings_window.Tpo -c -o flush-settings_window.o `test -f 'settings_window.cpp' || echo '$(srcdir)/'`settings_window.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-settings_window.o -MD -MP -MF $(DEPDIR)/flush-settings_window.Tpo -c -o flush-settings_window.o `test -f 'settings_window.cpp' || echo '$(srcdir)/'`settings_window.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-settings_window.Tpo $(DEPDIR)/flush-settings_window.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='settings_window.cpp' object='flush-settings_window.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-settings_window.o `test -f 'settings_window.cpp' || echo '$(srcdir)/'`settings_window.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-settings_window.o `test -f 'settings_window.cpp' || echo '$(srcdir)/'`settings_window.cpp
 
 flush-settings_window.obj: settings_window.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-settings_window.obj -MD -MP -MF $(DEPDIR)/flush-settings_window.Tpo -c -o flush-settings_window.obj `if test -f 'settings_window.cpp'; then $(CYGPATH_W) 'settings_window.cpp'; else $(CYGPATH_W) '$(srcdir)/settings_window.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-settings_window.obj -MD -MP -MF $(DEPDIR)/flush-settings_window.Tpo -c -o flush-settings_window.obj `if test -f 'settings_window.cpp'; then $(CYGPATH_W) 'settings_window.cpp'; else $(CYGPATH_W) '$(srcdir)/settings_window.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-settings_window.Tpo $(DEPDIR)/flush-settings_window.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='settings_window.cpp' object='flush-settings_window.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-settings_window.obj `if test -f 'settings_window.cpp'; then $(CYGPATH_W) 'settings_window.cpp'; else $(CYGPATH_W) '$(srcdir)/settings_window.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-settings_window.obj `if test -f 'settings_window.cpp'; then $(CYGPATH_W) 'settings_window.cpp'; else $(CYGPATH_W) '$(srcdir)/settings_window.cpp'; fi`
 
 flush-statistics_window.o: statistics_window.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-statistics_window.o -MD -MP -MF $(DEPDIR)/flush-statistics_window.Tpo -c -o flush-statistics_window.o `test -f 'statistics_window.cpp' || echo '$(srcdir)/'`statistics_window.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-statistics_window.o -MD -MP -MF $(DEPDIR)/flush-statistics_window.Tpo -c -o flush-statistics_window.o `test -f 'statistics_window.cpp' || echo '$(srcdir)/'`statistics_window.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-statistics_window.Tpo $(DEPDIR)/flush-statistics_window.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='statistics_window.cpp' object='flush-statistics_window.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-statistics_window.o `test -f 'statistics_window.cpp' || echo '$(srcdir)/'`statistics_window.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-statistics_window.o `test -f 'statistics_window.cpp' || echo '$(srcdir)/'`statistics_window.cpp
 
 flush-statistics_window.obj: statistics_window.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-statistics_window.obj -MD -MP -MF $(DEPDIR)/flush-statistics_window.Tpo -c -o flush-statistics_window.obj `if test -f 'statistics_window.cpp'; then $(CYGPATH_W) 'statistics_window.cpp'; else $(CYGPATH_W) '$(srcdir)/statistics_window.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-statistics_window.obj -MD -MP -MF $(DEPDIR)/flush-statistics_window.Tpo -c -o flush-statistics_window.obj `if test -f 'statistics_window.cpp'; then $(CYGPATH_W) 'statistics_window.cpp'; else $(CYGPATH_W) '$(srcdir)/statistics_window.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-statistics_window.Tpo $(DEPDIR)/flush-statistics_window.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='statistics_window.cpp' object='flush-statistics_window.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-statistics_window.obj `if test -f 'statistics_window.cpp'; then $(CYGPATH_W) 'statistics_window.cpp'; else $(CYGPATH_W) '$(srcdir)/statistics_window.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-statistics_window.obj `if test -f 'statistics_window.cpp'; then $(CYGPATH_W) 'statistics_window.cpp'; else $(CYGPATH_W) '$(srcdir)/statistics_window.cpp'; fi`
 
 flush-temporary_action_dialog.o: temporary_action_dialog.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-temporary_action_dialog.o -MD -MP -MF $(DEPDIR)/flush-temporary_action_dialog.Tpo -c -o flush-temporary_action_dialog.o `test -f 'temporary_action_dialog.cpp' || echo '$(srcdir)/'`temporary_action_dialog.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-temporary_action_dialog.o -MD -MP -MF $(DEPDIR)/flush-temporary_action_dialog.Tpo -c -o flush-temporary_action_dialog.o `test -f 'temporary_action_dialog.cpp' || echo '$(srcdir)/'`temporary_action_dialog.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-temporary_action_dialog.Tpo $(DEPDIR)/flush-temporary_action_dialog.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='temporary_action_dialog.cpp' object='flush-temporary_action_dialog.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-temporary_action_dialog.o `test -f 'temporary_action_dialog.cpp' || echo '$(srcdir)/'`temporary_action_dialog.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-temporary_action_dialog.o `test -f 'temporary_action_dialog.cpp' || echo '$(srcdir)/'`temporary_action_dialog.cpp
 
 flush-temporary_action_dialog.obj: temporary_action_dialog.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-temporary_action_dialog.obj -MD -MP -MF $(DEPDIR)/flush-temporary_action_dialog.Tpo -c -o flush-temporary_action_dialog.obj `if test -f 'temporary_action_dialog.cpp'; then $(CYGPATH_W) 'temporary_action_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/temporary_action_dialog.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-temporary_action_dialog.obj -MD -MP -MF $(DEPDIR)/flush-temporary_action_dialog.Tpo -c -o flush-temporary_action_dialog.obj `if test -f 'temporary_action_dialog.cpp'; then $(CYGPATH_W) 'temporary_action_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/temporary_action_dialog.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-temporary_action_dialog.Tpo $(DEPDIR)/flush-temporary_action_dialog.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='temporary_action_dialog.cpp' object='flush-temporary_action_dialog.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-temporary_action_dialog.obj `if test -f 'temporary_action_dialog.cpp'; then $(CYGPATH_W) 'temporary_action_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/temporary_action_dialog.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-temporary_action_dialog.obj `if test -f 'temporary_action_dialog.cpp'; then $(CYGPATH_W) 'temporary_action_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/temporary_action_dialog.cpp'; fi`
 
 flush-torrent_details_view.o: torrent_details_view.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-torrent_details_view.o -MD -MP -MF $(DEPDIR)/flush-torrent_details_view.Tpo -c -o flush-torrent_details_view.o `test -f 'torrent_details_view.cpp' || echo '$(srcdir)/'`torrent_details_view.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-torrent_details_view.o -MD -MP -MF $(DEPDIR)/flush-torrent_details_view.Tpo -c -o flush-torrent_details_view.o `test -f 'torrent_details_view.cpp' || echo '$(srcdir)/'`torrent_details_view.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-torrent_details_view.Tpo $(DEPDIR)/flush-torrent_details_view.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='torrent_details_view.cpp' object='flush-torrent_details_view.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrent_details_view.o `test -f 'torrent_details_view.cpp' || echo '$(srcdir)/'`torrent_details_view.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrent_details_view.o `test -f 'torrent_details_view.cpp' || echo '$(srcdir)/'`torrent_details_view.cpp
 
 flush-torrent_details_view.obj: torrent_details_view.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-torrent_details_view.obj -MD -MP -MF $(DEPDIR)/flush-torrent_details_view.Tpo -c -o flush-torrent_details_view.obj `if test -f 'torrent_details_view.cpp'; then $(CYGPATH_W) 'torrent_details_view.cpp'; else $(CYGPATH_W) '$(srcdir)/torrent_details_view.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-torrent_details_view.obj -MD -MP -MF $(DEPDIR)/flush-torrent_details_view.Tpo -c -o flush-torrent_details_view.obj `if test -f 'torrent_details_view.cpp'; then $(CYGPATH_W) 'torrent_details_view.cpp'; else $(CYGPATH_W) '$(srcdir)/torrent_details_view.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-torrent_details_view.Tpo $(DEPDIR)/flush-torrent_details_view.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='torrent_details_view.cpp' object='flush-torrent_details_view.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrent_details_view.obj `if test -f 'torrent_details_view.cpp'; then $(CYGPATH_W) 'torrent_details_view.cpp'; else $(CYGPATH_W) '$(srcdir)/torrent_details_view.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrent_details_view.obj `if test -f 'torrent_details_view.cpp'; then $(CYGPATH_W) 'torrent_details_view.cpp'; else $(CYGPATH_W) '$(srcdir)/torrent_details_view.cpp'; fi`
 
 flush-torrent_files_view.o: torrent_files_view.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-torrent_files_view.o -MD -MP -MF $(DEPDIR)/flush-torrent_files_view.Tpo -c -o flush-torrent_files_view.o `test -f 'torrent_files_view.cpp' || echo '$(srcdir)/'`torrent_files_view.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-torrent_files_view.o -MD -MP -MF $(DEPDIR)/flush-torrent_files_view.Tpo -c -o flush-torrent_files_view.o `test -f 'torrent_files_view.cpp' || echo '$(srcdir)/'`torrent_files_view.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-torrent_files_view.Tpo $(DEPDIR)/flush-torrent_files_view.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='torrent_files_view.cpp' object='flush-torrent_files_view.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrent_files_view.o `test -f 'torrent_files_view.cpp' || echo '$(srcdir)/'`torrent_files_view.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrent_files_view.o `test -f 'torrent_files_view.cpp' || echo '$(srcdir)/'`torrent_files_view.cpp
 
 flush-torrent_files_view.obj: torrent_files_view.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-torrent_files_view.obj -MD -MP -MF $(DEPDIR)/flush-torrent_files_view.Tpo -c -o flush-torrent_files_view.obj `if test -f 'torrent_files_view.cpp'; then $(CYGPATH_W) 'torrent_files_view.cpp'; else $(CYGPATH_W) '$(srcdir)/torrent_files_view.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-torrent_files_view.obj -MD -MP -MF $(DEPDIR)/flush-torrent_files_view.Tpo -c -o flush-torrent_files_view.obj `if test -f 'torrent_files_view.cpp'; then $(CYGPATH_W) 'torrent_files_view.cpp'; else $(CYGPATH_W) '$(srcdir)/torrent_files_view.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-torrent_files_view.Tpo $(DEPDIR)/flush-torrent_files_view.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='torrent_files_view.cpp' object='flush-torrent_files_view.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrent_files_view.obj `if test -f 'torrent_files_view.cpp'; then $(CYGPATH_W) 'torrent_files_view.cpp'; else $(CYGPATH_W) '$(srcdir)/torrent_files_view.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrent_files_view.obj `if test -f 'torrent_files_view.cpp'; then $(CYGPATH_W) 'torrent_files_view.cpp'; else $(CYGPATH_W) '$(srcdir)/torrent_files_view.cpp'; fi`
 
 flush-torrent_options_view.o: torrent_options_view.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-torrent_options_view.o -MD -MP -MF $(DEPDIR)/flush-torrent_options_view.Tpo -c -o flush-torrent_options_view.o `test -f 'torrent_options_view.cpp' || echo '$(srcdir)/'`torrent_options_view.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-torrent_options_view.o -MD -MP -MF $(DEPDIR)/flush-torrent_options_view.Tpo -c -o flush-torrent_options_view.o `test -f 'torrent_options_view.cpp' || echo '$(srcdir)/'`torrent_options_view.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-torrent_options_view.Tpo $(DEPDIR)/flush-torrent_options_view.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='torrent_options_view.cpp' object='flush-torrent_options_view.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrent_options_view.o `test -f 'torrent_options_view.cpp' || echo '$(srcdir)/'`torrent_options_view.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrent_options_view.o `test -f 'torrent_options_view.cpp' || echo '$(srcdir)/'`torrent_options_view.cpp
 
 flush-torrent_options_view.obj: torrent_options_view.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-torrent_options_view.obj -MD -MP -MF $(DEPDIR)/flush-torrent_options_view.Tpo -c -o flush-torrent_options_view.obj `if test -f 'torrent_options_view.cpp'; then $(CYGPATH_W) 'torrent_options_view.cpp'; else $(CYGPATH_W) '$(srcdir)/torrent_options_view.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-torrent_options_view.obj -MD -MP -MF $(DEPDIR)/flush-torrent_options_view.Tpo -c -o flush-torrent_options_view.obj `if test -f 'torrent_options_view.cpp'; then $(CYGPATH_W) 'torrent_options_view.cpp'; else $(CYGPATH_W) '$(srcdir)/torrent_options_view.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-torrent_options_view.Tpo $(DEPDIR)/flush-torrent_options_view.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='torrent_options_view.cpp' object='flush-torrent_options_view.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrent_options_view.obj `if test -f 'torrent_options_view.cpp'; then $(CYGPATH_W) 'torrent_options_view.cpp'; else $(CYGPATH_W) '$(srcdir)/torrent_options_view.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrent_options_view.obj `if test -f 'torrent_options_view.cpp'; then $(CYGPATH_W) 'torrent_options_view.cpp'; else $(CYGPATH_W) '$(srcdir)/torrent_options_view.cpp'; fi`
 
 flush-torrent_peers_view.o: torrent_peers_view.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-torrent_peers_view.o -MD -MP -MF $(DEPDIR)/flush-torrent_peers_view.Tpo -c -o flush-torrent_peers_view.o `test -f 'torrent_peers_view.cpp' || echo '$(srcdir)/'`torrent_peers_view.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-torrent_peers_view.o -MD -MP -MF $(DEPDIR)/flush-torrent_peers_view.Tpo -c -o flush-torrent_peers_view.o `test -f 'torrent_peers_view.cpp' || echo '$(srcdir)/'`torrent_peers_view.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-torrent_peers_view.Tpo $(DEPDIR)/flush-torrent_peers_view.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='torrent_peers_view.cpp' object='flush-torrent_peers_view.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrent_peers_view.o `test -f 'torrent_peers_view.cpp' || echo '$(srcdir)/'`torrent_peers_view.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrent_peers_view.o `test -f 'torrent_peers_view.cpp' || echo '$(srcdir)/'`torrent_peers_view.cpp
 
 flush-torrent_peers_view.obj: torrent_peers_view.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-torrent_peers_view.obj -MD -MP -MF $(DEPDIR)/flush-torrent_peers_view.Tpo -c -o flush-torrent_peers_view.obj `if test -f 'torrent_peers_view.cpp'; then $(CYGPATH_W) 'torrent_peers_view.cpp'; else $(CYGPATH_W) '$(srcdir)/torrent_peers_view.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-torrent_peers_view.obj -MD -MP -MF $(DEPDIR)/flush-torrent_peers_view.Tpo -c -o flush-torrent_peers_view.obj `if test -f 'torrent_peers_view.cpp'; then $(CYGPATH_W) 'torrent_peers_view.cpp'; else $(CYGPATH_W) '$(srcdir)/torrent_peers_view.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-torrent_peers_view.Tpo $(DEPDIR)/flush-torrent_peers_view.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='torrent_peers_view.cpp' object='flush-torrent_peers_view.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrent_peers_view.obj `if test -f 'torrent_peers_view.cpp'; then $(CYGPATH_W) 'torrent_peers_view.cpp'; else $(CYGPATH_W) '$(srcdir)/torrent_peers_view.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrent_peers_view.obj `if test -f 'torrent_peers_view.cpp'; then $(CYGPATH_W) 'torrent_peers_view.cpp'; else $(CYGPATH_W) '$(srcdir)/torrent_peers_view.cpp'; fi`
 
 flush-torrents_view.o: torrents_view.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-torrents_view.o -MD -MP -MF $(DEPDIR)/flush-torrents_view.Tpo -c -o flush-torrents_view.o `test -f 'torrents_view.cpp' || echo '$(srcdir)/'`torrents_view.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-torrents_view.o -MD -MP -MF $(DEPDIR)/flush-torrents_view.Tpo -c -o flush-torrents_view.o `test -f 'torrents_view.cpp' || echo '$(srcdir)/'`torrents_view.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-torrents_view.Tpo $(DEPDIR)/flush-torrents_view.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='torrents_view.cpp' object='flush-torrents_view.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrents_view.o `test -f 'torrents_view.cpp' || echo '$(srcdir)/'`torrents_view.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrents_view.o `test -f 'torrents_view.cpp' || echo '$(srcdir)/'`torrents_view.cpp
 
 flush-torrents_view.obj: torrents_view.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-torrents_view.obj -MD -MP -MF $(DEPDIR)/flush-torrents_view.Tpo -c -o flush-torrents_view.obj `if test -f 'torrents_view.cpp'; then $(CYGPATH_W) 'torrents_view.cpp'; else $(CYGPATH_W) '$(srcdir)/torrents_view.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-torrents_view.obj -MD -MP -MF $(DEPDIR)/flush-torrents_view.Tpo -c -o flush-torrents_view.obj `if test -f 'torrents_view.cpp'; then $(CYGPATH_W) 'torrents_view.cpp'; else $(CYGPATH_W) '$(srcdir)/torrents_view.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-torrents_view.Tpo $(DEPDIR)/flush-torrents_view.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='torrents_view.cpp' object='flush-torrents_view.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrents_view.obj `if test -f 'torrents_view.cpp'; then $(CYGPATH_W) 'torrents_view.cpp'; else $(CYGPATH_W) '$(srcdir)/torrents_view.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrents_view.obj `if test -f 'torrents_view.cpp'; then $(CYGPATH_W) 'torrents_view.cpp'; else $(CYGPATH_W) '$(srcdir)/torrents_view.cpp'; fi`
 
 flush-torrents_viewport.o: torrents_viewport.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-torrents_viewport.o -MD -MP -MF $(DEPDIR)/flush-torrents_viewport.Tpo -c -o flush-torrents_viewport.o `test -f 'torrents_viewport.cpp' || echo '$(srcdir)/'`torrents_viewport.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-torrents_viewport.o -MD -MP -MF $(DEPDIR)/flush-torrents_viewport.Tpo -c -o flush-torrents_viewport.o `test -f 'torrents_viewport.cpp' || echo '$(srcdir)/'`torrents_viewport.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-torrents_viewport.Tpo $(DEPDIR)/flush-torrents_viewport.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='torrents_viewport.cpp' object='flush-torrents_viewport.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrents_viewport.o `test -f 'torrents_viewport.cpp' || echo '$(srcdir)/'`torrents_viewport.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrents_viewport.o `test -f 'torrents_viewport.cpp' || echo '$(srcdir)/'`torrents_viewport.cpp
 
 flush-torrents_viewport.obj: torrents_viewport.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-torrents_viewport.obj -MD -MP -MF $(DEPDIR)/flush-torrents_viewport.Tpo -c -o flush-torrents_viewport.obj `if test -f 'torrents_viewport.cpp'; then $(CYGPATH_W) 'torrents_viewport.cpp'; else $(CYGPATH_W) '$(srcdir)/torrents_viewport.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-torrents_viewport.obj -MD -MP -MF $(DEPDIR)/flush-torrents_viewport.Tpo -c -o flush-torrents_viewport.obj `if test -f 'torrents_viewport.cpp'; then $(CYGPATH_W) 'torrents_viewport.cpp'; else $(CYGPATH_W) '$(srcdir)/torrents_viewport.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-torrents_viewport.Tpo $(DEPDIR)/flush-torrents_viewport.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='torrents_viewport.cpp' object='flush-torrents_viewport.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrents_viewport.obj `if test -f 'torrents_viewport.cpp'; then $(CYGPATH_W) 'torrents_viewport.cpp'; else $(CYGPATH_W) '$(srcdir)/torrents_viewport.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-torrents_viewport.obj `if test -f 'torrents_viewport.cpp'; then $(CYGPATH_W) 'torrents_viewport.cpp'; else $(CYGPATH_W) '$(srcdir)/torrents_viewport.cpp'; fi`
 
 flush-trackers_view.o: trackers_view.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-trackers_view.o -MD -MP -MF $(DEPDIR)/flush-trackers_view.Tpo -c -o flush-trackers_view.o `test -f 'trackers_view.cpp' || echo '$(srcdir)/'`trackers_view.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-trackers_view.o -MD -MP -MF $(DEPDIR)/flush-trackers_view.Tpo -c -o flush-trackers_view.o `test -f 'trackers_view.cpp' || echo '$(srcdir)/'`trackers_view.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-trackers_view.Tpo $(DEPDIR)/flush-trackers_view.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='trackers_view.cpp' object='flush-trackers_view.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-trackers_view.o `test -f 'trackers_view.cpp' || echo '$(srcdir)/'`trackers_view.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-trackers_view.o `test -f 'trackers_view.cpp' || echo '$(srcdir)/'`trackers_view.cpp
 
 flush-trackers_view.obj: trackers_view.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-trackers_view.obj -MD -MP -MF $(DEPDIR)/flush-trackers_view.Tpo -c -o flush-trackers_view.obj `if test -f 'trackers_view.cpp'; then $(CYGPATH_W) 'trackers_view.cpp'; else $(CYGPATH_W) '$(srcdir)/trackers_view.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -MT flush-trackers_view.obj -MD -MP -MF $(DEPDIR)/flush-trackers_view.Tpo -c -o flush-trackers_view.obj `if test -f 'trackers_view.cpp'; then $(CYGPATH_W) 'trackers_view.cpp'; else $(CYGPATH_W) '$(srcdir)/trackers_view.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-trackers_view.Tpo $(DEPDIR)/flush-trackers_view.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='trackers_view.cpp' object='flush-trackers_view.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-trackers_view.obj `if test -f 'trackers_view.cpp'; then $(CYGPATH_W) 'trackers_view.cpp'; else $(CYGPATH_W) '$(srcdir)/trackers_view.cpp'; fi`
-
-flush-rss_settings_dialog.o: rss_settings_dialog.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-rss_settings_dialog.o -MD -MP -MF $(DEPDIR)/flush-rss_settings_dialog.Tpo -c -o flush-rss_settings_dialog.o `test -f 'rss_settings_dialog.cpp' || echo '$(srcdir)/'`rss_settings_dialog.cpp
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-rss_settings_dialog.Tpo $(DEPDIR)/flush-rss_settings_dialog.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='rss_settings_dialog.cpp' object='flush-rss_settings_dialog.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-rss_settings_dialog.o `test -f 'rss_settings_dialog.cpp' || echo '$(srcdir)/'`rss_settings_dialog.cpp
-
-flush-rss_settings_dialog.obj: rss_settings_dialog.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT flush-rss_settings_dialog.obj -MD -MP -MF $(DEPDIR)/flush-rss_settings_dialog.Tpo -c -o flush-rss_settings_dialog.obj `if test -f 'rss_settings_dialog.cpp'; then $(CYGPATH_W) 'rss_settings_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/rss_settings_dialog.cpp'; fi`
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/flush-rss_settings_dialog.Tpo $(DEPDIR)/flush-rss_settings_dialog.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='rss_settings_dialog.cpp' object='flush-rss_settings_dialog.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o flush-rss_settings_dialog.obj `if test -f 'rss_settings_dialog.cpp'; then $(CYGPATH_W) 'rss_settings_dialog.cpp'; else $(CYGPATH_W) '$(srcdir)/rss_settings_dialog.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(flush_CPPFLAGS) $(CPPFLAGS) $(flush_CXXFLAGS) $(CXXFLAGS) -c -o flush-trackers_view.obj `if test -f 'trackers_view.cpp'; then $(CYGPATH_W) 'trackers_view.cpp'; else $(CYGPATH_W) '$(srcdir)/trackers_view.cpp'; fi`
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.

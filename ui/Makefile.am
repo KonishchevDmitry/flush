@@ -8,7 +8,3 @@ dist_ui_DATA = \
 	preferences.daemon.network.misc.glade \
 	torrent_info_tabs.details.glade
 
-if DEVELOP_MODE
-dist_ui_DATA += dialog.rss_settings.glade
-endif
-

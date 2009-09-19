@@ -336,7 +336,7 @@ Main_window::Main_window(const Main_window_settings& settings)
 			);
 			action_group->add(
 				Gtk::Action::create("quit", Gtk::Stock::QUIT, _("_Quit")),
-				sigc::mem_fun(*this, &Main_window::on_quit_callback
+				sigc::mem_fun(get_application(), &Application::close
 			));
 
 
@@ -949,6 +949,16 @@ void Main_window::change_toolbar_style(m::gtk::toolbar::Style style)
 
 
 
+void Main_window::close(void)
+{
+	this->hide();
+
+	// Сохраняем текущие настройки в конфиг.
+	this->save_settings();
+}
+
+
+
 void Main_window::hide(void)
 {
 	this->set_visible_in_wm(false);
@@ -975,7 +985,7 @@ void Main_window::on_change_rate_limit_callback(Traffic_type traffic_type)
 bool Main_window::on_close_callback(GdkEventAny* event)
 {
 	if(!get_client_settings().gui.show_tray_icon || !get_client_settings().gui.close_to_tray)
-		this->on_quit_callback();
+		get_application().close();
 
 	return false;
 }
@@ -1031,17 +1041,6 @@ void Main_window::on_pause_torrents_callback(Torrents_group group)
 	{
 		MLIB_W(_("Pausing torrents failed"), EE(e));
 	}
-}
-
-
-
-void Main_window::on_quit_callback(void)
-{
-	// Сохраняем текущие настройки в конфиг.
-	this->save_settings();
-
-	// Может и не завершить работу, если открыт хотя бы один диалог.
-	get_application().close();
 }
 
 

@@ -66,13 +66,9 @@ Torrent_options_view::Torrent_options_view(void)
 
 	// Скачивание -->
 	{
-		//Gtk::Frame* frame = Gtk::manage( new Gtk::Frame(_("Downloading")) );
-		//main_hbox->pack_start(*frame, false, false);
-
 		Gtk::VBox* vbox = Gtk::manage(new Gtk::VBox(false, m::gtk::VBOX_SPACING));
 		vbox->set_border_width(m::gtk::BOX_BORDER_WIDTH);
 		main_hbox->pack_start(*vbox, false, false);
-		//frame->add(*vbox);
 
 		m::gtk::vbox::add_header(*vbox, _("Downloading"));
 
@@ -111,21 +107,17 @@ Torrent_options_view::Torrent_options_view(void)
 	}
 	// Скачивание <--
 
-main_hbox->pack_start(*Gtk::manage(new Gtk::VSeparator), false, false);
+	main_hbox->pack_start(*Gtk::manage(new Gtk::VSeparator), false, false);
+
 	// Трекеры -->
 	{
-		//Gtk::Frame* frame = Gtk::manage( new Gtk::Frame(_("Trackers")) );
-		//main_hbox->pack_start(*frame, true, true);
-
 		Gtk::VBox* vbox = Gtk::manage(new Gtk::VBox(false, m::gtk::VBOX_SPACING));
 		vbox->set_border_width(m::gtk::BOX_BORDER_WIDTH);
 		main_hbox->pack_start(*vbox, true, true);
-		//frame->add(*vbox);
 
 		m::gtk::vbox::add_header(*vbox, _("Trackers"));
 
 		vbox->pack_start(this->gui->trackers_view, true, true);
-		//frame->add(this->gui->trackers_view);
 	}
 	// Трекеры <--
 

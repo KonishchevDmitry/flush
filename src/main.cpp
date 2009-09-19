@@ -18,6 +18,8 @@
 *                                                                         *
 **************************************************************************/
 
+#warning
+#include <mlib/async_fs.hpp>
 
 #include <fcntl.h>
 #include <locale.h>
@@ -83,6 +85,16 @@
 
 namespace
 {
+	// Дескриптор, в который поступает один байт, если приложение получает
+	// сигнал на завершение работы.
+	int CLOSE_APP_READ_FD = -1;
+
+	// Дескриптор, в который записывается один байт, если приложение получает
+	// сигнал на завершение работы.
+	int CLOSE_APP_WRITE_FD = -1;
+
+
+
 	/// Warning-функция для стадии инициализации программы.
 	/// В отличии от обычной, завершает программу и,
 	/// если программа запущена в графической среде,
@@ -109,6 +121,9 @@ namespace
 
 	/// Обработчик сигнала SIGCHLD.
 	void	sigchld_handler(int signal_no);
+
+	/// Обработчик сигналов на завершение приложения.
+	void	signal_to_close_handler(int signal_no);
 
 
 
@@ -220,12 +235,13 @@ namespace
 
 		print_error(file, line, message, debug_info);
 
-		#ifndef DEBUG_MODE
+		#ifdef DEBUG_MODE
+			abort();
+		#else
 			if(is_gui_mode())
 				execl(APP_BIN_PATH, APP_BIN_PATH, "--error-mode", message.c_str(), debug_info.c_str(), NULL);
+			exit(EXIT_FAILURE);
 		#endif
-
-		abort();
 	}
 
 
@@ -311,7 +327,7 @@ namespace
 				Gtk::Main::run(error_window);
 			}
 
-			abort();
+			exit(EXIT_FAILURE);
 		}
 	}
 
@@ -348,9 +364,42 @@ namespace
 
 	void sigchld_handler(int signal_no)
 	{
+		int rval;
+		int errno_val = errno;
 		int child_exit_status;
 
-		wait(&child_exit_status);
+		do
+			// Сигналы могут теряться, поэтому необходимо вызывать функцию по
+			// несколько раз.
+			rval = waitpid(-1, &child_exit_status, WNOHANG);
+		while( rval > 0 || (rval == -1 && errno == EINTR) );
+
+		if(rval && errno != ECHILD)
+		{
+			#if DEVELOP_MODE
+				// Небезопасно, но для режима разработки сойдет
+				perror("waitpid error");
+				abort();
+			#endif
+		}
+
+		errno = errno_val;
+	}
+
+
+
+	void signal_to_close_handler(int signal_no)
+	{
+		#if DEVELOP_MODE
+			if(write(CLOSE_APP_WRITE_FD, &signal_no, 1) != 1)
+			{
+				// Небезопасно, но для режима разработки сойдет
+				perror("pipe write error");
+				abort();
+			}
+		#else
+			write(CLOSE_APP_WRITE_FD, &signal_no, 1);
+		#endif
 	}
 }
 
@@ -658,27 +707,6 @@ void update_gui(void)
 
 int main(int argc, char *argv[])
 {
-	// Устанавливаем обработчики сигналов -->
-	{
-		struct sigaction sig_action;
-
-		// SIGPIPE -->
-			sig_action.sa_handler = SIG_IGN;
-			sigemptyset(&sig_action.sa_mask);
-			sig_action.sa_flags = 0;
-
-			sigaction(SIGPIPE, &sig_action, NULL);
-		// SIGPIPE <--
-
-		// SIGCHLD -->
-			sig_action.sa_handler = &sigchld_handler;
-			sigemptyset(&sig_action.sa_mask);
-			sig_action.sa_flags = 0;
-
-			sigaction(SIGCHLD, &sig_action, NULL);
-		// SIGCHLD <--
-	}
-	// Устанавливаем обработчики сигналов <--
 	// gettext -->
 		setlocale(LC_ALL, "");
 
@@ -691,6 +719,7 @@ int main(int argc, char *argv[])
 				MLIB_D(_C("Unable to set text domain: %1.", EE()));
 		#endif
 	// gettext <--
+
 
 	std::auto_ptr<Gtk::Main> gtk_main;
 
@@ -719,6 +748,65 @@ int main(int argc, char *argv[])
 	// Теперь в случае любого Warning'а программа завершится с
 	// ошибкой.
 	m::set_warning_function(app_init_warning_function);
+
+
+	// Подготавливаем дескрипторы, используемые для оповещения приложения о
+	// том, что необходимо завершить работу.
+	// -->
+	{
+		std::pair<int, int> fds;
+		
+		try
+		{
+			fds = m::sys::unix_pipe();
+		}
+		catch(m::Exception& e)
+		{
+			MLIB_W(EE(e));
+		}
+
+		CLOSE_APP_READ_FD = fds.first;
+		CLOSE_APP_WRITE_FD = fds.second;
+
+		try
+		{
+			m::sys::set_non_block(CLOSE_APP_READ_FD);
+			m::sys::set_non_block(CLOSE_APP_WRITE_FD);
+		}
+		catch(m::Exception& e)
+		{
+			MLIB_W(__("Enable to set non-block mode for a pipe: %1.", EE(e)));
+		}
+	}
+	// <--
+
+	// Устанавливаем обработчики сигналов -->
+	{
+		struct sigaction sig_action;
+
+		sigemptyset(&sig_action.sa_mask);
+		sig_action.sa_flags = 0;
+
+		// SIGPIPE -->
+			sig_action.sa_handler = SIG_IGN;
+			sigaction(SIGPIPE, &sig_action, NULL);
+		// SIGPIPE <--
+
+		// Сигналы на завершение приложения -->
+			sig_action.sa_handler = &signal_to_close_handler;
+			sigaction(SIGHUP, &sig_action, NULL);
+			sigaction(SIGINT, &sig_action, NULL);
+			sigaction(SIGQUIT, &sig_action, NULL);
+			sigaction(SIGTERM, &sig_action, NULL);
+		// Сигналы на завершение приложения <--
+
+		// SIGCHLD -->
+			sig_action.sa_handler = &sigchld_handler;
+			sigaction(SIGCHLD, &sig_action, NULL);
+		// SIGCHLD <--
+	}
+	// Устанавливаем обработчики сигналов <--
+
 
 	// Устанавливаем имя команды программы - оно будет отображаться,
 	// например, если выполнить APP_CMD_NAME --help.
@@ -993,7 +1081,7 @@ int main(int argc, char *argv[])
 
 
 		// Объект сам позаботится о своем уничтожении
-		Application* app = new Application(cmd_options, *dbus_connection, DBUS_PATH, dbus_name);
+		Application* app = new Application(cmd_options, *dbus_connection, DBUS_PATH, dbus_name, CLOSE_APP_READ_FD);
 
 		try
 		{

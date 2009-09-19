@@ -90,6 +90,7 @@ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
 APP_CPPFLAGS = @APP_CPPFLAGS@
+APP_CXXFLAGS = @APP_CXXFLAGS@
 APP_DEPENDENCIES = @APP_DEPENDENCIES@
 APP_LDADD = @APP_LDADD@
 AUTOCONF = @AUTOCONF@
@@ -142,6 +143,7 @@ LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
 MLIB_CPPFLAGS = @MLIB_CPPFLAGS@
+MLIB_CXXFLAGS = @MLIB_CXXFLAGS@
 MSGFMT = @MSGFMT@
 MSGFMT_015 = @MSGFMT_015@
 MSGMERGE = @MSGMERGE@
@@ -255,6 +257,7 @@ libmlib_base_a_SOURCES = \
 	messages.hpp
 
 libmlib_base_a_CPPFLAGS = @MLIB_CPPFLAGS@
+libmlib_base_a_CXXFLAGS = @MLIB_CXXFLAGS@
 all: all-recursive
 
 .SUFFIXES:
@@ -322,60 +325,60 @@ distclean-compile:
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
 libmlib_base_a-base.o: base.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libmlib_base_a-base.o -MD -MP -MF $(DEPDIR)/libmlib_base_a-base.Tpo -c -o libmlib_base_a-base.o `test -f 'base.cpp' || echo '$(srcdir)/'`base.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_base_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_base_a-base.o -MD -MP -MF $(DEPDIR)/libmlib_base_a-base.Tpo -c -o libmlib_base_a-base.o `test -f 'base.cpp' || echo '$(srcdir)/'`base.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_base_a-base.Tpo $(DEPDIR)/libmlib_base_a-base.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='base.cpp' object='libmlib_base_a-base.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_base_a-base.o `test -f 'base.cpp' || echo '$(srcdir)/'`base.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_base_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_base_a-base.o `test -f 'base.cpp' || echo '$(srcdir)/'`base.cpp
 
 libmlib_base_a-base.obj: base.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libmlib_base_a-base.obj -MD -MP -MF $(DEPDIR)/libmlib_base_a-base.Tpo -c -o libmlib_base_a-base.obj `if test -f 'base.cpp'; then $(CYGPATH_W) 'base.cpp'; else $(CYGPATH_W) '$(srcdir)/base.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_base_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_base_a-base.obj -MD -MP -MF $(DEPDIR)/libmlib_base_a-base.Tpo -c -o libmlib_base_a-base.obj `if test -f 'base.cpp'; then $(CYGPATH_W) 'base.cpp'; else $(CYGPATH_W) '$(srcdir)/base.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_base_a-base.Tpo $(DEPDIR)/libmlib_base_a-base.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='base.cpp' object='libmlib_base_a-base.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_base_a-base.obj `if test -f 'base.cpp'; then $(CYGPATH_W) 'base.cpp'; else $(CYGPATH_W) '$(srcdir)/base.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_base_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_base_a-base.obj `if test -f 'base.cpp'; then $(CYGPATH_W) 'base.cpp'; else $(CYGPATH_W) '$(srcdir)/base.cpp'; fi`
 
 libmlib_base_a-exception.o: exception.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libmlib_base_a-exception.o -MD -MP -MF $(DEPDIR)/libmlib_base_a-exception.Tpo -c -o libmlib_base_a-exception.o `test -f 'exception.cpp' || echo '$(srcdir)/'`exception.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_base_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_base_a-exception.o -MD -MP -MF $(DEPDIR)/libmlib_base_a-exception.Tpo -c -o libmlib_base_a-exception.o `test -f 'exception.cpp' || echo '$(srcdir)/'`exception.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_base_a-exception.Tpo $(DEPDIR)/libmlib_base_a-exception.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='exception.cpp' object='libmlib_base_a-exception.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_base_a-exception.o `test -f 'exception.cpp' || echo '$(srcdir)/'`exception.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_base_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_base_a-exception.o `test -f 'exception.cpp' || echo '$(srcdir)/'`exception.cpp
 
 libmlib_base_a-exception.obj: exception.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libmlib_base_a-exception.obj -MD -MP -MF $(DEPDIR)/libmlib_base_a-exception.Tpo -c -o libmlib_base_a-exception.obj `if test -f 'exception.cpp'; then $(CYGPATH_W) 'exception.cpp'; else $(CYGPATH_W) '$(srcdir)/exception.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_base_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_base_a-exception.obj -MD -MP -MF $(DEPDIR)/libmlib_base_a-exception.Tpo -c -o libmlib_base_a-exception.obj `if test -f 'exception.cpp'; then $(CYGPATH_W) 'exception.cpp'; else $(CYGPATH_W) '$(srcdir)/exception.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_base_a-exception.Tpo $(DEPDIR)/libmlib_base_a-exception.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='exception.cpp' object='libmlib_base_a-exception.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_base_a-exception.obj `if test -f 'exception.cpp'; then $(CYGPATH_W) 'exception.cpp'; else $(CYGPATH_W) '$(srcdir)/exception.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_base_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_base_a-exception.obj `if test -f 'exception.cpp'; then $(CYGPATH_W) 'exception.cpp'; else $(CYGPATH_W) '$(srcdir)/exception.cpp'; fi`
 
 libmlib_base_a-format.o: format.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libmlib_base_a-format.o -MD -MP -MF $(DEPDIR)/libmlib_base_a-format.Tpo -c -o libmlib_base_a-format.o `test -f 'format.cpp' || echo '$(srcdir)/'`format.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_base_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_base_a-format.o -MD -MP -MF $(DEPDIR)/libmlib_base_a-format.Tpo -c -o libmlib_base_a-format.o `test -f 'format.cpp' || echo '$(srcdir)/'`format.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_base_a-format.Tpo $(DEPDIR)/libmlib_base_a-format.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='format.cpp' object='libmlib_base_a-format.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_base_a-format.o `test -f 'format.cpp' || echo '$(srcdir)/'`format.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_base_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_base_a-format.o `test -f 'format.cpp' || echo '$(srcdir)/'`format.cpp
 
 libmlib_base_a-format.obj: format.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libmlib_base_a-format.obj -MD -MP -MF $(DEPDIR)/libmlib_base_a-format.Tpo -c -o libmlib_base_a-format.obj `if test -f 'format.cpp'; then $(CYGPATH_W) 'format.cpp'; else $(CYGPATH_W) '$(srcdir)/format.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_base_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_base_a-format.obj -MD -MP -MF $(DEPDIR)/libmlib_base_a-format.Tpo -c -o libmlib_base_a-format.obj `if test -f 'format.cpp'; then $(CYGPATH_W) 'format.cpp'; else $(CYGPATH_W) '$(srcdir)/format.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_base_a-format.Tpo $(DEPDIR)/libmlib_base_a-format.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='format.cpp' object='libmlib_base_a-format.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_base_a-format.obj `if test -f 'format.cpp'; then $(CYGPATH_W) 'format.cpp'; else $(CYGPATH_W) '$(srcdir)/format.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_base_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_base_a-format.obj `if test -f 'format.cpp'; then $(CYGPATH_W) 'format.cpp'; else $(CYGPATH_W) '$(srcdir)/format.cpp'; fi`
 
 libmlib_base_a-messages.o: messages.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libmlib_base_a-messages.o -MD -MP -MF $(DEPDIR)/libmlib_base_a-messages.Tpo -c -o libmlib_base_a-messages.o `test -f 'messages.cpp' || echo '$(srcdir)/'`messages.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_base_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_base_a-messages.o -MD -MP -MF $(DEPDIR)/libmlib_base_a-messages.Tpo -c -o libmlib_base_a-messages.o `test -f 'messages.cpp' || echo '$(srcdir)/'`messages.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_base_a-messages.Tpo $(DEPDIR)/libmlib_base_a-messages.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='messages.cpp' object='libmlib_base_a-messages.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_base_a-messages.o `test -f 'messages.cpp' || echo '$(srcdir)/'`messages.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_base_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_base_a-messages.o `test -f 'messages.cpp' || echo '$(srcdir)/'`messages.cpp
 
 libmlib_base_a-messages.obj: messages.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT libmlib_base_a-messages.obj -MD -MP -MF $(DEPDIR)/libmlib_base_a-messages.Tpo -c -o libmlib_base_a-messages.obj `if test -f 'messages.cpp'; then $(CYGPATH_W) 'messages.cpp'; else $(CYGPATH_W) '$(srcdir)/messages.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_base_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_base_a-messages.obj -MD -MP -MF $(DEPDIR)/libmlib_base_a-messages.Tpo -c -o libmlib_base_a-messages.obj `if test -f 'messages.cpp'; then $(CYGPATH_W) 'messages.cpp'; else $(CYGPATH_W) '$(srcdir)/messages.cpp'; fi`
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_base_a-messages.Tpo $(DEPDIR)/libmlib_base_a-messages.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='messages.cpp' object='libmlib_base_a-messages.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_base_a-messages.obj `if test -f 'messages.cpp'; then $(CYGPATH_W) 'messages.cpp'; else $(CYGPATH_W) '$(srcdir)/messages.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_base_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_base_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_base_a-messages.obj `if test -f 'messages.cpp'; then $(CYGPATH_W) 'messages.cpp'; else $(CYGPATH_W) '$(srcdir)/messages.cpp'; fi`
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.

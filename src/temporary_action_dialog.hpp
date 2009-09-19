@@ -56,7 +56,6 @@
 		public:
 			/// Предназначена для инициализации виджета после конструирования
 			/// его из Glade-представления.
-			virtual
 			void	init(Gtk::Window& parent_window, Temporary_action action, Torrents_group group);
 
 

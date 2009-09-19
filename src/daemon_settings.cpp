@@ -960,10 +960,12 @@ namespace
 			// Генерирует m::Exception.
 			std::string real_dht_state_path = m::fs::config::start_writing(dht_state_path);
 
+			// Не вносим в try-блок, чтобы при ошибке деструктор не
+			// перезаписал значение errno.
+			std::ofstream dht_state_file;
+
 			try
 			{
-				std::ofstream dht_state_file;
-
 				dht_state_file.exceptions(std::ofstream::failbit | std::ofstream::badbit);
 
 				dht_state_file.open(
@@ -1667,9 +1669,12 @@ namespace
 			// Генерирует m::Exception.
 			std::string real_resume_data_path = m::fs::config::start_writing(resume_data_path);
 
+			// Не вносим в try-блок, чтобы при ошибке деструктор не
+			// перезаписал значение errno.
+			std::ofstream resume_data_file;
+
 			try
 			{
-				std::ofstream resume_data_file;
 				resume_data_file.exceptions(std::ofstream::failbit | std::ofstream::badbit);
 				resume_data_file.open(U2L(real_resume_data_path).c_str(), std::ios::out | std::ios::binary | std::ios::trunc);
 

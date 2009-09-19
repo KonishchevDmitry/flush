@@ -83,6 +83,19 @@ const size_t FILE_PATH_MAX_SIZE = 1024;
 
 
 
+void set_non_block(int fd)
+{
+	long flags;
+
+	if(
+		( flags = fcntl(fd, F_GETFL) ) == -1 ||
+		fcntl(fd, F_SETFL, flags | O_NONBLOCK) == -1
+	)
+		M_THROW_SYS(errno);
+}
+
+
+
 void setenv(const std::string& name, const std::string& value, bool overwrite)
 {
 	if(::setenv(U2L(name).c_str(), U2L(value).c_str(), overwrite))

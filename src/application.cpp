@@ -35,9 +35,9 @@
 #include <gtkmm/main.h>
 #include <gtkmm/window.h>
 
-#include <mlib/misc.hpp>
-
 #include <mlib/gtk/main.hpp>
+#include <mlib/misc.hpp>
+#include <mlib/signals_holder.hpp>
 
 #include "application.hpp"
 #include "client_cmd_options.hpp"
@@ -105,7 +105,9 @@ namespace Application_aux
 		public:
 			/// Сигнализирует о том, что в данный момент производится
 			/// завершение работы приложения.
-			bool						stopping;
+			bool							stopping;
+
+			m::Signals_holder				sholder;
 	};
 
 
@@ -135,7 +137,7 @@ Glib::Dispatcher Application::message_signal;
 
 
 
-Application::Application(const Client_cmd_options& cmd_options, DBus::Connection& dbus_connection, const std::string& dbus_path, const std::string& dbus_name)
+Application::Application(const Client_cmd_options& cmd_options, DBus::Connection& dbus_connection, const std::string& dbus_path, const std::string& dbus_name, int close_signal_fd)
 :
 	DBus::ObjectAdaptor(dbus_connection, dbus_path.c_str()),
 	priv(new Private),
@@ -180,11 +182,24 @@ Application::Application(const Client_cmd_options& cmd_options, DBus::Connection
 	this->main_window = new Main_window(this->client_settings.gui.main_window);
 
 	/// Сигнал на отображение сообщения пользователю.
-	this->message_signal.connect(sigc::mem_fun(*this, &Application::on_message_callback));
+	priv->sholder.push(this->message_signal.connect(
+		sigc::mem_fun(*this, &Application::on_message_callback)));
 
 	/// Сигнал на получение сообщений от демона.
-	this->daemon_proxy->daemon_message_signal.connect(
-		sigc::mem_fun(*this, &Application::on_daemon_message_cb));
+	priv->sholder.push(this->daemon_proxy->daemon_message_signal.connect(
+		sigc::mem_fun(*this, &Application::on_daemon_message_cb)));
+
+	// В glibmm есть бага, из-за которой приложение падает, если где-нибудь у
+	// себя хранить указатель на Glib::IOSource (вроде как - глубоко не копал).
+	// Поэтому создаем его тут, благо больше он нам нигде не понадобится.
+	// -->
+	{
+		Glib::RefPtr<Glib::IOSource> close_io_source = Glib::IOSource::create(close_signal_fd, Glib::IO_IN);
+		/// Сигнал на завершение работы приложения.
+		close_io_source->connect( sigc::mem_fun(*this, &Application::on_close_signal_cb) );
+		close_io_source->attach();
+	}
+	// <--
 }
 
 
@@ -193,6 +208,8 @@ Application::~Application(void)
 {
 	MLIB_A(this->ptr);
 
+	priv->sholder.disconnect();
+
 	// Устанавливаем функцию по умолчанию для отображения сообщений
 	// пользователю.
 	m::set_warning_function(NULL);
@@ -200,6 +217,8 @@ Application::~Application(void)
 	delete this->main_window;
 
 	this->ptr = NULL;
+
+	MLIB_D("Application has been destroyed.");
 }
 
 
@@ -230,15 +249,22 @@ void Application::add_torrent(const std::string& torrent_path, const New_torrent
 
 void Application::close(void)
 {
-	priv->stopping = true;
+	if(!priv->stopping)
+	{
+		MLIB_D("Closing the application...");
 
-	// Скрываем все открытые окна, тем самым создавая иллюзию быстрого
-	// завершения работы.
-	BOOST_FOREACH(Gtk::Window* window, Gtk::Window::list_toplevels())
-		window->hide();
+		priv->stopping = true;
 
-	// Инициируем остановку демона
-	this->daemon_proxy->stop();
+		this->main_window->close();
+
+		// Скрываем все открытые окна, тем самым создавая иллюзию быстрого
+		// завершения работы.
+		BOOST_FOREACH(Gtk::Window* window, Gtk::Window::list_toplevels())
+			window->hide();
+
+		// Инициируем остановку демона
+		this->daemon_proxy->stop();
+	}
 }
 
 
@@ -300,10 +326,22 @@ void Application::dbus_cmd_options(const std::vector<std::string>& cmd_options_s
 
 
 
+bool Application::on_close_signal_cb(Glib::IOCondition condition)
+{
+	m::gtk::Scoped_enter gtk_lock;
+
+	if(this->ptr)
+		this->close();
+
+	return false;
+}
+
+
+
 void Application::on_daemon_message_cb(const Daemon_message& message)
 {
 	this->main_window->add_daemon_message(message);
-	
+
 	if(message.get_type() == Daemon_message::WARNING)
 		MLIB_W(message);
 }
@@ -331,6 +369,26 @@ void Application::on_message_response_callback(int response)
 
 	// Отображаем следующее сообщение в очереди.
 	this->show_next_message();
+}
+
+
+
+void Application::open_uri(const std::string& uri)
+{
+	if(this->client_settings.user.open_command != "")
+	{
+		try
+		{
+			std::vector<std::string> args;
+			args.push_back(uri);
+
+			m::run(this->client_settings.user.open_command, args);
+		}
+		catch(m::Exception& e)
+		{
+			MLIB_SW(__("Running open command failed. %1.", EE(e)));
+		}
+	}
 }
 
 
@@ -388,26 +446,6 @@ void Application::process_cmd_options(const Client_cmd_options& cmd_options)
 			MLIB_W(EE(e));
 		}
 	// start/stop <--
-}
-
-
-
-void Application::open_uri(const std::string& uri)
-{
-	if(this->client_settings.user.open_command != "")
-	{
-		try
-		{
-			std::vector<std::string> args;
-			args.push_back(uri);
-
-			m::run(this->client_settings.user.open_command, args);
-		}
-		catch(m::Exception& e)
-		{
-			MLIB_SW(__("Running open command failed. %1.", EE(e)));
-		}
-	}
 }
 
 
@@ -480,27 +518,11 @@ void Application::start(void)
 
 void Application::stop(void)
 {
-	// Это наша страховка. Если в результате какой-нибудь ошибки останется
-	// открытым хотя бы один диалог с вызванным методом run(), то
-	// Gtk::Main::quit() не даст нужного результата и приложение не завершится,
-	// а будет работать main loop, образованный этим диалогом, в котором и
-	// запустится данный idle и обработает ошибку.
-	Glib::signal_idle().connect(sigc::mem_fun(*this, &Application::stop_checker));
-
 	MLIB_D("Application stopped. Destroying it...");
 	delete this;
 
 	MLIB_D("Stopping main loop...");
 	Gtk::Main::quit();
-}
-
-
-
-bool Application::stop_checker(void)
-{
-	MLIB_W(_("Error: unable to close all application's windows."));
-	std::exit(EXIT_FAILURE);
-	return false;
 }
 
 

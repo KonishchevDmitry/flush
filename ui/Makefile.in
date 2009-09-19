@@ -32,9 +32,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@DEVELOP_MODE_TRUE@am__append_1 = dialog.rss_settings.glade
 subdir = ui
-DIST_COMMON = $(am__dist_ui_DATA_DIST) $(srcdir)/Makefile.am \
+DIST_COMMON = $(dist_ui_DATA) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/acx_pthread.m4 \
@@ -54,12 +53,6 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 SOURCES =
 DIST_SOURCES =
-am__dist_ui_DATA_DIST = dialog.temporary_action.glade \
-	preferences.daemon.automation.glade \
-	preferences.daemon.network.glade \
-	preferences.daemon.network.ip_filter.glade \
-	preferences.daemon.network.misc.glade \
-	torrent_info_tabs.details.glade dialog.rss_settings.glade
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -73,6 +66,7 @@ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
 APP_CPPFLAGS = @APP_CPPFLAGS@
+APP_CXXFLAGS = @APP_CXXFLAGS@
 APP_DEPENDENCIES = @APP_DEPENDENCIES@
 APP_LDADD = @APP_LDADD@
 AUTOCONF = @AUTOCONF@
@@ -125,6 +119,7 @@ LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
 MLIB_CPPFLAGS = @MLIB_CPPFLAGS@
+MLIB_CXXFLAGS = @MLIB_CXXFLAGS@
 MSGFMT = @MSGFMT@
 MSGFMT_015 = @MSGFMT_015@
 MSGMERGE = @MSGMERGE@
@@ -222,12 +217,14 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 uidir = $(datadir)/$(PACKAGE)/ui
-dist_ui_DATA = dialog.temporary_action.glade \
+dist_ui_DATA = \
+	dialog.temporary_action.glade \
 	preferences.daemon.automation.glade \
 	preferences.daemon.network.glade \
 	preferences.daemon.network.ip_filter.glade \
 	preferences.daemon.network.misc.glade \
-	torrent_info_tabs.details.glade $(am__append_1)
+	torrent_info_tabs.details.glade
+
 all: all-am
 
 .SUFFIXES:

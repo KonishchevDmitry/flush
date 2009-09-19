@@ -45,4 +45,5 @@ libmlib_gtk_a_SOURCES = \
 	window_settings.hpp
 
 libmlib_gtk_a_CPPFLAGS = @MLIB_CPPFLAGS@
+libmlib_gtk_a_CXXFLAGS = @MLIB_CXXFLAGS@
 

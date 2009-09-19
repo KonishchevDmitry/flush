@@ -33,8 +33,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 subdir = icons
-DIST_COMMON = $(am__dist_mimetypes_16_DATA_DIST) \
-	$(dist_actions_16_DATA) $(dist_actions_22_DATA) \
+DIST_COMMON = $(dist_actions_16_DATA) $(dist_actions_22_DATA) \
 	$(dist_actions_32_DATA) $(dist_apps_16_DATA) \
 	$(dist_apps_22_DATA) $(dist_apps_24_DATA) $(dist_apps_32_DATA) \
 	$(dist_apps_48_DATA) $(dist_apps_72_DATA) \
@@ -69,8 +68,7 @@ am__installdirs = "$(DESTDIR)$(actions_16dir)" \
 	"$(DESTDIR)$(apps_16dir)" "$(DESTDIR)$(apps_22dir)" \
 	"$(DESTDIR)$(apps_24dir)" "$(DESTDIR)$(apps_32dir)" \
 	"$(DESTDIR)$(apps_48dir)" "$(DESTDIR)$(apps_72dir)" \
-	"$(DESTDIR)$(categories_16dir)" "$(DESTDIR)$(mimetypes_16dir)" \
-	"$(DESTDIR)$(status_16dir)"
+	"$(DESTDIR)$(categories_16dir)" "$(DESTDIR)$(status_16dir)"
 dist_actions_16DATA_INSTALL = $(INSTALL_DATA)
 dist_actions_22DATA_INSTALL = $(INSTALL_DATA)
 dist_actions_32DATA_INSTALL = $(INSTALL_DATA)
@@ -81,19 +79,17 @@ dist_apps_32DATA_INSTALL = $(INSTALL_DATA)
 dist_apps_48DATA_INSTALL = $(INSTALL_DATA)
 dist_apps_72DATA_INSTALL = $(INSTALL_DATA)
 dist_categories_16DATA_INSTALL = $(INSTALL_DATA)
-am__dist_mimetypes_16_DATA_DIST = hicolor/16x16/mimetypes/rss.png
-dist_mimetypes_16DATA_INSTALL = $(INSTALL_DATA)
 dist_status_16DATA_INSTALL = $(INSTALL_DATA)
 DATA = $(dist_actions_16_DATA) $(dist_actions_22_DATA) \
 	$(dist_actions_32_DATA) $(dist_apps_16_DATA) \
 	$(dist_apps_22_DATA) $(dist_apps_24_DATA) $(dist_apps_32_DATA) \
 	$(dist_apps_48_DATA) $(dist_apps_72_DATA) \
-	$(dist_categories_16_DATA) $(dist_mimetypes_16_DATA) \
-	$(dist_status_16_DATA)
+	$(dist_categories_16_DATA) $(dist_status_16_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
 APP_CPPFLAGS = @APP_CPPFLAGS@
+APP_CXXFLAGS = @APP_CXXFLAGS@
 APP_DEPENDENCIES = @APP_DEPENDENCIES@
 APP_LDADD = @APP_LDADD@
 AUTOCONF = @AUTOCONF@
@@ -146,6 +142,7 @@ LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
 MLIB_CPPFLAGS = @MLIB_CPPFLAGS@
+MLIB_CXXFLAGS = @MLIB_CXXFLAGS@
 MSGFMT = @MSGFMT@
 MSGFMT_015 = @MSGFMT_015@
 MSGMERGE = @MSGMERGE@
@@ -276,8 +273,6 @@ dist_categories_16_DATA = \
 	hicolor/16x16/categories/torrents-uploading.png \
 	hicolor/16x16/categories/torrents-tracker-error.png
 
-@DEVELOP_MODE_TRUE@mimetypes_16dir = $(datadir)/@PACKAGE@/icons/hicolor/16x16/mimetypes
-@DEVELOP_MODE_TRUE@dist_mimetypes_16_DATA = hicolor/16x16/mimetypes/rss.png
 status_16dir = $(datadir)/@PACKAGE@/icons/hicolor/16x16/status
 dist_status_16_DATA = \
 	hicolor/16x16/status/torrent-uploading.png \
@@ -501,23 +496,6 @@ uninstall-dist_categories_16DATA:
 	  echo " rm -f '$(DESTDIR)$(categories_16dir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(categories_16dir)/$$f"; \
 	done
-install-dist_mimetypes_16DATA: $(dist_mimetypes_16_DATA)
-	@$(NORMAL_INSTALL)
-	test -z "$(mimetypes_16dir)" || $(MKDIR_P) "$(DESTDIR)$(mimetypes_16dir)"
-	@list='$(dist_mimetypes_16_DATA)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f=$(am__strip_dir) \
-	  echo " $(dist_mimetypes_16DATA_INSTALL) '$$d$$p' '$(DESTDIR)$(mimetypes_16dir)/$$f'"; \
-	  $(dist_mimetypes_16DATA_INSTALL) "$$d$$p" "$(DESTDIR)$(mimetypes_16dir)/$$f"; \
-	done
-
-uninstall-dist_mimetypes_16DATA:
-	@$(NORMAL_UNINSTALL)
-	@list='$(dist_mimetypes_16_DATA)'; for p in $$list; do \
-	  f=$(am__strip_dir) \
-	  echo " rm -f '$(DESTDIR)$(mimetypes_16dir)/$$f'"; \
-	  rm -f "$(DESTDIR)$(mimetypes_16dir)/$$f"; \
-	done
 install-dist_status_16DATA: $(dist_status_16_DATA)
 	@$(NORMAL_INSTALL)
 	test -z "$(status_16dir)" || $(MKDIR_P) "$(DESTDIR)$(status_16dir)"
@@ -572,7 +550,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(actions_16dir)" "$(DESTDIR)$(actions_22dir)" "$(DESTDIR)$(actions_32dir)" "$(DESTDIR)$(apps_16dir)" "$(DESTDIR)$(apps_22dir)" "$(DESTDIR)$(apps_24dir)" "$(DESTDIR)$(apps_32dir)" "$(DESTDIR)$(apps_48dir)" "$(DESTDIR)$(apps_72dir)" "$(DESTDIR)$(categories_16dir)" "$(DESTDIR)$(mimetypes_16dir)" "$(DESTDIR)$(status_16dir)"; do \
+	for dir in "$(DESTDIR)$(actions_16dir)" "$(DESTDIR)$(actions_22dir)" "$(DESTDIR)$(actions_32dir)" "$(DESTDIR)$(apps_16dir)" "$(DESTDIR)$(apps_22dir)" "$(DESTDIR)$(apps_24dir)" "$(DESTDIR)$(apps_32dir)" "$(DESTDIR)$(apps_48dir)" "$(DESTDIR)$(apps_72dir)" "$(DESTDIR)$(categories_16dir)" "$(DESTDIR)$(status_16dir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -622,8 +600,7 @@ install-data-am: install-dist_actions_16DATA \
 	install-dist_apps_16DATA install-dist_apps_22DATA \
 	install-dist_apps_24DATA install-dist_apps_32DATA \
 	install-dist_apps_48DATA install-dist_apps_72DATA \
-	install-dist_categories_16DATA install-dist_mimetypes_16DATA \
-	install-dist_status_16DATA
+	install-dist_categories_16DATA install-dist_status_16DATA
 
 install-dvi: install-dvi-am
 
@@ -662,8 +639,7 @@ uninstall-am: uninstall-dist_actions_16DATA \
 	uninstall-dist_apps_16DATA uninstall-dist_apps_22DATA \
 	uninstall-dist_apps_24DATA uninstall-dist_apps_32DATA \
 	uninstall-dist_apps_48DATA uninstall-dist_apps_72DATA \
-	uninstall-dist_categories_16DATA \
-	uninstall-dist_mimetypes_16DATA uninstall-dist_status_16DATA
+	uninstall-dist_categories_16DATA uninstall-dist_status_16DATA
 
 .MAKE: install-am install-strip
 
@@ -675,20 +651,19 @@ uninstall-am: uninstall-dist_actions_16DATA \
 	install-dist_apps_22DATA install-dist_apps_24DATA \
 	install-dist_apps_32DATA install-dist_apps_48DATA \
 	install-dist_apps_72DATA install-dist_categories_16DATA \
-	install-dist_mimetypes_16DATA install-dist_status_16DATA \
-	install-dvi install-dvi-am install-exec install-exec-am \
-	install-html install-html-am install-info install-info-am \
-	install-man install-pdf install-pdf-am install-ps \
-	install-ps-am install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-generic pdf pdf-am ps ps-am uninstall \
-	uninstall-am uninstall-dist_actions_16DATA \
-	uninstall-dist_actions_22DATA uninstall-dist_actions_32DATA \
-	uninstall-dist_apps_16DATA uninstall-dist_apps_22DATA \
-	uninstall-dist_apps_24DATA uninstall-dist_apps_32DATA \
-	uninstall-dist_apps_48DATA uninstall-dist_apps_72DATA \
-	uninstall-dist_categories_16DATA \
-	uninstall-dist_mimetypes_16DATA uninstall-dist_status_16DATA
+	install-dist_status_16DATA install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-man install-pdf \
+	install-pdf-am install-ps install-ps-am install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
+	pdf-am ps ps-am uninstall uninstall-am \
+	uninstall-dist_actions_16DATA uninstall-dist_actions_22DATA \
+	uninstall-dist_actions_32DATA uninstall-dist_apps_16DATA \
+	uninstall-dist_apps_22DATA uninstall-dist_apps_24DATA \
+	uninstall-dist_apps_32DATA uninstall-dist_apps_48DATA \
+	uninstall-dist_apps_72DATA uninstall-dist_categories_16DATA \
+	uninstall-dist_status_16DATA
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

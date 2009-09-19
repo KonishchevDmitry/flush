@@ -216,17 +216,20 @@ AM_CONDITIONAL([DEVELOP_MODE], [test "X$develop_mode" = "Xyes"])
 
 
 dnl compiler flags -->
-	COMMON_CPPFLAGS=""
-	APP_DEPENDENCIES=""
-	APP_LDADD=""
-
 	dnl Including config.h anywhere
 	COMMON_CPPFLAGS="-include \$(top_builddir)/config.h -I \$(top_srcdir)/src"
 
+	dnl -Winline -Weffc++ -Wold-style-cast -Wsign-conversion -Wconversion -Wfloat-equal -Wstack-protector -Woverloaded-virtual
+	COMMON_CXXFLAGS="$COMMON_CXXFLAGS -fdiagnostics-show-option"
+	COMMON_CXXFLAGS="$COMMON_CXXFLAGS -Wall -Winit-self -Wpointer-arith -Wlogical-op -Wcast-qual -Wcast-align -Wnon-virtual-dtor"
+	COMMON_CXXFLAGS="$COMMON_CXXFLAGS -Werror=reorder -Werror=main -Werror=missing-braces -Werror=array-bounds -Werror=sequence-point -Werror=return-type"
+
 	if test "X$develop_mode" = "Xyes"
 	then
-		COMMON_CPPFLAGS="$COMMON_CPPFLAGS"
-		CXXFLAGS="$CXXFLAGS -O0 -g -Wall"
+		CXXFLAGS="$CXXFLAGS -O0 -g"
+
+		dnl GCC forgets about -Wno-* options when -O* flag is specified in CXXFLAGS
+		COMMON_CXXFLAGS="$COMMON_CXXFLAGS -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-empty-body"
 	fi
 
 	dnl libraries -->
@@ -336,14 +339,18 @@ dnl compiler flags -->
 	APP_LDADD="$APP_LDADD $LIBINTL"
 
 	MLIB_CPPFLAGS="$COMMON_CPPFLAGS"
+	MLIB_CXXFLAGS="$COMMON_CXXFLAGS"
 	MLIB_LIBRARIES="\$(top_builddir)/src/mlib/base/libmlib_base.a \$(top_builddir)/src/mlib/libmlib.a \$(top_builddir)/src/mlib/gtk/libmlib_gtk.a"
-	APP_CPPFLAGS="$COMMON_CPPFLAGS"
 	APP_DEPENDENCIES="$APP_DEPENDENCIES $MLIB_LIBRARIES"
+	APP_CPPFLAGS="$COMMON_CPPFLAGS"
+	APP_CXXFLAGS="$COMMON_CXXFLAGS"
 	APP_LDADD="$APP_LDADD $MLIB_LIBRARIES"
 
 	AC_SUBST([MLIB_CPPFLAGS])
+	AC_SUBST([MLIB_CXXFLAGS])
 	AC_SUBST([APP_DEPENDENCIES])
 	AC_SUBST([APP_CPPFLAGS])
+	AC_SUBST([APP_CXXFLAGS])
 	AC_SUBST([APP_LDADD])
 dnl compiler flags <--
 

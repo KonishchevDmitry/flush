@@ -55,6 +55,10 @@
 			/// этих сообщений.
 			void	add_daemon_message(const Daemon_message& message) const;
 
+			/// Выполняет все необходимые действия по подготовке главного окна
+			/// приложения к завершению работы.
+			void	close(void);
+
 			/// Производит все необходимые в зависимости от настроек действия
 			/// по открытию торрента.
 			void	open_torrent(const std::string& torrent_path, const std::string& torrent_encoding = MLIB_UTF_CHARSET_NAME);
@@ -98,10 +102,6 @@
 
 			/// При выборе пункта меню "Приостановить все торренты".
 			void	on_pause_torrents_callback(Torrents_group group);
-
-			/// Обработчик на нажатие на одну из кнопок (элементов меню),
-			/// закрывающих приложение.
-			void	on_quit_callback(void);
 
 			/// При выборе пункта меню "Возобновить все торренты".
 			void	on_resume_torrents_callback(Torrents_group group);

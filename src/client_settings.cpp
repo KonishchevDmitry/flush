@@ -96,7 +96,7 @@ void unknown_option(const libconfig::Setting& setting)
 namespace config
 {
 
-class Config
+class Config: private m::Virtual
 {
 	public:
 		virtual void	read(const libconfig::Setting& root) = 0;

@@ -130,6 +130,10 @@ class Stat
 extern const size_t FILE_PATH_MAX_SIZE;
 
 
+/// Переводит дескриптор в неблокирующий режим.
+/// @throw - m::Sys_exception.
+void				set_non_block(int fd);
+
 /// Аналог системного setenv().
 /// @throw - m::Exception.
 void				setenv(const std::string& name, const std::string& value, bool overwrite);

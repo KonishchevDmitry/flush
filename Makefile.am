@@ -45,16 +45,16 @@ gettext:
 
 loop:
 	bash -c ' \
-	\
-	check_files=$$(find $(srcdir)/src -name "*.cpp"; find $(srcdir)/src -name "*.hpp"; find $(srcdir)/src -name "*.hh"; find $(srcdir)/src -name "*.hxx"; find $(srcdir)/src -name "*.h";); \
+	ulimit -c unlimited; \
+	check_files=$$(find $(srcdir)/src -name "*.cpp" -o -name "*.h" -o -name "*.hh" -o -name "*.hpp" -o -name "*.hxx"); \
 	\
 	while true; \
 	do \
-		new_files=$$(ls -l $$check_files); \
+		new_files=$$(ls -l --time-style="+%Y.%m.%d %H:%M:%S" $$check_files); \
 		\
 		if [ "$$files" != "$$new_files" ]; \
 		then \
-			make --no-print-directory --keep-going && echo "OK"; \
+			make --no-print-directory --keep-going -j2 && echo "OK"; \
 		fi; \
 		\
 		files="$$new_files"; \

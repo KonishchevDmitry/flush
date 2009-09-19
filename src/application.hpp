@@ -90,7 +90,7 @@
 
 
 		public:
-			Application(const Client_cmd_options& cmd_options, DBus::Connection& dbus_connection, const std::string& dbus_path, const std::string& dbus_name);
+			Application(const Client_cmd_options& cmd_options, DBus::Connection& dbus_connection, const std::string& dbus_path, const std::string& dbus_name, int close_signal_fd);
 			~Application(void);
 
 
@@ -191,6 +191,10 @@
 			/// по их обработке.
 			void				dbus_cmd_options(const std::vector<std::string>& cmd_options_strings);
 
+			/// Обработчик сигнала на получение сигнала (системного) на
+			/// завершение приложения.
+			bool				on_close_signal_cb(Glib::IOCondition condition);
+
 			/// Обработчик сигнала на получение сообщений от демона.
 			void				on_daemon_message_cb(const Daemon_message& message);
 
@@ -205,9 +209,6 @@
 
 			/// Отображает очередное сообщение.
 			void				show_next_message(void);
-
-			/// См. описание в stop().
-			bool				stop_checker(void);
 	};
 
 

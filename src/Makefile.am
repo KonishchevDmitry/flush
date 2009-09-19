@@ -71,11 +71,6 @@ flush_SOURCES = \
 	trackers_view.cpp \
 	trackers_view.hpp
 
-if DEVELOP_MODE
-flush_SOURCES += \
-	rss_settings_dialog.cpp \
-	rss_settings_dialog.hpp
-endif
 
 dbus_glues = adaptor_glue.hpp proxy_glue.hpp
 nodist_flush_SOURCES = $(dbus_glues)
@@ -99,5 +94,6 @@ flush_CPPFLAGS += -D APP_UI_PATH='"$(datadir)/$(PACKAGE)/ui"'
 flush_CPPFLAGS += -D APP_CUSTOM_ICONS_PATH='"$(datadir)/$(PACKAGE)/icons"'
 endif
 flush_CPPFLAGS += -D APP_LOCALE_PATH='"$(localedir)"'
+flush_CXXFLAGS = @APP_CXXFLAGS@
 flush_LDADD = @APP_LDADD@
 

@@ -29,4 +29,5 @@ libmlib_a_SOURCES = \
 	sys.hpp
 
 libmlib_a_CPPFLAGS = @MLIB_CPPFLAGS@
+libmlib_a_CXXFLAGS = @MLIB_CXXFLAGS@
 
