@@ -1,0 +1,17 @@
+prefix=/usr/local
+exec_prefix=${prefix}
+bindir=${exec_prefix}/bin
+libdir=${exec_prefix}/lib
+datarootdir=${prefix}/share
+datadir=${datarootdir}
+sysconfdir=${prefix}/etc
+includedir=${prefix}/include
+package=libtorrent-rasterbar
+
+Name: libtorrent-rasterbar
+Description: Bittorrent library.
+Version: 0.14.5
+Libs: -L${libdir} -ltorrent-rasterbar
+Libs.private:  -lboost_system-mt-1_35 -lboost_filesystem-mt-1_35 -lboost_thread-mt-1_35  -lssl -lcrypto $(top_builddir)/zlib/libzlib.la
+Cflags: -I${includedir} -I${includedir}/libtorrent -I/usr/include/openssl -DHAVE_SSL -DBOOST_ASIO_HASH_MAP_BUCKETS=1024 -DTORRENT_USE_OPENSSL -DTORRENT_LINKING_SHARED 
+
