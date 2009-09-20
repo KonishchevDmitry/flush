@@ -3,6 +3,7 @@
   <interface name="com.blogspot.konishchevdmitry.flush">
     <method name="dbus_cmd_options">
       <arg type="as" name="cmd_options_strings" direction="in"/>
+      <arg type="s" name="error_string" direction="out"/>
     </method>
   </interface>
 </node>

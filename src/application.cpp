@@ -257,11 +257,6 @@ void Application::close(void)
 
 		this->main_window->close();
 
-		// Скрываем все открытые окна, тем самым создавая иллюзию быстрого
-		// завершения работы.
-		BOOST_FOREACH(Gtk::Window* window, Gtk::Window::list_toplevels())
-			window->hide();
-
 		// Инициируем остановку демона
 		this->daemon_proxy->stop();
 	}
@@ -269,12 +264,12 @@ void Application::close(void)
 
 
 
-void Application::dbus_cmd_options(const std::vector<std::string>& cmd_options_strings)
+std::string Application::dbus_cmd_options(const std::vector<std::string>& cmd_options_strings)
 {
 	m::gtk::Scoped_enter gtk_lock;
 
 	if(priv->stopping)
-		return;
+		return _("application is now ending it's work");
 
 	// Переводим строки из UTF-8 в кодировку локали -->
 		std::vector<std::string> cmd_options_locale_strings;
@@ -306,22 +301,16 @@ void Application::dbus_cmd_options(const std::vector<std::string>& cmd_options_s
 		{
 			MLIB_W(EE(e));
 			delete [] argv;
-			return;
+			return EE(e);
 		}
 
 		delete [] argv;
 	// Парсим полученные опции <--
 
-	// Передаем на обработку -->
-		try
-		{
-			this->process_cmd_options(cmd_options);
-		}
-		catch(m::Exception& e)
-		{
-			MLIB_W(EE(e));
-		}
-	// Передаем на обработку <--
+	// Передаем на обработку
+	this->process_cmd_options(cmd_options);
+
+	return "";
 }
 
 

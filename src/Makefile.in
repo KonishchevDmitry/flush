@@ -34,9 +34,11 @@ build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = flush$(EXEEXT)
 @DEVELOP_MODE_TRUE@am__append_1 = -D \
-@DEVELOP_MODE_TRUE@	APP_UI_PATH='"$(abs_top_srcdir)/ui"' -D \
+@DEVELOP_MODE_TRUE@	APP_BIN_PATH='"$(abs_builddir)/$(PACKAGE)"' \
+@DEVELOP_MODE_TRUE@	-D APP_UI_PATH='"$(abs_top_srcdir)/ui"' -D \
 @DEVELOP_MODE_TRUE@	APP_CUSTOM_ICONS_PATH='"$(abs_top_srcdir)/icons"'
 @DEVELOP_MODE_FALSE@am__append_2 = -D \
+@DEVELOP_MODE_FALSE@	APP_BIN_PATH='"$(bindir)/$(PACKAGE)"' -D \
 @DEVELOP_MODE_FALSE@	APP_UI_PATH='"$(datadir)/$(PACKAGE)/ui"' \
 @DEVELOP_MODE_FALSE@	-D \
 @DEVELOP_MODE_FALSE@	APP_CUSTOM_ICONS_PATH='"$(datadir)/$(PACKAGE)/icons"'
@@ -342,9 +344,8 @@ nodist_flush_SOURCES = $(dbus_glues)
 BUILT_SOURCES = $(dbus_glues)
 CLEANFILES = $(dbus_glues)
 flush_DEPENDENCIES = @APP_DEPENDENCIES@
-flush_CPPFLAGS = @APP_CPPFLAGS@ -D \
-	APP_BIN_PATH='"$(bindir)/$(PACKAGE)"' $(am__append_1) \
-	$(am__append_2) -D APP_LOCALE_PATH='"$(localedir)"'
+flush_CPPFLAGS = @APP_CPPFLAGS@ $(am__append_1) $(am__append_2) -D \
+	APP_LOCALE_PATH='"$(localedir)"'
 flush_CXXFLAGS = @APP_CXXFLAGS@
 flush_LDADD = @APP_LDADD@
 all: $(BUILT_SOURCES)

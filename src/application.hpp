@@ -189,7 +189,7 @@
 		private:
 			/// Получает опции командной строки и производит все необходимые действия
 			/// по их обработке.
-			void				dbus_cmd_options(const std::vector<std::string>& cmd_options_strings);
+			std::string			dbus_cmd_options(const std::vector<std::string>& cmd_options_strings);
 
 			/// Обработчик сигнала на получение сигнала (системного) на
 			/// завершение приложения.

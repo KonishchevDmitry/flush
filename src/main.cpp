@@ -18,8 +18,6 @@
 *                                                                         *
 **************************************************************************/
 
-#warning
-#include <mlib/async_fs.hpp>
 
 #include <fcntl.h>
 #include <locale.h>
@@ -390,16 +388,20 @@ namespace
 
 	void signal_to_close_handler(int signal_no)
 	{
-		#if DEVELOP_MODE
-			if(write(CLOSE_APP_WRITE_FD, &signal_no, 1) != 1)
-			{
+		if(write(CLOSE_APP_WRITE_FD, &signal_no, 1) != 1)
+		{
+			#if DEVELOP_MODE
 				// Небезопасно, но для режима разработки сойдет
 				perror("pipe write error");
 				abort();
-			}
-		#else
-			write(CLOSE_APP_WRITE_FD, &signal_no, 1);
-		#endif
+			#else
+				// В данном случае нас вообще не интересует, будут ли ошибки или
+				// нет - если нет логических ошибок в программе, то как минимум
+				// 4096 раз write точно сможет записать по байту, а нам достаточно
+				// всего одного раза. Если же логическая ошибка есть, то из
+				// обработчика сигнала мы все равно мало что сможем сделать.
+			#endif
+		}
 	}
 }
 
@@ -1140,16 +1142,19 @@ int main(int argc, char *argv[])
 
 				try
 				{
-					remote_app.dbus_cmd_options(cmd_options_strings);
+					std::string error_string = remote_app.dbus_cmd_options(cmd_options_strings);
+
+					if(!error_string.empty())
+						MLIB_W(_("Transmitting command line options failed"), __("Running %1 instance rejected command line options transfered to it: %2.", APP_NAME, error_string));
 				}
 				catch(DBus::Error e)
 				{
-					MLIB_W(__("Can't communicate with running %1 instance via DBus: %2.", APP_NAME, EE(e)));
+					MLIB_W(_("Transmitting command line options failed"), __("Can't communicate with running %1 instance via DBus: %2.", APP_NAME, EE(e)));
 				}
 			}
 		}
 		else
-			MLIB_W(__("Can't communicate with running %1 instance. It is not running.", APP_NAME));
+			MLIB_W(_("Transmitting command line options failed"), __("Can't communicate with running %1 instance. It is not running.", APP_NAME));
 	}
 
 	MLIB_D("Exiting...");

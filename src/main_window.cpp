@@ -951,9 +951,14 @@ void Main_window::change_toolbar_style(m::gtk::toolbar::Style style)
 
 void Main_window::close(void)
 {
+	// Чтобы пользователь не мог никак больше повлиять на работу приложения и
+	// чтобы создать иллюзию мгновенного завершения его работы.
 	this->hide();
 
-	// Сохраняем текущие настройки в конфиг.
+	// Также делает неактивной иконку в трее
+	this->set_sensitive(false);
+
+	// Сохраняем текущие настройки в конфиг
 	this->save_settings();
 }
 
