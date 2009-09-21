@@ -118,11 +118,7 @@ void Statistics_window::attach_value(const std::string& name, const std::string&
 
 void Statistics_window::on_reset_callback(void)
 {
-	#warning
-//	if(m::gtk::yes_no_dialog(*this, _("Reset statistics?"), _("Are you sure want to reset statistics?")))
-//		this->response(RESPONSE_RESET);
-	if(m::gtk::yes_no_dialog(*this, _("Reset statistics?"), _("Are you sure want to reset statistics?")));
-		if(m::gtk::yes_no_dialog(*this, _("GGG?"), _("HHH?")))
+	if(m::gtk::yes_no_dialog(*this, _("Reset statistics?"), _("Are you sure want to reset statistics?")))
 		this->response(RESPONSE_RESET);
 }
 
