@@ -299,7 +299,7 @@ dnl compiler flags -->
 				APP_DEPENDENCIES="$APP_DEPENDENCIES $LIBCONFIG_LIBRARIES"
 				APP_LDADD="$APP_LDADD $LIBCONFIG_LIBRARIES"
 			else
-				PKG_CHECK_MODULES([libconfigduo], [libconfig++ >= $libconfig_min_version])
+				PKG_CHECK_MODULES([libconfig], [libconfig++ >= $libconfig_min_version])
 				COMMON_CPPFLAGS="$COMMON_CPPFLAGS $libconfigduo_CFLAGS"
 				APP_LDADD="$APP_LDADD $libconfigduo_LIBS"
 			fi

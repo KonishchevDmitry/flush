@@ -660,8 +660,8 @@ SSL_LDFLAGS
 SSL_LIBS
 SSL_CXXFLAGS
 SSL_CFLAGS
-libconfigduo_LIBS
-libconfigduo_CFLAGS
+libconfig_LIBS
+libconfig_CFLAGS
 glademm_LIBS
 glademm_CFLAGS
 gtkmm_LIBS
@@ -834,8 +834,8 @@ gtkmm_CFLAGS
 gtkmm_LIBS
 glademm_CFLAGS
 glademm_LIBS
-libconfigduo_CFLAGS
-libconfigduo_LIBS
+libconfig_CFLAGS
+libconfig_LIBS
 libtorrent_rasterbar_CFLAGS
 libtorrent_rasterbar_LIBS'
 ac_subdirs_all='dbus-c++
@@ -1545,10 +1545,10 @@ Some influential environment variables:
               C compiler flags for glademm, overriding pkg-config
   glademm_LIBS
               linker flags for glademm, overriding pkg-config
-  libconfigduo_CFLAGS
-              C compiler flags for libconfigduo, overriding pkg-config
-  libconfigduo_LIBS
-              linker flags for libconfigduo, overriding pkg-config
+  libconfig_CFLAGS
+              C compiler flags for libconfig, overriding pkg-config
+  libconfig_LIBS
+              linker flags for libconfig, overriding pkg-config
   libtorrent_rasterbar_CFLAGS
               C compiler flags for libtorrent_rasterbar, overriding pkg-config
   libtorrent_rasterbar_LIBS
@@ -9702,12 +9702,12 @@ fi
 			else
 
 pkg_failed=no
-{ $as_echo "$as_me:$LINENO: checking for libconfigduo" >&5
-$as_echo_n "checking for libconfigduo... " >&6; }
+{ $as_echo "$as_me:$LINENO: checking for libconfig" >&5
+$as_echo_n "checking for libconfig... " >&6; }
 
 if test -n "$PKG_CONFIG"; then
-    if test -n "$libconfigduo_CFLAGS"; then
-        pkg_cv_libconfigduo_CFLAGS="$libconfigduo_CFLAGS"
+    if test -n "$libconfig_CFLAGS"; then
+        pkg_cv_libconfig_CFLAGS="$libconfig_CFLAGS"
     else
         if test -n "$PKG_CONFIG" && \
     { ($as_echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"libconfig++ >= \$libconfig_min_version\"") >&5
@@ -9715,7 +9715,7 @@ if test -n "$PKG_CONFIG"; then
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; then
-  pkg_cv_libconfigduo_CFLAGS=`$PKG_CONFIG --cflags "libconfig++ >= $libconfig_min_version" 2>/dev/null`
+  pkg_cv_libconfig_CFLAGS=`$PKG_CONFIG --cflags "libconfig++ >= $libconfig_min_version" 2>/dev/null`
 else
   pkg_failed=yes
 fi
@@ -9724,8 +9724,8 @@ else
 	pkg_failed=untried
 fi
 if test -n "$PKG_CONFIG"; then
-    if test -n "$libconfigduo_LIBS"; then
-        pkg_cv_libconfigduo_LIBS="$libconfigduo_LIBS"
+    if test -n "$libconfig_LIBS"; then
+        pkg_cv_libconfig_LIBS="$libconfig_LIBS"
     else
         if test -n "$PKG_CONFIG" && \
     { ($as_echo "$as_me:$LINENO: \$PKG_CONFIG --exists --print-errors \"libconfig++ >= \$libconfig_min_version\"") >&5
@@ -9733,7 +9733,7 @@ if test -n "$PKG_CONFIG"; then
   ac_status=$?
   $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
   (exit $ac_status); }; then
-  pkg_cv_libconfigduo_LIBS=`$PKG_CONFIG --libs "libconfig++ >= $libconfig_min_version" 2>/dev/null`
+  pkg_cv_libconfig_LIBS=`$PKG_CONFIG --libs "libconfig++ >= $libconfig_min_version" 2>/dev/null`
 else
   pkg_failed=yes
 fi
@@ -9752,33 +9752,33 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        libconfigduo_PKG_ERRORS=`$PKG_CONFIG --short-errors --errors-to-stdout --print-errors "libconfig++ >= $libconfig_min_version"`
+	        libconfig_PKG_ERRORS=`$PKG_CONFIG --short-errors --errors-to-stdout --print-errors "libconfig++ >= $libconfig_min_version"`
         else
-	        libconfigduo_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors "libconfig++ >= $libconfig_min_version"`
+	        libconfig_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors "libconfig++ >= $libconfig_min_version"`
         fi
 	# Put the nasty error message in config.log where it belongs
-	echo "$libconfigduo_PKG_ERRORS" >&5
+	echo "$libconfig_PKG_ERRORS" >&5
 
 	{ { $as_echo "$as_me:$LINENO: error: Package requirements (libconfig++ >= $libconfig_min_version) were not met:
 
-$libconfigduo_PKG_ERRORS
+$libconfig_PKG_ERRORS
 
 Consider adjusting the PKG_CONFIG_PATH environment variable if you
 installed software in a non-standard prefix.
 
-Alternatively, you may set the environment variables libconfigduo_CFLAGS
-and libconfigduo_LIBS to avoid the need to call pkg-config.
+Alternatively, you may set the environment variables libconfig_CFLAGS
+and libconfig_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details.
 " >&5
 $as_echo "$as_me: error: Package requirements (libconfig++ >= $libconfig_min_version) were not met:
 
-$libconfigduo_PKG_ERRORS
+$libconfig_PKG_ERRORS
 
 Consider adjusting the PKG_CONFIG_PATH environment variable if you
 installed software in a non-standard prefix.
 
-Alternatively, you may set the environment variables libconfigduo_CFLAGS
-and libconfigduo_LIBS to avoid the need to call pkg-config.
+Alternatively, you may set the environment variables libconfig_CFLAGS
+and libconfig_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details.
 " >&2;}
    { (exit 1); exit 1; }; }
@@ -9789,8 +9789,8 @@ $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
 is in your PATH or set the PKG_CONFIG environment variable to the full
 path to pkg-config.
 
-Alternatively, you may set the environment variables libconfigduo_CFLAGS
-and libconfigduo_LIBS to avoid the need to call pkg-config.
+Alternatively, you may set the environment variables libconfig_CFLAGS
+and libconfig_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details.
 
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
@@ -9799,16 +9799,16 @@ $as_echo "$as_me: error: The pkg-config script could not be found or is too old.
 is in your PATH or set the PKG_CONFIG environment variable to the full
 path to pkg-config.
 
-Alternatively, you may set the environment variables libconfigduo_CFLAGS
-and libconfigduo_LIBS to avoid the need to call pkg-config.
+Alternatively, you may set the environment variables libconfig_CFLAGS
+and libconfig_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details.
 
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See \`config.log' for more details." >&2;}
    { (exit 1); exit 1; }; }; }
 else
-	libconfigduo_CFLAGS=$pkg_cv_libconfigduo_CFLAGS
-	libconfigduo_LIBS=$pkg_cv_libconfigduo_LIBS
+	libconfig_CFLAGS=$pkg_cv_libconfig_CFLAGS
+	libconfig_LIBS=$pkg_cv_libconfig_LIBS
         { $as_echo "$as_me:$LINENO: result: yes" >&5
 $as_echo "yes" >&6; }
 	:
