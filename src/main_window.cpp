@@ -58,25 +58,27 @@
 #include <mlib/gtk/toolbar.hpp>
 #include <mlib/gtk/vbox.hpp>
 
-#include "add_torrent_dialog.hpp"
-#include "app_icons.hpp"
-#include "application.hpp"
-#include "categories_view.hpp"
-#include "client_settings.hpp"
-#include "common.hpp"
-#include "create_torrent_dialog.hpp"
-#include "daemon_proxy.hpp"
-#include "daemon_settings.hpp"
-#include "gui_lib.hpp"
-#include "log_view.hpp"
-#include "main.hpp"
-#include "main_window.hpp"
-#include "open_torrent_dialog.hpp"
-#include "rss_settings_dialog.hpp"
-#include "settings_window.hpp"
-#include "statistics_window.hpp"
-#include "temporary_action_dialog.hpp"
-#include "torrents_viewport.hpp"
+	#include "add_torrent_dialog.hpp"
+	#include "app_icons.hpp"
+	#include "application.hpp"
+	#include "categories_view.hpp"
+	#include "client_settings.hpp"
+	#include "common.hpp"
+	#include "create_torrent_dialog.hpp"
+	#include "daemon_proxy.hpp"
+	#include "daemon_settings.hpp"
+	#include "gui_lib.hpp"
+	#include "log_view.hpp"
+	#include "main.hpp"
+	#include "main_window.hpp"
+	#include "open_torrent_dialog.hpp"
+#if DEVELOP_MODE
+	#include "rss_settings_dialog.hpp"
+#endif
+	#include "settings_window.hpp"
+	#include "statistics_window.hpp"
+	#include "temporary_action_dialog.hpp"
+	#include "torrents_viewport.hpp"
 
 
 // Интервал автоматического сохранения настроек.

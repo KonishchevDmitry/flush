@@ -9813,8 +9813,8 @@ else
 $as_echo "yes" >&6; }
 	:
 fi
-				COMMON_CPPFLAGS="$COMMON_CPPFLAGS $libconfigduo_CFLAGS"
-				APP_LDADD="$APP_LDADD $libconfigduo_LIBS"
+				COMMON_CPPFLAGS="$COMMON_CPPFLAGS $libconfig_CFLAGS"
+				APP_LDADD="$APP_LDADD $libconfig_LIBS"
 			fi
 
 					if test "X$package_libtorrent" = "Xyes"
