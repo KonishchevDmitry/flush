@@ -315,7 +315,7 @@ void			sync_file(const std::string& path);
 }
 
 
-std::string		EE(const boost::filesystem::basic_filesystem_error<boost::filesystem::path>& error);
+std::string		EE(const boost::filesystem::filesystem_error& error);
 
 
 }

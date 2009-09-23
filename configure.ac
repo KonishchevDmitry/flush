@@ -219,14 +219,16 @@ dnl compiler flags -->
 	dnl Including config.h anywhere
 	COMMON_CPPFLAGS="-include \$(top_builddir)/config.h -I \$(top_srcdir)/src"
 
-	dnl -Winline -Weffc++ -Wold-style-cast -Wsign-conversion -Wconversion -Wfloat-equal -Wstack-protector -Woverloaded-virtual
-	COMMON_CXXFLAGS="$COMMON_CXXFLAGS -fdiagnostics-show-option"
-	COMMON_CXXFLAGS="$COMMON_CXXFLAGS -Wall -Winit-self -Wpointer-arith -Wlogical-op -Wcast-qual -Wcast-align -Wnon-virtual-dtor"
-	COMMON_CXXFLAGS="$COMMON_CXXFLAGS -Werror=reorder -Werror=main -Werror=missing-braces -Werror=array-bounds -Werror=sequence-point -Werror=return-type"
-
 	if test "X$develop_mode" = "Xyes"
 	then
 		CXXFLAGS="$CXXFLAGS -O0 -g"
+
+		dnl Some of this options are not supported by older versions of GCC
+		COMMON_CXXFLAGS="$COMMON_CXXFLAGS -fdiagnostics-show-option"
+		COMMON_CXXFLAGS="$COMMON_CXXFLAGS -Wall -Winit-self -Wpointer-arith -Wlogical-op -Wcast-qual -Wcast-align -Wnon-virtual-dtor"
+		COMMON_CXXFLAGS="$COMMON_CXXFLAGS -Werror=reorder -Werror=main -Werror=missing-braces -Werror=array-bounds -Werror=sequence-point -Werror=return-type"
+
+		dnl -Winline -Weffc++ -Wold-style-cast -Wsign-conversion -Wconversion -Wfloat-equal -Wstack-protector -Woverloaded-virtual
 
 		dnl GCC forgets about -Wno-* options when -O* flag is specified in CXXFLAGS
 		COMMON_CXXFLAGS="$COMMON_CXXFLAGS -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-empty-body"

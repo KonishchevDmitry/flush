@@ -1072,7 +1072,7 @@ void sync_file(const std::string& path)
 
 namespace m {
 
-	std::string EE(const boost_fs::basic_filesystem_error<boost_fs::path>& error)
+	std::string EE(const boost_fs::filesystem_error& error)
 	{
 		#if M_BOOST_GET_VERSION() < M_GET_VERSION(1, 35, 0)
 			M_LIBRARY_COMPATIBILITY

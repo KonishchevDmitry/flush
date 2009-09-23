@@ -23,6 +23,8 @@
 #ifndef HEADER_MLIB_BASE_BASE
 #define HEADER_MLIB_BASE_BASE
 
+#include <stdint.h>
+
 #include <string>
 
 #include <boost/foreach.hpp>

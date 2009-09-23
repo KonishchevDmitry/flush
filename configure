@@ -7777,13 +7777,14 @@ fi
 
 		COMMON_CPPFLAGS="-include \$(top_builddir)/config.h -I \$(top_srcdir)/src"
 
-		COMMON_CXXFLAGS="$COMMON_CXXFLAGS -fdiagnostics-show-option"
-	COMMON_CXXFLAGS="$COMMON_CXXFLAGS -Wall -Winit-self -Wpointer-arith -Wlogical-op -Wcast-qual -Wcast-align -Wnon-virtual-dtor"
-	COMMON_CXXFLAGS="$COMMON_CXXFLAGS -Werror=reorder -Werror=main -Werror=missing-braces -Werror=array-bounds -Werror=sequence-point -Werror=return-type"
-
 	if test "X$develop_mode" = "Xyes"
 	then
 		CXXFLAGS="$CXXFLAGS -O0 -g"
+
+				COMMON_CXXFLAGS="$COMMON_CXXFLAGS -fdiagnostics-show-option"
+		COMMON_CXXFLAGS="$COMMON_CXXFLAGS -Wall -Winit-self -Wpointer-arith -Wlogical-op -Wcast-qual -Wcast-align -Wnon-virtual-dtor"
+		COMMON_CXXFLAGS="$COMMON_CXXFLAGS -Werror=reorder -Werror=main -Werror=missing-braces -Werror=array-bounds -Werror=sequence-point -Werror=return-type"
+
 
 				COMMON_CXXFLAGS="$COMMON_CXXFLAGS -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-empty-body"
 	fi
