@@ -25,7 +25,7 @@
 #include <gtkmm/radiobutton.h>
 #include <gtkmm/spinbutton.h>
 
-#include <mlib/gtk/glade.hpp>
+#include <mlib/gtk/builder.hpp>
 
 #include "client_settings.hpp"
 #include "common.hpp"
@@ -55,7 +55,7 @@ namespace Temporary_action_dialog_aux
 
 
 		public:
-			Private(const Glade_xml& glade);
+			Private(const m::gtk::Builder& builder);
 
 
 		public:
@@ -90,23 +90,23 @@ namespace Temporary_action_dialog_aux
 
 
 
-	Private::Private(const Glade_xml& glade)
+	Private::Private(const m::gtk::Builder& builder)
 	:
 		predefined_time_model( Gtk::ListStore::create(this->predefined_time_columns) )
 	{
 		User_settings& settings = get_client_settings().user;
 
 
-		MLIB_GLADE_GET_WIDGET(glade, "title_label", 			this->title_label);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "title_label", 			this->title_label);
 
-		MLIB_GLADE_GET_WIDGET(glade, "predefined_time_toggle",	this->predefined_time_toggle);
-		MLIB_GLADE_GET_WIDGET(glade, "custom_time_toggle",		this->custom_time_toggle);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "predefined_time_toggle",	this->predefined_time_toggle);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "custom_time_toggle",		this->custom_time_toggle);
 
-		MLIB_GLADE_GET_WIDGET(glade, "predefined_time",			this->predefined_time);
-		MLIB_GLADE_GET_WIDGET(glade, "custom_time",				this->custom_time);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "predefined_time",			this->predefined_time);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "custom_time",				this->custom_time);
 
-		MLIB_GLADE_GET_WIDGET(glade, "cancel_button",			this->cancel_button);
-		MLIB_GLADE_GET_WIDGET(glade, "ok_button",				this->ok_button);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "cancel_button",			this->cancel_button);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ok_button",				this->ok_button);
 
 		// Времена "из коробки" -->
 		{
@@ -173,10 +173,10 @@ namespace Temporary_action_dialog_aux
 
 
 
-Temporary_action_dialog::Temporary_action_dialog(BaseObjectType* cobject, const Glade_xml& glade)
+Temporary_action_dialog::Temporary_action_dialog(BaseObjectType* cobject, const m::gtk::Builder& builder)
 :
 	m::gtk::Dialog(cobject),
-	priv( new Private(glade) )
+	priv( new Private(builder) )
 {
 	priv->cancel_button->signal_clicked().connect(
 		sigc::bind<int>( sigc::mem_fun(*this, &Gtk::Dialog::response), Gtk::RESPONSE_CANCEL )

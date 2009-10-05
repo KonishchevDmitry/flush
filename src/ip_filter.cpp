@@ -29,8 +29,8 @@
 #include <gtkmm/stock.h>
 #include <gtkmm/treemodel.h>
 
+#include <mlib/gtk/builder.hpp>
 #include <mlib/gtk/controlled_list.hpp>
-#include <mlib/gtk/glade.hpp>
 
 #include "common.hpp"
 #include "ip_filter.hpp"
@@ -99,21 +99,21 @@
 
 
 
-Ip_filter::Ip_filter(BaseObjectType* cobject, const Glib::RefPtr<Gnome::Glade::Xml>& glade)
+Ip_filter::Ip_filter(BaseObjectType* cobject, const m::gtk::Builder& builder)
 :
 	Gtk::VBox(cobject),
 	priv( new Private )
 {
 	// Виджеты из Glade -->
-		MLIB_GLADE_GET_WIDGET(glade,	"ip_filter_from",	priv->from_entry);
-		MLIB_GLADE_GET_WIDGET(glade,	"ip_filter_to",		priv->to_entry);
-		MLIB_GLADE_GET_WIDGET(glade,	"ip_filter_block",	priv->block_button);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_from",		priv->from_entry);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_to",		priv->to_entry);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_block",		priv->block_button);
 
-		MLIB_GLADE_GET_WIDGET(glade,	"ip_filter_add",	priv->add_button);
-		MLIB_GLADE_GET_WIDGET(glade,	"ip_filter_edit",	priv->edit_button);
-		MLIB_GLADE_GET_WIDGET(glade,	"ip_filter_remove",	priv->remove_button);
-		MLIB_GLADE_GET_WIDGET(glade,	"ip_filter_up",		priv->up_button);
-		MLIB_GLADE_GET_WIDGET(glade,	"ip_filter_down",	priv->down_button);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_add",		priv->add_button);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_edit",		priv->edit_button);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_remove",	priv->remove_button);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_up",		priv->up_button);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_down",		priv->down_button);
 	// Виджеты из Glade <--
 
 	// Block button -->
@@ -145,7 +145,7 @@ Ip_filter::Ip_filter(BaseObjectType* cobject, const Glib::RefPtr<Gnome::Glade::X
 		);
 
 		Gtk::ScrolledWindow* scrolledwindow;
-		MLIB_GLADE_GET_WIDGET(glade, "ip_filter_scrolled_window", scrolledwindow);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_scrolled_window", scrolledwindow);
 		scrolledwindow->add(*priv->list);
 	}
 	// Список фильтров <--

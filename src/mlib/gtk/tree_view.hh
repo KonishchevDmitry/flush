@@ -456,15 +456,24 @@ save_settings(Settings& settings) const
 			// Получаем идентификатор колонки <--
 
 			// Сохраняем настройки колонки -->
-				column_settings.set(
-					column_id,
-					column->get_visible(),
-					column->get_resizable()
-						? column->property_width().get_value()
-						: TREE_VIEW_COLUMNS_DEFAULT_WIDTH
-				);
+			{
+				int width;
+				
+				if(column->get_resizable())
+				{
+					width = column->get_width();
 
+					// Если TreeView ни разу не отображался, то get_width()
+					// может возвратить нулевое значение.
+					if(width <= 0)
+						width = column->get_fixed_width();
+				}
+				else
+					width = TREE_VIEW_COLUMNS_DEFAULT_WIDTH;
+
+				column_settings.set(column_id, column->get_visible(), width);
 				settings.columns.push_back(column_settings);
+			}
 			// Сохраняем настройки колонки <--
 		}
 	}

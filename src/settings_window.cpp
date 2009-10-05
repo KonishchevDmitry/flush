@@ -40,7 +40,7 @@
 #include <mlib/misc.hpp>
 #include <mlib/string.hpp>
 
-#include <mlib/gtk/glade.hpp>
+#include <mlib/gtk/builder.hpp>
 #include <mlib/gtk/tree_view.hpp>
 #include <mlib/gtk/vbox.hpp>
 
@@ -608,7 +608,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 
 	// Daemon::Network -->
 	{
-		Glib::RefPtr<Gnome::Glade::Xml> glade = MLIB_GLADE_CREATE(
+		m::gtk::Builder builder = MLIB_GTK_BUILDER_CREATE(
 			std::string(APP_UI_PATH) + "/preferences.daemon.network.glade",
 			"daemon_network_settings"
 		);
@@ -616,13 +616,13 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 		Gtk::VBox* settings_vbox = Gtk::manage(new Gtk::VBox(false, m::gtk::VBOX_SPACING));
 		settings_vbox->set_border_width(tabs_border_width);
 		this->sections_notebook.append_page(
-			*MLIB_GLADE_GET_WIDGET(glade, "daemon_network_settings")
+			*MLIB_GTK_BUILDER_GET_WIDGET(builder, "daemon_network_settings")
 		);
 
 		{
 			Gtk::LinkButton* button;
 
-			MLIB_GLADE_GET_WIDGET(glade, "daemon_network_misc_link", button);
+			MLIB_GTK_BUILDER_GET_WIDGET(builder, "daemon_network_misc_link", button);
 			button->signal_clicked().connect(
 				sigc::bind< std::pair<Gtk::LinkButton*, Gtk::TreePath> >(
 					sigc::mem_fun(*this, &Settings_window::on_change_section_callback),
@@ -632,7 +632,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 				)
 			);
 
-			MLIB_GLADE_GET_WIDGET(glade, "daemon_network_ip_filter_link", button);
+			MLIB_GTK_BUILDER_GET_WIDGET(builder, "daemon_network_ip_filter_link", button);
 			button->signal_clicked().connect(
 				sigc::bind< std::pair<Gtk::LinkButton*, Gtk::TreePath> >(
 					sigc::mem_fun(*this, &Settings_window::on_change_section_callback),
@@ -650,36 +650,36 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 	{
 		Private::Network_misc& misc = priv->daemon.network.misc;
 
-		Glib::RefPtr<Gnome::Glade::Xml> glade = MLIB_GLADE_CREATE(
+		m::gtk::Builder builder = MLIB_GTK_BUILDER_CREATE(
 			std::string(APP_UI_PATH) + "/preferences.daemon.network.misc.glade",
 			"network_misc_settings"
 		);
 
 		this->sections_notebook.append_page(
-			*MLIB_GLADE_GET_WIDGET(glade, "network_misc_settings")
+			*MLIB_GTK_BUILDER_GET_WIDGET(builder, "network_misc_settings")
 		);
 
-		MLIB_GLADE_GET_WIDGET(glade, "random_port", misc.random_port);
-		MLIB_GLADE_GET_WIDGET(glade, "custom_port", misc.custom_port);
-		MLIB_GLADE_GET_WIDGET(glade, "custom_port_box", misc.custom_port_box);
-		MLIB_GLADE_GET_WIDGET(glade, "from_port", misc.from_port);
-		MLIB_GLADE_GET_WIDGET(glade, "to_port", misc.to_port);
-		MLIB_GLADE_GET_WIDGET(glade, "current_port", misc.current_port);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "random_port", misc.random_port);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "custom_port", misc.custom_port);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "custom_port_box", misc.custom_port_box);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "from_port", misc.from_port);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "to_port", misc.to_port);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "current_port", misc.current_port);
 
-		MLIB_GLADE_GET_WIDGET(glade, "dht", misc.dht);
-		MLIB_GLADE_GET_WIDGET(glade, "upnp", misc.upnp);
-		MLIB_GLADE_GET_WIDGET(glade, "lsd", misc.lsd);
-		MLIB_GLADE_GET_WIDGET(glade, "natpmp", misc.natpmp);
-		MLIB_GLADE_GET_WIDGET(glade, "pex", misc.pex);
-		MLIB_GLADE_GET_WIDGET(glade, "smart_ban", misc.smart_ban);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "dht", misc.dht);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "upnp", misc.upnp);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "lsd", misc.lsd);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "natpmp", misc.natpmp);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "pex", misc.pex);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "smart_ban", misc.smart_ban);
 
-		MLIB_GLADE_GET_WIDGET(glade, "download_rate_limit", misc.download_rate_limit);
-		MLIB_GLADE_GET_WIDGET(glade, "upload_rate_limit", misc.upload_rate_limit);
-		MLIB_GLADE_GET_WIDGET(glade, "max_uploads", misc.max_uploads);
-		MLIB_GLADE_GET_WIDGET(glade, "max_connections", misc.max_connections);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "download_rate_limit", misc.download_rate_limit);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "upload_rate_limit", misc.upload_rate_limit);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "max_uploads", misc.max_uploads);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "max_connections", misc.max_connections);
 
-		MLIB_GLADE_GET_WIDGET(glade, "use_max_announce_interval", misc.use_max_announce_interval);
-		MLIB_GLADE_GET_WIDGET(glade, "max_announce_interval", misc.max_announce_interval);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "use_max_announce_interval", misc.use_max_announce_interval);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "max_announce_interval", misc.max_announce_interval);
 
 		misc.random_port->signal_toggled().connect(
 			sigc::mem_fun(*priv, &Private::on_random_port_toggled_cb));
@@ -693,15 +693,15 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 
 	// Daemon::IP filter -->
 	{
-		Glib::RefPtr<Gnome::Glade::Xml> glade = MLIB_GLADE_CREATE(
+		m::gtk::Builder builder = MLIB_GTK_BUILDER_CREATE(
 			std::string(APP_UI_PATH) + "/preferences.daemon.network.ip_filter.glade",
 			"ip_filter_settings"
 		);
 
 		this->sections_notebook.append_page(
-			*MLIB_GLADE_GET_WIDGET(glade, "ip_filter_settings")
+			*MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_settings")
 		);
-		MLIB_GLADE_GET_WIDGET_DERIVED(glade, "ip_filter", priv->daemon.network.ip_filter);
+		MLIB_GTK_BUILDER_GET_WIDGET_DERIVED(builder, "ip_filter", priv->daemon.network.ip_filter);
 	}
 	// Daemon::IP filter <--
 
@@ -710,13 +710,13 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 	{
 		Private::Automation& automation = priv->daemon.automation;
 
-		Glib::RefPtr<Gnome::Glade::Xml> glade = MLIB_GLADE_CREATE(
+		m::gtk::Builder builder = MLIB_GTK_BUILDER_CREATE(
 			std::string(APP_UI_PATH) + "/preferences.daemon.automation.glade",
 			"automation_settings"
 		);
 
 		this->sections_notebook.append_page(
-			*MLIB_GLADE_GET_WIDGET(glade, "automation_settings")
+			*MLIB_GTK_BUILDER_GET_WIDGET(builder, "automation_settings")
 		);
 
 
@@ -724,23 +724,23 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 		{
 			Private::Auto_load& load = automation.load;
 
-			MLIB_GLADE_GET_WIDGET(glade, "auto_load", load.is);
+			MLIB_GTK_BUILDER_GET_WIDGET(builder, "auto_load", load.is);
 			load.is->signal_toggled().connect(sigc::mem_fun(
 				*this, &Settings_window::on_auto_load_torrents_toggled_callback
 			));
 
-			MLIB_GLADE_GET_WIDGET(glade, "auto_load_container", load.container);
+			MLIB_GTK_BUILDER_GET_WIDGET(builder, "auto_load_container", load.container);
 
-			MLIB_GLADE_GET_WIDGET(glade, "auto_load_from", load.from);
-			MLIB_GLADE_GET_WIDGET(glade, "auto_load_to", load.to);
+			MLIB_GTK_BUILDER_GET_WIDGET(builder, "auto_load_from", load.from);
+			MLIB_GTK_BUILDER_GET_WIDGET(builder, "auto_load_to", load.to);
 
-			MLIB_GLADE_GET_WIDGET(glade, "auto_load_copy", load.copy);
+			MLIB_GTK_BUILDER_GET_WIDGET(builder, "auto_load_copy", load.copy);
 			load.copy->signal_toggled().connect(sigc::mem_fun(
 				*this, &Settings_window::on_auto_load_torrents_copy_to_toggled_callback
 			));
-			MLIB_GLADE_GET_WIDGET(glade, "auto_load_copy_to", load.copy_to);
+			MLIB_GTK_BUILDER_GET_WIDGET(builder, "auto_load_copy_to", load.copy_to);
 
-			MLIB_GLADE_GET_WIDGET(glade, "auto_load_delete_loaded", load.delete_loaded);
+			MLIB_GTK_BUILDER_GET_WIDGET(builder, "auto_load_delete_loaded", load.delete_loaded);
 		}
 		// Auto load <--
 
@@ -749,23 +749,23 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 		{
 			Private::Auto_clean& clean = automation.clean;
 
-			MLIB_GLADE_GET_WIDGET(glade, "auto_clean_max_seeding_time_type", clean.max_seeding_time_type_button);
-			MLIB_GLADE_GET_WIDGET(glade, "auto_clean_max_seeding_time_label", clean.max_seeding_time_type_label);
-			MLIB_GLADE_GET_WIDGET(glade, "auto_clean_max_seeding_time", clean.max_seeding_time);
+			MLIB_GTK_BUILDER_GET_WIDGET(builder, "auto_clean_max_seeding_time_type", clean.max_seeding_time_type_button);
+			MLIB_GTK_BUILDER_GET_WIDGET(builder, "auto_clean_max_seeding_time_label", clean.max_seeding_time_type_label);
+			MLIB_GTK_BUILDER_GET_WIDGET(builder, "auto_clean_max_seeding_time", clean.max_seeding_time);
 			clean.max_seeding_time_type_button->signal_clicked().connect(sigc::mem_fun(
 				*this, &Settings_window::on_auto_clean_max_seeding_time_clicked_cb
 			));
 
-			MLIB_GLADE_GET_WIDGET(glade, "auto_clean_max_ratio_type", clean.max_ratio_type_button);
-			MLIB_GLADE_GET_WIDGET(glade, "auto_clean_max_ratio_label", clean.max_ratio_type_label);
-			MLIB_GLADE_GET_WIDGET(glade, "auto_clean_max_ratio", clean.max_ratio);
+			MLIB_GTK_BUILDER_GET_WIDGET(builder, "auto_clean_max_ratio_type", clean.max_ratio_type_button);
+			MLIB_GTK_BUILDER_GET_WIDGET(builder, "auto_clean_max_ratio_label", clean.max_ratio_type_label);
+			MLIB_GTK_BUILDER_GET_WIDGET(builder, "auto_clean_max_ratio", clean.max_ratio);
 			clean.max_ratio_type_button->signal_clicked().connect(sigc::mem_fun(
 				*this, &Settings_window::on_auto_clean_max_ratio_clicked_cb
 			));
 
-			MLIB_GLADE_GET_WIDGET(glade, "auto_clean_max_seeding_torrents_type", clean.max_seeding_torrents_type_button);
-			MLIB_GLADE_GET_WIDGET(glade, "auto_clean_max_seeding_torrents_label", clean.max_seeding_torrents_type_label);
-			MLIB_GLADE_GET_WIDGET(glade, "auto_clean_max_seeding_torrents", clean.max_seeding_torrents);
+			MLIB_GTK_BUILDER_GET_WIDGET(builder, "auto_clean_max_seeding_torrents_type", clean.max_seeding_torrents_type_button);
+			MLIB_GTK_BUILDER_GET_WIDGET(builder, "auto_clean_max_seeding_torrents_label", clean.max_seeding_torrents_type_label);
+			MLIB_GTK_BUILDER_GET_WIDGET(builder, "auto_clean_max_seeding_torrents", clean.max_seeding_torrents);
 			clean.max_seeding_torrents_type_button->signal_clicked().connect(sigc::mem_fun(
 				*this, &Settings_window::on_auto_clean_max_seeding_torrents_clicked_cb
 			));

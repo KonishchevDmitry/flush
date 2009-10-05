@@ -18,46 +18,16 @@
 **************************************************************************/
 
 
-#include <libglademm/xml.h>
+#ifndef HEADER_MLIB_GTK_DIALOG_SETTINGS
+#define HEADER_MLIB_GTK_DIALOG_SETTINGS
 
-#include <mlib/main.hpp>
+#include <mlib/gtk/window_settings.hpp>
 
+namespace m { namespace gtk {
 
-namespace m { namespace glade {
-
-template<class T_widget>
-T_widget* get_widget(const char* file, int line, const Glade_xml& xml, const Glib::ustring& name, T_widget*& widget)
-{
-	widget = NULL;
-
-	if(!xml->get_widget(name, widget))
-	{
-		m::error(file, line, __(
-			"Can't get widget '%1' from glade file '%2'.",
-			name, xml->get_filename()
-		));
-	}
-
-	return widget;
-}
-
-
-
-template<class T_widget>
-T_widget* get_widget_derived(const char* file, int line, const Glade_xml& xml, const Glib::ustring& name, T_widget*& widget)
-{
-	widget = NULL;
-
-	if(!xml->get_widget_derived(name, widget))
-	{
-		m::error(file, line, __(
-			"Can't get widget '%1' from glade file '%2'.",
-			name, xml->get_filename()
-		));
-	}
-
-	return widget;
-}
+	typedef Window_settings Dialog_settings;
 
 }}
+
+#endif
 

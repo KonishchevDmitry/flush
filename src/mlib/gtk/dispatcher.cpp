@@ -61,22 +61,20 @@ bool Dispatcher_base::emission_cb(Emission_handler* handler)
 	{
 		m::gtk::Scoped_enter lock;
 		
-		if(handler->connected)
+		while(handler->connected && !this->emiters.empty())
 		{
-			while(!this->emiters.empty())
-			{
-				Emiter_ptr emiter = this->emiters.front();
-				this->emiters.pop();
+			Emiter_ptr emiter = this->emiters.front();
+			this->emiters.pop();
 
-				// Тут может произойти все, что угодно вплоть до того, что
-				// запустится новый Main loop, который один или несколько раз
-				// выйдет/войдет в критическую секцию GTK.
-				emiter->emit();
-			}
-
-			// Уведомляем Dispatcher о том, что поток завершил свою работу
-			this->handler = NULL;
+			// Тут может произойти все, что угодно вплоть до того, что
+			// запустится новый Main loop, который один или несколько раз
+			// выйдет/войдет в критическую секцию GTK.
+			emiter->emit();
 		}
+
+		// Уведомляем Dispatcher о том, что поток завершил свою работу
+		if(handler->connected)
+			this->handler = NULL;
 	}
 
 	delete handler;

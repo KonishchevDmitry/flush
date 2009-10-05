@@ -46,13 +46,14 @@
 #include <gtkmm/toolbutton.h>
 #include <gtkmm/uimanager.h>
 
+#include <mlib/fs.hpp>
 #include <mlib/main.hpp>
 #include <mlib/misc.hpp>
 #include <mlib/string.hpp>
 
 #include <mlib/gtk/action.hpp>
+#include <mlib/gtk/builder.hpp>
 #include <mlib/gtk/dialog.hpp>
-#include <mlib/gtk/glade.hpp>
 #include <mlib/gtk/main.hpp>
 #include <mlib/gtk/signal_proxy.hpp>
 #include <mlib/gtk/toolbar.hpp>
@@ -1189,7 +1190,7 @@ void Main_window::on_show_toolbar_toggled_callback(void)
 
 void Main_window::on_temporary_process_torrents_cb(const std::pair<Temporary_action,Torrents_group>& data)
 {
-	Glib::RefPtr<Gnome::Glade::Xml> glade = MLIB_GLADE_CREATE(
+	m::gtk::Builder builder = MLIB_GTK_BUILDER_CREATE(
 		std::string(APP_UI_PATH) + "/dialog.temporary_action.glade",
 		"temporary_action_dialog"
 	);
@@ -1199,7 +1200,7 @@ void Main_window::on_temporary_process_torrents_cb(const std::pair<Temporary_act
 	// Запрашиваем у пользователя время -->
 	{
 		Temporary_action_dialog* dialog;
-		MLIB_GLADE_GET_WIDGET_DERIVED(glade, "temporary_action_dialog", dialog);
+		MLIB_GTK_BUILDER_GET_WIDGET_DERIVED(builder, "temporary_action_dialog", dialog);
 		dialog->init(*this, data.first, data.second);
 
 		if(dialog->run() == Gtk::RESPONSE_OK)
@@ -1301,8 +1302,14 @@ void Main_window::open_torrent(const std::string& torrent_path, const std::strin
 	{
 		if(client_settings.gui.show_add_torrent_dialog)
 		{
+			m::gtk::Builder builder = MLIB_GTK_BUILDER_CREATE(
+				m::fs::Path(APP_UI_PATH) / "dialog.add_torrent.glade", "add_torrent_dialog");
+
+			Add_torrent_dialog* dialog;
+			MLIB_GTK_BUILDER_GET_WIDGET_DERIVED(builder, "add_torrent_dialog", dialog);
+
 			// Генерирует m::Exception
-			new Add_torrent_dialog(*this, torrent_path, torrent_encoding);
+			dialog->process(*this, torrent_path, torrent_encoding);
 		}
 		else
 		{
@@ -1312,14 +1319,10 @@ void Main_window::open_torrent(const std::string& torrent_path, const std::strin
 					client_settings.user.start_torrent_on_adding,
 					client_settings.user.download_to,
 					client_settings.user.copy_finished_to,
-					torrent_encoding,
-					std::vector<Torrent_file_settings>()
+					torrent_encoding
 				)
 			);
 		}
-
-		// Чтобы торрент появился моментально.
-		this->update_gui();
 	}
 	catch(m::Exception& e)
 	{

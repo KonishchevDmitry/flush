@@ -24,6 +24,7 @@
 
 #include <libconfig.h++>
 
+#include <mlib/gtk/expander_settings.hpp>
 #include <mlib/gtk/toolbar.hpp>
 #include <mlib/fs.hpp>
 #include <mlib/libconfig.hpp>
@@ -107,6 +108,18 @@ class Config: private m::Virtual
 
 class Categories_view: public ::Categories_view_settings, public Config
 {
+	public:
+		virtual void	read(const libconfig::Setting& root);
+		virtual void	write(libconfig::Setting& root) const;
+};
+
+
+
+class Expander: public m::gtk::Expander_settings, public Config
+{
+	public:
+		Expander(bool expanded);
+
 	public:
 		virtual void	read(const libconfig::Setting& root);
 		virtual void	write(libconfig::Setting& root) const;
@@ -198,6 +211,42 @@ Config* get(smart_ptr& ptr)
 			M_FOR_CONST_IT(this->selected_items, it)
 				setting.add(libconfig::Setting::TypeString) = *it;
 		}
+	}
+// Categories_view_config <--
+
+
+
+// Expander -->
+	Expander::Expander(bool expanded)
+	:
+		m::gtk::Expander_settings(expanded)
+	{
+	}
+
+
+
+	void Expander::read(const libconfig::Setting& root)
+	{
+		for(int setting_id = 0; setting_id < root.getLength(); setting_id++)
+		{
+			const libconfig::Setting& setting = root[setting_id];
+			const char* setting_name = setting.getName();
+
+			if(m::is_eq(setting_name, "expanded"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				this->expanded = setting;
+			}
+			else
+				unknown_option(setting);
+		}
+	}
+
+
+
+	void Expander::write(libconfig::Setting& root) const
+	{
+		root.add("expanded", libconfig::Setting::TypeBoolean) = this->expanded;
 	}
 // Categories_view_config <--
 
@@ -539,6 +588,22 @@ Config* get(smart_ptr& ptr)
 
 
 // Add_torrent_dialog_settings -->
+	Add_torrent_dialog_settings::Add_torrent_dialog_settings(void)
+	:
+		paths_expander(new config::Expander(false)),
+		files_expander(new config::Expander(true)),
+		trackers_expander(new config::Expander(false))
+	{
+	}
+
+
+
+	Add_torrent_dialog_settings::~Add_torrent_dialog_settings(void)
+	{
+	}
+
+
+
 	void Add_torrent_dialog_settings::read_config(const libconfig::Setting& config_root)
 	{
 		for(int i = 0; i < config_root.getLength(); i++)
@@ -551,10 +616,25 @@ Config* get(smart_ptr& ptr)
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeGroup, continue)
 				this->window.read_config(setting);
 			}
+			else if(m::is_eq(setting_name, "paths_expander"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeGroup, continue)
+				config::get(this->paths_expander)->read(setting);
+			}
+			else if(m::is_eq(setting_name, "files_expander"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeGroup, continue)
+				config::get(this->files_expander)->read(setting);
+			}
 			else if(m::is_eq(setting_name, "torrent_files_view"))
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeGroup, continue)
 				this->torrent_files_view.read_config(setting);
+			}
+			else if(m::is_eq(setting_name, "trackers_expander"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeGroup, continue)
+				config::get(this->trackers_expander)->read(setting);
 			}
 			else
 				unknown_option(setting);
@@ -566,11 +646,18 @@ Config* get(smart_ptr& ptr)
 	void Add_torrent_dialog_settings::write_config(libconfig::Setting& config_root) const
 	{
 		this->window.write_config(
-			config_root.add("window", libconfig::Setting::TypeGroup)
-		);
+			config_root.add("window", libconfig::Setting::TypeGroup) );
+
+		config::get(this->paths_expander)->write(
+			config_root.add("paths_expander", libconfig::Setting::TypeGroup) );
+
+		config::get(this->files_expander)->write(
+			config_root.add("files_expander", libconfig::Setting::TypeGroup) );
 		this->torrent_files_view.write_config(
-			config_root.add("torrent_files_view", libconfig::Setting::TypeGroup)
-		);
+			config_root.add("torrent_files_view", libconfig::Setting::TypeGroup) );
+
+		config::get(this->trackers_expander)->write(
+			config_root.add("trackers_expander", libconfig::Setting::TypeGroup) );
 	}
 // Add_torrent_dialog_settings <--
 

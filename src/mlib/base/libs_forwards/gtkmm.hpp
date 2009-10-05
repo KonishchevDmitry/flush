@@ -23,11 +23,13 @@
 
 namespace Gtk {
 
+								class Builder;
 								class Button;
 								class ComboBox;
 								class Dialog;
 								class Entry;
 								class EventBox;
+								class Expander;
 								class FileChooserDialog;
 								class IconSize;
 								class LinkButton;

@@ -549,7 +549,11 @@ Torrent_id Daemon_session::add_torrent_to_config(const std::string& torrent_path
 		// Получаем информацию о торренте -->
 			files_num = torrent_info->num_files();
 			torrent_name = torrent_info->name();
-			trackers = m::lt::get_torrent_trackers(*torrent_info);
+
+			if(new_torrent_settings.trackers.get())
+				trackers = *new_torrent_settings.trackers;
+			else
+				trackers = m::lt::get_torrent_trackers(*torrent_info);
 
 			// Массив либо должен быть пуст, либо в нем должно быть такое
 			// количество файлов, как и в открываемом торренте.
@@ -843,7 +847,8 @@ void Daemon_session::auto_load_if_torrent(const std::string& torrent_path)
 						:
 							""
 					),
-					MLIB_UTF_CHARSET_NAME, std::vector<Torrent_file_settings>(), false
+					MLIB_UTF_CHARSET_NAME, std::vector<Torrent_file_settings>(),
+					std::auto_ptr<String_vector>(), false
 				),
 				false
 			);

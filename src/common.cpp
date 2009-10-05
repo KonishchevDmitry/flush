@@ -896,6 +896,7 @@
 		const std::string& copy_on_finished_path,
 		const std::string& encoding,
 		const std::vector<Torrent_file_settings> files_settings,
+		std::auto_ptr<String_vector> trackers,
 		bool duplicate_is_error
 	)
 	:
@@ -904,6 +905,7 @@
 		copy_on_finished_path(copy_on_finished_path),
 		encoding(encoding),
 		files_settings(files_settings),
+		trackers(trackers),
 		duplicate_is_error(duplicate_is_error)
 	{
 	}
@@ -917,6 +919,7 @@
 		const std::string& copy_on_finished_path,
 		const std::string& encoding,
 		const std::vector<Torrent_file_settings> files_settings,
+		std::auto_ptr<String_vector> trackers,
 		bool duplicate_is_error
 	)
 	:
@@ -926,6 +929,7 @@
 		copy_on_finished_path(copy_on_finished_path),
 		encoding(encoding),
 		files_settings(files_settings),
+		trackers(trackers),
 		duplicate_is_error(duplicate_is_error)
 	{
 	}

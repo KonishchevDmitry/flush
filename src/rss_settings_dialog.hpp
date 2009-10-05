@@ -73,7 +73,7 @@
 
 
 		public:
-			Rss_settings_dialog(BaseObjectType* cobject, const Glade_xml& glade);
+			Rss_settings_dialog(BaseObjectType* cobject, const m::gtk::Builder& builder);
 
 
 		private:

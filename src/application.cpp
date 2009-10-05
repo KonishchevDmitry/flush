@@ -35,9 +35,11 @@
 #include <gtkmm/main.h>
 #include <gtkmm/window.h>
 
-#include <mlib/gtk/main.hpp>
 #include <mlib/misc.hpp>
 #include <mlib/signals_holder.hpp>
+
+#include <mlib/gtk/dispatcher.hpp>
+#include <mlib/gtk/main.hpp>
 
 #include "application.hpp"
 #include "client_cmd_options.hpp"
@@ -105,9 +107,9 @@ namespace Application_aux
 		public:
 			/// Сигнализирует о том, что в данный момент производится
 			/// завершение работы приложения.
-			bool							stopping;
+			bool								stopping;
 
-			m::Signals_holder				sholder;
+			m::Signals_holder					sholder;
 	};
 
 
@@ -206,6 +208,8 @@ Application::Application(const Client_cmd_options& cmd_options, DBus::Connection
 
 Application::~Application(void)
 {
+	MLIB_D("Destroying application...");
+
 	MLIB_A(this->ptr);
 
 	priv->sholder.disconnect();
@@ -214,6 +218,7 @@ Application::~Application(void)
 	// пользователю.
 	m::set_warning_function(NULL);
 
+	MLIB_D("Destroying main window...");
 	delete this->main_window;
 
 	this->ptr = NULL;
@@ -243,6 +248,9 @@ void Application::add_message(const Message& message)
 void Application::add_torrent(const std::string& torrent_path, const New_torrent_settings& torrent_settings)
 {
 	get_daemon_proxy().add_torrent(torrent_path, torrent_settings);
+
+	// Чтобы торрент появился моментально
+	update_gui();
 }
 
 
@@ -307,7 +315,12 @@ std::string Application::dbus_cmd_options(const std::vector<std::string>& cmd_op
 		delete [] argv;
 	// Парсим полученные опции <--
 
-	// Передаем на обработку
+	// Передаем на обработку, отделяя ее от данного потока, чтобы как можно
+	// быстрее вернуть управление DBus-обработчику. Это необходимо хотя бы
+	// потому, что при обработке могут открываться диалоговые окна, которые
+	// могут приостановить выполнение текущего потока на неопределенное
+	// количество времени, в результате чего клиент DBus отвалится по таймауту
+	// и отобразит об этом ошибку пользователю.
 	this->process_cmd_options(cmd_options);
 
 	return "";
@@ -510,7 +523,7 @@ void Application::stop(void)
 	MLIB_D("Application stopped. Destroying it...");
 	delete this;
 
-	MLIB_D("Stopping main loop...");
+	MLIB_D("Stopping the main loop...");
 	Gtk::Main::quit();
 }
 

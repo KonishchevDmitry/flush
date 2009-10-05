@@ -20,71 +20,52 @@
 
 
 #ifndef HEADER_ADD_TORRENT_DIALOG
-	#define HEADER_ADD_TORRENT_DIALOG
+#define HEADER_ADD_TORRENT_DIALOG
 
-	#include <string>
 
-	#include <gtkmm/button.h>
-	#include <gtkmm/checkbutton.h>
-	#include <gtkmm/entry.h>
-	#include <gtkmm/filechooserbutton.h>
-	#include <gtkmm/filechooserdialog.h>
+#include <boost/scoped_ptr.hpp>
 
-	#include <libtorrent/torrent_info.hpp>
+#include <mlib/gtk/builder.hpp>
+#include <mlib/gtk/dialog.hpp>
 
-	#include <mlib/gtk/window.hpp>
-
-	#include "common.hpp"
-	#include "torrent_files_view.hpp"
+#include "common.hpp"
 
 
 
-	/// Диалог, отображаемый при открытии *.torrent файла.
-	class Add_torrent_dialog: public m::gtk::Window
-	{
-		public:
-			/// @throw - m::Exception.
-			Add_torrent_dialog(Gtk::Window& parent_window, const std::string& torrent_path, const std::string& torrent_encoding);
-
-			~Add_torrent_dialog(void) {}
+namespace Add_torrent_dialog_aux { class Private; }
 
 
-		private:
-			Gtk::Entry					torrent_name_entry;
-			Gtk::CheckButton			start_torrent_check_button;
-
-			Gtk::FileChooserDialog		download_to_dialog;
-			Gtk::FileChooserButton		download_to_button;
-
-			Gtk::CheckButton			copy_when_finished_to_check_button;
-			Gtk::FileChooserDialog		copy_when_finished_to_dialog;
-			Gtk::FileChooserButton		copy_when_finished_to_button;
-
-			std::string					torrent_path;
-			lt::torrent_info			torrent_info;
-			std::string					torrent_encoding;
-			Torrent_files_static_view	torrent_files_view;
+/// Диалог, отображаемый при открытии *.torrent файла.
+class Add_torrent_dialog: public m::gtk::Dialog
+{
+	private:
+		typedef Add_torrent_dialog_aux::Private Private;
 
 
-		private:
-			/// Закрывает окно.
-			void 			close(void);
+	public:
+		Add_torrent_dialog(BaseObjectType* cobject, const m::gtk::Builder& builder);
 
-			/// При нажатии на кнопку Cancel.
-			void 			on_cancel_button_callback(void);
+	private:
+		/// Диалог сам заботится о своем уничтожении.
+		~Add_torrent_dialog(void);
 
-			/// Обработчик сигнала на закрытие окна.
-			bool			on_close_callback(GdkEventAny* event);
 
-			/// Обработчик сигнала на нажатие на флажок "Copy when finished to".
-			void			on_copy_when_finished_to_toggled_callback(void);
+	private:
+		boost::scoped_ptr<Private>	priv;
 
-			/// При нажатии на кнопку OK.
-			void			on_ok_button_callback(void);
 
-			/// Сохраняет текущие настройки.
-			void			save_settings(Add_torrent_dialog_settings& settings);
-	};
+	public:
+		/// Начинает обработку запроса.
+		/// @throw - m::Exception.
+		void			process(Gtk::Window& parent_window, const std::string& torrent_path, const std::string& torrent_encoding);
+
+	private:
+		/// Обработчик сигнала на закрытие окна.
+		virtual void	on_hide(void);
+
+		/// Обработчик сигнала на реакцию пользователя.
+		virtual void	on_response(int response);
+};
 
 #endif
 

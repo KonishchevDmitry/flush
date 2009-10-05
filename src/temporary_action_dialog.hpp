@@ -46,7 +46,7 @@
 
 
 		public:
-			Temporary_action_dialog(BaseObjectType* cobject, const Glade_xml& glade);
+			Temporary_action_dialog(BaseObjectType* cobject, const m::gtk::Builder& builder);
 
 
 		private:

@@ -20,57 +20,57 @@
 
 
 #ifndef HEADER_IP_FILTER
-	#define HEADER_IP_FILTER
+#define HEADER_IP_FILTER
 
-	#include <gtkmm/box.h>
+#include <gtkmm/box.h>
 
-	#include <libglademm/xml.h>
+#include <mlib/gtk/builder.hxx>
 
-	#include "common.hpp"
-
-
-	/// Список правил IP фильтра.
-	class Ip_filter: public Gtk::VBox
-	{
-		private:
-			class Private;
+#include "common.hpp"
 
 
-		public:
-			Ip_filter(BaseObjectType* cobject, const Glib::RefPtr<Gnome::Glade::Xml>& glade);
-			~Ip_filter(void);
+/// Список правил IP фильтра.
+class Ip_filter: public Gtk::VBox
+{
+	private:
+		class Private;
 
 
-		private:
-			Private*					priv;
+	public:
+		Ip_filter(BaseObjectType* cobject, const m::gtk::Builder& builder);
+		~Ip_filter(void);
 
 
-		public:
-			/// Добавляет правило в список.
-			void							add(const Ip_filter_rule& rule);
+	private:
+		Private*					priv;
 
-			/// Возвращает текущий список правил IP-фильтра.
-			std::vector<Ip_filter_rule>		get(void) const;
 
-			/// Задает текущий список правил IP-фильтра.
-			void							set(const std::vector<Ip_filter_rule>& ip_filter);
+	public:
+		/// Добавляет правило в список.
+		void							add(const Ip_filter_rule& rule);
 
-		private:
-			/// Обработчик сигнала на нажатие кнопки "Добавить правило".
-			void	on_add_button_clicked_cb(void);
+		/// Возвращает текущий список правил IP-фильтра.
+		std::vector<Ip_filter_rule>		get(void) const;
 
-			/// Обработчик сигнала на нажатие кнопки "Блокировать".
-			void	on_block_button_clicked_cb(void);
+		/// Задает текущий список правил IP-фильтра.
+		void							set(const std::vector<Ip_filter_rule>& ip_filter);
 
-			/// Обработчик сигнала на нажатие одной из управляющих кнопок IP-фильтра.
-			void	on_control_button_clicked_cb(sigc::slot<void>& fun);
+	private:
+		/// Обработчик сигнала на нажатие кнопки "Добавить правило".
+		void	on_add_button_clicked_cb(void);
 
-			/// Обработчик сигнала на нажатие кнопки "Редактировать".
-			void	on_edit_button_clicked_cb(void);
+		/// Обработчик сигнала на нажатие кнопки "Блокировать".
+		void	on_block_button_clicked_cb(void);
 
-			/// Сигнал на изменение выделения в списке правил IP-фильтра.
-			void	on_selection_changed_cb(void);
-	};
+		/// Обработчик сигнала на нажатие одной из управляющих кнопок IP-фильтра.
+		void	on_control_button_clicked_cb(sigc::slot<void>& fun);
+
+		/// Обработчик сигнала на нажатие кнопки "Редактировать".
+		void	on_edit_button_clicked_cb(void);
+
+		/// Сигнал на изменение выделения в списке правил IP-фильтра.
+		void	on_selection_changed_cb(void);
+};
 
 #endif
 

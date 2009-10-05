@@ -18,27 +18,34 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GLADE
-#ifndef HEADER_MLIB_GTK_GLADE_FWD
-#define HEADER_MLIB_GTK_GLADE_FWD
+#ifndef HEADER_MLIB_GTK_EXPANDER_SETTINGS
+#define HEADER_MLIB_GTK_EXPANDER_SETTINGS
 
-	#if MLIB_ENABLE_FORWARDS
-		#include <mlib/forwards/glademm.hpp>
-	#else
-		#include <libglademm/xml.h>
-	#endif
 
-	#include <mlib/main.hpp>
-
-	namespace m { namespace glade {
-		typedef ::Glib::RefPtr< ::Gnome::Glade::Xml > Glade_xml;
-	}}
-
-	#ifdef MLIB_ENABLE_ALIASES
-		using m::glade::Glade_xml;
-	#endif
-
-#endif
+#if !MLIB_ENABLE_LIBS_FORWARDS
+	#include <gtkmm/expander.h>
 #endif
 
+#include <mlib/main.hpp>
+
+
+namespace m { namespace gtk {
+
+class Expander_settings: private m::Virtual
+{
+	public:
+		Expander_settings(bool expanded = false);
+
+
+	public:
+		bool	expanded;
+
+	public:
+		void	get(const Gtk::Expander& expander);
+		void	set(Gtk::Expander& expander) const;
+};
+
+}}
+
+#endif
 

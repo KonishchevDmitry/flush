@@ -25,9 +25,9 @@
 	#include <gtkmm/dialog.h>
 	#include <gtkmm/window.h>
 
+	#include <mlib/gtk/dialog_settings.hpp>
 	#include <mlib/gtk/main.hpp>
 	#include <mlib/gtk/misc.hxx>
-	#include <mlib/gtk/window_settings.hpp>
 
 
 	namespace m { namespace gtk {
@@ -35,7 +35,7 @@
 	class Dialog: public Gtk::Dialog
 	{
 		public:
-			typedef Window_settings Settings;
+			typedef Dialog_settings Settings;
 
 
 		public:
@@ -46,12 +46,12 @@
 			/// Предназначена для инициализации виджета после конструирования
 			/// его из Glade-представления.
 			virtual
-			void	init(Gtk::Window& parent_window);
+			void	init(Gtk::Window& parent_window, const Settings& settings = Settings());
 
 
 		public:
 			/// Сохраняет текущие настройки.
-			void save_settings(Settings& settings) const;
+			void	save_settings(Settings& settings) const;
 	};
 
 	}}

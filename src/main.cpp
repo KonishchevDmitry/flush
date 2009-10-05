@@ -1089,6 +1089,7 @@ int main(int argc, char *argv[])
 		{
 			app->start();
 			Gtk::Main::run();
+			MLIB_D("The main loop has been stopped.");
 
 			// Удаляем созданную ссылку -->
 				try

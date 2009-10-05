@@ -18,47 +18,66 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GLADE
+#if !MLIB_ENABLE_GTK_BUILDER_EMULATION
+	#include <gtk/gtkbuilder.h>
+
+	#error Not tested yet
+#endif
 
 #include <mlib/main.hpp>
 
-#include "glade.hpp"
+#include "builder.hpp"
 
 
-namespace m { namespace glade {
+namespace m { namespace gtk { namespace builder {
 
-Glade_xml create(const char* file, int line, const std::string& filename, const Glib::ustring& root, const Glib::ustring& domain)
+Builder create(const char* file, int line, const std::string& filename, const Glib::ustring& root)
 {
-	try
-	{
-		return Gnome::Glade::Xml::create(filename, root, domain);
-	}
-	catch(Gnome::Glade::XmlError& e)
-	{
-		m::error(file, line, e.what());
-	}
+	#if MLIB_ENABLE_GTK_BUILDER_EMULATION
+		try
+		{
+			return Gnome::Glade::Xml::create(filename, root);
+		}
+		catch(Gnome::Glade::XmlError& e)
+		{
+			m::error(file, line, e.what());
+		}
+	#else
+		try
+		{
+			return Gtk::Builder::create_from_file(filename, root);
+		}
+		catch(Gtk::BuilderError& e)
+		{
+			m::error(file, line, e.what());
+		}
+	#endif
 }
 
 
 
-Gtk::Widget* get_widget(const char* file, int line, const Glade_xml& xml, const Glib::ustring &name)
+Glib::ustring get_file_name(const Builder& builder)
+{
+	#if MLIB_ENABLE_GTK_BUILDER_EMULATION
+		return builder->get_filename();
+	#else
+		#error TODO
+	#endif
+}
+
+
+
+Gtk::Widget* get_widget(const char* file, int line, const Builder& builder, const Glib::ustring &name)
 {
 	Gtk::Widget* widget = NULL;
 
-	widget = xml->get_widget(name);
+	builder->get_widget(name, widget);
 
 	if(!widget)
-	{
-		m::error(file, line, __(
-			"Can't get widget '%1' from glade file '%2'.",
-			name, xml->get_filename()
-		));
-	}
+		getting_widget_error(file, line, builder, name);
 
 	return widget;
 }
 
-}}
-
-#endif
+}}}
 

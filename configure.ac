@@ -1,4 +1,4 @@
-AC_INIT([Flush], [0.7.1], [konishchev@gmail.com])
+AC_INIT([Flush], [0.8.0], [konishchev@gmail.com])
 
 
 AC_CONFIG_SRCDIR([src/main.cpp])
@@ -203,8 +203,11 @@ dnl config.h -->
 	AH_TEMPLATE([MLIB_ENABLE_GTK], [Enable GTK support for mlib])
 	AC_DEFINE([MLIB_ENABLE_GTK])
 
-	AH_TEMPLATE([MLIB_ENABLE_GLADE], [Enable Glade support for mlib])
-	AC_DEFINE([MLIB_ENABLE_GLADE])
+	AH_TEMPLATE([MLIB_ENABLE_GTK_BUILDER], [Enable GTK Builder support for mlib])
+	AC_DEFINE([MLIB_ENABLE_GTK_BUILDER])
+
+	AH_TEMPLATE([MLIB_ENABLE_GTK_BUILDER_EMULATION], [Enable GTK Builder emulation by Glade for mlib])
+	AC_DEFINE([MLIB_ENABLE_GTK_BUILDER_EMULATION])
 
 	AH_BOTTOM([
 #endif

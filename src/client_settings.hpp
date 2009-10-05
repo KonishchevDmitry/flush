@@ -20,288 +20,303 @@
 
 
 #ifndef HEADER_CLIENT_SETTINGS
-	#define HEADER_CLIENT_SETTINGS
+#define HEADER_CLIENT_SETTINGS
 
-	#include <memory>
-	#include <string>
+#include <memory>
+#include <string>
 
-	#include <boost/noncopyable.hpp>
+#include <boost/scoped_ptr.hpp>
+#include <boost/noncopyable.hpp>
 
-	#ifndef MLIB_ENABLE_LIBS_FORWARDS
-		#include <libconfig.h++>
-	#endif
+#ifndef MLIB_ENABLE_LIBS_FORWARDS
+	#include <libconfig.h++>
+#endif
 
-	#include <mlib/gtk/paned_settings.hpp>
-	#include <mlib/gtk/toolbar.hpp>
-	#include <mlib/gtk/tree_view_settings.hpp>
-	#include <mlib/gtk/window_settings.hpp>
+#include <mlib/gtk/dialog_settings.hpp>
+#include <mlib/gtk/expander_settings.hxx>
+#include <mlib/gtk/paned_settings.hpp>
+#include <mlib/gtk/toolbar.hpp>
+#include <mlib/gtk/tree_view_settings.hpp>
+#include <mlib/gtk/window_settings.hpp>
 
-	#include "categories_view.hxx"
-	#include "client_settings.hxx"
-	#include "common.hpp"
+#include "categories_view.hxx"
+#include "client_settings.hxx"
+#include "common.hpp"
 
 
-	#define GUI_MIN_UPDATE_INTERVAL ( 1000 / 25 )
+#define GUI_MIN_UPDATE_INTERVAL ( 1000 / 25 )
 
 
 
-	class Tree_view_settings: public m::gtk::Tree_view_settings
-	{
-		public:
-			void read_config(const libconfig::Setting& config_root);
-			void write_config(libconfig::Setting& config_root) const;
+class Tree_view_settings: public m::gtk::Tree_view_settings
+{
+	public:
+		void read_config(const libconfig::Setting& config_root);
+		void write_config(libconfig::Setting& config_root) const;
 
-		private:
-			void read_column_config(const libconfig::Setting& config_root, m::gtk::Tree_view_column_settings& column);
-			void write_column_config(libconfig::Setting& config_root, const m::gtk::Tree_view_column_settings& column) const;
-	};
+	private:
+		void read_column_config(const libconfig::Setting& config_root, m::gtk::Tree_view_column_settings& column);
+		void write_column_config(libconfig::Setting& config_root, const m::gtk::Tree_view_column_settings& column) const;
+};
 
 
 
-	class Paned_settings: public m::gtk::Paned_settings
-	{
-		public:
-			void read_config(const libconfig::Setting& config_root);
-			void write_config(libconfig::Setting& config_root) const;
-	};
+class Paned_settings: public m::gtk::Paned_settings
+{
+	public:
+		void read_config(const libconfig::Setting& config_root);
+		void write_config(libconfig::Setting& config_root) const;
+};
 
 
 
-	class Window_settings: public m::gtk::Window_settings
-	{
-		public:
-			void read_config(const libconfig::Setting& config_root);
-			void write_config(libconfig::Setting& config_root) const;
-	};
+class Window_settings: public m::gtk::Window_settings
+{
+	public:
+		void read_config(const libconfig::Setting& config_root);
+		void write_config(libconfig::Setting& config_root) const;
+};
+typedef Window_settings Dialog_settings;
 
 
 
-	class Torrents_viewport_settings: private boost::noncopyable
-	{
-		public:
-			Torrents_viewport_settings(void);
-			~Torrents_viewport_settings(void);
+class Torrents_viewport_settings: private boost::noncopyable
+{
+	public:
+		Torrents_viewport_settings(void);
+		~Torrents_viewport_settings(void);
 
 
-		public:
-			std::string								info_widget;
+	public:
+		std::string								info_widget;
 
-			Paned_settings							torrents_view_and_torrent_infos_vpaned;
-			std::auto_ptr<Categories_view_settings>	categories_view;
-			Torrents_view_settings					torrents_view;
+		Paned_settings							torrents_view_and_torrent_infos_vpaned;
+		std::auto_ptr<Categories_view_settings>	categories_view;
+		Torrents_view_settings					torrents_view;
 
-			Torrent_files_view_settings				torrent_files_view;
-			Torrent_files_view_settings				torrent_peers_view;
+		Torrent_files_view_settings				torrent_files_view;
+		Torrent_files_view_settings				torrent_peers_view;
 
 
-		public:
-			void read_config(const libconfig::Setting& config_root, Version client_version);
-			void write_config(libconfig::Setting& config_root) const;
-	};
+	public:
+		void read_config(const libconfig::Setting& config_root, Version client_version);
+		void write_config(libconfig::Setting& config_root) const;
+};
 
 
 
-	class Status_bar_settings
-	{
-		public:
-			Status_bar_settings(void);
+class Status_bar_settings
+{
+	public:
+		Status_bar_settings(void);
 
 
-		public:
-			bool	download_speed;
-			bool	payload_download_speed;
+	public:
+		bool	download_speed;
+		bool	payload_download_speed;
 
-			bool	upload_speed;
-			bool	payload_upload_speed;
+		bool	upload_speed;
+		bool	payload_upload_speed;
 
-			bool	download;
-			bool	payload_download;
+		bool	download;
+		bool	payload_download;
 
-			bool	upload;
-			bool	payload_upload;
+		bool	upload;
+		bool	payload_upload;
 
-			bool	share_ratio;
-			bool	failed;
-			bool	redundant;
+		bool	share_ratio;
+		bool	failed;
+		bool	redundant;
 
 
-		public:
-			void read_config(const libconfig::Setting& config_root);
-			void write_config(libconfig::Setting& config_root) const;
-	};
+	public:
+		void read_config(const libconfig::Setting& config_root);
+		void write_config(libconfig::Setting& config_root) const;
+};
 
 
 
-	class Main_window_settings
-	{
-		public:
-			Window_settings				window;
-			Torrents_viewport_settings	torrents_viewport;
-			Status_bar_settings			status_bar;
+class Main_window_settings
+{
+	public:
+		Window_settings				window;
+		Torrents_viewport_settings	torrents_viewport;
+		Status_bar_settings			status_bar;
 
 
-		public:
-			void read_config(const libconfig::Setting& config_root, Version client_version);
-			void write_config(libconfig::Setting& config_root) const;
-	};
+	public:
+		void read_config(const libconfig::Setting& config_root, Version client_version);
+		void write_config(libconfig::Setting& config_root) const;
+};
 
 
 
-	/// Диалог добавления торрента.
-	class Add_torrent_dialog_settings
-	{
-		public:
-			Window_settings		window;
-			Tree_view_settings	torrent_files_view;
+/// Диалог добавления торрента.
+class Add_torrent_dialog_settings: private boost::noncopyable
+{
+	public:
+		Add_torrent_dialog_settings(void);
+		~Add_torrent_dialog_settings(void);
 
 
-		public:
-			void read_config(const libconfig::Setting& config_root);
-			void write_config(libconfig::Setting& config_root) const;
-	};
+	public:
+		Dialog_settings									window;
 
+		boost::scoped_ptr<m::gtk::Expander_settings>	paths_expander;
 
+		boost::scoped_ptr<m::gtk::Expander_settings>	files_expander;
+		Tree_view_settings								torrent_files_view;
 
-	/// Диалог создания торрента.
-	class Create_torrent_dialog_settings
-	{
-		public:
-			Window_settings		window;
+		boost::scoped_ptr<m::gtk::Expander_settings>	trackers_expander;
 
-			/// Директория, в которой лежали файлы торрента, когда в последний
-			/// раз создавался очередной торрент.
-			std::string			get_from;
 
-			/// Директория, в которую в последний раз сохранялся торрент.
-			std::string			save_to;
+	public:
+		void read_config(const libconfig::Setting& config_root);
+		void write_config(libconfig::Setting& config_root) const;
+};
 
 
-		public:
-			void read_config(const libconfig::Setting& config_root);
-			void write_config(libconfig::Setting& config_root) const;
-	};
 
+/// Диалог создания торрента.
+class Create_torrent_dialog_settings
+{
+	public:
+		Window_settings		window;
 
+		/// Директория, в которой лежали файлы торрента, когда в последний
+		/// раз создавался очередной торрент.
+		std::string			get_from;
 
-	class Gui_settings
-	{
-		public:
-			Gui_settings(void);
+		/// Директория, в которую в последний раз сохранялся торрент.
+		std::string			save_to;
 
 
-		public:
-			/// Отображать текущую скорость в заголовке окна.
-			bool							show_speed_in_window_title;
+	public:
+		void read_config(const libconfig::Setting& config_root);
+		void write_config(libconfig::Setting& config_root) const;
+};
 
-			/// Отображать нулевые значения и значения равные бесконечности,
-			/// или же просто выводить пустую строку вместо них.
-			bool							show_zero_values;
 
 
-			/// Отображать панель инструментов.
-			bool							show_toolbar;
+class Gui_settings
+{
+	public:
+		Gui_settings(void);
 
-			/// Стиль панели инструментов.
-			m::gtk::toolbar::Style			toolbar_style;
 
+	public:
+		/// Отображать текущую скорость в заголовке окна.
+		bool							show_speed_in_window_title;
 
-			/// Отображать иконку в трее.
-			bool							show_tray_icon;
+		/// Отображать нулевые значения и значения равные бесконечности,
+		/// или же просто выводить пустую строку вместо них.
+		bool							show_zero_values;
 
-			/// Сворачивать при запуске главное окно в трей.
-			bool							hide_app_to_tray_at_startup;
 
-			/// Сворачивать в трей.
-			bool							minimize_to_tray;
+		/// Отображать панель инструментов.
+		bool							show_toolbar;
 
-			/// Закрывать в трей.
-			bool							close_to_tray;
+		/// Стиль панели инструментов.
+		m::gtk::toolbar::Style			toolbar_style;
 
 
-			/// Интервал обновления GUI.
-			int								update_interval;
+		/// Отображать иконку в трее.
+		bool							show_tray_icon;
 
-			/// Максимальное количество строк в логе.
-			int								max_log_lines;
+		/// Сворачивать при запуске главное окно в трей.
+		bool							hide_app_to_tray_at_startup;
 
-			/// Настройки главного окна.
-			Main_window_settings			main_window;
+		/// Сворачивать в трей.
+		bool							minimize_to_tray;
 
-			/// Директория, в которой находился последний открытый торрент.
-			std::string						open_torrents_from;
+		/// Закрывать в трей.
+		bool							close_to_tray;
 
-			/// Отображать или нет окно добавления торрента
-			/// при открытии *.torrent файла.
-			bool							show_add_torrent_dialog;
 
-			/// Диалог добавления торрента.
-			Add_torrent_dialog_settings		add_torrent_dialog;
+		/// Интервал обновления GUI.
+		int								update_interval;
 
-			/// Диалог создания торрента.
-			Create_torrent_dialog_settings	create_torrent_dialog;
+		/// Максимальное количество строк в логе.
+		int								max_log_lines;
 
+		/// Настройки главного окна.
+		Main_window_settings			main_window;
 
-		public:
-			void read_config(const libconfig::Setting& config_root, Version client_version);
-			void write_config(libconfig::Setting& config_root) const;
-	};
+		/// Директория, в которой находился последний открытый торрент.
+		std::string						open_torrents_from;
 
+		/// Отображать или нет окно добавления торрента
+		/// при открытии *.torrent файла.
+		bool							show_add_torrent_dialog;
 
+		/// Диалог добавления торрента.
+		Add_torrent_dialog_settings		add_torrent_dialog;
 
-	class User_settings
-	{
-		public:
-			User_settings(void);
+		/// Диалог создания торрента.
+		Create_torrent_dialog_settings	create_torrent_dialog;
 
 
-		public:
-			/// Начинать скачивание торрента сразу после добавления.
-			bool			start_torrent_on_adding;
+	public:
+		void read_config(const libconfig::Setting& config_root, Version client_version);
+		void write_config(libconfig::Setting& config_root) const;
+};
 
 
-			/// Директория по умолчанию, в которую будут скачиваться торренты.
-			std::string		download_to;
 
-			/// Директория, в которую будут копироваться файлы торрентов
-			/// после завершения скачивания.
-			/// Если равна "", то копирование производиться не будет.
-			std::string		copy_finished_to;
+class User_settings
+{
+	public:
+		User_settings(void);
 
 
-			/// Команда для открытия файлов торрента.
-			std::string		open_command;
+	public:
+		/// Начинать скачивание торрента сразу после добавления.
+		bool			start_torrent_on_adding;
 
 
-			/// Было ли время, которое пользователь установил в последний раз
-			/// для временного действия, выбрано из заранее предопределенных в
-			/// программе.
-			bool	temporary_action_last_time_is_predefined;
+		/// Директория по умолчанию, в которую будут скачиваться торренты.
+		std::string		download_to;
 
-			/// Время, которое пользователь установил в последний раз для
-			/// временного действия.
-			Time	temporary_action_last_time;
+		/// Директория, в которую будут копироваться файлы торрентов
+		/// после завершения скачивания.
+		/// Если равна "", то копирование производиться не будет.
+		std::string		copy_finished_to;
 
-		public:
-			void read_config(const libconfig::Setting& config_root, Version client_version);
-			void write_config(libconfig::Setting& config_root) const;
-	};
 
+		/// Команда для открытия файлов торрента.
+		std::string		open_command;
 
 
-	class Client_settings
-	{
-		public:
-			Gui_settings	gui;
-			User_settings	user;
+		/// Было ли время, которое пользователь установил в последний раз
+		/// для временного действия, выбрано из заранее предопределенных в
+		/// программе.
+		bool	temporary_action_last_time_is_predefined;
 
+		/// Время, которое пользователь установил в последний раз для
+		/// временного действия.
+		Time	temporary_action_last_time;
 
-		public:
-			/// @throw - m::Exception.
-			void read_config(const std::string& config_path);
+	public:
+		void read_config(const libconfig::Setting& config_root, Version client_version);
+		void write_config(libconfig::Setting& config_root) const;
+};
 
-			/// @throw - m::Exception.
-			void write_config(const std::string& config_path) const;
-	};
+
+
+class Client_settings
+{
+	public:
+		Gui_settings	gui;
+		User_settings	user;
+
+
+	public:
+		/// @throw - m::Exception.
+		void read_config(const std::string& config_path);
+
+		/// @throw - m::Exception.
+		void write_config(const std::string& config_path) const;
+};
 
 #endif
 

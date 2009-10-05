@@ -32,7 +32,7 @@
 
 #include <mlib/string.hpp>
 
-#include <mlib/gtk/glade.hpp>
+#include <mlib/gtk/builder.hpp>
 #include <mlib/gtk/misc.hpp>
 
 #include "application.hpp"
@@ -46,45 +46,45 @@
 // Torrent_details_view -->
 	Torrent_details_view::Torrent_details_view(void)
 	{
-		Glib::RefPtr<Gnome::Glade::Xml> glade = MLIB_GLADE_CREATE(
+		m::gtk::Builder builder = MLIB_GTK_BUILDER_CREATE(
 			std::string(APP_UI_PATH) + "/torrent_info_tabs.details.glade", "details"
 		);
 
-		this->pack_start(*MLIB_GLADE_GET_WIDGET(glade, "details"), false, false);
+		this->pack_start(*MLIB_GTK_BUILDER_GET_WIDGET(builder, "details"), false, false);
 
-		MLIB_GLADE_GET_WIDGET(glade, "status",						this->status);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "status",						this->status);
 
-		MLIB_GLADE_GET_WIDGET(glade, "size",						this->size);
-		MLIB_GLADE_GET_WIDGET(glade, "requested_size",				this->requested_size);
-		MLIB_GLADE_GET_WIDGET(glade, "downloaded_requested_size",	this->downloaded_requested_size);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "size",						this->size);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "requested_size",				this->requested_size);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "downloaded_requested_size",	this->downloaded_requested_size);
 
-		MLIB_GLADE_GET_WIDGET(glade, "total_download",				this->total_download);
-		MLIB_GLADE_GET_WIDGET(glade, "total_payload_download",		this->total_payload_download);
-		MLIB_GLADE_GET_WIDGET(glade, "total_upload",				this->total_upload);
-		MLIB_GLADE_GET_WIDGET(glade, "total_payload_upload",		this->total_payload_upload);
-		MLIB_GLADE_GET_WIDGET(glade, "total_failed",				this->total_failed);
-		MLIB_GLADE_GET_WIDGET(glade, "total_redundant",				this->total_redundant);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "total_download",				this->total_download);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "total_payload_download",		this->total_payload_download);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "total_upload",				this->total_upload);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "total_payload_upload",		this->total_payload_upload);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "total_failed",				this->total_failed);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "total_redundant",				this->total_redundant);
 
-		MLIB_GLADE_GET_WIDGET(glade, "download_speed",				this->download_speed);
-		MLIB_GLADE_GET_WIDGET(glade, "download_payload_speed",		this->download_payload_speed);
-		MLIB_GLADE_GET_WIDGET(glade, "upload_speed",				this->upload_speed);
-		MLIB_GLADE_GET_WIDGET(glade, "upload_payload_speed",		this->upload_payload_speed);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "download_speed",				this->download_speed);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "download_payload_speed",		this->download_payload_speed);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "upload_speed",				this->upload_speed);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "upload_payload_speed",		this->upload_payload_speed);
 
-		MLIB_GLADE_GET_WIDGET(glade, "share_ratio",					this->share_ratio);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "share_ratio",					this->share_ratio);
 
-		MLIB_GLADE_GET_WIDGET(glade, "peers",						this->peers);
-		MLIB_GLADE_GET_WIDGET(glade, "seeds",						this->seeds);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "peers",						this->peers);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "seeds",						this->seeds);
 
-		MLIB_GLADE_GET_WIDGET(glade, "next_announce",				this->next_announce);
-		MLIB_GLADE_GET_WIDGET(glade, "announce_interval",			this->announce_interval);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "next_announce",				this->next_announce);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "announce_interval",			this->announce_interval);
 
-		MLIB_GLADE_GET_WIDGET(glade, "time_added",					this->time_added);
-		MLIB_GLADE_GET_WIDGET(glade, "time_left",					this->time_left);
-		MLIB_GLADE_GET_WIDGET(glade, "time_seeding",				this->time_seeding);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "time_added",					this->time_added);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "time_left",					this->time_left);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "time_seeding",				this->time_seeding);
 
-		MLIB_GLADE_GET_WIDGET(glade, "tracker_status",				this->tracker_status);
-		MLIB_GLADE_GET_WIDGET(glade, "publisher_url",				this->publisher_url);
-		MLIB_GLADE_GET_WIDGET(glade, "publisher_url_event_box",		this->publisher_url_event_box);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "tracker_status",				this->tracker_status);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "publisher_url",				this->publisher_url);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "publisher_url_event_box",		this->publisher_url_event_box);
 
 		// Publisher URL -->
 			this->publisher_url_event_box->signal_button_press_event().connect(

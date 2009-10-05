@@ -162,12 +162,11 @@ Gtk::Button* get_tree_view_column_header_button(Gtk::TreeViewColumn& column)
 
 Gtk::Window* get_widget_window(Gtk::Widget& widget)
 {
-	std::string window_widget_name = Gtk::Window().get_name();
 	Gtk::Widget* cur_widget = &widget;
 
 	// Поднимаемся вверх по дереву контейнеров,
 	// пока не наткнемся на Gtk::Window.
-	while(cur_widget && cur_widget->get_name() != window_widget_name)
+	while(cur_widget && !dynamic_cast<Gtk::Window*>(cur_widget))
 		cur_widget = cur_widget->get_parent();
 
 	if(cur_widget)

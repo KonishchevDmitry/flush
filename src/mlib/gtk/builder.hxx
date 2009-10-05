@@ -18,63 +18,34 @@
 **************************************************************************/
 
 
-#ifdef MLIB_ENABLE_GTK
+#ifndef HEADER_MLIB_GTK_BUILDER_FWD
+#define HEADER_MLIB_GTK_BUILDER_FWD
+
+#if MLIB_ENABLE_FORWARDS
+	#if MLIB_ENABLE_GTK_BUILDER_EMULATION
+		#include <mlib/forwards/glademm.hpp>
+	#else
+		#include <mlib/forwards/gtkmm.hpp>
+	#endif
+#else
+	#if MLIB_ENABLE_GTK_BUILDER_EMULATION
+		#include <libglademm/xml.h>
+	#else
+		#include <gtkmm/builder.h>
+	#endif
+#endif
 
 #include <mlib/main.hpp>
 
-#include <mlib/gtk/misc.hxx>
-
-#include "dialog.hpp"
-
-
-namespace m { namespace gtk {
-
-	Dialog::Dialog(BaseObjectType* cobject)
-	:
-		Gtk::Dialog(cobject)
-	{
-		this->property_destroy_with_parent() = true;
-	}
-
-
-
-	Dialog::Dialog(Gtk::Window& parent_window, const std::string& title, const Settings& settings, int width, int height, int border_width)
-	:
-		Gtk::Dialog(title, parent_window, true)
-	{
-		this->property_destroy_with_parent() = true;
-		this->set_border_width(border_width);
-		this->set_title(title);
-
-		if(width > 0 && height > 0)
-			this->set_default_size(width, height);
-
-		this->init(parent_window, settings);
-	}
-
-
-
-	void Dialog::init(Gtk::Window& parent_window, const Settings& settings)
-	{
-		this->set_transient_for(parent_window);
-
-		if(parent_window.is_visible())
-			this->set_position(Gtk::WIN_POS_CENTER_ON_PARENT);
-		else
-			this->set_position(Gtk::WIN_POS_CENTER);
-
-		if(settings.width > 0 && settings.height > 0)
-			this->resize(settings.width, settings.height);
-	}
-
-
-
-	void Dialog::save_settings(Settings& settings) const
-	{
-		this->get_size(settings.width, settings.height);
-	}
-
-}}
+#if MLIB_ENABLE_GTK_BUILDER_EMULATION
+	namespace m { namespace gtk {
+		typedef ::Glib::RefPtr< ::Gnome::Glade::Xml > Builder;
+	}}
+#else
+	namespace m { namespace gtk {
+		typedef ::Glib::RefPtr< ::Gtk::Builder > Builder;
+	}}
+#endif
 
 #endif
 

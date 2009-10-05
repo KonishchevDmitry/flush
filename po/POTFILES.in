@@ -20,6 +20,10 @@ src/mlib/base/messages.hh
 src/mlib/base/messages.hpp
 src/mlib/gtk/action.cpp
 src/mlib/gtk/action.hpp
+src/mlib/gtk/builder.cpp
+src/mlib/gtk/builder.hh
+src/mlib/gtk/builder.hpp
+src/mlib/gtk/builder.hxx
 src/mlib/gtk/controlled_list.cpp
 src/mlib/gtk/controlled_list.hpp
 src/mlib/gtk/dialog.cpp
@@ -28,10 +32,9 @@ src/mlib/gtk/dispatcher.cpp
 src/mlib/gtk/dispatcher.hh
 src/mlib/gtk/dispatcher.hpp
 src/mlib/gtk/dispatcher.hxx
-src/mlib/gtk/glade.cpp
-src/mlib/gtk/glade.hh
-src/mlib/gtk/glade.hpp
-src/mlib/gtk/glade.hxx
+src/mlib/gtk/expander_settings.cpp
+src/mlib/gtk/expander_settings.hpp
+src/mlib/gtk/expander_settings.hxx
 src/mlib/gtk/link_button.cpp
 src/mlib/gtk/link_button.hpp
 src/mlib/gtk/main.cpp

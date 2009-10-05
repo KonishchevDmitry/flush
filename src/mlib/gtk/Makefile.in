@@ -56,10 +56,11 @@ ARFLAGS = cru
 libmlib_gtk_a_AR = $(AR) $(ARFLAGS)
 libmlib_gtk_a_LIBADD =
 am_libmlib_gtk_a_OBJECTS = libmlib_gtk_a-action.$(OBJEXT) \
+	libmlib_gtk_a-builder.$(OBJEXT) \
 	libmlib_gtk_a-controlled_list.$(OBJEXT) \
 	libmlib_gtk_a-dialog.$(OBJEXT) \
 	libmlib_gtk_a-dispatcher.$(OBJEXT) \
-	libmlib_gtk_a-glade.$(OBJEXT) \
+	libmlib_gtk_a-expander_settings.$(OBJEXT) \
 	libmlib_gtk_a-link_button.$(OBJEXT) \
 	libmlib_gtk_a-main.$(OBJEXT) libmlib_gtk_a-misc.$(OBJEXT) \
 	libmlib_gtk_a-paned.$(OBJEXT) \
@@ -244,18 +245,22 @@ noinst_LIBRARIES = libmlib_gtk.a
 libmlib_gtk_a_SOURCES = \
 	action.cpp \
 	action.hpp \
+	builder.cpp \
+	builder.hh \
+	builder.hpp \
+	builder.hxx \
 	controlled_list.cpp \
 	controlled_list.hpp \
 	dialog.cpp \
 	dialog.hpp \
+	dialog_settings.hpp \
 	dispatcher.cpp \
 	dispatcher.hh \
 	dispatcher.hpp \
 	dispatcher.hxx \
-	glade.cpp \
-	glade.hh \
-	glade.hpp \
-	glade.hxx \
+	expander_settings.cpp \
+	expander_settings.hpp \
+	expander_settings.hxx \
 	link_button.cpp \
 	link_button.hpp \
 	main.cpp \
@@ -335,10 +340,11 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_gtk_a-action.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_gtk_a-builder.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_gtk_a-controlled_list.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_gtk_a-dialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_gtk_a-dispatcher.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_gtk_a-glade.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_gtk_a-expander_settings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_gtk_a-link_button.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_gtk_a-main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_gtk_a-misc.Po@am__quote@
@@ -378,6 +384,20 @@ libmlib_gtk_a-action.obj: action.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='action.cpp' object='libmlib_gtk_a-action.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_gtk_a-action.obj `if test -f 'action.cpp'; then $(CYGPATH_W) 'action.cpp'; else $(CYGPATH_W) '$(srcdir)/action.cpp'; fi`
+
+libmlib_gtk_a-builder.o: builder.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_gtk_a-builder.o -MD -MP -MF $(DEPDIR)/libmlib_gtk_a-builder.Tpo -c -o libmlib_gtk_a-builder.o `test -f 'builder.cpp' || echo '$(srcdir)/'`builder.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_gtk_a-builder.Tpo $(DEPDIR)/libmlib_gtk_a-builder.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='builder.cpp' object='libmlib_gtk_a-builder.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_gtk_a-builder.o `test -f 'builder.cpp' || echo '$(srcdir)/'`builder.cpp
+
+libmlib_gtk_a-builder.obj: builder.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_gtk_a-builder.obj -MD -MP -MF $(DEPDIR)/libmlib_gtk_a-builder.Tpo -c -o libmlib_gtk_a-builder.obj `if test -f 'builder.cpp'; then $(CYGPATH_W) 'builder.cpp'; else $(CYGPATH_W) '$(srcdir)/builder.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_gtk_a-builder.Tpo $(DEPDIR)/libmlib_gtk_a-builder.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='builder.cpp' object='libmlib_gtk_a-builder.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_gtk_a-builder.obj `if test -f 'builder.cpp'; then $(CYGPATH_W) 'builder.cpp'; else $(CYGPATH_W) '$(srcdir)/builder.cpp'; fi`
 
 libmlib_gtk_a-controlled_list.o: controlled_list.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_gtk_a-controlled_list.o -MD -MP -MF $(DEPDIR)/libmlib_gtk_a-controlled_list.Tpo -c -o libmlib_gtk_a-controlled_list.o `test -f 'controlled_list.cpp' || echo '$(srcdir)/'`controlled_list.cpp
@@ -421,19 +441,19 @@ libmlib_gtk_a-dispatcher.obj: dispatcher.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_gtk_a-dispatcher.obj `if test -f 'dispatcher.cpp'; then $(CYGPATH_W) 'dispatcher.cpp'; else $(CYGPATH_W) '$(srcdir)/dispatcher.cpp'; fi`
 
-libmlib_gtk_a-glade.o: glade.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_gtk_a-glade.o -MD -MP -MF $(DEPDIR)/libmlib_gtk_a-glade.Tpo -c -o libmlib_gtk_a-glade.o `test -f 'glade.cpp' || echo '$(srcdir)/'`glade.cpp
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_gtk_a-glade.Tpo $(DEPDIR)/libmlib_gtk_a-glade.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='glade.cpp' object='libmlib_gtk_a-glade.o' libtool=no @AMDEPBACKSLASH@
+libmlib_gtk_a-expander_settings.o: expander_settings.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_gtk_a-expander_settings.o -MD -MP -MF $(DEPDIR)/libmlib_gtk_a-expander_settings.Tpo -c -o libmlib_gtk_a-expander_settings.o `test -f 'expander_settings.cpp' || echo '$(srcdir)/'`expander_settings.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_gtk_a-expander_settings.Tpo $(DEPDIR)/libmlib_gtk_a-expander_settings.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='expander_settings.cpp' object='libmlib_gtk_a-expander_settings.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_gtk_a-glade.o `test -f 'glade.cpp' || echo '$(srcdir)/'`glade.cpp
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_gtk_a-expander_settings.o `test -f 'expander_settings.cpp' || echo '$(srcdir)/'`expander_settings.cpp
 
-libmlib_gtk_a-glade.obj: glade.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_gtk_a-glade.obj -MD -MP -MF $(DEPDIR)/libmlib_gtk_a-glade.Tpo -c -o libmlib_gtk_a-glade.obj `if test -f 'glade.cpp'; then $(CYGPATH_W) 'glade.cpp'; else $(CYGPATH_W) '$(srcdir)/glade.cpp'; fi`
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_gtk_a-glade.Tpo $(DEPDIR)/libmlib_gtk_a-glade.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='glade.cpp' object='libmlib_gtk_a-glade.obj' libtool=no @AMDEPBACKSLASH@
+libmlib_gtk_a-expander_settings.obj: expander_settings.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_gtk_a-expander_settings.obj -MD -MP -MF $(DEPDIR)/libmlib_gtk_a-expander_settings.Tpo -c -o libmlib_gtk_a-expander_settings.obj `if test -f 'expander_settings.cpp'; then $(CYGPATH_W) 'expander_settings.cpp'; else $(CYGPATH_W) '$(srcdir)/expander_settings.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_gtk_a-expander_settings.Tpo $(DEPDIR)/libmlib_gtk_a-expander_settings.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='expander_settings.cpp' object='libmlib_gtk_a-expander_settings.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_gtk_a-glade.obj `if test -f 'glade.cpp'; then $(CYGPATH_W) 'glade.cpp'; else $(CYGPATH_W) '$(srcdir)/glade.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_gtk_a-expander_settings.obj `if test -f 'expander_settings.cpp'; then $(CYGPATH_W) 'expander_settings.cpp'; else $(CYGPATH_W) '$(srcdir)/expander_settings.cpp'; fi`
 
 libmlib_gtk_a-link_button.o: link_button.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_gtk_a-link_button.o -MD -MP -MF $(DEPDIR)/libmlib_gtk_a-link_button.Tpo -c -o libmlib_gtk_a-link_button.o `test -f 'link_button.cpp' || echo '$(srcdir)/'`link_button.cpp

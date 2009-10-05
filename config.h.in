@@ -105,11 +105,14 @@
 /* Enable DBus support for mlib */
 #undef MLIB_ENABLE_DBUS
 
-/* Enable Glade support for mlib */
-#undef MLIB_ENABLE_GLADE
-
 /* Enable GTK support for mlib */
 #undef MLIB_ENABLE_GTK
+
+/* Enable GTK Builder support for mlib */
+#undef MLIB_ENABLE_GTK_BUILDER
+
+/* Enable GTK Builder emulation by Glade for mlib */
+#undef MLIB_ENABLE_GTK_BUILDER_EMULATION
 
 /* Enable libinotify in mlib */
 #undef MLIB_ENABLE_INOTIFY

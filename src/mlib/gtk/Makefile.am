@@ -3,18 +3,22 @@ noinst_LIBRARIES = libmlib_gtk.a
 libmlib_gtk_a_SOURCES = \
 	action.cpp \
 	action.hpp \
+	builder.cpp \
+	builder.hh \
+	builder.hpp \
+	builder.hxx \
 	controlled_list.cpp \
 	controlled_list.hpp \
 	dialog.cpp \
 	dialog.hpp \
+	dialog_settings.hpp \
 	dispatcher.cpp \
 	dispatcher.hh \
 	dispatcher.hpp \
 	dispatcher.hxx \
-	glade.cpp \
-	glade.hh \
-	glade.hpp \
-	glade.hxx \
+	expander_settings.cpp \
+	expander_settings.hpp \
+	expander_settings.hxx \
 	link_button.cpp \
 	link_button.hpp \
 	main.cpp \
