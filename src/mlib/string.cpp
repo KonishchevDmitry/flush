@@ -54,7 +54,7 @@ namespace
 
 std::string get_time_duration_string(time_t time, bool show_zero_values)
 {
-	if(time <= 0)
+	if(time < 60)
 	{
 		if(show_zero_values)
 			return _("0m");

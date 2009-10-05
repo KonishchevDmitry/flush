@@ -2,6 +2,10 @@
 [+] Trackers' editing in the Add torrent dialog.
 
 
+0.7.2 (2009.10.02)
+[*] Fixed a bug, due to which Flush could crash in very rare case.
+
+
 0.7.1 (2009.09.23)
 [+] Internal fixes and code enhancements.
 [+] libtorrent-rasterbar-0.14.6.
@@ -18,8 +22,8 @@ tab.
 Delete keys.
 [+] Some small GUI and internal enhancements.
 [+] Torrent's categories sidebar (all, paused, seeding, etc.).
-[*] Fixed bug, due to which GUI could freeze and do not to response.
-[*] Fixed bug, due to which GUI could be iconified to non-existent tray.
+[*] Fixed a bug, due to which GUI could freeze and do not to response.
+[*] Fixed a bug, due to which GUI could be iconified to non-existent tray.
 
 
 0.6 (2009.06.11)
@@ -168,4 +172,3 @@ All conflicts has been fixed.
 0.1 (2009.01.01)
 -----
 [+] Initial release.
-
