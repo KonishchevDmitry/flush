@@ -33,6 +33,7 @@
 #include <utime.h>
 
 #include <cerrno>
+#include <cstdio>
 #include <ctime>
 
 #include <algorithm>
