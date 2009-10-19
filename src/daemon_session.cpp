@@ -2210,7 +2210,7 @@ void Daemon_session::set_settings(const Daemon_settings& settings, const bool in
 						MLIB_W(
 							_("Setting directory for automatic torrents loading failed"),
 							__(
-								"Can't set directory '%1' for automatic torrents loading. %2",
+								"Setting directory '%1' for automatic torrents loading failed. %2",
 								auto_load.from, EE(e)
 							)
 						);

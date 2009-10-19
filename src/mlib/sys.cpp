@@ -156,7 +156,7 @@ void unix_epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)
 
 int unix_epoll_create(void)
 {
-	int fd = epoll_create(0);
+	int fd = epoll_create(1);
 	if(fd < 0)
 		M_THROW_SYS(errno);
 	else

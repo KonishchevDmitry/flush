@@ -125,6 +125,10 @@ class Fs_watcher::Implementation
 
 	#ifdef MLIB_ENABLE_INOTIFY
 		private:
+			/// Создает дескриптор inotify, если он еще не создан.
+			/// @throw - m::Exception.
+			void		init_inotify(void);
+
 			/// Производит все необходимые действия по обработки события
 			/// inotify.
 			void		process_event(const inotify_event* event, const std::string& watching_directory, const std::string& event_file_name);
@@ -140,13 +144,18 @@ class Fs_watcher::Implementation
 #ifdef MLIB_ENABLE_INOTIFY
 	Fs_watcher::Implementation::Implementation(void)
 	:
+		fd(-1),
 		watch_fd(-1),
 		thread(NULL)
 	{
-		this->fd = inotify_init();
-
-		if(this->fd < 0)
-			MLIB_E(__("Can't create an inotify instance: %1.", strerror(errno)));
+		try
+		{
+			this->init_inotify();
+		}
+		catch(m::Exception& e)
+		{
+			MLIB_SW(EE(e));
+		}
 	}
 
 
@@ -155,7 +164,7 @@ class Fs_watcher::Implementation
 	{
 		unset_watching_directory();
 
-		if(close(this->fd))
+		if(this->fd != -1 && close(this->fd))
 			MLIB_SW(__("Error while closing an inotify instance: %1.", strerror(errno)));
 	}
 #endif
@@ -212,6 +221,19 @@ std::string Fs_watcher::Implementation::get_watching_directory(void)
 
 
 #ifdef MLIB_ENABLE_INOTIFY
+	void Fs_watcher::Implementation::init_inotify(void)
+	{
+		if(this->fd == -1)
+		{
+			this->fd = inotify_init();
+
+			if(this->fd < 0)
+				M_THROW(__("Can't create an inotify instance: %1.", strerror(errno)));
+		}
+	}
+
+
+
 	void Fs_watcher::Implementation::process_event(const inotify_event* event, const std::string& watching_directory, const std::string& event_file_name)
 	{
 		bool interesting = false;
@@ -311,6 +333,9 @@ void Fs_watcher::Implementation::set_watching_directory(const std::string& direc
 	MLIB_D(_C("Setting new watching directory '%1'...", directory));
 
 	#ifdef MLIB_ENABLE_INOTIFY
+		// Генерирует m::Exception.
+		this->init_inotify();
+
 		// Сначала сбрасываем текущую директорию
 		this->unset_watching_directory();
 		this->clear();
