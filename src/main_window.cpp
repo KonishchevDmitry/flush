@@ -122,7 +122,6 @@
 				Gtk::ToolButton*				toolbar_resume_button;
 				Gtk::ToolButton*				toolbar_pause_button;
 				Gtk::ToolButton*				toolbar_remove_button;
-				Gtk::ToolButton*				toolbar_remove_with_data_button;
 			// Панель инструментов <--
 
 			/// Status bar.
@@ -839,18 +838,6 @@ Main_window::Main_window(const Main_window_settings& settings)
 			)
 		);
 
-		button = this->gui->toolbar_remove_with_data_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::DELETE));
-		button->set_label(_("Remove with data"));
-		button->set_tooltip_text(_("Remove torrent(s) with data"));
-		button->set_is_important();
-		this->gui->toolbar.append(
-			*button,
-			sigc::bind<Torrent_process_action>(
-				sigc::mem_fun(*this->gui->torrents_viewport, &Torrents_viewport::process_torrents),
-				REMOVE_WITH_DATA
-			)
-		);
-
 
 		this->gui->toolbar.append(
 			*Gtk::manage(new Gtk::SeparatorToolItem())
@@ -1234,7 +1221,6 @@ void Main_window::on_torrent_process_actions_changed_callback(Torrent_process_ac
 	this->gui->toolbar_resume_button->set_sensitive(actions & RESUME);
 	this->gui->toolbar_pause_button->set_sensitive(actions & PAUSE);
 	this->gui->toolbar_remove_button->set_sensitive(actions & REMOVE);
-	this->gui->toolbar_remove_with_data_button->set_sensitive(actions & REMOVE_WITH_DATA);
 }
 
 

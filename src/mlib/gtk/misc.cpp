@@ -24,6 +24,8 @@
 #include <gdkmm/pixbuf.h>
 
 #include <gtkmm/box.h>
+#include <gtkmm/button.h>
+#include <gtkmm/dialog.h>
 #include <gtkmm/icontheme.h>
 #include <gtkmm/messagedialog.h>
 #include <gtkmm/stock.h>
@@ -84,6 +86,46 @@ namespace
 		return FALSE;
 	}
 }
+
+
+
+// Message_button_desc -->
+	Message_button_desc::Message_button_desc(int response, const Gtk::StockID& stock_id)
+	:
+		response(response),
+		stock_id(stock_id)
+	{
+	}
+
+
+
+	Message_button_desc::Message_button_desc(int response, const Glib::ustring& label, const Gtk::StockID& stock_id)
+	:
+		response(response),
+		label(label),
+		stock_id(stock_id)
+	{
+	}
+
+
+
+	void Message_button_desc::add_to_dialog(Gtk::Dialog& dialog) const
+	{
+		Gtk::Button* button;
+
+		if(label.empty())
+			button = Gtk::manage( new Gtk::Button(this->stock_id) );
+		else
+		{
+			button = Gtk::manage( new Gtk::Button(this->label) );
+			button->set_image( *Gtk::manage( new Gtk::Image(this->stock_id, Gtk::ICON_SIZE_BUTTON) ));
+		}
+
+		button->set_can_default();
+		dialog.add_action_widget(*button, this->response);
+		button->show();
+	}
+// Message_button_desc <--
 
 
 
@@ -212,6 +254,28 @@ void message(Gtk::Window& parent_window, const std::string& title, const std::st
 	dialog.set_default_response(Gtk::RESPONSE_OK);
 	dialog.property_destroy_with_parent() = true;
 	dialog.run();
+}
+
+
+
+int message_with_buttons(Gtk::Window& parent_window, const std::string& title, const std::string& message, const std::vector<Message_button_desc>& buttons, int default_response)
+{
+	Gtk::MessageDialog dialog(
+		parent_window, title, false,
+		Gtk::MESSAGE_QUESTION, Gtk::BUTTONS_NONE,
+		true
+	);
+
+	dialog.set_title(title);
+	dialog.set_secondary_text(message);
+
+	BOOST_FOREACH(const Message_button_desc& desc, buttons)
+		desc.add_to_dialog(dialog);
+
+	dialog.set_default_response(default_response);
+	dialog.property_destroy_with_parent() = true;
+
+	return dialog.run();
 }
 
 

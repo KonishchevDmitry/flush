@@ -34,8 +34,10 @@
 #include <gdk/gdkkeysyms.h>
 
 #include <gtkmm/actiongroup.h>
+#include <gtkmm/button.h>
 #include <gtkmm/liststore.h>
 #include <gtkmm/menu.h>
+#include <gtkmm/messagedialog.h>
 #include <gtkmm/stock.h>
 #include <gtkmm/treemodel.h>
 #include <gtkmm/uimanager.h>
@@ -461,10 +463,6 @@ namespace
 				Gtk::Action::create("remove", Gtk::Stock::REMOVE, _("Remove")),
 				sigc::bind<Torrent_process_action>( sigc::mem_fun(*this, &Torrents_view::torrents_process_callback), REMOVE )
 			);
-			action_group->add(
-				Gtk::Action::create("remove_with_data", Gtk::Stock::DELETE, _("Remove with data")),
-				sigc::bind<Torrent_process_action>( sigc::mem_fun(*this, &Torrents_view::torrents_process_callback), REMOVE_WITH_DATA )
-			);
 			priv->ui_manager->insert_action_group(action_group);
 
 			Glib::ustring ui_info =
@@ -474,7 +472,6 @@ namespace
 				"		<menuitem action='pause'/>"
 				"		<menuitem action='recheck'/>"
 				"		<menuitem action='remove'/>"
-				"		<menuitem action='remove_with_data'/>"
 				"	</popup>"
 				"</ui>";
 
@@ -546,7 +543,7 @@ namespace
 
 		if(iters.size())
 		{
-			actions |= REMOVE | REMOVE_WITH_DATA;
+			actions |= REMOVE;
 
 			M_FOR_CONST_IT(iters, it)
 			{
@@ -578,12 +575,7 @@ namespace
 	bool Torrents_view::on_key_press_event_cb(const GdkEventKey* event)
 	{
 		if(event->keyval == GDK_Delete || event->keyval == GDK_KP_Delete)
-		{
-			if(event->state & GDK_SHIFT_MASK)
-				this->process_torrents(REMOVE_WITH_DATA);
-			else
-				this->process_torrents(REMOVE);
-		}
+			this->process_torrents(REMOVE);
 
 		return false;
 	}
@@ -694,32 +686,41 @@ namespace
 			switch(action)
 			{
 				case REMOVE:
-					if(
-						ok_cancel_dialog(
-							torrents_ids.size() == 1
-								? _("Remove torrent")
-								: _("Remove torrents"),
-							torrents_ids.size() == 1
-								?  __("Are you sure want to remove torrent '%1'?", torrents_list_string.substr(names_list_prefix_len))
-								:  _("Are you sure want to remove following torrents?") + torrents_list_string
-						) != m::gtk::RESPONSE_OK
-					)
-						return;
-					break;
+				{
+					Glib::ustring title(
+						torrents_ids.size() == 1
+							? _("Remove torrent")
+							: _("Remove torrents")
+					);
 
-				case REMOVE_WITH_DATA:
-					if(
-						ok_cancel_dialog(
-							torrents_ids.size() == 1
-								? _("Remove torrent with data")
-								: _("Remove torrents with data"),
-							torrents_ids.size() == 1
-								?  __("Are you sure want to remove torrent '%1' with data?", torrents_list_string.substr(names_list_prefix_len))
-								:  _("Are you sure want to remove following torrents with data?") + torrents_list_string
-						) != m::gtk::RESPONSE_OK
-					)
-						return;
-					break;
+					Glib::ustring question(
+						torrents_ids.size() == 1
+							?  __("Are you sure want to remove torrent '%1'?", torrents_list_string.substr(names_list_prefix_len))
+							:  _("Are you sure want to remove following torrents?") + torrents_list_string
+					);
+
+					std::vector<m::gtk::Message_button_desc> buttons;
+					buttons.push_back( m::gtk::Message_button_desc(Gtk::RESPONSE_CANCEL, Gtk::Stock::CANCEL) );
+					buttons.push_back( m::gtk::Message_button_desc(REMOVE, _("Remove"), Gtk::Stock::REMOVE) );
+					buttons.push_back( m::gtk::Message_button_desc(REMOVE_WITH_DATA, _("Remove with data"), Gtk::Stock::DELETE) );
+
+					switch(m::gtk::message_with_buttons(get_dialog_proper_parent_window(*this), title, question, buttons, Gtk::RESPONSE_CANCEL))
+					{
+						case REMOVE:
+						MLIB_D("remove");
+							break;
+
+						case REMOVE_WITH_DATA:
+							action = REMOVE_WITH_DATA;
+						MLIB_D("remove with data");
+							break;
+
+						default:
+							return;
+							break;
+					}
+				}
+				break;
 
 				case PAUSE:
 				case RESUME:

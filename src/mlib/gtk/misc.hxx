@@ -31,6 +31,9 @@ namespace m { namespace gtk {
 		RESPONSE_NO
 	};
 
+
+	class Message_button_desc;
+
 }}
 
 #endif
