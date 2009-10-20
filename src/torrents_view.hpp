@@ -214,6 +214,10 @@
 			/// Обработчик сигнала на нажатие правой кнопки мыши.
 			virtual void				on_mouse_right_button_click(const GdkEventButton* const event);
 
+			/// Обработчик сигнала на открытие родительской директории
+			/// торрента.
+			void						on_open_directory_cb(void);
+
 			/// Обработчик сигнала на активацию строки TreeView.
 			void						on_row_activated_callback(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column);
 

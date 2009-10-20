@@ -413,6 +413,7 @@ namespace
 				std::map<Torrent_id, Torrent_info>				infos;
 			#endif
 
+				Glib::RefPtr<Gtk::Action>		open_dir_action;
 				Glib::RefPtr<Gtk::Action>		resume_action;
 				Glib::RefPtr<Gtk::Action>		pause_action;
 				Glib::RefPtr<Gtk::Action>		recheck_action;
@@ -443,31 +444,44 @@ namespace
 
 			priv->ui_manager = Gtk::UIManager::create();
 
+
 			action_group = Gtk::ActionGroup::create();
+
+			priv->open_dir_action = Gtk::Action::create("open_dir", Gtk::Stock::DIRECTORY, _("Open directory")),
+			action_group->add(
+				priv->open_dir_action, sigc::mem_fun(*this, &Torrents_view::on_open_directory_cb)
+			);
+
 			priv->resume_action = Gtk::Action::create("resume", Gtk::Stock::MEDIA_PLAY, _("Resume"));
 			action_group->add(
 				priv->resume_action,
 				sigc::bind<Torrent_process_action>( sigc::mem_fun(*this, &Torrents_view::torrents_process_callback), RESUME )
 			);
+
 			priv->pause_action = Gtk::Action::create("pause", Gtk::Stock::MEDIA_PAUSE, _("Pause"));
 			action_group->add(
 				priv->pause_action,
 				sigc::bind<Torrent_process_action>( sigc::mem_fun(*this, &Torrents_view::torrents_process_callback), PAUSE )
 			);
+
 			priv->recheck_action = Gtk::Action::create("recheck", Gtk::Stock::REFRESH, _("Recheck"));
 			action_group->add(
 				priv->recheck_action,
 				sigc::bind<Torrent_process_action>( sigc::mem_fun(*this, &Torrents_view::torrents_process_callback), RECHECK )
 			);
+
 			action_group->add(
 				Gtk::Action::create("remove", Gtk::Stock::REMOVE, _("Remove")),
 				sigc::bind<Torrent_process_action>( sigc::mem_fun(*this, &Torrents_view::torrents_process_callback), REMOVE )
 			);
+
 			priv->ui_manager->insert_action_group(action_group);
+
 
 			Glib::ustring ui_info =
 				"<ui>"
 				"	<popup name='popup_menu'>"
+				"		<menuitem action='open_dir'/>"
 				"		<menuitem action='resume'/>"
 				"		<menuitem action='pause'/>"
 				"		<menuitem action='recheck'/>"
@@ -590,6 +604,7 @@ namespace
 		if(actions)
 		{
 			// Определяем, какие элементы меню необходимо отобразить
+			priv->open_dir_action->set_visible(this->get_selected_rows().size() == 1);
 			priv->resume_action->set_visible(actions & RESUME);
 			priv->pause_action->set_visible(actions & PAUSE);
 			priv->recheck_action->set_visible(actions & RECHECK);
@@ -597,6 +612,31 @@ namespace
 			// Отображаем меню
 			dynamic_cast<Gtk::Menu*>(priv->ui_manager->get_widget("/popup_menu"))->popup(event->button, event->time);
 		}
+	}
+
+
+
+	void Torrents_view::on_open_directory_cb(void)
+	{
+		std::deque<Gtk::TreeModel::iterator> iters = this->get_selected_rows();
+
+		if(iters.size() != 1)
+			return;
+
+		std::string torrent_download_path;
+		Torrent_id torrent_id = Torrent_id( (*iters.begin())->get_value(this->model_columns.id) );
+		std::string torrent_name = (*iters.begin())->get_value(this->model_columns.name);
+
+		try
+		{
+			torrent_download_path = get_daemon_proxy().get_torrent_download_path(torrent_id);
+		}
+		catch(m::Exception& e)
+		{
+			MLIB_W(__("Opening torrent '%1' directory failed. %2", torrent_name, EE(e)));
+		}
+
+		get_application().open_uri(torrent_download_path);
 	}
 
 
@@ -618,10 +658,7 @@ namespace
 		}
 		catch(m::Exception& e)
 		{
-			MLIB_W(__(
-				"Opening torrent '%1' file(s) failed. %2",
-				torrent_name, EE(e)
-			));
+			MLIB_W(__("Opening torrent '%1' file(s) failed. %2", torrent_name, EE(e)));
 		}
 
 		if(!files.empty())
