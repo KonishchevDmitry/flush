@@ -2,7 +2,7 @@
 [+] Trackers' editing in the Add torrent dialog.
 [*] Fixed a bug, due to which Flush ended its work when it was not be able to
 create an inotify instance or when user selected "Load torrents from" option
-in the Preferences window.
+in the Preferences window (not everywhere but for example on Linux 2.6.31).
 
 
 0.7.2 (2009.10.02)
