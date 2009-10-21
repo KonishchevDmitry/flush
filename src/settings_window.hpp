@@ -22,20 +22,23 @@
 #ifndef HEADER_SETTINGS_WINDOW
 #define HEADER_SETTINGS_WINDOW
 
-#include <string>
+	#include <string>
 
-#include <gtkmm/box.h>
-#include <gtkmm/checkbutton.h>
-#include <gtkmm/filechooserbutton.h>
-#include <gtkmm/filechooserdialog.h>
-#include <gtkmm/notebook.h>
-#include <gtkmm/treestore.h>
-#include <gtkmm/window.h>
+	#include <gtkmm/box.h>
+	#include <gtkmm/checkbutton.h>
+#if !MLIB_ENABLE_LIBS_FORWARDS
+	#include <gtkmm/linkbutton.h>
+#endif
+	#include <gtkmm/filechooserbutton.h>
+	#include <gtkmm/filechooserdialog.h>
+	#include <gtkmm/notebook.h>
+	#include <gtkmm/treestore.h>
+	#include <gtkmm/window.h>
 
-#include <mlib/gtk/dialog.hpp>
-#include <mlib/gtk/tree_view.hpp>
+	#include <mlib/gtk/dialog.hpp>
+	#include <mlib/gtk/tree_view.hpp>
 
-#include "common.hpp"
+	#include "common.hpp"
 
 
 
