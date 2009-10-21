@@ -20,214 +20,168 @@
 
 
 #ifndef HEADER_SETTINGS_WINDOW
-	#define HEADER_SETTINGS_WINDOW
+#define HEADER_SETTINGS_WINDOW
 
-	#include <string>
+#include <string>
 
-	#include <gtkmm/box.h>
-	#include <gtkmm/button.h>
-	#include <gtkmm/checkbutton.h>
-	#include <gtkmm/entry.h>
-	#include <gtkmm/filechooserbutton.h>
-	#include <gtkmm/filechooserdialog.h>
-	#include <gtkmm/notebook.h>
-	#include <gtkmm/spinbutton.h>
-	#include <gtkmm/treestore.h>
-	#include <gtkmm/window.h>
+#include <gtkmm/box.h>
+#include <gtkmm/checkbutton.h>
+#include <gtkmm/filechooserbutton.h>
+#include <gtkmm/filechooserdialog.h>
+#include <gtkmm/notebook.h>
+#include <gtkmm/treestore.h>
+#include <gtkmm/window.h>
 
-	#ifndef MLIB_ENABLE_LIBS_FORWARDS
-		#include <gtkmm/box.h>
-		#include <gtkmm/button.h>
-		#include <gtkmm/label.h>
-		#include <gtkmm/linkbutton.h>
-		#include <gtkmm/spinbutton.h>
-	#endif
+#include <mlib/gtk/dialog.hpp>
+#include <mlib/gtk/tree_view.hpp>
 
-	#include <mlib/gtk/dialog.hpp>
-	#include <mlib/gtk/tree_view.hpp>
-
-	#include "common.hpp"
+#include "common.hpp"
 
 
 
-	namespace Settings_window_aux { class Private; }
+namespace Settings_window_aux { class Private; }
 
-	/// Окно изменения настроек клиента и демона.
-	class Settings_window: public m::gtk::Dialog
-	{
-		private:
-			typedef Settings_window_aux::Private Private;
+/// Окно изменения настроек клиента и демона.
+class Settings_window: public m::gtk::Dialog
+{
+	private:
+		typedef Settings_window_aux::Private Private;
 
-			enum Section {
-				CLIENT,
-				CLIENT_MAIN,
-				CLIENT_GUI,
-				DAEMON,
-				DAEMON_NETWORK,
-				DAEMON_NETWORK_MISC,
-				DAEMON_NETWORK_IP_FILTER,
-				DAEMON_AUTOMATION
-			};
+		enum Section {
+			CLIENT,
+			CLIENT_MAIN,
+			CLIENT_GUI,
+			CLIENT_GUI_MISC,
+			CLIENT_GUI_STATUS_BAR,
+			DAEMON,
+			DAEMON_NETWORK,
+			DAEMON_NETWORK_MISC,
+			DAEMON_NETWORK_IP_FILTER,
+			DAEMON_AUTOMATION
+		};
 
-			class Sections_view_model_columns: public m::gtk::Tree_view_model_columns
-			{
-				public:
-					Sections_view_model_columns(void);
-
-
-				public:
-					Gtk::TreeModelColumn<int>				id;
-					Gtk::TreeModelColumn<Glib::ustring>		name;
-			};
+		class Sections_view_model_columns: public m::gtk::Tree_view_model_columns
+		{
+			public:
+				Sections_view_model_columns(void);
 
 
-
-			class Sections_view_columns: public m::gtk::Tree_view_columns
-			{
-				public:
-					Sections_view_columns(const Sections_view_model_columns& model_columns);
-
-
-				public:
-					Gtk::TreeViewColumn			name;
-			};
+			public:
+				Gtk::TreeModelColumn<int>				id;
+				Gtk::TreeModelColumn<Glib::ustring>		name;
+		};
 
 
 
-			class Sections_view: public m::gtk::Tree_view<Sections_view_columns, Sections_view_model_columns, Gtk::TreeStore>
-			{
-			};
+		class Sections_view_columns: public m::gtk::Tree_view_columns
+		{
+			public:
+				Sections_view_columns(const Sections_view_model_columns& model_columns);
 
 
-		public:
-			Settings_window(Gtk::Window& parent_window, Client_settings* client_settings, Daemon_settings* daemon_settings);
-			~Settings_window(void);
+			public:
+				Gtk::TreeViewColumn			name;
+		};
 
 
-		private:
-			Private*						priv;
 
-			Client_settings&				client_settings;
-			Daemon_settings&				daemon_settings;
-
-			Sections_view					sections_view;
-			Gtk::Notebook					sections_notebook;
-
-			// client -->
-				// Main -->
-					Gtk::CheckButton		show_add_torrent_dialog;
-					Gtk::CheckButton		start_torrent_on_adding_check_button;
-
-					Gtk::FileChooserDialog	download_to_dialog;
-					Gtk::FileChooserButton	download_to_button;
-
-					Gtk::CheckButton		copy_finished_to_check_button;
-					Gtk::FileChooserDialog	copy_finished_to_dialog;
-					Gtk::FileChooserButton	copy_finished_to_button;
-
-					Gtk::Entry				open_command;
-				// Main <--
-
-				// GUI -->
-					// Miscellaneous -->
-						Gtk::CheckButton	show_speed_in_window_title;
-						Gtk::CheckButton	show_zero_values;
-
-						Gtk::CheckButton	show_tray_icon;
-						Gtk::VBox			tray_vbox;
-						Gtk::CheckButton	hide_app_to_tray_at_startup;
-						Gtk::CheckButton	minimize_to_tray;
-						Gtk::CheckButton	close_to_tray;
-
-						Gtk::SpinButton		gui_update_interval;
-						Gtk::SpinButton		max_log_lines;
-					// Miscellaneous <--
-
-					// Status bar -->
-						Gtk::CheckButton	status_bar_download_speed;
-						Gtk::CheckButton	status_bar_payload_download_speed;
-
-						Gtk::CheckButton	status_bar_upload_speed;
-						Gtk::CheckButton	status_bar_payload_upload_speed;
-
-						Gtk::CheckButton	status_bar_download;
-						Gtk::CheckButton	status_bar_payload_download;
-
-						Gtk::CheckButton	status_bar_upload;
-						Gtk::CheckButton	status_bar_payload_upload;
-
-						Gtk::CheckButton	status_bar_share_ratio;
-						Gtk::CheckButton	status_bar_failed;
-						Gtk::CheckButton	status_bar_redundant;
-					// Status bar <--
-				// GUI <--
-			// client <--
+		class Sections_view: public m::gtk::Tree_view<Sections_view_columns, Sections_view_model_columns, Gtk::TreeStore>
+		{
+		};
 
 
-		private:
-			/// Добавляет SpinButton.
-			void			add_spin_button(Gtk::VBox& parent_vbox, const std::string& label_string, Gtk::SpinButton& spin_button, const std::pair<int, int>& range, const std::pair<double, double>& increments);
+	public:
+		Settings_window(Gtk::Window& parent_window, Client_settings* client_settings, Daemon_settings* daemon_settings);
+		~Settings_window(void);
 
-			/// Обновляет виджеты, отвечающие за автоматическую очистку от
-			/// старых торрентов.
-			void			auto_clean_widgets_update_for(const Auto_clean_type& type, Gtk::Button* type_button, Gtk::Label* type_label, Gtk::Widget* widget);
 
-			/// Закрывает окно.
-			void			close(void);
+	private:
+		Private*						priv;
 
-			/// Приводит виджеты окна в соответствие с настройками.
-			void			load_settings(void);
+		Client_settings&				client_settings;
+		Daemon_settings&				daemon_settings;
 
-			/// Обработчик сигнала на изменение действия, которое необходимо
-			/// произвести, когда сработает выбранное условие "устаревания"
-			/// торрента.
-			void			on_auto_clean_max_ratio_clicked_cb(void);
+		Sections_view					sections_view;
+		Gtk::Notebook					sections_notebook;
 
-			/// Обработчик сигнала на изменение действия, которое необходимо
-			/// произвести, когда сработает выбранное условие "устаревания"
-			/// торрента.
-			void			on_auto_clean_max_seeding_time_clicked_cb(void);
+		// client -->
+			// Main -->
+				Gtk::CheckButton		show_add_torrent_dialog;
+				Gtk::CheckButton		start_torrent_on_adding_check_button;
 
-			/// Обработчик сигнала на изменение действия, которое необходимо
-			/// произвести, когда сработает выбранное условие "устаревания"
-			/// торрента.
-			void			on_auto_clean_max_seeding_torrents_clicked_cb(void);
+				Gtk::FileChooserDialog	download_to_dialog;
+				Gtk::FileChooserButton	download_to_button;
 
-			/// Обработчик сигнала на переключение флажка "автоматически загружать торренты".
-			void			on_auto_load_torrents_toggled_callback(void);
+				Gtk::CheckButton		copy_finished_to_check_button;
+				Gtk::FileChooserDialog	copy_finished_to_dialog;
+				Gtk::FileChooserButton	copy_finished_to_button;
 
-			/// Обработчик сигнала на переключение флажка "копировать
-			/// автоматически загружаемые торренты в...".
-			void			on_auto_load_torrents_copy_to_toggled_callback(void);
+				Gtk::Entry				open_command;
+			// Main <--
+		// client <--
 
-			/// Обработчик сигнала на нажатие на кнопку "Cancel".
-			void			on_cancel_button_callback(void);
 
-			// Обработчик сигнала на смену раздела.
-			void 			on_change_section_callback(const std::pair<Gtk::LinkButton*, Gtk::TreePath>& target);
+	private:
+		/// Обновляет виджеты, отвечающие за автоматическую очистку от
+		/// старых торрентов.
+		void			auto_clean_widgets_update_for(const Auto_clean_type& type, Gtk::Button* type_button, Gtk::Label* type_label, Gtk::Widget* widget);
 
-			/// Обработчик сигнала на закрытие окна.
-			bool			on_close_callback(GdkEventAny* event);
+		/// Закрывает окно.
+		void			close(void);
 
-			/// Обработчик сигнала на переключение флажка "Copy on finished to path".
-			void			on_copy_finished_to_path_toggled_callback(void);
+		/// Приводит виджеты окна в соответствие с настройками.
+		void			load_settings(void);
 
-			/// Обработчик сигнала на нажатие на кнопку "OK".
-			void			on_ok_button_callback(void);
+		/// Обработчик сигнала на изменение действия, которое необходимо
+		/// произвести, когда сработает выбранное условие "устаревания"
+		/// торрента.
+		void			on_auto_clean_max_ratio_clicked_cb(void);
 
-			// Обработчик сигнала на изменение выделенного раздела.
-			void 			on_section_changed_callback(void);
+		/// Обработчик сигнала на изменение действия, которое необходимо
+		/// произвести, когда сработает выбранное условие "устаревания"
+		/// торрента.
+		void			on_auto_clean_max_seeding_time_clicked_cb(void);
 
-			/// Обработчик сигнала на переключение флажка "Show tray icon".
-			void			on_show_tray_icon_toggled_callback(void);
+		/// Обработчик сигнала на изменение действия, которое необходимо
+		/// произвести, когда сработает выбранное условие "устаревания"
+		/// торрента.
+		void			on_auto_clean_max_seeding_torrents_clicked_cb(void);
 
-			/// Переносит свойства виджетов в настройки.
-			void			save_settings(void);
+		/// Обработчик сигнала на переключение флажка "автоматически загружать торренты".
+		void			on_auto_load_torrents_toggled_callback(void);
 
-			/// Обновляет GUI кнопки, определяющей метод избавления от старых
-			/// торрентов.
-			void			set_auto_clean_button_type(Gtk::Button& button, const Auto_clean_type& type);
-	};
+		/// Обработчик сигнала на переключение флажка "копировать
+		/// автоматически загружаемые торренты в...".
+		void			on_auto_load_torrents_copy_to_toggled_callback(void);
+
+		/// Обработчик сигнала на нажатие на кнопку "Cancel".
+		void			on_cancel_button_callback(void);
+
+		// Обработчик сигнала на смену раздела.
+		void 			on_change_section_callback(const std::pair<Gtk::LinkButton*, Gtk::TreePath>& target);
+
+		/// Обработчик сигнала на закрытие окна.
+		bool			on_close_callback(GdkEventAny* event);
+
+		/// Обработчик сигнала на переключение флажка "Copy on finished to path".
+		void			on_copy_finished_to_path_toggled_callback(void);
+
+		/// Обработчик сигнала на нажатие на кнопку "OK".
+		void			on_ok_button_callback(void);
+
+		// Обработчик сигнала на изменение выделенного раздела.
+		void 			on_section_changed_callback(void);
+
+		/// Обработчик сигнала на переключение флажка "Show tray icon".
+		void			on_show_tray_icon_toggled_callback(void);
+
+		/// Переносит свойства виджетов в настройки.
+		void			save_settings(void);
+
+		/// Обновляет GUI кнопки, определяющей метод избавления от старых
+		/// торрентов.
+		void			set_auto_clean_button_type(Gtk::Button& button, const Auto_clean_type& type);
+};
 
 #endif
 

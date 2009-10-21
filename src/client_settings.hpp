@@ -113,10 +113,10 @@ class Status_bar_settings
 
 	public:
 		bool	download_speed;
-		bool	payload_download_speed;
+		bool	download_payload_speed;
 
 		bool	upload_speed;
-		bool	payload_upload_speed;
+		bool	upload_payload_speed;
 
 		bool	download;
 		bool	payload_download;
@@ -211,6 +211,9 @@ class Gui_settings
 		/// Отображать нулевые значения и значения равные бесконечности,
 		/// или же просто выводить пустую строку вместо них.
 		bool							show_zero_values;
+
+		/// Отображать таб с деталями торрента в компактном виде.
+		bool							compact_details_tab;
 
 
 		/// Отображать панель инструментов.

@@ -30,12 +30,14 @@
 #include <gtkmm/label.h>
 #include <gtkmm/progressbar.h>
 
+#include <mlib/fs.hpp>
 #include <mlib/string.hpp>
 
 #include <mlib/gtk/builder.hpp>
 #include <mlib/gtk/misc.hpp>
 
 #include "application.hpp"
+#include "client_settings.hpp"
 #include "common.hpp"
 #include "daemon_proxy.hpp"
 #include "main.hpp"
@@ -45,60 +47,38 @@
 
 // Torrent_details_view -->
 	Torrent_details_view::Torrent_details_view(void)
+	:
+		compact(get_client_settings().gui.compact_details_tab),
+
+		size(NULL),
+		requested_size(NULL),
+		downloaded_requested_size(NULL),
+
+		total_download(NULL),
+		total_payload_download(NULL),
+		total_upload(NULL),
+		total_payload_upload(NULL),
+		total_failed(NULL),
+		total_redundant(NULL),
+
+		download_speed(NULL),
+		download_payload_speed(NULL),
+		upload_speed(NULL),
+		upload_payload_speed(NULL),
+
+		share_ratio(NULL),
+
+		peers(NULL),
+		seeds(NULL),
+
+		next_announce(NULL),
+		announce_interval(NULL),
+
+		time_added(NULL),
+		time_left(NULL),
+		time_seeding(NULL)
 	{
-		m::gtk::Builder builder = MLIB_GTK_BUILDER_CREATE(
-			std::string(APP_UI_PATH) + "/torrent_info_tabs.details.glade", "details"
-		);
-
-		this->pack_start(*MLIB_GTK_BUILDER_GET_WIDGET(builder, "details"), false, false);
-
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "status",						this->status);
-
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "size",						this->size);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "requested_size",				this->requested_size);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "downloaded_requested_size",	this->downloaded_requested_size);
-
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "total_download",				this->total_download);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "total_payload_download",		this->total_payload_download);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "total_upload",				this->total_upload);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "total_payload_upload",		this->total_payload_upload);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "total_failed",				this->total_failed);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "total_redundant",				this->total_redundant);
-
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "download_speed",				this->download_speed);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "download_payload_speed",		this->download_payload_speed);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "upload_speed",				this->upload_speed);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "upload_payload_speed",		this->upload_payload_speed);
-
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "share_ratio",					this->share_ratio);
-
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "peers",						this->peers);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "seeds",						this->seeds);
-
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "next_announce",				this->next_announce);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "announce_interval",			this->announce_interval);
-
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "time_added",					this->time_added);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "time_left",					this->time_left);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "time_seeding",				this->time_seeding);
-
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "tracker_status",				this->tracker_status);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "publisher_url",				this->publisher_url);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "publisher_url_event_box",		this->publisher_url_event_box);
-
-		// Publisher URL -->
-			this->publisher_url_event_box->signal_button_press_event().connect(
-				sigc::mem_fun(*this, &Torrent_details_view::on_publisher_url_button_press_event_cb)
-			);
-			this->publisher_url_event_box->signal_enter_notify_event().connect(
-				sigc::mem_fun(*this, &Torrent_details_view::on_publisher_url_enter_notify_event_cb)
-			);
-			this->publisher_url_event_box->signal_leave_notify_event().connect(
-				sigc::mem_fun(*this, &Torrent_details_view::on_publisher_url_leave_notify_event_cb)
-			);
-		// Publisher URL
-
-		this->show_all();
+		this->update_layout();
 	}
 
 
@@ -191,7 +171,8 @@
 
 	void Torrent_details_view::set_string(Gtk::Label* label, const std::string& string)
 	{
-		label->set_label(string);
+		if(label)
+			label->set_label(string);
 	}
 
 
@@ -205,6 +186,14 @@
 
 	void Torrent_details_view::update(const Torrent_id& torrent_id)
 	{
+		// Переключаем режим, если это необходимо
+		if(this->compact != get_client_settings().gui.compact_details_tab)
+		{
+			this->compact = get_client_settings().gui.compact_details_tab;
+			this->update_layout();
+		}
+
+
 		if(torrent_id)
 		{
 			try
@@ -269,6 +258,91 @@
 		}
 		else
 			this->clear();
+	}
+
+
+
+	void Torrent_details_view::update_layout(void)
+	{
+		// Получает виджет, который отображается в обоих режимах
+		#define this_get(name) MLIB_GTK_BUILDER_GET_WIDGET(builder, #name, this->name)
+
+		// Получает виджет, который отображается только в полном режиме
+		#define this_GET(name) { if(!compact) MLIB_GTK_BUILDER_GET_WIDGET(builder, #name, this->name); else this->name = NULL; }
+
+
+		// Удаляем предыдущий контейнер с виджетами -->
+			BOOST_FOREACH(Gtk::Widget* widget, this->get_children())
+			{
+				this->remove(*widget);
+				delete widget;
+			}
+		// Удаляем предыдущий контейнер с виджетами <--
+
+
+		std::string builder_path;
+
+		if(compact)
+			builder_path = Path(APP_UI_PATH) / "torrent_info_tabs.details_compact.glade";
+		else
+			builder_path = Path(APP_UI_PATH) / "torrent_info_tabs.details.glade";
+
+		m::gtk::Builder builder = MLIB_GTK_BUILDER_CREATE(builder_path, "details");
+
+		this->pack_start(*MLIB_GTK_BUILDER_GET_WIDGET(builder, "details"), false, false);
+
+
+		this_get(status);
+
+		this_get(size);
+		this_get(requested_size);
+		this_get(downloaded_requested_size);
+
+		this_GET(total_download);
+		this_get(total_payload_download);
+		this_GET(total_upload);
+		this_get(total_payload_upload);
+		this_GET(total_failed);
+		this_GET(total_redundant);
+
+		this_GET(download_speed);
+		this_get(download_payload_speed);
+		this_GET(upload_speed);
+		this_get(upload_payload_speed);
+
+		this_get(share_ratio);
+
+		this_GET(peers);
+		this_GET(seeds);
+
+		this_GET(next_announce);
+		this_GET(announce_interval);
+
+		this_GET(time_added);
+		this_get(time_left);
+		this_GET(time_seeding);
+
+		this_get(tracker_status);
+		this_get(publisher_url);
+		this_get(publisher_url_event_box);
+
+
+		// Publisher URL -->
+			this->publisher_url_event_box->signal_button_press_event().connect(
+				sigc::mem_fun(*this, &Torrent_details_view::on_publisher_url_button_press_event_cb)
+			);
+			this->publisher_url_event_box->signal_enter_notify_event().connect(
+				sigc::mem_fun(*this, &Torrent_details_view::on_publisher_url_enter_notify_event_cb)
+			);
+			this->publisher_url_event_box->signal_leave_notify_event().connect(
+				sigc::mem_fun(*this, &Torrent_details_view::on_publisher_url_leave_notify_event_cb)
+			);
+		// Publisher URL
+
+		this->show_all();
+
+		#undef this_get
+		#undef this_GET
 	}
 // Torrent_details_view
 

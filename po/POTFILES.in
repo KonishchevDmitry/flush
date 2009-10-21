@@ -153,10 +153,15 @@ src/torrents_viewport.cpp
 src/torrents_viewport.hpp
 src/trackers_view.cpp
 src/trackers_view.hpp
+ui/dialog.add_torrent.glade
 ui/dialog.temporary_action.glade
+ui/preferences.client.gui.glade
+ui/preferences.client.gui.misc.glade
+ui/preferences.client.gui.status_bar.glade
 ui/preferences.daemon.automation.glade
 ui/preferences.daemon.network.glade
 ui/preferences.daemon.network.ip_filter.glade 
 ui/preferences.daemon.network.misc.glade 
 ui/torrent_info_tabs.details.glade
+ui/torrent_info_tabs.details_compact.glade
 

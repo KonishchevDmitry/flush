@@ -38,6 +38,7 @@
 #include <gtkmm/radioaction.h>
 #include <gtkmm/radiobuttongroup.h>
 #include <gtkmm/separatortoolitem.h>
+#include <gtkmm/spinbutton.h>
 #include <gtkmm/statusbar.h>
 #include <gtkmm/statusicon.h>
 #include <gtkmm/stock.h>
@@ -1504,13 +1505,13 @@ void Main_window::update_gui(bool force)
 						if(status_bar_settings.download_speed)
 							status_string += space_string + _("Download speed") + ": " + m::speed_to_string(session_status.download_speed);
 
-						if(status_bar_settings.payload_download_speed)
+						if(status_bar_settings.download_payload_speed)
 							status_string += space_string + _("Download speed (payload)") + ": " + m::speed_to_string(session_status.payload_download_speed);
 
 						if(status_bar_settings.upload_speed)
 							status_string += space_string + _("Upload speed") + ": " + m::speed_to_string(session_status.upload_speed);
 
-						if(status_bar_settings.payload_upload_speed)
+						if(status_bar_settings.upload_payload_speed)
 							status_string += space_string + _("Upload speed (payload)") + ": " + m::speed_to_string(session_status.payload_upload_speed);
 
 						if(status_bar_settings.download)
