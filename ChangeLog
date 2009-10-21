@@ -1,5 +1,6 @@
 0.8 ()
 [+] Trackers' editing in the Add torrent dialog.
+[+] "Compact details tab" option in the Preferences window.
 [+] Some small GUI enhancements.
 [*] Fixed a bug, due to which Flush ended its work when it was not be able to
 create an inotify instance or when user selected "Load torrents from" option
