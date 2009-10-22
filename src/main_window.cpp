@@ -1300,15 +1300,14 @@ void Main_window::open_torrent(const std::string& torrent_path, const std::strin
 		}
 		else
 		{
-			get_application().add_torrent(
-				torrent_path,
-				New_torrent_settings(
-					client_settings.user.start_torrent_on_adding,
-					client_settings.user.download_to,
-					client_settings.user.copy_finished_to,
-					torrent_encoding
-				)
+			New_torrent_settings new_torrent_settings(
+				client_settings.user.start_torrent_on_adding,
+				client_settings.user.download_to,
+				client_settings.user.copy_finished_to,
+				torrent_encoding
 			);
+
+			get_application().add_torrent(torrent_path, new_torrent_settings);
 		}
 	}
 	catch(m::Exception& e)

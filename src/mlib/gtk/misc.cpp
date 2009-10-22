@@ -121,7 +121,11 @@ namespace
 			button->set_image( *Gtk::manage( new Gtk::Image(this->stock_id, Gtk::ICON_SIZE_BUTTON) ));
 		}
 
-		button->set_can_default();
+		#if GTK_CHECK_VERSION(2, 18, 0)
+			button->set_can_default();
+		#else
+			button->property_can_default() = true;
+		#endif
 		dialog.add_action_widget(*button, this->response);
 		button->show();
 	}

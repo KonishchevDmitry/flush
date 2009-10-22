@@ -5,7 +5,7 @@ dist_ui_DATA = \
 	dialog.temporary_action.glade \
 	preferences.client.gui.glade \
 	preferences.client.gui.misc.glade \
-	preferences.client.gui.status_bar.glade
+	preferences.client.gui.status_bar.glade \
 	preferences.daemon.automation.glade \
 	preferences.daemon.network.glade \
 	preferences.daemon.network.ip_filter.glade \

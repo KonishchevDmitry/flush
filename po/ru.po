@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2009-10-21 23:02+0400\n"
+"POT-Creation-Date: 2009-10-22 20:33+0400\n"
 "Last-Translator: Konishchev Dmitry <konishchev@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -400,11 +400,11 @@ msgstr ""
 "Вы ввели недопустимое имя торрента. Пожалуйста, введите допустимое имя "
 "торрента (дожно содержать хотя бы один непробельный символ)."
 
-#: src/add_torrent_dialog.cpp:279 src/main_window.cpp:1316
+#: src/add_torrent_dialog.cpp:278 src/main_window.cpp:1315
 msgid "Opening torrent failed"
 msgstr "Открытие торрента завершилось неудачей"
 
-#: src/add_torrent_dialog.cpp:281 src/main_window.cpp:1316
+#: src/add_torrent_dialog.cpp:280 src/main_window.cpp:1315
 #, qt-format
 msgid "Opening torrent '%1' failed. %2"
 msgstr "Открытие торрента '%1' завершилось неудачей. %2"
@@ -1603,70 +1603,70 @@ msgstr "GTK BitTorrent клиент"
 msgid "Processing the temporary action on torrents failed"
 msgstr "Выполнение над торрентами временного действия завершилось неудачей"
 
-#: src/main_window.cpp:1477
+#: src/main_window.cpp:1476
 #, qt-format
 msgid "Download/Upload|D: %1, U: %2 - %3"
 msgstr "D: %1, U: %2 - %3"
 
-#: src/main_window.cpp:1506 src/torrent_peers_view.cpp:101
+#: src/main_window.cpp:1505 src/torrent_peers_view.cpp:101
 #: src/torrents_view.cpp:377 ui/preferences.client.gui.status_bar.glade:58
 msgid "Download speed"
 msgstr "Скорость скачивания"
 
-#: src/main_window.cpp:1509 src/torrent_peers_view.cpp:102
+#: src/main_window.cpp:1508 src/torrent_peers_view.cpp:102
 #: src/torrents_view.cpp:378 ui/preferences.client.gui.status_bar.glade:95
 msgid "Download speed (payload)"
 msgstr "Скорость скачивания данных"
 
-#: src/main_window.cpp:1512 src/torrent_peers_view.cpp:103
+#: src/main_window.cpp:1511 src/torrent_peers_view.cpp:103
 #: src/torrents_view.cpp:379 ui/preferences.client.gui.status_bar.glade:82
 msgid "Upload speed"
 msgstr "Скорость отдачи"
 
-#: src/main_window.cpp:1515 src/torrent_peers_view.cpp:104
+#: src/main_window.cpp:1514 src/torrent_peers_view.cpp:104
 #: src/torrents_view.cpp:380 ui/preferences.client.gui.status_bar.glade:67
 msgid "Upload speed (payload)"
 msgstr "Скорость отдачи данных"
 
-#: src/main_window.cpp:1518 src/statistics_window.cpp:162
+#: src/main_window.cpp:1517 src/statistics_window.cpp:162
 #: ui/preferences.client.gui.status_bar.glade:108
 msgid "Downloaded"
 msgstr "Скачано"
 
-#: src/main_window.cpp:1521
+#: src/main_window.cpp:1520
 msgid "Download (payload)"
 msgstr "Скачано данных"
 
-#: src/main_window.cpp:1524 src/statistics_window.cpp:167
+#: src/main_window.cpp:1523 src/statistics_window.cpp:167
 #: ui/preferences.client.gui.status_bar.glade:136
 msgid "Uploaded"
 msgstr "Роздано"
 
-#: src/main_window.cpp:1527
+#: src/main_window.cpp:1526
 msgid "Upload (payload)"
 msgstr "Роздано данных"
 
-#: src/main_window.cpp:1530 src/statistics_window.cpp:172
+#: src/main_window.cpp:1529 src/statistics_window.cpp:172
 #: src/torrents_view.cpp:382 ui/preferences.client.gui.status_bar.glade:162
 msgid "Share ratio"
 msgstr "Рейтинг"
 
-#: src/main_window.cpp:1533 src/statistics_window.cpp:175
+#: src/main_window.cpp:1532 src/statistics_window.cpp:175
 #: ui/preferences.client.gui.status_bar.glade:149
 msgid "Failed"
 msgstr "Ошибки"
 
-#: src/main_window.cpp:1536 src/statistics_window.cpp:177
+#: src/main_window.cpp:1535 src/statistics_window.cpp:177
 #: ui/preferences.client.gui.status_bar.glade:190
 msgid "Redundant"
 msgstr "Избыточные данные"
 
-#: src/main_window.cpp:1555
+#: src/main_window.cpp:1554
 #, qt-format
 msgid "Download speed|Down: %1 (%2) / %3"
 msgstr "Скачивание: %1 (%2) / %3"
 
-#: src/main_window.cpp:1562
+#: src/main_window.cpp:1561
 #, qt-format
 msgid "Upload speed|Up: %1 (%2) / %3"
 msgstr "Отдача: %1 (%2) / %3"

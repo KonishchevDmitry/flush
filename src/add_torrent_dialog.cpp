@@ -254,24 +254,23 @@ void Add_torrent_dialog::on_response(int response)
 			std::auto_ptr<String_vector> trackers = std::auto_ptr<String_vector>(
 				new String_vector(priv->trackers_view->get()) );
 
-			get_application().add_torrent(
-				priv->torrent_path->get_text(),
-				New_torrent_settings(
-					priv->torrent_name->get_text(),
-					priv->start_torrent->get_active(),
-					L2U(priv->download_to->get_filename()),
-					(
-						priv->copy_when_finished->get_active()
-						?
-							L2U(priv->copy_when_finished_to->get_filename())
-						:
-							""
-					),
-					priv->torrent_encoding,
-					priv->torrent_files_view->get_files_settings(),
-					trackers
-				)
+			New_torrent_settings new_torrent_settings(
+				priv->torrent_name->get_text(),
+				priv->start_torrent->get_active(),
+				L2U(priv->download_to->get_filename()),
+				(
+					priv->copy_when_finished->get_active()
+					?
+						L2U(priv->copy_when_finished_to->get_filename())
+					:
+						""
+				),
+				priv->torrent_encoding,
+				priv->torrent_files_view->get_files_settings(),
+				trackers
 			);
+
+			get_application().add_torrent(priv->torrent_path->get_text(), new_torrent_settings);
 		}
 		catch(m::Exception& e)
 		{

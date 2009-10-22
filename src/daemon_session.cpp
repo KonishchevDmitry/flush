@@ -836,22 +836,22 @@ void Daemon_session::auto_load_if_torrent(const std::string& torrent_path)
 		MLIB_D(_C("Auto loading torrent '%1'...", torrent_path));
 
 		// Добавляем торрент в сессию -->
-			this->add_torrent(
-				torrent_path,
-				New_torrent_settings(
-					true, priv->settings.torrents_auto_load.to,
-					(
-						priv->settings.torrents_auto_load.copy
-						?
-							priv->settings.torrents_auto_load.copy_to
-						:
-							""
-					),
-					MLIB_UTF_CHARSET_NAME, std::vector<Torrent_file_settings>(),
-					std::auto_ptr<String_vector>(), false
+		{
+			New_torrent_settings new_torrent_settings(
+				true, priv->settings.torrents_auto_load.to,
+				(
+					priv->settings.torrents_auto_load.copy
+					?
+						priv->settings.torrents_auto_load.copy_to
+					:
+						""
 				),
-				false
+				MLIB_UTF_CHARSET_NAME, std::vector<Torrent_file_settings>(),
+				std::auto_ptr<String_vector>(), false
 			);
+
+			this->add_torrent(torrent_path, new_torrent_settings, false);
+		}
 		// Добавляем торрент в сессию <--
 
 		// Удаляем загруженный *.torrent файл -->
