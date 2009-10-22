@@ -74,9 +74,6 @@
 	#include "main.hpp"
 	#include "main_window.hpp"
 	#include "open_torrent_dialog.hpp"
-#if DEVELOP_MODE
-	#include "rss_settings_dialog.hpp"
-#endif
 	#include "settings_window.hpp"
 	#include "statistics_window.hpp"
 	#include "temporary_action_dialog.hpp"
