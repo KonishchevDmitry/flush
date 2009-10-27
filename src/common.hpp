@@ -842,34 +842,34 @@ class New_torrent_settings
 	public:
 		/// Имя торрента или "", если необходимо использовать имя по
 		/// умолчанию.
-		const std::string							name;
+		std::string							name;
 
 		/// Запускать торрент или нет.
-		const bool									start;
+		bool								start;
 
 		/// Директория, в которую будет производится
 		/// скачивание.
-		const std::string							download_path;
+		std::string							download_path;
 
 		/// Директория, в которую необходимо скопировать
 		/// файлы торрента по завершении скачивания
 		/// или "", если копировать файлы не нужно.
-		const std::string							copy_on_finished_path;
+		std::string							copy_on_finished_path;
 
 		/// Кодировка *.torrent файла.
-		const std::string							encoding;
+		std::string							encoding;
 
 		/// Настройки файлов торрента или пустой массив,
 		/// если необходимо задать настройки по умолчанию.
-		const std::vector<Torrent_file_settings>	files_settings;
+		std::vector<Torrent_file_settings>	files_settings;
 
 		/// Список трекеров или NULL, если необходимо взять список трекеров
 		/// из торрента.
-		const std::auto_ptr<String_vector>			trackers;
+		std::auto_ptr<String_vector>		trackers;
 
 		/// Является ли ошибкой, если такой торрент уже присутствует в
 		/// сессии.
-		const bool									duplicate_is_error;
+		bool								duplicate_is_error;
 };
 
 

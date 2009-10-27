@@ -1044,15 +1044,24 @@ void Daemon_session::finish_torrent(Torrent& torrent)
 	// скопировать файлы данного торрента.
 	if(torrent.download_settings.copy_when_finished)
 	{
-		std::string src_path = torrent.get_download_path();
-		std::string dest_path = torrent.download_settings.copy_when_finished_to;
+		std::vector<bool> interested_files;
+
+		// Формируем список интересующих нас файлов -->
+		{
+			size_t i = 0;
+			interested_files.reserve(torrent.files_settings.size());
+
+			BOOST_FOREACH(const Torrent_file_settings& settings, torrent.files_settings)
+				interested_files[i++] = settings.download;
+		}
+		// Формируем список интересующих нас файлов <--
 
 		// Получаем список скачанных файлов торрента -->
 			std::vector<std::string> files_paths;
 
 			try
 			{
-				files_paths = m::lt::get_torrent_downloaded_files_paths(torrent.handle);
+				files_paths = m::lt::get_torrent_downloaded_files_paths(torrent.handle, interested_files);
 			}
 			catch(lt::invalid_handle)
 			{
@@ -1060,6 +1069,9 @@ void Daemon_session::finish_torrent(Torrent& torrent)
 			}
 		// Получаем список скачанных файлов торрента <--
 
+
+		std::string src_path = torrent.get_download_path();
+		std::string dest_path = torrent.download_settings.copy_when_finished_to;
 
 		m::async_fs::copy_files(
 			torrent.id,

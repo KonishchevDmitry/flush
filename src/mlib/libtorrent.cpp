@@ -81,7 +81,7 @@ Torrent_metadata::Torrent_metadata(const lt::torrent_info& info, const std::stri
 
 
 
-std::vector<std::string> get_torrent_downloaded_files_paths(const libtorrent::torrent_handle& torrent_handle)
+std::vector<std::string> get_torrent_downloaded_files_paths(const libtorrent::torrent_handle& torrent_handle, const std::vector<bool>& interested_files)
 {
 	std::vector<std::string> torrent_files;
 
@@ -99,7 +99,7 @@ std::vector<std::string> get_torrent_downloaded_files_paths(const libtorrent::to
 	MLIB_A(files_progress.size() == size_t(torrent_info.num_files()));
 
 	for(size_t i = 0; it != end_it; it++, i++)
-		if(files_progress[i] == it->size)
+		if(interested_files[i] && files_progress[i] == it->size)
 			torrent_files.push_back( LT2U(it->path.string()) );
 
 	return torrent_files;

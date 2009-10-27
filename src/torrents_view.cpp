@@ -647,13 +647,12 @@ namespace
 		std::string torrent_name = this->model->get_iter(path)->get_value(this->model_columns.name);
 
 		std::vector<Torrent_file> files;
+		std::vector<Torrent_file_status> statuses;
 		std::string torrent_download_path;
 
 		try
 		{
 			torrent_download_path = get_daemon_proxy().get_torrent_download_path(torrent_id);
-
-			std::vector<Torrent_file_status> statuses;
 			get_daemon_proxy().get_torrent_files_info(torrent_id, &files, &statuses, INIT_REVISION);
 		}
 		catch(m::Exception& e)
@@ -663,12 +662,38 @@ namespace
 
 		if(!files.empty())
 		{
-			// Получаем путь любого файла торрента без начального "/".
-			std::string file_path = files[0].path.substr(1);
+			// Если файл один, или все файлы торрента сосредоточены в одной
+			// директории, то открываем его (ее). В противном случае, открываем
+			// директорию, в которую скачивается торрент.
 
-			get_application().open_uri(
-				Path(torrent_download_path) / file_path.substr(0, file_path.find('/'))
-			);
+			size_t i;
+			std::string open_path;
+
+			for(i = 0; i < files.size(); i++)
+			{
+				if(!statuses[i].download)
+					continue;
+
+				// Путь к файлу/директории торрента без начального "/".
+				std::string file_path = files[i].path.substr(1);
+				file_path = Path(torrent_download_path) / file_path.substr(0, file_path.find('/'));
+
+				if(open_path.empty())
+					open_path = file_path;
+				else
+				{
+					if(open_path != file_path)
+					{
+						open_path.clear();
+						break;
+					}
+				}
+			}
+
+			if(open_path.empty())
+				open_path = torrent_download_path;
+
+			get_application().open_uri(open_path);
 		}
 	}
 

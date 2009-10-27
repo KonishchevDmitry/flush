@@ -79,7 +79,7 @@ class Torrent_metadata
 
 /// Возвращает список путей скачанных файлов торрента torrent_handle.
 /// @throw - libtorrent::invalid_handle.
-std::vector<std::string>	get_torrent_downloaded_files_paths(const libtorrent::torrent_handle& torrent_handle);
+std::vector<std::string>	get_torrent_downloaded_files_paths(const libtorrent::torrent_handle& torrent_handle, const std::vector<bool>& interested_files);
 
 /// Преобразовывает file_path в путь, используемый для представления
 /// расположения файлов торрента. Если file_path невозможно преобразовать в такой
