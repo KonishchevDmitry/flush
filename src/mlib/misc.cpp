@@ -248,6 +248,14 @@ uint16_t PORT_MAX = 65535;
 
 
 
+	void Connection::clear(void)
+	{
+		while(this->get())
+			;
+	}
+
+
+
 	bool Connection::get(void)
 	{
 		char byte;
@@ -278,6 +286,13 @@ uint16_t PORT_MAX = 65535;
 
 
 
+	int Connection::get_read_fd(void)
+	{
+		return this->read_fd;
+	}
+
+
+
 	void Connection::post(void)
 	{
 		char byte;
@@ -295,89 +310,24 @@ uint16_t PORT_MAX = 65535;
 
 	bool Connection::wait_for_with_owning(int fd, bool prioritize_fd)
 	{
-		int rval = -1;
-		sys::File_holder epoll_fd;
+		Wait_entry entries[] = {
+			Wait_entry(prioritize_fd ? fd : this->get_read_fd(), prioritize_fd ? false : true),
+			Wait_entry(prioritize_fd ? this->get_read_fd() : fd, prioritize_fd ? true: false)
+		};
 
-		try
-		{
-			epoll_event event;
+		return wait_fds(entries, M_STATIC_ARRAY_SIZE(entries));
+	}
 
-			epoll_fd.set(sys::unix_epoll_create());
 
-			event.events = EPOLLIN;
-			event.data.fd = fd;
-			sys::unix_epoll_ctl(epoll_fd.get(), EPOLL_CTL_ADD, fd, &event);
 
-			event.events = EPOLLIN;
-			event.data.fd = this->read_fd;
-			sys::unix_epoll_ctl(epoll_fd.get(), EPOLL_CTL_ADD, this->read_fd, &event);
-		}
-		catch(m::Sys_exception& e)
-		{
-			MLIB_E(__("Error while creating epoll instance: %1.", EE(e)));
-		}
+	bool Connection::wait_two_with_owning(Connection& second)
+	{
+		Wait_entry entries[] = {
+			Wait_entry(this->get_read_fd(), true),
+			Wait_entry(second.get_read_fd(), true),
+		};
 
-		try
-		{
-			while(rval == -1)
-			{
-				bool fd_event = false;
-				bool connection_event = false;
-
-				{
-					struct epoll_event events[2];
-
-					int events_num = sys::unix_epoll_wait(epoll_fd.get(), events, M_STATIC_ARRAY_SIZE(events), -1);
-					MLIB_A(events_num);
-
-					for(int i = 0; i < events_num; i++)
-					{
-						if(events[i].data.fd == fd)
-							fd_event = true;
-						else if(events[i].data.fd == this->read_fd)
-							connection_event = true;
-						else
-							MLIB_LE();
-					}
-				}
-
-				if(prioritize_fd)
-				{
-					if(fd_event)
-						rval = true;
-					else
-					{
-						if(this->get())
-							rval = false;
-					}
-				}
-				else
-				{
-					if(connection_event)
-					{
-						if(this->get())
-							rval = false;
-					}
-					else
-						rval = true;
-				}
-			}
-		}
-		catch(m::Sys_exception& e)
-		{
-			MLIB_E(__("Error while using epoll instance: %1.", EE(e)));
-		}
-
-		try
-		{
-			epoll_fd.close();
-		}
-		catch(m::Sys_exception& e)
-		{
-			MLIB_E(__("Error while closing epoll instance: %1.", EE(e)));
-		}
-
-		return rval;
+		return !wait_fds(entries, M_STATIC_ARRAY_SIZE(entries));
 	}
 // Connection <--
 
@@ -499,6 +449,110 @@ void run(const std::string& cmd_name, const std::vector<std::string>& args)
 
 		MLIB_LE();
 	}
+}
+
+
+
+size_t wait_fds(const Wait_entry* entries, size_t size)
+{
+	sys::File_holder epoll_fd;
+
+	try
+	{
+		size_t i;
+
+		epoll_fd.set(sys::unix_epoll_create());
+
+		epoll_event event;
+		event.events = EPOLLIN;
+
+		for(i = 0; i < size; i++)
+		{
+			const Wait_entry& entry = entries[i];
+			event.data.fd = entry.fd;
+			sys::unix_epoll_ctl(epoll_fd.get(), EPOLL_CTL_ADD, entry.fd, &event);
+		}
+	}
+	catch(m::Sys_exception& e)
+	{
+		MLIB_E(__("Error while creating epoll instance: %1.", EE(e)));
+	}
+
+
+	struct epoll_event events[size];
+
+	do
+	{
+		size_t result_id;
+
+		// Ожидаем прихода данных -->
+			int events_num;
+
+			try
+			{
+				events_num = sys::unix_epoll_wait(epoll_fd.get(), events, M_STATIC_ARRAY_SIZE(events), -1);
+			}
+			catch(m::Sys_exception& e)
+			{
+				MLIB_E(__("Error while using epoll instance: %1.", EE(e)));
+			}
+
+			MLIB_A(events_num);
+		// Ожидаем прихода данных <--
+
+		// Определяем в порядке приоритетности, какой дескриптор сработал
+		// -->
+		{
+			bool gotten = false;
+
+			for(size_t i = 0; !gotten && i < size; i++)
+			{
+				for(int k = 0; !gotten && k < events_num; k++)
+				{
+					if(events[0].data.fd == entries[i].fd)
+					{
+						gotten = true;
+						result_id = i;
+					}
+				}
+			}
+
+			MLIB_A(gotten);
+		}
+		// <--
+
+		// Считываем данные, из дескриптора, если это необходимо
+		// -->
+			if(entries[result_id].own)
+			{
+				char byte;
+				ssize_t rval;
+
+				do
+					rval = read(entries[result_id].fd, &byte, sizeof byte);
+				while(rval < 0 && errno == EINTR);
+
+				switch(rval)
+				{
+					case -1:
+						if(errno != EAGAIN)
+							MLIB_E(__("Can't read data from a file descriptor: %1.", strerror(errno)));
+						break;
+
+					case 1:
+						return result_id;
+						break;
+
+					default:
+						MLIB_LE();
+						break;
+				}
+			}
+			else
+				return result_id;
+		// <--
+	}
+	while(true);
 }
 
 

@@ -18,6 +18,10 @@
 **************************************************************************/
 
 
+#include <gtk/gtkwindow.h>
+
+#include <gtkmm/window.h>
+
 #include <mlib/gtk/main.hpp>
 #include <mlib/gtk/window_settings.hpp>
 
@@ -33,23 +37,30 @@ Window::Window(const std::string& title, const Settings& settings, int width, in
 
 
 
-Window::Window(Gtk::Window& parent_window, const std::string& title, const Settings& settings, int width, int height, int border_width)
+Window::Window(GtkWindow* parent_window, const std::string& title, const Settings& settings, int width, int height, int border_width)
 {
-	this->init(&parent_window, title, settings, width, height, border_width);
+	this->init(parent_window, title, settings, width, height, border_width);
 }
 
 
 
-void Window::init(Gtk::Window* parent_window, const std::string& title, const Settings& settings, int width, int height, int border_width)
+Window::Window(Gtk::Window& parent_window, const std::string& title, const Settings& settings, int width, int height, int border_width)
+{
+	this->init(parent_window.gobj(), title, settings, width, height, border_width);
+}
+
+
+
+void Window::init(GtkWindow* parent_window, const std::string& title, const Settings& settings, int width, int height, int border_width)
 {
 	this->set_border_width(border_width);
 	this->set_title(title);
 
 	if(parent_window)
 	{
-		this->set_transient_for(*parent_window);
+		gtk_window_set_transient_for(this->gobj(), parent_window);
 
-		if(parent_window->is_visible())
+		if(GTK_WIDGET_VISIBLE(GTK_WIDGET(parent_window)))
 			this->set_position(Gtk::WIN_POS_CENTER_ON_PARENT);
 		else
 			this->set_position(Gtk::WIN_POS_CENTER);

@@ -31,6 +31,7 @@ namespace Gtk {
 								class EventBox;
 								class Expander;
 								class FileChooserDialog;
+								class HBox;
 								class IconSize;
 								class LinkButton;
 								class ListStore;
@@ -45,6 +46,7 @@ template <class Column_type>	class TreeModelColumn;
 								class TreeRow;
 								class TreeView;
 								class TreeViewColumn;
+								class VBox;
 								class Widget;
 								class Window;
 

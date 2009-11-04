@@ -98,12 +98,19 @@ class Connection
 		~Connection(void);
 
 
-	public:
+	private:
 		int	read_fd;
 		int write_fd;
 
 
 	public:
+		/// Очищает Connection так, чтобы последущий wait() не вернул
+		/// управления до тех пор, пока кто-нибудь не сделает post().
+		void	clear(void);
+
+		/// Возвращает дескриптор для чтения.
+		int		get_read_fd(void);
+
 		/// Записывает в write_fd 1 байт, пробуждая тем самым другой поток.
 		void	post(void);
 
@@ -117,6 +124,12 @@ class Connection
 		/// == true функция возвратит false только тогда, когда в this->read_fd
 		/// что-то есть, а в fd нет ничего.
 		bool	wait_for_with_owning(int fd, bool prioritize_fd = false);
+
+		/// Ожидает прихода данных в данный объект и объект second, отдавая при
+		/// этом приоритет данному объекту.
+		/// @return - true, если данные пришли в этот объект, false - если
+		/// данные пришли в объект second.
+		bool	wait_two_with_owning(Connection& second);
 
 	private:
 		/// Пытается захватить байт из read_fd.
@@ -145,6 +158,26 @@ class Semaphore: public boost::noncopyable
 
 
 
+/// Используется для ожидания группы дескрипторов через функцию wait_fds.
+class Wait_entry
+{
+	public:
+		Wait_entry(int fd, bool own = false)
+		: fd(fd), own(own) {}
+
+
+	public:
+		/// Дескриптор, прихода данных в который мы ожидаем.
+		int		fd;
+
+		/// Определяет, нужно ли считывать 1 байт, при появлении данных в этом
+		/// дескрипторе (удобно при использовании в качестве дескриптора
+		/// дескриптора m::Connection);
+		bool	own;
+};
+
+
+
 /// Минимальный номер сетевого порта.
 extern uint16_t PORT_MIN;
 
@@ -161,6 +194,10 @@ void				close_all_fds(void);
 /// @param start_year - год, в котором была написана программа.
 std::string			get_copyright_string(const std::string& author, const int start_year);
 
+/// Преобразует указатель в целое число.
+template <class T>
+size_t				pointer_to_integer(T* ptr);
+
 /// Аналогична страндартному realloc, но в случае неудачной
 /// попытки выделения памяти вызывает m::error.
 void*				realloc(void *ptr, const size_t size);
@@ -171,8 +208,18 @@ void*				realloc(void *ptr, const size_t size);
 /// @throw - m::Exception.
 void				run(const std::string& cmd_name, const std::vector<std::string>& args);
 
+/// Ожидает поступления данных в дескрипторах entries и возвращает идентификатор
+/// дескриптора, в котором появились данные.
+///
+/// Внимание!
+/// Если в Wait_entry::own == true и доступ к Wait_entry::fd является
+/// блокирующим, то результат работы функции не определен.
+size_t				wait_fds(const Wait_entry* entries, size_t size);
+
 
 }
+
+#include "misc.hh"
 
 #endif
 

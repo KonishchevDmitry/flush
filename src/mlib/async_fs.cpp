@@ -18,10 +18,6 @@
 **************************************************************************/
 
 
-#ifndef MLIB_ENABLE_ALIASES
-	#define MLIB_ENABLE_ALIASES
-#endif
-
 #include <queue>
 
 #include <boost/ref.hpp>

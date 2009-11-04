@@ -34,6 +34,8 @@
 #include "libs_forwards/gtkmm.hpp"
 #include "libs_forwards/libconfig.hpp"
 #include "libs_forwards/libtorrent.hpp"
+#include "libs_forwards/sigc++.hpp"
+#include "libs_forwards/sqlite3.h"
 
 #endif
 

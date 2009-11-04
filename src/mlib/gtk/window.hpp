@@ -21,6 +21,8 @@
 #ifndef HEADER_MLIB_GTK_WINDOW
 	#define HEADER_MLIB_GTK_WINDOW
 
+	#include <gtk/gtkwindow.h>
+
 	#include <gtkmm/window.h>
 
 	#include <mlib/gtk/main.hpp>
@@ -37,12 +39,13 @@
 
 		public:
 			Window(const std::string& title, const Settings& settings = Settings(), int width = -1, int height = -1, int border_width = m::gtk::WINDOW_BORDER_WIDTH);
+			Window(GtkWindow* parent_window, const std::string& title, const Settings& settings = Settings(), int width = -1, int height = -1, int border_width = m::gtk::WINDOW_BORDER_WIDTH);
 			Window(Gtk::Window& parent_window, const std::string& title, const Settings& settings = Settings(), int width = -1, int height = -1, int border_width = m::gtk::WINDOW_BORDER_WIDTH);
 
 
 		private:
 			/// Инициализатор, который вызывают конструкторы.
-			void init(Gtk::Window* parent_window, const std::string& title, const Settings& settings, int width, int height, int border_width);
+			void init(GtkWindow* parent_window, const std::string& title, const Settings& settings, int width, int height, int border_width);
 
 		public:
 			/// Сохраняет текущие настройки Window.

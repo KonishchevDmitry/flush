@@ -128,9 +128,5 @@ std::string		EE(const libtorrent::invalid_torrent_file& error);
 
 }
 
-#ifdef MLIB_ENABLE_ALIASES
-	using m::EE;
-#endif
-
 #endif
 

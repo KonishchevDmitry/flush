@@ -18,7 +18,9 @@
 **************************************************************************/
 
 
+#include <locale>
 #include <string>
+#include <sstream>
 
 #include <boost/lexical_cast.hpp>
 
@@ -182,6 +184,47 @@ Glib::ustring _C(const char* fmt, const T1& a1, const T2& a2, const T3& a3)
 
 
 
+template<class T1, class T2, class T3, class T4> inline
+Glib::ustring	_C(const char* fmt, const T1& a1, const T2& a2, const T3& a3, const T4& a4)
+{
+	try
+	{
+		return Glib::ustring::compose(fmt,
+			Format_aux::correct_glib_format_value(a1),
+			Format_aux::correct_glib_format_value(a2),
+			Format_aux::correct_glib_format_value(a3),
+			Format_aux::correct_glib_format_value(a4)
+		);
+	}
+	catch(Glib::ConvertError&)
+	{
+		return _("[[Invalid encoding]]");
+	}
+}
+
+
+
+template<class T1, class T2, class T3, class T4, class T5> inline
+Glib::ustring	_C(const char* fmt, const T1& a1, const T2& a2, const T3& a3, const T4& a4, const T5& a5)
+{
+	try
+	{
+		return Glib::ustring::compose(fmt,
+			Format_aux::correct_glib_format_value(a1),
+			Format_aux::correct_glib_format_value(a2),
+			Format_aux::correct_glib_format_value(a3),
+			Format_aux::correct_glib_format_value(a4),
+			Format_aux::correct_glib_format_value(a5)
+		);
+	}
+	catch(Glib::ConvertError&)
+	{
+		return _("[[Invalid encoding]]");
+	}
+}
+
+
+
 template<class T1>
 Glib::ustring _F(const T1& a1)
 {
@@ -231,6 +274,17 @@ template<class Value>
 std::string to_string(const Value& value)
 {
 	return boost::lexical_cast<std::string>(value);
+}
+
+
+
+template<class Value>
+std::string to_string_non_locale(const Value& value)
+{
+	std::ostringstream oss;
+	oss.imbue(std::locale::classic());
+	oss << value;
+	return oss.str();
 }
 
 

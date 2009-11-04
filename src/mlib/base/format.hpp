@@ -107,7 +107,7 @@ Glib::ustring	__Q(const char* fmt, const T1& a1, const T2& a2, const T3& a3);
 
 /// Обертка над Glib::ustring::compose.
 template<class T1> inline
-Glib::ustring	_C(const std::string& fmt, const T1& a1);
+Glib::ustring	_C(const char* fmt, const T1& a1);
 
 /// Обертка над Glib::ustring::compose.
 template<class T1, class T2> inline
@@ -116,6 +116,14 @@ Glib::ustring	_C(const char* fmt, const T1& a1, const T2& a2);
 /// Обертка над Glib::ustring::compose.
 template<class T1, class T2, class T3> inline
 Glib::ustring	_C(const char* fmt, const T1& a1, const T2& a2, const T3& a3);
+
+/// Обертка над Glib::ustring::compose.
+template<class T1, class T2, class T3, class T4> inline
+Glib::ustring	_C(const char* fmt, const T1& a1, const T2& a2, const T3& a3, const T4& a4);
+
+/// Обертка над Glib::ustring::compose.
+template<class T1, class T2, class T3, class T4, class T5> inline
+Glib::ustring	_C(const char* fmt, const T1& a1, const T2& a2, const T3& a3, const T4& a4, const T5& a5);
 
 /// Обертка над Glib::ustring::format.
 template<class T1> inline
@@ -128,6 +136,9 @@ Glib::ustring	_F(const T1& a1, const T2& a2);
 /// Обертка над Glib::ustring::format.
 template<class T1, class T2, class T3> inline
 Glib::ustring	_F(const T1& a1, const T2& a2, const T3& a3);
+
+/// Обертка над gettext().
+const char*		_G(const char* string);
 
 /// То же, что и _(), но удаляет из строки все до первого символа '|'
 /// (включая этот символ).
@@ -153,6 +164,10 @@ Glib::ustring	L2U(const std::string& string);
 /// Преобразовывает любое значение в строку.
 template<class Value> inline
 std::string		to_string(const Value& value);
+
+/// Преобразовывает любое значение в строку используя локаль classic.
+template<class Value> inline
+std::string		to_string_non_locale(const Value& value);
 
 /// Преобразовывает строку из Unicode в кодировку локали.
 std::string		U2L(const std::string& string);
@@ -180,18 +195,23 @@ Glib::ustring	validate_utf(const Glib::ustring& string);
 	inline std::string L2LT(const std::string& string) { return string; }
 #endif
 
-}
 
-#include "format.hh"
-
-#ifdef MLIB_ENABLE_ALIASES
+namespace aliases
+{
 	using m::String_vector;
 
 	using m::_;
+	using m::_G;
 	using m::_Q;
 
 	using m::_F;
 	using m::_C;
+
+	template<class Value> inline
+	std::string _S(const Value& value) { return m::to_string(value); }
+
+	template<class Value> inline
+	std::string _SN(const Value& value) { return m::to_string_non_locale(value); }
 
 	using m::__;
 	using m::__Q;
@@ -205,7 +225,12 @@ Glib::ustring	validate_utf(const Glib::ustring& string);
 		using m::U2LT;
 		using m::L2LT;
 	#endif
-#endif
+}
+
+
+}
+
+#include "format.hh"
 
 #endif
 

@@ -20,12 +20,17 @@
 
 #include <gtk/gtkcellrenderertoggle.h>
 #include <gtk/gtkversion.h>
+#include <gtk/gtkwindow.h>
 
 #include <gdkmm/pixbuf.h>
 
 #include <gtkmm/box.h>
+#include <gtkmm/dialog.h>
 #include <gtkmm/icontheme.h>
+#include <gtkmm/image.h>
+#include <gtkmm/label.h>
 #include <gtkmm/messagedialog.h>
+#include <gtkmm/scrolledwindow.h>
 #include <gtkmm/stock.h>
 #include <gtkmm/treeview.h>
 #include <gtkmm/treeviewcolumn.h>
@@ -41,14 +46,31 @@ namespace m { namespace gtk {
 
 namespace
 {
+	enum Message_type {
+		MESSAGE_TYPE_INFO,
+		MESSAGE_TYPE_WARNING
+	};
+
+
+
+	/// Функция, используемая для форматирования заголовка окна в соответствии с
+	/// тем, как принято отображать заголовки в данном приложении.
+	Glib::ustring (*format_window_title_function)(const Glib::ustring&) = NULL;
+
+
+
 	/// Модифицированный обработчик сигнала на активацию GtkCellRendererToggle.
-	gint gtk_cell_renderer_toggle_activate(	GtkCellRenderer* cell,
+	gint			gtk_cell_renderer_toggle_activate(	GtkCellRenderer* cell,
 											GdkEvent* event,
 											GtkWidget* widget,
 											const gchar* path,
 											GdkRectangle* background_area,
 											GdkRectangle* cell_area,
 											GtkCellRendererState flags);
+
+	/// Отображает сообщение пользователю, не возвращая управления до тех пор,
+	/// пока он не нажмет кнопку OK.
+	void			show_message(GtkWindow* parent_window, Message_type type, Glib::ustring title, Glib::ustring message);
 
 
 
@@ -83,6 +105,142 @@ namespace
 
 		return FALSE;
 	}
+
+
+
+	void show_message(GtkWindow* parent_window, Message_type type, Glib::ustring title, Glib::ustring message)
+	{
+		Gtk::StockID dialog_stock_id;
+
+		Glib::ustring short_message;
+		Glib::ustring long_message;
+		const int labels_width = 300;
+
+		// Определяем все переменные, которые зависят от типа сообщения -->
+			switch(type)
+			{
+				case MESSAGE_TYPE_INFO:
+					if(title == "")
+						title = _("Information");
+					dialog_stock_id = Gtk::Stock::DIALOG_INFO;
+					break;
+
+				case MESSAGE_TYPE_WARNING:
+					if(title == "")
+						title = _("Warning");
+					dialog_stock_id = Gtk::Stock::DIALOG_WARNING;
+					break;
+
+				default:
+					MLIB_LE();
+					break;
+			}
+		// Определяем все переменные, которые зависят от типа сообщения <--
+
+		MLIB_D(_C("GUI message: [%1] %2", title, message));
+
+		// Когда выводится содержимое Errors_pool, сообщение всегда будет содержать
+		// пустую строку, выводить которую не имеет смысла.
+		if(!message.empty() && message[0] == '\n')
+			message = message.substr(1);
+
+		// Разбиваем сообщение на два - короткое и длинное.
+		// В итоге должно получиться одно из двух:
+		// * будет короткое сообщение в несколько строк и не будет длинного.
+		// * будет короткое сообщение в одну строку и длинное, в которое будут
+		//   помещены остальные строки.
+		// -->
+		{
+			const size_t short_message_max_lines = 3;
+			size_t lines_num = 0;
+			size_t new_string_pos = 0;
+
+			while(new_string_pos != message.npos && lines_num <= short_message_max_lines)
+			{
+				new_string_pos = message.find('\n', lines_num ? new_string_pos + 1 : 0);
+				lines_num++;
+			}
+
+			if(lines_num > short_message_max_lines)
+			{
+				new_string_pos = message.find('\n');
+				short_message = message.substr(0, new_string_pos);
+				long_message = message.substr(new_string_pos + 1);
+			}
+			else
+				short_message = message;
+		}
+		// <--
+
+		Gtk::Dialog message_dialog(format_window_title(title), true);
+		gtk_window_set_transient_for(GTK_WINDOW(message_dialog.gobj()), parent_window);
+		message_dialog.property_destroy_with_parent() = true;
+		message_dialog.set_border_width(m::gtk::WINDOW_BORDER_WIDTH);
+		message_dialog.set_resizable(false);
+
+		Gtk::HBox* main_hbox = Gtk::manage( new Gtk::HBox(false, m::gtk::HBOX_SPACING * 3) );
+		message_dialog.get_vbox()->add(*main_hbox);
+
+		// Image -->
+		{
+			Gtk::Image* error_image = Gtk::manage( new Gtk::Image(dialog_stock_id, Gtk::ICON_SIZE_DIALOG) );
+			error_image->set_alignment(0, 0);
+			main_hbox->pack_start(*error_image, false, false);
+		}
+		// Image <--
+
+		Gtk::VBox* main_vbox = Gtk::manage( new Gtk::VBox(false, m::gtk::VBOX_SPACING * 3) );
+		main_hbox->set_border_width(m::gtk::BOX_BORDER_WIDTH);
+		main_hbox->pack_start(*main_vbox, false, false);
+
+		// Title -->
+		{
+			Gtk::Label* title_label = Gtk::manage( new Gtk::Label() );
+			title_label->set_markup("<span weight='bold' size='larger'>" + Glib::Markup::escape_text(title) + "</span>");
+			title_label->set_line_wrap();
+			title_label->set_selectable();
+			title_label->set_alignment(0, 0);
+			if(!long_message.empty())
+				title_label->set_size_request(labels_width, -1);
+			main_vbox->pack_start(*title_label, false, false);
+		}
+		// Title <--
+
+		// Short message -->
+		{
+			Gtk::Label* message_label = Gtk::manage( new Gtk::Label(short_message) );
+			message_label->set_line_wrap();
+			message_label->set_selectable();
+			message_label->set_alignment(0, 0);
+			if(!long_message.empty())
+				message_label->set_size_request(labels_width, -1);
+			main_vbox->pack_start(*message_label, false, false);
+		}
+		// Short message <--
+
+		// Long message -->
+			if(!long_message.empty())
+			{
+				Gtk::ScrolledWindow* scrolled_window = Gtk::manage( new Gtk::ScrolledWindow() );
+				scrolled_window->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
+				scrolled_window->set_size_request(-1, 100);
+				main_vbox->add(*scrolled_window);
+
+				Gtk::VBox* vbox = Gtk::manage( new Gtk::VBox() );
+				vbox->set_border_width(m::gtk::BOX_BORDER_WIDTH);
+				scrolled_window->add(*vbox);
+
+				Gtk::Label* message_label = Gtk::manage( new Gtk::Label(long_message) );
+				message_label->set_alignment(0, 0);
+				message_label->set_selectable();
+				vbox->add(*message_label);
+			}
+		// Long message <--
+
+		message_dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+		message_dialog.show_all_children();
+		message_dialog.run();
+	}
 }
 
 
@@ -96,6 +254,16 @@ void activate_cell_renderer_toggle_tree_mode(void)
 	cell_class = GTK_CELL_RENDERER_CLASS(GTK_WIDGET_GET_CLASS(toggle_renderer));
 	cell_class->activate = gtk_cell_renderer_toggle_activate;
 	gtk_object_destroy(GTK_OBJECT(toggle_renderer));
+}
+
+
+
+Glib::ustring format_window_title(const Glib::ustring& title)
+{
+	if(format_window_title_function)
+		return (*format_window_title_function)(title);
+	else
+		return title;
 }
 
 
@@ -212,6 +380,55 @@ void message(Gtk::Window& parent_window, const std::string& title, const std::st
 	dialog.set_default_response(Gtk::RESPONSE_OK);
 	dialog.property_destroy_with_parent() = true;
 	dialog.run();
+}
+
+
+
+void set_format_window_title_function(Glib::ustring (*func)(const Glib::ustring&))
+{
+	format_window_title_function = func;
+}
+
+
+
+void show_info_message(GtkWindow* parent_window, const Glib::ustring& message)
+{
+	show_info_message(parent_window, "", message);
+}
+
+
+
+void show_info_message(Gtk::Window& parent_window, const Glib::ustring& message)
+{
+	show_info_message(parent_window.gobj(), "", message);
+}
+
+
+
+void show_info_message(GtkWindow* parent_window, const Glib::ustring& title, const Glib::ustring& message)
+{
+	show_message(parent_window, MESSAGE_TYPE_INFO, title, message);
+}
+
+
+
+void show_warning_message(GtkWindow* parent_window, const Glib::ustring& message)
+{
+	show_warning_message(parent_window, "", message);
+}
+
+
+
+void show_warning_message(Gtk::Window& parent_window, const Glib::ustring& message)
+{
+	show_warning_message(parent_window.gobj(), "", message);
+}
+
+
+
+void show_warning_message(GtkWindow* parent_window, const Glib::ustring& title, const Glib::ustring& message)
+{
+	show_message(parent_window, MESSAGE_TYPE_WARNING, title, message);
 }
 
 

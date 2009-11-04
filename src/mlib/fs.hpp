@@ -35,7 +35,6 @@
 
 namespace m {
 
-
 namespace fs {
 
 /// Предоставляет некоторые общие функции при работе с
@@ -318,12 +317,12 @@ void			sync_file(const std::string& path);
 std::string		EE(const boost::filesystem::filesystem_error& error);
 
 
+namespace aliases
+{
+	using m::fs::Path;
 }
 
-#ifdef MLIB_ENABLE_ALIASES
-	using m::EE;
-	using m::fs::Path;
-#endif
+}
 
 #endif
 

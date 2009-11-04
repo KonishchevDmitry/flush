@@ -18,11 +18,6 @@
 **************************************************************************/
 
 
-#ifndef MLIB_ENABLE_ALIASES
-	#define MLIB_ENABLE_ALIASES
-#endif
-
-
 #ifdef MLIB_ENABLE_INOTIFY
 	#include <queue>
 

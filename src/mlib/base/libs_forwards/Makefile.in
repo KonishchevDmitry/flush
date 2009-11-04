@@ -34,16 +34,15 @@ host_triplet = @host@
 subdir = src/mlib/base/libs_forwards
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/acx_pthread.m4 \
-	$(top_srcdir)/m4/ax_boost_base.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/ax_boost_base.m4 \
 	$(top_srcdir)/m4/ax_boost_filesystem.m4 \
 	$(top_srcdir)/m4/ax_boost_signals.m4 \
 	$(top_srcdir)/m4/ax_boost_thread.m4 \
-	$(top_srcdir)/m4/check_ssl.m4 $(top_srcdir)/m4/gettext.m4 \
-	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/lib-ld.m4 \
-	$(top_srcdir)/m4/lib-link.m4 $(top_srcdir)/m4/lib-prefix.m4 \
-	$(top_srcdir)/m4/nls.m4 $(top_srcdir)/m4/po.m4 \
-	$(top_srcdir)/m4/progtest.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/gettext.m4 $(top_srcdir)/m4/iconv.m4 \
+	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
+	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/nls.m4 \
+	$(top_srcdir)/m4/po.m4 $(top_srcdir)/m4/progtest.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -54,6 +53,7 @@ DIST_SOURCES =
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
+APP_CFLAGS = @APP_CFLAGS@
 APP_CPPFLAGS = @APP_CPPFLAGS@
 APP_CXXFLAGS = @APP_CXXFLAGS@
 APP_DEPENDENCIES = @APP_DEPENDENCIES@
@@ -76,8 +76,6 @@ CXXCPP = @CXXCPP@
 CXXDEPMODE = @CXXDEPMODE@
 CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
-DBUSXX_LDADD = @DBUSXX_LDADD@
-DBUSXX_XML2CPP = @DBUSXX_XML2CPP@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 ECHO_C = @ECHO_C@
@@ -89,7 +87,7 @@ GETTEXT_MACRO_VERSION = @GETTEXT_MACRO_VERSION@
 GMSGFMT = @GMSGFMT@
 GMSGFMT_015 = @GMSGFMT_015@
 GREP = @GREP@
-HAVE_SSL = @HAVE_SSL@
+GTK_CPPFLAGS = @GTK_CPPFLAGS@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -106,6 +104,7 @@ LTLIBICONV = @LTLIBICONV@
 LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
+MAKE_TOOLS_DIR = @MAKE_TOOLS_DIR@
 MKDIR_P = @MKDIR_P@
 MLIB_CPPFLAGS = @MLIB_CPPFLAGS@
 MLIB_CXXFLAGS = @MLIB_CXXFLAGS@
@@ -123,17 +122,12 @@ PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
 POSUB = @POSUB@
-PTHREAD_CC = @PTHREAD_CC@
-PTHREAD_CFLAGS = @PTHREAD_CFLAGS@
-PTHREAD_LIBS = @PTHREAD_LIBS@
+PREFIX_GCCXML_BIN = @PREFIX_GCCXML_BIN@
 RANLIB = @RANLIB@
+RMDIR_P = @RMDIR_P@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
-SSL_CFLAGS = @SSL_CFLAGS@
-SSL_CXXFLAGS = @SSL_CXXFLAGS@
-SSL_LDFLAGS = @SSL_LDFLAGS@
-SSL_LIBS = @SSL_LIBS@
 STRIP = @STRIP@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
@@ -146,7 +140,6 @@ abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
-acx_pthread_config = @acx_pthread_config@
 am__include = @am__include@
 am__leading_dot = @am__leading_dot@
 am__quote = @am__quote@
@@ -161,15 +154,17 @@ build_vendor = @build_vendor@
 builddir = @builddir@
 datadir = @datadir@
 datarootdir = @datarootdir@
-dbus_CFLAGS = @dbus_CFLAGS@
-dbus_LIBS = @dbus_LIBS@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
+gio2_CFLAGS = @gio2_CFLAGS@
+gio2_LIBS = @gio2_LIBS@
 glademm_CFLAGS = @glademm_CFLAGS@
 glademm_LIBS = @glademm_LIBS@
-gthread_CFLAGS = @gthread_CFLAGS@
-gthread_LIBS = @gthread_LIBS@
+gthread2_CFLAGS = @gthread2_CFLAGS@
+gthread2_LIBS = @gthread2_LIBS@
+gtk2_CFLAGS = @gtk2_CFLAGS@
+gtk2_LIBS = @gtk2_LIBS@
 gtkmm_CFLAGS = @gtkmm_CFLAGS@
 gtkmm_LIBS = @gtkmm_LIBS@
 host = @host@
@@ -185,8 +180,10 @@ libconfig_CFLAGS = @libconfig_CFLAGS@
 libconfig_LIBS = @libconfig_LIBS@
 libdir = @libdir@
 libexecdir = @libexecdir@
-libtorrent_rasterbar_CFLAGS = @libtorrent_rasterbar_CFLAGS@
-libtorrent_rasterbar_LIBS = @libtorrent_rasterbar_LIBS@
+libnotify_CFLAGS = @libnotify_CFLAGS@
+libnotify_LIBS = @libnotify_LIBS@
+libxml2_CFLAGS = @libxml2_CFLAGS@
+libxml2_LIBS = @libxml2_LIBS@
 localedir = @localedir@
 localstatedir = @localstatedir@
 mandir = @mandir@
@@ -212,7 +209,8 @@ EXTRA_DIST = \
 	gtkmm.hpp \
 	libconfig.hpp \
 	libtorrent.hpp \
-	sigc++.hpp
+	sigc++.hpp \
+	sqlite3.h
 
 all: all-am
 

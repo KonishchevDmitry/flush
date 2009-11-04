@@ -21,6 +21,8 @@
 #ifndef HEADER_MLIB_GTK_MISC
 #define HEADER_MLIB_GTK_MISC
 
+	#include <gtk/gtkwindow.h>
+
 #ifndef MLIB_ENABLE_LIBS_FORWARDS
 	#include <gdkmm/pixbuf.h>
 
@@ -31,9 +33,9 @@
 	#include <gtkmm/window.h>
 #endif
 
-#include <mlib/gtk/main.hpp>
+	#include <mlib/gtk/main.hpp>
 
-#include "misc.hxx"
+	#include "misc.hxx"
 
 
 namespace m { namespace gtk {
@@ -45,6 +47,10 @@ namespace m { namespace gtk {
 /// пользователь кликнул мышкой именно по нему, а не по любому
 /// GtkCellRenderer'у данной колонки.
 void			activate_cell_renderer_toggle_tree_mode(void);
+
+/// Изменяет содержимое заголовка окна в соответствии с тем, как принято
+/// отображать заголовки в данном приложении.
+Glib::ustring	format_window_title(const Glib::ustring& title);
 
 /// Возвращает Stock'овую иконку.
 Glib::RefPtr<
@@ -72,6 +78,34 @@ Dialog_response	ok_cancel_dialog(Gtk::Window& parent_window, const std::string& 
 /// Отображает простое GTK сообщение и блокирует выполнение программы до
 /// тех пор, пока пользователь не нажмет на кнопку OK.
 void			message(Gtk::Window& parent_window, const std::string& title, const std::string& message);
+
+/// Задает функцию, используемую для форматирования заголовка окна в
+/// соответствии с тем, как принято отображать заголовки в данном приложении.
+void			set_format_window_title_function(Glib::ustring (*func)(const Glib::ustring&));
+
+/// Отображает информациооное сообщение пользователю, не возвращая управления до
+/// тех пор, пока он не нажмет кнопку OK.
+void			show_info_message(GtkWindow* parent_window, const Glib::ustring& message);
+
+/// Отображает информациооное сообщение пользователю, не возвращая управления до
+/// тех пор, пока он не нажмет кнопку OK.
+void			show_info_message(Gtk::Window& parent_window, const Glib::ustring& message);
+
+/// Отображает информациооное сообщение пользователю, не возвращая управления до
+/// тех пор, пока он не нажмет кнопку OK.
+void			show_info_message(GtkWindow* parent_window, const Glib::ustring& title, const Glib::ustring& message);
+
+/// Отображает предупреждающее сообщение пользователю, не возвращая управления
+/// до тех пор, пока он не нажмет кнопку OK.
+void			show_warning_message(GtkWindow* parent_window, const Glib::ustring& message);
+
+/// Отображает предупреждающее сообщение пользователю, не возвращая управления
+/// до тех пор, пока он не нажмет кнопку OK.
+void			show_warning_message(Gtk::Window& parent_window, const Glib::ustring& message);
+
+/// Отображает предупреждающее сообщение пользователю, не возвращая управления
+/// до тех пор, пока он не нажмет кнопку OK.
+void			show_warning_message(GtkWindow* parent_window, const Glib::ustring& title, const Glib::ustring& message);
 
 /// Функция предназначена для увеличения скорости обновления Gtk::TreeView.
 /// При обновлении модели GTK не обращает внимания на значение, и если оно

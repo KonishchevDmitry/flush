@@ -55,9 +55,6 @@ std::string		EE(const ::libconfig::ParseException& error);
 
 }
 
-#ifdef MLIB_ENABLE_ALIASES
-	using m::EE;
-#endif
 
 #endif
 

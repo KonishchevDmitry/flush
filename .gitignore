@@ -1,4 +1,10 @@
+dbus-c++/autom4te.cache
+dbus-c++/config.h.in~
+libconfig/autom4te.cache
+libconfig/ac_config.h.in~
+libtorrent/autom4te.cache
+autom4te.cache
 po/ru.po~
 src/mlib/.vim/ide.session
 src/.vim/ide.session
-develop
+config.h.in~

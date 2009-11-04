@@ -18,10 +18,6 @@
 **************************************************************************/
 
 
-#ifndef MLIB_ENABLE_ALIASES
-	#define MLIB_ENABLE_ALIASES
-#endif
-
 #include <sys/epoll.h>
 #include <sys/resource.h>
 #include <sys/time.h>

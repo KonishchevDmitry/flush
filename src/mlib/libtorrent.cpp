@@ -20,10 +20,6 @@
 
 #ifdef MLIB_ENABLE_LIBTORRENT
 
-#ifndef MLIB_ENABLE_ALIASES
-	#define MLIB_ENABLE_ALIASES
-#endif
-
 #include <algorithm>
 
 #include <libtorrent/bencode.hpp>

@@ -32,19 +32,37 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+@MLIB_ENABLE_GTK_TRUE@am__append_1 = gtk
+@MLIB_ENABLE_DBUS_TRUE@am__append_2 = \
+@MLIB_ENABLE_DBUS_TRUE@	dbus.cpp \
+@MLIB_ENABLE_DBUS_TRUE@	dbus.hpp
+
+@MLIB_ENABLE_LIBCONFIG_TRUE@am__append_3 = \
+@MLIB_ENABLE_LIBCONFIG_TRUE@	libconfig.cpp \
+@MLIB_ENABLE_LIBCONFIG_TRUE@	libconfig.hpp
+
+@MLIB_ENABLE_LIBTORRENT_TRUE@am__append_4 = \
+@MLIB_ENABLE_LIBTORRENT_TRUE@	libtorrent.cpp \
+@MLIB_ENABLE_LIBTORRENT_TRUE@	libtorrent.hpp \
+@MLIB_ENABLE_LIBTORRENT_TRUE@	libtorrent.hxx
+
+@MLIB_ENABLE_SQLITE_TRUE@am__append_5 = \
+@MLIB_ENABLE_SQLITE_TRUE@	sqlite.cpp \
+@MLIB_ENABLE_SQLITE_TRUE@	sqlite.hpp \
+@MLIB_ENABLE_SQLITE_TRUE@	sqlite.hxx
+
 subdir = src/mlib
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/acx_pthread.m4 \
-	$(top_srcdir)/m4/ax_boost_base.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/ax_boost_base.m4 \
 	$(top_srcdir)/m4/ax_boost_filesystem.m4 \
 	$(top_srcdir)/m4/ax_boost_signals.m4 \
 	$(top_srcdir)/m4/ax_boost_thread.m4 \
-	$(top_srcdir)/m4/check_ssl.m4 $(top_srcdir)/m4/gettext.m4 \
-	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/lib-ld.m4 \
-	$(top_srcdir)/m4/lib-link.m4 $(top_srcdir)/m4/lib-prefix.m4 \
-	$(top_srcdir)/m4/nls.m4 $(top_srcdir)/m4/po.m4 \
-	$(top_srcdir)/m4/progtest.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/gettext.m4 $(top_srcdir)/m4/iconv.m4 \
+	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
+	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/nls.m4 \
+	$(top_srcdir)/m4/po.m4 $(top_srcdir)/m4/progtest.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -55,12 +73,25 @@ AR = ar
 ARFLAGS = cru
 libmlib_a_AR = $(AR) $(ARFLAGS)
 libmlib_a_LIBADD =
+am__libmlib_a_SOURCES_DIST = async_fs.cpp async_fs.hpp fs.cpp fs.hpp \
+	fs_watcher.cpp fs_watcher.hpp main.hpp math.hpp math.hh \
+	misc.cpp misc.hh misc.hpp misc.hxx mutex.hpp mutex.hh \
+	signals_holder.cpp signals_holder.hpp string.cpp string.hpp \
+	sys.cpp sys.hh sys.hpp dbus.cpp dbus.hpp libconfig.cpp \
+	libconfig.hpp libtorrent.cpp libtorrent.hpp libtorrent.hxx \
+	sqlite.cpp sqlite.hpp sqlite.hxx
+@MLIB_ENABLE_DBUS_TRUE@am__objects_1 = libmlib_a-dbus.$(OBJEXT)
+@MLIB_ENABLE_LIBCONFIG_TRUE@am__objects_2 =  \
+@MLIB_ENABLE_LIBCONFIG_TRUE@	libmlib_a-libconfig.$(OBJEXT)
+@MLIB_ENABLE_LIBTORRENT_TRUE@am__objects_3 =  \
+@MLIB_ENABLE_LIBTORRENT_TRUE@	libmlib_a-libtorrent.$(OBJEXT)
+@MLIB_ENABLE_SQLITE_TRUE@am__objects_4 = libmlib_a-sqlite.$(OBJEXT)
 am_libmlib_a_OBJECTS = libmlib_a-async_fs.$(OBJEXT) \
-	libmlib_a-dbus.$(OBJEXT) libmlib_a-fs.$(OBJEXT) \
-	libmlib_a-fs_watcher.$(OBJEXT) libmlib_a-libconfig.$(OBJEXT) \
-	libmlib_a-libtorrent.$(OBJEXT) libmlib_a-misc.$(OBJEXT) \
-	libmlib_a-signals_holder.$(OBJEXT) libmlib_a-string.$(OBJEXT) \
-	libmlib_a-sys.$(OBJEXT)
+	libmlib_a-fs.$(OBJEXT) libmlib_a-fs_watcher.$(OBJEXT) \
+	libmlib_a-misc.$(OBJEXT) libmlib_a-signals_holder.$(OBJEXT) \
+	libmlib_a-string.$(OBJEXT) libmlib_a-sys.$(OBJEXT) \
+	$(am__objects_1) $(am__objects_2) $(am__objects_3) \
+	$(am__objects_4)
 libmlib_a_OBJECTS = $(am_libmlib_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
@@ -75,7 +106,7 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = $(libmlib_a_SOURCES)
-DIST_SOURCES = $(libmlib_a_SOURCES)
+DIST_SOURCES = $(am__libmlib_a_SOURCES_DIST)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
 	install-dvi-recursive install-exec-recursive \
@@ -87,10 +118,11 @@ RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
   distclean-recursive maintainer-clean-recursive
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = $(SUBDIRS)
+DIST_SUBDIRS = base gtk
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
+APP_CFLAGS = @APP_CFLAGS@
 APP_CPPFLAGS = @APP_CPPFLAGS@
 APP_CXXFLAGS = @APP_CXXFLAGS@
 APP_DEPENDENCIES = @APP_DEPENDENCIES@
@@ -113,8 +145,6 @@ CXXCPP = @CXXCPP@
 CXXDEPMODE = @CXXDEPMODE@
 CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
-DBUSXX_LDADD = @DBUSXX_LDADD@
-DBUSXX_XML2CPP = @DBUSXX_XML2CPP@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 ECHO_C = @ECHO_C@
@@ -126,7 +156,7 @@ GETTEXT_MACRO_VERSION = @GETTEXT_MACRO_VERSION@
 GMSGFMT = @GMSGFMT@
 GMSGFMT_015 = @GMSGFMT_015@
 GREP = @GREP@
-HAVE_SSL = @HAVE_SSL@
+GTK_CPPFLAGS = @GTK_CPPFLAGS@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -143,6 +173,7 @@ LTLIBICONV = @LTLIBICONV@
 LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
+MAKE_TOOLS_DIR = @MAKE_TOOLS_DIR@
 MKDIR_P = @MKDIR_P@
 MLIB_CPPFLAGS = @MLIB_CPPFLAGS@
 MLIB_CXXFLAGS = @MLIB_CXXFLAGS@
@@ -160,17 +191,12 @@ PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
 POSUB = @POSUB@
-PTHREAD_CC = @PTHREAD_CC@
-PTHREAD_CFLAGS = @PTHREAD_CFLAGS@
-PTHREAD_LIBS = @PTHREAD_LIBS@
+PREFIX_GCCXML_BIN = @PREFIX_GCCXML_BIN@
 RANLIB = @RANLIB@
+RMDIR_P = @RMDIR_P@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
-SSL_CFLAGS = @SSL_CFLAGS@
-SSL_CXXFLAGS = @SSL_CXXFLAGS@
-SSL_LDFLAGS = @SSL_LDFLAGS@
-SSL_LIBS = @SSL_LIBS@
 STRIP = @STRIP@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
@@ -183,7 +209,6 @@ abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
-acx_pthread_config = @acx_pthread_config@
 am__include = @am__include@
 am__leading_dot = @am__leading_dot@
 am__quote = @am__quote@
@@ -198,15 +223,17 @@ build_vendor = @build_vendor@
 builddir = @builddir@
 datadir = @datadir@
 datarootdir = @datarootdir@
-dbus_CFLAGS = @dbus_CFLAGS@
-dbus_LIBS = @dbus_LIBS@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
+gio2_CFLAGS = @gio2_CFLAGS@
+gio2_LIBS = @gio2_LIBS@
 glademm_CFLAGS = @glademm_CFLAGS@
 glademm_LIBS = @glademm_LIBS@
-gthread_CFLAGS = @gthread_CFLAGS@
-gthread_LIBS = @gthread_LIBS@
+gthread2_CFLAGS = @gthread2_CFLAGS@
+gthread2_LIBS = @gthread2_LIBS@
+gtk2_CFLAGS = @gtk2_CFLAGS@
+gtk2_LIBS = @gtk2_LIBS@
 gtkmm_CFLAGS = @gtkmm_CFLAGS@
 gtkmm_LIBS = @gtkmm_LIBS@
 host = @host@
@@ -222,8 +249,10 @@ libconfig_CFLAGS = @libconfig_CFLAGS@
 libconfig_LIBS = @libconfig_LIBS@
 libdir = @libdir@
 libexecdir = @libexecdir@
-libtorrent_rasterbar_CFLAGS = @libtorrent_rasterbar_CFLAGS@
-libtorrent_rasterbar_LIBS = @libtorrent_rasterbar_LIBS@
+libnotify_CFLAGS = @libnotify_CFLAGS@
+libnotify_LIBS = @libnotify_LIBS@
+libxml2_CFLAGS = @libxml2_CFLAGS@
+libxml2_LIBS = @libxml2_LIBS@
 localedir = @localedir@
 localstatedir = @localstatedir@
 mandir = @mandir@
@@ -242,34 +271,14 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-SUBDIRS = base gtk
+SUBDIRS = base $(am__append_1)
 noinst_LIBRARIES = libmlib.a
-libmlib_a_SOURCES = \
-	async_fs.cpp \
-	async_fs.hpp \
-	dbus.cpp \
-	dbus.hpp \
-	fs.cpp \
-	fs.hpp \
-	fs_watcher.cpp \
-	fs_watcher.hpp \
-	libconfig.cpp \
-	libconfig.hpp \
-	libtorrent.cpp \
-	libtorrent.hpp \
-	libtorrent.hxx \
-	main.hpp \
-	misc.cpp \
-	misc.hpp \
-	misc.hxx \
-	signals_holder.cpp \
-	signals_holder.hpp\
-	string.cpp \
-	string.hpp \
-	sys.cpp \
-	sys.hh \
-	sys.hpp
-
+libmlib_a_SOURCES = async_fs.cpp async_fs.hpp fs.cpp fs.hpp \
+	fs_watcher.cpp fs_watcher.hpp main.hpp math.hpp math.hh \
+	misc.cpp misc.hh misc.hpp misc.hxx mutex.hpp mutex.hh \
+	signals_holder.cpp signals_holder.hpp string.cpp string.hpp \
+	sys.cpp sys.hh sys.hpp $(am__append_2) $(am__append_3) \
+	$(am__append_4) $(am__append_5)
 libmlib_a_CPPFLAGS = @MLIB_CPPFLAGS@
 libmlib_a_CXXFLAGS = @MLIB_CXXFLAGS@
 all: all-recursive
@@ -327,6 +336,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_a-libtorrent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_a-misc.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_a-signals_holder.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_a-sqlite.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_a-string.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libmlib_a-sys.Po@am__quote@
 
@@ -358,20 +368,6 @@ libmlib_a-async_fs.obj: async_fs.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-async_fs.obj `if test -f 'async_fs.cpp'; then $(CYGPATH_W) 'async_fs.cpp'; else $(CYGPATH_W) '$(srcdir)/async_fs.cpp'; fi`
 
-libmlib_a-dbus.o: dbus.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-dbus.o -MD -MP -MF $(DEPDIR)/libmlib_a-dbus.Tpo -c -o libmlib_a-dbus.o `test -f 'dbus.cpp' || echo '$(srcdir)/'`dbus.cpp
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_a-dbus.Tpo $(DEPDIR)/libmlib_a-dbus.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='dbus.cpp' object='libmlib_a-dbus.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-dbus.o `test -f 'dbus.cpp' || echo '$(srcdir)/'`dbus.cpp
-
-libmlib_a-dbus.obj: dbus.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-dbus.obj -MD -MP -MF $(DEPDIR)/libmlib_a-dbus.Tpo -c -o libmlib_a-dbus.obj `if test -f 'dbus.cpp'; then $(CYGPATH_W) 'dbus.cpp'; else $(CYGPATH_W) '$(srcdir)/dbus.cpp'; fi`
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_a-dbus.Tpo $(DEPDIR)/libmlib_a-dbus.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='dbus.cpp' object='libmlib_a-dbus.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-dbus.obj `if test -f 'dbus.cpp'; then $(CYGPATH_W) 'dbus.cpp'; else $(CYGPATH_W) '$(srcdir)/dbus.cpp'; fi`
-
 libmlib_a-fs.o: fs.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-fs.o -MD -MP -MF $(DEPDIR)/libmlib_a-fs.Tpo -c -o libmlib_a-fs.o `test -f 'fs.cpp' || echo '$(srcdir)/'`fs.cpp
 @am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_a-fs.Tpo $(DEPDIR)/libmlib_a-fs.Po
@@ -399,34 +395,6 @@ libmlib_a-fs_watcher.obj: fs_watcher.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='fs_watcher.cpp' object='libmlib_a-fs_watcher.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-fs_watcher.obj `if test -f 'fs_watcher.cpp'; then $(CYGPATH_W) 'fs_watcher.cpp'; else $(CYGPATH_W) '$(srcdir)/fs_watcher.cpp'; fi`
-
-libmlib_a-libconfig.o: libconfig.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-libconfig.o -MD -MP -MF $(DEPDIR)/libmlib_a-libconfig.Tpo -c -o libmlib_a-libconfig.o `test -f 'libconfig.cpp' || echo '$(srcdir)/'`libconfig.cpp
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_a-libconfig.Tpo $(DEPDIR)/libmlib_a-libconfig.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='libconfig.cpp' object='libmlib_a-libconfig.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-libconfig.o `test -f 'libconfig.cpp' || echo '$(srcdir)/'`libconfig.cpp
-
-libmlib_a-libconfig.obj: libconfig.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-libconfig.obj -MD -MP -MF $(DEPDIR)/libmlib_a-libconfig.Tpo -c -o libmlib_a-libconfig.obj `if test -f 'libconfig.cpp'; then $(CYGPATH_W) 'libconfig.cpp'; else $(CYGPATH_W) '$(srcdir)/libconfig.cpp'; fi`
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_a-libconfig.Tpo $(DEPDIR)/libmlib_a-libconfig.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='libconfig.cpp' object='libmlib_a-libconfig.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-libconfig.obj `if test -f 'libconfig.cpp'; then $(CYGPATH_W) 'libconfig.cpp'; else $(CYGPATH_W) '$(srcdir)/libconfig.cpp'; fi`
-
-libmlib_a-libtorrent.o: libtorrent.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-libtorrent.o -MD -MP -MF $(DEPDIR)/libmlib_a-libtorrent.Tpo -c -o libmlib_a-libtorrent.o `test -f 'libtorrent.cpp' || echo '$(srcdir)/'`libtorrent.cpp
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_a-libtorrent.Tpo $(DEPDIR)/libmlib_a-libtorrent.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='libtorrent.cpp' object='libmlib_a-libtorrent.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-libtorrent.o `test -f 'libtorrent.cpp' || echo '$(srcdir)/'`libtorrent.cpp
-
-libmlib_a-libtorrent.obj: libtorrent.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-libtorrent.obj -MD -MP -MF $(DEPDIR)/libmlib_a-libtorrent.Tpo -c -o libmlib_a-libtorrent.obj `if test -f 'libtorrent.cpp'; then $(CYGPATH_W) 'libtorrent.cpp'; else $(CYGPATH_W) '$(srcdir)/libtorrent.cpp'; fi`
-@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_a-libtorrent.Tpo $(DEPDIR)/libmlib_a-libtorrent.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='libtorrent.cpp' object='libmlib_a-libtorrent.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-libtorrent.obj `if test -f 'libtorrent.cpp'; then $(CYGPATH_W) 'libtorrent.cpp'; else $(CYGPATH_W) '$(srcdir)/libtorrent.cpp'; fi`
 
 libmlib_a-misc.o: misc.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-misc.o -MD -MP -MF $(DEPDIR)/libmlib_a-misc.Tpo -c -o libmlib_a-misc.o `test -f 'misc.cpp' || echo '$(srcdir)/'`misc.cpp
@@ -483,6 +451,62 @@ libmlib_a-sys.obj: sys.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='sys.cpp' object='libmlib_a-sys.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-sys.obj `if test -f 'sys.cpp'; then $(CYGPATH_W) 'sys.cpp'; else $(CYGPATH_W) '$(srcdir)/sys.cpp'; fi`
+
+libmlib_a-dbus.o: dbus.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-dbus.o -MD -MP -MF $(DEPDIR)/libmlib_a-dbus.Tpo -c -o libmlib_a-dbus.o `test -f 'dbus.cpp' || echo '$(srcdir)/'`dbus.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_a-dbus.Tpo $(DEPDIR)/libmlib_a-dbus.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='dbus.cpp' object='libmlib_a-dbus.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-dbus.o `test -f 'dbus.cpp' || echo '$(srcdir)/'`dbus.cpp
+
+libmlib_a-dbus.obj: dbus.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-dbus.obj -MD -MP -MF $(DEPDIR)/libmlib_a-dbus.Tpo -c -o libmlib_a-dbus.obj `if test -f 'dbus.cpp'; then $(CYGPATH_W) 'dbus.cpp'; else $(CYGPATH_W) '$(srcdir)/dbus.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_a-dbus.Tpo $(DEPDIR)/libmlib_a-dbus.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='dbus.cpp' object='libmlib_a-dbus.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-dbus.obj `if test -f 'dbus.cpp'; then $(CYGPATH_W) 'dbus.cpp'; else $(CYGPATH_W) '$(srcdir)/dbus.cpp'; fi`
+
+libmlib_a-libconfig.o: libconfig.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-libconfig.o -MD -MP -MF $(DEPDIR)/libmlib_a-libconfig.Tpo -c -o libmlib_a-libconfig.o `test -f 'libconfig.cpp' || echo '$(srcdir)/'`libconfig.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_a-libconfig.Tpo $(DEPDIR)/libmlib_a-libconfig.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='libconfig.cpp' object='libmlib_a-libconfig.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-libconfig.o `test -f 'libconfig.cpp' || echo '$(srcdir)/'`libconfig.cpp
+
+libmlib_a-libconfig.obj: libconfig.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-libconfig.obj -MD -MP -MF $(DEPDIR)/libmlib_a-libconfig.Tpo -c -o libmlib_a-libconfig.obj `if test -f 'libconfig.cpp'; then $(CYGPATH_W) 'libconfig.cpp'; else $(CYGPATH_W) '$(srcdir)/libconfig.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_a-libconfig.Tpo $(DEPDIR)/libmlib_a-libconfig.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='libconfig.cpp' object='libmlib_a-libconfig.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-libconfig.obj `if test -f 'libconfig.cpp'; then $(CYGPATH_W) 'libconfig.cpp'; else $(CYGPATH_W) '$(srcdir)/libconfig.cpp'; fi`
+
+libmlib_a-libtorrent.o: libtorrent.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-libtorrent.o -MD -MP -MF $(DEPDIR)/libmlib_a-libtorrent.Tpo -c -o libmlib_a-libtorrent.o `test -f 'libtorrent.cpp' || echo '$(srcdir)/'`libtorrent.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_a-libtorrent.Tpo $(DEPDIR)/libmlib_a-libtorrent.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='libtorrent.cpp' object='libmlib_a-libtorrent.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-libtorrent.o `test -f 'libtorrent.cpp' || echo '$(srcdir)/'`libtorrent.cpp
+
+libmlib_a-libtorrent.obj: libtorrent.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-libtorrent.obj -MD -MP -MF $(DEPDIR)/libmlib_a-libtorrent.Tpo -c -o libmlib_a-libtorrent.obj `if test -f 'libtorrent.cpp'; then $(CYGPATH_W) 'libtorrent.cpp'; else $(CYGPATH_W) '$(srcdir)/libtorrent.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_a-libtorrent.Tpo $(DEPDIR)/libmlib_a-libtorrent.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='libtorrent.cpp' object='libmlib_a-libtorrent.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-libtorrent.obj `if test -f 'libtorrent.cpp'; then $(CYGPATH_W) 'libtorrent.cpp'; else $(CYGPATH_W) '$(srcdir)/libtorrent.cpp'; fi`
+
+libmlib_a-sqlite.o: sqlite.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-sqlite.o -MD -MP -MF $(DEPDIR)/libmlib_a-sqlite.Tpo -c -o libmlib_a-sqlite.o `test -f 'sqlite.cpp' || echo '$(srcdir)/'`sqlite.cpp
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_a-sqlite.Tpo $(DEPDIR)/libmlib_a-sqlite.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='sqlite.cpp' object='libmlib_a-sqlite.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-sqlite.o `test -f 'sqlite.cpp' || echo '$(srcdir)/'`sqlite.cpp
+
+libmlib_a-sqlite.obj: sqlite.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-sqlite.obj -MD -MP -MF $(DEPDIR)/libmlib_a-sqlite.Tpo -c -o libmlib_a-sqlite.obj `if test -f 'sqlite.cpp'; then $(CYGPATH_W) 'sqlite.cpp'; else $(CYGPATH_W) '$(srcdir)/sqlite.cpp'; fi`
+@am__fastdepCXX_TRUE@	mv -f $(DEPDIR)/libmlib_a-sqlite.Tpo $(DEPDIR)/libmlib_a-sqlite.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='sqlite.cpp' object='libmlib_a-sqlite.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-sqlite.obj `if test -f 'sqlite.cpp'; then $(CYGPATH_W) 'sqlite.cpp'; else $(CYGPATH_W) '$(srcdir)/sqlite.cpp'; fi`
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.

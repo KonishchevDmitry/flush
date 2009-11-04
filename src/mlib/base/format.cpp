@@ -29,6 +29,7 @@
 #include "format.hpp"
 
 
+
 namespace m {
 
 
@@ -123,6 +124,17 @@ Glib::ustring __Q(const char* fmt)
 	{
 		return _("[[Invalid encoding]]");
 	}
+}
+
+
+
+const char* _G(const char* string)
+{
+	#ifdef ENABLE_NLS
+		return gettext(string);
+	#else
+		return string;
+	#endif
 }
 
 

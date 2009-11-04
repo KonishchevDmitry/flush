@@ -5,5 +5,5 @@ EXTRA_DIST = \
 	gtkmm.hpp \
 	libconfig.hpp \
 	libtorrent.hpp \
-	sigc++.hpp
-
+	sigc++.hpp \
+	sqlite3.h

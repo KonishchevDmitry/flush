@@ -113,12 +113,14 @@ namespace m
 		std::string		EE(const m::Errors_pool& errors);
 
 	// <--
-}
 
-#ifdef MLIB_ENABLE_ALIASES
-	using m::Errors_pool;
-	using m::EE;
-#endif
+
+	namespace aliases
+	{
+		using m::Errors_pool;
+		using m::EE;
+	}
+}
 
 #endif
 

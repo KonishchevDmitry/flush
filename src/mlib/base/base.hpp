@@ -27,10 +27,10 @@
 
 #include <string>
 
-#include <boost/foreach.hpp>
 #include <boost/type_traits/add_const.hpp>
 #include <boost/type_traits/remove_const.hpp>
 #include <boost/typeof/typeof.hpp>
+#include <boost/foreach.hpp>
 #include <boost/version.hpp>
 
 
@@ -136,6 +136,25 @@ struct Get_type
 
 
 
+/// При создании делает value равным true, а при уничтожении - false.
+/// Удобен при обработке сигналов GTK, когда необходимо пропускать некоторые
+/// сигналы, если их генерирует программа, а не пользователь.
+class Scoped_true
+{
+	public:
+		Scoped_true(bool* value)
+		: value(value) { *value = true; };
+
+		~Scoped_true(void)
+		{ *value = false; };
+
+
+	private:
+		bool*	value;
+};
+
+
+
 /// Класс, от которого можно наследоваться при создании виртуальных
 /// классов, чтобы не создавать для каждого из них виртуальный деструктор.
 class Virtual
@@ -147,6 +166,10 @@ class Virtual
 
 
 // Типы -->
+	/// Используется для хранения идентификаторов, которые могут принимать
+	/// очень большие значения (например, идентификаторы в БД).
+	typedef long long	Big_id;
+
 	typedef long long	Size;
 	typedef long double	Size_float;
 	typedef int32_t		Speed;
@@ -172,6 +195,27 @@ class Virtual
 	extern const Version	NO_VERSION;
 // Типы <--
 
+
+namespace aliases
+{
+	#ifdef MLIB_ENABLE_LIBTORRENT
+		namespace libtorrent {}
+		namespace m {
+			namespace libtorrent { using namespace ::libtorrent; }
+			namespace lt = libtorrent;
+		}
+		namespace lt = libtorrent;
+	#endif
+
+	using m::Big_id;
+	using m::Size;
+	using m::Size_float;
+	using m::Speed;
+	using m::Time;
+	using m::Time_ms;
+	using m::Version;
+}
+using namespace aliases;
 
 
 /// Возвращает major версию.
@@ -203,27 +247,5 @@ bool			is_valid_version(Version version);
 
 #include "base.hh"
 
-#ifdef MLIB_ENABLE_ALIASES
-	#ifdef MLIB_ENABLE_LIBTORRENT
-		namespace libtorrent {}
-		namespace m {
-			namespace libtorrent { using namespace ::libtorrent; }
-			namespace lt = libtorrent;
-		}
-		namespace lt = libtorrent;
-	#endif
-
-	namespace boost { namespace filesystem {} }
-	namespace fs = boost::filesystem;
-
-	using m::Size;
-	using m::Size_float;
-	using m::Speed;
-	using m::Time;
-	using m::Time_ms;
-	using m::Version;
 #endif
-
-#endif
-
 
