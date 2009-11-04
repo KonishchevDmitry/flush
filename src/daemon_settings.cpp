@@ -1044,7 +1044,10 @@ namespace
 		total_upload(0),
 		total_payload_upload(0),
 		total_failed(0),
-		total_redundant(0)
+		total_redundant(0),
+
+		bytes_done_on_last_torrent_finish(-1),
+		bytes_downloaded_on_last_torrent_finish(0)
 	{
 	}
 
@@ -1064,7 +1067,10 @@ namespace
 
 		encoding(torrent.encoding),
 		files_settings(torrent.files_settings),
-		resume_data(resume_data)
+		resume_data(resume_data),
+
+		bytes_done_on_last_torrent_finish(torrent.bytes_done_on_last_torrent_finish),
+		bytes_downloaded_on_last_torrent_finish(torrent.bytes_downloaded_on_last_torrent_finish)
 	{
 		lt::torrent_status status = torrent.handle.status();
 		this->trackers = m::lt::get_torrent_trackers(torrent.handle);
@@ -1158,6 +1164,14 @@ namespace
 			{
 			}
 		// Получаем версию демона, который производил запись конфига <--
+
+		// Устанавливаем специальное значение, чтобы при переходе на новую
+		// версию Flush при первом запуске не выдал кучу нотификаций.
+		// -->
+			COMPATIBILITY
+			if(daemon_version < M_GET_VERSION(0, 9, 0))
+				this->bytes_downloaded_on_last_torrent_finish = -1;
+		// <--
 
 		for(int setting_id = 0; setting_id < config_root.getLength(); setting_id++)
 		{
@@ -1432,6 +1446,16 @@ namespace
 				CHECK_OPTION_TYPE(setting, m::libconfig::Size_type, continue)
 				this->total_redundant = static_cast<m::libconfig::Size>(setting);
 			}
+			else if(m::is_eq(setting_name, "bytes_done_on_last_torrent_finish"))
+			{
+				CHECK_OPTION_TYPE(setting, m::libconfig::Size_type, continue)
+				this->bytes_done_on_last_torrent_finish = static_cast<m::libconfig::Size>(setting);
+			}
+			else if(m::is_eq(setting_name, "bytes_downloaded_on_last_torrent_finish"))
+			{
+				CHECK_OPTION_TYPE(setting, m::libconfig::Size_type, continue)
+				this->bytes_downloaded_on_last_torrent_finish = static_cast<m::libconfig::Size>(setting);
+			}
 			else
 				unknown_option(setting);
 		}
@@ -1622,6 +1646,11 @@ namespace
 		config_root.add("total_payload_upload", m::libconfig::Size_type) = static_cast<m::libconfig::Size>(this->total_payload_upload);
 		config_root.add("total_failed", m::libconfig::Size_type) = static_cast<m::libconfig::Size>(this->total_failed);
 		config_root.add("total_redundant", m::libconfig::Size_type) = static_cast<m::libconfig::Size>(this->total_redundant);
+
+		config_root.add("bytes_done_on_last_torrent_finish", m::libconfig::Size_type) =
+			static_cast<m::libconfig::Size>(this->bytes_done_on_last_torrent_finish);
+		config_root.add("bytes_downloaded_on_last_torrent_finish", m::libconfig::Size_type) =
+			static_cast<m::libconfig::Size>(this->bytes_downloaded_on_last_torrent_finish);
 
 		// Сохраняем полученные настройки в файл -->
 		{

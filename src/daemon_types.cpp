@@ -70,7 +70,10 @@
 		total_upload(settings.total_upload),
 		total_payload_upload(settings.total_payload_upload),
 		total_failed(settings.total_failed),
-		total_redundant(settings.total_redundant)
+		total_redundant(settings.total_redundant),
+
+		bytes_done_on_last_torrent_finish(settings.bytes_done_on_last_torrent_finish),
+		bytes_downloaded_on_last_torrent_finish(settings.bytes_downloaded_on_last_torrent_finish)
 	{
 		try
 		{

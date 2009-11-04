@@ -25,6 +25,8 @@
 
 #include <gdk/gdk.h>
 
+#include <libnotify/notify.h>
+
 #include <gdkmm/pixbuf.h>
 
 #include <gtkmm/aboutdialog.h>
@@ -1121,18 +1123,23 @@ void Main_window::on_show_settings_window_callback(void)
 
 	if(settings_window.run() == Gtk::RESPONSE_OK)
 	{
+		Gui_settings& gui = client_settings.gui;
+
 		// Чтобы потом можно было не обновлять каждый раз заголовок, содержимое
 		// которого будет постоянным.
-		if(!client_settings.gui.show_speed_in_window_title)
+		if(!gui.show_speed_in_window_title)
 			this->set_title(this->gui->orig_window_title);
 
-		this->show_tray_icon(client_settings.gui.show_tray_icon);
+		this->show_tray_icon(gui.show_tray_icon);
 
-		if(gui_update_interval != client_settings.gui.update_interval)
-			this->set_gui_update_interval(client_settings.gui.update_interval);
+		if(gui_update_interval != gui.update_interval)
+			this->set_gui_update_interval(gui.update_interval);
 
-		if(max_log_lines != client_settings.gui.max_log_lines)
-			this->gui->torrents_viewport->get_log_view().set_max_lines(client_settings.gui.max_log_lines);
+		if(max_log_lines != gui.max_log_lines)
+			this->gui->torrents_viewport->get_log_view().set_max_lines(gui.max_log_lines);
+
+		/// Включаем или отключаем поддержку оповещений через libnotify
+		get_application().update_notifications_support();
 
 		try
 		{

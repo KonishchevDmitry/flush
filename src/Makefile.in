@@ -38,11 +38,13 @@ bin_PROGRAMS = flush$(EXEEXT)
 @DEVELOP_MODE_TRUE@am__append_1 = -D \
 @DEVELOP_MODE_TRUE@	APP_BIN_PATH='"$(abs_builddir)/$(PACKAGE)"' \
 @DEVELOP_MODE_TRUE@	-D APP_UI_PATH='"$(abs_top_srcdir)/ui"' -D \
+@DEVELOP_MODE_TRUE@	APP_ICONS_PATH='"$(abs_top_srcdir)/icons"' \
+@DEVELOP_MODE_TRUE@	-D \
 @DEVELOP_MODE_TRUE@	APP_CUSTOM_ICONS_PATH='"$(abs_top_srcdir)/icons"'
 @DEVELOP_MODE_FALSE@am__append_2 = -D \
 @DEVELOP_MODE_FALSE@	APP_BIN_PATH='"$(bindir)/$(PACKAGE)"' -D \
 @DEVELOP_MODE_FALSE@	APP_UI_PATH='"$(datadir)/$(PACKAGE)/ui"' \
-@DEVELOP_MODE_FALSE@	-D \
+@DEVELOP_MODE_FALSE@	-D APP_ICONS_PATH='"$(datadir)/icons"' -D \
 @DEVELOP_MODE_FALSE@	APP_CUSTOM_ICONS_PATH='"$(datadir)/$(PACKAGE)/icons"'
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
@@ -282,6 +284,8 @@ libconfig_CFLAGS = @libconfig_CFLAGS@
 libconfig_LIBS = @libconfig_LIBS@
 libdir = @libdir@
 libexecdir = @libexecdir@
+libnotify_CFLAGS = @libnotify_CFLAGS@
+libnotify_LIBS = @libnotify_LIBS@
 libtorrent_rasterbar_CFLAGS = @libtorrent_rasterbar_CFLAGS@
 libtorrent_rasterbar_LIBS = @libtorrent_rasterbar_LIBS@
 localedir = @localedir@

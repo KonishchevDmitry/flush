@@ -66,6 +66,9 @@ class Daemon_session: public Daemon_fs
 		m::gtk::Dispatcher<
 		void (const Daemon_message&)>		messages_signal;
 
+		m::gtk::Dispatcher<
+		void (const Notify_message&)>		notify_message_signal;
+
 	private:
 		boost::scoped_ptr<Private>			priv;
 

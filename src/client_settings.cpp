@@ -750,6 +750,10 @@ Config* get(smart_ptr& ptr)
 
 		update_interval(1000),
 		max_log_lines(100),
+
+		download_completed_notification(true),
+		all_downloads_completed_notification(true),
+
 		show_add_torrent_dialog(true)
 	{
 	}
@@ -834,6 +838,16 @@ Config* get(smart_ptr& ptr)
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeInt, continue)
 				this->max_log_lines = setting;
 			}
+			else if(m::is_eq(setting_name, "download_completed_notification"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				this->download_completed_notification = setting;
+			}
+			else if(m::is_eq(setting_name, "all_downloads_completed_notification"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				this->all_downloads_completed_notification = setting;
+			}
 			else if(m::is_eq(setting_name, "main_window"))
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeGroup, continue)
@@ -894,6 +908,9 @@ Config* get(smart_ptr& ptr)
 
 		config_root.add("update_interval", libconfig::Setting::TypeInt) = this->update_interval;
 		config_root.add("max_log_lines", libconfig::Setting::TypeInt) = this->max_log_lines;
+
+		config_root.add("download_completed_notification", libconfig::Setting::TypeBoolean) = this->download_completed_notification;
+		config_root.add("all_downloads_completed_notification", libconfig::Setting::TypeBoolean) = this->all_downloads_completed_notification;
 
 		this->main_window.write_config(
 			config_root.add("main_window", libconfig::Setting::TypeGroup)

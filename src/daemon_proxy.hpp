@@ -48,6 +48,9 @@ class Daemon_proxy
 		/// Сигнал на получение сообщений от демона.
 		sigc::signal<void, const Daemon_message&>	daemon_message_signal;
 
+		/// Сигнал на получение notify-сообщений от демона.
+		sigc::signal<void, const Notify_message&>	notify_message_signal;
+
 	private:
 		/// Демон, которым управляет proxy.
 		Daemon*						daemon;

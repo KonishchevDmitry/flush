@@ -186,6 +186,9 @@ class Application
 		/// результате вызова метода close().
 		void				stop(void);
 
+		/// Включает или отключает поддержку оповещений через libnotify.
+		void				update_notifications_support(void);
+
 	private:
 		/// Получает опции командной строки и производит все необходимые действия
 		/// по их обработке.
@@ -197,6 +200,9 @@ class Application
 
 		/// Обработчик сигнала на получение сообщений от демона.
 		void				on_daemon_message_cb(const Daemon_message& message);
+
+		/// Обработчик сигнала на получение notify-сообщений от демона.
+		void				on_daemon_notify_message_cb(const Notify_message& message);
 
 		/// Обработчик сигнала на получение нового сообщения для отображения пользователю.
 		void				on_message_callback(void);

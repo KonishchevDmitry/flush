@@ -74,6 +74,9 @@ namespace Settings_window_aux
 
 				Gtk::SpinButton*	gui_update_interval;
 				Gtk::SpinButton*	max_log_lines;
+
+				Gtk::CheckButton*	download_completed_notification;
+				Gtk::CheckButton*	all_downloads_completed_notification;
 			};
 
 			struct Status_bar
@@ -536,18 +539,21 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 			*MLIB_GTK_BUILDER_GET_WIDGET(builder, "gui_misc_settings")
 		);
 
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "show_speed_in_window_title",	misc.show_speed_in_window_title);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "show_zero_values",			misc.show_zero_values);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "compact_details_tab",			misc.compact_details_tab);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "show_speed_in_window_title",				misc.show_speed_in_window_title);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "show_zero_values",						misc.show_zero_values);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "compact_details_tab",						misc.compact_details_tab);
 
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "show_tray_icon",				misc.show_tray_icon);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "tray_container",				misc.tray_container);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "hide_app_to_tray_at_startup",	misc.hide_app_to_tray_at_startup);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "minimize_to_tray",			misc.minimize_to_tray);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "close_to_tray",				misc.close_to_tray);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "show_tray_icon",							misc.show_tray_icon);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "tray_container",							misc.tray_container);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "hide_app_to_tray_at_startup",				misc.hide_app_to_tray_at_startup);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "minimize_to_tray",						misc.minimize_to_tray);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "close_to_tray",							misc.close_to_tray);
 
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "gui_update_interval",			misc.gui_update_interval);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "max_log_lines",				misc.max_log_lines);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "gui_update_interval",						misc.gui_update_interval);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "max_log_lines",							misc.max_log_lines);
+
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "download_completed_notification",			misc.download_completed_notification);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "all_downloads_completed_notification",	misc.all_downloads_completed_notification);
 
 
 		misc.show_tray_icon->signal_toggled().connect(sigc::mem_fun(
@@ -885,17 +891,20 @@ void Settings_window::load_settings(void)
 			{
 				Private::Gui_misc& misc = gui.misc;
 
-				misc.show_speed_in_window_title->set_active(	gui_settings.show_speed_in_window_title);
-				misc.show_zero_values->set_active(				gui_settings.show_zero_values);
-				misc.compact_details_tab->set_active(			gui_settings.compact_details_tab);
+				misc.show_speed_in_window_title->set_active(			gui_settings.show_speed_in_window_title);
+				misc.show_zero_values->set_active(						gui_settings.show_zero_values);
+				misc.compact_details_tab->set_active(					gui_settings.compact_details_tab);
 
-				misc.gui_update_interval->set_value(			gui_settings.update_interval);
-				misc.max_log_lines->set_value(					gui_settings.max_log_lines);
+				misc.gui_update_interval->set_value(					gui_settings.update_interval);
+				misc.max_log_lines->set_value(							gui_settings.max_log_lines);
 
-				misc.show_tray_icon->set_active(				gui_settings.show_tray_icon);
-				misc.hide_app_to_tray_at_startup->set_active(	gui_settings.hide_app_to_tray_at_startup);
-				misc.minimize_to_tray->set_active(				gui_settings.minimize_to_tray);
-				misc.close_to_tray->set_active(					gui_settings.close_to_tray);
+				misc.show_tray_icon->set_active(						gui_settings.show_tray_icon);
+				misc.hide_app_to_tray_at_startup->set_active(			gui_settings.hide_app_to_tray_at_startup);
+				misc.minimize_to_tray->set_active(						gui_settings.minimize_to_tray);
+				misc.close_to_tray->set_active(							gui_settings.close_to_tray);
+
+				misc.download_completed_notification->set_active(		gui_settings.download_completed_notification);
+				misc.all_downloads_completed_notification->set_active(	gui_settings.all_downloads_completed_notification);
 			}
 			// Misc <--
 
@@ -1183,17 +1192,20 @@ void Settings_window::save_settings(void)
 			{
 				Private::Gui_misc& misc = gui.misc;
 
-				gui_settings.show_speed_in_window_title		= misc.show_speed_in_window_title->get_active();
-				gui_settings.show_zero_values				= misc.show_zero_values->get_active();
-				gui_settings.compact_details_tab			= misc.compact_details_tab->get_active();
+				gui_settings.show_speed_in_window_title				= misc.show_speed_in_window_title->get_active();
+				gui_settings.show_zero_values						= misc.show_zero_values->get_active();
+				gui_settings.compact_details_tab					= misc.compact_details_tab->get_active();
 
-				gui_settings.update_interval				= misc.gui_update_interval->get_value();
-				gui_settings.max_log_lines					= misc.max_log_lines->get_value();
+				gui_settings.update_interval						= misc.gui_update_interval->get_value();
+				gui_settings.max_log_lines							= misc.max_log_lines->get_value();
 
-				gui_settings.show_tray_icon					= misc.show_tray_icon->get_active();
-				gui_settings.hide_app_to_tray_at_startup	= misc.hide_app_to_tray_at_startup->get_active();
-				gui_settings.minimize_to_tray				= misc.minimize_to_tray->get_active();
-				gui_settings.close_to_tray					= misc.close_to_tray->get_active();
+				gui_settings.show_tray_icon							= misc.show_tray_icon->get_active();
+				gui_settings.hide_app_to_tray_at_startup			= misc.hide_app_to_tray_at_startup->get_active();
+				gui_settings.minimize_to_tray						= misc.minimize_to_tray->get_active();
+				gui_settings.close_to_tray							= misc.close_to_tray->get_active();
+
+				gui_settings.download_completed_notification		= misc.download_completed_notification->get_active();
+				gui_settings.all_downloads_completed_notification	= misc.all_downloads_completed_notification->get_active();
 			}
 			// Misc <--
 

@@ -31,6 +31,9 @@
 
 #include <sigc++/signal.h>
 
+#include <libnotify/notify.h>
+#include <libnotify/notification.h>
+
 #include <gtkmm/dialog.h>
 #include <gtkmm/main.h>
 #include <gtkmm/window.h>
@@ -181,6 +184,9 @@ Application::Application(const Client_cmd_options& cmd_options, DBus::Connection
 		}
 	// Читаем конфиг <--
 
+	/// Включаем или отключаем поддержку оповещений через libnotify
+	this->update_notifications_support();
+
 	this->main_window = new Main_window(this->client_settings.gui.main_window);
 
 	/// Сигнал на отображение сообщения пользователю.
@@ -190,6 +196,10 @@ Application::Application(const Client_cmd_options& cmd_options, DBus::Connection
 	/// Сигнал на получение сообщений от демона.
 	priv->sholder.push(this->daemon_proxy->daemon_message_signal.connect(
 		sigc::mem_fun(*this, &Application::on_daemon_message_cb)));
+
+	/// Сигнал на получение notify-сообщений от демона.
+	priv->sholder.push(this->daemon_proxy->notify_message_signal.connect(
+		sigc::mem_fun(*this, &Application::on_daemon_notify_message_cb)));
 
 	// В glibmm есть бага, из-за которой приложение падает, если где-нибудь у
 	// себя хранить указатель на Glib::IOSource (вроде как - глубоко не копал).
@@ -346,6 +356,63 @@ void Application::on_daemon_message_cb(const Daemon_message& message)
 
 	if(message.get_type() == Daemon_message::WARNING)
 		MLIB_W(message);
+}
+
+
+
+void Application::on_daemon_notify_message_cb(const Notify_message& message)
+{
+	MLIB_D(_C("Notify message: [%1] %2", message.get_title(), message.get_message()));
+
+	if(notify_is_initted())
+	{
+		// Отфильтровываем не интересующие нас сообщения -->
+		{
+			const Gui_settings& gui = get_client_settings().gui;
+
+			switch(message.get_type())
+			{
+				case Notify_message::TORRENT_FINISHED:
+					if(!gui.download_completed_notification)
+						return;
+					break;
+
+				case Notify_message::TORRENT_FINISHED_AND_ALL:
+					if(!gui.download_completed_notification || gui.all_downloads_completed_notification)
+						return;
+					break;
+
+				case Notify_message::ALL_TORRENTS_FINISHED:
+					if(!gui.all_downloads_completed_notification)
+						return;
+					break;
+			}
+		}
+		// Отфильтровываем не интересующие нас сообщения <--
+
+		// Отображаем полученное уведомление -->
+		{
+			GError *gerror = NULL;
+
+			// Демон libnotify ищет иконки в стандартных путях, а наши могут лежать
+			// в нестандартных. Поэтому прописываем полный путь к файлу.
+			const char *icon_path = APP_ICONS_PATH "/hicolor/48x48/apps/" APP_UNIX_NAME ".png";
+
+			NotifyNotification *notify = notify_notification_new(
+				message.get_title().c_str(), message.get_message().c_str(), icon_path, NULL);
+
+			if(!notify_notification_show(notify, &gerror))
+			{
+				MLIB_W(_("Unable to show libnotify message"),
+					__("Unable to show libnotify message: %1. You can disable download complete notifications in the Preferences dialog.\nMessage text:\n%2", gerror->message, message.get_message()) );
+
+				g_error_free(gerror);
+			}
+
+			g_object_unref(G_OBJECT(notify));
+		}
+		// Отображаем полученное уведомление <--
+	}
 }
 
 
@@ -525,6 +592,25 @@ void Application::stop(void)
 
 	MLIB_D("Stopping the main loop...");
 	Gtk::Main::quit();
+}
+
+
+
+void Application::update_notifications_support(void)
+{
+	Gui_settings& gui = this->client_settings.gui;
+
+	if(gui.download_completed_notification || gui.all_downloads_completed_notification)
+	{
+		if(!notify_is_initted())
+			if(!notify_init(APP_NAME))
+				MLIB_W(_("Unable to initialize a libnotify instance. Notification's displaying is not possible."));
+	}
+	else
+	{
+		if(notify_is_initted())
+			notify_uninit();
+	}
 }
 
 

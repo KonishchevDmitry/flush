@@ -233,6 +233,41 @@ class Daemon_message
 
 
 
+/// Хранит сообщение, которое отображается в виде "нотификаций" (наподобие тех,
+/// что всплывают при получении очередного сообщения IM-клиентом).
+class Notify_message
+{
+	public:
+		enum Type {
+			/// Завершилось скачивание торрента.
+			TORRENT_FINISHED,
+
+			/// Завершилось скачивание торрента + за данным сообщением
+			/// последует сообщение ALL_TORRENTS_FINISHED.
+			TORRENT_FINISHED_AND_ALL,
+
+			/// Скачались все торренты, поставленные в очередь на закачку.
+			ALL_TORRENTS_FINISHED
+		};
+
+
+	public:
+		Notify_message(Type type, const std::string& message);
+
+
+	private:
+		Type		type;
+		std::string	message;
+
+
+	public:
+		std::string	get_message(void) const;
+		std::string	get_title(void) const;
+		Type		get_type(void) const;
+};
+
+
+
 /// Параметры скачивания торрента. Облегченная версия. Хранит только те
 /// настройки, которые невозможно получить посредством libtorrent.
 class Download_settings_light
@@ -597,6 +632,10 @@ struct Torrent_file_status: public Torrent_file_settings
 class Torrent_info
 {
 	public:
+		/// Внимание!
+		/// При изменении порядка следования статусов проверить, не окажет ли
+		/// это воздействия на уже написанный код, который операется на данный
+		/// порядок.
 		enum Status
 		{
 			ALLOCATING,

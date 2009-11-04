@@ -1,4 +1,4 @@
-AC_INIT([Flush], [0.8], [konishchev@gmail.com])
+AC_INIT([Flush], [0.9], [konishchev@gmail.com])
 
 
 AC_CONFIG_SRCDIR([src/main.cpp])
@@ -310,6 +310,12 @@ dnl compiler flags -->
 			fi
 		dnl libconfig <--
 
+		dnl libnotify -->
+			PKG_CHECK_MODULES([libnotify], [libnotify])
+			APP_CPPFLAGS="$APP_CPPFLAGS $libnotify_CFLAGS"
+			APP_LDADD="$APP_LDADD $libnotify_LIBS"
+		dnl libnotify <--
+
 		dnl libtorrent -->
 			if test "X$package_libtorrent" = "Xyes"
 			then
@@ -347,8 +353,8 @@ dnl compiler flags -->
 	MLIB_CXXFLAGS="$COMMON_CXXFLAGS"
 	MLIB_LIBRARIES="\$(top_builddir)/src/mlib/base/libmlib_base.a \$(top_builddir)/src/mlib/libmlib.a \$(top_builddir)/src/mlib/gtk/libmlib_gtk.a"
 	APP_DEPENDENCIES="$APP_DEPENDENCIES $MLIB_LIBRARIES"
-	APP_CPPFLAGS="$COMMON_CPPFLAGS"
-	APP_CXXFLAGS="$COMMON_CXXFLAGS"
+	APP_CPPFLAGS="$COMMON_CPPFLAGS $APP_CPPFLAGS"
+	APP_CXXFLAGS="$COMMON_CXXFLAGS $APP_CXXFLAGS"
 	APP_LDADD="$APP_LDADD $MLIB_LIBRARIES"
 
 	AC_SUBST([MLIB_CPPFLAGS])

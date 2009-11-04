@@ -295,6 +295,52 @@
 
 
 
+// Notify_message -->
+	Notify_message::Notify_message(Notify_message::Type type, const std::string& message)
+	:
+		type(type),
+		message(message)
+	{
+	}
+
+
+
+	std::string Notify_message::get_message(void) const
+	{
+		return this->message;
+	}
+
+
+
+	std::string Notify_message::get_title(void) const
+	{
+		switch(this->type)
+		{
+			case TORRENT_FINISHED:
+			case TORRENT_FINISHED_AND_ALL:
+				return __("%1 - Download completed", APP_NAME);
+				break;
+
+			case ALL_TORRENTS_FINISHED:
+				return __("%1 - All downloads completed", APP_NAME);
+				break;
+
+			default:
+				MLIB_LE();
+				break;
+		}
+	}
+
+
+
+	Notify_message::Type Notify_message::get_type(void) const
+	{
+		return this->type;
+	}
+// Notify_message <--
+
+
+
 // Session_status -->
 	Session_status::Session_status(
 		const Daemon_statistics& daemon_statistics,
