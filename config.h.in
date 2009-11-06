@@ -23,10 +23,10 @@
 /* Application version string */
 #undef APP_VERSION_STRING
 
-/* Is application compiling in debug mode */
+/* Is application compiling in the debug mode */
 #undef DEBUG_MODE
 
-/* Is application compiling in develop mode */
+/* Is application compiling in the develop mode */
 #undef DEVELOP_MODE
 
 /* Define to 1 if translation of program messages to the user's native

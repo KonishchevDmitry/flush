@@ -98,9 +98,9 @@ am__relativize = \
   reldir="$$dir2"
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
+APP_CFLAGS = @APP_CFLAGS@
 APP_CPPFLAGS = @APP_CPPFLAGS@
 APP_CXXFLAGS = @APP_CXXFLAGS@
-APP_DEPENDENCIES = @APP_DEPENDENCIES@
 APP_LDADD = @APP_LDADD@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
@@ -150,6 +150,7 @@ LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
+MLIB_CFLAGS = @MLIB_CFLAGS@
 MLIB_CPPFLAGS = @MLIB_CPPFLAGS@
 MLIB_CXXFLAGS = @MLIB_CXXFLAGS@
 MLIB_LDADD = @MLIB_LDADD@
@@ -253,6 +254,10 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = src
+EXTRA_DIST = \
+	include/mlib \
+	m4/mlib.m4
+
 all: all-recursive
 
 .SUFFIXES:

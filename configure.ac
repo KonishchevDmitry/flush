@@ -1,4 +1,4 @@
-AC_INIT([Flush], [0.8.0], [konishchev@gmail.com])
+AC_INIT([Flush], [0.9.0], [konishchev@gmail.com])
 
 
 AC_CONFIG_SRCDIR([src/main.cpp])
@@ -25,8 +25,7 @@ AC_LANG([C++])
 
 PKG_PROG_PKG_CONFIG
 AM_GNU_GETTEXT([external])
-
-MLIB_INIT([[mlib]])
+MLIB_INIT
 
 
 dnl libconfig -->
@@ -55,6 +54,7 @@ dnl libtorrent <--
 
 
 dnl Configuring command line options -->
+
 	AC_ARG_ENABLE(debug_mode,
 		[AS_HELP_STRING([--enable-debug-mode],
 			[enable debug mode for application])],
@@ -109,11 +109,13 @@ dnl Configuring command line options -->
 		]
 	)
 
+
 	if test "X$develop_mode" = "Xyes"
 	then
+		MLIB_FEATURE_ENABLE([[develop_mode]])
+
 		dnl Debug mode always enabled in develop mode
 		debug_mode=yes
-		MLIB_FEATURE_ENABLE([[develop_mode]])
 	fi
 
 	if test "X$debug_mode" = "Xyes"
@@ -126,10 +128,12 @@ dnl Configuring command line options -->
 		package_libconfig=no
 		package_libtorrent=no
 	fi
+
 dnl Configuring command line options <--
 
 
 dnl config.h -->
+
 	AH_TOP([
 #ifndef HEADER_CONFIG
 #define HEADER_CONFIG
@@ -156,13 +160,13 @@ dnl config.h -->
 	AH_TEMPLATE([APP_VERSION_STRING], [Application version string])
 	AC_DEFINE_UNQUOTED([APP_VERSION_STRING], ["$PACKAGE_VERSION"])
 
-	AH_TEMPLATE([DEBUG_MODE], [Is application compiling in debug mode])
+	AH_TEMPLATE([DEBUG_MODE], [Is application compiling in the debug mode])
 	if test "X$debug_mode" = "Xyes"
 	then
 		AC_DEFINE([DEBUG_MODE])
 	fi
 
-	AH_TEMPLATE([DEVELOP_MODE], [Is application compiling in develop mode])
+	AH_TEMPLATE([DEVELOP_MODE], [Is application compiling in the develop mode])
 	if test "X$develop_mode" = "Xyes"
 	then
 		AC_DEFINE([DEVELOP_MODE])
@@ -177,13 +181,15 @@ dnl config.h -->
 	AH_BOTTOM([
 #endif
 	])
+
 dnl config.h <--
 
 
 AM_CONDITIONAL([DEVELOP_MODE], [test "X$develop_mode" = "Xyes"])
 
 
-dnl compiler flags -->
+dnl Compiler flags -->
+
 	dnl Clearing all flags -->
 		COMMON_CPPFLAGS=''
 		COMMON_CFLAGS=''
@@ -221,7 +227,8 @@ dnl compiler flags -->
 	dnl Develop mode flags <--
 
 
-	dnl libraries -->
+	dnl Libraries -->
+
 		dnl boost -->
 			AX_BOOST_BASE([1.34])
 			if test -z "$BOOST_LDFLAGS"
@@ -261,6 +268,9 @@ dnl compiler flags -->
 			MLIB_SET_CUSTOM_LIBRARY([[dbus_cxx]], [[$DBUSXX_CPPFLAGS]], [[$DBUSXX_LDADD]])
 		dnl DBus <--
 
+		dnl Gettext
+		APP_LDADD="$APP_LDADD $LIBINTL"
+
 		dnl GTK -->
 			PKG_CHECK_MODULES([gthread], [gthread-2.0])
 			APP_CPPFLAGS="$APP_CPPFLAGS $gthread_CFLAGS"
@@ -279,7 +289,6 @@ dnl compiler flags -->
 
 				APP_CPPFLAGS="$APP_CPPFLAGS $LIBCONFIG_CPPFLAGS"
 				APP_LDADD="$APP_LDADD $LIBCONFIG_LIBRARIES"
-				APP_DEPENDENCIES="$APP_DEPENDENCIES $LIBCONFIG_LIBRARIES"
 
 				MLIB_SET_CUSTOM_LIBRARY([[libconfig]], [[$LIBCONFIG_CPPFLAGS]], [[$LIBCONFIG_LIBRARIES]])
 			else
@@ -292,8 +301,6 @@ dnl compiler flags -->
 		dnl libtorrent -->
 			if test "X$package_libtorrent" = "Xyes"
 			then
-				LIBTORRENT_LIBRARIES="\$(top_builddir)/$libtorrent_dir_name/src/.libs/libtorrent-rasterbar.a"
-
 				CHECK_SSL
 				LIBTORRENT_CPPFLAGS="$SSL_CXXFLAGS"
 				LIBTORRENT_LDADD="$SSL_LDFLAGS $SSL_LIBS"
@@ -302,14 +309,14 @@ dnl compiler flags -->
 				LIBTORRENT_CPPFLAGS="$LIBTORRENT_CPPFLAGS $PTHREAD_CFLAGS"
 				LIBTORRENT_LDADD="$LIBTORRENT_LDADD $PTHREAD_LIBS"
 
-				dnl TODO shared?
-				LIBTORRENT_CPPFLAGS="$LIBTORRENT_CPPFLAGS -DTORRENT_USE_OPENSSL -DTORRENT_LINKING_SHARED"
+				LIBTORRENT_CPPFLAGS="$LIBTORRENT_CPPFLAGS -DTORRENT_USE_OPENSSL"
 				LIBTORRENT_CPPFLAGS="$LIBTORRENT_CPPFLAGS -I \$(top_srcdir)/$libtorrent_dir_name/include"
 				LIBTORRENT_CPPFLAGS="$LIBTORRENT_CPPFLAGS -I \$(top_srcdir)/$libtorrent_dir_name/include/libtorrent"
-				LIBTORRENT_LDADD="$LIBTORRENT_LDADD -lrt $LIBTORRENT_LIBRARIES"
+				LIBTORRENT_LDADD="$LIBTORRENT_LDADD \$(top_builddir)/$libtorrent_dir_name/src/.libs/libtorrent-rasterbar.a"
+				LIBTORRENT_LDADD="$LIBTORRENT_LDADD -lrt"
 
+				APP_CPPFLAGS="$APP_CPPFLAGS $LIBTORRENT_CPPFLAGS"
 				APP_LDADD="$APP_LDADD $LIBTORRENT_LDADD"
-				APP_DEPENDENCIES="$APP_DEPENDENCIES $LIBTORRENT_LIBRARIES"
 
 				MLIB_SET_CUSTOM_LIBRARY([[libtorrent]], [[$LIBTORRENT_CPPFLAGS]], [[$LIBTORRENT_LDADD]])
 			else
@@ -318,38 +325,49 @@ dnl compiler flags -->
 				PKG_CHECK_MODULES([libtorrent_rasterbar], [libtorrent-rasterbar-0.14 >= 0.14], [], [
 					PKG_CHECK_MODULES([libtorrent_rasterbar], [libtorrent-rasterbar >= 0.14])
 				])
+
 				APP_CPPFLAGS="$APP_CPPFLAGS $libtorrent_rasterbar_CFLAGS"
 				APP_LDADD="$APP_LDADD $libtorrent_rasterbar_LIBS"
 			fi
 		dnl libtorrent <--
 
-		dnl Gettext
-		APP_LDADD="$APP_LDADD $LIBINTL"
-	dnl libraries <--
+	dnl Libraries <--
 
 	MLIB_CPPFLAGS="$COMMON_CPPFLAGS $MLIB_CPPFLAGS"
 	MLIB_CXXFLAGS="$COMMON_CXXFLAGS $MLIB_CXXFLAGS"
-dnl compiler flags <--
+dnl Compiler flags <--
 
-dnl TODO
-MLIB_FEATURE_ENABLE([[dbus]])
-MLIB_FEATURE_ENABLE([[gtk]])
-MLIB_FEATURE_ENABLE([[gtk_builder]])
-MLIB_FEATURE_ENABLE([[gtk_builder_emulation]])
-MLIB_FEATURE_ENABLE([[libconfig]])
-MLIB_FEATURE_ENABLE([[libtorrent]])
-MLIB_CONFIGURE
 
-dnl TODO -->
+dnl Configuring mlib -->
+	MLIB_CPPFLAGS="$MLIB_CPPFLAGS $COMMON_CPPFLAGS"
+	MLIB_CFLAGS="$MLIB_CFLAGS $COMMON_CFLAGS"
+	MLIB_CXXFLAGS="$MLIB_CXXFLAGS $COMMON_CXXFLAGS"
+
+	MLIB_FEATURE_ENABLE([[async_fs]])
+	MLIB_FEATURE_ENABLE([[dbus]])
+	MLIB_FEATURE_ENABLE([[fs_watcher]])
+	MLIB_FEATURE_ENABLE([[gtk]])
+	MLIB_FEATURE_ENABLE([[gtk_builder]])
+	MLIB_FEATURE_ENABLE([[gtk_builder_emulation]])
+	MLIB_FEATURE_ENABLE([[libconfig]])
+	MLIB_FEATURE_ENABLE([[libtorrent]])
+
+	MLIB_CONFIGURE
+dnl Configuring mlib <--
+
+
+dnl Application flags -->
 	APP_CPPFLAGS="$MLIB_CPPFLAGS $APP_CPPFLAGS"
+	APP_CFLAGS="$MLIB_CFLAGS $APP_CFLAGS"
 	APP_CXXFLAGS="$MLIB_CXXFLAGS $APP_CXXFLAGS"
 	APP_LDADD="$MLIB_LDADD $APP_LDADD"
 
-	AC_SUBST([APP_DEPENDENCIES])
 	AC_SUBST([APP_CPPFLAGS])
+	AC_SUBST([APP_CFLAGS])
 	AC_SUBST([APP_CXXFLAGS])
 	AC_SUBST([APP_LDADD])
-dnl TODO <--
+dnl Application flags <--
+
 
 dnl Libraries inside of package -->
 	PACKAGE_LIBRARIES_SUBDIRS="dbus-c++"
@@ -379,9 +397,6 @@ AC_MSG_NOTICE([using package libtorrent: $package_libtorrent])
 
 
 AC_CONFIG_FILES([
-	$MLIB_CONFIG_FILES
-])
-AC_CONFIG_FILES([
 	icons/Makefile
 	man/Makefile
 	man/ru/Makefile
@@ -391,6 +406,7 @@ AC_CONFIG_FILES([
 	flush.desktop
 	Makefile
 ])
+
 
 AC_OUTPUT
 

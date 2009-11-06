@@ -3,10 +3,6 @@ noinst_LIBRARIES = libmlib_gtk.a
 libmlib_gtk_a_SOURCES = \
 	action.cpp \
 	action.hpp \
-	builder.cpp \
-	builder.hh \
-	builder.hpp \
-	builder.hxx \
 	controlled_list.cpp \
 	controlled_list.hpp \
 	dialog.cpp \
@@ -48,6 +44,15 @@ libmlib_gtk_a_SOURCES = \
 	window_settings.cpp \
 	window_settings.hpp
 
+if MLIB_ENABLE_GTK_BUILDER
+libmlib_gtk_a_SOURCES  += \
+	builder.cpp \
+	builder.hh \
+	builder.hpp \
+	builder.hxx
+endif
+
 libmlib_gtk_a_CPPFLAGS = @MLIB_CPPFLAGS@
+libmlib_gtk_a_CFLAGS = @MLIB_CFLAGS@
 libmlib_gtk_a_CXXFLAGS = @MLIB_CXXFLAGS@
 

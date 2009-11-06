@@ -7,12 +7,8 @@ endif
 noinst_LIBRARIES = libmlib.a
 
 libmlib_a_SOURCES = \
-	async_fs.cpp \
-	async_fs.hpp \
 	fs.cpp \
 	fs.hpp \
-	fs_watcher.cpp \
-	fs_watcher.hpp \
 	main.hpp \
 	math.hpp \
 	math.hh \
@@ -30,10 +26,22 @@ libmlib_a_SOURCES = \
 	sys.hh \
 	sys.hpp
 
+if MLIB_ENABLE_ASYNC_FS
+libmlib_a_SOURCES += \
+	async_fs.cpp \
+	async_fs.hpp
+endif
+
 if MLIB_ENABLE_DBUS
 libmlib_a_SOURCES += \
 	dbus.cpp \
 	dbus.hpp
+endif
+
+if MLIB_ENABLE_FS_WATCHER
+libmlib_a_SOURCES += \
+	fs_watcher.cpp \
+	fs_watcher.hpp
 endif
 
 if MLIB_ENABLE_LIBCONFIG
@@ -57,5 +65,6 @@ libmlib_a_SOURCES += \
 endif
 
 libmlib_a_CPPFLAGS = @MLIB_CPPFLAGS@
+libmlib_a_CFLAGS = @MLIB_CFLAGS@
 libmlib_a_CXXFLAGS = @MLIB_CXXFLAGS@
 

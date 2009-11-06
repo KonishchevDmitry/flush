@@ -35,20 +35,28 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 @MLIB_ENABLE_GTK_TRUE@am__append_1 = gtk
-@MLIB_ENABLE_DBUS_TRUE@am__append_2 = \
+@MLIB_ENABLE_ASYNC_FS_TRUE@am__append_2 = \
+@MLIB_ENABLE_ASYNC_FS_TRUE@	async_fs.cpp \
+@MLIB_ENABLE_ASYNC_FS_TRUE@	async_fs.hpp
+
+@MLIB_ENABLE_DBUS_TRUE@am__append_3 = \
 @MLIB_ENABLE_DBUS_TRUE@	dbus.cpp \
 @MLIB_ENABLE_DBUS_TRUE@	dbus.hpp
 
-@MLIB_ENABLE_LIBCONFIG_TRUE@am__append_3 = \
+@MLIB_ENABLE_FS_WATCHER_TRUE@am__append_4 = \
+@MLIB_ENABLE_FS_WATCHER_TRUE@	fs_watcher.cpp \
+@MLIB_ENABLE_FS_WATCHER_TRUE@	fs_watcher.hpp
+
+@MLIB_ENABLE_LIBCONFIG_TRUE@am__append_5 = \
 @MLIB_ENABLE_LIBCONFIG_TRUE@	libconfig.cpp \
 @MLIB_ENABLE_LIBCONFIG_TRUE@	libconfig.hpp
 
-@MLIB_ENABLE_LIBTORRENT_TRUE@am__append_4 = \
+@MLIB_ENABLE_LIBTORRENT_TRUE@am__append_6 = \
 @MLIB_ENABLE_LIBTORRENT_TRUE@	libtorrent.cpp \
 @MLIB_ENABLE_LIBTORRENT_TRUE@	libtorrent.hpp \
 @MLIB_ENABLE_LIBTORRENT_TRUE@	libtorrent.hxx
 
-@MLIB_ENABLE_SQLITE_TRUE@am__append_5 = \
+@MLIB_ENABLE_SQLITE_TRUE@am__append_7 = \
 @MLIB_ENABLE_SQLITE_TRUE@	sqlite.cpp \
 @MLIB_ENABLE_SQLITE_TRUE@	sqlite.hpp \
 @MLIB_ENABLE_SQLITE_TRUE@	sqlite.hxx
@@ -78,25 +86,28 @@ AR = ar
 ARFLAGS = cru
 libmlib_a_AR = $(AR) $(ARFLAGS)
 libmlib_a_LIBADD =
-am__libmlib_a_SOURCES_DIST = async_fs.cpp async_fs.hpp fs.cpp fs.hpp \
-	fs_watcher.cpp fs_watcher.hpp main.hpp math.hpp math.hh \
+am__libmlib_a_SOURCES_DIST = fs.cpp fs.hpp main.hpp math.hpp math.hh \
 	misc.cpp misc.hh misc.hpp misc.hxx mutex.hpp mutex.hh \
 	signals_holder.cpp signals_holder.hpp string.cpp string.hpp \
-	sys.cpp sys.hh sys.hpp dbus.cpp dbus.hpp libconfig.cpp \
+	sys.cpp sys.hh sys.hpp async_fs.cpp async_fs.hpp dbus.cpp \
+	dbus.hpp fs_watcher.cpp fs_watcher.hpp libconfig.cpp \
 	libconfig.hpp libtorrent.cpp libtorrent.hpp libtorrent.hxx \
 	sqlite.cpp sqlite.hpp sqlite.hxx
-@MLIB_ENABLE_DBUS_TRUE@am__objects_1 = libmlib_a-dbus.$(OBJEXT)
-@MLIB_ENABLE_LIBCONFIG_TRUE@am__objects_2 =  \
+@MLIB_ENABLE_ASYNC_FS_TRUE@am__objects_1 =  \
+@MLIB_ENABLE_ASYNC_FS_TRUE@	libmlib_a-async_fs.$(OBJEXT)
+@MLIB_ENABLE_DBUS_TRUE@am__objects_2 = libmlib_a-dbus.$(OBJEXT)
+@MLIB_ENABLE_FS_WATCHER_TRUE@am__objects_3 =  \
+@MLIB_ENABLE_FS_WATCHER_TRUE@	libmlib_a-fs_watcher.$(OBJEXT)
+@MLIB_ENABLE_LIBCONFIG_TRUE@am__objects_4 =  \
 @MLIB_ENABLE_LIBCONFIG_TRUE@	libmlib_a-libconfig.$(OBJEXT)
-@MLIB_ENABLE_LIBTORRENT_TRUE@am__objects_3 =  \
+@MLIB_ENABLE_LIBTORRENT_TRUE@am__objects_5 =  \
 @MLIB_ENABLE_LIBTORRENT_TRUE@	libmlib_a-libtorrent.$(OBJEXT)
-@MLIB_ENABLE_SQLITE_TRUE@am__objects_4 = libmlib_a-sqlite.$(OBJEXT)
-am_libmlib_a_OBJECTS = libmlib_a-async_fs.$(OBJEXT) \
-	libmlib_a-fs.$(OBJEXT) libmlib_a-fs_watcher.$(OBJEXT) \
-	libmlib_a-misc.$(OBJEXT) libmlib_a-signals_holder.$(OBJEXT) \
-	libmlib_a-string.$(OBJEXT) libmlib_a-sys.$(OBJEXT) \
-	$(am__objects_1) $(am__objects_2) $(am__objects_3) \
-	$(am__objects_4)
+@MLIB_ENABLE_SQLITE_TRUE@am__objects_6 = libmlib_a-sqlite.$(OBJEXT)
+am_libmlib_a_OBJECTS = libmlib_a-fs.$(OBJEXT) libmlib_a-misc.$(OBJEXT) \
+	libmlib_a-signals_holder.$(OBJEXT) libmlib_a-string.$(OBJEXT) \
+	libmlib_a-sys.$(OBJEXT) $(am__objects_1) $(am__objects_2) \
+	$(am__objects_3) $(am__objects_4) $(am__objects_5) \
+	$(am__objects_6)
 libmlib_a_OBJECTS = $(am_libmlib_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
@@ -156,9 +167,9 @@ am__relativize = \
   reldir="$$dir2"
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
+APP_CFLAGS = @APP_CFLAGS@
 APP_CPPFLAGS = @APP_CPPFLAGS@
 APP_CXXFLAGS = @APP_CXXFLAGS@
-APP_DEPENDENCIES = @APP_DEPENDENCIES@
 APP_LDADD = @APP_LDADD@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
@@ -208,6 +219,7 @@ LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
+MLIB_CFLAGS = @MLIB_CFLAGS@
 MLIB_CPPFLAGS = @MLIB_CPPFLAGS@
 MLIB_CXXFLAGS = @MLIB_CXXFLAGS@
 MLIB_LDADD = @MLIB_LDADD@
@@ -290,8 +302,6 @@ libconfig_CFLAGS = @libconfig_CFLAGS@
 libconfig_LIBS = @libconfig_LIBS@
 libdir = @libdir@
 libexecdir = @libexecdir@
-libnotify_CFLAGS = @libnotify_CFLAGS@
-libnotify_LIBS = @libnotify_LIBS@
 libtorrent_rasterbar_CFLAGS = @libtorrent_rasterbar_CFLAGS@
 libtorrent_rasterbar_LIBS = @libtorrent_rasterbar_LIBS@
 localedir = @localedir@
@@ -314,13 +324,14 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = base $(am__append_1)
 noinst_LIBRARIES = libmlib.a
-libmlib_a_SOURCES = async_fs.cpp async_fs.hpp fs.cpp fs.hpp \
-	fs_watcher.cpp fs_watcher.hpp main.hpp math.hpp math.hh \
-	misc.cpp misc.hh misc.hpp misc.hxx mutex.hpp mutex.hh \
+libmlib_a_SOURCES = fs.cpp fs.hpp main.hpp math.hpp math.hh misc.cpp \
+	misc.hh misc.hpp misc.hxx mutex.hpp mutex.hh \
 	signals_holder.cpp signals_holder.hpp string.cpp string.hpp \
 	sys.cpp sys.hh sys.hpp $(am__append_2) $(am__append_3) \
-	$(am__append_4) $(am__append_5)
+	$(am__append_4) $(am__append_5) $(am__append_6) \
+	$(am__append_7)
 libmlib_a_CPPFLAGS = @MLIB_CPPFLAGS@
+libmlib_a_CFLAGS = @MLIB_CFLAGS@
 libmlib_a_CXXFLAGS = @MLIB_CXXFLAGS@
 all: all-recursive
 
@@ -335,15 +346,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-<<<<<<< HEAD:mlib/src/Makefile.in
 	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign mlib/src/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
 	  $(AUTOMAKE) --foreign mlib/src/Makefile
-=======
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/mlib/Makefile'; \
-	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign src/mlib/Makefile
->>>>>>> new:src/mlib/Makefile.in
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -402,37 +407,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
-libmlib_a-async_fs.o: async_fs.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-async_fs.o -MD -MP -MF $(DEPDIR)/libmlib_a-async_fs.Tpo -c -o libmlib_a-async_fs.o `test -f 'async_fs.cpp' || echo '$(srcdir)/'`async_fs.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-async_fs.Tpo $(DEPDIR)/libmlib_a-async_fs.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='async_fs.cpp' object='libmlib_a-async_fs.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-async_fs.o `test -f 'async_fs.cpp' || echo '$(srcdir)/'`async_fs.cpp
-
-libmlib_a-async_fs.obj: async_fs.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-async_fs.obj -MD -MP -MF $(DEPDIR)/libmlib_a-async_fs.Tpo -c -o libmlib_a-async_fs.obj `if test -f 'async_fs.cpp'; then $(CYGPATH_W) 'async_fs.cpp'; else $(CYGPATH_W) '$(srcdir)/async_fs.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-async_fs.Tpo $(DEPDIR)/libmlib_a-async_fs.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='async_fs.cpp' object='libmlib_a-async_fs.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-async_fs.obj `if test -f 'async_fs.cpp'; then $(CYGPATH_W) 'async_fs.cpp'; else $(CYGPATH_W) '$(srcdir)/async_fs.cpp'; fi`
-
-<<<<<<< HEAD:mlib/src/Makefile.in
-=======
-libmlib_a-dbus.o: dbus.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-dbus.o -MD -MP -MF $(DEPDIR)/libmlib_a-dbus.Tpo -c -o libmlib_a-dbus.o `test -f 'dbus.cpp' || echo '$(srcdir)/'`dbus.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-dbus.Tpo $(DEPDIR)/libmlib_a-dbus.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='dbus.cpp' object='libmlib_a-dbus.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-dbus.o `test -f 'dbus.cpp' || echo '$(srcdir)/'`dbus.cpp
-
-libmlib_a-dbus.obj: dbus.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-dbus.obj -MD -MP -MF $(DEPDIR)/libmlib_a-dbus.Tpo -c -o libmlib_a-dbus.obj `if test -f 'dbus.cpp'; then $(CYGPATH_W) 'dbus.cpp'; else $(CYGPATH_W) '$(srcdir)/dbus.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-dbus.Tpo $(DEPDIR)/libmlib_a-dbus.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='dbus.cpp' object='libmlib_a-dbus.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-dbus.obj `if test -f 'dbus.cpp'; then $(CYGPATH_W) 'dbus.cpp'; else $(CYGPATH_W) '$(srcdir)/dbus.cpp'; fi`
-
->>>>>>> new:src/mlib/Makefile.in
 libmlib_a-fs.o: fs.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-fs.o -MD -MP -MF $(DEPDIR)/libmlib_a-fs.Tpo -c -o libmlib_a-fs.o `test -f 'fs.cpp' || echo '$(srcdir)/'`fs.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-fs.Tpo $(DEPDIR)/libmlib_a-fs.Po
@@ -447,51 +421,6 @@ libmlib_a-fs.obj: fs.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-fs.obj `if test -f 'fs.cpp'; then $(CYGPATH_W) 'fs.cpp'; else $(CYGPATH_W) '$(srcdir)/fs.cpp'; fi`
 
-libmlib_a-fs_watcher.o: fs_watcher.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-fs_watcher.o -MD -MP -MF $(DEPDIR)/libmlib_a-fs_watcher.Tpo -c -o libmlib_a-fs_watcher.o `test -f 'fs_watcher.cpp' || echo '$(srcdir)/'`fs_watcher.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-fs_watcher.Tpo $(DEPDIR)/libmlib_a-fs_watcher.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='fs_watcher.cpp' object='libmlib_a-fs_watcher.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-fs_watcher.o `test -f 'fs_watcher.cpp' || echo '$(srcdir)/'`fs_watcher.cpp
-
-libmlib_a-fs_watcher.obj: fs_watcher.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-fs_watcher.obj -MD -MP -MF $(DEPDIR)/libmlib_a-fs_watcher.Tpo -c -o libmlib_a-fs_watcher.obj `if test -f 'fs_watcher.cpp'; then $(CYGPATH_W) 'fs_watcher.cpp'; else $(CYGPATH_W) '$(srcdir)/fs_watcher.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-fs_watcher.Tpo $(DEPDIR)/libmlib_a-fs_watcher.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='fs_watcher.cpp' object='libmlib_a-fs_watcher.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-fs_watcher.obj `if test -f 'fs_watcher.cpp'; then $(CYGPATH_W) 'fs_watcher.cpp'; else $(CYGPATH_W) '$(srcdir)/fs_watcher.cpp'; fi`
-
-<<<<<<< HEAD:mlib/src/Makefile.in
-=======
-libmlib_a-libconfig.o: libconfig.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-libconfig.o -MD -MP -MF $(DEPDIR)/libmlib_a-libconfig.Tpo -c -o libmlib_a-libconfig.o `test -f 'libconfig.cpp' || echo '$(srcdir)/'`libconfig.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-libconfig.Tpo $(DEPDIR)/libmlib_a-libconfig.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='libconfig.cpp' object='libmlib_a-libconfig.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-libconfig.o `test -f 'libconfig.cpp' || echo '$(srcdir)/'`libconfig.cpp
-
-libmlib_a-libconfig.obj: libconfig.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-libconfig.obj -MD -MP -MF $(DEPDIR)/libmlib_a-libconfig.Tpo -c -o libmlib_a-libconfig.obj `if test -f 'libconfig.cpp'; then $(CYGPATH_W) 'libconfig.cpp'; else $(CYGPATH_W) '$(srcdir)/libconfig.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-libconfig.Tpo $(DEPDIR)/libmlib_a-libconfig.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='libconfig.cpp' object='libmlib_a-libconfig.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-libconfig.obj `if test -f 'libconfig.cpp'; then $(CYGPATH_W) 'libconfig.cpp'; else $(CYGPATH_W) '$(srcdir)/libconfig.cpp'; fi`
-
-libmlib_a-libtorrent.o: libtorrent.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-libtorrent.o -MD -MP -MF $(DEPDIR)/libmlib_a-libtorrent.Tpo -c -o libmlib_a-libtorrent.o `test -f 'libtorrent.cpp' || echo '$(srcdir)/'`libtorrent.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-libtorrent.Tpo $(DEPDIR)/libmlib_a-libtorrent.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='libtorrent.cpp' object='libmlib_a-libtorrent.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-libtorrent.o `test -f 'libtorrent.cpp' || echo '$(srcdir)/'`libtorrent.cpp
-
-libmlib_a-libtorrent.obj: libtorrent.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-libtorrent.obj -MD -MP -MF $(DEPDIR)/libmlib_a-libtorrent.Tpo -c -o libmlib_a-libtorrent.obj `if test -f 'libtorrent.cpp'; then $(CYGPATH_W) 'libtorrent.cpp'; else $(CYGPATH_W) '$(srcdir)/libtorrent.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-libtorrent.Tpo $(DEPDIR)/libmlib_a-libtorrent.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='libtorrent.cpp' object='libmlib_a-libtorrent.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-libtorrent.obj `if test -f 'libtorrent.cpp'; then $(CYGPATH_W) 'libtorrent.cpp'; else $(CYGPATH_W) '$(srcdir)/libtorrent.cpp'; fi`
-
->>>>>>> new:src/mlib/Makefile.in
 libmlib_a-misc.o: misc.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-misc.o -MD -MP -MF $(DEPDIR)/libmlib_a-misc.Tpo -c -o libmlib_a-misc.o `test -f 'misc.cpp' || echo '$(srcdir)/'`misc.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-misc.Tpo $(DEPDIR)/libmlib_a-misc.Po
@@ -548,6 +477,20 @@ libmlib_a-sys.obj: sys.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-sys.obj `if test -f 'sys.cpp'; then $(CYGPATH_W) 'sys.cpp'; else $(CYGPATH_W) '$(srcdir)/sys.cpp'; fi`
 
+libmlib_a-async_fs.o: async_fs.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-async_fs.o -MD -MP -MF $(DEPDIR)/libmlib_a-async_fs.Tpo -c -o libmlib_a-async_fs.o `test -f 'async_fs.cpp' || echo '$(srcdir)/'`async_fs.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-async_fs.Tpo $(DEPDIR)/libmlib_a-async_fs.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='async_fs.cpp' object='libmlib_a-async_fs.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-async_fs.o `test -f 'async_fs.cpp' || echo '$(srcdir)/'`async_fs.cpp
+
+libmlib_a-async_fs.obj: async_fs.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-async_fs.obj -MD -MP -MF $(DEPDIR)/libmlib_a-async_fs.Tpo -c -o libmlib_a-async_fs.obj `if test -f 'async_fs.cpp'; then $(CYGPATH_W) 'async_fs.cpp'; else $(CYGPATH_W) '$(srcdir)/async_fs.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-async_fs.Tpo $(DEPDIR)/libmlib_a-async_fs.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='async_fs.cpp' object='libmlib_a-async_fs.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-async_fs.obj `if test -f 'async_fs.cpp'; then $(CYGPATH_W) 'async_fs.cpp'; else $(CYGPATH_W) '$(srcdir)/async_fs.cpp'; fi`
+
 libmlib_a-dbus.o: dbus.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-dbus.o -MD -MP -MF $(DEPDIR)/libmlib_a-dbus.Tpo -c -o libmlib_a-dbus.o `test -f 'dbus.cpp' || echo '$(srcdir)/'`dbus.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-dbus.Tpo $(DEPDIR)/libmlib_a-dbus.Po
@@ -561,6 +504,20 @@ libmlib_a-dbus.obj: dbus.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='dbus.cpp' object='libmlib_a-dbus.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-dbus.obj `if test -f 'dbus.cpp'; then $(CYGPATH_W) 'dbus.cpp'; else $(CYGPATH_W) '$(srcdir)/dbus.cpp'; fi`
+
+libmlib_a-fs_watcher.o: fs_watcher.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-fs_watcher.o -MD -MP -MF $(DEPDIR)/libmlib_a-fs_watcher.Tpo -c -o libmlib_a-fs_watcher.o `test -f 'fs_watcher.cpp' || echo '$(srcdir)/'`fs_watcher.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-fs_watcher.Tpo $(DEPDIR)/libmlib_a-fs_watcher.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='fs_watcher.cpp' object='libmlib_a-fs_watcher.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-fs_watcher.o `test -f 'fs_watcher.cpp' || echo '$(srcdir)/'`fs_watcher.cpp
+
+libmlib_a-fs_watcher.obj: fs_watcher.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-fs_watcher.obj -MD -MP -MF $(DEPDIR)/libmlib_a-fs_watcher.Tpo -c -o libmlib_a-fs_watcher.obj `if test -f 'fs_watcher.cpp'; then $(CYGPATH_W) 'fs_watcher.cpp'; else $(CYGPATH_W) '$(srcdir)/fs_watcher.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-fs_watcher.Tpo $(DEPDIR)/libmlib_a-fs_watcher.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='fs_watcher.cpp' object='libmlib_a-fs_watcher.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-fs_watcher.obj `if test -f 'fs_watcher.cpp'; then $(CYGPATH_W) 'fs_watcher.cpp'; else $(CYGPATH_W) '$(srcdir)/fs_watcher.cpp'; fi`
 
 libmlib_a-libconfig.o: libconfig.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-libconfig.o -MD -MP -MF $(DEPDIR)/libmlib_a-libconfig.Tpo -c -o libmlib_a-libconfig.o `test -f 'libconfig.cpp' || echo '$(srcdir)/'`libconfig.cpp

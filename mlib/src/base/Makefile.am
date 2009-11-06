@@ -17,5 +17,6 @@ libmlib_base_a_SOURCES = \
 	messages.hpp
 
 libmlib_base_a_CPPFLAGS = @MLIB_CPPFLAGS@
+libmlib_base_a_CFLAGS = @MLIB_CFLAGS@
 libmlib_base_a_CXXFLAGS = @MLIB_CXXFLAGS@
 

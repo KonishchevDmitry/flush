@@ -21,7 +21,7 @@ dnl **************************************************************************/
 
 dnl	SYNOPSIS
 dnl
-dnl		MLIB_INIT([[MLIB_DIRECTORY_PATH]])
+dnl		MLIB_INIT
 dnl
 dnl
 dnl	DESCRIPTION
@@ -38,11 +38,9 @@ dnl		MLIB_LDADD=''
 dnl
 AC_DEFUN([MLIB_INIT],
 [
-	if test "$#" != "1"
+	if test "$#" != "0"
 	then
-		AC_MSG_ERROR([[MLIB_INIT usage error at line $LINENO: macros takes one argument.]])
-	else
-		mlib_path="$1"
+		AC_MSG_ERROR([[MLIB_INIT usage error at line $LINENO: macros takes zero arguments.]])
 	fi
 
 	dnl Clearing all output variables -->
@@ -147,25 +145,25 @@ dnl		AC_CONFIG_HEADERS's config.h include in the MLIB_CPPFLAGS
 dnl		PKG_PROG_PKG_CONFIG's call
 dnl
 dnl
-dnl	Appends flags to:
+dnl	And appends flags to:
 dnl
 dnl		MLIB_CPPFLAGS
 dnl		MLIB_CFLAGS
 dnl		MLIB_CXXFLAGS
 dnl		MLIB_LDADD
 dnl
-dnl
-dnl	And sets:
-dnl		MLIB_CONFIG_FILES to list of files which must be passed to AC_CONFIG_FILES.
-dnl
 AC_DEFUN([MLIB_CONFIGURE],
 [
-	if test "X$mlib_path" = "X"
+	if test "$#" != "0"
 	then
-		AC_MSG_ERROR([[MLIB_CONFIGURE usage error at line $LINENO: mlib macroses must be initialized by MLIB_INIT.]])
+		AC_MSG_ERROR([[MLIB_CONFIGURE usage error at line $LINENO: macros takes zero arguments.]])
 	fi
 
+
+	mlib_path="mlib"
+
 	AC_MSG_NOTICE([[Configuring mlib...]])
+
 
 	dnl Features -->
 
@@ -476,15 +474,14 @@ AC_DEFUN([MLIB_CONFIGURE],
 	dnl Flags <--
 
 
-	dnl AC_CONFIG_FILES's files -->
-		MLIB_CONFIG_FILES="
-			$mlib_path/src/base/libs_forwards/Makefile
-			$mlib_path/src/base/Makefile
-			$mlib_path/src/gtk/Makefile
-			$mlib_path/src/Makefile
-			$mlib_path/Makefile
-		"
-	dnl AC_CONFIG_FILES's files <--
+	AC_CONFIG_FILES([
+		mlib/src/base/libs_forwards/Makefile
+		mlib/src/base/Makefile
+		mlib/src/gtk/Makefile
+		mlib/src/Makefile
+		mlib/Makefile
+	])
+
 
 	AC_MSG_NOTICE([[mlib have been successfully configured.]])
 ])

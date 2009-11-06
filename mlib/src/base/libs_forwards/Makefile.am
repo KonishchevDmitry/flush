@@ -7,3 +7,4 @@ EXTRA_DIST = \
 	libtorrent.hpp \
 	sigc++.hpp \
 	sqlite3.h
+

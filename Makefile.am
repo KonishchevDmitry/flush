@@ -31,6 +31,10 @@ install-data-hook:
 .PHONY: gettext
 
 gettext:
+	( \
+		echo -e '# List of source files which contain translatable strings.\n'; \
+		find mlib src ui -name '*.c' -o -name '*.cpp' -o -name '*.h' -o -name '*.hh' -o -name '*.hpp ' -o -name '*.hxx' -o -name '*.glade' \
+	) > po/POTFILES.in
 	make -C po update-po
 	cd po || exit 1; \
 	for lang in $$(cat LINGUAS | $(SED) 's/#.*$$//'); \

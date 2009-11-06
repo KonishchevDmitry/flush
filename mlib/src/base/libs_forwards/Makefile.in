@@ -58,9 +58,9 @@ DIST_SOURCES =
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
+APP_CFLAGS = @APP_CFLAGS@
 APP_CPPFLAGS = @APP_CPPFLAGS@
 APP_CXXFLAGS = @APP_CXXFLAGS@
-APP_DEPENDENCIES = @APP_DEPENDENCIES@
 APP_LDADD = @APP_LDADD@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
@@ -110,6 +110,7 @@ LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
+MLIB_CFLAGS = @MLIB_CFLAGS@
 MLIB_CPPFLAGS = @MLIB_CPPFLAGS@
 MLIB_CXXFLAGS = @MLIB_CXXFLAGS@
 MLIB_LDADD = @MLIB_LDADD@
@@ -192,8 +193,6 @@ libconfig_CFLAGS = @libconfig_CFLAGS@
 libconfig_LIBS = @libconfig_LIBS@
 libdir = @libdir@
 libexecdir = @libexecdir@
-libnotify_CFLAGS = @libnotify_CFLAGS@
-libnotify_LIBS = @libnotify_LIBS@
 libtorrent_rasterbar_CFLAGS = @libtorrent_rasterbar_CFLAGS@
 libtorrent_rasterbar_LIBS = @libtorrent_rasterbar_LIBS@
 localedir = @localedir@
@@ -236,15 +235,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-<<<<<<< HEAD:mlib/src/base/libs_forwards/Makefile.in
 	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign mlib/src/base/libs_forwards/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
 	  $(AUTOMAKE) --foreign mlib/src/base/libs_forwards/Makefile
-=======
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/mlib/base/libs_forwards/Makefile'; \
-	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign src/mlib/base/libs_forwards/Makefile
->>>>>>> new:src/mlib/base/libs_forwards/Makefile.in
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \

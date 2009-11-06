@@ -81,7 +81,6 @@ adaptor_glue.hpp: dbus_introspect.xml
 proxy_glue.hpp: dbus_introspect.xml
 	$(DBUSXX_XML2CPP) '$<' --proxy='$@'
 
-flush_DEPENDENCIES = @APP_DEPENDENCIES@
 flush_CPPFLAGS = @APP_CPPFLAGS@
 if DEVELOP_MODE
 flush_CPPFLAGS += -D APP_BIN_PATH='"$(abs_builddir)/$(PACKAGE)"'
@@ -95,6 +94,7 @@ flush_CPPFLAGS += -D APP_ICONS_PATH='"$(datadir)/icons"'
 flush_CPPFLAGS += -D APP_CUSTOM_ICONS_PATH='"$(datadir)/$(PACKAGE)/icons"'
 endif
 flush_CPPFLAGS += -D APP_LOCALE_PATH='"$(localedir)"'
+flush_CFLAGS = @APP_CFLAGS@
 flush_CXXFLAGS = @APP_CXXFLAGS@
 flush_LDADD = @APP_LDADD@
 

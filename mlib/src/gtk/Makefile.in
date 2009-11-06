@@ -34,6 +34,12 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+@MLIB_ENABLE_GTK_BUILDER_TRUE@am__append_1 = \
+@MLIB_ENABLE_GTK_BUILDER_TRUE@	builder.cpp \
+@MLIB_ENABLE_GTK_BUILDER_TRUE@	builder.hh \
+@MLIB_ENABLE_GTK_BUILDER_TRUE@	builder.hpp \
+@MLIB_ENABLE_GTK_BUILDER_TRUE@	builder.hxx
+
 subdir = mlib/src/gtk
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -59,8 +65,22 @@ AR = ar
 ARFLAGS = cru
 libmlib_gtk_a_AR = $(AR) $(ARFLAGS)
 libmlib_gtk_a_LIBADD =
+am__libmlib_gtk_a_SOURCES_DIST = action.cpp action.hpp \
+	controlled_list.cpp controlled_list.hpp dialog.cpp dialog.hpp \
+	dialog_settings.hpp dispatcher.cpp dispatcher.hh \
+	dispatcher.hpp dispatcher.hxx expander_settings.cpp \
+	expander_settings.hpp expander_settings.hxx link_button.cpp \
+	link_button.hpp main.cpp main.hpp misc.cpp misc.hh misc.hpp \
+	misc.hxx paned.cpp paned.hpp paned_settings.cpp \
+	paned_settings.hpp signal_proxy.hh signal_proxy.hpp \
+	signal_proxy.hxx toolbar.cpp toolbar.hpp tree_view.cpp \
+	tree_view.hh tree_view.hpp tree_view_settings.cpp \
+	tree_view_settings.hpp vbox.cpp vbox.hpp window.cpp window.hpp \
+	window_settings.cpp window_settings.hpp builder.cpp builder.hh \
+	builder.hpp builder.hxx
+@MLIB_ENABLE_GTK_BUILDER_TRUE@am__objects_1 =  \
+@MLIB_ENABLE_GTK_BUILDER_TRUE@	libmlib_gtk_a-builder.$(OBJEXT)
 am_libmlib_gtk_a_OBJECTS = libmlib_gtk_a-action.$(OBJEXT) \
-	libmlib_gtk_a-builder.$(OBJEXT) \
 	libmlib_gtk_a-controlled_list.$(OBJEXT) \
 	libmlib_gtk_a-dialog.$(OBJEXT) \
 	libmlib_gtk_a-dispatcher.$(OBJEXT) \
@@ -73,7 +93,7 @@ am_libmlib_gtk_a_OBJECTS = libmlib_gtk_a-action.$(OBJEXT) \
 	libmlib_gtk_a-tree_view.$(OBJEXT) \
 	libmlib_gtk_a-tree_view_settings.$(OBJEXT) \
 	libmlib_gtk_a-vbox.$(OBJEXT) libmlib_gtk_a-window.$(OBJEXT) \
-	libmlib_gtk_a-window_settings.$(OBJEXT)
+	libmlib_gtk_a-window_settings.$(OBJEXT) $(am__objects_1)
 libmlib_gtk_a_OBJECTS = $(am_libmlib_gtk_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
@@ -89,15 +109,15 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = $(libmlib_gtk_a_SOURCES)
-DIST_SOURCES = $(libmlib_gtk_a_SOURCES)
+DIST_SOURCES = $(am__libmlib_gtk_a_SOURCES_DIST)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
+APP_CFLAGS = @APP_CFLAGS@
 APP_CPPFLAGS = @APP_CPPFLAGS@
 APP_CXXFLAGS = @APP_CXXFLAGS@
-APP_DEPENDENCIES = @APP_DEPENDENCIES@
 APP_LDADD = @APP_LDADD@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
@@ -147,6 +167,7 @@ LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
+MLIB_CFLAGS = @MLIB_CFLAGS@
 MLIB_CPPFLAGS = @MLIB_CPPFLAGS@
 MLIB_CXXFLAGS = @MLIB_CXXFLAGS@
 MLIB_LDADD = @MLIB_LDADD@
@@ -229,8 +250,6 @@ libconfig_CFLAGS = @libconfig_CFLAGS@
 libconfig_LIBS = @libconfig_LIBS@
 libdir = @libdir@
 libexecdir = @libexecdir@
-libnotify_CFLAGS = @libnotify_CFLAGS@
-libnotify_LIBS = @libnotify_LIBS@
 libtorrent_rasterbar_CFLAGS = @libtorrent_rasterbar_CFLAGS@
 libtorrent_rasterbar_LIBS = @libtorrent_rasterbar_LIBS@
 localedir = @localedir@
@@ -252,55 +271,20 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 noinst_LIBRARIES = libmlib_gtk.a
-libmlib_gtk_a_SOURCES = \
-	action.cpp \
-	action.hpp \
-	builder.cpp \
-	builder.hh \
-	builder.hpp \
-	builder.hxx \
-	controlled_list.cpp \
-	controlled_list.hpp \
-	dialog.cpp \
-	dialog.hpp \
-	dialog_settings.hpp \
-	dispatcher.cpp \
-	dispatcher.hh \
-	dispatcher.hpp \
-	dispatcher.hxx \
-	expander_settings.cpp \
-	expander_settings.hpp \
-	expander_settings.hxx \
-	link_button.cpp \
-	link_button.hpp \
-	main.cpp \
-	main.hpp \
-	misc.cpp \
-	misc.hh \
-	misc.hpp \
-	misc.hxx \
-	paned.cpp \
-	paned.hpp \
-	paned_settings.cpp \
-	paned_settings.hpp \
-	signal_proxy.hh \
-	signal_proxy.hpp \
-	signal_proxy.hxx\
-	toolbar.cpp \
-	toolbar.hpp \
-	tree_view.cpp \
-	tree_view.hh \
-	tree_view.hpp \
-	tree_view_settings.cpp \
-	tree_view_settings.hpp \
-	vbox.cpp \
-	vbox.hpp \
-	window.cpp \
-	window.hpp \
-	window_settings.cpp \
-	window_settings.hpp
-
+libmlib_gtk_a_SOURCES = action.cpp action.hpp controlled_list.cpp \
+	controlled_list.hpp dialog.cpp dialog.hpp dialog_settings.hpp \
+	dispatcher.cpp dispatcher.hh dispatcher.hpp dispatcher.hxx \
+	expander_settings.cpp expander_settings.hpp \
+	expander_settings.hxx link_button.cpp link_button.hpp main.cpp \
+	main.hpp misc.cpp misc.hh misc.hpp misc.hxx paned.cpp \
+	paned.hpp paned_settings.cpp paned_settings.hpp \
+	signal_proxy.hh signal_proxy.hpp signal_proxy.hxx toolbar.cpp \
+	toolbar.hpp tree_view.cpp tree_view.hh tree_view.hpp \
+	tree_view_settings.cpp tree_view_settings.hpp vbox.cpp \
+	vbox.hpp window.cpp window.hpp window_settings.cpp \
+	window_settings.hpp $(am__append_1)
 libmlib_gtk_a_CPPFLAGS = @MLIB_CPPFLAGS@
+libmlib_gtk_a_CFLAGS = @MLIB_CFLAGS@
 libmlib_gtk_a_CXXFLAGS = @MLIB_CXXFLAGS@
 all: all-am
 
@@ -315,15 +299,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-<<<<<<< HEAD:mlib/src/gtk/Makefile.in
 	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign mlib/src/gtk/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
 	  $(AUTOMAKE) --foreign mlib/src/gtk/Makefile
-=======
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/mlib/gtk/Makefile'; \
-	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign src/mlib/gtk/Makefile
->>>>>>> new:src/mlib/gtk/Makefile.in
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -401,20 +379,6 @@ libmlib_gtk_a-action.obj: action.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='action.cpp' object='libmlib_gtk_a-action.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_gtk_a-action.obj `if test -f 'action.cpp'; then $(CYGPATH_W) 'action.cpp'; else $(CYGPATH_W) '$(srcdir)/action.cpp'; fi`
-
-libmlib_gtk_a-builder.o: builder.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_gtk_a-builder.o -MD -MP -MF $(DEPDIR)/libmlib_gtk_a-builder.Tpo -c -o libmlib_gtk_a-builder.o `test -f 'builder.cpp' || echo '$(srcdir)/'`builder.cpp
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_gtk_a-builder.Tpo $(DEPDIR)/libmlib_gtk_a-builder.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='builder.cpp' object='libmlib_gtk_a-builder.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_gtk_a-builder.o `test -f 'builder.cpp' || echo '$(srcdir)/'`builder.cpp
-
-libmlib_gtk_a-builder.obj: builder.cpp
-@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_gtk_a-builder.obj -MD -MP -MF $(DEPDIR)/libmlib_gtk_a-builder.Tpo -c -o libmlib_gtk_a-builder.obj `if test -f 'builder.cpp'; then $(CYGPATH_W) 'builder.cpp'; else $(CYGPATH_W) '$(srcdir)/builder.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_gtk_a-builder.Tpo $(DEPDIR)/libmlib_gtk_a-builder.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='builder.cpp' object='libmlib_gtk_a-builder.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_gtk_a-builder.obj `if test -f 'builder.cpp'; then $(CYGPATH_W) 'builder.cpp'; else $(CYGPATH_W) '$(srcdir)/builder.cpp'; fi`
 
 libmlib_gtk_a-controlled_list.o: controlled_list.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_gtk_a-controlled_list.o -MD -MP -MF $(DEPDIR)/libmlib_gtk_a-controlled_list.Tpo -c -o libmlib_gtk_a-controlled_list.o `test -f 'controlled_list.cpp' || echo '$(srcdir)/'`controlled_list.cpp
@@ -625,6 +589,20 @@ libmlib_gtk_a-window_settings.obj: window_settings.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='window_settings.cpp' object='libmlib_gtk_a-window_settings.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_gtk_a-window_settings.obj `if test -f 'window_settings.cpp'; then $(CYGPATH_W) 'window_settings.cpp'; else $(CYGPATH_W) '$(srcdir)/window_settings.cpp'; fi`
+
+libmlib_gtk_a-builder.o: builder.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_gtk_a-builder.o -MD -MP -MF $(DEPDIR)/libmlib_gtk_a-builder.Tpo -c -o libmlib_gtk_a-builder.o `test -f 'builder.cpp' || echo '$(srcdir)/'`builder.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_gtk_a-builder.Tpo $(DEPDIR)/libmlib_gtk_a-builder.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='builder.cpp' object='libmlib_gtk_a-builder.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_gtk_a-builder.o `test -f 'builder.cpp' || echo '$(srcdir)/'`builder.cpp
+
+libmlib_gtk_a-builder.obj: builder.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_gtk_a-builder.obj -MD -MP -MF $(DEPDIR)/libmlib_gtk_a-builder.Tpo -c -o libmlib_gtk_a-builder.obj `if test -f 'builder.cpp'; then $(CYGPATH_W) 'builder.cpp'; else $(CYGPATH_W) '$(srcdir)/builder.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_gtk_a-builder.Tpo $(DEPDIR)/libmlib_gtk_a-builder.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='builder.cpp' object='libmlib_gtk_a-builder.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_gtk_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_gtk_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_gtk_a-builder.obj `if test -f 'builder.cpp'; then $(CYGPATH_W) 'builder.cpp'; else $(CYGPATH_W) '$(srcdir)/builder.cpp'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
