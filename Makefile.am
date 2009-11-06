@@ -1,4 +1,4 @@
-SUBDIRS = @PACKAGE_LIBRARIES_SUBDIRS@ icons man po src ui
+SUBDIRS = @PACKAGE_LIBRARIES_SUBDIRS@ icons man mlib po src ui
 
 
 ACLOCAL_AMFLAGS = -I m4

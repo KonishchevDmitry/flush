@@ -52,6 +52,11 @@ namespace libconfig {
 std::string		EE(const ::libconfig::FileIOException& error);
 std::string		EE(const ::libconfig::ParseException& error);
 
+#warning
+namespace aliases
+{
+	using m::EE;
+}
 
 }
 

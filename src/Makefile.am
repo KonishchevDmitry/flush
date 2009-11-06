@@ -1,5 +1,3 @@
-SUBDIRS = mlib
-
 EXTRA_DIST = dbus_introspect.xml
 
 bin_PROGRAMS = flush

@@ -45,8 +45,9 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/acx_pthread.m4 \
 	$(top_srcdir)/m4/check_ssl.m4 $(top_srcdir)/m4/gettext.m4 \
 	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/lib-ld.m4 \
 	$(top_srcdir)/m4/lib-link.m4 $(top_srcdir)/m4/lib-prefix.m4 \
-	$(top_srcdir)/m4/nls.m4 $(top_srcdir)/m4/po.m4 \
-	$(top_srcdir)/m4/progtest.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/mlib.m4 $(top_srcdir)/m4/nls.m4 \
+	$(top_srcdir)/m4/po.m4 $(top_srcdir)/m4/progtest.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -105,7 +106,6 @@ CXXCPP = @CXXCPP@
 CXXDEPMODE = @CXXDEPMODE@
 CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
-DBUSXX_LDADD = @DBUSXX_LDADD@
 DBUSXX_XML2CPP = @DBUSXX_XML2CPP@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
@@ -136,8 +136,10 @@ LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
+MLIB_CFLAGS = @MLIB_CFLAGS@
 MLIB_CPPFLAGS = @MLIB_CPPFLAGS@
 MLIB_CXXFLAGS = @MLIB_CXXFLAGS@
+MLIB_LDADD = @MLIB_LDADD@
 MSGFMT = @MSGFMT@
 MSGFMT_015 = @MSGFMT_015@
 MSGMERGE = @MSGMERGE@
@@ -193,6 +195,8 @@ datadir = @datadir@
 datarootdir = @datarootdir@
 dbus_CFLAGS = @dbus_CFLAGS@
 dbus_LIBS = @dbus_LIBS@
+dbus_cxx_CFLAGS = @dbus_cxx_CFLAGS@
+dbus_cxx_LIBS = @dbus_cxx_LIBS@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@

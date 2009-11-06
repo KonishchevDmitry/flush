@@ -320,6 +320,8 @@ std::string		EE(const boost::filesystem::filesystem_error& error);
 namespace aliases
 {
 	using m::fs::Path;
+	#warning
+	using m::EE;
 }
 
 }

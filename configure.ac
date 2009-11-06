@@ -26,11 +26,12 @@ AC_LANG([C++])
 PKG_PROG_PKG_CONFIG
 AM_GNU_GETTEXT([external])
 
+MLIB_INIT([[mlib]])
+
 
 dnl libconfig -->
 	libconfig_dir_name="libconfig"
 	libconfig_package_dir="$srcdir/$libconfig_dir_name"
-	libconfig_min_version="1.3"
 
 	if test -d "$libconfig_package_dir"
 	then
@@ -43,7 +44,6 @@ dnl libconfig <--
 dnl libtorrent -->
 	libtorrent_dir_name="libtorrent"
 	libtorrent_package_dir="$srcdir/$libtorrent_dir_name"
-	libtorrent_min_version="0.14"
 
 	if test -d "$libtorrent_package_dir"
 	then
@@ -52,6 +52,7 @@ dnl libtorrent -->
 		package_libtorrent=no
 	fi
 dnl libtorrent <--
+
 
 dnl Configuring command line options -->
 	AC_ARG_ENABLE(debug_mode,
@@ -112,6 +113,12 @@ dnl Configuring command line options -->
 	then
 		dnl Debug mode always enabled in develop mode
 		debug_mode=yes
+		MLIB_FEATURE_ENABLE([[develop_mode]])
+	fi
+
+	if test "X$debug_mode" = "Xyes"
+	then
+		MLIB_FEATURE_ENABLE([[debug_mode]])
 	fi
 
 	if test "X$disable_bundle_package" = "Xyes"
@@ -120,14 +127,6 @@ dnl Configuring command line options -->
 		package_libtorrent=no
 	fi
 dnl Configuring command line options <--
-
-
-dnl Inotify support -->
-	AC_CHECK_HEADER([sys/inotify.h],
-		[ enable_inotify=yes ],
-		[ enable_inotify=no ]
-	)
-dnl Inotify support <--
 
 
 dnl config.h -->
@@ -157,23 +156,16 @@ dnl config.h -->
 	AH_TEMPLATE([APP_VERSION_STRING], [Application version string])
 	AC_DEFINE_UNQUOTED([APP_VERSION_STRING], ["$PACKAGE_VERSION"])
 
-
-	AH_TEMPLATE([MLIB_DEBUG_MODE], [Is mlib compiling in debug mode])
 	AH_TEMPLATE([DEBUG_MODE], [Is application compiling in debug mode])
 	if test "X$debug_mode" = "Xyes"
 	then
-		AC_DEFINE([MLIB_DEBUG_MODE])
 		AC_DEFINE([DEBUG_MODE])
 	fi
 
-	AH_TEMPLATE([MLIB_DEVELOP_MODE], [Is mlib compiling in develop mode])
-	AH_TEMPLATE([MLIB_ENABLE_LIBS_FORWARDS], [Disable including library's forwards declarations for compile time reducing])
 	AH_TEMPLATE([DEVELOP_MODE], [Is application compiling in develop mode])
 	if test "X$develop_mode" = "Xyes"
 	then
 		AC_DEFINE([DEVELOP_MODE])
-		AC_DEFINE([MLIB_DEVELOP_MODE])
-		AC_DEFINE([MLIB_ENABLE_LIBS_FORWARDS])
 	fi
 
 	AH_TEMPLATE([_LARGEFILE_SOURCE], [Large files support])
@@ -181,33 +173,6 @@ dnl config.h -->
 
 	AH_TEMPLATE([_FILE_OFFSET_BITS], [Large files support])
 	AC_DEFINE([_FILE_OFFSET_BITS], [64])
-
-	AH_TEMPLATE([MLIB_ENABLE_ALIASES], [Enable short functions and classes names from mlib])
-	AC_DEFINE([MLIB_ENABLE_ALIASES])
-
-	AH_TEMPLATE([MLIB_ENABLE_DBUS], [Enable DBus support for mlib])
-	AC_DEFINE([MLIB_ENABLE_DBUS])
-
-	AH_TEMPLATE([MLIB_ENABLE_INOTIFY], [Enable libinotify in mlib])
-	if test "X$enable_inotify" = "Xyes"
-	then
-		AC_DEFINE([MLIB_ENABLE_INOTIFY])
-	fi
-
-	AH_TEMPLATE([MLIB_ENABLE_LIBCONFIG], [Enable libconfig support for mlib])
-	AC_DEFINE([MLIB_ENABLE_LIBCONFIG])
-
-	AH_TEMPLATE([MLIB_ENABLE_LIBTORRENT], [Enable libtorrent support for mlib])
-	AC_DEFINE([MLIB_ENABLE_LIBTORRENT])
-
-	AH_TEMPLATE([MLIB_ENABLE_GTK], [Enable GTK support for mlib])
-	AC_DEFINE([MLIB_ENABLE_GTK])
-
-	AH_TEMPLATE([MLIB_ENABLE_GTK_BUILDER], [Enable GTK Builder support for mlib])
-	AC_DEFINE([MLIB_ENABLE_GTK_BUILDER])
-
-	AH_TEMPLATE([MLIB_ENABLE_GTK_BUILDER_EMULATION], [Enable GTK Builder emulation by Glade for mlib])
-	AC_DEFINE([MLIB_ENABLE_GTK_BUILDER_EMULATION])
 
 	AH_BOTTOM([
 #endif
@@ -219,93 +184,107 @@ AM_CONDITIONAL([DEVELOP_MODE], [test "X$develop_mode" = "Xyes"])
 
 
 dnl compiler flags -->
+	dnl Clearing all flags -->
+		COMMON_CPPFLAGS=''
+		COMMON_CFLAGS=''
+		COMMON_CXXFLAGS=''
+		COMMON_LDADD=''
+
+		APP_CPPFLAGS=''
+		APP_CFLAGS=''
+		APP_CXXFLAGS=''
+		APP_LDADD=''
+	dnl Clearing all flags <--
+
+
 	dnl Including config.h anywhere
-	COMMON_CPPFLAGS="-include \$(top_builddir)/config.h -I \$(top_srcdir)/src"
+	COMMON_CPPFLAGS="$COMMON_CPPFLAGS -include \$(top_builddir)/config.h"
 
-	if test "X$develop_mode" = "Xyes"
-	then
-		CXXFLAGS="$CXXFLAGS -O0 -g"
+	APP_CPPFLAGS="$APP_CPPFLAGS -I \$(top_srcdir)/src"
 
-		dnl Some of this options are not supported by older versions of GCC
-		COMMON_CXXFLAGS="$COMMON_CXXFLAGS -fdiagnostics-show-option"
-		COMMON_CXXFLAGS="$COMMON_CXXFLAGS -Wall -Winit-self -Wpointer-arith -Wlogical-op -Wcast-qual -Wcast-align -Wnon-virtual-dtor"
-		COMMON_CXXFLAGS="$COMMON_CXXFLAGS -Werror=reorder -Werror=main -Werror=missing-braces -Werror=array-bounds -Werror=sequence-point -Werror=return-type"
 
-		dnl -Winline -Weffc++ -Wold-style-cast -Wsign-conversion -Wconversion -Wfloat-equal -Wstack-protector -Woverloaded-virtual
+	dnl Develop mode flags -->
+		if test "X$develop_mode" = "Xyes"
+		then
+			CXXFLAGS="$CXXFLAGS -O0 -g"
 
-		dnl GCC forgets about -Wno-* options when -O* flag is specified in CXXFLAGS
-		COMMON_CXXFLAGS="$COMMON_CXXFLAGS -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-empty-body"
-	fi
+			dnl Some of this options are not supported by older versions of GCC
+			COMMON_CXXFLAGS="$COMMON_CXXFLAGS -fdiagnostics-show-option"
+			COMMON_CXXFLAGS="$COMMON_CXXFLAGS -Wall -Winit-self -Wpointer-arith -Wlogical-op -Wcast-qual -Wcast-align -Wnon-virtual-dtor"
+			COMMON_CXXFLAGS="$COMMON_CXXFLAGS -Werror=reorder -Werror=main -Werror=missing-braces -Werror=array-bounds -Werror=sequence-point -Werror=return-type"
+
+			dnl -Winline -Weffc++ -Wold-style-cast -Wsign-conversion -Wconversion -Wfloat-equal -Wstack-protector -Woverloaded-virtual
+
+			dnl GCC forgets about -Wno-* options when -O* flag is specified in CXXFLAGS
+			COMMON_CXXFLAGS="$COMMON_CXXFLAGS -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-empty-body"
+		fi
+	dnl Develop mode flags <--
+
 
 	dnl libraries -->
 		dnl boost -->
 			AX_BOOST_BASE([1.34])
 			if test -z "$BOOST_LDFLAGS"
 			then
-				AC_MSG_ERROR([unable to find Boost library.])
+				AC_MSG_ERROR([Unable to find Boost library.])
 			fi
-			COMMON_CPPFLAGS="$COMMON_CPPFLAGS $BOOST_CPPFLAGS"
+			APP_CPPFLAGS="$APP_CPPFLAGS $BOOST_CPPFLAGS"
 			APP_LDADD="$APP_LDADD $BOOST_LDFLAGS"
 
 			AX_BOOST_FILESYSTEM
 			if test -z "$BOOST_FILESYSTEM_LIB"
 			then
-				AC_MSG_ERROR([unable to find Boost.Filesystem library.])
+				AC_MSG_ERROR([Unable to find Boost.Filesystem library.])
 			fi
 			APP_LDADD="$APP_LDADD $BOOST_FILESYSTEM_LIB"
-
-			AX_BOOST_SIGNALS
-			if test -z "$BOOST_SIGNALS_LIB"
-			then
-				AC_MSG_ERROR([unable to find Boost.Signals library.])
-			fi
-			APP_LDADD="$APP_LDADD $BOOST_SIGNALS_LIB"
 
 			AX_BOOST_THREAD
 			if test -z "$BOOST_THREAD_LIB"
 			then
-				AC_MSG_ERROR([unable to find Boost.Thread library.])
+				AC_MSG_ERROR([Unable to find Boost.Thread library.])
 			fi
 			APP_LDADD="$APP_LDADD $BOOST_THREAD_LIB"
 		dnl boost <--
 
 		dnl DBus -->
 			PKG_CHECK_MODULES([dbus], [dbus-1])
-			COMMON_CPPFLAGS="$COMMON_CPPFLAGS $dbus_CFLAGS"
+			APP_CPPFLAGS="$APP_CPPFLAGS $dbus_CFLAGS"
 			APP_LDADD="$APP_LDADD $dbus_LIBS"
 
-			AC_SUBST([DBUSXX_LDADD], ['$(top_builddir)/dbus-c++/src/.libs/libdbus-c++-1.a'])
-			AC_SUBST([DBUSXX_XML2CPP], ['$(top_builddir)/dbus-c++/tools/dbusxx-xml2cpp'])
-			COMMON_CPPFLAGS="$COMMON_CPPFLAGS -I \$(top_srcdir)/dbus-c++/include"
+			DBUSXX_CPPFLAGS='-I $(top_srcdir)/dbus-c++/include'
+			DBUSXX_LDADD='$(top_builddir)/dbus-c++/src/.libs/libdbus-c++-1.a'
+			AC_SUBST([DBUSXX_XML2CPP], [['$(top_builddir)/dbus-c++/tools/dbusxx-xml2cpp']])
+
+			APP_CPPFLAGS="$APP_CPPFLAGS $DBUSXX_CPPFLAGS"
 			APP_LDADD="$APP_LDADD $DBUSXX_LDADD"
+
+			MLIB_SET_CUSTOM_LIBRARY([[dbus_cxx]], [[$DBUSXX_CPPFLAGS]], [[$DBUSXX_LDADD]])
 		dnl DBus <--
 
 		dnl GTK -->
 			PKG_CHECK_MODULES([gthread], [gthread-2.0])
-			COMMON_CPPFLAGS="$COMMON_CPPFLAGS $gthread_CFLAGS"
+			APP_CPPFLAGS="$APP_CPPFLAGS $gthread_CFLAGS"
 			APP_LDADD="$APP_LDADD $gthread_LIBS"
 
 			PKG_CHECK_MODULES([gtkmm], [gtkmm-2.4])
-			COMMON_CPPFLAGS="$COMMON_CPPFLAGS $gtkmm_CFLAGS"
+			APP_CPPFLAGS="$APP_CPPFLAGS $gtkmm_CFLAGS"
 			APP_LDADD="$APP_LDADD $gtkmm_LIBS"
 		dnl GTK <--
-
-		dnl Glade -->
-			PKG_CHECK_MODULES([glademm], [libglademm-2.4])
-			COMMON_CPPFLAGS="$COMMON_CPPFLAGS $glademm_CFLAGS"
-			APP_LDADD="$APP_LDADD $glademm_LIBS"
-		dnl Glade <--
 
 		dnl libconfig -->
 			if test "X$package_libconfig" = "Xyes"
 			then
+				LIBCONFIG_CPPFLAGS="-I \$(top_srcdir)/$libconfig_dir_name"
 				LIBCONFIG_LIBRARIES="\$(top_builddir)/$libconfig_dir_name/.libs/libconfig++.a"
-				COMMON_CPPFLAGS="$COMMON_CPPFLAGS -I \$(top_srcdir)/$libconfig_dir_name"
-				APP_DEPENDENCIES="$APP_DEPENDENCIES $LIBCONFIG_LIBRARIES"
+
+				APP_CPPFLAGS="$APP_CPPFLAGS $LIBCONFIG_CPPFLAGS"
 				APP_LDADD="$APP_LDADD $LIBCONFIG_LIBRARIES"
+				APP_DEPENDENCIES="$APP_DEPENDENCIES $LIBCONFIG_LIBRARIES"
+
+				MLIB_SET_CUSTOM_LIBRARY([[libconfig]], [[$LIBCONFIG_CPPFLAGS]], [[$LIBCONFIG_LIBRARIES]])
 			else
-				PKG_CHECK_MODULES([libconfig], [libconfig++ >= $libconfig_min_version])
-				COMMON_CPPFLAGS="$COMMON_CPPFLAGS $libconfig_CFLAGS"
+				PKG_CHECK_MODULES([libconfig], [libconfig++ >= 1.3])
+				APP_CPPFLAGS="$APP_CPPFLAGS $libconfig_CFLAGS"
 				APP_LDADD="$APP_LDADD $libconfig_LIBS"
 			fi
 		dnl libconfig <--
@@ -313,52 +292,64 @@ dnl compiler flags -->
 		dnl libtorrent -->
 			if test "X$package_libtorrent" = "Xyes"
 			then
+				LIBTORRENT_LIBRARIES="\$(top_builddir)/$libtorrent_dir_name/src/.libs/libtorrent-rasterbar.a"
+
 				CHECK_SSL
-				COMMON_CPPFLAGS="$COMMON_CPPFLAGS $SSL_CXXFLAGS"
-				APP_LDADD="$APP_LDADD $SSL_LDFLAGS $SSL_LIBS"
+				LIBTORRENT_CPPFLAGS="$SSL_CXXFLAGS"
+				LIBTORRENT_LDADD="$SSL_LDFLAGS $SSL_LIBS"
 
 				ACX_PTHREAD
-				COMMON_CPPFLAGS="$COMMON_CPPFLAGS $PTHREAD_CFLAGS"
-				APP_LDADD="$APP_LDADD $PTHREAD_LIBS"
+				LIBTORRENT_CPPFLAGS="$LIBTORRENT_CPPFLAGS $PTHREAD_CFLAGS"
+				LIBTORRENT_LDADD="$LIBTORRENT_LDADD $PTHREAD_LIBS"
 
-				COMMON_CPPFLAGS="$COMMON_CPPFLAGS -DTORRENT_USE_OPENSSL -DTORRENT_LINKING_SHARED"
-				COMMON_CPPFLAGS="$COMMON_CPPFLAGS -I \$(top_srcdir)/$libtorrent_dir_name/include -I \$(top_srcdir)/$libtorrent_dir_name/include/libtorrent"
+				dnl TODO shared?
+				LIBTORRENT_CPPFLAGS="$LIBTORRENT_CPPFLAGS -DTORRENT_USE_OPENSSL -DTORRENT_LINKING_SHARED"
+				LIBTORRENT_CPPFLAGS="$LIBTORRENT_CPPFLAGS -I \$(top_srcdir)/$libtorrent_dir_name/include"
+				LIBTORRENT_CPPFLAGS="$LIBTORRENT_CPPFLAGS -I \$(top_srcdir)/$libtorrent_dir_name/include/libtorrent"
+				LIBTORRENT_LDADD="$LIBTORRENT_LDADD -lrt $LIBTORRENT_LIBRARIES"
 
-				LIBTORRENT_LIBRARIES="\$(top_builddir)/$libtorrent_dir_name/src/.libs/libtorrent-rasterbar.a"
-				APP_LDADD="$APP_LDADD -lrt"
-				APP_LDADD="$APP_LDADD $LIBTORRENT_LIBRARIES"
+				APP_LDADD="$APP_LDADD $LIBTORRENT_LDADD"
 				APP_DEPENDENCIES="$APP_DEPENDENCIES $LIBTORRENT_LIBRARIES"
+
+				MLIB_SET_CUSTOM_LIBRARY([[libtorrent]], [[$LIBTORRENT_CPPFLAGS]], [[$LIBTORRENT_LDADD]])
 			else
 				dnl TODO: remove bad named libtorrent-rasterbar-0.14 when it package
 				dnl will become obsolete
-				PKG_CHECK_MODULES([libtorrent_rasterbar], [libtorrent-rasterbar-0.14 >= $libtorrent_min_version], [], [
-					PKG_CHECK_MODULES([libtorrent_rasterbar], [libtorrent-rasterbar >= $libtorrent_min_version])
+				PKG_CHECK_MODULES([libtorrent_rasterbar], [libtorrent-rasterbar-0.14 >= 0.14], [], [
+					PKG_CHECK_MODULES([libtorrent_rasterbar], [libtorrent-rasterbar >= 0.14])
 				])
-				COMMON_CPPFLAGS="$COMMON_CPPFLAGS $libtorrent_rasterbar_CFLAGS"
+				APP_CPPFLAGS="$APP_CPPFLAGS $libtorrent_rasterbar_CFLAGS"
 				APP_LDADD="$APP_LDADD $libtorrent_rasterbar_LIBS"
 			fi
 		dnl libtorrent <--
+
+		dnl Gettext
+		APP_LDADD="$APP_LDADD $LIBINTL"
 	dnl libraries <--
 
-	dnl Gettext libraries
-	APP_LDADD="$APP_LDADD $LIBINTL"
+	MLIB_CPPFLAGS="$COMMON_CPPFLAGS $MLIB_CPPFLAGS"
+	MLIB_CXXFLAGS="$COMMON_CXXFLAGS $MLIB_CXXFLAGS"
+dnl compiler flags <--
 
-	MLIB_CPPFLAGS="$COMMON_CPPFLAGS"
-	MLIB_CXXFLAGS="$COMMON_CXXFLAGS"
-	MLIB_LIBRARIES="\$(top_builddir)/src/mlib/base/libmlib_base.a \$(top_builddir)/src/mlib/libmlib.a \$(top_builddir)/src/mlib/gtk/libmlib_gtk.a"
-	APP_DEPENDENCIES="$APP_DEPENDENCIES $MLIB_LIBRARIES"
-	APP_CPPFLAGS="$COMMON_CPPFLAGS"
-	APP_CXXFLAGS="$COMMON_CXXFLAGS"
-	APP_LDADD="$APP_LDADD $MLIB_LIBRARIES"
+dnl TODO
+MLIB_FEATURE_ENABLE([[dbus]])
+MLIB_FEATURE_ENABLE([[gtk]])
+MLIB_FEATURE_ENABLE([[gtk_builder]])
+MLIB_FEATURE_ENABLE([[gtk_builder_emulation]])
+MLIB_FEATURE_ENABLE([[libconfig]])
+MLIB_FEATURE_ENABLE([[libtorrent]])
+MLIB_CONFIGURE
 
-	AC_SUBST([MLIB_CPPFLAGS])
-	AC_SUBST([MLIB_CXXFLAGS])
+dnl TODO -->
+	APP_CPPFLAGS="$MLIB_CPPFLAGS $APP_CPPFLAGS"
+	APP_CXXFLAGS="$MLIB_CXXFLAGS $APP_CXXFLAGS"
+	APP_LDADD="$MLIB_LDADD $APP_LDADD"
+
 	AC_SUBST([APP_DEPENDENCIES])
 	AC_SUBST([APP_CPPFLAGS])
 	AC_SUBST([APP_CXXFLAGS])
 	AC_SUBST([APP_LDADD])
-dnl compiler flags <--
-
+dnl TODO <--
 
 dnl Libraries inside of package -->
 	PACKAGE_LIBRARIES_SUBDIRS="dbus-c++"
@@ -385,19 +376,17 @@ AC_MSG_NOTICE([develop mode: $develop_mode])
 AC_MSG_NOTICE([disable bundle package: $disable_bundle_package])
 AC_MSG_NOTICE([using package libconfig: $package_libconfig])
 AC_MSG_NOTICE([using package libtorrent: $package_libtorrent])
-AC_MSG_NOTICE([enable inotify: $enable_inotify])
 
 
+AC_CONFIG_FILES([
+	$MLIB_CONFIG_FILES
+])
 AC_CONFIG_FILES([
 	icons/Makefile
 	man/Makefile
 	man/ru/Makefile
 	po/Makefile.in
 	src/Makefile
-	src/mlib/Makefile
-	src/mlib/base/Makefile
-	src/mlib/base/libs_forwards/Makefile
-	src/mlib/gtk/Makefile
 	ui/Makefile
 	flush.desktop
 	Makefile

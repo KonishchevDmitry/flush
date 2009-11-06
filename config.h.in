@@ -93,39 +93,45 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
-/* Is mlib compiling in debug mode */
+/* Is mlib compiling in the debug mode */
 #undef MLIB_DEBUG_MODE
 
-/* Is mlib compiling in develop mode */
+/* Is mlib compiling in the develop mode */
 #undef MLIB_DEVELOP_MODE
 
-/* Enable short functions and classes names from mlib */
-#undef MLIB_ENABLE_ALIASES
+/* Enable Async FS support for mlib */
+#undef MLIB_ENABLE_ASYNC_FS
 
 /* Enable DBus support for mlib */
 #undef MLIB_ENABLE_DBUS
 
+/* Enable FS watcher support for mlib */
+#undef MLIB_ENABLE_FS_WATCHER
+
 /* Enable GTK support for mlib */
 #undef MLIB_ENABLE_GTK
 
-/* Enable GTK Builder support for mlib */
+/* Enable GtkBuilder support for mlib */
 #undef MLIB_ENABLE_GTK_BUILDER
 
-/* Enable GTK Builder emulation by Glade for mlib */
+/* Enable GtkBuilder emulation for mlib */
 #undef MLIB_ENABLE_GTK_BUILDER_EMULATION
 
-/* Enable libinotify in mlib */
+/* Enable inotify in mlib */
 #undef MLIB_ENABLE_INOTIFY
 
 /* Enable libconfig support for mlib */
 #undef MLIB_ENABLE_LIBCONFIG
 
-/* Disable including library's forwards declarations for compile time reducing
+/* Disable including libraries forward declarations for compile time reducing
    */
 #undef MLIB_ENABLE_LIBS_FORWARDS
 
 /* Enable libtorrent support for mlib */
 #undef MLIB_ENABLE_LIBTORRENT
+
+/* Enable SQLite support for mlib */
+#undef MLIB_ENABLE_SQLITE
 
 /* Name of package */
 #undef PACKAGE

@@ -27,6 +27,8 @@
 #include <iosfwd>
 
 #include <glibmm/error.h>
+#warning
+#include "base.hpp"
 
 
 /// Макрос для генерации исключения m::Exception.

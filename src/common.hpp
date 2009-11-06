@@ -35,6 +35,14 @@
 
 #include <mlib/libtorrent.hxx>
 #include <mlib/main.hpp>
+#warning
+namespace boost { namespace filesystem {} }
+using namespace ::m::aliases;
+namespace m { namespace fs {} }
+namespace fs {
+	using namespace ::m::fs;
+	using namespace ::boost::filesystem;
+}
 
 
 /// Этим символом будет помечаться весь код, который написан
