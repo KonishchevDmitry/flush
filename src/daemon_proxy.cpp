@@ -43,6 +43,10 @@ Daemon_proxy::Daemon_proxy(const std::string& daemon_config_path)
 	// Обработчик сигнала на приход сообщения от демона (libtorrent)
 	this->signals_holder.push(this->daemon->messages_signal.connect(
 		sigc::mem_fun(this->daemon_message_signal, &M_TYPEOF(this->daemon_message_signal)::emit)));
+
+	// Обработчик сигнала на приход notify-сообщения от демона
+	this->signals_holder.push(this->daemon->notify_message_signal.connect(
+		sigc::mem_fun(this->notify_message_signal, &M_TYPEOF(this->notify_message_signal)::emit)));
 }
 
 

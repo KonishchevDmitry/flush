@@ -113,10 +113,10 @@ class Status_bar_settings
 
 	public:
 		bool	download_speed;
-		bool	payload_download_speed;
+		bool	download_payload_speed;
 
 		bool	upload_speed;
-		bool	payload_upload_speed;
+		bool	upload_payload_speed;
 
 		bool	download;
 		bool	payload_download;
@@ -212,6 +212,9 @@ class Gui_settings
 		/// или же просто выводить пустую строку вместо них.
 		bool							show_zero_values;
 
+		/// Отображать таб с деталями торрента в компактном виде.
+		bool							compact_details_tab;
+
 
 		/// Отображать панель инструментов.
 		bool							show_toolbar;
@@ -238,6 +241,14 @@ class Gui_settings
 
 		/// Максимальное количество строк в логе.
 		int								max_log_lines;
+
+
+		/// Оповещение о завершении скачивания торрента.
+		bool							download_completed_notification;
+
+		/// Оповещение о завершении скачивания всех торрентов.
+		bool							all_downloads_completed_notification;
+
 
 		/// Настройки главного окна.
 		Main_window_settings			main_window;

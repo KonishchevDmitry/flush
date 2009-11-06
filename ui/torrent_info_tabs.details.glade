@@ -33,14 +33,14 @@
                 <property name="column_spacing">10</property>
                 <property name="row_spacing">5</property>
                 <child>
-                  <widget class="GtkLabel" id="label2">
+                  <widget class="GtkLabel" id="size_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Size:</property>
                   </widget>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label3">
+                  <widget class="GtkLabel" id="requested_size_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Requested size:</property>
@@ -51,7 +51,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label5">
+                  <widget class="GtkLabel" id="downloaded_requested_size_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Downloaded requested size:</property>
@@ -62,7 +62,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label15">
+                  <widget class="GtkLabel" id="total_download_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Total download:</property>
@@ -73,7 +73,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label16">
+                  <widget class="GtkLabel" id="total_payload_download_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Total payload download:</property>
@@ -86,7 +86,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label17">
+                  <widget class="GtkLabel" id="total_upload_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Total upload:</property>
@@ -99,7 +99,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label18">
+                  <widget class="GtkLabel" id="total_payload_upload_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Total payload upload:</property>
@@ -112,7 +112,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label19">
+                  <widget class="GtkLabel" id="total_failed_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Total failed:</property>
@@ -125,7 +125,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label20">
+                  <widget class="GtkLabel" id="total_redundant_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Total redundant:</property>
@@ -304,7 +304,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label21">
+                  <widget class="GtkLabel" id="download_speed_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Download speed:</property>
@@ -315,7 +315,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label22">
+                  <widget class="GtkLabel" id="download_payload_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Download payload speed:</property>
@@ -328,7 +328,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label23">
+                  <widget class="GtkLabel" id="upload_speed_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Upload speed:</property>
@@ -341,7 +341,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label24">
+                  <widget class="GtkLabel" id="upload_payload_speed_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Upload payload speed:</property>
@@ -390,7 +390,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label9">
+                  <widget class="GtkLabel" id="share_ratio_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Share ratio:</property>
@@ -401,7 +401,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label10">
+                  <widget class="GtkLabel" id="peers_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Peers:</property>
@@ -412,7 +412,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label11">
+                  <widget class="GtkLabel" id="seeds_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Seeds:</property>
@@ -423,7 +423,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label13">
+                  <widget class="GtkLabel" id="time_left_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Time left:</property>
@@ -448,7 +448,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label14">
+                  <widget class="GtkLabel" id="time_seeding_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Time seeding:</property>
@@ -487,7 +487,7 @@
                     <property name="visible">True</property>
                     <property name="spacing">10</property>
                     <child>
-                      <widget class="GtkLabel" id="label12">
+                      <widget class="GtkLabel" id="time_added_label">
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Time added:</property>
@@ -513,7 +513,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label6">
+                  <widget class="GtkLabel" id="next_announce_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Next announce:</property>
@@ -526,7 +526,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label7">
+                  <widget class="GtkLabel" id="announce_interval_label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Announce interval:</property>

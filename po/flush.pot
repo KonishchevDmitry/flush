@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: flush 0.8.0\n"
+"Project-Id-Version: flush 0.8\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2009-10-19 21:09+0400\n"
+"POT-Creation-Date: 2009-10-22 20:33+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -175,26 +175,26 @@ msgstr ""
 msgid "Unable to synchronize data for file '%1' with storage device: %2."
 msgstr ""
 
-#: src/mlib/fs_watcher.cpp:167
+#: src/mlib/fs_watcher.cpp:168
 #, qt-format
 msgid "Error while closing an inotify instance: %1."
 msgstr ""
 
-#: src/mlib/fs_watcher.cpp:232
+#: src/mlib/fs_watcher.cpp:231
 #, qt-format
 msgid "Can't create an inotify instance: %1."
 msgstr ""
 
-#: src/mlib/fs_watcher.cpp:365
+#: src/mlib/fs_watcher.cpp:364
 msgid "Program has been compiled without inotify support."
 msgstr ""
 
-#: src/mlib/fs_watcher.cpp:384
+#: src/mlib/fs_watcher.cpp:383
 #, qt-format
 msgid "Error while removing an inotify watch instance: %1."
 msgstr ""
 
-#: src/mlib/fs_watcher.cpp:431
+#: src/mlib/fs_watcher.cpp:430
 #, qt-format
 msgid "Can't read data from inotify descriptor: %1."
 msgstr ""
@@ -391,11 +391,11 @@ msgstr ""
 msgid "You have entered invalid torrent name. Please enter non-empty torrent name."
 msgstr ""
 
-#: src/add_torrent_dialog.cpp:279 src/main_window.cpp:1329
+#: src/add_torrent_dialog.cpp:278 src/main_window.cpp:1315
 msgid "Opening torrent failed"
 msgstr ""
 
-#: src/add_torrent_dialog.cpp:281 src/main_window.cpp:1329
+#: src/add_torrent_dialog.cpp:280 src/main_window.cpp:1315
 #, qt-format
 msgid "Opening torrent '%1' failed. %2"
 msgstr ""
@@ -557,8 +557,8 @@ msgstr ""
 msgid "Only pass commands to already running %1 instance. Does not start new instance if it is not running yet"
 msgstr ""
 
-#: src/client_cmd_options.cpp:195 src/main_window.cpp:1085
-#: src/main_window.cpp:1096
+#: src/client_cmd_options.cpp:195 src/main_window.cpp:1073
+#: src/main_window.cpp:1084
 msgid "Konishchev Dmitry"
 msgstr ""
 
@@ -597,27 +597,27 @@ msgstr ""
 msgid "Client config: Unknown option '%1' at line %2."
 msgstr ""
 
-#: src/client_settings.cpp:1123 src/daemon_settings.cpp:449
+#: src/client_settings.cpp:1130 src/daemon_settings.cpp:449
 #, qt-format
 msgid "Reading configuration file '%1' failed. %2"
 msgstr ""
 
-#: src/client_settings.cpp:1129
+#: src/client_settings.cpp:1136
 #, qt-format
 msgid "Can't read configuration file '%1': %2."
 msgstr ""
 
-#: src/client_settings.cpp:1133
+#: src/client_settings.cpp:1140
 #, qt-format
 msgid "Can't parse configuration file '%1': %2."
 msgstr ""
 
-#: src/client_settings.cpp:1209 src/daemon_settings.cpp:944
+#: src/client_settings.cpp:1216 src/daemon_settings.cpp:944
 #, qt-format
 msgid "Writing configuration file '%1' failed. %2"
 msgstr ""
 
-#: src/client_settings.cpp:1216
+#: src/client_settings.cpp:1223
 #, qt-format
 msgid "Can't write configuration file '%1': %2."
 msgstr ""
@@ -990,7 +990,7 @@ msgstr ""
 
 #: src/daemon_session.cpp:2213
 #, qt-format
-msgid "Can't set directory '%1' for automatic torrents loading. %2"
+msgid "Setting directory '%1' for automatic torrents loading failed. %2"
 msgstr ""
 
 #: src/daemon_session.cpp:2279
@@ -1468,7 +1468,7 @@ msgstr ""
 msgid "Open a torrent"
 msgstr ""
 
-#: src/main_window.cpp:807 src/torrents_view.cpp:445
+#: src/main_window.cpp:807 src/torrents_view.cpp:455
 msgid "Resume"
 msgstr ""
 
@@ -1476,7 +1476,7 @@ msgstr ""
 msgid "Resume torrent(s)"
 msgstr ""
 
-#: src/main_window.cpp:819 src/torrents_view.cpp:450
+#: src/main_window.cpp:819 src/torrents_view.cpp:461
 msgid "Pause"
 msgstr ""
 
@@ -1484,7 +1484,7 @@ msgstr ""
 msgid "Pause torrent(s)"
 msgstr ""
 
-#: src/main_window.cpp:831 src/torrents_view.cpp:461
+#: src/main_window.cpp:831 src/torrents_view.cpp:474 src/torrents_view.cpp:741
 msgid "Remove"
 msgstr ""
 
@@ -1492,103 +1492,95 @@ msgstr ""
 msgid "Remove torrent(s)"
 msgstr ""
 
-#: src/main_window.cpp:843 src/torrents_view.cpp:465
-msgid "Remove with data"
-msgstr ""
-
-#: src/main_window.cpp:844
-msgid "Remove torrent(s) with data"
-msgstr ""
-
-#: src/main_window.cpp:861 src/main_window.cpp:863
+#: src/main_window.cpp:849 src/main_window.cpp:851
 #: src/statistics_window.cpp:52 src/statistics_window.cpp:138
 msgid "Statistics"
 msgstr ""
 
-#: src/main_window.cpp:871 src/main_window.cpp:872 src/settings_window.cpp:192
+#: src/main_window.cpp:859 src/main_window.cpp:860 src/settings_window.cpp:242
 msgid "Preferences"
 msgstr ""
 
-#: src/main_window.cpp:1027
+#: src/main_window.cpp:1015
 msgid "Interrupting the temporary action on torrents failed"
 msgstr ""
 
-#: src/main_window.cpp:1050 src/main_window.cpp:1064
+#: src/main_window.cpp:1038 src/main_window.cpp:1052
 msgid "Pausing torrents failed"
 msgstr ""
 
-#: src/main_window.cpp:1094
+#: src/main_window.cpp:1082
 msgid "GTK-based BitTorrent client"
 msgstr ""
 
-#: src/main_window.cpp:1223
+#: src/main_window.cpp:1211
 msgid "Processing the temporary action on torrents failed"
 msgstr ""
 
-#: src/main_window.cpp:1490
+#: src/main_window.cpp:1476
 #, qt-format
 msgid "Download/Upload|D: %1, U: %2 - %3"
 msgstr ""
 
-#: src/main_window.cpp:1519 src/settings_window.cpp:513
-#: src/torrent_peers_view.cpp:101 src/torrents_view.cpp:375
+#: src/main_window.cpp:1505 src/torrent_peers_view.cpp:101
+#: src/torrents_view.cpp:377 ui/preferences.client.gui.status_bar.glade:58
 msgid "Download speed"
 msgstr ""
 
-#: src/main_window.cpp:1522 src/settings_window.cpp:516
-#: src/torrent_peers_view.cpp:102 src/torrents_view.cpp:376
+#: src/main_window.cpp:1508 src/torrent_peers_view.cpp:102
+#: src/torrents_view.cpp:378 ui/preferences.client.gui.status_bar.glade:95
 msgid "Download speed (payload)"
 msgstr ""
 
-#: src/main_window.cpp:1525 src/settings_window.cpp:520
-#: src/torrent_peers_view.cpp:103 src/torrents_view.cpp:377
+#: src/main_window.cpp:1511 src/torrent_peers_view.cpp:103
+#: src/torrents_view.cpp:379 ui/preferences.client.gui.status_bar.glade:82
 msgid "Upload speed"
 msgstr ""
 
-#: src/main_window.cpp:1528 src/settings_window.cpp:523
-#: src/torrent_peers_view.cpp:104 src/torrents_view.cpp:378
+#: src/main_window.cpp:1514 src/torrent_peers_view.cpp:104
+#: src/torrents_view.cpp:380 ui/preferences.client.gui.status_bar.glade:67
 msgid "Upload speed (payload)"
 msgstr ""
 
-#: src/main_window.cpp:1531 src/settings_window.cpp:527
-#: src/statistics_window.cpp:162
+#: src/main_window.cpp:1517 src/statistics_window.cpp:162
+#: ui/preferences.client.gui.status_bar.glade:108
 msgid "Downloaded"
 msgstr ""
 
-#: src/main_window.cpp:1534
+#: src/main_window.cpp:1520
 msgid "Download (payload)"
 msgstr ""
 
-#: src/main_window.cpp:1537 src/settings_window.cpp:534
-#: src/statistics_window.cpp:167
+#: src/main_window.cpp:1523 src/statistics_window.cpp:167
+#: ui/preferences.client.gui.status_bar.glade:136
 msgid "Uploaded"
 msgstr ""
 
-#: src/main_window.cpp:1540
+#: src/main_window.cpp:1526
 msgid "Upload (payload)"
 msgstr ""
 
-#: src/main_window.cpp:1543 src/settings_window.cpp:548
-#: src/statistics_window.cpp:172 src/torrents_view.cpp:380
+#: src/main_window.cpp:1529 src/statistics_window.cpp:172
+#: src/torrents_view.cpp:382 ui/preferences.client.gui.status_bar.glade:162
 msgid "Share ratio"
 msgstr ""
 
-#: src/main_window.cpp:1546 src/settings_window.cpp:541
-#: src/statistics_window.cpp:175
+#: src/main_window.cpp:1532 src/statistics_window.cpp:175
+#: ui/preferences.client.gui.status_bar.glade:149
 msgid "Failed"
 msgstr ""
 
-#: src/main_window.cpp:1549 src/settings_window.cpp:544
-#: src/statistics_window.cpp:177
+#: src/main_window.cpp:1535 src/statistics_window.cpp:177
+#: ui/preferences.client.gui.status_bar.glade:190
 msgid "Redundant"
 msgstr ""
 
-#: src/main_window.cpp:1568
+#: src/main_window.cpp:1554
 #, qt-format
 msgid "Download speed|Down: %1 (%2) / %3"
 msgstr ""
 
-#: src/main_window.cpp:1575
+#: src/main_window.cpp:1561
 #, qt-format
 msgid "Upload speed|Up: %1 (%2) / %3"
 msgstr ""
@@ -1601,130 +1593,83 @@ msgstr ""
 msgid "Torrent file encoding:"
 msgstr ""
 
-#: src/settings_window.cpp:182 src/settings_window.cpp:184
+#: src/settings_window.cpp:232 src/settings_window.cpp:234
 #: src/torrent_files_view.cpp:180 src/torrent_files_view.cpp:185
-#: src/torrents_view.cpp:323 src/torrents_view.cpp:356
+#: src/torrents_view.cpp:325 src/torrents_view.cpp:358
 msgid "Name"
 msgstr ""
 
-#: src/settings_window.cpp:200
+#: src/settings_window.cpp:250
 msgid "Please select torrents download directory"
 msgstr ""
 
-#: src/settings_window.cpp:206
+#: src/settings_window.cpp:256
 msgid "Please select directory for finished downloads copying"
 msgstr ""
 
-#: src/settings_window.cpp:245 src/settings_window.cpp:317
+#: src/settings_window.cpp:296 src/settings_window.cpp:392
 #: src/torrent_peers_view.cpp:88 src/torrent_peers_view.cpp:99
 msgid "Client"
 msgstr ""
 
-#: src/settings_window.cpp:251 src/settings_window.cpp:326
+#: src/settings_window.cpp:302 src/settings_window.cpp:401
 msgid "Main"
 msgstr ""
 
-#: src/settings_window.cpp:257 src/settings_window.cpp:343
+#: src/settings_window.cpp:312 src/settings_window.cpp:418
 msgid "GUI"
 msgstr ""
 
-#: src/settings_window.cpp:263 src/settings_window.cpp:567
-msgid "Daemon"
-msgstr ""
-
-#: src/settings_window.cpp:272 src/settings_window.cpp:576
-msgid "Network"
-msgstr ""
-
-#: src/settings_window.cpp:278 ui/preferences.daemon.network.glade:62
+#: src/settings_window.cpp:318 src/settings_window.cpp:351
+#: ui/preferences.client.gui.glade:62 ui/preferences.daemon.network.glade:62
 msgid "Misc"
 msgstr ""
 
-#: src/settings_window.cpp:284 ui/preferences.daemon.network.glade:78
-msgid "IP filter"
-msgstr ""
-
-#: src/settings_window.cpp:291 src/settings_window.cpp:593
-msgid "Automation"
-msgstr ""
-
-#: src/settings_window.cpp:365
-msgid "Client::Main"
-msgstr ""
-
-#: src/settings_window.cpp:368
-msgid "Show add torrent dialog when opening torrent file"
-msgstr ""
-
-#: src/settings_window.cpp:373
-msgid "Start torrent on adding"
-msgstr ""
-
-#: src/settings_window.cpp:383 ui/preferences.daemon.automation.glade:119
-msgid "Download to:"
-msgstr ""
-
-#: src/settings_window.cpp:391 ui/preferences.daemon.automation.glade:140
-msgid "Copy finished to:"
-msgstr ""
-
-#: src/settings_window.cpp:406
-msgid "Open command:"
-msgstr ""
-
-#: src/settings_window.cpp:417
-msgid "Client::GUI"
-msgstr ""
-
-#: src/settings_window.cpp:421
-msgid "Miscellaneous"
-msgstr ""
-
-#: src/settings_window.cpp:424
-msgid "Show speed in window title"
-msgstr ""
-
-#: src/settings_window.cpp:429
-msgid "Show zero values in torrents info columns"
-msgstr ""
-
-#: src/settings_window.cpp:442
-msgid "GUI update interval (ms):"
-msgstr ""
-
-#: src/settings_window.cpp:449
-msgid "Max log lines:"
-msgstr ""
-
-#: src/settings_window.cpp:458
-msgid "Show tray icon"
-msgstr ""
-
-#: src/settings_window.cpp:478
-msgid "Hide main window to tray at startup"
-msgstr ""
-
-#: src/settings_window.cpp:487
-msgid "Minimize to tray"
-msgstr ""
-
-#: src/settings_window.cpp:492
-msgid "Close to tray"
-msgstr ""
-
-#: src/settings_window.cpp:505
+#: src/settings_window.cpp:324 ui/preferences.client.gui.glade:78
 msgid "Status bar"
 msgstr ""
 
-#: src/settings_window.cpp:530
-msgid "Downloaded (payload)"
+#: src/settings_window.cpp:335 src/settings_window.cpp:599
+msgid "Daemon"
 msgstr ""
 
-#: src/settings_window.cpp:537
-msgid "Uploaded (payload)"
+#: src/settings_window.cpp:345 src/settings_window.cpp:608
+msgid "Network"
 msgstr ""
 
-#: src/settings_window.cpp:917
+#: src/settings_window.cpp:357 ui/preferences.daemon.network.glade:78
+msgid "IP filter"
+msgstr ""
+
+#: src/settings_window.cpp:365 src/settings_window.cpp:625
+msgid "Automation"
+msgstr ""
+
+#: src/settings_window.cpp:440
+msgid "Client::Main"
+msgstr ""
+
+#: src/settings_window.cpp:443
+msgid "Show add torrent dialog when opening torrent file"
+msgstr ""
+
+#: src/settings_window.cpp:448
+msgid "Start torrent on adding"
+msgstr ""
+
+#: src/settings_window.cpp:458 ui/preferences.daemon.automation.glade:119
+msgid "Download to:"
+msgstr ""
+
+#: src/settings_window.cpp:466 ui/preferences.daemon.automation.glade:140
+msgid "Copy finished to:"
+msgstr ""
+
+#: src/settings_window.cpp:481
+msgid "Open command:"
+msgstr ""
+
+#: src/settings_window.cpp:963
 msgid "none"
 msgstr ""
 
@@ -1748,7 +1693,7 @@ msgstr ""
 msgid "Payload download"
 msgstr ""
 
-#: src/statistics_window.cpp:164 src/torrents_view.cpp:368
+#: src/statistics_window.cpp:164 src/torrents_view.cpp:370
 msgid "Total download"
 msgstr ""
 
@@ -1760,7 +1705,7 @@ msgstr ""
 msgid "Payload upload"
 msgstr ""
 
-#: src/statistics_window.cpp:169 src/torrents_view.cpp:370
+#: src/statistics_window.cpp:169 src/torrents_view.cpp:372
 msgid "Total upload"
 msgstr ""
 
@@ -1772,11 +1717,11 @@ msgstr ""
 msgid "Total share ratio"
 msgstr ""
 
-#: src/statistics_window.cpp:176 src/torrents_view.cpp:372
+#: src/statistics_window.cpp:176 src/torrents_view.cpp:374
 msgid "Total failed"
 msgstr ""
 
-#: src/statistics_window.cpp:178 src/torrents_view.cpp:373
+#: src/statistics_window.cpp:178 src/torrents_view.cpp:375
 msgid "Total redundant"
 msgstr ""
 
@@ -1871,7 +1816,7 @@ msgid "Changing file or directory path failed. Invalid path has been gotten. Ple
 msgstr ""
 
 #: src/torrent_files_view.cpp:181 src/torrent_files_view.cpp:205
-#: src/torrents_view.cpp:326 src/torrents_view.cpp:363
+#: src/torrents_view.cpp:328 src/torrents_view.cpp:365
 msgid "Size"
 msgstr ""
 
@@ -1939,7 +1884,7 @@ msgstr ""
 msgid "Sequential download"
 msgstr ""
 
-#: src/torrent_options_view.cpp:84
+#: src/torrent_options_view.cpp:84 ui/dialog.add_torrent.glade:162
 msgid "Copy when finished to:"
 msgstr ""
 
@@ -1970,27 +1915,27 @@ msgstr ""
 msgid "IP"
 msgstr ""
 
-#: src/torrent_peers_view.cpp:89 src/torrents_view.cpp:338
+#: src/torrent_peers_view.cpp:89 src/torrents_view.cpp:340
 msgid "Download speed|Down speed"
 msgstr ""
 
-#: src/torrent_peers_view.cpp:90 src/torrents_view.cpp:339
+#: src/torrent_peers_view.cpp:90 src/torrents_view.cpp:341
 msgid "Download speed (payload)|Down speed (data)"
 msgstr ""
 
-#: src/torrent_peers_view.cpp:91 src/torrents_view.cpp:340
+#: src/torrent_peers_view.cpp:91 src/torrents_view.cpp:342
 msgid "Upload speed|Up speed"
 msgstr ""
 
-#: src/torrent_peers_view.cpp:92 src/torrents_view.cpp:341
+#: src/torrent_peers_view.cpp:92 src/torrents_view.cpp:343
 msgid "Upload speed (payload)|Up speed (data)"
 msgstr ""
 
-#: src/torrent_peers_view.cpp:93 src/torrents_view.cpp:332
+#: src/torrent_peers_view.cpp:93 src/torrents_view.cpp:334
 msgid "Total download (payload)|Down data"
 msgstr ""
 
-#: src/torrent_peers_view.cpp:94 src/torrents_view.cpp:334
+#: src/torrent_peers_view.cpp:94 src/torrents_view.cpp:336
 msgid "Total upload (payload)|Up data"
 msgstr ""
 
@@ -2006,175 +1951,171 @@ msgstr ""
 msgid "IP address"
 msgstr ""
 
-#: src/torrent_peers_view.cpp:105 src/torrents_view.cpp:369
+#: src/torrent_peers_view.cpp:105 src/torrents_view.cpp:371
 msgid "Total download (payload)"
 msgstr ""
 
-#: src/torrent_peers_view.cpp:106 src/torrents_view.cpp:371
+#: src/torrent_peers_view.cpp:106 src/torrents_view.cpp:373
 msgid "Total upload (payload)"
 msgstr ""
 
-#: src/torrents_view.cpp:324 src/torrents_view.cpp:358
+#: src/torrents_view.cpp:326 src/torrents_view.cpp:360
 msgid "Status"
 msgstr ""
 
-#: src/torrents_view.cpp:327
+#: src/torrents_view.cpp:329
 msgid "Requested size|Requested"
 msgstr ""
 
-#: src/torrents_view.cpp:328
+#: src/torrents_view.cpp:330
 msgid "Downloaded requested size|Downloaded"
 msgstr ""
 
-#: src/torrents_view.cpp:329 src/torrents_view.cpp:366
+#: src/torrents_view.cpp:331 src/torrents_view.cpp:368
 #, c-format
 msgid "%% Complete"
 msgstr ""
 
-#: src/torrents_view.cpp:331
+#: src/torrents_view.cpp:333
 msgid "Total download|Download"
 msgstr ""
 
-#: src/torrents_view.cpp:333
+#: src/torrents_view.cpp:335
 msgid "Total upload|Upload"
 msgstr ""
 
-#: src/torrents_view.cpp:335
+#: src/torrents_view.cpp:337
 msgid "Total failed|Failed"
 msgstr ""
 
-#: src/torrents_view.cpp:336
+#: src/torrents_view.cpp:338
 msgid "Total redundant|Redundant"
 msgstr ""
 
-#: src/torrents_view.cpp:343
+#: src/torrents_view.cpp:345
 msgid "Share ratio|Ratio"
 msgstr ""
 
-#: src/torrents_view.cpp:344 src/torrents_view.cpp:382
+#: src/torrents_view.cpp:346 src/torrents_view.cpp:384
 #: src/torrents_viewport.cpp:262
 msgid "Peers"
 msgstr ""
 
-#: src/torrents_view.cpp:345 src/torrents_view.cpp:383
+#: src/torrents_view.cpp:347 src/torrents_view.cpp:385
 msgid "Seeds"
 msgstr ""
 
-#: src/torrents_view.cpp:347
+#: src/torrents_view.cpp:349
 msgid "Time added|Added"
 msgstr ""
 
-#: src/torrents_view.cpp:348
+#: src/torrents_view.cpp:350
 msgid "Time left|ETA"
 msgstr ""
 
-#: src/torrents_view.cpp:349
+#: src/torrents_view.cpp:351
 msgid "Time seeding|Seeding"
 msgstr ""
 
-#: src/torrents_view.cpp:351 src/torrents_view.cpp:389
+#: src/torrents_view.cpp:353 src/torrents_view.cpp:391
 msgid "Tracker"
 msgstr ""
 
-#: src/torrents_view.cpp:353
+#: src/torrents_view.cpp:355
 msgid "Status icon"
 msgstr ""
 
-#: src/torrents_view.cpp:364
+#: src/torrents_view.cpp:366
 msgid "Requested size"
 msgstr ""
 
-#: src/torrents_view.cpp:365
+#: src/torrents_view.cpp:367
 msgid "Downloaded requested size"
 msgstr ""
 
-#: src/torrents_view.cpp:385
+#: src/torrents_view.cpp:387
 msgid "Time added"
 msgstr ""
 
-#: src/torrents_view.cpp:386
+#: src/torrents_view.cpp:388
 msgid "Time left"
 msgstr ""
 
-#: src/torrents_view.cpp:387
+#: src/torrents_view.cpp:389
 msgid "Time seeding"
 msgstr ""
 
-#: src/torrents_view.cpp:455
+#: src/torrents_view.cpp:450
+msgid "Open directory"
+msgstr ""
+
+#: src/torrents_view.cpp:467
 msgid "Recheck"
 msgstr ""
 
-#: src/torrents_view.cpp:630
+#: src/torrents_view.cpp:636
+#, qt-format
+msgid "Opening torrent '%1' directory failed. %2"
+msgstr ""
+
+#: src/torrents_view.cpp:661
 #, qt-format
 msgid "Opening torrent '%1' file(s) failed. %2"
 msgstr ""
 
-#: src/torrents_view.cpp:700
+#: src/torrents_view.cpp:729
 msgid "Remove torrent"
 msgstr ""
 
-#: src/torrents_view.cpp:701
+#: src/torrents_view.cpp:730
 msgid "Remove torrents"
 msgstr ""
 
-#: src/torrents_view.cpp:703
+#: src/torrents_view.cpp:735
 #, qt-format
 msgid "Are you sure want to remove torrent '%1'?"
 msgstr ""
 
-#: src/torrents_view.cpp:704
+#: src/torrents_view.cpp:736
 msgid "Are you sure want to remove following torrents?"
 msgstr ""
 
-#: src/torrents_view.cpp:714
-msgid "Remove torrent with data"
+#: src/torrents_view.cpp:742
+msgid "Remove with data"
 msgstr ""
 
-#: src/torrents_view.cpp:715
-msgid "Remove torrents with data"
-msgstr ""
-
-#: src/torrents_view.cpp:717
-#, qt-format
-msgid "Are you sure want to remove torrent '%1' with data?"
-msgstr ""
-
-#: src/torrents_view.cpp:718
-msgid "Are you sure want to remove following torrents with data?"
-msgstr ""
-
-#: src/torrents_view.cpp:767
+#: src/torrents_view.cpp:805
 msgid "Removing torrent(s) failed."
 msgstr ""
 
-#: src/torrents_view.cpp:767
+#: src/torrents_view.cpp:805
 #, qt-format
 msgid "Removing torrent(s) failed. %1"
 msgstr ""
 
-#: src/torrents_view.cpp:771
+#: src/torrents_view.cpp:809
 msgid "Removing torrent(s) with data failed."
 msgstr ""
 
-#: src/torrents_view.cpp:771
+#: src/torrents_view.cpp:809
 #, qt-format
 msgid "Removing torrent(s) with data failed. %1"
 msgstr ""
 
-#: src/torrents_view.cpp:775
+#: src/torrents_view.cpp:813
 msgid "Pausing torrent(s) failed."
 msgstr ""
 
-#: src/torrents_view.cpp:775
+#: src/torrents_view.cpp:813
 #, qt-format
 msgid "Pausing torrent(s) failed. %1"
 msgstr ""
 
-#: src/torrents_view.cpp:779
+#: src/torrents_view.cpp:817
 msgid "Resuming torrent(s) failed."
 msgstr ""
 
-#: src/torrents_view.cpp:779
+#: src/torrents_view.cpp:817
 #, qt-format
 msgid "Resuming torrent(s) failed. %1"
 msgstr ""
@@ -2209,6 +2150,51 @@ msgstr ""
 msgid "Invalid tracker URL"
 msgstr ""
 
+#: ui/dialog.add_torrent.glade:7
+msgid "Add torrent"
+msgstr ""
+
+#: ui/dialog.add_torrent.glade:28
+msgid "<b>Torrent</b>"
+msgstr ""
+
+#: ui/dialog.add_torrent.glade:45
+msgid "Path:"
+msgstr ""
+
+#: ui/dialog.add_torrent.glade:76
+msgid "Name:"
+msgstr ""
+
+#: ui/dialog.add_torrent.glade:100
+msgid "Start torrent"
+msgstr ""
+
+#: ui/dialog.add_torrent.glade:133
+msgid "Download path:"
+msgstr ""
+
+#: ui/dialog.add_torrent.glade:145
+msgid "Please select torrent's download directory"
+msgstr ""
+
+#: ui/dialog.add_torrent.glade:179 ui/preferences.daemon.automation.glade:158
+msgid "Please select a directory for finished downloads copying"
+msgstr ""
+
+#: ui/dialog.add_torrent.glade:195
+msgid "<b>Paths</b>"
+msgstr ""
+
+#: ui/dialog.add_torrent.glade:227
+msgid "<b>Files</b>"
+msgstr ""
+
+#: ui/dialog.add_torrent.glade:250
+#: ui/preferences.daemon.network.misc.glade:501
+msgid "<b>Trackers</b>"
+msgstr ""
+
 #: ui/dialog.temporary_action.glade:42
 msgid "Time:"
 msgstr ""
@@ -2219,6 +2205,62 @@ msgstr ""
 
 #: ui/dialog.temporary_action.glade:75
 msgid "Predefined time|Predefined"
+msgstr ""
+
+#: ui/preferences.client.gui.glade:14
+msgid "<big><b>Client::GUI</b></big>"
+msgstr ""
+
+#: ui/preferences.client.gui.misc.glade:19
+msgid "<big><b>Client::GUI::Misc</b></big>"
+msgstr ""
+
+#: ui/preferences.client.gui.misc.glade:51
+msgid "Show speed in window title"
+msgstr ""
+
+#: ui/preferences.client.gui.misc.glade:64
+msgid "Show zero values in torrents info columns"
+msgstr ""
+
+#: ui/preferences.client.gui.misc.glade:77
+msgid "Compact details tab"
+msgstr ""
+
+#: ui/preferences.client.gui.misc.glade:110
+msgid "GUI update interval (ms):"
+msgstr ""
+
+#: ui/preferences.client.gui.misc.glade:117
+msgid "Max log lines:"
+msgstr ""
+
+#: ui/preferences.client.gui.misc.glade:168
+msgid "Show tray icon"
+msgstr ""
+
+#: ui/preferences.client.gui.misc.glade:194
+msgid "Minimize to tray"
+msgstr ""
+
+#: ui/preferences.client.gui.misc.glade:215
+msgid "Hide main window to tray at startup"
+msgstr ""
+
+#: ui/preferences.client.gui.misc.glade:228
+msgid "Close to tray"
+msgstr ""
+
+#: ui/preferences.client.gui.status_bar.glade:19
+msgid "<big><b>Client::GUI::Status bar</b></big>"
+msgstr ""
+
+#: ui/preferences.client.gui.status_bar.glade:121
+msgid "Downloaded (payload)"
+msgstr ""
+
+#: ui/preferences.client.gui.status_bar.glade:175
+msgid "Uploaded (payload)"
 msgstr ""
 
 #: ui/preferences.daemon.automation.glade:19
@@ -2239,10 +2281,6 @@ msgstr ""
 
 #: ui/preferences.daemon.automation.glade:131
 msgid "Please select a torrents download directory"
-msgstr ""
-
-#: ui/preferences.daemon.automation.glade:158
-msgid "Please select a directory for finished downloads copying"
 msgstr ""
 
 #: ui/preferences.daemon.automation.glade:169
@@ -2365,10 +2403,6 @@ msgstr ""
 msgid "Max connections:"
 msgstr ""
 
-#: ui/preferences.daemon.network.misc.glade:501
-msgid "<b>Trackers</b>"
-msgstr ""
-
 #: ui/preferences.daemon.network.misc.glade:515
 msgid "Max announce interval (m):"
 msgstr ""
@@ -2381,14 +2415,17 @@ msgid ""
 msgstr ""
 
 #: ui/torrent_info_tabs.details.glade:39
+#: ui/torrent_info_tabs.details_compact.glade:39
 msgid "Size:"
 msgstr ""
 
 #: ui/torrent_info_tabs.details.glade:46
+#: ui/torrent_info_tabs.details_compact.glade:46
 msgid "Requested size:"
 msgstr ""
 
 #: ui/torrent_info_tabs.details.glade:57
+#: ui/torrent_info_tabs.details_compact.glade:57
 msgid "Downloaded requested size:"
 msgstr ""
 
@@ -2397,6 +2434,7 @@ msgid "Total download:"
 msgstr ""
 
 #: ui/torrent_info_tabs.details.glade:79
+#: ui/torrent_info_tabs.details_compact.glade:68
 msgid "Total payload download:"
 msgstr ""
 
@@ -2405,6 +2443,7 @@ msgid "Total upload:"
 msgstr ""
 
 #: ui/torrent_info_tabs.details.glade:105
+#: ui/torrent_info_tabs.details_compact.glade:195
 msgid "Total payload upload:"
 msgstr ""
 
@@ -2421,6 +2460,7 @@ msgid "Download speed:"
 msgstr ""
 
 #: ui/torrent_info_tabs.details.glade:321
+#: ui/torrent_info_tabs.details_compact.glade:171
 msgid "Download payload speed:"
 msgstr ""
 
@@ -2429,10 +2469,12 @@ msgid "Upload speed:"
 msgstr ""
 
 #: ui/torrent_info_tabs.details.glade:347
+#: ui/torrent_info_tabs.details_compact.glade:182
 msgid "Upload payload speed:"
 msgstr ""
 
 #: ui/torrent_info_tabs.details.glade:396
+#: ui/torrent_info_tabs.details_compact.glade:220
 msgid "Share ratio:"
 msgstr ""
 
@@ -2445,6 +2487,7 @@ msgid "Seeds:"
 msgstr ""
 
 #: ui/torrent_info_tabs.details.glade:429
+#: ui/torrent_info_tabs.details_compact.glade:257
 msgid "Time left:"
 msgstr ""
 
@@ -2465,9 +2508,11 @@ msgid "Announce interval:"
 msgstr ""
 
 #: ui/torrent_info_tabs.details.glade:646
+#: ui/torrent_info_tabs.details_compact.glade:323
 msgid "Tracker status:"
 msgstr ""
 
 #: ui/torrent_info_tabs.details.glade:653
+#: ui/torrent_info_tabs.details_compact.glade:330
 msgid "Publisher URL:"
 msgstr ""

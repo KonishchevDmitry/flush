@@ -290,6 +290,8 @@ libconfig_CFLAGS = @libconfig_CFLAGS@
 libconfig_LIBS = @libconfig_LIBS@
 libdir = @libdir@
 libexecdir = @libexecdir@
+libnotify_CFLAGS = @libnotify_CFLAGS@
+libnotify_LIBS = @libnotify_LIBS@
 libtorrent_rasterbar_CFLAGS = @libtorrent_rasterbar_CFLAGS@
 libtorrent_rasterbar_LIBS = @libtorrent_rasterbar_LIBS@
 localedir = @localedir@
@@ -333,9 +335,15 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
+<<<<<<< HEAD:mlib/src/Makefile.in
 	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign mlib/src/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
 	  $(AUTOMAKE) --foreign mlib/src/Makefile
+=======
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/mlib/Makefile'; \
+	$(am__cd) $(top_srcdir) && \
+	  $(AUTOMAKE) --foreign src/mlib/Makefile
+>>>>>>> new:src/mlib/Makefile.in
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -408,6 +416,23 @@ libmlib_a-async_fs.obj: async_fs.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-async_fs.obj `if test -f 'async_fs.cpp'; then $(CYGPATH_W) 'async_fs.cpp'; else $(CYGPATH_W) '$(srcdir)/async_fs.cpp'; fi`
 
+<<<<<<< HEAD:mlib/src/Makefile.in
+=======
+libmlib_a-dbus.o: dbus.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-dbus.o -MD -MP -MF $(DEPDIR)/libmlib_a-dbus.Tpo -c -o libmlib_a-dbus.o `test -f 'dbus.cpp' || echo '$(srcdir)/'`dbus.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-dbus.Tpo $(DEPDIR)/libmlib_a-dbus.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='dbus.cpp' object='libmlib_a-dbus.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-dbus.o `test -f 'dbus.cpp' || echo '$(srcdir)/'`dbus.cpp
+
+libmlib_a-dbus.obj: dbus.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-dbus.obj -MD -MP -MF $(DEPDIR)/libmlib_a-dbus.Tpo -c -o libmlib_a-dbus.obj `if test -f 'dbus.cpp'; then $(CYGPATH_W) 'dbus.cpp'; else $(CYGPATH_W) '$(srcdir)/dbus.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-dbus.Tpo $(DEPDIR)/libmlib_a-dbus.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='dbus.cpp' object='libmlib_a-dbus.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-dbus.obj `if test -f 'dbus.cpp'; then $(CYGPATH_W) 'dbus.cpp'; else $(CYGPATH_W) '$(srcdir)/dbus.cpp'; fi`
+
+>>>>>>> new:src/mlib/Makefile.in
 libmlib_a-fs.o: fs.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-fs.o -MD -MP -MF $(DEPDIR)/libmlib_a-fs.Tpo -c -o libmlib_a-fs.o `test -f 'fs.cpp' || echo '$(srcdir)/'`fs.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-fs.Tpo $(DEPDIR)/libmlib_a-fs.Po
@@ -436,6 +461,37 @@ libmlib_a-fs_watcher.obj: fs_watcher.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-fs_watcher.obj `if test -f 'fs_watcher.cpp'; then $(CYGPATH_W) 'fs_watcher.cpp'; else $(CYGPATH_W) '$(srcdir)/fs_watcher.cpp'; fi`
 
+<<<<<<< HEAD:mlib/src/Makefile.in
+=======
+libmlib_a-libconfig.o: libconfig.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-libconfig.o -MD -MP -MF $(DEPDIR)/libmlib_a-libconfig.Tpo -c -o libmlib_a-libconfig.o `test -f 'libconfig.cpp' || echo '$(srcdir)/'`libconfig.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-libconfig.Tpo $(DEPDIR)/libmlib_a-libconfig.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='libconfig.cpp' object='libmlib_a-libconfig.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-libconfig.o `test -f 'libconfig.cpp' || echo '$(srcdir)/'`libconfig.cpp
+
+libmlib_a-libconfig.obj: libconfig.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-libconfig.obj -MD -MP -MF $(DEPDIR)/libmlib_a-libconfig.Tpo -c -o libmlib_a-libconfig.obj `if test -f 'libconfig.cpp'; then $(CYGPATH_W) 'libconfig.cpp'; else $(CYGPATH_W) '$(srcdir)/libconfig.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-libconfig.Tpo $(DEPDIR)/libmlib_a-libconfig.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='libconfig.cpp' object='libmlib_a-libconfig.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-libconfig.obj `if test -f 'libconfig.cpp'; then $(CYGPATH_W) 'libconfig.cpp'; else $(CYGPATH_W) '$(srcdir)/libconfig.cpp'; fi`
+
+libmlib_a-libtorrent.o: libtorrent.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-libtorrent.o -MD -MP -MF $(DEPDIR)/libmlib_a-libtorrent.Tpo -c -o libmlib_a-libtorrent.o `test -f 'libtorrent.cpp' || echo '$(srcdir)/'`libtorrent.cpp
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-libtorrent.Tpo $(DEPDIR)/libmlib_a-libtorrent.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='libtorrent.cpp' object='libmlib_a-libtorrent.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-libtorrent.o `test -f 'libtorrent.cpp' || echo '$(srcdir)/'`libtorrent.cpp
+
+libmlib_a-libtorrent.obj: libtorrent.cpp
+@am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-libtorrent.obj -MD -MP -MF $(DEPDIR)/libmlib_a-libtorrent.Tpo -c -o libmlib_a-libtorrent.obj `if test -f 'libtorrent.cpp'; then $(CYGPATH_W) 'libtorrent.cpp'; else $(CYGPATH_W) '$(srcdir)/libtorrent.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-libtorrent.Tpo $(DEPDIR)/libmlib_a-libtorrent.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='libtorrent.cpp' object='libmlib_a-libtorrent.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -c -o libmlib_a-libtorrent.obj `if test -f 'libtorrent.cpp'; then $(CYGPATH_W) 'libtorrent.cpp'; else $(CYGPATH_W) '$(srcdir)/libtorrent.cpp'; fi`
+
+>>>>>>> new:src/mlib/Makefile.in
 libmlib_a-misc.o: misc.cpp
 @am__fastdepCXX_TRUE@	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmlib_a_CPPFLAGS) $(CPPFLAGS) $(libmlib_a_CXXFLAGS) $(CXXFLAGS) -MT libmlib_a-misc.o -MD -MP -MF $(DEPDIR)/libmlib_a-misc.Tpo -c -o libmlib_a-misc.o `test -f 'misc.cpp' || echo '$(srcdir)/'`misc.cpp
 @am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/libmlib_a-misc.Tpo $(DEPDIR)/libmlib_a-misc.Po

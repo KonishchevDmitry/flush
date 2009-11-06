@@ -77,11 +77,11 @@ AC_CHECK_FUNCS([newlocale uselocale freelocale])
 
 dnl Package options
 
+AC_PROG_CXX
 AC_ARG_ENABLE(cxx,
 AS_HELP_STRING([--disable-cxx], [Disable building of the C++ library]),
 [docxx=no],
 [
-AC_PROG_CXX
 docxx=yes
 ]
 )

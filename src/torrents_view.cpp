@@ -34,8 +34,10 @@
 #include <gdk/gdkkeysyms.h>
 
 #include <gtkmm/actiongroup.h>
+#include <gtkmm/button.h>
 #include <gtkmm/liststore.h>
 #include <gtkmm/menu.h>
+#include <gtkmm/messagedialog.h>
 #include <gtkmm/stock.h>
 #include <gtkmm/treemodel.h>
 #include <gtkmm/uimanager.h>
@@ -411,6 +413,7 @@ namespace
 				std::map<Torrent_id, Torrent_info>				infos;
 			#endif
 
+				Glib::RefPtr<Gtk::Action>		open_dir_action;
 				Glib::RefPtr<Gtk::Action>		resume_action;
 				Glib::RefPtr<Gtk::Action>		pause_action;
 				Glib::RefPtr<Gtk::Action>		recheck_action;
@@ -441,40 +444,48 @@ namespace
 
 			priv->ui_manager = Gtk::UIManager::create();
 
+
 			action_group = Gtk::ActionGroup::create();
+
+			priv->open_dir_action = Gtk::Action::create("open_dir", Gtk::Stock::DIRECTORY, _("Open directory")),
+			action_group->add(
+				priv->open_dir_action, sigc::mem_fun(*this, &Torrents_view::on_open_directory_cb)
+			);
+
 			priv->resume_action = Gtk::Action::create("resume", Gtk::Stock::MEDIA_PLAY, _("Resume"));
 			action_group->add(
 				priv->resume_action,
 				sigc::bind<Torrent_process_action>( sigc::mem_fun(*this, &Torrents_view::torrents_process_callback), RESUME )
 			);
+
 			priv->pause_action = Gtk::Action::create("pause", Gtk::Stock::MEDIA_PAUSE, _("Pause"));
 			action_group->add(
 				priv->pause_action,
 				sigc::bind<Torrent_process_action>( sigc::mem_fun(*this, &Torrents_view::torrents_process_callback), PAUSE )
 			);
+
 			priv->recheck_action = Gtk::Action::create("recheck", Gtk::Stock::REFRESH, _("Recheck"));
 			action_group->add(
 				priv->recheck_action,
 				sigc::bind<Torrent_process_action>( sigc::mem_fun(*this, &Torrents_view::torrents_process_callback), RECHECK )
 			);
+
 			action_group->add(
 				Gtk::Action::create("remove", Gtk::Stock::REMOVE, _("Remove")),
 				sigc::bind<Torrent_process_action>( sigc::mem_fun(*this, &Torrents_view::torrents_process_callback), REMOVE )
 			);
-			action_group->add(
-				Gtk::Action::create("remove_with_data", Gtk::Stock::DELETE, _("Remove with data")),
-				sigc::bind<Torrent_process_action>( sigc::mem_fun(*this, &Torrents_view::torrents_process_callback), REMOVE_WITH_DATA )
-			);
+
 			priv->ui_manager->insert_action_group(action_group);
+
 
 			Glib::ustring ui_info =
 				"<ui>"
 				"	<popup name='popup_menu'>"
+				"		<menuitem action='open_dir'/>"
 				"		<menuitem action='resume'/>"
 				"		<menuitem action='pause'/>"
 				"		<menuitem action='recheck'/>"
 				"		<menuitem action='remove'/>"
-				"		<menuitem action='remove_with_data'/>"
 				"	</popup>"
 				"</ui>";
 
@@ -546,7 +557,7 @@ namespace
 
 		if(iters.size())
 		{
-			actions |= REMOVE | REMOVE_WITH_DATA;
+			actions |= REMOVE;
 
 			M_FOR_CONST_IT(iters, it)
 			{
@@ -578,12 +589,7 @@ namespace
 	bool Torrents_view::on_key_press_event_cb(const GdkEventKey* event)
 	{
 		if(event->keyval == GDK_Delete || event->keyval == GDK_KP_Delete)
-		{
-			if(event->state & GDK_SHIFT_MASK)
-				this->process_torrents(REMOVE_WITH_DATA);
-			else
-				this->process_torrents(REMOVE);
-		}
+			this->process_torrents(REMOVE);
 
 		return false;
 	}
@@ -598,6 +604,7 @@ namespace
 		if(actions)
 		{
 			// Определяем, какие элементы меню необходимо отобразить
+			priv->open_dir_action->set_visible(this->get_selected_rows().size() == 1);
 			priv->resume_action->set_visible(actions & RESUME);
 			priv->pause_action->set_visible(actions & PAUSE);
 			priv->recheck_action->set_visible(actions & RECHECK);
@@ -609,37 +616,84 @@ namespace
 
 
 
+	void Torrents_view::on_open_directory_cb(void)
+	{
+		std::deque<Gtk::TreeModel::iterator> iters = this->get_selected_rows();
+
+		if(iters.size() != 1)
+			return;
+
+		std::string torrent_download_path;
+		Torrent_id torrent_id = Torrent_id( (*iters.begin())->get_value(this->model_columns.id) );
+		std::string torrent_name = (*iters.begin())->get_value(this->model_columns.name);
+
+		try
+		{
+			torrent_download_path = get_daemon_proxy().get_torrent_download_path(torrent_id);
+		}
+		catch(m::Exception& e)
+		{
+			MLIB_W(__("Opening torrent '%1' directory failed. %2", torrent_name, EE(e)));
+		}
+
+		get_application().open_uri(torrent_download_path);
+	}
+
+
+
 	void Torrents_view::on_row_activated_callback(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column)
 	{
 		Torrent_id torrent_id = Torrent_id( this->model->get_iter(path)->get_value(this->model_columns.id) );
 		std::string torrent_name = this->model->get_iter(path)->get_value(this->model_columns.name);
 
 		std::vector<Torrent_file> files;
+		std::vector<Torrent_file_status> statuses;
 		std::string torrent_download_path;
 
 		try
 		{
 			torrent_download_path = get_daemon_proxy().get_torrent_download_path(torrent_id);
-
-			std::vector<Torrent_file_status> statuses;
 			get_daemon_proxy().get_torrent_files_info(torrent_id, &files, &statuses, INIT_REVISION);
 		}
 		catch(m::Exception& e)
 		{
-			MLIB_W(__(
-				"Opening torrent '%1' file(s) failed. %2",
-				torrent_name, EE(e)
-			));
+			MLIB_W(__("Opening torrent '%1' file(s) failed. %2", torrent_name, EE(e)));
 		}
 
 		if(!files.empty())
 		{
-			// Получаем путь любого файла торрента без начального "/".
-			std::string file_path = files[0].path.substr(1);
+			// Если файл один, или все файлы торрента сосредоточены в одной
+			// директории, то открываем его (ее). В противном случае, открываем
+			// директорию, в которую скачивается торрент.
 
-			get_application().open_uri(
-				Path(torrent_download_path) / file_path.substr(0, file_path.find('/'))
-			);
+			size_t i;
+			std::string open_path;
+
+			for(i = 0; i < files.size(); i++)
+			{
+				if(!statuses[i].download)
+					continue;
+
+				// Путь к файлу/директории торрента без начального "/".
+				std::string file_path = files[i].path.substr(1);
+				file_path = Path(torrent_download_path) / file_path.substr(0, file_path.find('/'));
+
+				if(open_path.empty())
+					open_path = file_path;
+				else
+				{
+					if(open_path != file_path)
+					{
+						open_path.clear();
+						break;
+					}
+				}
+			}
+
+			if(open_path.empty())
+				open_path = torrent_download_path;
+
+			get_application().open_uri(open_path);
 		}
 	}
 
@@ -694,32 +748,41 @@ namespace
 			switch(action)
 			{
 				case REMOVE:
-					if(
-						ok_cancel_dialog(
-							torrents_ids.size() == 1
-								? _("Remove torrent")
-								: _("Remove torrents"),
-							torrents_ids.size() == 1
-								?  __("Are you sure want to remove torrent '%1'?", torrents_list_string.substr(names_list_prefix_len))
-								:  _("Are you sure want to remove following torrents?") + torrents_list_string
-						) != m::gtk::RESPONSE_OK
-					)
-						return;
-					break;
+				{
+					Glib::ustring title(
+						torrents_ids.size() == 1
+							? _("Remove torrent")
+							: _("Remove torrents")
+					);
 
-				case REMOVE_WITH_DATA:
-					if(
-						ok_cancel_dialog(
-							torrents_ids.size() == 1
-								? _("Remove torrent with data")
-								: _("Remove torrents with data"),
-							torrents_ids.size() == 1
-								?  __("Are you sure want to remove torrent '%1' with data?", torrents_list_string.substr(names_list_prefix_len))
-								:  _("Are you sure want to remove following torrents with data?") + torrents_list_string
-						) != m::gtk::RESPONSE_OK
-					)
-						return;
-					break;
+					Glib::ustring question(
+						torrents_ids.size() == 1
+							?  __("Are you sure want to remove torrent '%1'?", torrents_list_string.substr(names_list_prefix_len))
+							:  _("Are you sure want to remove following torrents?") + torrents_list_string
+					);
+
+					std::vector<m::gtk::Message_button_desc> buttons;
+					buttons.push_back( m::gtk::Message_button_desc(Gtk::RESPONSE_CANCEL, Gtk::Stock::CANCEL) );
+					buttons.push_back( m::gtk::Message_button_desc(REMOVE, _("Remove"), Gtk::Stock::REMOVE) );
+					buttons.push_back( m::gtk::Message_button_desc(REMOVE_WITH_DATA, _("Remove with data"), Gtk::Stock::DELETE) );
+
+					switch(m::gtk::message_with_buttons(get_dialog_proper_parent_window(*this), title, question, buttons, Gtk::RESPONSE_CANCEL))
+					{
+						case REMOVE:
+						MLIB_D("remove");
+							break;
+
+						case REMOVE_WITH_DATA:
+							action = REMOVE_WITH_DATA;
+						MLIB_D("remove with data");
+							break;
+
+						default:
+							return;
+							break;
+					}
+				}
+				break;
 
 				case PAUSE:
 				case RESUME:

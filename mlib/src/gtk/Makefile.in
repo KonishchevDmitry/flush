@@ -229,6 +229,8 @@ libconfig_CFLAGS = @libconfig_CFLAGS@
 libconfig_LIBS = @libconfig_LIBS@
 libdir = @libdir@
 libexecdir = @libexecdir@
+libnotify_CFLAGS = @libnotify_CFLAGS@
+libnotify_LIBS = @libnotify_LIBS@
 libtorrent_rasterbar_CFLAGS = @libtorrent_rasterbar_CFLAGS@
 libtorrent_rasterbar_LIBS = @libtorrent_rasterbar_LIBS@
 localedir = @localedir@
@@ -313,9 +315,15 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
+<<<<<<< HEAD:mlib/src/gtk/Makefile.in
 	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign mlib/src/gtk/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
 	  $(AUTOMAKE) --foreign mlib/src/gtk/Makefile
+=======
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/mlib/gtk/Makefile'; \
+	$(am__cd) $(top_srcdir) && \
+	  $(AUTOMAKE) --foreign src/mlib/gtk/Makefile
+>>>>>>> new:src/mlib/gtk/Makefile.in
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \

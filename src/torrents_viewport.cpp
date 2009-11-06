@@ -221,7 +221,7 @@ Torrents_viewport::Torrents_viewport(const Torrents_viewport_settings& settings)
 
 	// Информационные виджеты -->
 		// Torrent_details_view -->
-			this->torrent_details_view = Gtk::manage(new Torrent_details_view());
+			this->torrent_details_view = Gtk::manage(new Torrent_details_view);
 			this->torrent_details_view_scrolled_window.set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 			this->torrent_details_view_scrolled_window.add(*this->torrent_details_view);
 

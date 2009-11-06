@@ -738,6 +738,7 @@ Config* get(smart_ptr& ptr)
 	:
 		show_speed_in_window_title(false),
 		show_zero_values(false),
+		compact_details_tab(false),
 
 		show_toolbar(true),
 		toolbar_style(m::gtk::toolbar::DEFAULT),
@@ -749,6 +750,10 @@ Config* get(smart_ptr& ptr)
 
 		update_interval(1000),
 		max_log_lines(100),
+
+		download_completed_notification(true),
+		all_downloads_completed_notification(true),
+
 		show_add_torrent_dialog(true)
 	{
 	}
@@ -771,6 +776,11 @@ Config* get(smart_ptr& ptr)
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
 				this->show_zero_values = setting;
+			}
+			else if(m::is_eq(setting_name, "compact_details_tab"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				this->compact_details_tab = setting;
 			}
 			else if(m::is_eq(setting_name, "show_toolbar"))
 			{
@@ -828,6 +838,16 @@ Config* get(smart_ptr& ptr)
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeInt, continue)
 				this->max_log_lines = setting;
 			}
+			else if(m::is_eq(setting_name, "download_completed_notification"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				this->download_completed_notification = setting;
+			}
+			else if(m::is_eq(setting_name, "all_downloads_completed_notification"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				this->all_downloads_completed_notification = setting;
+			}
 			else if(m::is_eq(setting_name, "main_window"))
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeGroup, continue)
@@ -876,6 +896,7 @@ Config* get(smart_ptr& ptr)
 	{
 		config_root.add("show_speed_in_window_title", libconfig::Setting::TypeBoolean) = this->show_speed_in_window_title;
 		config_root.add("show_zero_values", libconfig::Setting::TypeBoolean) = this->show_zero_values;
+		config_root.add("compact_details_tab", libconfig::Setting::TypeBoolean) = this->compact_details_tab;
 
 		config_root.add("show_toolbar", libconfig::Setting::TypeBoolean) = this->show_toolbar;
 		config_root.add("toolbar_style", libconfig::Setting::TypeString) = m::gtk::toolbar::get_style_string_representation(this->toolbar_style);
@@ -887,6 +908,9 @@ Config* get(smart_ptr& ptr)
 
 		config_root.add("update_interval", libconfig::Setting::TypeInt) = this->update_interval;
 		config_root.add("max_log_lines", libconfig::Setting::TypeInt) = this->max_log_lines;
+
+		config_root.add("download_completed_notification", libconfig::Setting::TypeBoolean) = this->download_completed_notification;
+		config_root.add("all_downloads_completed_notification", libconfig::Setting::TypeBoolean) = this->all_downloads_completed_notification;
 
 		this->main_window.write_config(
 			config_root.add("main_window", libconfig::Setting::TypeGroup)
@@ -912,10 +936,10 @@ Config* get(smart_ptr& ptr)
 	Status_bar_settings::Status_bar_settings(void)
 	:
 		download_speed(true),
-		payload_download_speed(false),
+		download_payload_speed(false),
 
 		upload_speed(true),
-		payload_upload_speed(false),
+		upload_payload_speed(false),
 
 		download(true),
 		payload_download(false),
@@ -934,10 +958,10 @@ Config* get(smart_ptr& ptr)
 	void Status_bar_settings::read_config(const libconfig::Setting& config_root)
 	{
 		config_root.lookupValue("download_speed", this->download_speed);
-		config_root.lookupValue("payload_download_speed", this->payload_download_speed);
+		config_root.lookupValue("payload_download_speed", this->download_payload_speed);
 
 		config_root.lookupValue("upload_speed", this->upload_speed);
-		config_root.lookupValue("payload_upload_speed", this->payload_upload_speed);
+		config_root.lookupValue("payload_upload_speed", this->upload_payload_speed);
 
 		config_root.lookupValue("download", this->download);
 		config_root.lookupValue("payload_download", this->payload_download);
@@ -955,10 +979,10 @@ Config* get(smart_ptr& ptr)
 	void Status_bar_settings::write_config(libconfig::Setting& config_root) const
 	{
 		config_root.add("download_speed", libconfig::Setting::TypeBoolean) = this->download_speed;
-		config_root.add("payload_download_speed", libconfig::Setting::TypeBoolean) = this->payload_download_speed;
+		config_root.add("payload_download_speed", libconfig::Setting::TypeBoolean) = this->download_payload_speed;
 
 		config_root.add("upload_speed", libconfig::Setting::TypeBoolean) = this->upload_speed;
-		config_root.add("payload_upload_speed", libconfig::Setting::TypeBoolean) = this->payload_upload_speed;
+		config_root.add("payload_upload_speed", libconfig::Setting::TypeBoolean) = this->upload_payload_speed;
 
 		config_root.add("download", libconfig::Setting::TypeBoolean) = this->download;
 		config_root.add("payload_download", libconfig::Setting::TypeBoolean) = this->payload_download;

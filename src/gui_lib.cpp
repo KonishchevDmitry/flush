@@ -38,6 +38,14 @@ Glib::ustring format_window_title(const Glib::ustring& title)
 
 
 
+Gtk::Window& get_dialog_proper_parent_window(Gtk::Widget& widget)
+{
+	Gtk::Window* window = m::gtk::get_widget_window(widget);
+	return window ? *window : get_main_window();
+}
+
+
+
 m::gtk::Dialog_response ok_cancel_dialog(const std::string& title, const std::string& message)
 {
 	return m::gtk::ok_cancel_dialog(get_main_window(), title, message);

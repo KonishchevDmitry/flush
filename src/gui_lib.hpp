@@ -20,22 +20,29 @@
 
 
 #ifndef HEADER_GUI_LIB
-	#define HEADER_GUI_LIB
+#define HEADER_GUI_LIB
 
 	#include <glibmm/ustring.h>
+#if !MLIB_ENABLE_LIBS_FORWARDS
+	#include <gtkmm/widget.h>
+	#include <gtkmm/window.h>
+#endif
 
 	#include <mlib/gtk/misc.hxx>
 
 	#include "common.hpp"
 
 
-	/// Форматирует заголовок окна стандартным заранее определенным образом.
-	Glib::ustring				format_window_title(const Glib::ustring& title = "");
+/// Форматирует заголовок окна стандартным заранее определенным образом.
+Glib::ustring				format_window_title(const Glib::ustring& title = "");
 
-	/// Аналог m::gtk::ok_cancel_dialog, но только не принимает параметр с
-	/// родительским окном, т. к. всегда использует в качестве него главное
-	/// окно приложения.
-	m::gtk::Dialog_response		ok_cancel_dialog(const std::string& title, const std::string& message);
+/// Возвращает окно, наиболее подходящее в качестве родительского окна для
+/// диалога, отображение которого инициируется виджетом widget.
+Gtk::Window&				get_dialog_proper_parent_window(Gtk::Widget& widget);
+
+/// Аналог m::gtk::ok_cancel_dialog, но только не принимает параметр с
+/// родительским окном, т. к. всегда использует в качестве него главное
+/// окно приложения.
+m::gtk::Dialog_response		ok_cancel_dialog(const std::string& title, const std::string& message);
 
 #endif
-

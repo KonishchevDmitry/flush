@@ -45,6 +45,8 @@
 
 
 		private:
+			bool					compact;
+
 			Gtk::ProgressBar*		status;
 
 			Gtk::Label*				size;
@@ -112,6 +114,9 @@
 
 			/// Устанавливает значение времени.
 			void		set_time(Gtk::Label* label, Time time);
+
+			/// Переключает режим отображения.
+			void		update_layout(void);
 	};
 #endif
 

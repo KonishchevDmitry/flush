@@ -836,22 +836,22 @@ void Daemon_session::auto_load_if_torrent(const std::string& torrent_path)
 		MLIB_D(_C("Auto loading torrent '%1'...", torrent_path));
 
 		// Добавляем торрент в сессию -->
-			this->add_torrent(
-				torrent_path,
-				New_torrent_settings(
-					true, priv->settings.torrents_auto_load.to,
-					(
-						priv->settings.torrents_auto_load.copy
-						?
-							priv->settings.torrents_auto_load.copy_to
-						:
-							""
-					),
-					MLIB_UTF_CHARSET_NAME, std::vector<Torrent_file_settings>(),
-					std::auto_ptr<String_vector>(), false
+		{
+			New_torrent_settings new_torrent_settings(
+				true, priv->settings.torrents_auto_load.to,
+				(
+					priv->settings.torrents_auto_load.copy
+					?
+						priv->settings.torrents_auto_load.copy_to
+					:
+						""
 				),
-				false
+				MLIB_UTF_CHARSET_NAME, std::vector<Torrent_file_settings>(),
+				std::auto_ptr<String_vector>(), false
 			);
+
+			this->add_torrent(torrent_path, new_torrent_settings, false);
+		}
 		// Добавляем торрент в сессию <--
 
 		// Удаляем загруженный *.torrent файл -->
@@ -1040,19 +1040,111 @@ void Daemon_session::automate(void)
 
 void Daemon_session::finish_torrent(Torrent& torrent)
 {
+	bool schedule_torrent_settings_saving = false;
+
+	// Информируем пользователя, если это необходимо -->
+	{
+		try
+		{
+			Torrent_info info = torrent.get_info();
+			lt::torrent_status status = torrent.handle.status();
+
+			if(
+				torrent.bytes_done_on_last_torrent_finish != status.total_done ||
+				torrent.bytes_downloaded_on_last_torrent_finish != info.total_payload_download
+			)
+			{
+				COMPATIBILITY
+				// Совместимость с версиями < 0.9.
+				// Специальное значение, чтобы при переходе на новую версию
+				// Flush при первом запуске не выдал кучу нотификаций.
+				if(torrent.bytes_downloaded_on_last_torrent_finish >= 0)
+				{
+					bool all_completed = true;
+
+					// Проверяем, есть ли еще скачивающиеся торренты -->
+					{
+						std::vector<Torrent_info> torrents_info;
+						this->get_torrents_info(torrents_info);
+
+						BOOST_FOREACH(const Torrent_info& info, torrents_info)
+						{
+							if(info.downloaded_requested_size != info.requested_size && !info.paused)
+							{
+								// TODO
+								//
+								// Тут, правда, есть одно но.  Если данный
+								// торрент проверяется, и проверка эта
+								// инициирована libtorrent (пропал какой-либо
+								// файл, не удалось прочитать resume data, или
+								// resume data только проверяется), то мы никак
+								// не можем различить эти случаи ([пропал
+								// какой-либо файл, не удалось прочитать resume
+								// data] или [resume data только проверяется]).
+								// В первом случае необходимо по завершении
+								// проверки сгенерировать уведомление, а во
+								// втором - нет.  Поэтому если в результате
+								// этой проверки окажется, что все что нужно
+								// уже скачано, то мы не сгенерируем
+								// пропущенное уведомление
+								// Notify_message::ALL_TORRENTS_FINISHED. Но на
+								// данный момент с текущей реализацией
+								// libtorrent мне что-то ничего не приходит в
+								// голову, как это можно исправить. :(
+
+								all_completed = false;
+								break;
+							}
+						}
+					}
+					// Проверяем, есть ли еще скачивающиеся торренты <--
+
+					// Уведомляем о завершении скачивания торрента
+					this->notify_message_signal(Notify_message(
+						all_completed ? Notify_message::TORRENT_FINISHED_AND_ALL : Notify_message::TORRENT_FINISHED,
+						_C("Torrent '%1' downloaded.", torrent.name)
+					));
+
+					// Уведомляем о завершении скачивания всех торрентов
+					if(all_completed)
+						this->notify_message_signal(Notify_message(
+							Notify_message::ALL_TORRENTS_FINISHED, _("All torrents have downloaded.") ));
+				}
+
+				torrent.bytes_done_on_last_torrent_finish = status.total_done;
+				torrent.bytes_downloaded_on_last_torrent_finish = info.total_payload_download;
+				schedule_torrent_settings_saving = true;
+			}
+		}
+		catch(lt::invalid_handle&)
+		{
+			MLIB_LE();
+		}
+	}
+	// Информируем пользователя, если это необходимо <--
+
 	// Если по завершении скачивания необходимо
 	// скопировать файлы данного торрента.
 	if(torrent.download_settings.copy_when_finished)
 	{
-		std::string src_path = torrent.get_download_path();
-		std::string dest_path = torrent.download_settings.copy_when_finished_to;
+		std::vector<bool> interested_files;
+
+		// Формируем список интересующих нас файлов -->
+		{
+			size_t i = 0;
+			interested_files.reserve(torrent.files_settings.size());
+
+			BOOST_FOREACH(const Torrent_file_settings& settings, torrent.files_settings)
+				interested_files[i++] = settings.download;
+		}
+		// Формируем список интересующих нас файлов <--
 
 		// Получаем список скачанных файлов торрента -->
 			std::vector<std::string> files_paths;
 
 			try
 			{
-				files_paths = m::lt::get_torrent_downloaded_files_paths(torrent.handle);
+				files_paths = m::lt::get_torrent_downloaded_files_paths(torrent.handle, interested_files);
 			}
 			catch(lt::invalid_handle)
 			{
@@ -1060,6 +1152,9 @@ void Daemon_session::finish_torrent(Torrent& torrent)
 			}
 		// Получаем список скачанных файлов торрента <--
 
+
+		std::string src_path = torrent.get_download_path();
+		std::string dest_path = torrent.download_settings.copy_when_finished_to;
 
 		m::async_fs::copy_files(
 			torrent.id,
@@ -1080,10 +1175,12 @@ void Daemon_session::finish_torrent(Torrent& torrent)
 		// libtorrent, поэтому снимаем флаг.
 		torrent.download_settings.copy_when_finished = false;
 		torrent.download_settings_revision++;
-
-		// Планируем сохранение настроек торрента
-		this->schedule_torrent_settings_saving(torrent);
+		schedule_torrent_settings_saving = true;
 	}
+
+	// Планируем сохранение настроек торрента
+	if(schedule_torrent_settings_saving)
+		this->schedule_torrent_settings_saving(torrent);
 }
 
 
@@ -1694,7 +1791,13 @@ void Daemon_session::recheck_torrent(const Torrent_id& torrent_id)
 {
 	try
 	{
-		this->get_torrent(torrent_id).handle.force_recheck();
+		Torrent& torrent = this->get_torrent(torrent_id);
+
+		// Чтобы оповещение сгенерировалось даже в том случае, когда все файлы
+		// на месте.
+		torrent.bytes_done_on_last_torrent_finish = -1;
+
+		torrent.handle.force_recheck();
 	}
 	catch(lt::invalid_handle)
 	{

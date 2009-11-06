@@ -25,6 +25,8 @@
 
 #include <gdk/gdk.h>
 
+#include <libnotify/notify.h>
+
 #include <gdkmm/pixbuf.h>
 
 #include <gtkmm/aboutdialog.h>
@@ -38,6 +40,7 @@
 #include <gtkmm/radioaction.h>
 #include <gtkmm/radiobuttongroup.h>
 #include <gtkmm/separatortoolitem.h>
+#include <gtkmm/spinbutton.h>
 #include <gtkmm/statusbar.h>
 #include <gtkmm/statusicon.h>
 #include <gtkmm/stock.h>
@@ -73,9 +76,6 @@
 	#include "main.hpp"
 	#include "main_window.hpp"
 	#include "open_torrent_dialog.hpp"
-#if DEVELOP_MODE
-	#include "rss_settings_dialog.hpp"
-#endif
 	#include "settings_window.hpp"
 	#include "statistics_window.hpp"
 	#include "temporary_action_dialog.hpp"
@@ -122,7 +122,6 @@
 				Gtk::ToolButton*				toolbar_resume_button;
 				Gtk::ToolButton*				toolbar_pause_button;
 				Gtk::ToolButton*				toolbar_remove_button;
-				Gtk::ToolButton*				toolbar_remove_with_data_button;
 			// Панель инструментов <--
 
 			/// Status bar.
@@ -839,18 +838,6 @@ Main_window::Main_window(const Main_window_settings& settings)
 			)
 		);
 
-		button = this->gui->toolbar_remove_with_data_button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::DELETE));
-		button->set_label(_("Remove with data"));
-		button->set_tooltip_text(_("Remove torrent(s) with data"));
-		button->set_is_important();
-		this->gui->toolbar.append(
-			*button,
-			sigc::bind<Torrent_process_action>(
-				sigc::mem_fun(*this->gui->torrents_viewport, &Torrents_viewport::process_torrents),
-				REMOVE_WITH_DATA
-			)
-		);
-
 
 		this->gui->toolbar.append(
 			*Gtk::manage(new Gtk::SeparatorToolItem())
@@ -1136,18 +1123,23 @@ void Main_window::on_show_settings_window_callback(void)
 
 	if(settings_window.run() == Gtk::RESPONSE_OK)
 	{
+		Gui_settings& gui = client_settings.gui;
+
 		// Чтобы потом можно было не обновлять каждый раз заголовок, содержимое
 		// которого будет постоянным.
-		if(!client_settings.gui.show_speed_in_window_title)
+		if(!gui.show_speed_in_window_title)
 			this->set_title(this->gui->orig_window_title);
 
-		this->show_tray_icon(client_settings.gui.show_tray_icon);
+		this->show_tray_icon(gui.show_tray_icon);
 
-		if(gui_update_interval != client_settings.gui.update_interval)
-			this->set_gui_update_interval(client_settings.gui.update_interval);
+		if(gui_update_interval != gui.update_interval)
+			this->set_gui_update_interval(gui.update_interval);
 
-		if(max_log_lines != client_settings.gui.max_log_lines)
-			this->gui->torrents_viewport->get_log_view().set_max_lines(client_settings.gui.max_log_lines);
+		if(max_log_lines != gui.max_log_lines)
+			this->gui->torrents_viewport->get_log_view().set_max_lines(gui.max_log_lines);
+
+		/// Включаем или отключаем поддержку оповещений через libnotify
+		get_application().update_notifications_support();
 
 		try
 		{
@@ -1234,7 +1226,6 @@ void Main_window::on_torrent_process_actions_changed_callback(Torrent_process_ac
 	this->gui->toolbar_resume_button->set_sensitive(actions & RESUME);
 	this->gui->toolbar_pause_button->set_sensitive(actions & PAUSE);
 	this->gui->toolbar_remove_button->set_sensitive(actions & REMOVE);
-	this->gui->toolbar_remove_with_data_button->set_sensitive(actions & REMOVE_WITH_DATA);
 }
 
 
@@ -1313,15 +1304,14 @@ void Main_window::open_torrent(const std::string& torrent_path, const std::strin
 		}
 		else
 		{
-			get_application().add_torrent(
-				torrent_path,
-				New_torrent_settings(
-					client_settings.user.start_torrent_on_adding,
-					client_settings.user.download_to,
-					client_settings.user.copy_finished_to,
-					torrent_encoding
-				)
+			New_torrent_settings new_torrent_settings(
+				client_settings.user.start_torrent_on_adding,
+				client_settings.user.download_to,
+				client_settings.user.copy_finished_to,
+				torrent_encoding
 			);
+
+			get_application().add_torrent(torrent_path, new_torrent_settings);
 		}
 	}
 	catch(m::Exception& e)
@@ -1518,13 +1508,13 @@ void Main_window::update_gui(bool force)
 						if(status_bar_settings.download_speed)
 							status_string += space_string + _("Download speed") + ": " + m::speed_to_string(session_status.download_speed);
 
-						if(status_bar_settings.payload_download_speed)
+						if(status_bar_settings.download_payload_speed)
 							status_string += space_string + _("Download speed (payload)") + ": " + m::speed_to_string(session_status.payload_download_speed);
 
 						if(status_bar_settings.upload_speed)
 							status_string += space_string + _("Upload speed") + ": " + m::speed_to_string(session_status.upload_speed);
 
-						if(status_bar_settings.payload_upload_speed)
+						if(status_bar_settings.upload_payload_speed)
 							status_string += space_string + _("Upload speed (payload)") + ": " + m::speed_to_string(session_status.payload_upload_speed);
 
 						if(status_bar_settings.download)

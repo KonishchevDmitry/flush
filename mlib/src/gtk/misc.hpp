@@ -27,7 +27,10 @@
 	#include <gdkmm/pixbuf.h>
 
 	#include <gtkmm/button.h>
+	#include <gtkmm/dialog.h>
+#endif
 	#include <gtkmm/stock.h>
+#ifndef MLIB_ENABLE_LIBS_FORWARDS
 	#include <gtkmm/treemodelcolumn.h>
 	#include <gtkmm/treeviewcolumn.h>
 	#include <gtkmm/window.h>
@@ -39,6 +42,30 @@
 
 
 namespace m { namespace gtk {
+
+
+/// Описывает кнопку, которую необходимо создать внутри диалога.
+class Message_button_desc
+{
+	public:
+		Message_button_desc(int response, const Gtk::StockID& stock_id);
+		Message_button_desc(int response, const Glib::ustring& label, const Gtk::StockID& stock_id);
+
+	private:
+		Message_button_desc();
+
+
+	private:
+		int				response;
+		Glib::ustring	label;
+		Gtk::StockID	stock_id;
+
+
+	public:
+		void	add_to_dialog(Gtk::Dialog& dialog) const;
+};
+
+
 
 /// Активизирует "режим дерева" для GtkCellRendererToggle.
 /// Модифицирует внутренние структуры GTK так, чтобы при упаковке
@@ -78,6 +105,10 @@ Dialog_response	ok_cancel_dialog(Gtk::Window& parent_window, const std::string& 
 /// Отображает простое GTK сообщение и блокирует выполнение программы до
 /// тех пор, пока пользователь не нажмет на кнопку OK.
 void			message(Gtk::Window& parent_window, const std::string& title, const std::string& message);
+
+/// Отображает диалог с кнопками, блокирующий выполнение программы.
+/// Возвращает соответствующий response id.
+int				message_with_buttons(Gtk::Window& parent_window, const std::string& title, const std::string& message, const std::vector<Message_button_desc>& buttons, int default_response);
 
 /// Задает функцию, используемую для форматирования заголовка окна в
 /// соответствии с тем, как принято отображать заголовки в данном приложении.
