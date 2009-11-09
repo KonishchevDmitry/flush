@@ -345,6 +345,18 @@ AC_DEFUN([MLIB_CONFIGURE],
 
 	dnl libraries -->
 
+		dnl mlib -->
+			MLIB_CPPFLAGS="$MLIB_CPPFLAGS -I \$(top_srcdir)/$mlib_path/include"
+
+			if test "X$mlib_enable_gtk" = "Xyes"
+			then
+				MLIB_LDADD="$MLIB_LDADD \$(top_builddir)/$mlib_path/src/gtk/libmlib_gtk.a"
+			fi
+
+			MLIB_LDADD="$MLIB_LDADD \$(top_builddir)/$mlib_path/src/libmlib.a"
+			MLIB_LDADD="$MLIB_LDADD \$(top_builddir)/$mlib_path/src/base/libmlib_base.a"
+		dnl mlib <--
+
 		dnl boost -->
 			AX_BOOST_BASE([[1.34]])
 			if test -z "$BOOST_LDFLAGS"
@@ -450,23 +462,25 @@ AC_DEFUN([MLIB_CONFIGURE],
 			fi
 		dnl libtorrent <--
 
+		dnl sqlite -->
+			if test "X$mlib_enable_sqlite" = "Xyes"
+			then
+				if test "X$mlib_sqlite_is_custom" = "Xyes"
+				then
+					MLIB_CPPFLAGS="$MLIB_CPPFLAGS $mlib_sqlite_CPPFLAGS"
+					MLIB_LDADD="$MLIB_LDADD $mlib_sqlite_LDADD"
+				else
+					PKG_CHECK_MODULES([sqlite3], [sqlite >= 3])
+					MLIB_CPPFLAGS="$MLIB_CPPFLAGS $sqlite3_CFLAGS"
+					MLIB_LDADD="$MLIB_LDADD $sqlite3_LIBS"
+				fi
+			fi
+		dnl sqlite <--
+
 	dnl libraries <--
 
 
 	dnl Flags -->
-		dnl mlib includes
-		MLIB_CPPFLAGS="$MLIB_CPPFLAGS -I \$(top_srcdir)/$mlib_path/include"
-
-		dnl mlib libraries -->
-			MLIB_LDADD="$MLIB_LDADD \$(top_builddir)/$mlib_path/src/base/libmlib_base.a"
-			MLIB_LDADD="$MLIB_LDADD \$(top_builddir)/$mlib_path/src/libmlib.a"
-
-			if test "X$mlib_enable_gtk" = "Xyes"
-			then
-				MLIB_LDADD="$MLIB_LDADD \$(top_builddir)/$mlib_path/src/gtk/libmlib_gtk.a"
-			fi
-		dnl mlib libraries <--
-
 		AC_SUBST([MLIB_CPPFLAGS])
 		AC_SUBST([MLIB_CFLAGS])
 		AC_SUBST([MLIB_CXXFLAGS])

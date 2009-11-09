@@ -33,17 +33,17 @@
 #include <mlib/gtk/tree_view_settings.hpp>
 
 
-#define M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(id, description)					\
+#define M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(id, args...)						\
 {																			\
-	this->add(#id, &this->id, (description));								\
+	this->add(#id, &this->id, args);										\
 	this->id.set_sort_column(model_columns.id);								\
 	this->id.get_first_cell_renderer()->property_xalign().set_value(1.0);	\
 }
 
-#define M_GTK_TREE_VIEW_ADD_STRING_COLUMN(id, description)	\
-{															\
-	this->add(#id, &this->id, (description));				\
-	this->id.set_sort_column(model_columns.id);				\
+#define M_GTK_TREE_VIEW_ADD_STRING_COLUMN(id, args...)	\
+{														\
+	this->add(#id, &this->id, args);					\
+	this->id.set_sort_column(model_columns.id);			\
 }
 
 

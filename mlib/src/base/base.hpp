@@ -124,6 +124,7 @@
 #endif
 
 
+namespace boost { namespace filesystem { } }
 #ifdef MLIB_ENABLE_LIBTORRENT
 	namespace libtorrent {}
 #endif
@@ -131,10 +132,6 @@
 
 namespace m {
 
-#warning
-//namespace m {
-//	using namespace ::m;
-//}
 
 /// Предназначен для получения типа (метапрограммирование).
 template<class T>
@@ -204,30 +201,37 @@ class Virtual
 	extern const Version	NO_VERSION;
 // Типы <--
 
-	#warning
-	#ifdef MLIB_ENABLE_LIBTORRENT
-		namespace libtorrent { using namespace ::libtorrent; }
-		//namespace lt = libtorrent;
-	#endif
+
+#ifdef MLIB_ENABLE_LIBTORRENT
+	namespace libtorrent { using namespace ::libtorrent; }
+#endif
+
 
 namespace aliases
 {
-	#warning
-	#ifdef MLIB_ENABLE_LIBTORRENT
-		//namespace libtorrent { using namespace ::libtorrent; }
-		namespace lt = m::libtorrent;
-	#endif
+#ifdef MLIB_ENABLE_LIBTORRENT
+	namespace lt
+	{
+		using namespace m::libtorrent;
+	}
+#endif
 
-#warning
-	using ::m::Big_id;
-	using ::m::Size;
-	using ::m::Size_float;
-	using ::m::Speed;
-	using ::m::Time;
-	using ::m::Time_ms;
-	using ::m::Version;
+	using m::Big_id;
+	using m::Size;
+	using m::Size_float;
+	using m::Speed;
+	using m::Time;
+	using m::Time_ms;
+	using m::Version;
 }
 using namespace aliases;
+
+
+namespace libraries_aliases
+{
+	namespace fs = boost::filesystem;
+}
+
 
 
 /// Возвращает major версию.

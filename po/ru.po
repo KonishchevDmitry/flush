@@ -77,9 +77,8 @@ msgid "Error while using epoll instance: %1."
 msgstr "Ошибка при использовании экземпляра epoll: %1."
 
 #: mlib/src/misc.cpp:539
-#, fuzzy, qt-format
 msgid "Can't read data from a file descriptor: %1."
-msgstr "Не удалось прочитать данные из дескриптора inotify: %1."
+msgstr "Не удалось прочитать данные из файлового дескриптора: %1."
 
 #: mlib/src/gtk/misc.cpp:125 src/main.cpp:432
 msgid "Information"
@@ -234,25 +233,24 @@ msgstr ""
 "необработанные задачи."
 
 #: mlib/src/sqlite.cpp:137
-#, fuzzy
 msgid "unknown error"
-msgstr "Ошибка DBus."
+msgstr "неизвестная ошибка"
 
 #: mlib/src/sqlite.cpp:219 mlib/src/sqlite.cpp:260
 msgid "Database is not opened yet."
-msgstr ""
+msgstr "База данных еще не открыта."
 
 #: mlib/src/sqlite.cpp:272
 msgid "Database is already opened."
-msgstr ""
+msgstr "База данных уже открыта."
 
 #: mlib/src/sqlite.cpp:369
 msgid "Query is already finalized."
-msgstr ""
+msgstr "Дескриптор запроса к БД уже закрыт."
 
 #: mlib/src/sqlite.cpp:450
 msgid "Operation on finalized query."
-msgstr ""
+msgstr "Операция над закрытым дескриптором запроса к БД."
 
 #: mlib/src/sys.cpp:130 mlib/src/sys.cpp:140
 #, qt-format
@@ -913,9 +911,8 @@ msgid "invalid IP range %1-%2"
 msgstr "недопустимый диапазон IP-адресов %1-%2"
 
 #: src/common.cpp:321
-#, fuzzy, qt-format
 msgid "%1 - Download completed"
-msgstr "Скорость скачивания"
+msgstr ""
 
 #: src/common.cpp:325
 #, qt-format
@@ -1334,16 +1331,16 @@ msgstr "в данный момент приложение завершает с�
 
 #: src/application.cpp:406
 msgid "Unable to show libnotify message"
-msgstr ""
+msgstr "Не удалось отобразить libnotify-сообщение"
 
 #: src/application.cpp:407
 #, qt-format
 msgid ""
-"Unable to show libnotify message: %1. You can disable download complete "
+"Unable to show libnotify message: %1. You can disable "
 "notifications in the Preferences dialog.\n"
 "Message text:\n"
 "%2"
-msgstr ""
+msgstr "Не удалось отобразить libnotify-сообщение: %1. Вы можете отключить оповещения в окне настроек.\nТекст сообщения:\n%2"
 
 #: src/application.cpp:458
 #, qt-format
@@ -1358,7 +1355,7 @@ msgstr "Ошибка при сохранении настроек"
 msgid ""
 "Unable to initialize a libnotify instance. Notification's displaying is not "
 "possible."
-msgstr ""
+msgstr "Не удалось инициализировать экземпляр libnotify. Отображение оповещений будет не возможно."
 
 #: src/torrents_viewport.cpp:228
 msgid "Details"
@@ -2364,11 +2361,11 @@ msgstr "Закрывать в трей"
 
 #: ui/preferences.client.gui.misc.glade:266
 msgid "Download completed notification"
-msgstr ""
+msgstr "Оповещение о завершении скачивания торрента"
 
 #: ui/preferences.client.gui.misc.glade:279
 msgid "All downloads completed notification"
-msgstr ""
+msgstr "Оповещение о завершении скачивания всех торрентов"
 
 #: ui/preferences.daemon.network.misc.glade:19
 msgid "<big><b>Daemon::Network::Misc</b></big>"

@@ -19,13 +19,14 @@
 
 
 #include <gtkmm/treemodelcolumn.h>
+#include <gtkmm/treeiter.h>
 
 namespace m { namespace gtk {
 
 template<class Column_type, class Value_type>
 bool update_row(const Gtk::TreeRow& row, const Gtk::TreeModelColumn<Column_type>& column, const Value_type& value)
 {
-	if(row[column] == value)
+	if(row.get_value(column) == value)
 		return false;
 	else
 	{

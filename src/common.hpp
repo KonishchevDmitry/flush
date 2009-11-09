@@ -35,14 +35,6 @@
 
 #include <mlib/libtorrent.hxx>
 #include <mlib/main.hpp>
-#warning
-namespace boost { namespace filesystem {} }
-using namespace ::m::aliases;
-namespace m { namespace fs {} }
-namespace fs {
-	using namespace ::m::fs;
-	using namespace ::boost::filesystem;
-}
 
 
 /// Этим символом будет помечаться весь код, который написан
@@ -64,6 +56,8 @@ namespace fs {
 #define DEFAULT_CONFIG_DIR_NAME ( "." APP_UNIX_NAME )
 
 
+using namespace m::libraries_aliases;
+using namespace m::aliases;
 using m::lt::Torrent_file;
 
 

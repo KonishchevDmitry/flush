@@ -37,6 +37,9 @@ namespace m {
 
 namespace fs {
 
+using namespace boost::filesystem;
+
+
 /// Предоставляет некоторые общие функции при работе с
 /// конфигурационными файлами.
 namespace config
@@ -320,9 +323,9 @@ std::string		EE(const boost::filesystem::filesystem_error& error);
 namespace aliases
 {
 	using m::fs::Path;
-	#warning
-//	using m::EE;
+	using m::EE;
 }
+
 
 }
 

@@ -21,9 +21,10 @@
 #ifndef HEADER_MLIB_GTK_MISC
 #define HEADER_MLIB_GTK_MISC
 
-	#include <gtk/gtkwindow.h>
 
 #ifndef MLIB_ENABLE_LIBS_FORWARDS
+	#include <gtk/gtkwindow.h>
+
 	#include <gdkmm/pixbuf.h>
 
 	#include <gtkmm/button.h>
@@ -31,6 +32,7 @@
 #endif
 	#include <gtkmm/stock.h>
 #ifndef MLIB_ENABLE_LIBS_FORWARDS
+	#include <gtkmm/treeiter.h>
 	#include <gtkmm/treemodelcolumn.h>
 	#include <gtkmm/treeviewcolumn.h>
 	#include <gtkmm/window.h>

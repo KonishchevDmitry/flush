@@ -1,4 +1,4 @@
-AC_INIT([Flush], [0.9.0], [konishchev@gmail.com])
+AC_INIT([Flush], [0.9], [konishchev@gmail.com])
 
 
 AC_CONFIG_SRCDIR([src/main.cpp])
@@ -185,9 +185,6 @@ dnl config.h -->
 dnl config.h <--
 
 
-AM_CONDITIONAL([DEVELOP_MODE], [test "X$develop_mode" = "Xyes"])
-
-
 dnl Compiler flags -->
 
 	dnl Clearing all flags -->
@@ -298,6 +295,12 @@ dnl Compiler flags -->
 			fi
 		dnl libconfig <--
 
+		dnl libnotify -->
+			PKG_CHECK_MODULES([libnotify], [libnotify])
+			APP_CPPFLAGS="$APP_CPPFLAGS $libnotify_CFLAGS"
+			APP_LDADD="$APP_LDADD $libnotify_LIBS"
+		dnl libnotify <--
+
 		dnl libtorrent -->
 			if test "X$package_libtorrent" = "Xyes"
 			then
@@ -334,15 +337,16 @@ dnl Compiler flags -->
 	dnl Libraries <--
 
 	MLIB_CPPFLAGS="$COMMON_CPPFLAGS $MLIB_CPPFLAGS"
+	MLIB_CFLAGS="$COMMON_CPPFLAGS $MLIB_CFLAGS"
 	MLIB_CXXFLAGS="$COMMON_CXXFLAGS $MLIB_CXXFLAGS"
 dnl Compiler flags <--
 
 
-dnl Configuring mlib -->
-	MLIB_CPPFLAGS="$MLIB_CPPFLAGS $COMMON_CPPFLAGS"
-	MLIB_CFLAGS="$MLIB_CFLAGS $COMMON_CFLAGS"
-	MLIB_CXXFLAGS="$MLIB_CXXFLAGS $COMMON_CXXFLAGS"
+dnl Conditionals
+AM_CONDITIONAL([DEVELOP_MODE], [test "X$develop_mode" = "Xyes"])
 
+
+dnl Configuring mlib -->
 	MLIB_FEATURE_ENABLE([[async_fs]])
 	MLIB_FEATURE_ENABLE([[dbus]])
 	MLIB_FEATURE_ENABLE([[fs_watcher]])
@@ -389,11 +393,13 @@ dnl Libraries inside of package -->
 dnl Libraries inside of package <--
 
 
-AC_MSG_NOTICE([debug mode: $debug_mode])
-AC_MSG_NOTICE([develop mode: $develop_mode])
-AC_MSG_NOTICE([disable bundle package: $disable_bundle_package])
-AC_MSG_NOTICE([using package libconfig: $package_libconfig])
-AC_MSG_NOTICE([using package libtorrent: $package_libtorrent])
+dnl Summary report -->
+	AC_MSG_NOTICE([debug mode: $debug_mode])
+	AC_MSG_NOTICE([develop mode: $develop_mode])
+	AC_MSG_NOTICE([disable bundle package: $disable_bundle_package])
+	AC_MSG_NOTICE([using package libconfig: $package_libconfig])
+	AC_MSG_NOTICE([using package libtorrent: $package_libtorrent])
+dnl Summary report <--
 
 
 AC_CONFIG_FILES([

@@ -404,7 +404,7 @@ void Application::on_daemon_notify_message_cb(const Notify_message& message)
 			if(!notify_notification_show(notify, &gerror))
 			{
 				MLIB_W(_("Unable to show libnotify message"),
-					__("Unable to show libnotify message: %1. You can disable download complete notifications in the Preferences dialog.\nMessage text:\n%2", gerror->message, message.get_message()) );
+					__("Unable to show libnotify message: %1. You can disable notifications in the Preferences dialog.\nMessage text:\n%2", gerror->message, message.get_message()) );
 
 				g_error_free(gerror);
 			}
