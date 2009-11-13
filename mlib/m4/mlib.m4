@@ -34,6 +34,7 @@ dnl
 dnl		MLIB_CPPFLAGS=''
 dnl		MLIB_CFLAGS=''
 dnl		MLIB_CXXFLAGS=''
+dnl		MLIB_DEPENDENCIES=''
 dnl		MLIB_LDADD=''
 dnl
 AC_DEFUN([MLIB_INIT],
@@ -47,6 +48,7 @@ AC_DEFUN([MLIB_INIT],
 		MLIB_CPPFLAGS=''
 		MLIB_CFLAGS=''
 		MLIB_CXXFLAGS=''
+		MLIB_DEPENDENCIES=''
 		MLIB_LDADD=''
 	dnl Clearing all output variables <--
 ])
@@ -150,6 +152,7 @@ dnl
 dnl		MLIB_CPPFLAGS
 dnl		MLIB_CFLAGS
 dnl		MLIB_CXXFLAGS
+dnl		MLIB_DEPENDENCIES
 dnl		MLIB_LDADD
 dnl
 AC_DEFUN([MLIB_CONFIGURE],
@@ -347,14 +350,18 @@ AC_DEFUN([MLIB_CONFIGURE],
 
 		dnl mlib -->
 			MLIB_CPPFLAGS="$MLIB_CPPFLAGS -I \$(top_srcdir)/$mlib_path/include"
+			mlib_libs=""
 
 			if test "X$mlib_enable_gtk" = "Xyes"
 			then
-				MLIB_LDADD="$MLIB_LDADD \$(top_builddir)/$mlib_path/src/gtk/libmlib_gtk.a"
+				mlib_libs="$mlib_libs \$(top_builddir)/$mlib_path/src/gtk/libmlib_gtk.a"
 			fi
 
-			MLIB_LDADD="$MLIB_LDADD \$(top_builddir)/$mlib_path/src/libmlib.a"
-			MLIB_LDADD="$MLIB_LDADD \$(top_builddir)/$mlib_path/src/base/libmlib_base.a"
+			mlib_libs="$mlib_libs \$(top_builddir)/$mlib_path/src/libmlib.a"
+			mlib_libs="$mlib_libs \$(top_builddir)/$mlib_path/src/base/libmlib_base.a"
+
+			MLIB_DEPENDENCIES="$MLIB_DEPENDENCIES $mlib_libs"
+			MLIB_LDADD="$MLIB_LDADD $mlib_libs"
 		dnl mlib <--
 
 		dnl boost -->
@@ -484,6 +491,7 @@ AC_DEFUN([MLIB_CONFIGURE],
 		AC_SUBST([MLIB_CPPFLAGS])
 		AC_SUBST([MLIB_CFLAGS])
 		AC_SUBST([MLIB_CXXFLAGS])
+		AC_SUBST([MLIB_DEPENDENCIES])
 		AC_SUBST([MLIB_LDADD])
 	dnl Flags <--
 

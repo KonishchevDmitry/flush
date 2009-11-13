@@ -600,10 +600,12 @@ LIBOBJS
 PACKAGE_LIBRARIES_SUBDIRS
 subdirs
 APP_LDADD
+APP_DEPENDENCIES
 APP_CXXFLAGS
 APP_CFLAGS
 APP_CPPFLAGS
 MLIB_LDADD
+MLIB_DEPENDENCIES
 MLIB_CXXFLAGS
 MLIB_CFLAGS
 MLIB_CPPFLAGS
@@ -6511,6 +6513,7 @@ $as_echo "#define HAVE_DCGETTEXT 1" >>confdefs.h
 			MLIB_CPPFLAGS=''
 		MLIB_CFLAGS=''
 		MLIB_CXXFLAGS=''
+		MLIB_DEPENDENCIES=''
 		MLIB_LDADD=''
 
 
@@ -6771,6 +6774,7 @@ _ACEOF
 		APP_CPPFLAGS=''
 		APP_CFLAGS=''
 		APP_CXXFLAGS=''
+		APP_DEPENDENCIES=''
 		APP_LDADD=''
 
 
@@ -7649,12 +7653,13 @@ fi
 			APP_LDADD="$APP_LDADD $dbus_LIBS"
 
 			DBUSXX_CPPFLAGS='-I $(top_srcdir)/dbus-c++/include'
-			DBUSXX_LDADD='$(top_builddir)/dbus-c++/src/.libs/libdbus-c++-1.a'
+			DBUSXX_LIBRARIES='$(top_builddir)/dbus-c++/src/.libs/libdbus-c++-1.a'
 			DBUSXX_XML2CPP='$(top_builddir)/dbus-c++/tools/dbusxx-xml2cpp'
 
 
 			APP_CPPFLAGS="$APP_CPPFLAGS $DBUSXX_CPPFLAGS"
-			APP_LDADD="$APP_LDADD $DBUSXX_LDADD"
+			APP_DEPENDENCIES="$APP_DEPENDENCIES $DBUSXX_LIBRARIES"
+			APP_LDADD="$APP_LDADD $DBUSXX_LIBRARIES"
 
 
 	if test "3" != "3"
@@ -7663,7 +7668,7 @@ fi
 	else
 		eval "mlib_dbus_cxx_is_custom=yes"
 		eval "mlib_dbus_cxx_CPPFLAGS='$DBUSXX_CPPFLAGS'"
-		eval "mlib_dbus_cxx_LDADD='$DBUSXX_LDADD'"
+		eval "mlib_dbus_cxx_LDADD='$DBUSXX_LIBRARIES'"
 	fi
 
 
@@ -7861,6 +7866,7 @@ fi
 				LIBCONFIG_LIBRARIES="\$(top_builddir)/$libconfig_dir_name/.libs/libconfig++.a"
 
 				APP_CPPFLAGS="$APP_CPPFLAGS $LIBCONFIG_CPPFLAGS"
+				APP_DEPENDENCIES="$APP_DEPENDENCIES $LIBCONFIG_LIBRARIES"
 				APP_LDADD="$APP_LDADD $LIBCONFIG_LIBRARIES"
 
 
@@ -8469,10 +8475,11 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 				LIBTORRENT_CPPFLAGS="$LIBTORRENT_CPPFLAGS -DTORRENT_USE_OPENSSL"
 				LIBTORRENT_CPPFLAGS="$LIBTORRENT_CPPFLAGS -I \$(top_srcdir)/$libtorrent_dir_name/include"
 				LIBTORRENT_CPPFLAGS="$LIBTORRENT_CPPFLAGS -I \$(top_srcdir)/$libtorrent_dir_name/include/libtorrent"
-				LIBTORRENT_LDADD="$LIBTORRENT_LDADD \$(top_builddir)/$libtorrent_dir_name/src/.libs/libtorrent-rasterbar.a"
-				LIBTORRENT_LDADD="$LIBTORRENT_LDADD -lrt"
+				LIBTORRENT_LIBRARIES="\$(top_builddir)/$libtorrent_dir_name/src/.libs/libtorrent-rasterbar.a"
+				LIBTORRENT_LDADD="$LIBTORRENT_LDADD $LIBTORRENT_LIBRARIES -lrt"
 
 				APP_CPPFLAGS="$APP_CPPFLAGS $LIBTORRENT_CPPFLAGS"
+				APP_DEPENDENCIES="$APP_DEPENDENCIES $LIBTORRENT_LDADD"
 				APP_LDADD="$APP_LDADD $LIBTORRENT_LDADD"
 
 
@@ -9732,14 +9739,18 @@ $as_echo "$as_me: [mlib config] Enable SQLite: $mlib_enable_sqlite" >&6;}
 
 
 					MLIB_CPPFLAGS="$MLIB_CPPFLAGS -I \$(top_srcdir)/$mlib_path/include"
+			mlib_libs=""
 
 			if test "X$mlib_enable_gtk" = "Xyes"
 			then
-				MLIB_LDADD="$MLIB_LDADD \$(top_builddir)/$mlib_path/src/gtk/libmlib_gtk.a"
+				mlib_libs="$mlib_libs \$(top_builddir)/$mlib_path/src/gtk/libmlib_gtk.a"
 			fi
 
-			MLIB_LDADD="$MLIB_LDADD \$(top_builddir)/$mlib_path/src/libmlib.a"
-			MLIB_LDADD="$MLIB_LDADD \$(top_builddir)/$mlib_path/src/base/libmlib_base.a"
+			mlib_libs="$mlib_libs \$(top_builddir)/$mlib_path/src/libmlib.a"
+			mlib_libs="$mlib_libs \$(top_builddir)/$mlib_path/src/base/libmlib_base.a"
+
+			MLIB_DEPENDENCIES="$MLIB_DEPENDENCIES $mlib_libs"
+			MLIB_LDADD="$MLIB_LDADD $mlib_libs"
 
 
 
@@ -11605,6 +11616,7 @@ fi
 
 
 
+
 	ac_config_files="$ac_config_files mlib/src/base/libs_forwards/Makefile mlib/src/base/Makefile mlib/src/gtk/Makefile mlib/src/Makefile mlib/Makefile"
 
 
@@ -11617,7 +11629,9 @@ $as_echo "$as_me: mlib have been successfully configured." >&6;}
 	APP_CPPFLAGS="$MLIB_CPPFLAGS $APP_CPPFLAGS"
 	APP_CFLAGS="$MLIB_CFLAGS $APP_CFLAGS"
 	APP_CXXFLAGS="$MLIB_CXXFLAGS $APP_CXXFLAGS"
+	APP_DEPENDENCIES="$MLIB_DEPENDENCIES $APP_DEPENDENCIES"
 	APP_LDADD="$MLIB_LDADD $APP_LDADD"
+
 
 
 

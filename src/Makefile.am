@@ -96,5 +96,6 @@ endif
 flush_CPPFLAGS += -D APP_LOCALE_PATH='"$(localedir)"'
 flush_CFLAGS = @APP_CFLAGS@
 flush_CXXFLAGS = @APP_CXXFLAGS@
+flush_DEPENDENCIES = @APP_DEPENDENCIES@
 flush_LDADD = @APP_LDADD@
 

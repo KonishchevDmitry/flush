@@ -196,6 +196,7 @@ dnl Compiler flags -->
 		APP_CPPFLAGS=''
 		APP_CFLAGS=''
 		APP_CXXFLAGS=''
+		APP_DEPENDENCIES=''
 		APP_LDADD=''
 	dnl Clearing all flags <--
 
@@ -256,13 +257,14 @@ dnl Compiler flags -->
 			APP_LDADD="$APP_LDADD $dbus_LIBS"
 
 			DBUSXX_CPPFLAGS='-I $(top_srcdir)/dbus-c++/include'
-			DBUSXX_LDADD='$(top_builddir)/dbus-c++/src/.libs/libdbus-c++-1.a'
+			DBUSXX_LIBRARIES='$(top_builddir)/dbus-c++/src/.libs/libdbus-c++-1.a'
 			AC_SUBST([DBUSXX_XML2CPP], [['$(top_builddir)/dbus-c++/tools/dbusxx-xml2cpp']])
 
 			APP_CPPFLAGS="$APP_CPPFLAGS $DBUSXX_CPPFLAGS"
-			APP_LDADD="$APP_LDADD $DBUSXX_LDADD"
+			APP_DEPENDENCIES="$APP_DEPENDENCIES $DBUSXX_LIBRARIES"
+			APP_LDADD="$APP_LDADD $DBUSXX_LIBRARIES"
 
-			MLIB_SET_CUSTOM_LIBRARY([[dbus_cxx]], [[$DBUSXX_CPPFLAGS]], [[$DBUSXX_LDADD]])
+			MLIB_SET_CUSTOM_LIBRARY([[dbus_cxx]], [[$DBUSXX_CPPFLAGS]], [[$DBUSXX_LIBRARIES]])
 		dnl DBus <--
 
 		dnl Gettext
@@ -285,6 +287,7 @@ dnl Compiler flags -->
 				LIBCONFIG_LIBRARIES="\$(top_builddir)/$libconfig_dir_name/.libs/libconfig++.a"
 
 				APP_CPPFLAGS="$APP_CPPFLAGS $LIBCONFIG_CPPFLAGS"
+				APP_DEPENDENCIES="$APP_DEPENDENCIES $LIBCONFIG_LIBRARIES"
 				APP_LDADD="$APP_LDADD $LIBCONFIG_LIBRARIES"
 
 				MLIB_SET_CUSTOM_LIBRARY([[libconfig]], [[$LIBCONFIG_CPPFLAGS]], [[$LIBCONFIG_LIBRARIES]])
@@ -315,10 +318,11 @@ dnl Compiler flags -->
 				LIBTORRENT_CPPFLAGS="$LIBTORRENT_CPPFLAGS -DTORRENT_USE_OPENSSL"
 				LIBTORRENT_CPPFLAGS="$LIBTORRENT_CPPFLAGS -I \$(top_srcdir)/$libtorrent_dir_name/include"
 				LIBTORRENT_CPPFLAGS="$LIBTORRENT_CPPFLAGS -I \$(top_srcdir)/$libtorrent_dir_name/include/libtorrent"
-				LIBTORRENT_LDADD="$LIBTORRENT_LDADD \$(top_builddir)/$libtorrent_dir_name/src/.libs/libtorrent-rasterbar.a"
-				LIBTORRENT_LDADD="$LIBTORRENT_LDADD -lrt"
+				LIBTORRENT_LIBRARIES="\$(top_builddir)/$libtorrent_dir_name/src/.libs/libtorrent-rasterbar.a"
+				LIBTORRENT_LDADD="$LIBTORRENT_LDADD $LIBTORRENT_LIBRARIES -lrt"
 
 				APP_CPPFLAGS="$APP_CPPFLAGS $LIBTORRENT_CPPFLAGS"
+				APP_DEPENDENCIES="$APP_DEPENDENCIES $LIBTORRENT_LDADD"
 				APP_LDADD="$APP_LDADD $LIBTORRENT_LDADD"
 
 				MLIB_SET_CUSTOM_LIBRARY([[libtorrent]], [[$LIBTORRENT_CPPFLAGS]], [[$LIBTORRENT_LDADD]])
@@ -364,11 +368,13 @@ dnl Application flags -->
 	APP_CPPFLAGS="$MLIB_CPPFLAGS $APP_CPPFLAGS"
 	APP_CFLAGS="$MLIB_CFLAGS $APP_CFLAGS"
 	APP_CXXFLAGS="$MLIB_CXXFLAGS $APP_CXXFLAGS"
+	APP_DEPENDENCIES="$MLIB_DEPENDENCIES $APP_DEPENDENCIES"
 	APP_LDADD="$MLIB_LDADD $APP_LDADD"
 
 	AC_SUBST([APP_CPPFLAGS])
 	AC_SUBST([APP_CFLAGS])
 	AC_SUBST([APP_CXXFLAGS])
+	AC_SUBST([APP_DEPENDENCIES])
 	AC_SUBST([APP_LDADD])
 dnl Application flags <--
 
