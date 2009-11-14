@@ -158,7 +158,7 @@ namespace
 	// Progress_dialog -->
 		Progress_dialog::Progress_dialog(Gtk::Window& parent_window, const Torrent_source& torrent_source)
 		:
-			m::gtk::Dialog(parent_window, format_window_title(_("Hashing files..."))),
+			m::gtk::Dialog(parent_window, _("Hashing files...")),
 			is_cancel(false),
 			torrent_source(torrent_source)
 		{
@@ -481,8 +481,7 @@ namespace
 	Create_torrent_dialog::Create_torrent_dialog(Gtk::Window& parent_window)
 	:
 		m::gtk::Window(
-			parent_window,
-			format_window_title(_("Creating torrent")),
+			parent_window, _("Creating torrent"),
 			get_application().get_client_settings().gui.create_torrent_dialog.window, -1, -1
 		),
 

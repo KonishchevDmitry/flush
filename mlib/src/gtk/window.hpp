@@ -45,11 +45,15 @@
 
 		private:
 			/// Инициализатор, который вызывают конструкторы.
-			void init(GtkWindow* parent_window, const std::string& title, const Settings& settings, int width, int height, int border_width);
+			void	init(GtkWindow* parent_window, const std::string& title, const Settings& settings, int width, int height, int border_width);
 
 		public:
+			/// Аналог Gtk::Window::set_title(), но в дополнение форматирует
+			/// заголовок окна.
+			void	set_title(const Glib::ustring& title);
+
 			/// Сохраняет текущие настройки Window.
-			void save_settings(Settings& settings) const;
+			void	save_settings(Settings& settings) const;
 	};
 
 	}}

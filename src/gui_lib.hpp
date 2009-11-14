@@ -34,7 +34,7 @@
 
 
 /// Форматирует заголовок окна стандартным заранее определенным образом.
-Glib::ustring				format_window_title(const Glib::ustring& title = "");
+Glib::ustring				format_window_title(const Glib::ustring& title);
 
 /// Возвращает окно, наиболее подходящее в качестве родительского окна для
 /// диалога, отображение которого инициируется виджетом widget.

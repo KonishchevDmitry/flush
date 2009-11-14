@@ -22,7 +22,7 @@
 
 #include <mlib/main.hpp>
 
-#include <mlib/gtk/misc.hxx>
+#include <mlib/gtk/misc.hpp>
 
 #include "dialog.hpp"
 
@@ -34,6 +34,7 @@ namespace m { namespace gtk {
 		Gtk::Dialog(cobject)
 	{
 		this->property_destroy_with_parent() = true;
+		this->set_title(this->get_title());
 	}
 
 
@@ -65,6 +66,13 @@ namespace m { namespace gtk {
 
 		if(settings.width > 0 && settings.height > 0)
 			this->resize(settings.width, settings.height);
+	}
+
+
+
+	void Dialog::set_title(const Glib::ustring& title)
+	{
+		Gtk::Dialog::set_title(m::gtk::format_window_title(title));
 	}
 
 

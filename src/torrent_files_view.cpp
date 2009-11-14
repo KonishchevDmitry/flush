@@ -79,7 +79,7 @@ namespace
 
 		Change_path_dialog::Change_path_dialog(Gtk::Window& parent, const std::string& path)
 		:
-			m::gtk::Dialog(parent, format_window_title(_("Change file or directory path")))
+			m::gtk::Dialog(parent, _("Change file or directory path"))
 		{
 			this->set_resizable(false);
 

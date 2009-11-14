@@ -242,7 +242,7 @@ namespace Settings_window_aux
 
 Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* client_settings, Daemon_settings* daemon_settings)
 :
-	m::gtk::Dialog(parent_window, format_window_title(_("Preferences"))),
+	m::gtk::Dialog(parent_window, _("Preferences")),
 
 	priv(new Private),
 

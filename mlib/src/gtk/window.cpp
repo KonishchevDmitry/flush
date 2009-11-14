@@ -23,6 +23,7 @@
 #include <gtkmm/window.h>
 
 #include <mlib/gtk/main.hpp>
+#include <mlib/gtk/misc.hpp>
 #include <mlib/gtk/window_settings.hpp>
 
 #include "window.hpp"
@@ -73,6 +74,13 @@ void Window::init(GtkWindow* parent_window, const std::string& title, const Sett
 
 	if(settings.width > 0 && settings.height > 0)
 		this->resize(settings.width, settings.height);
+}
+
+
+
+void Window::set_title(const Glib::ustring& title)
+{
+	Gtk::Window::set_title(m::gtk::format_window_title(title));
 }
 
 

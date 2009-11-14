@@ -50,6 +50,10 @@
 
 
 		public:
+			/// Аналог Gtk::Dialog::set_title(), но в дополнение форматирует
+			/// заголовок окна.
+			void	set_title(const Glib::ustring& title);
+
 			/// Сохраняет текущие настройки.
 			void	save_settings(Settings& settings) const;
 	};

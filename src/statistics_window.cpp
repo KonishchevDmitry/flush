@@ -49,7 +49,7 @@ namespace
 
 Statistics_window::Statistics_window(Gtk::Window& parent_window)
 :
-	m::gtk::Dialog(parent_window, format_window_title(_("Statistics"))),
+	m::gtk::Dialog(parent_window, _("Statistics")),
 
 	rows_num(0),
 	columns_num(2),

@@ -398,7 +398,7 @@ Dialog_response ok_cancel_dialog(Gtk::Window& parent_window, const std::string& 
 		true
 	);
 
-	dialog.set_title(title);
+	dialog.set_title(format_window_title(title));
 	dialog.set_secondary_text(message);
 	dialog.set_default_response(Gtk::RESPONSE_CANCEL);
 	dialog.property_destroy_with_parent() = true;
@@ -419,7 +419,7 @@ void message(Gtk::Window& parent_window, const std::string& title, const std::st
 		true
 	);
 
-	dialog.set_title(title);
+	dialog.set_title(format_window_title(title));
 	dialog.set_secondary_text(message);
 	dialog.set_position(Gtk::WIN_POS_CENTER_ON_PARENT);
 	dialog.set_default_response(Gtk::RESPONSE_OK);
@@ -437,7 +437,7 @@ int message_with_buttons(Gtk::Window& parent_window, const std::string& title, c
 		true
 	);
 
-	dialog.set_title(title);
+	dialog.set_title(format_window_title(title));
 	dialog.set_secondary_text(message);
 
 	BOOST_FOREACH(const Message_button_desc& desc, buttons)
@@ -508,7 +508,7 @@ bool yes_no_dialog(Gtk::Window& parent_window, const std::string& title, const s
 		true
 	);
 
-	dialog.set_title(title);
+	dialog.set_title(format_window_title(title));
 	dialog.set_secondary_text(message);
 	dialog.set_default_response(Gtk::RESPONSE_NO);
 	dialog.property_destroy_with_parent() = true;

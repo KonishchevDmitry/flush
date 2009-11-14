@@ -97,31 +97,31 @@ namespace
 	/// В отличии от обычной, завершает программу и,
 	/// если программа запущена в графической среде,
 	/// отображает графическое сообщение.
-	void	app_init_warning_function(const char* file, size_t line, const std::string& title, const std::string& message);
+	void			app_init_warning_function(const char* file, size_t line, const std::string& title, const std::string& message);
 
 	/// Error-функция. Отличается от стандартной тем, что в
 	/// графическом режиме отображает окно с ошибкой.
-	void	error_function(const char* file, size_t line, const std::string& message);
+	void			error_function(const char* file, size_t line, const std::string& message);
 
 	/// Проверяет, запущена ли программа в режиме отображения
 	/// ошибки. Если да - осуществляет работу в режиме
 	/// отображения ошибки.
-	void	error_mode_check(int argc, char *argv[]);
+	void			error_mode_check(int argc, char *argv[]);
 
 	/// Обработчик нажатия на кнопку OK в окне отображения ошибки.
-	void	on_error_window_ok_button_callback(void);
+	void			on_error_window_ok_button_callback(void);
 
 	/// Наш собственный обработчик сигнала на нажатие по кнопке-ссылке.
-	void	on_linkbutton_uri_callback(Gtk::LinkButton* button, const Glib::ustring& uri);
+	void			on_linkbutton_uri_callback(Gtk::LinkButton* button, const Glib::ustring& uri);
 
 	/// Выводит на консоль Error сообщение.
-	void	print_error(const char* file, size_t line, const std::string& message, const std::string& debug_info);
+	void			print_error(const char* file, size_t line, const std::string& message, const std::string& debug_info);
 
 	/// Обработчик сигнала SIGCHLD.
-	void	sigchld_handler(int signal_no);
+	void			sigchld_handler(int signal_no);
 
 	/// Обработчик сигналов на завершение приложения.
-	void	signal_to_close_handler(int signal_no);
+	void			signal_to_close_handler(int signal_no);
 
 
 
@@ -262,7 +262,7 @@ namespace
 					debug_info = L2U(argv[3]);
 
 
-				m::gtk::Window error_window(format_window_title(_("Critical error")));
+				m::gtk::Window error_window(_("Critical error"));
 				error_window.set_border_width(m::gtk::WINDOW_BORDER_WIDTH * 2);
 				error_window.set_resizable(false);
 
@@ -738,6 +738,8 @@ int main(int argc, char *argv[])
 
 		Gtk::Window::set_default_icon_name(APP_UNIX_NAME);
 		Gtk::IconTheme::get_default()->append_search_path(APP_CUSTOM_ICONS_PATH);
+
+		m::gtk::set_format_window_title_function(&format_window_title);
 	}
 
 	// Входим в режим отображения ошибки, если это

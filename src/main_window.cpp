@@ -224,7 +224,7 @@
 	{
 		std::string title = this->traffic_type == DOWNLOAD ? _("Set download rate limit") : _("Set upload rate limit");
 
-		this->set_title(format_window_title(title));
+		this->set_title(title);
 		this->set_resizable(false);
 
 		if(!parent.is_visible())
@@ -309,12 +309,12 @@ Main_window::Main_window(const Main_window_settings& settings)
 	Main_window_settings& main_window_settings = client_settings.gui.main_window;
 
 	// Заголовок окна -->
-		this->gui->orig_window_title = format_window_title();
+		this->gui->orig_window_title = APP_NAME;
 
 		if(get_application().get_config_dir_path() != get_default_config_dir_path())
-			this->gui->orig_window_title += " (" + get_application().get_config_dir_path() + ")";
+			this->gui->orig_window_title = " (" + get_application().get_config_dir_path() + ")";
 
-		this->set_title(this->gui->orig_window_title);
+		Gtk::Window::set_title(this->gui->orig_window_title);
 	// Заголовок окна <--
 
 	// Трей
@@ -1128,7 +1128,7 @@ void Main_window::on_show_settings_window_callback(void)
 		// Чтобы потом можно было не обновлять каждый раз заголовок, содержимое
 		// которого будет постоянным.
 		if(!gui.show_speed_in_window_title)
-			this->set_title(this->gui->orig_window_title);
+			Gtk::Window::set_title(this->gui->orig_window_title);
 
 		this->show_tray_icon(gui.show_tray_icon);
 
@@ -1475,7 +1475,7 @@ void Main_window::update_gui(bool force)
 				// Заголовок окна -->
 					if(update_flags & UPDATE_WINDOW_TITLE)
 					{
-						this->set_title(
+						Gtk::Window::set_title(
 							__Q(
 								"Download/Upload|D: %1, U: %2 - %3",
 								m::speed_to_string(session_status.payload_download_speed),
@@ -1574,7 +1574,7 @@ void Main_window::update_gui(bool force)
 			catch(m::Exception& e)
 			{
 				if(update_flags & UPDATE_WINDOW_TITLE)
-					this->set_title(this->gui->orig_window_title);
+					Gtk::Window::set_title(this->gui->orig_window_title);
 
 				if(update_flags & UPDATE_WIDGETS)
 					this->gui->status_bar.hide();

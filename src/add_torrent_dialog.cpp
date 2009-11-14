@@ -214,7 +214,6 @@ Add_torrent_dialog::Add_torrent_dialog(BaseObjectType* cobject, const m::gtk::Bu
 	m::gtk::Dialog(cobject),
 	priv(new Private(builder, this))
 {
-	this->set_title(format_window_title(this->get_title()));
 }
 
 

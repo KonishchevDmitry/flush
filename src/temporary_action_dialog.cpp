@@ -238,7 +238,7 @@ void Temporary_action_dialog::init(Gtk::Window& parent_window, Temporary_action 
 
 		title = __Q("Temporary pause downloads|Temporary %1 %2", action_string, group_string);
 
-		this->set_title(format_window_title(title));
+		this->set_title(title);
 		priv->title_label->set_label("<b>" + Glib::Markup::escape_text(title) + "</b>");
 	}
 	// Загловок окна <--
