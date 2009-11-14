@@ -1,3 +1,8 @@
+[*] Fixed a bug, due to which "Copy when finished to" option copied
+unnecessary files (downloaded by libtorrent, but marked as "Do not download"
+by user.
+
+
 0.8 (2009.10.21)
 [+] Trackers' editing in the Add torrent dialog.
 [+] "Compact details tab" option in the Preferences window.
