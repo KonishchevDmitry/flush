@@ -72,8 +72,8 @@
 		total_failed(settings.total_failed),
 		total_redundant(settings.total_redundant),
 
-		bytes_done_on_last_torrent_finish(settings.bytes_done_on_last_torrent_finish),
-		bytes_downloaded_on_last_torrent_finish(settings.bytes_downloaded_on_last_torrent_finish)
+		bytes_done(settings.bytes_done),
+		bytes_done_on_last_torrent_finish(settings.bytes_done_on_last_torrent_finish)
 	{
 		try
 		{

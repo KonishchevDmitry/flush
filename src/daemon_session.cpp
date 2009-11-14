@@ -1046,55 +1046,75 @@ void Daemon_session::finish_torrent(Torrent& torrent)
 	{
 		try
 		{
-			Torrent_info info = torrent.get_info();
+			// Генерирует lt::invalid_handle
 			lt::torrent_status status = torrent.handle.status();
 
-			if(
-				torrent.bytes_done_on_last_torrent_finish != status.total_done ||
-				torrent.bytes_downloaded_on_last_torrent_finish != info.total_payload_download
-			)
+			if(torrent.bytes_done_on_last_torrent_finish != status.total_done)
 			{
 				COMPATIBILITY
 				// Совместимость с версиями < 0.9.
 				// Специальное значение, чтобы при переходе на новую версию
 				// Flush при первом запуске не выдал кучу нотификаций.
-				if(torrent.bytes_downloaded_on_last_torrent_finish >= 0)
+				if(torrent.bytes_done_on_last_torrent_finish != -2)
 				{
 					bool all_completed = true;
 
 					// Проверяем, есть ли еще скачивающиеся торренты -->
 					{
-						std::vector<Torrent_info> torrents_info;
-						this->get_torrents_info(torrents_info);
+						Torrents_container::const_iterator begin = priv->torrents.begin();
+						Torrents_container::const_iterator end = priv->torrents.end();
+						Torrents_container::const_iterator it = begin;
 
-						BOOST_FOREACH(const Torrent_info& info, torrents_info)
+						while(it != end)
 						{
+							const Torrent& torrent = it->second;
+							Torrent_info info = torrent.get_info();
+
+							// Если торрент не на паузе и у него скачаны не все данные
 							if(info.downloaded_requested_size != info.requested_size && !info.paused)
 							{
-								// TODO
-								//
-								// Тут, правда, есть одно но.  Если данный
-								// торрент проверяется, и проверка эта
-								// инициирована libtorrent (пропал какой-либо
-								// файл, не удалось прочитать resume data, или
-								// resume data только проверяется), то мы никак
-								// не можем различить эти случаи ([пропал
-								// какой-либо файл, не удалось прочитать resume
-								// data] или [resume data только проверяется]).
-								// В первом случае необходимо по завершении
-								// проверки сгенерировать уведомление, а во
-								// втором - нет.  Поэтому если в результате
-								// этой проверки окажется, что все что нужно
-								// уже скачано, то мы не сгенерируем
-								// пропущенное уведомление
-								// Notify_message::ALL_TORRENTS_FINISHED. Но на
-								// данный момент с текущей реализацией
-								// libtorrent мне что-то ничего не приходит в
-								// голову, как это можно исправить. :(
+								// Если торрент проверяется
+								if(info.status <= Torrent_info::CHECKING_FILES)
+								{
+									// Либо этот торрент не скачал еще ни
+									// одного байта, либо он поставлен на
+									// проверку пользователем.
+									if(torrent.bytes_done_on_last_torrent_finish < 0)
+									{
+										all_completed = false;
+										break;
+									}
+									// В данный момент у торрента проверяется resume data.
+									else
+									{
+										// Тут очень сложно что-либо сказать
+										// наверняка, поэтому попытаемся
+										// сделать хотя бы какие-то
+										// предположения.
 
-								all_completed = false;
-								break;
+										// Если в прошлой сессии торрент был
+										// скачанным, то, скорее всего, таким
+										// окажется и в этой сессии.
+										if(torrent.bytes_done == torrent.bytes_done_on_last_torrent_finish)
+											;
+										// В противном случае он продолжит
+										// скачивание.
+										else
+										{
+											all_completed = false;
+											break;
+										}
+									}
+								}
+								// Торрент скачивается
+								else
+								{
+									all_completed = false;
+									break;
+								}
 							}
+
+							it++;
 						}
 					}
 					// Проверяем, есть ли еще скачивающиеся торренты <--
@@ -1108,11 +1128,10 @@ void Daemon_session::finish_torrent(Torrent& torrent)
 					// Уведомляем о завершении скачивания всех торрентов
 					if(all_completed)
 						this->notify_message_signal(Notify_message(
-							Notify_message::ALL_TORRENTS_FINISHED, _("All torrents have downloaded.") ));
+							Notify_message::ALL_TORRENTS_FINISHED, _("All torrents downloaded.") ));
 				}
 
 				torrent.bytes_done_on_last_torrent_finish = status.total_done;
-				torrent.bytes_downloaded_on_last_torrent_finish = info.total_payload_download;
 				schedule_torrent_settings_saving = true;
 			}
 		}
@@ -1729,9 +1748,6 @@ void Daemon_session::pause_torrent(Torrent& torrent)
 	}
 
 	torrent.seeding = false;
-
-	// Планируем сохранение настроек торрента
-	this->schedule_torrent_settings_saving(torrent);
 }
 
 
@@ -1796,7 +1812,6 @@ void Daemon_session::recheck_torrent(const Torrent_id& torrent_id)
 		// Чтобы оповещение сгенерировалось даже в том случае, когда все файлы
 		// на месте.
 		torrent.bytes_done_on_last_torrent_finish = -1;
-
 		torrent.handle.force_recheck();
 	}
 	catch(lt::invalid_handle)
@@ -1936,10 +1951,6 @@ void Daemon_session::resume_torrent(Torrent& torrent)
 	{
 		MLIB_LE();
 	}
-
-	// Планируем сохранение настроек торрента
-	if(paused)
-		this->schedule_torrent_settings_saving(torrent);
 }
 
 
@@ -2646,6 +2657,22 @@ void Daemon_session::operator()(void)
 						// Извещаем демон о завершении скачивания торрента
 						m::gtk::Scoped_enter lock;
 						priv->torrent_finished_signal( static_cast<lt::torrent_alert*>( alert.get() )->handle );
+					}
+					// resume data устарела или испорчена.
+					else if( dynamic_cast<lt::fastresume_rejected_alert*>(alert.get()) )
+					{
+						// Это значит, что торрент нам придется качать заново.
+
+						lt::torrent_handle handle = static_cast<lt::torrent_alert*>( alert.get() )->handle;
+
+						try
+						{
+							m::gtk::Scoped_enter lock;
+							this->get_torrent(handle).bytes_done_on_last_torrent_finish = -1;
+						}
+						catch(m::Exception&)
+						{
+						}
 					}
 
 					// Передаем сообщение пользователю -->

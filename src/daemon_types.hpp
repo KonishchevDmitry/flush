@@ -121,13 +121,12 @@ class Torrent
 		Size								total_redundant;
 
 
+		/// Размер скачанных данных, который был в прошлой сессии.
+		Size								bytes_done;
+
 		/// Размер скачанных данных, который был в последний раз, когда
 		/// libtorrent сгенерировал для торрента torrent_finished_alert.
 		Size								bytes_done_on_last_torrent_finish;
-
-		/// Количество скачанных байт, которое было в последний раз, когда
-		/// libtorrent сгенерировал для торрента torrent_finished_alert.
-		Size								bytes_downloaded_on_last_torrent_finish;
 
 
 	public:
