@@ -782,7 +782,18 @@ namespace
 				setting.lookupValue("to", rule.to) &&
 				setting.lookupValue("block", rule.block)
 			)
-				ip_filter.push_back(rule);
+			{
+				try
+				{
+					rule.check();
+					ip_filter.push_back(rule);
+				}
+				catch(m::Exception& e)
+				{
+					MLIB_SW(__("Daemon config: Invalid IP filter rule at line %1: %2.",
+						setting.getSourceLine(), EE(e) ));
+				}
+			}
 			else
 			{
 				MLIB_SW(__("Daemon config: Invalid IP filter rule at line %1.", setting.getSourceLine()));
