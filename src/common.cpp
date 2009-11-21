@@ -260,16 +260,21 @@
 			ip = this->to;
 			to_address = lt::address_v4::from_string(ip);
 		}
-	#if M_BOOST_GET_VERSION() > M_GET_VERSION(1, 35, 0)
+	#if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 35, 0)
 		catch(boost::exception&)
-	#elif M_BOOST_GET_VERSION() == M_GET_VERSION(1, 35, 0)
-		catch(boost::system::system_error&)
-	#else
-		catch(asio::system_error&)
-	#endif
 		{
 			M_THROW(__("invalid IP address '%1'", ip));
 		}
+		catch(boost::system::system_error&)
+		{
+			M_THROW(__("invalid IP address '%1'", ip));
+		}
+	#else
+		catch(asio::system_error&)
+		{
+			M_THROW(__("invalid IP address '%1'", ip));
+		}
+	#endif
 
 		if(from_address > to_address)
 			M_THROW(__("invalid IP range %1-%2", this->from, this->to));

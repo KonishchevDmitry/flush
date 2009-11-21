@@ -448,11 +448,11 @@ namespace
 		{
 			M_THROW(__("Reading configuration file '%1' failed. %2", m::fs::get_abs_path_lazy(config_path), EE(e)));
 		}
-		catch(libconfig::FileIOException e)
+		catch(libconfig::FileIOException& e)
 		{
 			M_THROW(__("Error while reading configuration file '%1': %2.", m::fs::get_abs_path_lazy(real_config_path), EE(e)));
 		}
-		catch(libconfig::ParseException e)
+		catch(libconfig::ParseException& e)
 		{
 			M_THROW(__("Error while parsing configuration file '%1': %2.", m::fs::get_abs_path_lazy(real_config_path), EE(e)));
 		}
@@ -782,7 +782,18 @@ namespace
 				setting.lookupValue("to", rule.to) &&
 				setting.lookupValue("block", rule.block)
 			)
-				ip_filter.push_back(rule);
+			{
+				try
+				{
+					rule.check();
+					ip_filter.push_back(rule);
+				}
+				catch(m::Exception& e)
+				{
+					MLIB_SW(__("Daemon config: Invalid IP filter rule at line %1: %2.",
+						setting.getSourceLine(), EE(e) ));
+				}
+			}
 			else
 			{
 				MLIB_SW(__("Daemon config: Invalid IP filter rule at line %1.", setting.getSourceLine()));
