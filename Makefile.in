@@ -854,7 +854,7 @@ gettext:
 loop:
 	bash -c ' \
 	ulimit -c unlimited; \
-	check_files=$$(find $(srcdir)/src -name "*.cpp" -o -name "*.h" -o -name "*.hh" -o -name "*.hpp" -o -name "*.hxx"); \
+	check_files=$$(find $(srcdir)/mlib $(srcdir)/src -name "Makefile.am" -o -name "*.cpp" -o -name "*.h" -o -name "*.hh" -o -name "*.hpp" -o -name "*.hxx"); \
 	\
 	while true; \
 	do \

@@ -312,10 +312,11 @@ uint16_t PORT_MAX = 65535;
 	{
 		Wait_entry entries[] = {
 			Wait_entry(prioritize_fd ? fd : this->get_read_fd(), prioritize_fd ? false : true),
-			Wait_entry(prioritize_fd ? this->get_read_fd() : fd, prioritize_fd ? true: false)
+			Wait_entry(prioritize_fd ? this->get_read_fd() : fd, prioritize_fd ? true : false)
 		};
 
-		return wait_fds(entries, M_STATIC_ARRAY_SIZE(entries));
+		size_t id = wait_fds(entries, M_STATIC_ARRAY_SIZE(entries));
+		return prioritize_fd ? !id : id;
 	}
 
 

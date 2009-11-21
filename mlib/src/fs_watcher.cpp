@@ -404,7 +404,7 @@ void Fs_watcher::Implementation::unset_watching_directory(void)
 		while(1)
 		{
 			// В дескрипторе появились какие-то данные
-			if(connection.wait_for_with_owning(this->fd, true))
+			if(this->connection.wait_for_with_owning(this->fd, true))
 			{
 				MLIB_D("Getting inotify event(s)...");
 
@@ -463,7 +463,10 @@ void Fs_watcher::Implementation::unset_watching_directory(void)
 			}
 			// Получен сигнал, останавливающий поток
 			else
+			{
+				MLIB_D("FS watcher thread stopped.");
 				return;
+			}
 		}
 	}
 #endif

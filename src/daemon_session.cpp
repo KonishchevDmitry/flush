@@ -829,6 +829,8 @@ void Daemon_session::auto_load_if_torrent(const std::string& torrent_path)
 					M_THROW(__("Can't stat torrent file: %1.", EE(e)));
 			}
 		}
+		else
+			MLIB_D(_C("'%1' is not a torrent file.", torrent_path));
 	// Проверяем, действительно ли это *.torrent файл <--
 
 	if(is_torrent_file)
@@ -923,7 +925,7 @@ void Daemon_session::auto_load_torrents(void)
 			// Выкидываем все, что осталось в очереди
 			priv->fs_watcher.clear();
 
-			// Оключаем мониторинг в настройках
+			// Отключаем мониторинг в настройках
 			priv->settings.torrents_auto_load.is = false;
 		}
 	}
