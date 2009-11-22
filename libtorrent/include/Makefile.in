@@ -34,7 +34,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@ENABLE_SHIPPED_ASIO_TRUE@am__append_1 = \
+@WITH_SHIPPED_GEOIP_TRUE@am__append_1 = libtorrent/GeoIP.h
+@ENABLE_SHIPPED_ASIO_TRUE@am__append_2 = \
 @ENABLE_SHIPPED_ASIO_TRUE@libtorrent/asio.hpp \
 @ENABLE_SHIPPED_ASIO_TRUE@libtorrent/asio/basic_datagram_socket.hpp \
 @ENABLE_SHIPPED_ASIO_TRUE@libtorrent/asio/basic_deadline_timer.hpp \
@@ -265,7 +266,7 @@ am__noinst_HEADERS_DIST = libtorrent/alert.hpp \
 	libtorrent/error_code.hpp libtorrent/extensions.hpp \
 	libtorrent/file.hpp libtorrent/file_pool.hpp \
 	libtorrent/file_storage.hpp libtorrent/fingerprint.hpp \
-	libtorrent/GeoIP.h libtorrent/gzip.hpp libtorrent/hasher.hpp \
+	libtorrent/gzip.hpp libtorrent/hasher.hpp \
 	libtorrent/http_connection.hpp libtorrent/http_stream.hpp \
 	libtorrent/http_parser.hpp \
 	libtorrent/http_tracker_connection.hpp \
@@ -314,7 +315,7 @@ am__noinst_HEADERS_DIST = libtorrent/alert.hpp \
 	libtorrent/kademlia/refresh.hpp \
 	libtorrent/kademlia/routing_table.hpp \
 	libtorrent/kademlia/rpc_manager.hpp \
-	libtorrent/kademlia/traversal_algorithm.hpp \
+	libtorrent/kademlia/traversal_algorithm.hpp libtorrent/GeoIP.h \
 	libtorrent/asio.hpp libtorrent/asio/basic_datagram_socket.hpp \
 	libtorrent/asio/basic_deadline_timer.hpp \
 	libtorrent/asio/basic_io_object.hpp \
@@ -663,7 +664,7 @@ noinst_HEADERS = libtorrent/alert.hpp libtorrent/alert_types.hpp \
 	libtorrent/error_code.hpp libtorrent/extensions.hpp \
 	libtorrent/file.hpp libtorrent/file_pool.hpp \
 	libtorrent/file_storage.hpp libtorrent/fingerprint.hpp \
-	libtorrent/GeoIP.h libtorrent/gzip.hpp libtorrent/hasher.hpp \
+	libtorrent/gzip.hpp libtorrent/hasher.hpp \
 	libtorrent/http_connection.hpp libtorrent/http_stream.hpp \
 	libtorrent/http_parser.hpp \
 	libtorrent/http_tracker_connection.hpp \
@@ -712,7 +713,8 @@ noinst_HEADERS = libtorrent/alert.hpp libtorrent/alert_types.hpp \
 	libtorrent/kademlia/refresh.hpp \
 	libtorrent/kademlia/routing_table.hpp \
 	libtorrent/kademlia/rpc_manager.hpp \
-	libtorrent/kademlia/traversal_algorithm.hpp $(am__append_1)
+	libtorrent/kademlia/traversal_algorithm.hpp $(am__append_1) \
+	$(am__append_2)
 all: all-am
 
 .SUFFIXES:

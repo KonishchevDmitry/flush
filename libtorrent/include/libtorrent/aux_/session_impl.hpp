@@ -41,7 +41,11 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <deque>
 
 #ifndef TORRENT_DISABLE_GEO_IP
+#ifdef WITH_SHIPPED_GEOIP_H
 #include "libtorrent/GeoIP.h"
+#else
+#include <GeoIP.h>
+#endif
 #endif
 
 #ifdef _MSC_VER
@@ -70,7 +74,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/ip_filter.hpp"
 #include "libtorrent/config.hpp"
 #include "libtorrent/session_settings.hpp"
-#include "libtorrent/kademlia/dht_tracker.hpp"
 #include "libtorrent/session_status.hpp"
 #include "libtorrent/session.hpp"
 #include "libtorrent/stat.hpp"
@@ -80,6 +83,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/connection_queue.hpp"
 #include "libtorrent/disk_io_thread.hpp"
 #include "libtorrent/assert.hpp"
+#include "libtorrent/udp_socket.hpp"
 
 namespace libtorrent
 {
@@ -94,7 +98,7 @@ namespace libtorrent
 	namespace dht
 	{
 		class dht_tracker;
-	};
+	}
 
 	namespace aux
 	{

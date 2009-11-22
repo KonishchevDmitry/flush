@@ -3,7 +3,7 @@ libtorrent API Documentation
 ============================
 
 :Author: Arvid Norberg, arvid@rasterbar.com
-:Version: 0.14.6
+:Version: 0.14.7
 
 .. contents:: Table of contents
   :depth: 2
@@ -554,7 +554,7 @@ struct has the following members::
 		int allowed_upload_slots;
 
 		int dht_nodes;
-		int dht_cache_nodes;
+		int dht_node_cache;
 		int dht_torrents;
 		int dht_global_nodes;
 	};
@@ -588,11 +588,11 @@ be assigned a torrent yet.
 ``num_unchoked`` is the current number of unchoked peers.
 ``allowed_upload_slots`` is the current allowed number of unchoked peers.
 
-``dht_nodes``, ``dht_cache_nodes`` and ``dht_torrents`` are only available when
+``dht_nodes``, ``dht_node_cache`` and ``dht_torrents`` are only available when
 built with DHT support. They are all set to 0 if the DHT isn't running. When
 the DHT is running, ``dht_nodes`` is set to the number of nodes in the routing
 table. This number only includes *active* nodes, not cache nodes. The
-``dht_cache_nodes`` is set to the number of nodes in the node cache. These nodes
+``dht_node_cache`` is set to the number of nodes in the node cache. These nodes
 are used to replace the regular nodes in the routing table in case any of them
 becomes unresponsive.
 
@@ -750,9 +750,14 @@ same pointer until the alert is popped by calling ``pop_alert``. This is useful 
 leaving any alert dispatching mechanism independent of this blocking call, the dispatcher
 can be called and it can pop the alert independently.
 
+In the python binding, ``wait_for_alert`` takes the number of milliseconds to wait as an integer.
+
 ``set_alert_queue_size_limit()`` you can specify how many alerts can be awaiting for dispatching.
 If this limit is reached, new incoming alerts can not be received until alerts are popped
 by calling ``pop_alert``. Default value is 1000.
+
+``save_resume_data_alert`` and ``save_resume_data_failed_alert`` are always posted, regardelss
+of the alert mask.
 
 add_extension()
 ---------------
@@ -1639,6 +1644,7 @@ Its declaration looks like this::
 		void resolve_countries(bool r);
 		bool resolve_countries() const;
 
+		void piece_availability(std::vector<int>& avail) const;
 		void piece_priority(int index, int priority) const;
 		int piece_priority(int index) const;
 		void prioritize_pieces(std::vector<int> const& pieces) const;
@@ -1676,6 +1682,23 @@ it will throw ``invalid_handle``.
 	one exception ``is_valid()`` will never throw.
 	Since the torrents are processed by a background thread, there is no
 	guarantee that a handle will remain valid between two calls.
+
+
+piece_availability()
+--------------------
+
+	::
+
+		void piece_availability(std::vector<int>& avail) const;
+
+Fills the specified ``std::vector<int>`` with the availability for each
+piece in this torrent. libtorrent does not keep track of availability for
+seeds, so if the torrent is seeding the availability for all pieces is
+reported as 0.
+
+The piece availability is the number of peers that we are connected that has
+advertized having a particular piece. This is the information that libtorrent
+uses in order to prefer picking rare pieces.
 
 
 piece_priority() prioritize_pieces() piece_priorities()

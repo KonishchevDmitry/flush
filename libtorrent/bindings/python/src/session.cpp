@@ -125,6 +125,11 @@ namespace
         return;
     }
 
+    alert const* wait_for_alert(session& s, int ms)
+    {
+        return s.wait_for_alert(milliseconds(ms));
+    }
+
     list get_torrents(session& s)
     {
         list ret;
@@ -173,7 +178,7 @@ void bind_session()
         .def_readonly("down_bandwidth_queue", &session_status::down_bandwidth_queue)
 #ifndef TORRENT_DISABLE_DHT
         .def_readonly("dht_nodes", &session_status::dht_nodes)
-        .def_readonly("dht_cache_nodes", &session_status::dht_node_cache)
+        .def_readonly("dht_node_cache", &session_status::dht_node_cache)
         .def_readonly("dht_torrents", &session_status::dht_torrents)
         .def_readonly("dht_global_nodes", &session_status::dht_global_nodes)
 #endif
@@ -261,6 +266,7 @@ void bind_session()
 #endif
         .def("set_alert_mask", allow_threads(&session::set_alert_mask))
         .def("pop_alert", allow_threads(&session::pop_alert))
+        .def("wait_for_alert", &wait_for_alert, return_internal_reference<>())
         .def("add_extension", &add_extension)
         .def("set_peer_proxy", allow_threads(&session::set_peer_proxy))
         .def("set_tracker_proxy", allow_threads(&session::set_tracker_proxy))

@@ -74,6 +74,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/instantiate_connection.hpp"
 #include "libtorrent/assert.hpp"
 #include "libtorrent/broadcast_socket.hpp"
+#include "libtorrent/kademlia/dht_tracker.hpp"
 
 using namespace libtorrent;
 using boost::tuples::tuple;
@@ -354,6 +355,18 @@ namespace libtorrent
 		if (m_trackers.empty()) return true;
 			
 		return m_failed_trackers > 0 || !m_ses.settings().use_dht_as_fallback;
+	}
+
+	void torrent::force_dht_announce()
+	{
+		m_last_dht_announce = min_time();
+		// DHT announces are done on the local service
+		// discovery timer. Trigger it.
+		error_code ec;
+		boost::weak_ptr<torrent> self(shared_from_this());
+		m_lsd_announce_timer.expires_from_now(seconds(1), ec);
+		m_lsd_announce_timer.async_wait(
+			bind(&torrent::on_lsd_announce_disp, self, _1));
 	}
 #endif
 
@@ -1698,13 +1711,11 @@ namespace libtorrent
 	{
 		session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
 
-		if (!j.resume_data && alerts().should_post<save_resume_data_failed_alert>())
+		if (!j.resume_data)
 		{
 			alerts().post_alert(save_resume_data_failed_alert(get_handle(), j.str));
-			return;
 		}
-
-		if (j.resume_data && alerts().should_post<save_resume_data_alert>())
+		else
 		{
 			write_resume_data(*j.resume_data);
 			alerts().post_alert(save_resume_data_alert(j.resume_data
@@ -2385,7 +2396,7 @@ namespace libtorrent
 		{
 			// the web seed connection will talk immediately to
 			// the proxy, without requiring CONNECT support
-			s->get<http_stream>().set_no_connect(true);
+			s->get<http_stream>()->set_no_connect(true);
 		}
 
 		boost::intrusive_ptr<peer_connection> c(new (std::nothrow) web_peer_connection(
@@ -4054,13 +4065,10 @@ namespace libtorrent
 				|| m_state == torrent_status::checking_files
 				|| m_state == torrent_status::checking_resume_data)
 			{
-				if (alerts().should_post<save_resume_data_alert>())
-				{
-					boost::shared_ptr<entry> rd(new entry);
-					write_resume_data(*rd);
-					alerts().post_alert(save_resume_data_alert(rd
-						, get_handle()));
-				}
+				boost::shared_ptr<entry> rd(new entry);
+				write_resume_data(*rd);
+				alerts().post_alert(save_resume_data_alert(rd
+					, get_handle()));
 			}
 			else
 			{
@@ -4070,11 +4078,8 @@ namespace libtorrent
 		}
 		else
 		{
-			if (alerts().should_post<save_resume_data_failed_alert>())
-			{
-				alerts().post_alert(save_resume_data_failed_alert(get_handle()
-					, "save resume data failed, torrent is being destructed"));
-			}
+			alerts().post_alert(save_resume_data_failed_alert(get_handle()
+				, "save resume data failed, torrent is being destructed"));
 		}
 	}
 

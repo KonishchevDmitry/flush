@@ -76,7 +76,7 @@ namespace libtorrent
 	bool valid_path_character(char c)
 	{
 #ifdef TORRENT_WINDOWS
-		static const char invalid_chars[] = "&?<>\"|\b*:+";
+		static const char invalid_chars[] = "?<>\"|\b*:";
 #else
 		static const char invalid_chars[] = "";
 #endif
@@ -87,7 +87,7 @@ namespace libtorrent
 	// fixes invalid UTF-8 sequences and
 	// replaces characters that are invalid
 	// in paths
-	bool verify_encoding(std::string& target)
+	bool verify_encoding(std::string& target, bool fix_paths = false)
 	{
 		std::string tmp_path;
 		bool valid_encoding = true;
@@ -98,13 +98,13 @@ namespace libtorrent
 			if ((*i & 0x80) == 0)
 			{
 				// replace invalid characters with '.'
-				if (valid_path_character(*i))
+				if (!fix_paths || valid_path_character(*i))
 				{
 					tmp_path += *i;
 				}
 				else
 				{
-					tmp_path += '.';
+					tmp_path += '_';
 					valid_encoding = false;
 				}
 				continue;
@@ -181,7 +181,7 @@ namespace libtorrent
 	void verify_encoding(file_entry& target)
 	{
 		std::string p = target.path.string();
-		if (!verify_encoding(p)) target.path = p;
+		if (!verify_encoding(p, true)) target.path = p;
 	}
 
 	bool valid_path_element(std::string const& element)
@@ -209,6 +209,7 @@ namespace libtorrent
 	bool extract_single_file(lazy_entry const& dict, file_entry& target
 		, std::string const& root_dir)
 	{
+		if (dict.type() != lazy_entry::dict_t) return false;
 		lazy_entry const* length = dict.dict_find("length");
 		if (length == 0 || length->type() != lazy_entry::int_t)
 			return false;
@@ -451,7 +452,7 @@ namespace libtorrent
 		}
 
 		// correct utf-8 encoding errors
-		verify_encoding(name);
+		verify_encoding(name, true);
 	
 		// extract file list
 		lazy_entry const* i = info.dict_find_list("files");

@@ -73,4 +73,5 @@ bindings/python/src/torrent_status.cpp \
 bindings/python/src/utility.cpp \
 bindings/python/src/version.cpp
 
+#pkgconfigdir   = $(libdir)/pkgconfig
 noinst_DATA = libtorrent-rasterbar.pc
