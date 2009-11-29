@@ -799,7 +799,7 @@ namespace aux {
 	{
 		shared_ptr<socket_type> c(new socket_type(m_io_service));
 		c->instantiate<stream_socket>(m_io_service);
-		listener->async_accept(c->get<stream_socket>()
+		listener->async_accept(*c->get<stream_socket>()
 			, bind(&session_impl::on_incoming_connection, this, c
 			, boost::weak_ptr<socket_acceptor>(listener), _1));
 	}
@@ -2153,6 +2153,13 @@ namespace aux {
 		std::list<std::pair<std::string, int> >().swap(m_dht_router_nodes);
 
 		m_dht->start(startup_state);
+
+		// announce all torrents we have to the DHT
+		for (torrent_map::const_iterator i = m_torrents.begin()
+			, end(m_torrents.end()); i != end; ++i)
+		{
+			i->second->force_dht_announce();
+		}
 	}
 
 	void session_impl::stop_dht()

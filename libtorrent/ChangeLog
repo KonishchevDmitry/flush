@@ -1,4 +1,32 @@
 
+release 0.14.7
+
+	* fixed deadlock in natpmp
+	* resume data alerts are always posted, regardless of alert mask
+	* added wait_for_alert to python binding
+	* improved invalid filename character replacement
+	* improved forward compatibility in DHT
+	* added set_piece_hashes that takes a callback to the python binding
+	* fixed division by zero in get_peer_info()
+	* fixed bug where pieces may have been requested before the metadata
+	  was received
+	* fixed incorrect error when deleting files from a torrent where
+	  not all files have been created
+	* announces torrents immediately to the DHT when it's started
+	* fixed bug in add_files that would fail to recurse if the path
+	  ended with a /
+	* fixed bug in error handling when parsing torrent files
+	* fixed file checking bug when renaming a file before checking the torrent
+	* fixed race conditon when receiving metadata from swarm
+	* fixed assert in ut_metadata plugin
+	* back-ported some fixes for building with no exceptions
+	* fixed create_torrent when passing in a path ending with /
+	* fixed move_storage when source doesn't exist
+	* fixed DHT state save bug for node-id
+	* fixed typo in python binding session_status struct
+	* broadcast sockets now join every network interface (used for UPnP and
+	  local peer discovery)
+
 release 0.14.6
 
 	* various missing include fixes to be buildable with boost 1.40

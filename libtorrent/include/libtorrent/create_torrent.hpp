@@ -143,22 +143,20 @@ namespace libtorrent
 		{
 			using boost::filesystem::path;
 			using boost::filesystem::directory_iterator;
-#if BOOST_VERSION < 103600
-			std::string const& leaf = l.leaf();
-#else
-			std::string const& leaf = l.filename();
-#endif
-			if (leaf == ".." || leaf == ".") return;
 			if (!pred(l)) return;
 			path f(p / l);
 			if (is_directory(f))
 			{
 				for (directory_iterator i(f), end; i != end; ++i)
+				{
 #if BOOST_VERSION < 103600
-					add_files_impl(fs, p, l / i->path().leaf(), pred);
+					std::string leaf = i->path().leaf();
 #else
-					add_files_impl(fs, p, l / i->path().filename(), pred);
+					std::string leaf = i->path().filename();
 #endif
+					if (leaf == ".." || leaf == ".") continue;
+					add_files_impl(fs, p, l / leaf, pred);
+				}
 			}
 			else
 			{
@@ -170,19 +168,25 @@ namespace libtorrent
 	template <class Pred>
 	void add_files(file_storage& fs, boost::filesystem::path const& file, Pred p)
 	{
+		boost::filesystem::path f = file;
 #if BOOST_VERSION < 103600
-		detail::add_files_impl(fs, complete(file).branch_path(), file.leaf(), p);
+		if (f.leaf() == ".") f = f.branch_path();
+		detail::add_files_impl(fs, complete(f).branch_path(), f.leaf(), p);
 #else
-		detail::add_files_impl(fs, complete(file).parent_path(), file.filename(), p);
+		if (f.filename() == ".") f = f.parent_path();
+		detail::add_files_impl(fs, complete(f).parent_path(), f.filename(), p);
 #endif
 	}
 
 	inline void add_files(file_storage& fs, boost::filesystem::path const& file)
 	{
+		boost::filesystem::path f = file;
 #if BOOST_VERSION < 103600
-		detail::add_files_impl(fs, complete(file).branch_path(), file.leaf(), detail::default_pred);
+		if (f.leaf() == ".") f = f.branch_path();
+		detail::add_files_impl(fs, complete(f).branch_path(), f.leaf(), detail::default_pred);
 #else
-		detail::add_files_impl(fs, complete(file).parent_path(), file.filename(), detail::default_pred);
+		if (f.filename() == ".") f = f.parent_path();
+		detail::add_files_impl(fs, complete(f).parent_path(), f.filename(), detail::default_pred);
 #endif
 	}
 	
@@ -213,6 +217,7 @@ namespace libtorrent
 		}
 	}
 
+#ifndef BOOST_NO_EXCEPTIONS
 	template <class Fun>
 	void set_piece_hashes(create_torrent& t, boost::filesystem::path const& p, Fun f)
 	{
@@ -227,6 +232,7 @@ namespace libtorrent
 		set_piece_hashes(t, p, detail::nop, ec);
 		if (ec) throw libtorrent_exception(ec);
 	}
+#endif
 
 	inline void set_piece_hashes(create_torrent& t, boost::filesystem::path const& p, error_code& ec)
 	{

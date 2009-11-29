@@ -2212,7 +2212,7 @@ namespace libtorrent
 
 	void peer_connection::add_request(piece_block const& block)
 	{
-//		INVARIANT_CHECK;
+		INVARIANT_CHECK;
 
 		boost::shared_ptr<torrent> t = m_torrent.lock();
 		TORRENT_ASSERT(t);
@@ -2793,7 +2793,9 @@ namespace libtorrent
 		p.write_state = m_channel_state[upload_channel];
 		p.read_state = m_channel_state[download_channel];
 		
-		p.progress = (float)p.pieces.count() / (float)p.pieces.size();
+		// pieces may be empty if we don't have metadata yet
+		if (p.pieces.size() == 0) p.progress = 0.f;
+		else p.progress = (float)p.pieces.count() / (float)p.pieces.size();
 	}
 
 	// allocates a disk buffer of size 'disk_buffer_size' and replaces the
@@ -3134,12 +3136,24 @@ namespace libtorrent
 		if (!t->has_picker()) return;
 		piece_picker& picker = t->picker();
 
+		int prev_request_queue = m_request_queue.size();
+
+		// request a new block before removing the previous
+		// one, in order to prevent it from
+		// picking the same block again, stalling the
+		// same piece indefinitely.
+		m_desired_queue_size = 2;
+		request_a_block(*t, *this);
+		m_desired_queue_size = 1;
+
 		piece_block r(-1, -1);
 		// time out the last request in the queue
-		if (!m_request_queue.empty())
+		if (prev_request_queue > 0)
 		{
-			r = m_request_queue.back();
-			m_request_queue.pop_back();
+			std::deque<piece_block>::iterator i
+				= m_request_queue.begin() + (prev_request_queue - 1);
+			r = *i;
+			m_request_queue.erase(i);
 		}
 		else
 		{
@@ -3169,14 +3183,6 @@ namespace libtorrent
 		if (!m_download_queue.empty() || !m_request_queue.empty())
 			m_timeout_extend += m_ses.settings().request_timeout;
 
-		m_desired_queue_size = 2;
-		request_a_block(*t, *this);
-		m_desired_queue_size = 1;
-
-		// abort the block after the new one has
-		// been requested in order to prevent it from
-		// picking the same block again, stalling the
-		// same piece indefinitely.
 		if (r != piece_block(-1, -1))
 			picker.abort_download(r);
 

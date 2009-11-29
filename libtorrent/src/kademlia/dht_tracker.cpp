@@ -653,6 +653,22 @@ namespace libtorrent { namespace dht
 						++m_failed_announces;
 #endif
 				}
+				// if we don't recognize the request, but we see a 'target' or 'info_hash'
+				// in the arguments, treat it as a find_node request to be forward compatible
+				else if (a.find_key("target"))
+				{
+					std::string const& target = a["target"].string();
+					if (target.size() != 20) throw std::runtime_error("invalid size of target id");
+					std::copy(target.begin(), target.end(), m.info_hash.begin());
+					m.message_id = libtorrent::dht::messages::find_node;
+				}
+				else if (a.find_key("info_hash"))
+				{
+					std::string const& target = a["info_hash"].string();
+					if (target.size() != 20) throw std::runtime_error("invalid size of info-hash");
+					std::copy(target.begin(), target.end(), m.info_hash.begin());
+					m.message_id = libtorrent::dht::messages::find_node;
+				}
 				else
 				{
 #ifdef TORRENT_DHT_VERBOSE_LOGGING
@@ -735,7 +751,7 @@ namespace libtorrent { namespace dht
 				ret["nodes"] = nodes;
 		}
 		
-		ret["node-id"] = boost::lexical_cast<std::string>(m_dht.nid());
+		ret["node-id"] = m_dht.nid().to_string();
 		return ret;
 	}
 

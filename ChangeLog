@@ -3,6 +3,7 @@
 [*] Fixed a bug, due to which "Copy when finished to" option copied
 unnecessary files (downloaded by libtorrent, but marked as "Do not download"
 by user.
+[*] libtorrent-rasterbar 0.14.7.
 
 
 0.8 (2009.10.21)
