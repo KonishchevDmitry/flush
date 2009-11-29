@@ -66,7 +66,7 @@ class Torrent_metadata
 	public:
 		Torrent_metadata(
 			const lt::torrent_info& info,
-			const std::string& publisher_url
+			const std::string& publisher_url = ""
 		);
 
 
@@ -76,6 +76,10 @@ class Torrent_metadata
 };
 
 
+
+/// Возвращает Torrent_metadata, соответствующий magnet-ссылке.
+/// @throw - m::Exception.
+Torrent_metadata			get_magnet_metadata(const std::string& magnet);
 
 /// Возвращает список путей скачанных файлов торрента torrent_handle.
 /// @throw - libtorrent::invalid_handle.
@@ -98,15 +102,15 @@ std::vector<Torrent_file>	get_torrent_files(const std::string& torrent_path, con
 /// Возвращает список путей файлов торрента torrent_info.
 std::vector<std::string>	get_torrent_files_paths(const libtorrent::torrent_info& torrent_info);
 
-/// Возвращает libtorrent::torrent_info, соответствующий
-/// торренту, данные которого хранятся в буфере.
+/// Возвращает Torrent_metadata, соответствующий торренту, данные которого
+/// хранятся в буфере.
 /// @throw - m::Exception.
-Torrent_metadata			get_torrent_metadata(const m::Buffer& torrent_data, const std::string& encoding);
+Torrent_metadata			get_torrent_metadata(const m::Buffer& torrent_data, const std::string& encoding = MLIB_UTF_CHARSET_NAME);
 
-/// Возвращает libtorrent::torrent_info, соответствующий
-/// торренту torrent_path.
+/// Возвращает Torrent_metadata, соответствующий торренту torrent_uri, который
+/// может быть либо файлом торрента, либо magnet-ссылкой.
 /// @throw - m::Exception.
-Torrent_metadata			get_torrent_metadata(const std::string& torrent_path, const std::string& encoding);
+Torrent_metadata			get_torrent_metadata(const std::string& torrent_uri, const std::string& encoding = MLIB_UTF_CHARSET_NAME);
 
 /// Возвращает список трекеров торрента.
 /// @throw - lt::invalid_handle.
@@ -117,6 +121,9 @@ std::vector<std::string>	get_torrent_trackers(const libtorrent::torrent_info& to
 
 /// Возвращает текущую версию libtorrent.
 Version						get_version(void);
+
+/// Определяет, является ли uri magnet-ссылкой.
+bool						is_magnet_uri(const std::string& uri);
 
 }
 

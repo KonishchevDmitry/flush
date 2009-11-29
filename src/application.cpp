@@ -255,9 +255,9 @@ void Application::add_message(const Message& message)
 
 
 
-void Application::add_torrent(const std::string& torrent_path, const New_torrent_settings& torrent_settings)
+void Application::add_torrent(const std::string& torrent_uri, const New_torrent_settings& torrent_settings)
 {
-	get_daemon_proxy().add_torrent(torrent_path, torrent_settings);
+	get_daemon_proxy().add_torrent(torrent_uri, torrent_settings);
 
 	// Чтобы торрент появился моментально
 	update_gui();

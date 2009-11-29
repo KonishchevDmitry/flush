@@ -31,12 +31,15 @@
 
 #include <glibmm/main.h>
 
+#include <libtorrent/extensions/metadata_transfer.hpp>
 #include <libtorrent/extensions/smart_ban.hpp>
+#include <libtorrent/extensions/ut_metadata.hpp>
 #include <libtorrent/extensions/ut_pex.hpp>
 #include <libtorrent/alert.hpp>
 #include <libtorrent/alert_types.hpp>
 #include <libtorrent/bencode.hpp>
 #include <libtorrent/ip_filter.hpp>
+#include <libtorrent/magnet_uri.hpp>
 #include <libtorrent/session.hpp>
 #include <libtorrent/torrent_handle.hpp>
 #include <libtorrent/torrent_info.hpp>
@@ -65,7 +68,6 @@
 #endif
 
 
-#define TORRENT_FILE_NAME "torrent.torrent"
 #define RESUME_DATA_FILE_NAME "resume"
 #define SAVE_SESSION_TIMEOUT ( 5 * 60 * 1000 ) // ms
 #define THREAD_CANCEL_RESPONSE_TIMEOUT ( 500 ) // ms
@@ -396,6 +398,12 @@ Daemon_session::Daemon_session(const std::string& config_dir_path)
 	}
 	// Настройки libtorrent <--
 
+	// Расширения -->
+		// Поддержка magnet-ссылок
+		priv->session.add_extension(&lt::create_metadata_plugin);
+		priv->session.add_extension(&lt::create_ut_metadata_plugin);
+	// Расширения <--
+
 	// Задаем начальные настройки демона -->
 	{
 		Daemon_settings daemon_settings;
@@ -457,11 +465,11 @@ Daemon_session::~Daemon_session(void)
 
 
 
-void Daemon_session::add_torrent(const std::string& torrent_path, const New_torrent_settings& new_torrent_settings, bool error_if_not_exists)
+void Daemon_session::add_torrent(const std::string& torrent_uri, const New_torrent_settings& new_torrent_settings, bool error_if_not_exists)
 {
 	Torrent_id torrent_id;
 
-	torrent_id = this->add_torrent_to_config(torrent_path, new_torrent_settings, error_if_not_exists);
+	torrent_id = this->add_torrent_to_config(torrent_uri, new_torrent_settings, error_if_not_exists);
 
 	if(torrent_id)
 		this->load_torrent(torrent_id);
@@ -469,43 +477,58 @@ void Daemon_session::add_torrent(const std::string& torrent_path, const New_torr
 
 
 
-Torrent_id Daemon_session::add_torrent_to_config(const std::string& torrent_path, const New_torrent_settings& new_torrent_settings, bool error_if_not_exists) const
+Torrent_id Daemon_session::add_torrent_to_config(const std::string& torrent_uri, const New_torrent_settings& new_torrent_settings, bool error_if_not_exists) const
 {
-	MLIB_D(_C("Adding torrent '%1' to config...", torrent_path));
+	MLIB_D(_C("Adding torrent '%1' to config...", torrent_uri));
 
 	m::Buffer torrent_data;
 	std::auto_ptr<lt::torrent_info> torrent_info;
-
-	// Получаем данные торрента -->
-		try
-		{
-			torrent_data.load_file(torrent_path);
-		}
-		catch(m::Sys_exception& e)
-		{
-			// No such file or directory
-			if(e.errno_val == ENOENT && !error_if_not_exists)
-			{
-				MLIB_D(_C("Torrent file '%1' is already not exists. Skiping it...", torrent_path));
-				return Torrent_id();
-			}
-			else
-				M_THROW(__("Error while reading torrent file '%1': %2.", torrent_path, EE(e)));
-		}
-	// Получаем данные торрента <--
+	bool magnet = m::lt::is_magnet_uri(torrent_uri);
 
 	// Получаем информацию о торренте -->
-		try
+		if(magnet)
 		{
+			// Генерирует m::Exception
 			torrent_info = std::auto_ptr<lt::torrent_info>(
 				new lt::torrent_info(m::lt::get_torrent_metadata(
-					torrent_data, new_torrent_settings.encoding
+					torrent_uri, new_torrent_settings.encoding
 				).info)
 			);
 		}
-		catch(m::Exception& e)
+		else
 		{
-			M_THROW(__("Error while reading torrent file '%1': %2.", torrent_path, EE(e)));
+			// Получаем данные торрента -->
+				try
+				{
+					torrent_data.load_file(torrent_uri);
+				}
+				catch(m::Sys_exception& e)
+				{
+					// No such file or directory
+					if(e.errno_val == ENOENT && !error_if_not_exists)
+					{
+						MLIB_D(_C("Torrent file '%1' is already not exists. Skiping it...", torrent_uri));
+						return Torrent_id();
+					}
+					else
+						M_THROW(__("Error while reading torrent file '%1': %2.", torrent_uri, EE(e)));
+				}
+			// Получаем данные торрента <--
+
+			// Получаем информацию о торренте -->
+				try
+				{
+					torrent_info = std::auto_ptr<lt::torrent_info>(
+						new lt::torrent_info(m::lt::get_torrent_metadata(
+							torrent_data, new_torrent_settings.encoding
+						).info)
+					);
+				}
+				catch(m::Exception& e)
+				{
+					M_THROW(__("Error while reading torrent file '%1': %2.", torrent_uri, EE(e)));
+				}
+			// Получаем информацию о торренте <--
 		}
 	// Получаем информацию о торренте <--
 
@@ -519,7 +542,7 @@ Torrent_id Daemon_session::add_torrent_to_config(const std::string& torrent_path
 			M_THROW(_("This torrent is already exists in the current session."));
 		else
 		{
-			MLIB_D(_C("Torrent '%1' is already exists in the current session.", torrent_path));
+			MLIB_D(_C("Torrent '%1' is already exists in the current session.", torrent_uri));
 			return Torrent_id();
 		}
 	}
@@ -558,29 +581,31 @@ Torrent_id Daemon_session::add_torrent_to_config(const std::string& torrent_path
 			// Массив либо должен быть пуст, либо в нем должно быть такое
 			// количество файлов, как и в открываемом торренте.
 			if(!new_torrent_settings.files_settings.empty() && new_torrent_settings.files_settings.size() != files_num)
-				M_THROW(__("Torrent file '%1' has been changed while it's been processed.", torrent_path));
+				M_THROW(__("Torrent '%1' has been changed while it's been processed.", torrent_uri));
 		// Получаем информацию о торренте <--
 
 		// Сохраняем *.torrent файл в его папку -->
-		{
-			std::string torrent_dest_path = Path(torrent_dir_path) / TORRENT_FILE_NAME;
+			if(!magnet)
+			{
+				std::string torrent_dest_path = Path(torrent_dir_path) / TORRENT_FILE_NAME;
 
-			try
-			{
-				torrent_data.write_file(torrent_dest_path);
+				try
+				{
+					torrent_data.write_file(torrent_dest_path);
+				}
+				catch(m::Exception& e)
+				{
+					M_THROW(__(
+						"Can't copy torrent file '%1' to '%2': %3.",
+						torrent_uri, m::fs::get_abs_path_lazy(torrent_dest_path), EE(e)
+					));
+				}
 			}
-			catch(m::Exception& e)
-			{
-				M_THROW(__(
-					"Can't copy torrent file '%1' to '%2': %3.",
-					torrent_path, m::fs::get_abs_path_lazy(torrent_dest_path), EE(e)
-				));
-			}
-		}
 		// Сохраняем *.torrent файл в его папку <--
 
 		// Сохраняем конфигурационный файл торрента -->
 			Torrent_settings(
+				magnet ? torrent_uri : "",
 				(
 					new_torrent_settings.name == ""
 					?
@@ -656,55 +681,61 @@ void Daemon_session::add_torrent_to_session(m::lt::Torrent_metadata torrent_meta
 	// Добавляем торрент в сессию libtorrent -->
 		try
 		{
-			std::vector<char> resume_data;
-			lt::entry resume_data_entry = torrent_settings.resume_data;
-
 			lt::add_torrent_params params;
-
-			params.ti = boost::intrusive_ptr<lt::torrent_info>(new lt::torrent_info(torrent_metadata.info));
 			params.save_path = U2LT(torrent_settings.download_path);
-
-			// Если у нас есть resume data
-			if(resume_data_entry.type() != lt::entry::undefined_t)
-			{
-				#if M_LT_GET_VERSION() >= M_GET_VERSION(0, 14, 3)
-					// Наши настройки, которые мы задали только что, будут
-					// конфликтовать с теми, которые есть в resume_data (они
-					// идентичны). В результате libtorrent сгенерирует кучу
-					// lt::file_rename_failed_alert'ов вида:
-					// ${torrent_name}: failed to rename file 197: ${file_name}.
-					//
-					// Доверять эту информацию resume_data мы не можем, т. к.
-					// resume_data можно сгенерировать не всегда: если торрент
-					// только добавился, и началась проверка файлов, то
-					// resume_data сгенерировать не удастся. Если в данный
-					// момент прервать работу клиента, то все настройки будут
-					// утеряны.
-					//
-					// Поэтому просто вырезаем эту информацию из resume_data.
-					{
-						lt::entry* entry = resume_data_entry.find_key("mapped_files");
-
-						if(entry)
-							*entry = lt::entry(entry->type());
-					}
-				#endif
-
-				// Добавляем торрент в приостановленном состоянии ("paused" в
-				// resume data, которая хранит состояние торрента в момент
-				// генерации resume_data, имеет приоритет над params.paused).
-				if(resume_data_entry.type() == lt::entry::dictionary_t)
-					resume_data_entry["paused"] = true;
-
-				lt::bencode(std::back_inserter(resume_data), resume_data_entry);
-				params.resume_data = &resume_data;
-			}
-
 			params.paused = true;
 			params.auto_managed = false;
 			params.duplicate_is_error = true;
 
-			torrent_handle = priv->session.add_torrent(params);
+			// Если мы добавляем *.torrent-файл
+			if(torrent_metadata.info.metadata_size())
+			{
+				std::vector<char> resume_data;
+				lt::entry resume_data_entry = torrent_settings.resume_data;
+
+				params.ti = boost::intrusive_ptr<lt::torrent_info>(new lt::torrent_info(torrent_metadata.info));
+
+				// Если у нас есть resume data
+				if(resume_data_entry.type() != lt::entry::undefined_t)
+				{
+					#if M_LT_GET_VERSION() >= M_GET_VERSION(0, 14, 3)
+						// Наши настройки, которые мы задали только что, будут
+						// конфликтовать с теми, которые есть в resume_data (они
+						// идентичны). В результате libtorrent сгенерирует кучу
+						// lt::file_rename_failed_alert'ов вида:
+						// ${torrent_name}: failed to rename file 197: ${file_name}.
+						//
+						// Доверять эту информацию resume_data мы не можем, т. к.
+						// resume_data можно сгенерировать не всегда: если торрент
+						// только добавился, и началась проверка файлов, то
+						// resume_data сгенерировать не удастся. Если в данный
+						// момент прервать работу клиента, то все настройки будут
+						// утеряны.
+						//
+						// Поэтому просто вырезаем эту информацию из resume_data.
+						{
+							lt::entry* entry = resume_data_entry.find_key("mapped_files");
+
+							if(entry)
+								*entry = lt::entry(entry->type());
+						}
+					#endif
+
+					// Добавляем торрент в приостановленном состоянии ("paused" в
+					// resume data, которая хранит состояние торрента в момент
+					// генерации resume_data, имеет приоритет над params.paused).
+					if(resume_data_entry.type() == lt::entry::dictionary_t)
+						resume_data_entry["paused"] = true;
+
+					lt::bencode(std::back_inserter(resume_data), resume_data_entry);
+					params.resume_data = &resume_data;
+				}
+
+				torrent_handle = priv->session.add_torrent(params);
+			}
+			// Если мы добавляем magnet-ссылку
+			else
+				torrent_handle = lt::add_magnet_uri(priv->session, torrent_settings.magnet, params);
 		}
 		catch(lt::duplicate_torrent e)
 		{
@@ -1336,13 +1367,16 @@ Revision Daemon_session::get_torrent_files_info(const Torrent& torrent, std::vec
 		{
 			try
 			{
-				*files = m::lt::get_torrent_files(torrent.handle.get_torrent_info());
+				if(torrent.handle.has_metadata())
+					*files = m::lt::get_torrent_files(torrent.handle.get_torrent_info());
+				else
+					files->clear();
 			}
-			catch(m::Exception)
+			catch(lt::invalid_handle)
 			{
 				MLIB_LE();
 			}
-			catch(lt::invalid_handle)
+			catch(m::Exception)
 			{
 				MLIB_LE();
 			}
@@ -1368,11 +1402,22 @@ Revision Daemon_session::get_torrent_files_info(const Torrent& torrent, std::vec
 			MLIB_LE();
 		}
 
-		if(downloaded.size() != files_settings.size())
-			MLIB_LE();
-
-		for(size_t i = 0; i < downloaded.size(); i++)
-			statuses->push_back( Torrent_file_status(files_settings[i], downloaded[i]) );
+		if(downloaded.size() == files_settings.size())
+			for(size_t i = 0; i < downloaded.size(); i++)
+				statuses->push_back( Torrent_file_status(files_settings[i], downloaded[i]) );
+		else
+		{
+			if(files_settings.empty())
+			{
+				// Видимо, данный торрент скачивался через magnet-ссылку,
+				// метаданные уже скачались, но мы еще не успели на это
+				// прореагировать. Поэтому пока что ведем себя так, как будто
+				// мы еще не получили метаданные торрента.
+				files->clear();
+			}
+			else
+				MLIB_LE();
+		}
 	}
 	// statuses <--
 
@@ -1497,44 +1542,119 @@ void Daemon_session::load_torrent(const Torrent_id& torrent_id)
 {
 	MLIB_D(_C("Loading torrent '%1'...", torrent_id));
 
-	lt::torrent_handle torrent_handle;
+	Errors_pool errors;
+	Torrent_settings::Read_flags settings_flags = 0;
+	Torrent_settings torrent_settings( this->get_torrents_download_path() );
 
-	// Генерирует m::Exception
-	m::lt::Torrent_metadata torrent_metadata = m::lt::get_torrent_metadata(
-		Path(this->get_torrent_dir_path(torrent_id)) / TORRENT_FILE_NAME,
-		Torrent_settings::get_encoding_from_config(this->get_torrent_dir_path(torrent_id))
-	);
+	// Получаем настройки торрента.
+	// Если прочитать не получится, то торрент будет
+	// добавлен с настройками по умолчанию.
+	// -->
+		try
+		{
+			torrent_settings.read(this->get_torrent_dir_path(torrent_id), &settings_flags);
+		}
+		catch(m::Exception& e)
+		{
+			errors += __("Restoring torrent's previous session settings failed. %1", EE(e));
+		}
+	// <--
 
-	// Получаем настройки торрента -->
-		Torrent_settings torrent_settings(
-			"",
-			true,
-			this->get_torrents_download_path(),
-			Download_settings(""),
-			MLIB_UTF_CHARSET_NAME,
-			std::vector<Torrent_file_settings>(torrent_metadata.info.num_files(), Torrent_file_settings()),
-			m::lt::get_torrent_trackers(torrent_metadata.info)
-		);
+	std::auto_ptr<m::lt::Torrent_metadata> torrent_metadata;
 
-		// Если прочитать не получится, то торрент будет
-		// добавлен с настройками по умолчанию.
-		// -->
+	// Получаем информацию о торренте -->
+	{
+		bool torrent_not_exists_error = false;
+		std::string torrent_path = Path(this->get_torrent_dir_path(torrent_id)) / TORRENT_FILE_NAME;
+
+		try
+		{
+			m::Buffer torrent_data;
+
 			try
 			{
-				torrent_settings.read(this->get_torrent_dir_path(torrent_id));
+				torrent_data.load_file(torrent_path);
 			}
-			catch(m::Exception& e)
+			catch(m::Sys_exception& e)
 			{
-				MLIB_W(__(
-					"Restoring torrent '%1' [%2] previous session settings failed. %3",
-					torrent_metadata.info.name(), torrent_id, EE(e)
-				));
+				if(e.errno_val == ENOENT)
+					torrent_not_exists_error = true;
+
+				throw;
 			}
-		// <--
-	// Получаем настройки торрента <--
+
+			// Генерирует m::Exception
+			torrent_metadata = std::auto_ptr<m::lt::Torrent_metadata>(
+				new m::lt::Torrent_metadata( m::lt::get_torrent_metadata(torrent_data, torrent_settings.encoding) ) );
+		}
+		catch(m::Exception& e)
+		{
+			// Magnet-ссылки у нас нет
+			if(torrent_settings.magnet.empty())
+			{
+				errors += __("Error while reading torrent file '%1': %2.", torrent_path, EE(e));
+				errors.throw_if_exists();
+			}
+			// У нас есть еще magnet-ссылка
+			else
+			{
+				// Чтобы, если потеряется *.torrent-файл, по окончании проверки
+				// скачанных файлов пользователь увидел уведомление о
+				// завершении скачивания торрента.
+				torrent_settings.bytes_done_on_last_torrent_finish = -1;
+
+				if(torrent_not_exists_error)
+				{
+					// Это не ошибка. Просто на данный момент мы пока что
+					// не имеем *.torrent-файл.
+				}
+				else
+					errors += __("Error while reading torrent file '%1': %2.", torrent_path, EE(e));
+
+				// Получаем информацию по magnet-ссылке -->
+					try
+					{
+						torrent_metadata = std::auto_ptr<m::lt::Torrent_metadata>(
+							new m::lt::Torrent_metadata( m::lt::get_magnet_metadata(torrent_settings.magnet) ) );
+					}
+					catch(m::Exception& e)
+					{
+						errors += EE(e);
+						errors.throw_if_exists();
+					}
+				// Получаем информацию по magnet-ссылке <--
+			}
+		}
+	}
+	// Получаем информацию о торренте <--
+
+	std::string torrent_name = torrent_settings.name.empty()
+		? torrent_metadata->info.name()
+		: torrent_settings.name;
+
+	// Проверяем информацию, полученную из конфига -->
+		if(size_t(torrent_metadata->info.num_files()) != torrent_settings.files_settings.size())
+		{
+			// Если торрент добавляется по magnet-ссылке, то у него еще нет
+			// информации о файлах, но в конфиге, эта информация при
+			// определенных обстоятельствах может появиться.
+			if(torrent_metadata->info.metadata_size())
+				MLIB_SW(__("Invalid torrent '%1' files' settings. Rejecting them...", torrent_name));
+
+			torrent_settings.files_settings.clear();
+			torrent_settings.files_settings.resize(torrent_metadata->info.num_files());
+		}
+
+		if(!(settings_flags & Torrent_settings::READ_FLAG_TRACKERS_GOTTEN))
+			torrent_settings.trackers = m::lt::get_torrent_trackers(torrent_metadata->info);
+	// Проверяем информацию, полученную из конфига <--
+
+	if(errors)
+		MLIB_W(_("Torrent added with errors"),
+			__("Torrent '%1' has been added with errors.%2", torrent_name, EE(errors)) );
 
 	// Добавляем торрент к сессии
-	add_torrent_to_session(torrent_metadata, torrent_settings);
+	add_torrent_to_session(*torrent_metadata, torrent_settings);
 
 	MLIB_D(_C("Torrent '%1' has been loaded.", torrent_id));
 }
@@ -1811,10 +1931,15 @@ void Daemon_session::recheck_torrent(const Torrent_id& torrent_id)
 	{
 		Torrent& torrent = this->get_torrent(torrent_id);
 
-		// Чтобы оповещение сгенерировалось даже в том случае, когда все файлы
-		// на месте.
-		torrent.bytes_done_on_last_torrent_finish = -1;
-		torrent.handle.force_recheck();
+		// Если торрент еще не получил метаданных, libtorrent падает с
+		// Segmentation fault.
+		if(torrent.handle.has_metadata())
+		{
+			// Чтобы оповещение сгенерировалось даже в том случае, когда все файлы
+			// на месте.
+			torrent.bytes_done_on_last_torrent_finish = -1;
+			torrent.handle.force_recheck();
+		}
 	}
 	catch(lt::invalid_handle)
 	{
@@ -1867,6 +1992,9 @@ void Daemon_session::remove_torrent_with_data(const Torrent_id& torrent_id)
 	std::string torrent_name = torrent.name;
 	std::string download_path = Path(torrent.get_download_path());
 
+	// Чтобы гарантировать, что далее список файлов торрента меняться не будет
+	// (актуально для magnet-ссылок).
+	this->pause_torrent(torrent);
 
 	// Получаем список файлов торрента -->
 		std::vector<std::string> files_paths;
@@ -1877,7 +2005,8 @@ void Daemon_session::remove_torrent_with_data(const Torrent_id& torrent_id)
 		}
 		catch(lt::invalid_handle)
 		{
-			MLIB_LE();
+			// В случае magnet-ссылки все время будет генерироваться
+			// исключение, пока не будут получены данные торрента.
 		}
 	// Получаем список файлов торрента <--
 
@@ -2651,6 +2780,22 @@ void Daemon_session::operator()(void)
 						priv->tracker_error_signal(
 							Tracker_error( *static_cast<lt::tracker_error_alert*>(alert.get()) )
 						);
+					}
+					// Получены данные торрента (при скачивании через magnet-ссылку)
+					else if( dynamic_cast<lt::metadata_received_alert*>(alert.get()) )
+					{
+						m::gtk::Scoped_enter lock;
+
+						try
+						{
+							Torrent& torrent = this->get_torrent(
+								static_cast<lt::metadata_received_alert*>(alert.get())->handle );
+							torrent.on_metadata_received(this->get_torrent_dir_path(torrent.id));
+						}
+						catch(m::Exception&)
+						{
+							MLIB_LE();
+						}
 					}
 					// Скачивание торрента завершено.
 					// Данное сообщение необходимо обработать по особому.

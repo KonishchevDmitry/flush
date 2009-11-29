@@ -60,7 +60,7 @@ namespace Add_torrent_dialog_aux
 		public:
 			Add_torrent_dialog*				dialog;
 
-			Gtk::Entry*						torrent_path;
+			Gtk::Entry*						torrent_uri;
 			Gtk::Entry*						torrent_name;
 			Gtk::CheckButton*				start_torrent;
 
@@ -102,7 +102,7 @@ namespace Add_torrent_dialog_aux
 	:
 		dialog(dialog)
 	{
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "torrent_path", 			this->torrent_path);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "torrent_uri", 			this->torrent_uri);
 		MLIB_GTK_BUILDER_GET_WIDGET(builder, "torrent_name", 			this->torrent_name);
 		MLIB_GTK_BUILDER_GET_WIDGET(builder, "start_torrent", 			this->start_torrent);
 
@@ -142,7 +142,10 @@ namespace Add_torrent_dialog_aux
 	{
 		// Если данный Gtk::Expander свернули и Gtk::Expander файловых виджетов
 		// не может занять освободившееся место.
-		if(!expander->get_expanded() && !this->files_expander->get_expanded())
+		if(
+			!expander->get_expanded()
+			&& ( !this->files_expander->get_expanded() || !this->files_expander->is_visible() )
+		)
 		{
 			Gtk::Widget* widget = *expander->get_children().begin();
 
@@ -162,8 +165,8 @@ namespace Add_torrent_dialog_aux
 
 	void Private::on_files_expanded_cb(void)
 	{
-		// Если Gtk::Expander с файловыми виджетами свернули
-		if(!this->files_expander->get_expanded())
+		// Если Gtk::Expander с файловыми виджетами свернули, или он скрыт
+		if(!this->files_expander->get_expanded() || !this->files_expander->is_visible())
 		{
 			// Временно удаляем из него виджеты, чтобы он выставил реально
 			// необходимый ему size request.
@@ -174,11 +177,12 @@ namespace Add_torrent_dialog_aux
 		gtk_box_set_child_packing(
 			GTK_BOX(this->files_expander->get_parent()->gobj()),
 			GTK_WIDGET(this->files_expander->gobj()),
-			this->files_expander->get_expanded(), TRUE, 0, GTK_PACK_START
+			this->files_expander->get_expanded() && this->files_expander->is_visible(),
+			TRUE, 0, GTK_PACK_START
 		);
 
-		// Если Gtk::Expander с файловыми виджетами свернули
-		if(!this->files_expander->get_expanded())
+		// Если Gtk::Expander с файловыми виджетами свернули, или он скрыт
+		if(!this->files_expander->get_expanded() || !this->files_expander->is_visible())
 		{
 			// Подгоняем размер окна
 			this->fit_window();
@@ -269,7 +273,7 @@ void Add_torrent_dialog::on_response(int response)
 				trackers
 			);
 
-			get_application().add_torrent(priv->torrent_path->get_text(), new_torrent_settings);
+			get_application().add_torrent(priv->torrent_uri->get_text(), new_torrent_settings);
 		}
 		catch(m::Exception& e)
 		{
@@ -277,7 +281,7 @@ void Add_torrent_dialog::on_response(int response)
 				_("Opening torrent failed"),
 				__(
 					"Opening torrent '%1' failed. %2",
-					priv->torrent_path->get_text(), EE(e)
+					priv->torrent_uri->get_text(), EE(e)
 				)
 			);
 		}
@@ -289,7 +293,7 @@ void Add_torrent_dialog::on_response(int response)
 
 
 
-void Add_torrent_dialog::process(Gtk::Window& parent_window, const std::string& torrent_path, const std::string& torrent_encoding)
+void Add_torrent_dialog::process(Gtk::Window& parent_window, const std::string& torrent_uri, const std::string& torrent_encoding)
 {
 	try
 	{
@@ -302,11 +306,11 @@ void Add_torrent_dialog::process(Gtk::Window& parent_window, const std::string& 
 		this->init(parent_window, settings.window);
 
 		// Генерирует m::Exception
-		lt::torrent_info torrent_info(m::lt::get_torrent_metadata(torrent_path, torrent_encoding).info);
+		lt::torrent_info torrent_info(m::lt::get_torrent_metadata(torrent_uri, torrent_encoding).info);
 
 
 		// Torrent -->
-			priv->torrent_path->set_text(torrent_path);
+			priv->torrent_uri->set_text(torrent_uri);
 			priv->torrent_name->set_text(torrent_info.name());
 			priv->start_torrent->set_active(user_settings.start_torrent_on_adding);
 		// Torrent <--
@@ -339,6 +343,9 @@ void Add_torrent_dialog::process(Gtk::Window& parent_window, const std::string& 
 
 
 		// Files -->
+			if(!m::lt::is_magnet_uri(torrent_uri))
+				priv->files_expander->show();
+
 			priv->files_expander->property_expanded().signal_changed().connect(
 				sigc::mem_fun(*priv, &Private::on_files_expanded_cb) );
 			settings.files_expander->set(*priv->files_expander);
@@ -348,7 +355,9 @@ void Add_torrent_dialog::process(Gtk::Window& parent_window, const std::string& 
 				// Генерирует m::Exception
 				new Torrent_files_static_view(torrent_info, settings.torrent_files_view)
 			);
+			priv->torrent_files_view->show_all();
 
+			if(priv->files_expander->is_visible())
 			{
 				// Запрашиваем место под Torrent_files_view (иначе GTK выделит ему
 				// самый минимум, который только возможен для ScrolledWindow).

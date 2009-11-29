@@ -2,6 +2,7 @@ uidir = $(datadir)/$(PACKAGE)/ui
 
 dist_ui_DATA = \
 	dialog.add_torrent.glade \
+	dialog.open_magnet_link.glade \
 	dialog.temporary_action.glade \
 	preferences.client.gui.glade \
 	preferences.client.gui.misc.glade \

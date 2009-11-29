@@ -141,7 +141,7 @@ class Application
 
 		/// Добавляет торрент в текущую сессию.
 		/// @throw - m::Exception.
-		void				add_torrent(const std::string& torrent_path, const New_torrent_settings& torrent_settings);
+		void				add_torrent(const std::string& torrent_uri, const New_torrent_settings& torrent_settings);
 
 		/// Инициирует завершение работы с приложением.
 		void				close(void);

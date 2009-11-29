@@ -22,12 +22,15 @@
 #include <algorithm>
 #include <functional>
 #include <iterator>
+#include <fstream>
 #include <string>
 
+#include <libtorrent/create_torrent.hpp>
 #include <libtorrent/session_status.hpp>
 #include <libtorrent/torrent_handle.hpp>
 #include <libtorrent/torrent_info.hpp>
 
+#include <mlib/fs.hpp>
 #include <mlib/libtorrent.hpp>
 
 #include "common.hpp"
@@ -47,6 +50,7 @@
 		id(full_id.id),
 		serial_number(full_id.serial_number),
 
+		magnet(settings.magnet),
 		handle(handle),
 
 		encoding(settings.encoding),
@@ -166,6 +170,112 @@
 		{
 			MLIB_LE();
 		}
+	}
+
+
+
+	void Torrent::on_metadata_received(const std::string& settings_dir_path)
+	{
+		size_t files_num;
+
+		// Сохраняем скаченные метаданные -->
+		{
+			std::string torrent_name;
+
+			try
+			{
+				torrent_name = this->handle.name();
+			}
+			catch(lt::invalid_handle&)
+			{
+				MLIB_LE();
+			}
+
+			try
+			{
+				lt::entry torrent_entry;
+
+				// Создаем метаданные торрента -->
+					try
+					{
+						lt::torrent_info info = this->handle.get_torrent_info();
+						lt::entry info_entry = lt::bdecode(
+							info.metadata().get(), info.metadata().get() + info.metadata_size() );
+						files_num = info.num_files();
+
+						std::vector<lt::announce_entry> trackers;
+						lt::file_storage fs = info.files();
+
+						// Переносим информацию из magnet-ссылки -->
+							try
+							{
+								m::lt::Torrent_metadata metadata = m::lt::get_magnet_metadata(this->magnet);
+
+								fs.set_name(metadata.info.name());
+								trackers = metadata.info.trackers();
+							}
+							catch(m::Exception& e)
+							{
+								// Вообще говоря, это исключение не должно генерироваться, но
+								// ставить здесь MLIB_LE() все-таки как-то слишком.
+								MLIB_SW(__("Unable to parse torrent '%1' magnet URI. %2", torrent_name, EE(e)));
+							}
+						// Переносим информацию из magnet-ссылки <--
+
+						lt::create_torrent torrent(fs);
+
+						BOOST_FOREACH(const lt::announce_entry& announce, trackers)
+							torrent.add_tracker(announce.url);
+
+						torrent_entry = torrent.generate();
+						torrent_entry["info"] = info_entry;
+					}
+					catch(...)
+					{
+						M_THROW(_("Libtorrent internal error."));
+					}
+				// Создаем метаданные торрента <--
+
+				// Сохраняем *.torrent-файл -->
+				{
+					std::string torrent_path = Path(settings_dir_path) / TORRENT_FILE_NAME;
+
+					// Генерирует m::Exception.
+					std::string real_torrent_path = m::fs::config::start_writing(torrent_path);
+
+					// Не вносим в try-блок, чтобы при ошибке деструктор не
+					// перезаписал значение errno.
+					std::ofstream torrent_file;
+
+					try
+					{
+						torrent_file.exceptions(std::ofstream::failbit | std::ofstream::badbit);
+						torrent_file.open(U2L(real_torrent_path).c_str(), std::ios::out | std::ios::binary | std::ios::trunc);
+						bencode( std::ostream_iterator<char>(torrent_file), torrent_entry );
+						torrent_file.close();
+					}
+					catch(std::ofstream::failure& e)
+					{
+						M_THROW(__("Can't save torrent file '%1': %2.", real_torrent_path, EE()));
+					}
+
+					// Генерирует m::Exception.
+					m::fs::config::end_writing(torrent_path);
+				}
+				// Сохраняем *.torrent-файл <--
+			}
+			catch(m::Exception& e)
+			{
+				MLIB_W(__("Unable to save torrent's metadata"),
+					__("Saving torrent's '%1' downloaded metadata failed. %2", torrent_name, EE(e)) );
+			}
+		}
+		// Сохраняем скаченные метаданные <--
+
+		// Обновляем настройки торрента -->
+			this->files_settings.resize(files_num);
+			this->files_revision++;
+		// Обновляем настройки торрента <--
 	}
 
 

@@ -1027,7 +1027,34 @@ namespace
 
 
 
+	Torrent_settings::Torrent_settings(const std::string& download_path)
+	:
+		time_added(time(NULL)),
+		time_seeding(0),
+
+		is_paused(true),
+		download_path(download_path),
+
+		download_settings(""),
+		encoding(MLIB_UTF_CHARSET_NAME),
+
+		total_download(0),
+		total_payload_download(0),
+		total_upload(0),
+		total_payload_upload(0),
+		total_failed(0),
+		total_redundant(0),
+
+		bytes_done(0),
+		// Чтобы мы почувствовали разницу даже когда торрент имеет размер 0 байт
+		bytes_done_on_last_torrent_finish(-1)
+	{
+	}
+
+
+
 	Torrent_settings::Torrent_settings(
+		const std::string& magnet,
 		const std::string& name,
 		bool paused,
 		const std::string& download_path,
@@ -1037,6 +1064,7 @@ namespace
 		const std::vector<std::string>& trackers
 	)
 	:
+		magnet(magnet),
 		name(name),
 
 		time_added(time(NULL)),
@@ -1067,6 +1095,7 @@ namespace
 
 	Torrent_settings::Torrent_settings(const Torrent& torrent, const lt::entry& resume_data)
 	:
+		magnet(torrent.magnet),
 		name(torrent.name),
 
 		time_added(torrent.time_added),
@@ -1100,38 +1129,13 @@ namespace
 
 
 
-	std::string Torrent_settings::get_encoding_from_config(const std::string& settings_dir_path)
-	{
-		libconfig::Config config;
-		std::string encoding = MLIB_UTF_CHARSET_NAME;
-		
-		try
-		{
-			Torrent_settings::read_config_data(
-				&config,
-				Path(settings_dir_path) / Torrent_settings::config_file_name
-			);
-		}
-		catch(m::Exception&)
-		{
-			return encoding;
-		}
-
-		if(config.getRoot().lookupValue("encoding", encoding) && !m::is_valid_encoding_name(encoding))
-			encoding = MLIB_UTF_CHARSET_NAME;
-
-		return encoding;
-	}
-
-
-
-	void Torrent_settings::read(const std::string& settings_dir_path)
+	void Torrent_settings::read(const std::string& settings_dir_path, Read_flags* flags)
 	{
 		Errors_pool errors;
 
 		try
 		{
-			this->read_config(Path(settings_dir_path) / this->config_file_name);
+			this->read_config(Path(settings_dir_path) / this->config_file_name, flags);
 		}
 		catch(m::Exception& e)
 		{
@@ -1152,7 +1156,7 @@ namespace
 
 
 
-	void Torrent_settings::read_config(const std::string& config_path)
+	void Torrent_settings::read_config(const std::string& config_path, Read_flags* flags)
 	{
 		Version daemon_version = M_GET_VERSION(0, 0, 0);
 		libconfig::Config config;
@@ -1198,6 +1202,26 @@ namespace
 			else if(m::is_eq(setting_name, "libtorrent_version"))
 			{
 				CHECK_OPTION_TYPE(setting, m::libconfig::Version_type, continue)
+			}
+			else if(m::is_eq(setting_name, "magnet"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeString, continue)
+
+				std::string magnet = static_cast<const char *>(setting);
+
+				try
+				{
+					if(!m::lt::is_magnet_uri(magnet))
+						M_THROW_EMPTY();
+
+					m::lt::get_torrent_metadata(magnet);
+
+					this->magnet = magnet;
+				}
+				catch(m::Exception& e)
+				{
+					bad_option_value(setting, magnet);
+				}
 			}
 			else if(m::is_eq(setting_name, "name"))
 			{
@@ -1295,19 +1319,18 @@ namespace
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeArray, continue)
 
-				if(static_cast<size_t>(setting.getLength()) != this->files_settings.size())
-				{
-					bad_option_value(setting, __("Bad files number: %1 vs %2.", setting.getLength(), this->files_settings.size()));
-					continue;
-				}
+				std::vector<Torrent_file_settings> files_settings;
+				files_settings.resize(setting.getLength());
 
 				if(setting.getLength())
 				{
 					CHECK_OPTION_TYPE(setting[0], libconfig::Setting::TypeInt, continue)
 
 					for(int file_id = 0; file_id < setting.getLength(); file_id++)
-						this->files_settings[file_id].download = bool(static_cast<int>(setting[file_id]));
+						files_settings[file_id].download = bool(static_cast<int>(setting[file_id]));
 				}
+
+				this->files_settings.swap(files_settings);
 			}
 			else if(m::is_eq(setting_name, "encoding"))
 			{
@@ -1324,11 +1347,8 @@ namespace
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeList, continue)
 
-				if(size_t(setting.getLength()) != this->files_settings.size())
-				{
-					bad_option_value(setting, __("Bad files number: %1 vs %2.", setting.getLength(), this->files_settings.size()));
-					continue;
-				}
+				std::vector<Torrent_file_settings> files_settings;
+				files_settings.resize(setting.getLength());
 
 				for(int file_id = 0; file_id < setting.getLength(); file_id++)
 				{
@@ -1352,7 +1372,7 @@ namespace
 								std::string path = L2U(static_cast<const char*>(setting));
 
 								if(path != "")
-									this->files_settings[file_id].path = path;
+									files_settings[file_id].path = path;
 							}
 							else
 							{
@@ -1361,7 +1381,7 @@ namespace
 								if(m::is_valid_utf(path))
 								{
 									if(Path(path).is_absolute())
-										this->files_settings[file_id].path = path;
+										files_settings[file_id].path = path;
 									else
 										bad_option_value(setting, path);
 								}
@@ -1372,7 +1392,7 @@ namespace
 						else if(m::is_eq(setting_name, "download"))
 						{
 							CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
-							this->files_settings[file_id].download = setting;
+							files_settings[file_id].download = setting;
 						}
 						else if(m::is_eq(setting_name, "priority"))
 						{
@@ -1380,7 +1400,7 @@ namespace
 
 							try
 							{
-								this->files_settings[file_id].set_priority_by_name(setting);
+								files_settings[file_id].set_priority_by_name(setting);
 							}
 							catch(m::Exception& e)
 							{
@@ -1391,6 +1411,8 @@ namespace
 							unknown_option(setting);
 					}
 				}
+
+				this->files_settings.swap(files_settings);
 			}
 			else if(m::is_eq(setting_name, "trackers"))
 			{
@@ -1421,8 +1443,11 @@ namespace
 						invalid_option_utf_value(tracker_setting);
 				}
 
-				if(tracker_id == setting.getLength())
+				if(!setting.getLength() || !trackers.empty())
+				{
 					this->trackers = trackers;
+					*flags |= READ_FLAG_TRACKERS_GOTTEN;
+				}
 			}
 			else if(m::is_eq(setting_name, "is_paused"))
 			{
@@ -1483,19 +1508,17 @@ namespace
 		try
 		{
 			real_config_path = m::fs::config::start_reading(config_path);
-
-			if(m::fs::is_exists(real_config_path))
-				config->readFile(U2L(real_config_path).c_str());
+			config->readFile(U2L(real_config_path).c_str());
 		}
 		catch(m::Exception& e)
 		{
 			M_THROW(__("Reading torrent configuration file '%1' failed. %2", m::fs::get_abs_path_lazy(config_path), EE(e)));
 		}
-		catch(libconfig::FileIOException e)
+		catch(libconfig::FileIOException& e)
 		{
 			M_THROW(__("Error while reading torrent configuration file '%1': %2.", m::fs::get_abs_path_lazy(real_config_path), EE(e)));
 		}
-		catch(libconfig::ParseException e)
+		catch(libconfig::ParseException& e)
 		{
 			M_THROW(__("Error while parsing torrent configuration file '%1': %2.", m::fs::get_abs_path_lazy(real_config_path), EE(e)));
 		}
@@ -1611,6 +1634,8 @@ namespace
 		config_root.add("version", m::libconfig::Version_type) = static_cast<m::libconfig::Version>(APP_VERSION);
 		config_root.add("libtorrent_version", m::libconfig::Version_type) = static_cast<m::libconfig::Version>(M_LT_GET_VERSION());
 
+		if(!this->magnet.empty())
+			config_root.add("magnet", libconfig::Setting::TypeString) = this->magnet;
 		config_root.add("name", libconfig::Setting::TypeString) = this->name;
 
 		config_root.add("time_added", m::libconfig::Time_type) = static_cast<m::libconfig::Time>(this->time_added);

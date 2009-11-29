@@ -58,9 +58,9 @@ Daemon_proxy::~Daemon_proxy(void)
 
 
 
-void Daemon_proxy::add_torrent(const std::string& torrent_path, const New_torrent_settings& torrent_settings)
+void Daemon_proxy::add_torrent(const std::string& torrent_uri, const New_torrent_settings& torrent_settings)
 {
-	this->daemon->add_torrent(torrent_path, torrent_settings);
+	this->daemon->add_torrent(torrent_uri, torrent_settings);
 }
 
 

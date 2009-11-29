@@ -49,6 +49,13 @@ namespace m {
 
 
 
+	std::string EE(const std::exception& error)
+	{
+		return error.what();
+	}
+
+
+
 	std::string EE(const std::ifstream& ifstream)
 	{
 		return EE();
@@ -90,7 +97,13 @@ namespace m {
 
 
 
-	const char* Exception::what(void) const
+	Exception::~Exception(void) throw()
+	{
+	}
+
+
+
+	const char* Exception::what(void) const throw()
 	{
 		return this->error.c_str();
 	}

@@ -28,6 +28,9 @@
 #include "daemon_settings.hpp"
 
 
+#define TORRENT_FILE_NAME "torrent.torrent"
+
+
 
 class Torrent
 {
@@ -51,6 +54,7 @@ class Torrent
 		size_t								serial_number;
 
 		std::string							name;
+		std::string							magnet;
 		lt::torrent_handle					handle;
 
 		/// Кодировка *.torrent файла.
@@ -147,6 +151,10 @@ class Torrent
 
 		/// Возвращает текущее состояние: приостановлен или нет.
 		bool				is_paused(void) const;
+
+		/// Обработчик сигнала на получение данных торрента (при скачивании
+		/// через magnet-ссылку).
+		void				on_metadata_received(const std::string& settings_dir_path);
 
 		/// Передает текущие настройки файлов libtorrent.
 		void				sync_files_settings(void);

@@ -249,8 +249,21 @@
 	class Torrent_settings
 	{
 		public:
+			typedef int Read_flags;
+
+			enum Read_flag {
+				/// Список трекеров прочитан из конфига
+				READ_FLAG_TRACKERS_GOTTEN
+			};
+
+
+		public:
+			/// Конструктор для новых торрентов.
+			Torrent_settings(const std::string& download_path);
+
 			/// Конструктор для новых торрентов.
 			Torrent_settings(
+				const std::string& magnet,
 				const std::string& name,
 				bool paused,
 				const std::string& download_path,
@@ -266,9 +279,13 @@
 
 
 		public:
+			/// Magnet-ссылка или "", если у торрента ее нет.
+			std::string							magnet;
+
 			/// Имя торрента или "", если необходимо использовать имя по
 			/// умолчанию.
 			std::string							name;
+
 
 			/// Время, когда торрент был добавлен в сессию.
 			time_t								time_added;
@@ -340,40 +357,37 @@
 
 
 		public:
-			/// Считывает кодировку *.torrent файла из конфигурационного файла.
-			static
-			std::string	get_encoding_from_config(const std::string& settings_dir_path);
-
-			/// Читает все необходимые настройки.
+			/// Читает все необходимые настройки и по мере чтения записывает в
+			/// flags информацию о прочитанных данных.
 			/// @throw - m::Exception.
-			void		read(const std::string& settings_dir_path);
+			void		read(const std::string& settings_dir_path, Read_flags* flags);
 
 			/// Записывает все необходимые настройки.
 			/// @throw - m::Exception.
 			void		write(const std::string& settings_dir_path) const;
 
 		private:
-			/// Читает настройки из конфигурационного файла торрента.
+			/// Читает настройки из конфигурационного файла торрента и по мере
+			/// чтения записывает в flags информацию о прочитанных данных.
 			/// @throw - m::Exception.
-			void	read_config(const std::string& config_path);
+			void		read_config(const std::string& config_path, Read_flags* flags);
 
 			/// Считывает конфигурационный файл, возвращая описывающую его
 			/// структуру.
-			static
 			/// @throw - m::Exception.
-			void	read_config_data(libconfig::Config* config, const std::string& config_path);
+			static void	read_config_data(libconfig::Config* config, const std::string& config_path);
 
 			/// Читает resume data торрента.
 			/// @throw - m::Exception.
-			void	read_resume_data(std::string resume_data_path);
+			void		read_resume_data(std::string resume_data_path);
 
 			/// Записывает настройки в конфигурационный файл торрента.
 			/// @throw - m::Exception.
-			void	write_config(const std::string& config_path) const;
+			void		write_config(const std::string& config_path) const;
 
 			/// Записывает resume data торрента.
 			/// @throw - m::Exception.
-			void	write_resume_data(const std::string& resume_data_path) const;
+			void		write_resume_data(const std::string& resume_data_path) const;
 	};
 
 #endif

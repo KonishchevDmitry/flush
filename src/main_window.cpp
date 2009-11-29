@@ -62,24 +62,25 @@
 #include <mlib/gtk/toolbar.hpp>
 #include <mlib/gtk/vbox.hpp>
 
-	#include "add_torrent_dialog.hpp"
-	#include "app_icons.hpp"
-	#include "application.hpp"
-	#include "categories_view.hpp"
-	#include "client_settings.hpp"
-	#include "common.hpp"
-	#include "create_torrent_dialog.hpp"
-	#include "daemon_proxy.hpp"
-	#include "daemon_settings.hpp"
-	#include "gui_lib.hpp"
-	#include "log_view.hpp"
-	#include "main.hpp"
-	#include "main_window.hpp"
-	#include "open_torrent_dialog.hpp"
-	#include "settings_window.hpp"
-	#include "statistics_window.hpp"
-	#include "temporary_action_dialog.hpp"
-	#include "torrents_viewport.hpp"
+#include "add_torrent_dialog.hpp"
+#include "app_icons.hpp"
+#include "application.hpp"
+#include "categories_view.hpp"
+#include "client_settings.hpp"
+#include "common.hpp"
+#include "create_torrent_dialog.hpp"
+#include "daemon_proxy.hpp"
+#include "daemon_settings.hpp"
+#include "gui_lib.hpp"
+#include "log_view.hpp"
+#include "main.hpp"
+#include "main_window.hpp"
+#include "open_magnet_dialog.hpp"
+#include "open_torrent_dialog.hpp"
+#include "settings_window.hpp"
+#include "statistics_window.hpp"
+#include "temporary_action_dialog.hpp"
+#include "torrents_viewport.hpp"
 
 
 // Интервал автоматического сохранения настроек.
@@ -333,8 +334,12 @@ Main_window::Main_window(const Main_window_settings& settings)
 				sigc::mem_fun(*this, &Main_window::on_create_callback)
 			);
 			action_group->add(
-				Gtk::Action::create("open", Gtk::Stock::OPEN, _("_Open")),
+				Gtk::Action::create("open", Gtk::Stock::OPEN, _("_Open a torrent")),
 				sigc::mem_fun(*this, &Main_window::on_open_callback)
+			);
+			action_group->add(
+				Gtk::Action::create("open_magnet", Gtk::Stock::JUMP_TO, _("_Open a magnet link")),
+				sigc::mem_fun(*this, &Main_window::on_open_magnet_callback)
 			);
 			action_group->add(
 				Gtk::Action::create("quit", Gtk::Stock::QUIT, _("_Quit")),
@@ -626,6 +631,7 @@ Main_window::Main_window(const Main_window_settings& settings)
 			"		<menu action='file'>"
 			"			<menuitem action='create'/>"
 			"			<menuitem action='open'/>"
+			"			<menuitem action='open_magnet'/>"
 			"			<menuitem action='quit'/>"
 			"		</menu>"
 
@@ -794,6 +800,16 @@ Main_window::Main_window(const Main_window_settings& settings)
 		this->gui->toolbar.append(
 			*button,
 			sigc::mem_fun(*this, &Main_window::on_open_callback)
+		);
+
+
+		button = Gtk::manage(new Gtk::ToolButton(Gtk::Stock::JUMP_TO));
+		button->set_label(_("Magnet link"));
+		button->set_tooltip_text(_("Open a magnet link"));
+		button->set_is_important();
+		this->gui->toolbar.append(
+			*button,
+			sigc::mem_fun(*this, &Main_window::on_open_magnet_callback)
 		);
 
 
@@ -1022,6 +1038,13 @@ void Main_window::on_interrupt_temporary_action_cb(bool complete)
 void Main_window::on_open_callback(void)
 {
 	new Open_torrent_dialog(*this);
+}
+
+
+
+void Main_window::on_open_magnet_callback(void)
+{
+	Open_magnet_dialog::create(*this);
 }
 
 
@@ -1285,7 +1308,7 @@ bool Main_window::on_window_state_changed_callback(const GdkEventWindowState* st
 
 
 
-void Main_window::open_torrent(const std::string& torrent_path, const std::string& torrent_encoding)
+void Main_window::open_torrent(const std::string& torrent_uri, const std::string& torrent_encoding)
 {
 	Client_settings& client_settings = get_client_settings();
 
@@ -1300,7 +1323,7 @@ void Main_window::open_torrent(const std::string& torrent_path, const std::strin
 			MLIB_GTK_BUILDER_GET_WIDGET_DERIVED(builder, "add_torrent_dialog", dialog);
 
 			// Генерирует m::Exception
-			dialog->process(*this, torrent_path, torrent_encoding);
+			dialog->process(*this, torrent_uri, torrent_encoding);
 		}
 		else
 		{
@@ -1311,12 +1334,12 @@ void Main_window::open_torrent(const std::string& torrent_path, const std::strin
 				torrent_encoding
 			);
 
-			get_application().add_torrent(torrent_path, new_torrent_settings);
+			get_application().add_torrent(torrent_uri, new_torrent_settings);
 		}
 	}
 	catch(m::Exception& e)
 	{
-		MLIB_W(_("Opening torrent failed"), __("Opening torrent '%1' failed. %2", torrent_path, EE(e)));
+		MLIB_W(_("Opening torrent failed"), __("Opening torrent '%1' failed. %2", torrent_uri, EE(e)));
 	}
 }
 

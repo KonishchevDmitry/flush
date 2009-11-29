@@ -390,10 +390,13 @@ namespace
 				// <--
 
 				// Пишем *.torrent файл -->
+				{
+					// Не вносим в try-блок, чтобы при ошибке деструктор не
+					// перезаписал значение errno.
+					std::ofstream torrent_file;
+
 					try
 					{
-						std::ofstream torrent_file;
-
 						torrent_file.exceptions(
 							std::ofstream::eofbit | std::ofstream::failbit | std::ofstream::badbit
 						);
@@ -421,6 +424,7 @@ namespace
 							this->torrent_source.save_path
 						));
 					}
+				}
 				// Пишем *.torrent файл <--
 
 				// Закрываем окно создания торрента -->

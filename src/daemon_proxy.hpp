@@ -59,9 +59,9 @@ class Daemon_proxy
 
 
 	public:
-		/// Добавляет *.torrent файл, указанный пользователем, в сессию.
+		/// Добавляет торрент в сессию.
 		/// @throw - m::Exception.
-		void						add_torrent(const std::string& torrent_path, const New_torrent_settings& torrent_settings);
+		void						add_torrent(const std::string& torrent_uri, const New_torrent_settings& torrent_settings);
 
 		/// Возвращает текущее ограничение на скорость.
 		/// @throw - m::Exception.

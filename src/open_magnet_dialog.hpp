@@ -19,8 +19,8 @@
 **************************************************************************/
 
 
-#ifndef HEADER_ADD_TORRENT_DIALOG
-#define HEADER_ADD_TORRENT_DIALOG
+#ifndef HEADER_OPEN_MAGNET_DIALOG
+#define HEADER_OPEN_MAGNET_DIALOG
 
 
 #include <boost/scoped_ptr.hpp>
@@ -32,22 +32,21 @@
 
 
 
-namespace Add_torrent_dialog_aux { class Private; }
+namespace Open_magnet_dialog_aux { class Private; }
 
 
-/// Диалог, отображаемый при открытии *.torrent файла.
-class Add_torrent_dialog: public m::gtk::Dialog
+/// Диалог, отображаемый при открытии magnet-ссылки.
+class Open_magnet_dialog: public m::gtk::Dialog
 {
 	private:
-		typedef Add_torrent_dialog_aux::Private Private;
+		typedef Open_magnet_dialog_aux::Private Private;
 
 
 	public:
-		Add_torrent_dialog(BaseObjectType* cobject, const m::gtk::Builder& builder);
+		Open_magnet_dialog(BaseObjectType* cobject, const m::gtk::Builder& builder);
 
 	private:
-		/// Диалог сам заботится о своем уничтожении.
-		~Add_torrent_dialog(void);
+		~Open_magnet_dialog(void);
 
 
 	private:
@@ -55,16 +54,16 @@ class Add_torrent_dialog: public m::gtk::Dialog
 
 
 	public:
-		/// Начинает обработку запроса.
-		/// @throw - m::Exception.
-		void			process(Gtk::Window& parent_window, const std::string& torrent_uri, const std::string& torrent_encoding);
+		/// Создает диалог и производит все необходимые действия по обработке
+		/// запроса.
+		static void	create(Gtk::Window& parent_window);
+
+		/// Возвращает magnet-ссылку, введенную пользователем.
+		std::string	get_uri(void);
 
 	private:
 		/// Обработчик сигнала на закрытие окна.
 		virtual void	on_hide(void);
-
-		/// Обработчик сигнала на реакцию пользователя.
-		virtual void	on_response(int response);
 };
 
 #endif

@@ -23,6 +23,7 @@
 #ifndef HEADER_MLIB_BASE_EXCEPTION
 #define HEADER_MLIB_BASE_EXCEPTION
 
+#include <exception>
 #include <string>
 #include <iosfwd>
 
@@ -42,10 +43,11 @@
 namespace m
 {
 	/// Стандартное для MLib исключение. Используется практически везде.
-	class Exception
+	class Exception: public std::exception
 	{
 		public:
 			explicit Exception(const char* file, size_t line, const std::string& error);
+			~Exception(void) throw();
 
 
 		private:
@@ -53,7 +55,7 @@ namespace m
 
 
 		public:
-			const char*		what(void) const;
+			const char*		what(void) const throw();
 	};
 
 
@@ -106,6 +108,7 @@ namespace m
 
 		std::string		EE(const Glib::Error& error);
 
+		std::string		EE(const std::exception& error);
 		std::string		EE(const std::ifstream& ifstream);
 		std::string		EE(const std::ofstream& ofstream);
 

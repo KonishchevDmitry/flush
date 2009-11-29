@@ -74,13 +74,13 @@ class Daemon_session: public Daemon_fs
 
 
 	public:
-		/// Добавляет в сессию новый торрент файл.
+		/// Добавляет в сессию новый торрент.
 		///
-		/// @param torrent_path - путь к файлу торрента.
+		/// @param torrent_uri - URI торрента.
 		/// @param error_if_not_exists - определяет, является ли ошибкой,
 		/// если файл торрента уже не существует.
 		/// @throw - m::Exception.
-		void						add_torrent(const std::string& torrent_path, const New_torrent_settings& torrent_settings, bool error_if_not_exists = true);
+		void						add_torrent(const std::string& torrent_uri, const New_torrent_settings& torrent_settings, bool error_if_not_exists = true);
 
 		/// Возвращает текущее ограничение на скорость.
 		Speed						get_rate_limit(Traffic_type traffic_type) const;

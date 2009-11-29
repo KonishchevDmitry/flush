@@ -45,6 +45,8 @@ flush_SOURCES = \
 	main.hpp \
 	main_window.cpp \
 	main_window.hpp \
+	open_magnet_dialog.cpp \
+	open_magnet_dialog.hpp \
 	open_torrent_dialog.cpp \
 	open_torrent_dialog.hpp \
 	settings_window.cpp \

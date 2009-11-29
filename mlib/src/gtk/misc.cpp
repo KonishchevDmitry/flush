@@ -411,7 +411,7 @@ Dialog_response ok_cancel_dialog(Gtk::Window& parent_window, const std::string& 
 
 
 
-void message(Gtk::Window& parent_window, const std::string& title, const std::string& message)
+bool message(Gtk::Window& parent_window, const std::string& title, const std::string& message)
 {
 	Gtk::MessageDialog dialog(
 		parent_window, title, false,
@@ -424,7 +424,7 @@ void message(Gtk::Window& parent_window, const std::string& title, const std::st
 	dialog.set_position(Gtk::WIN_POS_CENTER_ON_PARENT);
 	dialog.set_default_response(Gtk::RESPONSE_OK);
 	dialog.property_destroy_with_parent() = true;
-	dialog.run();
+	return dialog.run() != Gtk::RESPONSE_NONE;
 }
 
 

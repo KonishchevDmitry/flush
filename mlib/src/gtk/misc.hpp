@@ -106,7 +106,9 @@ Dialog_response	ok_cancel_dialog(Gtk::Window& parent_window, const std::string& 
 
 /// Отображает простое GTK сообщение и блокирует выполнение программы до
 /// тех пор, пока пользователь не нажмет на кнопку OK.
-void			message(Gtk::Window& parent_window, const std::string& title, const std::string& message);
+/// Возвращает false, если окно было закрыто в результате того, что было
+/// уничтожено родительское окно.
+bool			message(Gtk::Window& parent_window, const std::string& title, const std::string& message);
 
 /// Отображает диалог с кнопками, блокирующий выполнение программы.
 /// Возвращает соответствующий response id.

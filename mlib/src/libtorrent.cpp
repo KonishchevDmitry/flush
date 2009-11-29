@@ -21,9 +21,14 @@
 #ifdef MLIB_ENABLE_LIBTORRENT
 
 #include <algorithm>
+#include <exception>
+
+#include <boost/lexical_cast.hpp>
+#include <boost/optional.hpp>
 
 #include <libtorrent/bencode.hpp>
 #include <libtorrent/entry.hpp>
+#include <libtorrent/escape_string.hpp>
 #include <libtorrent/torrent_handle.hpp>
 #include <libtorrent/torrent_info.hpp>
 #include <libtorrent/version.hpp>
@@ -73,6 +78,82 @@ Torrent_metadata::Torrent_metadata(const lt::torrent_info& info, const std::stri
 	info(info),
 	publisher_url(publisher_url)
 {
+}
+
+
+
+Torrent_metadata get_magnet_metadata(const std::string& magnet)
+{
+	MLIB_D(_C("Getting magent link's '%1' info...", magnet));
+
+	if(!is_magnet_uri(magnet))
+		M_THROW(_("Invalid magnet URI."));
+
+	try
+	{
+		// libtorrent'овские функции могут сгенерировать очень много
+		// различных исключений исключений.
+
+		// Хэш -->
+			sha1_hash info_hash;
+			std::string info_hash_string;
+
+			{
+				std::string btih_prefix = "urn:btih:";
+				boost::optional<std::string> btih = lt::url_has_argument(magnet, "xt");
+
+				if(btih && btih->find(btih_prefix) == 0)
+				{
+					*btih = btih->substr(btih_prefix.size());
+
+					if(btih->size() == 40)
+						info_hash = boost::lexical_cast<sha1_hash>(*btih);
+					else
+						info_hash.assign(lt::base32decode(*btih));
+				}
+				else
+					M_THROW(_("there is no 'xt=urn:btih:' field in it"));
+			}
+
+			info_hash_string = boost::lexical_cast<std::string>(info_hash);
+			MLIB_D(_C("\tInfo hash: %1.", info_hash_string));
+		// Хэш <--
+
+		lt::torrent_info info(info_hash);
+
+		// Имя -->
+			{
+				boost::optional<std::string> name = lt::url_has_argument(magnet, "dn");
+
+				if(name)
+					info.files().set_name( lt::unescape_string(name->c_str()) );
+				else
+					info.files().set_name( info_hash_string);
+
+			}
+
+			MLIB_D(_C("\tName: '%1'.", info.name()));
+		// Имя <--
+
+		// Трекер -->
+		{
+			boost::optional<std::string> tracker = url_has_argument(magnet, "tr");
+
+			if(tracker)
+			{
+				std::string tracker_url = unescape_string(tracker->c_str());
+				MLIB_D(_C("\tTracker: '%1'.", tracker_url));
+				info.add_tracker(tracker_url);
+			}
+		}
+		// Трекер <--
+
+		return Torrent_metadata(info);
+	}
+	catch(std::exception& e)
+	{
+		M_THROW(__("Invalid magnet URI: %1.", EE(e)));
+	}
 }
 
 
@@ -377,21 +458,26 @@ Torrent_metadata get_torrent_metadata(const m::Buffer& torrent_data, const std::
 
 
 
-Torrent_metadata get_torrent_metadata(const std::string& torrent_path, const std::string& encoding)
+Torrent_metadata get_torrent_metadata(const std::string& torrent_uri, const std::string& encoding)
 {
-	m::Buffer torrent_data;
-
-	try
+	if(is_magnet_uri(torrent_uri))
+		return get_magnet_metadata(torrent_uri);
+	else
 	{
-		// Генерирует m::Exception
-		torrent_data.load_file(torrent_path);
+		m::Buffer torrent_data;
 
-		// Генерирует m::Exception
-		return get_torrent_metadata(torrent_data, encoding);
-	}
-	catch(m::Exception& e)
-	{
-		M_THROW(__("Error while reading torrent file '%1': %2.", torrent_path, EE(e)));
+		try
+		{
+			// Генерирует m::Exception
+			torrent_data.load_file(torrent_uri);
+
+			// Генерирует m::Exception
+			return get_torrent_metadata(torrent_data, encoding);
+		}
+		catch(m::Exception& e)
+		{
+			M_THROW(__("Error while reading torrent file '%1': %2.", torrent_uri, EE(e)));
+		}
 	}
 }
 
@@ -434,6 +520,19 @@ Version get_version(void)
 {
 	return ::m::get_version(LIBTORRENT_VERSION_MAJOR, LIBTORRENT_VERSION_MINOR, 0);
 }
+
+
+
+bool is_magnet_uri(const std::string& uri)
+{
+	std::string magnet_prefix = "magnet:";
+
+	if(uri.size() > magnet_prefix.size() && uri.substr(0, magnet_prefix.size()) == magnet_prefix)
+		return true;
+	else
+		return false;
+}
+
 
 }
 

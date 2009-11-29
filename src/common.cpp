@@ -789,7 +789,9 @@
 		}
 		catch(lt::invalid_handle&)
 		{
-			MLIB_LE();
+			// В случае magnet-ссылки все время будет генерироваться
+			// исключение, пока не будут получены данные торрента.
+			this->size = 0;
 		}
 
 		this->requested_size = torrent_status.total_wanted;
