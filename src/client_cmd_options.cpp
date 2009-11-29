@@ -27,6 +27,7 @@
 #include <glibmm/optioncontext.h>
 
 #include <mlib/fs.hpp>
+#include <mlib/libtorrent.hpp>
 #include <mlib/misc.hpp>
 
 #include "main.hpp"
@@ -222,16 +223,23 @@ void Client_cmd_options::parse(int argc, char *argv[])
 	// Все оставшиеся аргументы - файлы торрентов
 	for(int i = 1; i < argc; i++)
 	{
-		try
+		std::string arg = L2U(argv[i]);
+
+		if(m::lt::is_magnet_uri(arg))
+			this->torrents_paths.push_back(arg);
+		else
 		{
-			this->torrents_paths.push_back(Path(L2U(argv[i])).absolute());
-		}
-		catch(m::Exception& e)
-		{
-			MLIB_W(
-				__("Error while processing torrent '%1'", L2U(argv[i])),
-				__("Can't get '%1' absolute path: %2.", L2U(argv[i]), EE(e))
-			);
+			try
+			{
+				this->torrents_paths.push_back(Path(arg).absolute());
+			}
+			catch(m::Exception& e)
+			{
+				MLIB_W(
+					__("Error while processing torrent '%1'", L2U(argv[i])),
+					__("Can't get '%1' absolute path: %2.", L2U(argv[i]), EE(e))
+				);
+			}
 		}
 	}
 }

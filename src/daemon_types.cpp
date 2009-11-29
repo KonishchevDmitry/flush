@@ -176,8 +176,6 @@
 
 	void Torrent::on_metadata_received(const std::string& settings_dir_path)
 	{
-		size_t files_num;
-
 		// Сохраняем скаченные метаданные -->
 		{
 			std::string torrent_name;
@@ -201,7 +199,6 @@
 						lt::torrent_info info = this->handle.get_torrent_info();
 						lt::entry info_entry = lt::bdecode(
 							info.metadata().get(), info.metadata().get() + info.metadata_size() );
-						files_num = info.num_files();
 
 						std::vector<lt::announce_entry> trackers;
 						lt::file_storage fs = info.files();
@@ -273,8 +270,21 @@
 		// Сохраняем скаченные метаданные <--
 
 		// Обновляем настройки торрента -->
+		{
+			size_t files_num;
+
+			try
+			{
+				files_num = this->handle.get_torrent_info().num_files();
+			}
+			catch(lt::invalid_handle&)
+			{
+				MLIB_LE();
+			}
+
 			this->files_settings.resize(files_num);
 			this->files_revision++;
+		}
 		// Обновляем настройки торрента <--
 	}
 
