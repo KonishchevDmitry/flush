@@ -3,6 +3,8 @@
 [*] Fixed a bug, due to which "Copy when finished to" option copied
 unnecessary files (downloaded by libtorrent, but marked as "Do not download"
 by user.
+[*] Fixed unhandled exception when user entered an invalid IP address in the
+Preferences dialog.
 [*] libtorrent-rasterbar 0.14.7.
 
 
