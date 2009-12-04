@@ -260,21 +260,13 @@
 			ip = this->to;
 			to_address = lt::address_v4::from_string(ip);
 		}
-	#if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 35, 0)
-		catch(boost::exception&)
+		// В зависимости от того, где находится asio - в boost или libtorrent,
+		// в зависимости от версии boost/asio могут генерироваться совершенно
+		// различные исключения, поэтому это наилучший вариант.
+		catch(std::exception& e)
 		{
 			M_THROW(__("invalid IP address '%1'", ip));
 		}
-		catch(boost::system::system_error&)
-		{
-			M_THROW(__("invalid IP address '%1'", ip));
-		}
-	#else
-		catch(asio::system_error&)
-		{
-			M_THROW(__("invalid IP address '%1'", ip));
-		}
-	#endif
 
 		if(from_address > to_address)
 			M_THROW(__("invalid IP range %1-%2", this->from, this->to));
