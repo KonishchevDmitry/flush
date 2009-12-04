@@ -273,7 +273,12 @@ Torrent_metadata get_torrent_metadata(const m::Buffer& torrent_data, const std::
 
 		// publisher_url -->
 		{
-			const lazy_entry* entry = torrent_entry.dict_find_string("publisher-url");
+			const lazy_entry* entry;
+			
+			entry = torrent_entry.dict_find_string("publisher-url");
+
+			if(!entry)
+				entry = torrent_entry.dict_find_string("comment");
 
 			if(entry)
 			{

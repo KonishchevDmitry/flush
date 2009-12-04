@@ -196,7 +196,11 @@ bool is_url_string(const std::string& string)
 {
 	// Простейшая проверка на валидность адреса
 
-	if(string.size() < strlen("http://X") || string.substr(0, strlen("http://")) != "http://")
+	if(
+		string.size() < strlen("http://X") ||
+		string.substr(0, strlen("http://")) != "http://" ||
+		string.find(' ') != string.npos
+	)
 		return false;
 	else
 		return true;
