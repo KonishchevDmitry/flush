@@ -988,7 +988,10 @@ void Settings_window::load_settings(void)
 			}
 			// Misc <--
 
-			priv->daemon.network.ip_filter->set(settings.ip_filter);
+			// IP filter -->
+				priv->daemon.network.ip_filter->set_enabled(settings.ip_filter_enabled);
+				priv->daemon.network.ip_filter->set(settings.ip_filter);
+			// IP filter <--
 		// Network <--
 
 		// Automation -->
@@ -1283,8 +1286,10 @@ void Settings_window::save_settings(void)
 			}
 			// Misc <--
 
-			// IP filter
-			settings.ip_filter = priv->daemon.network.ip_filter->get();
+			// IP filter -->
+				settings.ip_filter_enabled = priv->daemon.network.ip_filter->get_enabled();
+				settings.ip_filter = priv->daemon.network.ip_filter->get();
+			// IP filter <--
 		// Network <--
 
 		// Automation -->

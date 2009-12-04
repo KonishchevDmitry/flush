@@ -2404,22 +2404,30 @@ void Daemon_session::set_settings(const Daemon_settings& settings, const bool in
 	// Максимальный интервал между запросами пиров у трекера <--
 
 	// IP фильтр -->
-		if(priv->settings.ip_filter != settings.ip_filter)
+		if(
+			priv->settings.ip_filter_enabled != settings.ip_filter_enabled ||
+			priv->settings.ip_filter != settings.ip_filter
+		)
 		{
 			lt::ip_filter ip_filter;
 
-			for(size_t i = 0; i < settings.ip_filter.size(); i++)
+			if(settings.ip_filter_enabled)
 			{
-				const Ip_filter_rule& rule = settings.ip_filter[i];
+				for(size_t i = 0; i < settings.ip_filter.size(); i++)
+				{
+					const Ip_filter_rule& rule = settings.ip_filter[i];
 
-				ip_filter.add_rule(
-					lt::address_v4::from_string(rule.from),
-					lt::address_v4::from_string(rule.to),
-					rule.block ? lt::ip_filter::blocked : 0
-				);
+					ip_filter.add_rule(
+						lt::address_v4::from_string(rule.from),
+						lt::address_v4::from_string(rule.to),
+						rule.block ? lt::ip_filter::blocked : 0
+					);
+				}
 			}
 
 			priv->session.set_ip_filter(ip_filter);
+
+			priv->settings.ip_filter_enabled = settings.ip_filter_enabled;
 			priv->settings.ip_filter = settings.ip_filter;
 		}
 	// IP фильтр <--

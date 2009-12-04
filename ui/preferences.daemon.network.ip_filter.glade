@@ -72,8 +72,9 @@
                 <property name="visible">True</property>
                 <property name="label_xalign">0</property>
                 <child>
-                  <widget class="GtkTable" id="table1">
+                  <widget class="GtkTable" id="ip_filter_widgets_container">
                     <property name="visible">True</property>
+                    <property name="sensitive">False</property>
                     <property name="border_width">2</property>
                     <property name="n_rows">5</property>
                     <property name="n_columns">5</property>
@@ -221,7 +222,13 @@
                   </widget>
                 </child>
                 <child>
-                  <placeholder/>
+                  <widget class="GtkCheckButton" id="ip_filter_enabled">
+                    <property name="label" translatable="yes" context="yes">Enable IP filter|Enable</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="draw_indicator">True</property>
+                  </widget>
                   <packing>
                     <property name="type">label_item</property>
                   </packing>

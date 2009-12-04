@@ -23,6 +23,7 @@
 #include <functional>
 
 #include <gtkmm/button.h>
+#include <gtkmm/checkbutton.h>
 #include <gtkmm/entry.h>
 #include <gtkmm/liststore.h>
 #include <gtkmm/scrolledwindow.h>
@@ -62,6 +63,9 @@
 
 
 		public:
+			Gtk::CheckButton*				enabled;
+			Gtk::Container*					widgets_container;
+
 			Gtk::Entry*						from_entry;
 			Gtk::Entry*						to_entry;
 			Gtk::ToggleButton*				block_button;
@@ -105,16 +109,25 @@ Ip_filter::Ip_filter(BaseObjectType* cobject, const m::gtk::Builder& builder)
 	priv( new Private )
 {
 	// Виджеты из Glade -->
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_from",		priv->from_entry);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_to",		priv->to_entry);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_block",		priv->block_button);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_enabled",			priv->enabled);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_widgets_container",	priv->widgets_container);
 
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_add",		priv->add_button);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_edit",		priv->edit_button);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_remove",	priv->remove_button);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_up",		priv->up_button);
-		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_down",		priv->down_button);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_from",				priv->from_entry);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_to",				priv->to_entry);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_block",				priv->block_button);
+
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_add",				priv->add_button);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_edit",				priv->edit_button);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_remove",			priv->remove_button);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_up",				priv->up_button);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ip_filter_down",				priv->down_button);
 	// Виджеты из Glade <--
+
+	// Enabled -->
+		priv->enabled->signal_clicked().connect(
+			sigc::mem_fun(*this, &Ip_filter::on_enabled_toggled_cb)
+		);
+	// Enabled <--
 
 	// Block button -->
 		priv->block_button->set_image(
@@ -225,6 +238,13 @@ std::vector<Ip_filter_rule> Ip_filter::get(void) const
 
 
 
+bool Ip_filter::get_enabled(void)
+{
+	return priv->enabled->get_active();
+}
+
+
+
 void Ip_filter::on_add_button_clicked_cb(void)
 {
 	Ip_filter_rule rule(
@@ -286,6 +306,13 @@ void Ip_filter::on_edit_button_clicked_cb(void)
 
 
 
+void Ip_filter::on_enabled_toggled_cb(void)
+{
+	priv->widgets_container->set_sensitive(this->get_enabled());
+}
+
+
+
 void Ip_filter::on_selection_changed_cb(void)
 {
 	Glib::RefPtr<Gtk::TreeSelection> selection = priv->list->get_selection();
@@ -313,5 +340,12 @@ void Ip_filter::set(const std::vector<Ip_filter_rule>& ip_filter)
 		ip_filter.begin(), ip_filter.end(),
 		sigc::mem_fun(*this, &Ip_filter::add)
 	);
+}
+
+
+
+void Ip_filter::set_enabled(bool is)
+{
+	priv->enabled->set_active(is);
 }
 

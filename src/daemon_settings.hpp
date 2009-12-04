@@ -149,7 +149,10 @@
 			Time							max_announce_interval;
 
 
-			/// IP фильтр.
+			/// Состояние IP-фильтра.
+			bool							ip_filter_enabled;
+
+			/// IP-фильтр.
 			std::vector<Ip_filter_rule>		ip_filter;
 
 

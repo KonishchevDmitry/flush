@@ -179,7 +179,9 @@ namespace
 		max_connections(-1),
 
 		use_max_announce_interval(false),
-		max_announce_interval(30 * 60)
+		max_announce_interval(30 * 60),
+
+		ip_filter_enabled(false)
 	{
 	}
 // Daemon_settings_light <--
@@ -628,6 +630,11 @@ namespace
 
 				this->max_announce_interval = interval;
 			}
+			else if(m::is_eq(setting_name, "ip_filter_enabled"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				this->ip_filter_enabled = setting;
+			}
 			else if(m::is_eq(setting_name, "ip_filter"))
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeList, continue)
@@ -730,6 +737,12 @@ namespace
 		COMPATIBILITY
 		if(config_version < M_GET_VERSION(0, 7, 0))
 			this->listen_random_port = false;
+
+		// Для совместимости с версиями < 0.9
+		COMPATIBILITY
+		if(config_version < M_GET_VERSION(0, 9, 0))
+			if(!this->ip_filter.empty())
+				this->ip_filter_enabled = true;
 	}
 
 
@@ -868,6 +881,8 @@ namespace
 				static_cast<m::libconfig::Time>(this->max_announce_interval);
 
 			// IP фильтр -->
+				config_root.add("ip_filter_enabled", libconfig::Setting::TypeBoolean) = this->ip_filter_enabled;
+
 				if(!this->ip_filter.empty())
 				{
 					libconfig::Setting& filter_setting = config_root.add("ip_filter", libconfig::Setting::TypeList);

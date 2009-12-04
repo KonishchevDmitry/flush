@@ -1,5 +1,6 @@
 [+] Download complete notifications.
 [+] Magnet links support.
+[+] IP filter enabling/disabling.
 [*] Fixed a bug, due to which "Copy when finished to" option copied
 unnecessary files (downloaded by libtorrent, but marked as "Do not download"
 by user.

@@ -52,8 +52,14 @@ class Ip_filter: public Gtk::VBox
 		/// Возвращает текущий список правил IP-фильтра.
 		std::vector<Ip_filter_rule>		get(void) const;
 
+		/// Возвращает текущий статус фильтра (включен/выключен).
+		bool							get_enabled(void);
+
 		/// Задает текущий список правил IP-фильтра.
 		void							set(const std::vector<Ip_filter_rule>& ip_filter);
+
+		/// Задает текущий статус фильтра (включен/выключен).
+		void							set_enabled(bool is);
 
 	private:
 		/// Обработчик сигнала на нажатие кнопки "Добавить правило".
@@ -67,6 +73,9 @@ class Ip_filter: public Gtk::VBox
 
 		/// Обработчик сигнала на нажатие кнопки "Редактировать".
 		void	on_edit_button_clicked_cb(void);
+
+		/// Обработчик сигнала на переключение флажка "Включен".
+		void	on_enabled_toggled_cb(void);
 
 		/// Сигнал на изменение выделения в списке правил IP-фильтра.
 		void	on_selection_changed_cb(void);
