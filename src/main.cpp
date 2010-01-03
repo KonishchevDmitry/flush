@@ -725,6 +725,14 @@ int main(int argc, char *argv[])
 
 	std::auto_ptr<Gtk::Main> gtk_main;
 
+	// Устанавливаем имя команды программы - оно будет отображаться,
+	// например, если выполнить APP_CMD_NAME --help.
+	Glib::set_prgname(APP_UNIX_NAME);
+
+	// Устанавливаем реальное имя программы.
+	Glib::set_application_name(APP_NAME);
+
+
 	// Если программа запущена из консоли, то Gtk::Main
 	// просто завершит ее, поэтому необходимо инициализировать
 	// Main loop только тогда, когда доступен графический режим.
@@ -809,13 +817,6 @@ int main(int argc, char *argv[])
 	}
 	// Устанавливаем обработчики сигналов <--
 
-
-	// Устанавливаем имя команды программы - оно будет отображаться,
-	// например, если выполнить APP_CMD_NAME --help.
-	Glib::set_prgname(APP_UNIX_NAME);
-
-	// Устанавливаем реальное имя программы.
-	Glib::set_application_name(APP_NAME);
 
 	// Парсим опции командной строки -->
 		Client_cmd_options cmd_options;
