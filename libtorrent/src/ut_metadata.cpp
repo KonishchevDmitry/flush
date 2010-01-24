@@ -378,11 +378,8 @@ namespace libtorrent { namespace
 				}
 				break;
 			default:
-				{
-					std::stringstream msg;
-					msg << "unknown ut_metadata extension message: " << type;
-					m_pc.disconnect(msg.str().c_str(), 2);
-				}
+				// unknown message, ignore
+				break;
 			}
 			return true;
 		}

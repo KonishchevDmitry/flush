@@ -3,7 +3,7 @@
 *   Flush - GTK-based BitTorrent client                                   *
 *   http://sourceforge.net/projects/flush                                 *
 *                                                                         *
-*   Copyright (C) 2009, Konishchev Dmitry                                 *
+*   Copyright (C) 2009-2010, Dmitry Konishchev                            *
 *   http://konishchevdmitry.blogspot.com/                                 *
 *                                                                         *
 *   This program is free software; you can redistribute it and/or modify  *
@@ -1092,7 +1092,7 @@ void Main_window::on_show_about_dialog_callback(void)
 
 	std::vector<std::string> authors;
 	authors.push_back(
-		_("Konishchev Dmitry") + std::string(" <konishchev@gmail.com>\n") +
+		_("Dmitry Konishchev") + std::string(" <konishchev@gmail.com>\n") +
 		std::string("http://konishchevdmitry.blogspot.com/")
 	);
 
@@ -1103,7 +1103,7 @@ void Main_window::on_show_about_dialog_callback(void)
 	dialog.set_version(APP_VERSION_STRING);
 	dialog.set_comments( _("GTK-based BitTorrent client") );
 	dialog.set_authors(authors);
-	dialog.set_copyright( m::get_copyright_string(_("Konishchev Dmitry"), APP_YEAR) );
+	dialog.set_copyright( m::get_copyright_string(_("Dmitry Konishchev"), APP_YEAR) );
 	dialog.set_license(
 		"This program is free software; you can redistribute it and/or modify\n"
 		"it under the terms of the GNU General Public License as published by\n"

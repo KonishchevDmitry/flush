@@ -7,7 +7,7 @@ unnecessary files (downloaded by libtorrent, but marked as "Do not download"
 by user.
 [*] Fixed unhandled exception when user entered an invalid IP address in the
 Preferences dialog.
-[*] libtorrent-rasterbar 0.14.7.
+[*] libtorrent-rasterbar 0.14.8.
 
 
 0.8 (2009.10.21)

@@ -3,7 +3,7 @@
 *   Flush - GTK-based BitTorrent client                                   *
 *   http://sourceforge.net/projects/flush                                 *
 *                                                                         *
-*   Copyright (C) 2009, Konishchev Dmitry                                 *
+*   Copyright (C) 2009-2010, Dmitry Konishchev                            *
 *   http://konishchevdmitry.blogspot.com/                                 *
 *                                                                         *
 *   This program is free software; you can redistribute it and/or modify  *

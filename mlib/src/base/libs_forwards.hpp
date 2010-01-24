@@ -2,7 +2,7 @@
 *                                                                         *
 *   MLib - library of some useful things for internal usage               *
 *                                                                         *
-*   Copyright (C) 2009, Konishchev Dmitry                                 *
+*   Copyright (C) 2009-2010, Dmitry Konishchev                            *
 *   http://konishchevdmitry.blogspot.com/                                 *
 *                                                                         *
 *   This program is free software; you can redistribute it and/or modify  *

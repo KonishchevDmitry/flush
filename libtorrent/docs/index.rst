@@ -60,11 +60,11 @@ libtorrent
 .. _`DHT extensions`: dht_extensions.html
 .. _`UDP tracker protocol`: udp_tracker_protocol.html
 .. _`HTTP seed`: http://www.getright.com/seedtorrent.html
-.. _multitracker: http://home.elp.rr.com/tur/multitracker-spec.txt
+.. _multitracker: http://bittorrent.org/beps/bep_0012.html
 .. _mailing list: http://lists.sourceforge.net/lists/listinfo/libtorrent-discuss
 .. _archive: http://dir.gmane.org/gmane.network.bit-torrent.libtorrent
 .. _`who's using libtorrent?`: projects.html
-.. _`report bugs`: http://code.rasterbar.com/libtorrent/newticket
+.. _`report bugs`: http://code.google.com/p/libtorrent/issues/entry
 .. _sourceforge page: http://www.sourceforge.net/projects/libtorrent
 .. _wiki: http://code.rasterbar.com/libtorrent
 

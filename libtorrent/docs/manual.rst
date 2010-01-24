@@ -3,7 +3,7 @@ libtorrent API Documentation
 ============================
 
 :Author: Arvid Norberg, arvid@rasterbar.com
-:Version: 0.14.7
+:Version: 0.14.8
 
 .. contents:: Table of contents
   :depth: 2
@@ -692,7 +692,7 @@ is_listening() listen_port() listen_on()
 
 ``is_listening()`` will tell you whether or not the session has successfully
 opened a listening port. If it hasn't, this function will return false, and
-then you can use ``listen_on()`` to make another try.
+then you can use ``listen_on()`` to make another attempt.
 
 ``listen_port()`` returns the port we ended up listening on. Since you just pass
 a port-range to the constructor and to ``listen_on()``, to know which port it
@@ -706,10 +706,16 @@ the range and so on. The interface parameter can be left as 0, in that case the
 os will decide which interface to listen on, otherwise it should be the ip-address
 of the interface you want the listener socket bound to. ``listen_on()`` returns true
 if it managed to open the socket, and false if it failed. If it fails, it will also
-generate an appropriate alert (listen_failed_alert_).
+generate an appropriate alert (listen_failed_alert_). If all ports in the specified
+range fails to be opened for listening, libtorrent will try to use port 0 (which
+tells the operating system to pick a port that's free). If that still fails you
+may see a listen_failed_alert_ with port 0 even if you didn't ask to listen on it.
 
 The interface parameter can also be a hostname that will resolve to the device you
-want to listen on.
+want to listen on. If you don't specify an interface, libtorrent may attempt to
+listen on multiple interfaces (typically 0.0.0.0 and ::). This means that if your
+IPv6 interface doesn't work, you may still see a listen_failed_alert_, even though
+the IPv4 port succeeded.
 
 If you're also starting the DHT, it is a good idea to do that after you've called
 ``listen_on()``, since the default listen port for the DHT is the same as the tcp
@@ -2606,7 +2612,7 @@ larger if the pieces are larger.
 
 ``num_connections`` is the number of peer connections this torrent has, including
 half-open connections that hasn't completed the bittorrent handshake yet. This is
-always <= ``num_peers``.
+always >= ``num_peers``.
 
 ``uploads_limit`` is the set limit of upload slots (unchoked peers) for this torrent.
 
@@ -4065,8 +4071,26 @@ listen_failed_alert
 -------------------
 
 This alert is generated when none of the ports, given in the port range, to
-session_ can be opened for listening. This alert doesn't have any extra
-data members.
+session_ can be opened for listening.
+
+libtorrent may sometimes try to listen on port 0, if all other ports failed.
+Port 0 asks the operating system to pick a port that's free). If that fails
+you may see a listen_failed_alert_ with port 0 even if you didn't ask to
+listen on it.
+
+::
+
+	struct external_ip_alert: alert
+	{
+		// ...
+		tcp::endpoint endpoint;
+		error_code error;
+	};
+
+``endpoint`` is the address and port that libtorrent tried to listen on
+but failed.
+
+``error`` is the error message from the failed socket operation.
 
 
 portmap_error_alert

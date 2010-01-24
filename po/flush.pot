@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: flush 0.9.0\n"
+"Project-Id-Version: flush 0.9\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2009-11-06 17:02+0300\n"
+"POT-Creation-Date: 2010-01-24 17:48+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,44 +45,97 @@ msgstr ""
 msgid "Can't write to a pipe: %1."
 msgstr ""
 
-#: mlib/src/misc.cpp:371
+#: mlib/src/misc.cpp:372
 #, qt-format
 msgid "Can't get max opened files limit: %1."
 msgstr ""
 
-#: mlib/src/misc.cpp:389
+#: mlib/src/misc.cpp:390
 #, qt-format
 msgid "Copyright (C) %1-%2 %3."
 msgstr ""
 
-#: mlib/src/misc.cpp:392
+#: mlib/src/misc.cpp:393
 #, qt-format
 msgid "Copyright (C) %1 %2."
 msgstr ""
 
-#: mlib/src/misc.cpp:402
+#: mlib/src/misc.cpp:403
 #, qt-format
 msgid "Realloc failed: %1."
 msgstr ""
 
-#: mlib/src/misc.cpp:446
+#: mlib/src/misc.cpp:447
 #, qt-format
 msgid "Running command '%1' failed: %2."
 msgstr ""
 
-#: mlib/src/misc.cpp:478
+#: mlib/src/misc.cpp:479
 #, qt-format
 msgid "Error while creating epoll instance: %1."
 msgstr ""
 
-#: mlib/src/misc.cpp:497
+#: mlib/src/misc.cpp:498
 #, qt-format
 msgid "Error while using epoll instance: %1."
 msgstr ""
 
-#: mlib/src/misc.cpp:539
+#: mlib/src/misc.cpp:540
 #, qt-format
 msgid "Can't read data from a file descriptor: %1."
+msgstr ""
+
+#: mlib/src/fs_watcher.cpp:163
+#, qt-format
+msgid "Error while closing an inotify instance: %1."
+msgstr ""
+
+#: mlib/src/fs_watcher.cpp:226
+#, qt-format
+msgid "Can't create an inotify instance: %1."
+msgstr ""
+
+#: mlib/src/fs_watcher.cpp:359
+msgid "Program has been compiled without inotify support."
+msgstr ""
+
+#: mlib/src/fs_watcher.cpp:378
+#, qt-format
+msgid "Error while removing an inotify watch instance: %1."
+msgstr ""
+
+#: mlib/src/fs_watcher.cpp:425
+#, qt-format
+msgid "Can't read data from inotify descriptor: %1."
+msgstr ""
+
+#: mlib/src/libconfig.cpp:50
+#, qt-format
+msgid "%1 at line %2"
+msgstr ""
+
+#: mlib/src/sqlite.cpp:137
+msgid "unknown error"
+msgstr ""
+
+#: mlib/src/sqlite.cpp:219 mlib/src/sqlite.cpp:260
+msgid "Database is not opened yet."
+msgstr ""
+
+#: mlib/src/sqlite.cpp:272
+msgid "Database is already opened."
+msgstr ""
+
+#: mlib/src/sqlite.cpp:369
+msgid "Query is already finalized."
+msgstr ""
+
+#: mlib/src/sqlite.cpp:450
+msgid "Operation on finalized query."
+msgstr ""
+
+#: mlib/src/async_fs.cpp:245
+msgid "Asynchronous filesystem finished it's work, but not all tasks are processed."
 msgstr ""
 
 #: mlib/src/gtk/misc.cpp:125 src/main.cpp:432
@@ -93,9 +146,9 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
-#: mlib/src/gtk/tree_view.hh:188
+#: mlib/src/gtk/builder.hh:42
 #, qt-format
-msgid "No such column: '%1'."
+msgid "Can't get widget '%1' from glade file '%2'."
 msgstr ""
 
 #: mlib/src/gtk/toolbar.cpp:103
@@ -103,9 +156,159 @@ msgstr ""
 msgid "Invalid toolbar style name '%1'."
 msgstr ""
 
-#: mlib/src/gtk/builder.hh:42
+#: mlib/src/gtk/tree_view.hh:188
 #, qt-format
-msgid "Can't get widget '%1' from glade file '%2'."
+msgid "No such column: '%1'."
+msgstr ""
+
+#: mlib/src/libtorrent.cpp:90
+msgid "Invalid magnet URI."
+msgstr ""
+
+#: mlib/src/libtorrent.cpp:115
+msgid "there is no 'xt=urn:btih:' field in it"
+msgstr ""
+
+#: mlib/src/libtorrent.cpp:155
+#, qt-format
+msgid "Invalid magnet URI: %1."
+msgstr ""
+
+#: mlib/src/libtorrent.cpp:193
+#, qt-format
+msgid "Invalid torrent file path '%1'."
+msgstr ""
+
+#: mlib/src/libtorrent.cpp:460
+msgid "invalid torrent file"
+msgstr ""
+
+#: mlib/src/libtorrent.cpp:484 src/daemon_session.cpp:514
+#: src/daemon_session.cpp:529 src/daemon_session.cpp:1595
+#: src/daemon_session.cpp:1612
+#, qt-format
+msgid "Error while reading torrent file '%1': %2."
+msgstr ""
+
+#: mlib/src/libtorrent.cpp:548
+msgid "torrent is already exists in this session"
+msgstr ""
+
+#: mlib/src/libtorrent.cpp:555
+msgid "bad torrent data"
+msgstr ""
+
+#: mlib/src/libtorrent.cpp:562
+msgid "this is not a torrent file"
+msgstr ""
+
+#: mlib/src/base/exception.cpp:94
+#, qt-format
+msgid "Exception: '%1'."
+msgstr ""
+
+#: mlib/src/base/messages.cpp:112
+msgid "[[gettimeofday time getting error]]"
+msgstr ""
+
+#: mlib/src/base/messages.cpp:222
+msgid "Logical error"
+msgstr ""
+
+#: mlib/src/base/format.cpp:111 mlib/src/base/format.cpp:125
+#: mlib/src/base/format.cpp:183 mlib/src/base/format.cpp:241
+#: mlib/src/base/format.cpp:269 mlib/src/base/format.hh:61
+#: mlib/src/base/format.hh:76 mlib/src/base/format.hh:91
+#: mlib/src/base/format.hh:106 mlib/src/base/format.hh:121
+#: mlib/src/base/format.hh:136 mlib/src/base/format.hh:151
+#: mlib/src/base/format.hh:166 mlib/src/base/format.hh:181
+#: mlib/src/base/format.hh:201 mlib/src/base/format.hh:222
+#: mlib/src/base/format.hh:237 mlib/src/base/format.hh:252
+#: mlib/src/base/format.hh:267
+msgid "[[Invalid encoding]]"
+msgstr ""
+
+#: mlib/src/sys.cpp:130 mlib/src/sys.cpp:140
+#, qt-format
+msgid "Can't duplicate a file descriptor: %1."
+msgstr ""
+
+#: mlib/src/sys.cpp:211
+#, qt-format
+msgid "Can't fork the process: %1."
+msgstr ""
+
+#: mlib/src/sys.cpp:298
+msgid "too big link target path"
+msgstr ""
+
+#: mlib/src/string.cpp:60
+msgid "0m"
+msgstr ""
+
+#: mlib/src/string.cpp:77 mlib/src/string.cpp:118
+msgid "M"
+msgstr ""
+
+#: mlib/src/string.cpp:80 mlib/src/string.cpp:121 mlib/src/string.cpp:130
+msgid "d"
+msgstr ""
+
+#: mlib/src/string.cpp:83 mlib/src/string.cpp:133 mlib/src/string.cpp:141
+msgid "h"
+msgstr ""
+
+#: mlib/src/string.cpp:86 mlib/src/string.cpp:144 mlib/src/string.cpp:152
+msgid "m"
+msgstr ""
+
+#: mlib/src/string.cpp:155 mlib/src/string.cpp:161
+msgid "s"
+msgstr ""
+
+#: mlib/src/string.cpp:174
+msgid "minutes|m"
+msgstr ""
+
+#: mlib/src/string.cpp:175
+msgid "seconds|s"
+msgstr ""
+
+#: mlib/src/string.cpp:226
+msgid "GB"
+msgstr ""
+
+#: mlib/src/string.cpp:233 mlib/src/string.cpp:243
+#: src/create_torrent_dialog.cpp:580 src/create_torrent_dialog.cpp:584
+#: src/create_torrent_dialog.cpp:588 src/create_torrent_dialog.cpp:592
+msgid "MB"
+msgstr ""
+
+#: mlib/src/string.cpp:250 mlib/src/string.cpp:260
+#: src/create_torrent_dialog.cpp:560 src/create_torrent_dialog.cpp:564
+#: src/create_torrent_dialog.cpp:568 src/create_torrent_dialog.cpp:572
+#: src/create_torrent_dialog.cpp:576
+msgid "KB"
+msgstr ""
+
+#: mlib/src/string.cpp:267 mlib/src/string.cpp:274
+msgid "B"
+msgstr ""
+
+#: mlib/src/string.cpp:294
+msgid "0 KB/s"
+msgstr ""
+
+#: mlib/src/string.cpp:307 mlib/src/string.cpp:309 src/main_window.cpp:255
+msgid "KB/s"
+msgstr ""
+
+#: mlib/src/string.cpp:312
+msgid "B/s"
+msgstr ""
+
+#: mlib/src/string.cpp:315
+msgid "/s"
 msgstr ""
 
 #: mlib/src/fs.cpp:161
@@ -223,275 +426,13 @@ msgstr ""
 msgid "Unable to synchronize data for file '%1' with storage device: %2."
 msgstr ""
 
-#: mlib/src/async_fs.cpp:245
-msgid "Asynchronous filesystem finished it's work, but not all tasks are processed."
-msgstr ""
-
-#: mlib/src/sqlite.cpp:137
-msgid "unknown error"
-msgstr ""
-
-#: mlib/src/sqlite.cpp:219 mlib/src/sqlite.cpp:260
-msgid "Database is not opened yet."
-msgstr ""
-
-#: mlib/src/sqlite.cpp:272
-msgid "Database is already opened."
-msgstr ""
-
-#: mlib/src/sqlite.cpp:369
-msgid "Query is already finalized."
-msgstr ""
-
-#: mlib/src/sqlite.cpp:450
-msgid "Operation on finalized query."
-msgstr ""
-
-#: mlib/src/sys.cpp:130 mlib/src/sys.cpp:140
-#, qt-format
-msgid "Can't duplicate a file descriptor: %1."
-msgstr ""
-
-#: mlib/src/sys.cpp:211
-#, qt-format
-msgid "Can't fork the process: %1."
-msgstr ""
-
-#: mlib/src/sys.cpp:298
-msgid "too big link target path"
-msgstr ""
-
-#: mlib/src/fs_watcher.cpp:163
-#, qt-format
-msgid "Error while closing an inotify instance: %1."
-msgstr ""
-
-#: mlib/src/fs_watcher.cpp:226
-#, qt-format
-msgid "Can't create an inotify instance: %1."
-msgstr ""
-
-#: mlib/src/fs_watcher.cpp:359
-msgid "Program has been compiled without inotify support."
-msgstr ""
-
-#: mlib/src/fs_watcher.cpp:378
-#, qt-format
-msgid "Error while removing an inotify watch instance: %1."
-msgstr ""
-
-#: mlib/src/fs_watcher.cpp:425
-#, qt-format
-msgid "Can't read data from inotify descriptor: %1."
-msgstr ""
-
-#: mlib/src/libtorrent.cpp:112
-#, qt-format
-msgid "Invalid torrent file path '%1'."
-msgstr ""
-
-#: mlib/src/libtorrent.cpp:374
-msgid "invalid torrent file"
-msgstr ""
-
-#: mlib/src/libtorrent.cpp:394 src/daemon_session.cpp:493
-#: src/daemon_session.cpp:508
-#, qt-format
-msgid "Error while reading torrent file '%1': %2."
-msgstr ""
-
-#: mlib/src/libtorrent.cpp:444
-msgid "torrent is already exists in this session"
-msgstr ""
-
-#: mlib/src/libtorrent.cpp:451
-msgid "bad torrent data"
-msgstr ""
-
-#: mlib/src/libtorrent.cpp:458
-msgid "this is not a torrent file"
-msgstr ""
-
-#: mlib/src/string.cpp:60
-msgid "0m"
-msgstr ""
-
-#: mlib/src/string.cpp:77 mlib/src/string.cpp:118
-msgid "M"
-msgstr ""
-
-#: mlib/src/string.cpp:80 mlib/src/string.cpp:121 mlib/src/string.cpp:130
-msgid "d"
-msgstr ""
-
-#: mlib/src/string.cpp:83 mlib/src/string.cpp:133 mlib/src/string.cpp:141
-msgid "h"
-msgstr ""
-
-#: mlib/src/string.cpp:86 mlib/src/string.cpp:144 mlib/src/string.cpp:152
-msgid "m"
-msgstr ""
-
-#: mlib/src/string.cpp:155 mlib/src/string.cpp:161
-msgid "s"
-msgstr ""
-
-#: mlib/src/string.cpp:174
-msgid "minutes|m"
-msgstr ""
-
-#: mlib/src/string.cpp:175
-msgid "seconds|s"
-msgstr ""
-
-#: mlib/src/string.cpp:222
-msgid "GB"
-msgstr ""
-
-#: mlib/src/string.cpp:229 mlib/src/string.cpp:239
-#: src/create_torrent_dialog.cpp:577 src/create_torrent_dialog.cpp:581
-#: src/create_torrent_dialog.cpp:585 src/create_torrent_dialog.cpp:589
-msgid "MB"
-msgstr ""
-
-#: mlib/src/string.cpp:246 mlib/src/string.cpp:256
-#: src/create_torrent_dialog.cpp:557 src/create_torrent_dialog.cpp:561
-#: src/create_torrent_dialog.cpp:565 src/create_torrent_dialog.cpp:569
-#: src/create_torrent_dialog.cpp:573
-msgid "KB"
-msgstr ""
-
-#: mlib/src/string.cpp:263 mlib/src/string.cpp:270
-msgid "B"
-msgstr ""
-
-#: mlib/src/string.cpp:290
-msgid "0 KB/s"
-msgstr ""
-
-#: mlib/src/string.cpp:303 mlib/src/string.cpp:305 src/main_window.cpp:254
-msgid "KB/s"
-msgstr ""
-
-#: mlib/src/string.cpp:308
-msgid "B/s"
-msgstr ""
-
-#: mlib/src/string.cpp:311
-msgid "/s"
-msgstr ""
-
-#: mlib/src/libconfig.cpp:50
-#, qt-format
-msgid "%1 at line %2"
-msgstr ""
-
-#: mlib/src/base/format.hh:61 mlib/src/base/format.hh:76
-#: mlib/src/base/format.hh:91 mlib/src/base/format.hh:106
-#: mlib/src/base/format.hh:121 mlib/src/base/format.hh:136
-#: mlib/src/base/format.hh:151 mlib/src/base/format.hh:166
-#: mlib/src/base/format.hh:181 mlib/src/base/format.hh:201
-#: mlib/src/base/format.hh:222 mlib/src/base/format.hh:237
-#: mlib/src/base/format.hh:252 mlib/src/base/format.hh:267
-#: mlib/src/base/format.cpp:111 mlib/src/base/format.cpp:125
-#: mlib/src/base/format.cpp:183 mlib/src/base/format.cpp:241
-#: mlib/src/base/format.cpp:269
-msgid "[[Invalid encoding]]"
-msgstr ""
-
-#: mlib/src/base/messages.cpp:112
-msgid "[[gettimeofday time getting error]]"
-msgstr ""
-
-#: mlib/src/base/messages.cpp:222
-msgid "Logical error"
-msgstr ""
-
-#: mlib/src/base/exception.cpp:87
-#, qt-format
-msgid "Exception: '%1'."
-msgstr ""
-
-#: src/temporary_action_dialog.cpp:122
-msgid "1 minute"
-msgstr ""
-
-#: src/temporary_action_dialog.cpp:123
-msgid "5 minutes"
-msgstr ""
-
-#: src/temporary_action_dialog.cpp:124
-msgid "10 minutes"
-msgstr ""
-
-#: src/temporary_action_dialog.cpp:125
-msgid "15 minutes"
-msgstr ""
-
-#: src/temporary_action_dialog.cpp:126
-msgid "30 minutes"
-msgstr ""
-
-#: src/temporary_action_dialog.cpp:127
-msgid "45 minutes"
-msgstr ""
-
-#: src/temporary_action_dialog.cpp:128
-msgid "1 hour"
-msgstr ""
-
-#: src/temporary_action_dialog.cpp:129
-msgid "2 hours"
-msgstr ""
-
-#: src/temporary_action_dialog.cpp:130
-msgid "4 hours"
-msgstr ""
-
-#: src/temporary_action_dialog.cpp:131
-msgid "8 hours"
-msgstr ""
-
-#: src/temporary_action_dialog.cpp:132
-msgid "12 hours"
-msgstr ""
-
-#: src/temporary_action_dialog.cpp:133
-msgid "1 day"
-msgstr ""
-
-#: src/temporary_action_dialog.cpp:208
-msgid "Temporary resume downloads|resume"
-msgstr ""
-
-#: src/temporary_action_dialog.cpp:212
-msgid "Temporary pause downloads|pause"
-msgstr ""
-
-#: src/temporary_action_dialog.cpp:223
-msgid "Temporary pause all torrents|all torrents"
-msgstr ""
-
-#: src/temporary_action_dialog.cpp:227
-msgid "Temporary pause downloads|downloads"
-msgstr ""
-
-#: src/temporary_action_dialog.cpp:231
-msgid "Temporary pause uploads|uploads"
-msgstr ""
-
-#: src/temporary_action_dialog.cpp:239
-#, qt-format
-msgid "Temporary pause downloads|Temporary %1 %2"
-msgstr ""
-
 #: src/settings_window.cpp:235 src/settings_window.cpp:237
 #: src/torrents_view.cpp:325 src/torrents_view.cpp:358
 #: src/torrent_files_view.cpp:180 src/torrent_files_view.cpp:185
 msgid "Name"
 msgstr ""
 
-#: src/settings_window.cpp:245 src/main_window.cpp:858 src/main_window.cpp:859
+#: src/settings_window.cpp:245 src/main_window.cpp:874 src/main_window.cpp:875
 msgid "Preferences"
 msgstr ""
 
@@ -517,7 +458,7 @@ msgid "GUI"
 msgstr ""
 
 #: src/settings_window.cpp:321 src/settings_window.cpp:354
-#: ui/preferences.daemon.network.glade:62 ui/preferences.client.gui.glade:62
+#: ui/preferences.client.gui.glade:62 ui/preferences.daemon.network.glade:62
 msgid "Misc"
 msgstr ""
 
@@ -569,305 +510,571 @@ msgstr ""
 msgid "none"
 msgstr ""
 
-#: src/main_window.cpp:225
-msgid "Set download rate limit"
-msgstr ""
-
-#: src/main_window.cpp:225
-msgid "Set upload rate limit"
-msgstr ""
-
-#: src/main_window.cpp:276
-msgid "Getting current rate limit failed"
-msgstr ""
-
-#: src/main_window.cpp:288
-msgid "Setting current rate limit failed"
-msgstr ""
-
-#: src/main_window.cpp:330
-msgid "_File"
-msgstr ""
-
-#: src/main_window.cpp:332
-msgid "_Create"
-msgstr ""
-
-#: src/main_window.cpp:336
-msgid "_Open"
-msgstr ""
-
-#: src/main_window.cpp:340
-msgid "_Quit"
-msgstr ""
-
-#: src/main_window.cpp:345
-msgid "_Edit"
-msgstr ""
-
-#: src/main_window.cpp:347
-msgid "_RSS"
-msgstr ""
-
-#: src/main_window.cpp:351
-msgid "_Statistics"
-msgstr ""
-
-#: src/main_window.cpp:355
-msgid "_Preferences"
-msgstr ""
-
-#: src/main_window.cpp:360
-msgid "_View"
-msgstr ""
-
-#: src/main_window.cpp:363
-msgid "_Toolbar"
-msgstr ""
-
-#: src/main_window.cpp:366 src/main_window.cpp:443
-msgid "'Show ...' toggle|_Show"
-msgstr ""
-
-#: src/main_window.cpp:379
-msgid "Toolbar _style"
-msgstr ""
-
-#: src/main_window.cpp:383
-msgid "_Desktop default"
-msgstr ""
-
-#: src/main_window.cpp:393
-msgid "_Icons"
-msgstr ""
-
-#: src/main_window.cpp:403
-msgid "_Text"
-msgstr ""
-
-#: src/main_window.cpp:413
-msgid "_Both"
-msgstr ""
-
-#: src/main_window.cpp:423
-msgid "Both _horizontal"
-msgstr ""
-
-#: src/main_window.cpp:440
-msgid "_Categories"
-msgstr ""
-
-#: src/main_window.cpp:453
-msgid "Show _names"
-msgstr ""
-
-#: src/main_window.cpp:463
-msgid "Show _counters"
-msgstr ""
-
-#: src/main_window.cpp:475
-msgid "_Torrents"
-msgstr ""
-
-#: src/main_window.cpp:478
-msgid "_Resume"
-msgstr ""
-
-#: src/main_window.cpp:480 src/main_window.cpp:504 src/main_window.cpp:532
-#: src/main_window.cpp:559
-msgid "_All"
-msgstr ""
-
-#: src/main_window.cpp:487 src/main_window.cpp:511 src/main_window.cpp:539
-#: src/main_window.cpp:566
-msgid "_Downloads"
-msgstr ""
-
-#: src/main_window.cpp:494 src/main_window.cpp:518 src/main_window.cpp:546
-#: src/main_window.cpp:573
-msgid "_Uploads"
-msgstr ""
-
-#: src/main_window.cpp:502
-msgid "_Pause"
-msgstr ""
-
-#: src/main_window.cpp:528
-msgid "R_esume temporary"
-msgstr ""
-
-#: src/main_window.cpp:555
-msgid "P_ause temporary"
-msgstr ""
-
-#: src/main_window.cpp:581
-msgid "C_omplete pending temporary action"
-msgstr ""
-
-#: src/main_window.cpp:588
-msgid "_Cancel pending temporary action"
-msgstr ""
-
-#: src/main_window.cpp:598
-msgid "Set _upload rate limit"
-msgstr ""
-
-#: src/main_window.cpp:606
-msgid "Set _download rate limit"
-msgstr ""
-
-#: src/main_window.cpp:614
-msgid "_Help"
-msgstr ""
-
-#: src/main_window.cpp:616
-msgid "_About"
-msgstr ""
-
-#: src/main_window.cpp:782
-msgid "Create"
-msgstr ""
-
-#: src/main_window.cpp:783
-msgid "Create a new torrent"
-msgstr ""
-
-#: src/main_window.cpp:791
-msgid "Open"
-msgstr ""
-
-#: src/main_window.cpp:792
-msgid "Open a torrent"
-msgstr ""
-
-#: src/main_window.cpp:806 src/torrents_view.cpp:455
-msgid "Resume"
-msgstr ""
-
-#: src/main_window.cpp:807
-msgid "Resume torrent(s)"
-msgstr ""
-
-#: src/main_window.cpp:818 src/torrents_view.cpp:461
-msgid "Pause"
-msgstr ""
-
-#: src/main_window.cpp:819
-msgid "Pause torrent(s)"
-msgstr ""
-
-#: src/main_window.cpp:830 src/torrents_view.cpp:474 src/torrents_view.cpp:766
-msgid "Remove"
-msgstr ""
-
-#: src/main_window.cpp:831
-msgid "Remove torrent(s)"
-msgstr ""
-
-#: src/main_window.cpp:848 src/main_window.cpp:850
 #: src/statistics_window.cpp:52 src/statistics_window.cpp:138
+#: src/main_window.cpp:864 src/main_window.cpp:866
 msgid "Statistics"
 msgstr ""
 
-#: src/main_window.cpp:1014
-msgid "Interrupting the temporary action on torrents failed"
+#: src/statistics_window.cpp:121
+msgid "Reset statistics?"
 msgstr ""
 
-#: src/main_window.cpp:1037 src/main_window.cpp:1051
-msgid "Pausing torrents failed"
+#: src/statistics_window.cpp:121
+msgid "Are you sure want to reset statistics?"
 msgstr ""
 
-#: src/main_window.cpp:1072 src/main_window.cpp:1083
-#: src/client_cmd_options.cpp:195
-msgid "Konishchev Dmitry"
+#: src/statistics_window.cpp:159
+msgid "Session start time"
 msgstr ""
 
-#: src/main_window.cpp:1081
-msgid "GTK-based BitTorrent client"
+#: src/statistics_window.cpp:160
+msgid "Statistics start time"
 msgstr ""
 
-#: src/main_window.cpp:1215
-msgid "Processing the temporary action on torrents failed"
-msgstr ""
-
-#: src/main_window.cpp:1319 src/add_torrent_dialog.cpp:278
-msgid "Opening torrent failed"
-msgstr ""
-
-#: src/main_window.cpp:1319 src/add_torrent_dialog.cpp:280
-#, qt-format
-msgid "Opening torrent '%1' failed. %2"
-msgstr ""
-
-#: src/main_window.cpp:1480
-#, qt-format
-msgid "Download/Upload|D: %1, U: %2 - %3"
-msgstr ""
-
-#: src/main_window.cpp:1509 src/torrents_view.cpp:377
-#: src/torrent_peers_view.cpp:101
-#: ui/preferences.client.gui.status_bar.glade:58
-msgid "Download speed"
-msgstr ""
-
-#: src/main_window.cpp:1512 src/torrents_view.cpp:378
-#: src/torrent_peers_view.cpp:102
-#: ui/preferences.client.gui.status_bar.glade:95
-msgid "Download speed (payload)"
-msgstr ""
-
-#: src/main_window.cpp:1515 src/torrents_view.cpp:379
-#: src/torrent_peers_view.cpp:103
-#: ui/preferences.client.gui.status_bar.glade:82
-msgid "Upload speed"
-msgstr ""
-
-#: src/main_window.cpp:1518 src/torrents_view.cpp:380
-#: src/torrent_peers_view.cpp:104
-#: ui/preferences.client.gui.status_bar.glade:67
-msgid "Upload speed (payload)"
-msgstr ""
-
-#: src/main_window.cpp:1521 src/statistics_window.cpp:162
+#: src/statistics_window.cpp:162 src/main_window.cpp:1544
 #: ui/preferences.client.gui.status_bar.glade:108
 msgid "Downloaded"
 msgstr ""
 
-#: src/main_window.cpp:1524
-msgid "Download (payload)"
+#: src/statistics_window.cpp:163
+msgid "Payload download"
 msgstr ""
 
-#: src/main_window.cpp:1527 src/statistics_window.cpp:167
+#: src/statistics_window.cpp:164 src/torrents_view.cpp:370
+msgid "Total download"
+msgstr ""
+
+#: src/statistics_window.cpp:165
+msgid "Total payload download"
+msgstr ""
+
+#: src/statistics_window.cpp:167 src/main_window.cpp:1550
 #: ui/preferences.client.gui.status_bar.glade:136
 msgid "Uploaded"
 msgstr ""
 
-#: src/main_window.cpp:1530
-msgid "Upload (payload)"
+#: src/statistics_window.cpp:168
+msgid "Payload upload"
 msgstr ""
 
-#: src/main_window.cpp:1533 src/torrents_view.cpp:382
-#: src/statistics_window.cpp:172
-#: ui/preferences.client.gui.status_bar.glade:162
+#: src/statistics_window.cpp:169 src/torrents_view.cpp:372
+msgid "Total upload"
+msgstr ""
+
+#: src/statistics_window.cpp:170
+msgid "Total payload upload"
+msgstr ""
+
+#: src/statistics_window.cpp:172 src/main_window.cpp:1556
+#: src/torrents_view.cpp:382 ui/preferences.client.gui.status_bar.glade:162
 msgid "Share ratio"
 msgstr ""
 
-#: src/main_window.cpp:1536 src/statistics_window.cpp:175
+#: src/statistics_window.cpp:173
+msgid "Total share ratio"
+msgstr ""
+
+#: src/statistics_window.cpp:175 src/main_window.cpp:1559
 #: ui/preferences.client.gui.status_bar.glade:149
 msgid "Failed"
 msgstr ""
 
-#: src/main_window.cpp:1539 src/statistics_window.cpp:177
+#: src/statistics_window.cpp:176 src/torrents_view.cpp:374
+msgid "Total failed"
+msgstr ""
+
+#: src/statistics_window.cpp:177 src/main_window.cpp:1562
 #: ui/preferences.client.gui.status_bar.glade:190
 msgid "Redundant"
 msgstr ""
 
-#: src/main_window.cpp:1558
+#: src/statistics_window.cpp:178 src/torrents_view.cpp:375
+msgid "Total redundant"
+msgstr ""
+
+#: src/statistics_window.cpp:187
+msgid "Reset"
+msgstr ""
+
+#: src/torrents_viewport.cpp:228
+msgid "Details"
+msgstr ""
+
+#: src/torrents_viewport.cpp:245
+msgid "Files"
+msgstr ""
+
+#: src/torrents_viewport.cpp:262 src/torrents_view.cpp:346
+#: src/torrents_view.cpp:384
+msgid "Peers"
+msgstr ""
+
+#: src/torrents_viewport.cpp:278
+msgid "Options"
+msgstr ""
+
+#: src/torrents_viewport.cpp:295
+msgid "Log"
+msgstr ""
+
+#: src/daemon_settings.cpp:45
+#, qt-format
+msgid "Daemon config: Bad option '%1' type at line %2."
+msgstr ""
+
+#: src/daemon_settings.cpp:74
+#, qt-format
+msgid "Daemon config: Bad option '%1' value '%2' at line %3."
+msgstr ""
+
+#: src/daemon_settings.cpp:104
+#, qt-format
+msgid "Daemon config: Invalid option '%1' UTF-8 value at line %2."
+msgstr ""
+
+#: src/daemon_settings.cpp:114
+#, qt-format
+msgid "Daemon config: Unknown option '%1' at line %2."
+msgstr ""
+
+#: src/daemon_settings.cpp:451 src/client_settings.cpp:1147
+#, qt-format
+msgid "Reading configuration file '%1' failed. %2"
+msgstr ""
+
+#: src/daemon_settings.cpp:455
+#, qt-format
+msgid "Error while reading configuration file '%1': %2."
+msgstr ""
+
+#: src/daemon_settings.cpp:459
+#, qt-format
+msgid "Error while parsing configuration file '%1': %2."
+msgstr ""
+
+#: src/daemon_settings.cpp:768
+msgid "invalid DHT state data"
+msgstr ""
+
+#: src/daemon_settings.cpp:774
+#, qt-format
+msgid "Error while reading DHT state from file '%1': %2."
+msgstr ""
+
+#: src/daemon_settings.cpp:806
+#, qt-format
+msgid "Daemon config: Invalid IP filter rule at line %1: %2."
+msgstr ""
+
+#: src/daemon_settings.cpp:812
+#, qt-format
+msgid "Daemon config: Invalid IP filter rule at line %1."
+msgstr ""
+
+#: src/daemon_settings.cpp:970 src/client_settings.cpp:1233
+#, qt-format
+msgid "Writing configuration file '%1' failed. %2"
+msgstr ""
+
+#: src/daemon_settings.cpp:974
+#, qt-format
+msgid "Can't write configuration file %1: %2."
+msgstr ""
+
+#: src/daemon_settings.cpp:1011
+#, qt-format
+msgid "Can't write DHT state to file '%1': %2."
+msgstr ""
+
+#: src/daemon_settings.cpp:1022
+#, qt-format
+msgid "Writing DHT state to file '%1' failed. %2"
+msgstr ""
+
+#: src/daemon_settings.cpp:1422
+#, qt-format
+msgid "Daemon config: %1"
+msgstr ""
+
+#: src/daemon_settings.cpp:1530
+#, qt-format
+msgid "Reading torrent configuration file '%1' failed. %2"
+msgstr ""
+
+#: src/daemon_settings.cpp:1534
+#, qt-format
+msgid "Error while reading torrent configuration file '%1': %2."
+msgstr ""
+
+#: src/daemon_settings.cpp:1538
+#, qt-format
+msgid "Error while parsing torrent configuration file '%1': %2."
+msgstr ""
+
+#: src/daemon_settings.cpp:1555 src/daemon_settings.cpp:1566
+#, qt-format
+msgid "Can't read torrent resume data from file '%1': %2."
+msgstr ""
+
+#: src/daemon_settings.cpp:1576 src/daemon_settings.cpp:1582
+#, qt-format
+msgid "Error while reading torrent resume data from file '%1': file broken."
+msgstr ""
+
+#: src/daemon_settings.cpp:1608
+#, qt-format
+msgid "Can't read torrent resume data from file '%1': bad resume data."
+msgstr ""
+
+#: src/daemon_settings.cpp:1720
+#, qt-format
+msgid "Writing torrent configuration file '%1' failed. %2"
+msgstr ""
+
+#: src/daemon_settings.cpp:1724
+#, qt-format
+msgid "Can't write torrent configuration file %1: %2."
+msgstr ""
+
+#: src/daemon_settings.cpp:1742
+#, qt-format
+msgid "Removing old resume data '%1' failed. %2"
+msgstr ""
+
+#: src/daemon_settings.cpp:1776
+#, qt-format
+msgid "Can't write torrent resume data to file '%1': %2."
+msgstr ""
+
+#: src/daemon_settings.cpp:1787
+#, qt-format
+msgid "Writing torrent resume data to file '%1' failed. %2"
+msgstr ""
+
+#: src/torrent_peers_view.cpp:87
+msgid "IP"
+msgstr ""
+
+#: src/torrent_peers_view.cpp:89 src/torrents_view.cpp:340
+msgid "Download speed|Down speed"
+msgstr ""
+
+#: src/torrent_peers_view.cpp:90 src/torrents_view.cpp:341
+msgid "Download speed (payload)|Down speed (data)"
+msgstr ""
+
+#: src/torrent_peers_view.cpp:91 src/torrents_view.cpp:342
+msgid "Upload speed|Up speed"
+msgstr ""
+
+#: src/torrent_peers_view.cpp:92 src/torrents_view.cpp:343
+msgid "Upload speed (payload)|Up speed (data)"
+msgstr ""
+
+#: src/torrent_peers_view.cpp:93 src/torrents_view.cpp:334
+msgid "Total download (payload)|Down data"
+msgstr ""
+
+#: src/torrent_peers_view.cpp:94 src/torrents_view.cpp:336
+msgid "Total upload (payload)|Up data"
+msgstr ""
+
+#: src/torrent_peers_view.cpp:95 src/torrent_peers_view.cpp:108
+msgid "Availability"
+msgstr ""
+
+#: src/torrent_peers_view.cpp:96 src/torrent_peers_view.cpp:113
+msgid "Hash fails"
+msgstr ""
+
+#: src/torrent_peers_view.cpp:98
+msgid "IP address"
+msgstr ""
+
+#: src/torrent_peers_view.cpp:101 src/main_window.cpp:1532
+#: src/torrents_view.cpp:377 ui/preferences.client.gui.status_bar.glade:58
+msgid "Download speed"
+msgstr ""
+
+#: src/torrent_peers_view.cpp:102 src/main_window.cpp:1535
+#: src/torrents_view.cpp:378 ui/preferences.client.gui.status_bar.glade:95
+msgid "Download speed (payload)"
+msgstr ""
+
+#: src/torrent_peers_view.cpp:103 src/main_window.cpp:1538
+#: src/torrents_view.cpp:379 ui/preferences.client.gui.status_bar.glade:82
+msgid "Upload speed"
+msgstr ""
+
+#: src/torrent_peers_view.cpp:104 src/main_window.cpp:1541
+#: src/torrents_view.cpp:380 ui/preferences.client.gui.status_bar.glade:67
+msgid "Upload speed (payload)"
+msgstr ""
+
+#: src/torrent_peers_view.cpp:105 src/torrents_view.cpp:371
+msgid "Total download (payload)"
+msgstr ""
+
+#: src/torrent_peers_view.cpp:106 src/torrents_view.cpp:373
+msgid "Total upload (payload)"
+msgstr ""
+
+#: src/main_window.cpp:226
+msgid "Set download rate limit"
+msgstr ""
+
+#: src/main_window.cpp:226
+msgid "Set upload rate limit"
+msgstr ""
+
+#: src/main_window.cpp:277
+msgid "Getting current rate limit failed"
+msgstr ""
+
+#: src/main_window.cpp:289
+msgid "Setting current rate limit failed"
+msgstr ""
+
+#: src/main_window.cpp:331
+msgid "_File"
+msgstr ""
+
+#: src/main_window.cpp:333
+msgid "_Create"
+msgstr ""
+
+#: src/main_window.cpp:337
+msgid "_Open a torrent"
+msgstr ""
+
+#: src/main_window.cpp:341
+msgid "_Open a magnet link"
+msgstr ""
+
+#: src/main_window.cpp:345
+msgid "_Quit"
+msgstr ""
+
+#: src/main_window.cpp:350
+msgid "_Edit"
+msgstr ""
+
+#: src/main_window.cpp:352
+msgid "_RSS"
+msgstr ""
+
+#: src/main_window.cpp:356
+msgid "_Statistics"
+msgstr ""
+
+#: src/main_window.cpp:360
+msgid "_Preferences"
+msgstr ""
+
+#: src/main_window.cpp:365
+msgid "_View"
+msgstr ""
+
+#: src/main_window.cpp:368
+msgid "_Toolbar"
+msgstr ""
+
+#: src/main_window.cpp:371 src/main_window.cpp:448
+msgid "'Show ...' toggle|_Show"
+msgstr ""
+
+#: src/main_window.cpp:384
+msgid "Toolbar _style"
+msgstr ""
+
+#: src/main_window.cpp:388
+msgid "_Desktop default"
+msgstr ""
+
+#: src/main_window.cpp:398
+msgid "_Icons"
+msgstr ""
+
+#: src/main_window.cpp:408
+msgid "_Text"
+msgstr ""
+
+#: src/main_window.cpp:418
+msgid "_Both"
+msgstr ""
+
+#: src/main_window.cpp:428
+msgid "Both _horizontal"
+msgstr ""
+
+#: src/main_window.cpp:445
+msgid "_Categories"
+msgstr ""
+
+#: src/main_window.cpp:458
+msgid "Show _names"
+msgstr ""
+
+#: src/main_window.cpp:468
+msgid "Show _counters"
+msgstr ""
+
+#: src/main_window.cpp:480
+msgid "_Torrents"
+msgstr ""
+
+#: src/main_window.cpp:483
+msgid "_Resume"
+msgstr ""
+
+#: src/main_window.cpp:485 src/main_window.cpp:509 src/main_window.cpp:537
+#: src/main_window.cpp:564
+msgid "_All"
+msgstr ""
+
+#: src/main_window.cpp:492 src/main_window.cpp:516 src/main_window.cpp:544
+#: src/main_window.cpp:571
+msgid "_Downloads"
+msgstr ""
+
+#: src/main_window.cpp:499 src/main_window.cpp:523 src/main_window.cpp:551
+#: src/main_window.cpp:578
+msgid "_Uploads"
+msgstr ""
+
+#: src/main_window.cpp:507
+msgid "_Pause"
+msgstr ""
+
+#: src/main_window.cpp:533
+msgid "R_esume temporary"
+msgstr ""
+
+#: src/main_window.cpp:560
+msgid "P_ause temporary"
+msgstr ""
+
+#: src/main_window.cpp:586
+msgid "C_omplete pending temporary action"
+msgstr ""
+
+#: src/main_window.cpp:593
+msgid "_Cancel pending temporary action"
+msgstr ""
+
+#: src/main_window.cpp:603
+msgid "Set _upload rate limit"
+msgstr ""
+
+#: src/main_window.cpp:611
+msgid "Set _download rate limit"
+msgstr ""
+
+#: src/main_window.cpp:619
+msgid "_Help"
+msgstr ""
+
+#: src/main_window.cpp:621
+msgid "_About"
+msgstr ""
+
+#: src/main_window.cpp:788
+msgid "Create"
+msgstr ""
+
+#: src/main_window.cpp:789
+msgid "Create a new torrent"
+msgstr ""
+
+#: src/main_window.cpp:797
+msgid "Open"
+msgstr ""
+
+#: src/main_window.cpp:798
+msgid "Open a torrent"
+msgstr ""
+
+#: src/main_window.cpp:807
+msgid "Magnet link"
+msgstr ""
+
+#: src/main_window.cpp:808 ui/dialog.open_magnet_link.glade:7
+msgid "Open a magnet link"
+msgstr ""
+
+#: src/main_window.cpp:822 src/torrents_view.cpp:455
+msgid "Resume"
+msgstr ""
+
+#: src/main_window.cpp:823
+msgid "Resume torrent(s)"
+msgstr ""
+
+#: src/main_window.cpp:834 src/torrents_view.cpp:461
+msgid "Pause"
+msgstr ""
+
+#: src/main_window.cpp:835
+msgid "Pause torrent(s)"
+msgstr ""
+
+#: src/main_window.cpp:846 src/torrents_view.cpp:474 src/torrents_view.cpp:766
+msgid "Remove"
+msgstr ""
+
+#: src/main_window.cpp:847
+msgid "Remove torrent(s)"
+msgstr ""
+
+#: src/main_window.cpp:1030
+msgid "Interrupting the temporary action on torrents failed"
+msgstr ""
+
+#: src/main_window.cpp:1060 src/main_window.cpp:1074
+msgid "Pausing torrents failed"
+msgstr ""
+
+#: src/main_window.cpp:1095 src/main_window.cpp:1106
+#: src/client_cmd_options.cpp:196
+msgid "Konishchev Dmitry"
+msgstr ""
+
+#: src/main_window.cpp:1104
+msgid "GTK-based BitTorrent client"
+msgstr ""
+
+#: src/main_window.cpp:1238
+msgid "Processing the temporary action on torrents failed"
+msgstr ""
+
+#: src/main_window.cpp:1342 src/add_torrent_dialog.cpp:281
+msgid "Opening torrent failed"
+msgstr ""
+
+#: src/main_window.cpp:1342 src/add_torrent_dialog.cpp:283
+#, qt-format
+msgid "Opening torrent '%1' failed. %2"
+msgstr ""
+
+#: src/main_window.cpp:1503
+#, qt-format
+msgid "Download/Upload|D: %1, U: %2 - %3"
+msgstr ""
+
+#: src/main_window.cpp:1547
+msgid "Download (payload)"
+msgstr ""
+
+#: src/main_window.cpp:1553
+msgid "Upload (payload)"
+msgstr ""
+
+#: src/main_window.cpp:1581
 #, qt-format
 msgid "Download speed|Down: %1 (%2) / %3"
 msgstr ""
 
-#: src/main_window.cpp:1565
+#: src/main_window.cpp:1588
 #, qt-format
 msgid "Upload speed|Up: %1 (%2) / %3"
 msgstr ""
@@ -880,221 +1087,12 @@ msgstr ""
 msgid "Torrent file encoding:"
 msgstr ""
 
-#: src/open_torrent_dialog.cpp:137 src/create_torrent_dialog.cpp:696
+#: src/open_torrent_dialog.cpp:137 src/create_torrent_dialog.cpp:699
 msgid "Torrent files"
 msgstr ""
 
-#: src/open_torrent_dialog.cpp:142 src/create_torrent_dialog.cpp:701
+#: src/open_torrent_dialog.cpp:142 src/create_torrent_dialog.cpp:704
 msgid "Any files"
-msgstr ""
-
-#: src/common.cpp:79
-#, qt-format
-msgid "invalid auto clean action type '%1'"
-msgstr ""
-
-#: src/common.cpp:271
-#, qt-format
-msgid "invalid IP address '%1'"
-msgstr ""
-
-#: src/common.cpp:275
-#, qt-format
-msgid "invalid IP range %1-%2"
-msgstr ""
-
-#: src/common.cpp:321
-#, qt-format
-msgid "%1 - Download completed"
-msgstr ""
-
-#: src/common.cpp:325
-#, qt-format
-msgid "%1 - All downloads completed"
-msgstr ""
-
-#: src/common.cpp:410
-msgid "normal"
-msgstr ""
-
-#: src/common.cpp:414
-msgid "high"
-msgstr ""
-
-#: src/common.cpp:450
-#, qt-format
-msgid "Invalid file priority name: '%1'."
-msgstr ""
-
-#: src/common.cpp:569
-msgid "[Invalid encoding]"
-msgstr ""
-
-#: src/common.cpp:699 src/common.cpp:702 src/common.cpp:756
-msgid "(short)|Paused"
-msgstr ""
-
-#: src/common.cpp:710
-msgid "(short)|Allocating"
-msgstr ""
-
-#: src/common.cpp:714
-msgid "(short)|Queued for checking"
-msgstr ""
-
-#: src/common.cpp:718
-msgid "(short)|Checking files"
-msgstr ""
-
-#: src/common.cpp:722
-msgid "Waiting for metadata download (short)|Metadata down wait"
-msgstr ""
-
-#: src/common.cpp:726
-msgid "Downloading metadata (short)|Metadata down"
-msgstr ""
-
-#: src/common.cpp:730
-msgid "Waiting for download (short)|Download wait"
-msgstr ""
-
-#: src/common.cpp:734
-msgid "(short)|Downloading"
-msgstr ""
-
-#: src/common.cpp:738
-msgid "(short)|Seeding"
-msgstr ""
-
-#: src/common.cpp:742
-msgid "(short)|Uploading"
-msgstr ""
-
-#: src/common.cpp:746
-msgid "(short)|Unknown"
-msgstr ""
-
-#: src/common.cpp:921
-msgid "Tracker status is not given yet|Not given yet"
-msgstr ""
-
-#: src/common.cpp:924
-#, qt-format
-msgid "OK (%1)"
-msgstr ""
-
-#: src/common.cpp:927
-msgid "There are no trackers has been setted for this torrent"
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:161
-msgid "Hashing files..."
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:170
-msgid "Hashing files. Please wait..."
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:279 src/create_torrent_dialog.cpp:326
-#, qt-format
-msgid "Error while reading torrent files. File '%1': %2."
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:285
-msgid "Libtorrent internal error happened while reading torrent files."
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:302
-msgid "Libtorrent internal error happened while creating torrent."
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:338
-msgid "Libtorrent internal error happened while hashing torrent files."
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:387
-msgid "Libtorrent return invalid torrent file."
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:413
-#, qt-format
-msgid "Can't write torrent file '%1': %2."
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:420
-#, qt-format
-msgid "Libtorrent internal error happened while creating torrent file '%1'."
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:431
-msgid "Torrent created"
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:433
-#, qt-format
-msgid "Torrent '%1' has been created successfully."
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:457
-msgid "Creating torrent failed"
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:458
-#, qt-format
-msgid "Creating torrent '%1' failed. %2"
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:485
-msgid "Creating torrent"
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:500
-msgid "Torrent:"
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:505
-msgid "File or directory to create torrent from:"
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:540
-msgid "Private torrent (DHT is not allowed)"
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:598
-msgid "Piece size:"
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:604
-msgid "Trackers:"
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:667
-msgid "File or directory to create torrent from is not setted"
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:668
-msgid "Please choose file or directory to create torrent from."
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:677
-msgid "Please choose a file to save the torrent"
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:737
-msgid "Please choose a directory to create torrent from"
-msgstr ""
-
-#: src/create_torrent_dialog.cpp:738
-msgid "Please choose a file to create torrent from"
-msgstr ""
-
-#: src/ip_filter.cpp:242
-msgid "Error while adding rule to IP filter"
-msgstr ""
-
-#: src/ip_filter.cpp:243
-#, qt-format
-msgid "Error while adding rule to IP filter: %1."
 msgstr ""
 
 #: src/torrents_view.cpp:326 src/torrents_view.cpp:360
@@ -1123,16 +1121,8 @@ msgstr ""
 msgid "Total download|Download"
 msgstr ""
 
-#: src/torrents_view.cpp:334 src/torrent_peers_view.cpp:93
-msgid "Total download (payload)|Down data"
-msgstr ""
-
 #: src/torrents_view.cpp:335
 msgid "Total upload|Upload"
-msgstr ""
-
-#: src/torrents_view.cpp:336 src/torrent_peers_view.cpp:94
-msgid "Total upload (payload)|Up data"
 msgstr ""
 
 #: src/torrents_view.cpp:337
@@ -1143,29 +1133,8 @@ msgstr ""
 msgid "Total redundant|Redundant"
 msgstr ""
 
-#: src/torrents_view.cpp:340 src/torrent_peers_view.cpp:89
-msgid "Download speed|Down speed"
-msgstr ""
-
-#: src/torrents_view.cpp:341 src/torrent_peers_view.cpp:90
-msgid "Download speed (payload)|Down speed (data)"
-msgstr ""
-
-#: src/torrents_view.cpp:342 src/torrent_peers_view.cpp:91
-msgid "Upload speed|Up speed"
-msgstr ""
-
-#: src/torrents_view.cpp:343 src/torrent_peers_view.cpp:92
-msgid "Upload speed (payload)|Up speed (data)"
-msgstr ""
-
 #: src/torrents_view.cpp:345
 msgid "Share ratio|Ratio"
-msgstr ""
-
-#: src/torrents_view.cpp:346 src/torrents_view.cpp:384
-#: src/torrents_viewport.cpp:262
-msgid "Peers"
 msgstr ""
 
 #: src/torrents_view.cpp:347 src/torrents_view.cpp:385
@@ -1198,30 +1167,6 @@ msgstr ""
 
 #: src/torrents_view.cpp:367
 msgid "Downloaded requested size"
-msgstr ""
-
-#: src/torrents_view.cpp:370 src/statistics_window.cpp:164
-msgid "Total download"
-msgstr ""
-
-#: src/torrents_view.cpp:371 src/torrent_peers_view.cpp:105
-msgid "Total download (payload)"
-msgstr ""
-
-#: src/torrents_view.cpp:372 src/statistics_window.cpp:169
-msgid "Total upload"
-msgstr ""
-
-#: src/torrents_view.cpp:373 src/torrent_peers_view.cpp:106
-msgid "Total upload (payload)"
-msgstr ""
-
-#: src/torrents_view.cpp:374 src/statistics_window.cpp:176
-msgid "Total failed"
-msgstr ""
-
-#: src/torrents_view.cpp:375 src/statistics_window.cpp:178
-msgid "Total redundant"
 msgstr ""
 
 #: src/torrents_view.cpp:387
@@ -1311,251 +1256,629 @@ msgstr ""
 msgid "Resuming torrent(s) failed. %1"
 msgstr ""
 
-#: src/application.cpp:78
-msgid "Silent warning"
-msgstr ""
-
-#: src/application.cpp:290
-msgid "application is now ending it's work"
-msgstr ""
-
-#: src/application.cpp:406
-msgid "Unable to show libnotify message"
-msgstr ""
-
-#: src/application.cpp:407
+#: src/daemon_types.cpp:218
 #, qt-format
-msgid ""
-"Unable to show libnotify message: %1. You can disable download complete notifications in the Preferences dialog.\n"
-"Message text:\n"
-"%2"
+msgid "Unable to parse torrent '%1' magnet URI. %2"
 msgstr ""
 
-#: src/application.cpp:458
+#: src/daemon_types.cpp:232
+msgid "Libtorrent internal error."
+msgstr ""
+
+#: src/daemon_types.cpp:256
 #, qt-format
-msgid "Running open command failed. %1."
+msgid "Can't save torrent file '%1': %2."
 msgstr ""
 
-#: src/application.cpp:533
-msgid "Error while saving settings"
+#: src/daemon_types.cpp:266
+msgid "Unable to save torrent's metadata"
 msgstr ""
 
-#: src/application.cpp:607
-msgid "Unable to initialize a libnotify instance. Notification's displaying is not possible."
-msgstr ""
-
-#: src/torrents_viewport.cpp:228
-msgid "Details"
-msgstr ""
-
-#: src/torrents_viewport.cpp:245
-msgid "Files"
-msgstr ""
-
-#: src/torrents_viewport.cpp:278
-msgid "Options"
-msgstr ""
-
-#: src/torrents_viewport.cpp:295
-msgid "Log"
-msgstr ""
-
-#: src/torrent_peers_view.cpp:87
-msgid "IP"
-msgstr ""
-
-#: src/torrent_peers_view.cpp:95 src/torrent_peers_view.cpp:108
-msgid "Availability"
-msgstr ""
-
-#: src/torrent_peers_view.cpp:96 src/torrent_peers_view.cpp:113
-msgid "Hash fails"
-msgstr ""
-
-#: src/torrent_peers_view.cpp:98
-msgid "IP address"
-msgstr ""
-
-#: src/daemon_settings.cpp:45
+#: src/daemon_types.cpp:267
 #, qt-format
-msgid "Daemon config: Bad option '%1' type at line %2."
+msgid "Saving torrent's '%1' downloaded metadata failed. %2"
 msgstr ""
 
-#: src/daemon_settings.cpp:74
+#: src/open_magnet_dialog.cpp:113 src/open_magnet_dialog.cpp:119
+msgid "Invalid magnet URI"
+msgstr ""
+
+#: src/open_magnet_dialog.cpp:114
+msgid "Please enter a magnet URI."
+msgstr ""
+
+#: src/open_magnet_dialog.cpp:120
 #, qt-format
-msgid "Daemon config: Bad option '%1' value '%2' at line %3."
+msgid "'%1' is not a magnet URI."
 msgstr ""
 
-#: src/daemon_settings.cpp:104
+#: src/client_settings.cpp:41
 #, qt-format
-msgid "Daemon config: Invalid option '%1' UTF-8 value at line %2."
+msgid "Client config: Bad option '%1' type at line %2."
 msgstr ""
 
-#: src/daemon_settings.cpp:114
+#: src/client_settings.cpp:68
 #, qt-format
-msgid "Daemon config: Unknown option '%1' at line %2."
+msgid "Client config: Bad option '%1' value '%2' at line %3."
 msgstr ""
 
-#: src/daemon_settings.cpp:449 src/client_settings.cpp:1147
+#: src/client_settings.cpp:78
 #, qt-format
-msgid "Reading configuration file '%1' failed. %2"
+msgid "Client config: Invalid option '%1' UTF-8 value at line %2."
 msgstr ""
 
-#: src/daemon_settings.cpp:453
+#: src/client_settings.cpp:88
 #, qt-format
-msgid "Error while reading configuration file '%1': %2."
+msgid "Client config: Unknown option '%1' at line %2."
 msgstr ""
 
-#: src/daemon_settings.cpp:457
+#: src/client_settings.cpp:1153
 #, qt-format
-msgid "Error while parsing configuration file '%1': %2."
+msgid "Can't read configuration file '%1': %2."
 msgstr ""
 
-#: src/daemon_settings.cpp:755
-msgid "invalid DHT state data"
-msgstr ""
-
-#: src/daemon_settings.cpp:761
+#: src/client_settings.cpp:1157
 #, qt-format
-msgid "Error while reading DHT state from file '%1': %2."
+msgid "Can't parse configuration file '%1': %2."
 msgstr ""
 
-#: src/daemon_settings.cpp:788
+#: src/client_settings.cpp:1240
 #, qt-format
-msgid "Daemon config: Invalid IP filter rule at line %1."
+msgid "Can't write configuration file '%1': %2."
 msgstr ""
 
-#: src/daemon_settings.cpp:944 src/client_settings.cpp:1233
+#: src/daemon_session.cpp:210
 #, qt-format
-msgid "Writing configuration file '%1' failed. %2"
+msgid "%1 (%2). Errors: %3."
 msgstr ""
 
-#: src/daemon_settings.cpp:948
+#: src/daemon_session.cpp:542
+msgid "This torrent is already exists in the current session."
+msgstr ""
+
+#: src/daemon_session.cpp:560
 #, qt-format
-msgid "Can't write configuration file %1: %2."
+msgid "Can't create torrent configuration directory '%1': %2."
 msgstr ""
 
-#: src/daemon_settings.cpp:985
+#: src/daemon_session.cpp:584
 #, qt-format
-msgid "Can't write DHT state to file '%1': %2."
+msgid "Torrent '%1' has been changed while it's been processed."
 msgstr ""
 
-#: src/daemon_settings.cpp:996
+#: src/daemon_session.cpp:599
 #, qt-format
-msgid "Writing DHT state to file '%1' failed. %2"
+msgid "Can't copy torrent file '%1' to '%2': %3."
 msgstr ""
 
-#: src/daemon_settings.cpp:1287 src/daemon_settings.cpp:1316
+#: src/daemon_session.cpp:789
 #, qt-format
-msgid "Bad files number: %1 vs %2."
+msgid "Can't pause torrent '%1'. %2"
 msgstr ""
 
-#: src/daemon_settings.cpp:1374
+#: src/daemon_session.cpp:802
 #, qt-format
-msgid "Daemon config: %1"
+msgid "Can't remove torrent '%1'. %2"
 msgstr ""
 
-#: src/daemon_settings.cpp:1479
+#: src/daemon_session.cpp:815
 #, qt-format
-msgid "Reading torrent configuration file '%1' failed. %2"
+msgid "Can't remove with data torrent '%1'. %2"
 msgstr ""
 
-#: src/daemon_settings.cpp:1483
+#: src/daemon_session.cpp:860
 #, qt-format
-msgid "Error while reading torrent configuration file '%1': %2."
+msgid "Can't stat torrent file: %1."
 msgstr ""
 
-#: src/daemon_settings.cpp:1487
+#: src/daemon_session.cpp:900
+msgid "Deleting automatically loaded *.torrent file failed"
+msgstr ""
+
+#: src/daemon_session.cpp:902
 #, qt-format
-msgid "Error while parsing torrent configuration file '%1': %2."
+msgid "Can't delete automatically loaded *.torrent file '%1': %2."
 msgstr ""
 
-#: src/daemon_settings.cpp:1504 src/daemon_settings.cpp:1515
+#: src/daemon_session.cpp:931 src/daemon_session.cpp:1691
 #, qt-format
-msgid "Can't read torrent resume data from file '%1': %2."
+msgid "Automatic loading the torrent '%1' failed. %2"
 msgstr ""
 
-#: src/daemon_settings.cpp:1525 src/daemon_settings.cpp:1531
+#: src/daemon_session.cpp:941 src/daemon_session.cpp:946
+#: src/daemon_session.cpp:965 src/daemon_session.cpp:2487
+#: src/daemon_session.cpp:2569
+msgid "Automatic torrents loading failed"
+msgstr ""
+
+#: src/daemon_session.cpp:948
 #, qt-format
-msgid "Error while reading torrent resume data from file '%1': file broken."
+msgid "Directory '%1' has been deleted or moved."
 msgstr ""
 
-#: src/daemon_settings.cpp:1557
+#: src/daemon_session.cpp:1069
+msgid "Automatic torrents cleaning failed"
+msgstr ""
+
+#: src/daemon_session.cpp:1164
+msgid "All torrents downloaded."
+msgstr ""
+
+#: src/daemon_session.cpp:1214
+msgid "Copying finished torrent's files failed"
+msgstr ""
+
+#: src/daemon_session.cpp:1216
 #, qt-format
-msgid "Can't read torrent resume data from file '%1': bad resume data."
+msgid "Copying finished torrent's '%1' files from '%2' to '%3' failed."
 msgstr ""
 
-#: src/daemon_settings.cpp:1668
+#: src/daemon_session.cpp:1297 src/daemon_session.cpp:1309
+#: src/daemon_session.cpp:1320 src/daemon_session.cpp:1333
 #, qt-format
-msgid "Writing torrent configuration file '%1' failed. %2"
+msgid "Bad torrent id '%1'."
 msgstr ""
 
-#: src/daemon_settings.cpp:1672
+#: src/daemon_session.cpp:1559
 #, qt-format
-msgid "Can't write torrent configuration file %1: %2."
+msgid "Restoring torrent's previous session settings failed. %1"
 msgstr ""
 
-#: src/daemon_settings.cpp:1690
+#: src/daemon_session.cpp:1642
 #, qt-format
-msgid "Removing old resume data '%1' failed. %2"
+msgid "Invalid torrent '%1' files' settings. Rejecting them..."
 msgstr ""
 
-#: src/daemon_settings.cpp:1724
+#: src/daemon_session.cpp:1653
+msgid "Torrent added with errors"
+msgstr ""
+
+#: src/daemon_session.cpp:1654
 #, qt-format
-msgid "Can't write torrent resume data to file '%1': %2."
+msgid "Torrent '%1' has been added with errors.%2"
 msgstr ""
 
-#: src/daemon_settings.cpp:1735
+#: src/daemon_session.cpp:1703
 #, qt-format
-msgid "Writing torrent resume data to file '%1' failed. %2"
+msgid "Can't read directory '%1' for automatic torrents loading: %2."
 msgstr ""
 
-#: src/statistics_window.cpp:121
-msgid "Reset statistics?"
+#: src/daemon_session.cpp:1738
+msgid "Loading torrent failed"
 msgstr ""
 
-#: src/statistics_window.cpp:121
-msgid "Are you sure want to reset statistics?"
+#: src/daemon_session.cpp:1738
+#, qt-format
+msgid "Loading of the torrent '%1' failed. %2"
 msgstr ""
 
-#: src/statistics_window.cpp:159
-msgid "Session start time"
+#: src/daemon_session.cpp:1744
+#, qt-format
+msgid "Can't read directory with torrents configs '%1': %2."
 msgstr ""
 
-#: src/statistics_window.cpp:160
-msgid "Statistics start time"
+#: src/daemon_session.cpp:1750
+#, qt-format
+msgid "Loading torrents from previous session failed. %1"
 msgstr ""
 
-#: src/statistics_window.cpp:163
-msgid "Payload download"
+#: src/daemon_session.cpp:1766 src/daemon_session.cpp:2642
+msgid "Saving session failed"
 msgstr ""
 
-#: src/statistics_window.cpp:165
-msgid "Total payload download"
+#: src/daemon_session.cpp:1766 src/daemon_session.cpp:2642
+#, qt-format
+msgid "Saving session failed. %1"
 msgstr ""
 
-#: src/statistics_window.cpp:168
-msgid "Payload upload"
+#: src/daemon_session.cpp:1980
+#, qt-format
+msgid "Bad torrent id: '%1'."
 msgstr ""
 
-#: src/statistics_window.cpp:170
-msgid "Total payload upload"
+#: src/daemon_session.cpp:2028 src/daemon_session.cpp:2044
+msgid "Deleting torrent data failed"
 msgstr ""
 
-#: src/statistics_window.cpp:173
-msgid "Total share ratio"
+#: src/daemon_session.cpp:2029 src/daemon_session.cpp:2045
+#, qt-format
+msgid "Deleting torrent '%1' data failed."
 msgstr ""
 
-#: src/statistics_window.cpp:187
-msgid "Reset"
+#: src/daemon_session.cpp:2170
+msgid "Saving torrent settings failed"
 msgstr ""
 
-#: src/add_torrent_dialog.cpp:245
+#: src/daemon_session.cpp:2172
+#, qt-format
+msgid "Saving torrent '%1' settings failed. %2"
+msgstr ""
+
+#: src/daemon_session.cpp:2203
+#, qt-format
+msgid "Invalid copy when finished to path '%1'."
+msgstr ""
+
+#: src/daemon_session.cpp:2225 src/daemon_session.cpp:2247
+#, qt-format
+msgid "Bad file id: %1."
+msgstr ""
+
+#: src/daemon_session.cpp:2464
+msgid "Setting directory for automatic torrents loading failed"
+msgstr ""
+
+#: src/daemon_session.cpp:2466
+#, qt-format
+msgid "Setting directory '%1' for automatic torrents loading failed. %2"
+msgstr ""
+
+#: src/daemon_session.cpp:2532
+msgid "Setting torrent trackers failed: libtorrent internal error."
+msgstr ""
+
+#: src/daemon.cpp:195
+#, qt-format
+msgid "Can't start daemon. Creating config directories failed. %1"
+msgstr ""
+
+#: src/torrent_files_view.cpp:82 src/torrent_files_view.cpp:93
+msgid "Change file or directory path"
+msgstr ""
+
+#: src/torrent_files_view.cpp:125 src/torrent_files_view.cpp:533
+#: src/torrent_files_view.cpp:550
+msgid "Changing file or directory path failed"
+msgstr ""
+
+#: src/torrent_files_view.cpp:126
+msgid "Changing file or directory path failed. Invalid path has been gotten. Please enter a valid path."
+msgstr ""
+
+#: src/torrent_files_view.cpp:182 src/torrent_files_view.cpp:200
+msgid "Priority"
+msgstr ""
+
+#: src/torrent_files_view.cpp:183 src/torrent_files_view.cpp:207
+msgid "Progress"
+msgstr ""
+
+#: src/torrent_files_view.cpp:241
+msgid "Download"
+msgstr ""
+
+#: src/torrent_files_view.cpp:247
+msgid "Do not download"
+msgstr ""
+
+#: src/torrent_files_view.cpp:253
+msgid "Normal priority"
+msgstr ""
+
+#: src/torrent_files_view.cpp:259
+msgid "High priority"
+msgstr ""
+
+#: src/torrent_files_view.cpp:265
+msgid "Change path"
+msgstr ""
+
+#: src/torrent_files_view.cpp:395
+#, qt-format
+msgid "Changing torrent files download status failed. %1"
+msgstr ""
+
+#: src/torrent_files_view.cpp:434
+#, qt-format
+msgid "Changing torrent files priorities failed. %1"
+msgstr ""
+
+#: src/torrent_files_view.cpp:502
+msgid "Changing file path failed"
+msgstr ""
+
+#: src/torrent_files_view.cpp:503
+msgid "Changing file path failed. Invalid file path has been gotten. Please enter a valid path."
+msgstr ""
+
+#: src/torrent_files_view.cpp:534 src/torrent_files_view.cpp:551
+#, qt-format
+msgid "Changing file or directory path failed. %1"
+msgstr ""
+
+#: src/torrent_files_view.cpp:630
+#, qt-format
+msgid "Changing download status for '%1' failed. %2"
+msgstr ""
+
+#: src/add_torrent_dialog.cpp:248
 msgid "Invalid torrent name"
 msgstr ""
 
-#: src/add_torrent_dialog.cpp:246
+#: src/add_torrent_dialog.cpp:249
 msgid "You have entered invalid torrent name. Please enter non-empty torrent name."
+msgstr ""
+
+#: src/common.cpp:79
+#, qt-format
+msgid "invalid auto clean action type '%1'"
+msgstr ""
+
+#: src/common.cpp:268
+#, qt-format
+msgid "invalid IP address '%1'"
+msgstr ""
+
+#: src/common.cpp:272
+#, qt-format
+msgid "invalid IP range %1-%2"
+msgstr ""
+
+#: src/common.cpp:318
+#, qt-format
+msgid "%1 - Download completed"
+msgstr ""
+
+#: src/common.cpp:322
+#, qt-format
+msgid "%1 - All downloads completed"
+msgstr ""
+
+#: src/common.cpp:407
+msgid "normal"
+msgstr ""
+
+#: src/common.cpp:411
+msgid "high"
+msgstr ""
+
+#: src/common.cpp:447
+#, qt-format
+msgid "Invalid file priority name: '%1'."
+msgstr ""
+
+#: src/common.cpp:566
+msgid "[Invalid encoding]"
+msgstr ""
+
+#: src/common.cpp:696 src/common.cpp:699 src/common.cpp:753
+msgid "(short)|Paused"
+msgstr ""
+
+#: src/common.cpp:707
+msgid "(short)|Allocating"
+msgstr ""
+
+#: src/common.cpp:711
+msgid "(short)|Queued for checking"
+msgstr ""
+
+#: src/common.cpp:715
+msgid "(short)|Checking files"
+msgstr ""
+
+#: src/common.cpp:719
+msgid "Waiting for metadata download (short)|Metadata down wait"
+msgstr ""
+
+#: src/common.cpp:723
+msgid "Downloading metadata (short)|Metadata down"
+msgstr ""
+
+#: src/common.cpp:727
+msgid "Waiting for download (short)|Download wait"
+msgstr ""
+
+#: src/common.cpp:731
+msgid "(short)|Downloading"
+msgstr ""
+
+#: src/common.cpp:735
+msgid "(short)|Seeding"
+msgstr ""
+
+#: src/common.cpp:739
+msgid "(short)|Uploading"
+msgstr ""
+
+#: src/common.cpp:743
+msgid "(short)|Unknown"
+msgstr ""
+
+#: src/common.cpp:920
+msgid "Tracker status is not given yet|Not given yet"
+msgstr ""
+
+#: src/common.cpp:923
+#, qt-format
+msgid "OK (%1)"
+msgstr ""
+
+#: src/common.cpp:926
+msgid "There are no trackers has been setted for this torrent"
+msgstr ""
+
+#: src/client_cmd_options.cpp:67
+#, qt-format
+msgid "Bad option '%1' value '%2'."
+msgstr ""
+
+#: src/client_cmd_options.cpp:75
+msgid "torrent_path"
+msgstr ""
+
+#: src/client_cmd_options.cpp:84
+msgid "Main options"
+msgstr ""
+
+#: src/client_cmd_options.cpp:90
+msgid "Show program version"
+msgstr ""
+
+#: src/client_cmd_options.cpp:106
+#, qt-format
+msgid "Configuration directory path (default: ~/%1)"
+msgstr ""
+
+#: src/client_cmd_options.cpp:107
+msgid "DIRECTORY"
+msgstr ""
+
+#: src/client_cmd_options.cpp:114
+msgid "Set download rate limit (KB/s)"
+msgstr ""
+
+#: src/client_cmd_options.cpp:115 src/client_cmd_options.cpp:123
+msgid "SPEED"
+msgstr ""
+
+#: src/client_cmd_options.cpp:122
+msgid "Set upload rate limit (KB/s)"
+msgstr ""
+
+#: src/client_cmd_options.cpp:130
+msgid "Set maximum uploads"
+msgstr ""
+
+#: src/client_cmd_options.cpp:131 src/client_cmd_options.cpp:139
+msgid "NUMBER"
+msgstr ""
+
+#: src/client_cmd_options.cpp:138
+msgid "Set maximum connections"
+msgstr ""
+
+#: src/client_cmd_options.cpp:147
+msgid "Start torrents"
+msgstr ""
+
+#: src/client_cmd_options.cpp:148 src/client_cmd_options.cpp:157
+msgid "{all,downloads,uploads}"
+msgstr ""
+
+#: src/client_cmd_options.cpp:156
+msgid "Stop torrents"
+msgstr ""
+
+#: src/client_cmd_options.cpp:166
+#, qt-format
+msgid "Only pass commands to already running %1 instance. Does not start new instance if it is not running yet"
+msgstr ""
+
+#: src/client_cmd_options.cpp:239
+#, qt-format
+msgid "Error while processing torrent '%1'"
+msgstr ""
+
+#: src/client_cmd_options.cpp:240
+#, qt-format
+msgid "Can't get '%1' absolute path: %2."
+msgstr ""
+
+#: src/client_cmd_options.cpp:260
+#, qt-format
+msgid "Bad option '%1' value '%2'. Allowed values: all, downloads, uploads."
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:161
+msgid "Hashing files..."
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:170
+msgid "Hashing files. Please wait..."
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:279 src/create_torrent_dialog.cpp:326
+#, qt-format
+msgid "Error while reading torrent files. File '%1': %2."
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:285
+msgid "Libtorrent internal error happened while reading torrent files."
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:302
+msgid "Libtorrent internal error happened while creating torrent."
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:338
+msgid "Libtorrent internal error happened while hashing torrent files."
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:387
+msgid "Libtorrent return invalid torrent file."
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:416
+#, qt-format
+msgid "Can't write torrent file '%1': %2."
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:423
+#, qt-format
+msgid "Libtorrent internal error happened while creating torrent file '%1'."
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:435
+msgid "Torrent created"
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:437
+#, qt-format
+msgid "Torrent '%1' has been created successfully."
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:461
+msgid "Creating torrent failed"
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:462
+#, qt-format
+msgid "Creating torrent '%1' failed. %2"
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:488
+msgid "Creating torrent"
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:503
+msgid "Torrent:"
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:508
+msgid "File or directory to create torrent from:"
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:543
+msgid "Private torrent (DHT is not allowed)"
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:601
+msgid "Piece size:"
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:607
+msgid "Trackers:"
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:670
+msgid "File or directory to create torrent from is not setted"
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:671
+msgid "Please choose file or directory to create torrent from."
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:680
+msgid "Please choose a file to save the torrent"
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:740
+msgid "Please choose a directory to create torrent from"
+msgstr ""
+
+#: src/create_torrent_dialog.cpp:741
+msgid "Please choose a file to create torrent from"
 msgstr ""
 
 #: src/torrent_options_view.cpp:73
@@ -1591,6 +1914,212 @@ msgstr ""
 #: src/torrent_options_view.cpp:292
 #, qt-format
 msgid "Can't set torrent trackers. %1"
+msgstr ""
+
+#: src/application.cpp:78
+msgid "Silent warning"
+msgstr ""
+
+#: src/application.cpp:290
+msgid "application is now ending it's work"
+msgstr ""
+
+#: src/application.cpp:406
+msgid "Unable to show libnotify message"
+msgstr ""
+
+#: src/application.cpp:407
+#, qt-format
+msgid ""
+"Unable to show libnotify message: %1. You can disable notifications in the Preferences dialog.\n"
+"Message text:\n"
+"%2"
+msgstr ""
+
+#: src/application.cpp:458
+#, qt-format
+msgid "Running open command failed. %1."
+msgstr ""
+
+#: src/application.cpp:533
+msgid "Error while saving settings"
+msgstr ""
+
+#: src/application.cpp:607
+msgid "Unable to initialize a libnotify instance. Notification's displaying is not possible."
+msgstr ""
+
+#: src/main.cpp:172
+msgid "Error"
+msgstr ""
+
+#: src/main.cpp:174
+#, qt-format
+msgid "Starting %1 failed:"
+msgstr ""
+
+#: src/main.cpp:214
+msgid "Error at"
+msgstr ""
+
+#: src/main.cpp:215
+msgid ""
+"\n"
+"Locale settings:\n"
+msgstr ""
+
+#: src/main.cpp:228
+msgid ""
+"\n"
+"Compiled with native language support.\n"
+msgstr ""
+
+#: src/main.cpp:230
+msgid ""
+"\n"
+"Compiled without native language support.\n"
+msgstr ""
+
+#: src/main.cpp:259
+msgid "Logical error."
+msgstr ""
+
+#: src/main.cpp:265 src/main.cpp:283
+msgid "Critical error"
+msgstr ""
+
+#: src/main.cpp:301 src/main.cpp:355
+msgid "Debug info:"
+msgstr ""
+
+#: src/main.cpp:782
+#, qt-format
+msgid "Enable to set non-block mode for a pipe: %1."
+msgstr ""
+
+#: src/main.cpp:844
+#, qt-format
+msgid "Can't create config directory '%1': %2."
+msgstr ""
+
+#: src/main.cpp:864
+#, qt-format
+msgid "Error while opening config directory '%1': %2."
+msgstr ""
+
+#: src/main.cpp:876
+#, qt-format
+msgid "Error! Can't stat config directory '%1': %2."
+msgstr ""
+
+#: src/main.cpp:882
+#, qt-format
+msgid "Error! Config path '%1' is not a directory."
+msgstr ""
+
+#: src/main.cpp:888
+#, qt-format
+msgid "Error! Can't change current directory to config directory '%1': %2."
+msgstr ""
+
+#: src/main.cpp:913 src/main.cpp:929
+#, qt-format
+msgid "Can't communicate with running %1 instance. Error while reading link '%2' target path: %3."
+msgstr ""
+
+#: src/main.cpp:941
+#, qt-format
+msgid "Can't set environment variable '%1'='%2': %3."
+msgstr ""
+
+#: src/main.cpp:947 src/main.cpp:1160
+#, qt-format
+msgid "Can't communicate with running %1 instance. It is not running."
+msgstr ""
+
+#: src/main.cpp:987
+msgid "Unexpected DBus behavior"
+msgstr ""
+
+#: src/main.cpp:988
+msgid "Name request has been added to queue, but queuing has been forbidden."
+msgstr ""
+
+#: src/main.cpp:994 src/main.cpp:1001
+msgid "Unexpected DBus behavior while requesting name"
+msgstr ""
+
+#: src/main.cpp:995
+msgid "DBus saying that application is already name owner, but name request has not been sent yet."
+msgstr ""
+
+#: src/main.cpp:1002
+msgid "Unknown reply has been gotten."
+msgstr ""
+
+#: src/main.cpp:1013
+msgid "DBus error"
+msgstr ""
+
+#: src/main.cpp:1041
+#, qt-format
+msgid "Creating %1 session failed. Can't remove DBus session link '%2'. %3"
+msgstr ""
+
+#: src/main.cpp:1050
+#, qt-format
+msgid "Creating %1 session failed. Error while reading link '%2' target path: %3."
+msgstr ""
+
+#: src/main.cpp:1057
+#, qt-format
+msgid "Creating %1 session failed. Can't get DBus session bus address."
+msgstr ""
+
+#: src/main.cpp:1066
+#, qt-format
+msgid "Creating %1 session failed. Can't create DBus session link '%2': %3."
+msgstr ""
+
+#: src/main.cpp:1104 src/main.cpp:1120
+#, qt-format
+msgid "Closing %1 session failed. Can't remove DBus session link '%2': %3."
+msgstr ""
+
+#: src/main.cpp:1139
+msgid "Nothing to process. Exiting..."
+msgstr ""
+
+#: src/main.cpp:1142
+msgid "Delivering command line options to working copy..."
+msgstr ""
+
+#: src/main.cpp:1151 src/main.cpp:1155 src/main.cpp:1160
+msgid "Transmitting command line options failed"
+msgstr ""
+
+#: src/main.cpp:1151
+#, qt-format
+msgid "Running %1 instance rejected command line options transfered to it: %2."
+msgstr ""
+
+#: src/main.cpp:1155
+#, qt-format
+msgid "Can't communicate with running %1 instance via DBus: %2."
+msgstr ""
+
+#: src/trackers_view.cpp:169
+#, qt-format
+msgid "Gotten invalid tracker URL ('%1'). Please inter a valid URL started from 'http://'."
+msgstr ""
+
+#: src/trackers_view.cpp:187
+#, qt-format
+msgid "Gotten invalid tracker URL ('%1'). This URL is already exists in the tracker list."
+msgstr ""
+
+#: src/trackers_view.cpp:234 src/trackers_view.cpp:236
+msgid "Invalid tracker URL"
 msgstr ""
 
 #: src/categories_view.cpp:294
@@ -1666,596 +2195,155 @@ msgstr ""
 msgid "Torrents with tracker error"
 msgstr ""
 
-#: src/client_cmd_options.cpp:66
+#: src/ip_filter.cpp:262
+msgid "Error while adding rule to IP filter"
+msgstr ""
+
+#: src/ip_filter.cpp:263
 #, qt-format
-msgid "Bad option '%1' value '%2'."
+msgid "Error while adding rule to IP filter: %1."
 msgstr ""
 
-#: src/client_cmd_options.cpp:74
-msgid "torrent_path"
+#: src/temporary_action_dialog.cpp:122
+msgid "1 minute"
 msgstr ""
 
-#: src/client_cmd_options.cpp:83
-msgid "Main options"
+#: src/temporary_action_dialog.cpp:123
+msgid "5 minutes"
 msgstr ""
 
-#: src/client_cmd_options.cpp:89
-msgid "Show program version"
+#: src/temporary_action_dialog.cpp:124
+msgid "10 minutes"
 msgstr ""
 
-#: src/client_cmd_options.cpp:105
+#: src/temporary_action_dialog.cpp:125
+msgid "15 minutes"
+msgstr ""
+
+#: src/temporary_action_dialog.cpp:126
+msgid "30 minutes"
+msgstr ""
+
+#: src/temporary_action_dialog.cpp:127
+msgid "45 minutes"
+msgstr ""
+
+#: src/temporary_action_dialog.cpp:128
+msgid "1 hour"
+msgstr ""
+
+#: src/temporary_action_dialog.cpp:129
+msgid "2 hours"
+msgstr ""
+
+#: src/temporary_action_dialog.cpp:130
+msgid "4 hours"
+msgstr ""
+
+#: src/temporary_action_dialog.cpp:131
+msgid "8 hours"
+msgstr ""
+
+#: src/temporary_action_dialog.cpp:132
+msgid "12 hours"
+msgstr ""
+
+#: src/temporary_action_dialog.cpp:133
+msgid "1 day"
+msgstr ""
+
+#: src/temporary_action_dialog.cpp:208
+msgid "Temporary resume downloads|resume"
+msgstr ""
+
+#: src/temporary_action_dialog.cpp:212
+msgid "Temporary pause downloads|pause"
+msgstr ""
+
+#: src/temporary_action_dialog.cpp:223
+msgid "Temporary pause all torrents|all torrents"
+msgstr ""
+
+#: src/temporary_action_dialog.cpp:227
+msgid "Temporary pause downloads|downloads"
+msgstr ""
+
+#: src/temporary_action_dialog.cpp:231
+msgid "Temporary pause uploads|uploads"
+msgstr ""
+
+#: src/temporary_action_dialog.cpp:239
 #, qt-format
-msgid "Configuration directory path (default: ~/%1)"
+msgid "Temporary pause downloads|Temporary %1 %2"
 msgstr ""
 
-#: src/client_cmd_options.cpp:106
-msgid "DIRECTORY"
+#: ui/dialog.temporary_action.glade:42
+msgid "Time:"
 msgstr ""
 
-#: src/client_cmd_options.cpp:113
-msgid "Set download rate limit (KB/s)"
+#: ui/dialog.temporary_action.glade:61
+msgid "Custom time (m)|Custom (m)"
 msgstr ""
 
-#: src/client_cmd_options.cpp:114 src/client_cmd_options.cpp:122
-msgid "SPEED"
+#: ui/dialog.temporary_action.glade:75
+msgid "Predefined time|Predefined"
 msgstr ""
 
-#: src/client_cmd_options.cpp:121
-msgid "Set upload rate limit (KB/s)"
+#: ui/preferences.client.gui.status_bar.glade:19
+msgid "<big><b>Client::GUI::Status bar</b></big>"
 msgstr ""
 
-#: src/client_cmd_options.cpp:129
-msgid "Set maximum uploads"
+#: ui/preferences.client.gui.status_bar.glade:121
+msgid "Downloaded (payload)"
 msgstr ""
 
-#: src/client_cmd_options.cpp:130 src/client_cmd_options.cpp:138
-msgid "NUMBER"
+#: ui/preferences.client.gui.status_bar.glade:175
+msgid "Uploaded (payload)"
 msgstr ""
 
-#: src/client_cmd_options.cpp:137
-msgid "Set maximum connections"
+#: ui/dialog.add_torrent.glade:7
+msgid "Add torrent"
 msgstr ""
 
-#: src/client_cmd_options.cpp:146
-msgid "Start torrents"
+#: ui/dialog.add_torrent.glade:28
+msgid "<b>Torrent</b>"
 msgstr ""
 
-#: src/client_cmd_options.cpp:147 src/client_cmd_options.cpp:156
-msgid "{all,downloads,uploads}"
+#: ui/dialog.add_torrent.glade:45
+msgid "Path:"
 msgstr ""
 
-#: src/client_cmd_options.cpp:155
-msgid "Stop torrents"
+#: ui/dialog.add_torrent.glade:76
+msgid "Name:"
 msgstr ""
 
-#: src/client_cmd_options.cpp:165
-#, qt-format
-msgid "Only pass commands to already running %1 instance. Does not start new instance if it is not running yet"
+#: ui/dialog.add_torrent.glade:100
+msgid "Start torrent"
 msgstr ""
 
-#: src/client_cmd_options.cpp:232
-#, qt-format
-msgid "Error while processing torrent '%1'"
+#: ui/dialog.add_torrent.glade:133
+msgid "Download path:"
 msgstr ""
 
-#: src/client_cmd_options.cpp:233
-#, qt-format
-msgid "Can't get '%1' absolute path: %2."
+#: ui/dialog.add_torrent.glade:145
+msgid "Please select torrent's download directory"
 msgstr ""
 
-#: src/client_cmd_options.cpp:252
-#, qt-format
-msgid "Bad option '%1' value '%2'. Allowed values: all, downloads, uploads."
+#: ui/dialog.add_torrent.glade:179 ui/preferences.daemon.automation.glade:158
+msgid "Please select a directory for finished downloads copying"
 msgstr ""
 
-#: src/daemon.cpp:195
-#, qt-format
-msgid "Can't start daemon. Creating config directories failed. %1"
+#: ui/dialog.add_torrent.glade:195
+msgid "<b>Paths</b>"
 msgstr ""
 
-#: src/main.cpp:172
-msgid "Error"
+#: ui/dialog.add_torrent.glade:227
+msgid "<b>Files</b>"
 msgstr ""
 
-#: src/main.cpp:174
-#, qt-format
-msgid "Starting %1 failed:"
-msgstr ""
-
-#: src/main.cpp:214
-msgid "Error at"
-msgstr ""
-
-#: src/main.cpp:215
-msgid ""
-"\n"
-"Locale settings:\n"
-msgstr ""
-
-#: src/main.cpp:228
-msgid ""
-"\n"
-"Compiled with native language support.\n"
-msgstr ""
-
-#: src/main.cpp:230
-msgid ""
-"\n"
-"Compiled without native language support.\n"
-msgstr ""
-
-#: src/main.cpp:259
-msgid "Logical error."
-msgstr ""
-
-#: src/main.cpp:265 src/main.cpp:283
-msgid "Critical error"
-msgstr ""
-
-#: src/main.cpp:301 src/main.cpp:355
-msgid "Debug info:"
-msgstr ""
-
-#: src/main.cpp:780
-#, qt-format
-msgid "Enable to set non-block mode for a pipe: %1."
-msgstr ""
-
-#: src/main.cpp:842
-#, qt-format
-msgid "Can't create config directory '%1': %2."
-msgstr ""
-
-#: src/main.cpp:862
-#, qt-format
-msgid "Error while opening config directory '%1': %2."
-msgstr ""
-
-#: src/main.cpp:874
-#, qt-format
-msgid "Error! Can't stat config directory '%1': %2."
-msgstr ""
-
-#: src/main.cpp:880
-#, qt-format
-msgid "Error! Config path '%1' is not a directory."
-msgstr ""
-
-#: src/main.cpp:886
-#, qt-format
-msgid "Error! Can't change current directory to config directory '%1': %2."
-msgstr ""
-
-#: src/main.cpp:911 src/main.cpp:927
-#, qt-format
-msgid "Can't communicate with running %1 instance. Error while reading link '%2' target path: %3."
-msgstr ""
-
-#: src/main.cpp:939
-#, qt-format
-msgid "Can't set environment variable '%1'='%2': %3."
-msgstr ""
-
-#: src/main.cpp:945 src/main.cpp:1158
-#, qt-format
-msgid "Can't communicate with running %1 instance. It is not running."
-msgstr ""
-
-#: src/main.cpp:985
-msgid "Unexpected DBus behavior"
-msgstr ""
-
-#: src/main.cpp:986
-msgid "Name request has been added to queue, but queuing has been forbidden."
-msgstr ""
-
-#: src/main.cpp:992 src/main.cpp:999
-msgid "Unexpected DBus behavior while requesting name"
-msgstr ""
-
-#: src/main.cpp:993
-msgid "DBus saying that application is already name owner, but name request has not been sent yet."
-msgstr ""
-
-#: src/main.cpp:1000
-msgid "Unknown reply has been gotten."
-msgstr ""
-
-#: src/main.cpp:1011
-msgid "DBus error"
-msgstr ""
-
-#: src/main.cpp:1039
-#, qt-format
-msgid "Creating %1 session failed. Can't remove DBus session link '%2'. %3"
-msgstr ""
-
-#: src/main.cpp:1048
-#, qt-format
-msgid "Creating %1 session failed. Error while reading link '%2' target path: %3."
-msgstr ""
-
-#: src/main.cpp:1055
-#, qt-format
-msgid "Creating %1 session failed. Can't get DBus session bus address."
-msgstr ""
-
-#: src/main.cpp:1064
-#, qt-format
-msgid "Creating %1 session failed. Can't create DBus session link '%2': %3."
-msgstr ""
-
-#: src/main.cpp:1102 src/main.cpp:1118
-#, qt-format
-msgid "Closing %1 session failed. Can't remove DBus session link '%2': %3."
-msgstr ""
-
-#: src/main.cpp:1137
-msgid "Nothing to process. Exiting..."
-msgstr ""
-
-#: src/main.cpp:1140
-msgid "Delivering command line options to working copy..."
-msgstr ""
-
-#: src/main.cpp:1149 src/main.cpp:1153 src/main.cpp:1158
-msgid "Transmitting command line options failed"
-msgstr ""
-
-#: src/main.cpp:1149
-#, qt-format
-msgid "Running %1 instance rejected command line options transfered to it: %2."
-msgstr ""
-
-#: src/main.cpp:1153
-#, qt-format
-msgid "Can't communicate with running %1 instance via DBus: %2."
-msgstr ""
-
-#: src/torrent_files_view.cpp:82 src/torrent_files_view.cpp:93
-msgid "Change file or directory path"
-msgstr ""
-
-#: src/torrent_files_view.cpp:125 src/torrent_files_view.cpp:533
-#: src/torrent_files_view.cpp:550
-msgid "Changing file or directory path failed"
-msgstr ""
-
-#: src/torrent_files_view.cpp:126
-msgid "Changing file or directory path failed. Invalid path has been gotten. Please enter a valid path."
-msgstr ""
-
-#: src/torrent_files_view.cpp:182 src/torrent_files_view.cpp:200
-msgid "Priority"
-msgstr ""
-
-#: src/torrent_files_view.cpp:183 src/torrent_files_view.cpp:207
-msgid "Progress"
-msgstr ""
-
-#: src/torrent_files_view.cpp:241
-msgid "Download"
-msgstr ""
-
-#: src/torrent_files_view.cpp:247
-msgid "Do not download"
-msgstr ""
-
-#: src/torrent_files_view.cpp:253
-msgid "Normal priority"
-msgstr ""
-
-#: src/torrent_files_view.cpp:259
-msgid "High priority"
-msgstr ""
-
-#: src/torrent_files_view.cpp:265
-msgid "Change path"
-msgstr ""
-
-#: src/torrent_files_view.cpp:395
-#, qt-format
-msgid "Changing torrent files download status failed. %1"
-msgstr ""
-
-#: src/torrent_files_view.cpp:434
-#, qt-format
-msgid "Changing torrent files priorities failed. %1"
-msgstr ""
-
-#: src/torrent_files_view.cpp:502
-msgid "Changing file path failed"
-msgstr ""
-
-#: src/torrent_files_view.cpp:503
-msgid "Changing file path failed. Invalid file path has been gotten. Please enter a valid path."
-msgstr ""
-
-#: src/torrent_files_view.cpp:534 src/torrent_files_view.cpp:551
-#, qt-format
-msgid "Changing file or directory path failed. %1"
-msgstr ""
-
-#: src/torrent_files_view.cpp:630
-#, qt-format
-msgid "Changing download status for '%1' failed. %2"
-msgstr ""
-
-#: src/trackers_view.cpp:169
-#, qt-format
-msgid "Gotten invalid tracker URL ('%1'). Please inter a valid URL started from 'http://'."
-msgstr ""
-
-#: src/trackers_view.cpp:187
-#, qt-format
-msgid "Gotten invalid tracker URL ('%1'). This URL is already exists in the tracker list."
-msgstr ""
-
-#: src/trackers_view.cpp:234 src/trackers_view.cpp:236
-msgid "Invalid tracker URL"
-msgstr ""
-
-#: src/daemon_session.cpp:208
-#, qt-format
-msgid "%1 (%2). Errors: %3."
-msgstr ""
-
-#: src/daemon_session.cpp:519
-msgid "This torrent is already exists in the current session."
-msgstr ""
-
-#: src/daemon_session.cpp:537
-#, qt-format
-msgid "Can't create torrent configuration directory '%1': %2."
-msgstr ""
-
-#: src/daemon_session.cpp:561
-#, qt-format
-msgid "Torrent file '%1' has been changed while it's been processed."
-msgstr ""
-
-#: src/daemon_session.cpp:575
-#, qt-format
-msgid "Can't copy torrent file '%1' to '%2': %3."
-msgstr ""
-
-#: src/daemon_session.cpp:758
-#, qt-format
-msgid "Can't pause torrent '%1'. %2"
-msgstr ""
-
-#: src/daemon_session.cpp:771
-#, qt-format
-msgid "Can't remove torrent '%1'. %2"
-msgstr ""
-
-#: src/daemon_session.cpp:784
-#, qt-format
-msgid "Can't remove with data torrent '%1'. %2"
-msgstr ""
-
-#: src/daemon_session.cpp:829
-#, qt-format
-msgid "Can't stat torrent file: %1."
-msgstr ""
-
-#: src/daemon_session.cpp:867
-msgid "Deleting automatically loaded *.torrent file failed"
-msgstr ""
-
-#: src/daemon_session.cpp:869
-#, qt-format
-msgid "Can't delete automatically loaded *.torrent file '%1': %2."
-msgstr ""
-
-#: src/daemon_session.cpp:898 src/daemon_session.cpp:1550
-#, qt-format
-msgid "Automatic loading the torrent '%1' failed. %2"
-msgstr ""
-
-#: src/daemon_session.cpp:908 src/daemon_session.cpp:913
-#: src/daemon_session.cpp:932 src/daemon_session.cpp:2337
-#: src/daemon_session.cpp:2419
-msgid "Automatic torrents loading failed"
-msgstr ""
-
-#: src/daemon_session.cpp:915
-#, qt-format
-msgid "Directory '%1' has been deleted or moved."
-msgstr ""
-
-#: src/daemon_session.cpp:1036
-msgid "Automatic torrents cleaning failed"
-msgstr ""
-
-#: src/daemon_session.cpp:1111
-msgid "All torrents have downloaded."
-msgstr ""
-
-#: src/daemon_session.cpp:1162
-msgid "Copying finished torrent's files failed"
-msgstr ""
-
-#: src/daemon_session.cpp:1164
-#, qt-format
-msgid "Copying finished torrent's '%1' files from '%2' to '%3' failed."
-msgstr ""
-
-#: src/daemon_session.cpp:1245 src/daemon_session.cpp:1257
-#: src/daemon_session.cpp:1268 src/daemon_session.cpp:1281
-#, qt-format
-msgid "Bad torrent id '%1'."
-msgstr ""
-
-#: src/daemon_session.cpp:1508
-#, qt-format
-msgid "Restoring torrent '%1' [%2] previous session settings failed. %3"
-msgstr ""
-
-#: src/daemon_session.cpp:1562
-#, qt-format
-msgid "Can't read directory '%1' for automatic torrents loading: %2."
-msgstr ""
-
-#: src/daemon_session.cpp:1597
-msgid "Loading torrent failed"
-msgstr ""
-
-#: src/daemon_session.cpp:1597
-#, qt-format
-msgid "Loading of the torrent '%1' failed. %2"
-msgstr ""
-
-#: src/daemon_session.cpp:1603
-#, qt-format
-msgid "Can't read directory with torrents configs '%1': %2."
-msgstr ""
-
-#: src/daemon_session.cpp:1609
-#, qt-format
-msgid "Loading torrents from previous session failed. %1"
-msgstr ""
-
-#: src/daemon_session.cpp:1625 src/daemon_session.cpp:2492
-msgid "Saving session failed"
-msgstr ""
-
-#: src/daemon_session.cpp:1625 src/daemon_session.cpp:2492
-#, qt-format
-msgid "Saving session failed. %1"
-msgstr ""
-
-#: src/daemon_session.cpp:1838
-#, qt-format
-msgid "Bad torrent id: '%1'."
-msgstr ""
-
-#: src/daemon_session.cpp:1882 src/daemon_session.cpp:1898
-msgid "Deleting torrent data failed"
-msgstr ""
-
-#: src/daemon_session.cpp:1883 src/daemon_session.cpp:1899
-#, qt-format
-msgid "Deleting torrent '%1' data failed."
-msgstr ""
-
-#: src/daemon_session.cpp:2028
-msgid "Saving torrent settings failed"
-msgstr ""
-
-#: src/daemon_session.cpp:2030
-#, qt-format
-msgid "Saving torrent '%1' settings failed. %2"
-msgstr ""
-
-#: src/daemon_session.cpp:2061
-#, qt-format
-msgid "Invalid copy when finished to path '%1'."
-msgstr ""
-
-#: src/daemon_session.cpp:2083 src/daemon_session.cpp:2105
-#, qt-format
-msgid "Bad file id: %1."
-msgstr ""
-
-#: src/daemon_session.cpp:2314
-msgid "Setting directory for automatic torrents loading failed"
-msgstr ""
-
-#: src/daemon_session.cpp:2316
-#, qt-format
-msgid "Setting directory '%1' for automatic torrents loading failed. %2"
-msgstr ""
-
-#: src/daemon_session.cpp:2382
-msgid "Setting torrent trackers failed: libtorrent internal error."
-msgstr ""
-
-#: src/client_settings.cpp:41
-#, qt-format
-msgid "Client config: Bad option '%1' type at line %2."
-msgstr ""
-
-#: src/client_settings.cpp:68
-#, qt-format
-msgid "Client config: Bad option '%1' value '%2' at line %3."
-msgstr ""
-
-#: src/client_settings.cpp:78
-#, qt-format
-msgid "Client config: Invalid option '%1' UTF-8 value at line %2."
-msgstr ""
-
-#: src/client_settings.cpp:88
-#, qt-format
-msgid "Client config: Unknown option '%1' at line %2."
-msgstr ""
-
-#: src/client_settings.cpp:1153
-#, qt-format
-msgid "Can't read configuration file '%1': %2."
-msgstr ""
-
-#: src/client_settings.cpp:1157
-#, qt-format
-msgid "Can't parse configuration file '%1': %2."
-msgstr ""
-
-#: src/client_settings.cpp:1240
-#, qt-format
-msgid "Can't write configuration file '%1': %2."
-msgstr ""
-
-#: ui/preferences.daemon.network.glade:14
-msgid "<big><b>Daemon::Network</b></big>"
-msgstr ""
-
-#: ui/preferences.client.gui.misc.glade:19
-msgid "<big><b>Client::GUI::Misc</b></big>"
-msgstr ""
-
-#: ui/preferences.client.gui.misc.glade:51
-msgid "Show speed in window title"
-msgstr ""
-
-#: ui/preferences.client.gui.misc.glade:64
-msgid "Show zero values in torrents info columns"
-msgstr ""
-
-#: ui/preferences.client.gui.misc.glade:77
-msgid "Compact details tab"
-msgstr ""
-
-#: ui/preferences.client.gui.misc.glade:110
-msgid "GUI update interval (ms):"
-msgstr ""
-
-#: ui/preferences.client.gui.misc.glade:117
-msgid "Max log lines:"
-msgstr ""
-
-#: ui/preferences.client.gui.misc.glade:168
-msgid "Show tray icon"
-msgstr ""
-
-#: ui/preferences.client.gui.misc.glade:194
-msgid "Minimize to tray"
-msgstr ""
-
-#: ui/preferences.client.gui.misc.glade:215
-msgid "Hide main window to tray at startup"
-msgstr ""
-
-#: ui/preferences.client.gui.misc.glade:228
-msgid "Close to tray"
-msgstr ""
-
-#: ui/preferences.client.gui.misc.glade:266
-msgid "Download completed notification"
-msgstr ""
-
-#: ui/preferences.client.gui.misc.glade:279
-msgid "All downloads completed notification"
+#: ui/dialog.add_torrent.glade:250
+#: ui/preferences.daemon.network.misc.glade:501
+msgid "<b>Trackers</b>"
 msgstr ""
 
 #: ui/preferences.daemon.network.misc.glade:19
@@ -2346,11 +2434,6 @@ msgstr ""
 msgid "Max connections:"
 msgstr ""
 
-#: ui/preferences.daemon.network.misc.glade:501
-#: ui/dialog.add_torrent.glade:250
-msgid "<b>Trackers</b>"
-msgstr ""
-
 #: ui/preferences.daemon.network.misc.glade:515
 msgid "Max announce interval (m):"
 msgstr ""
@@ -2362,67 +2445,49 @@ msgid ""
 "Please do not set this option, if you have real IP address! In this case you do not make torrent client work better, but this option increase trackers overload."
 msgstr ""
 
-#: ui/torrent_info_tabs.details_compact.glade:39
+#: ui/preferences.daemon.network.ip_filter.glade:14
+msgid "<big><b>Daemon::Network::IP filter</b></big>"
+msgstr ""
+
+#: ui/preferences.daemon.network.ip_filter.glade:52
+msgid "This list is fully scanned from top to bottom. In a case of overlapping ranges the last one applied takes precedence. The list has one implicit rule at the top, which allows all IPs."
+msgstr ""
+
+#: ui/preferences.daemon.network.ip_filter.glade:226
+msgid "Enable IP filter|Enable"
+msgstr ""
+
 #: ui/torrent_info_tabs.details.glade:39
+#: ui/torrent_info_tabs.details_compact.glade:39
 msgid "Size:"
 msgstr ""
 
-#: ui/torrent_info_tabs.details_compact.glade:46
 #: ui/torrent_info_tabs.details.glade:46
+#: ui/torrent_info_tabs.details_compact.glade:46
 msgid "Requested size:"
 msgstr ""
 
-#: ui/torrent_info_tabs.details_compact.glade:57
 #: ui/torrent_info_tabs.details.glade:57
+#: ui/torrent_info_tabs.details_compact.glade:57
 msgid "Downloaded requested size:"
-msgstr ""
-
-#: ui/torrent_info_tabs.details_compact.glade:68
-#: ui/torrent_info_tabs.details.glade:79
-msgid "Total payload download:"
-msgstr ""
-
-#: ui/torrent_info_tabs.details_compact.glade:171
-#: ui/torrent_info_tabs.details.glade:321
-msgid "Download payload speed:"
-msgstr ""
-
-#: ui/torrent_info_tabs.details_compact.glade:182
-#: ui/torrent_info_tabs.details.glade:347
-msgid "Upload payload speed:"
-msgstr ""
-
-#: ui/torrent_info_tabs.details_compact.glade:195
-#: ui/torrent_info_tabs.details.glade:105
-msgid "Total payload upload:"
-msgstr ""
-
-#: ui/torrent_info_tabs.details_compact.glade:220
-#: ui/torrent_info_tabs.details.glade:396
-msgid "Share ratio:"
-msgstr ""
-
-#: ui/torrent_info_tabs.details_compact.glade:257
-#: ui/torrent_info_tabs.details.glade:429
-msgid "Time left:"
-msgstr ""
-
-#: ui/torrent_info_tabs.details_compact.glade:323
-#: ui/torrent_info_tabs.details.glade:646
-msgid "Tracker status:"
-msgstr ""
-
-#: ui/torrent_info_tabs.details_compact.glade:330
-#: ui/torrent_info_tabs.details.glade:653
-msgid "Publisher URL:"
 msgstr ""
 
 #: ui/torrent_info_tabs.details.glade:68
 msgid "Total download:"
 msgstr ""
 
+#: ui/torrent_info_tabs.details.glade:79
+#: ui/torrent_info_tabs.details_compact.glade:68
+msgid "Total payload download:"
+msgstr ""
+
 #: ui/torrent_info_tabs.details.glade:92
 msgid "Total upload:"
+msgstr ""
+
+#: ui/torrent_info_tabs.details.glade:105
+#: ui/torrent_info_tabs.details_compact.glade:195
+msgid "Total payload upload:"
 msgstr ""
 
 #: ui/torrent_info_tabs.details.glade:118
@@ -2437,8 +2502,23 @@ msgstr ""
 msgid "Download speed:"
 msgstr ""
 
+#: ui/torrent_info_tabs.details.glade:321
+#: ui/torrent_info_tabs.details_compact.glade:171
+msgid "Download payload speed:"
+msgstr ""
+
 #: ui/torrent_info_tabs.details.glade:334
 msgid "Upload speed:"
+msgstr ""
+
+#: ui/torrent_info_tabs.details.glade:347
+#: ui/torrent_info_tabs.details_compact.glade:182
+msgid "Upload payload speed:"
+msgstr ""
+
+#: ui/torrent_info_tabs.details.glade:396
+#: ui/torrent_info_tabs.details_compact.glade:220
+msgid "Share ratio:"
 msgstr ""
 
 #: ui/torrent_info_tabs.details.glade:407
@@ -2447,6 +2527,11 @@ msgstr ""
 
 #: ui/torrent_info_tabs.details.glade:418
 msgid "Seeds:"
+msgstr ""
+
+#: ui/torrent_info_tabs.details.glade:429
+#: ui/torrent_info_tabs.details_compact.glade:257
+msgid "Time left:"
 msgstr ""
 
 #: ui/torrent_info_tabs.details.glade:454
@@ -2465,16 +2550,18 @@ msgstr ""
 msgid "Announce interval:"
 msgstr ""
 
-#: ui/dialog.temporary_action.glade:42
-msgid "Time:"
+#: ui/torrent_info_tabs.details.glade:646
+#: ui/torrent_info_tabs.details_compact.glade:323
+msgid "Tracker status:"
 msgstr ""
 
-#: ui/dialog.temporary_action.glade:61
-msgid "Custom time (m)|Custom (m)"
+#: ui/torrent_info_tabs.details.glade:653
+#: ui/torrent_info_tabs.details_compact.glade:330
+msgid "Publisher URL:"
 msgstr ""
 
-#: ui/dialog.temporary_action.glade:75
-msgid "Predefined time|Predefined"
+#: ui/preferences.client.gui.glade:14
+msgid "<big><b>Client::GUI</b></big>"
 msgstr ""
 
 #: ui/preferences.daemon.automation.glade:19
@@ -2497,10 +2584,6 @@ msgstr ""
 msgid "Please select a torrents download directory"
 msgstr ""
 
-#: ui/preferences.daemon.automation.glade:158 ui/dialog.add_torrent.glade:179
-msgid "Please select a directory for finished downloads copying"
-msgstr ""
-
 #: ui/preferences.daemon.automation.glade:169
 msgid "Delete loaded *.torrent files"
 msgstr ""
@@ -2521,62 +2604,58 @@ msgstr ""
 msgid "Max seeding time (m):"
 msgstr ""
 
-#: ui/preferences.daemon.network.ip_filter.glade:14
-msgid "<big><b>Daemon::Network::IP filter</b></big>"
+#: ui/preferences.daemon.network.glade:14
+msgid "<big><b>Daemon::Network</b></big>"
 msgstr ""
 
-#: ui/preferences.daemon.network.ip_filter.glade:52
-msgid "This list is fully scanned from top to bottom. In a case of overlapping ranges the last one applied takes precedence. The list has one implicit rule at the top, which allows all IPs."
+#: ui/preferences.client.gui.misc.glade:19
+msgid "<big><b>Client::GUI::Misc</b></big>"
 msgstr ""
 
-#: ui/dialog.add_torrent.glade:7
-msgid "Add torrent"
+#: ui/preferences.client.gui.misc.glade:51
+msgid "Show speed in window title"
 msgstr ""
 
-#: ui/dialog.add_torrent.glade:28
-msgid "<b>Torrent</b>"
+#: ui/preferences.client.gui.misc.glade:64
+msgid "Show zero values in torrents info columns"
 msgstr ""
 
-#: ui/dialog.add_torrent.glade:45
-msgid "Path:"
+#: ui/preferences.client.gui.misc.glade:77
+msgid "Compact details tab"
 msgstr ""
 
-#: ui/dialog.add_torrent.glade:76
-msgid "Name:"
+#: ui/preferences.client.gui.misc.glade:110
+msgid "GUI update interval (ms):"
 msgstr ""
 
-#: ui/dialog.add_torrent.glade:100
-msgid "Start torrent"
+#: ui/preferences.client.gui.misc.glade:117
+msgid "Max log lines:"
 msgstr ""
 
-#: ui/dialog.add_torrent.glade:133
-msgid "Download path:"
+#: ui/preferences.client.gui.misc.glade:168
+msgid "Show tray icon"
 msgstr ""
 
-#: ui/dialog.add_torrent.glade:145
-msgid "Please select torrent's download directory"
+#: ui/preferences.client.gui.misc.glade:194
+msgid "Minimize to tray"
 msgstr ""
 
-#: ui/dialog.add_torrent.glade:195
-msgid "<b>Paths</b>"
+#: ui/preferences.client.gui.misc.glade:215
+msgid "Hide main window to tray at startup"
 msgstr ""
 
-#: ui/dialog.add_torrent.glade:227
-msgid "<b>Files</b>"
+#: ui/preferences.client.gui.misc.glade:228
+msgid "Close to tray"
 msgstr ""
 
-#: ui/preferences.client.gui.status_bar.glade:19
-msgid "<big><b>Client::GUI::Status bar</b></big>"
+#: ui/preferences.client.gui.misc.glade:266
+msgid "Download completed notification"
 msgstr ""
 
-#: ui/preferences.client.gui.status_bar.glade:121
-msgid "Downloaded (payload)"
+#: ui/preferences.client.gui.misc.glade:279
+msgid "All downloads completed notification"
 msgstr ""
 
-#: ui/preferences.client.gui.status_bar.glade:175
-msgid "Uploaded (payload)"
-msgstr ""
-
-#: ui/preferences.client.gui.glade:14
-msgid "<big><b>Client::GUI</b></big>"
+#: ui/dialog.open_magnet_link.glade:26
+msgid "Magnet link:"
 msgstr ""

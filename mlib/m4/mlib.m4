@@ -2,7 +2,7 @@ dnl /**************************************************************************
 dnl *                                                                         *
 dnl *   MLib - library of some useful things for internal usage               *
 dnl *                                                                         *
-dnl *   Copyright (C) 2009, Konishchev Dmitry                                 *
+dnl *   Copyright (C) 2009-2010, Dmitry Konishchev                            *
 dnl *   http://konishchevdmitry.blogspot.com/                                 *
 dnl *                                                                         *
 dnl *   This program is free software; you can redistribute it and/or modify  *

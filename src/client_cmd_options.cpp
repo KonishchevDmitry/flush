@@ -3,7 +3,7 @@
 *   Flush - GTK-based BitTorrent client                                   *
 *   http://sourceforge.net/projects/flush                                 *
 *                                                                         *
-*   Copyright (C) 2009, Konishchev Dmitry                                 *
+*   Copyright (C) 2009-2010, Dmitry Konishchev                            *
 *   http://konishchevdmitry.blogspot.com/                                 *
 *                                                                         *
 *   This program is free software; you can redistribute it and/or modify  *
@@ -193,7 +193,7 @@ void Client_cmd_options::parse(int argc, char *argv[])
 		if(show_version)
 		{
 			std::cout << APP_NAME << " " << APP_VERSION_STRING << std::endl;
-			std::cout << m::get_copyright_string(_("Konishchev Dmitry"), APP_YEAR) << std::endl;
+			std::cout << m::get_copyright_string(_("Dmitry Konishchev"), APP_YEAR) << std::endl;
 			exit(EXIT_SUCCESS);
 		}
 	// Если необходимо отобразить версию программы <--
