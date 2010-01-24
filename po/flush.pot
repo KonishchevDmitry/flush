@@ -1,5 +1,5 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Konishchev Dmitry
+# Copyright (C) YEAR Dmitry Konishchev
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: flush 0.9\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2010-01-24 17:48+0300\n"
+"POT-Creation-Date: 2010-01-24 18:57+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1036,7 +1036,7 @@ msgstr ""
 
 #: src/main_window.cpp:1095 src/main_window.cpp:1106
 #: src/client_cmd_options.cpp:196
-msgid "Konishchev Dmitry"
+msgid "Dmitry Konishchev"
 msgstr ""
 
 #: src/main_window.cpp:1104
@@ -1992,118 +1992,118 @@ msgstr ""
 msgid "Debug info:"
 msgstr ""
 
-#: src/main.cpp:782
+#: src/main.cpp:790
 #, qt-format
 msgid "Enable to set non-block mode for a pipe: %1."
 msgstr ""
 
-#: src/main.cpp:844
+#: src/main.cpp:845
 #, qt-format
 msgid "Can't create config directory '%1': %2."
 msgstr ""
 
-#: src/main.cpp:864
+#: src/main.cpp:865
 #, qt-format
 msgid "Error while opening config directory '%1': %2."
 msgstr ""
 
-#: src/main.cpp:876
+#: src/main.cpp:877
 #, qt-format
 msgid "Error! Can't stat config directory '%1': %2."
 msgstr ""
 
-#: src/main.cpp:882
+#: src/main.cpp:883
 #, qt-format
 msgid "Error! Config path '%1' is not a directory."
 msgstr ""
 
-#: src/main.cpp:888
+#: src/main.cpp:889
 #, qt-format
 msgid "Error! Can't change current directory to config directory '%1': %2."
 msgstr ""
 
-#: src/main.cpp:913 src/main.cpp:929
+#: src/main.cpp:914 src/main.cpp:930
 #, qt-format
 msgid "Can't communicate with running %1 instance. Error while reading link '%2' target path: %3."
 msgstr ""
 
-#: src/main.cpp:941
+#: src/main.cpp:942
 #, qt-format
 msgid "Can't set environment variable '%1'='%2': %3."
 msgstr ""
 
-#: src/main.cpp:947 src/main.cpp:1160
+#: src/main.cpp:948 src/main.cpp:1161
 #, qt-format
 msgid "Can't communicate with running %1 instance. It is not running."
 msgstr ""
 
-#: src/main.cpp:987
+#: src/main.cpp:988
 msgid "Unexpected DBus behavior"
 msgstr ""
 
-#: src/main.cpp:988
+#: src/main.cpp:989
 msgid "Name request has been added to queue, but queuing has been forbidden."
 msgstr ""
 
-#: src/main.cpp:994 src/main.cpp:1001
+#: src/main.cpp:995 src/main.cpp:1002
 msgid "Unexpected DBus behavior while requesting name"
 msgstr ""
 
-#: src/main.cpp:995
+#: src/main.cpp:996
 msgid "DBus saying that application is already name owner, but name request has not been sent yet."
 msgstr ""
 
-#: src/main.cpp:1002
+#: src/main.cpp:1003
 msgid "Unknown reply has been gotten."
 msgstr ""
 
-#: src/main.cpp:1013
+#: src/main.cpp:1014
 msgid "DBus error"
 msgstr ""
 
-#: src/main.cpp:1041
+#: src/main.cpp:1042
 #, qt-format
 msgid "Creating %1 session failed. Can't remove DBus session link '%2'. %3"
 msgstr ""
 
-#: src/main.cpp:1050
+#: src/main.cpp:1051
 #, qt-format
 msgid "Creating %1 session failed. Error while reading link '%2' target path: %3."
 msgstr ""
 
-#: src/main.cpp:1057
+#: src/main.cpp:1058
 #, qt-format
 msgid "Creating %1 session failed. Can't get DBus session bus address."
 msgstr ""
 
-#: src/main.cpp:1066
+#: src/main.cpp:1067
 #, qt-format
 msgid "Creating %1 session failed. Can't create DBus session link '%2': %3."
 msgstr ""
 
-#: src/main.cpp:1104 src/main.cpp:1120
+#: src/main.cpp:1105 src/main.cpp:1121
 #, qt-format
 msgid "Closing %1 session failed. Can't remove DBus session link '%2': %3."
 msgstr ""
 
-#: src/main.cpp:1139
+#: src/main.cpp:1140
 msgid "Nothing to process. Exiting..."
 msgstr ""
 
-#: src/main.cpp:1142
+#: src/main.cpp:1143
 msgid "Delivering command line options to working copy..."
 msgstr ""
 
-#: src/main.cpp:1151 src/main.cpp:1155 src/main.cpp:1160
+#: src/main.cpp:1152 src/main.cpp:1156 src/main.cpp:1161
 msgid "Transmitting command line options failed"
 msgstr ""
 
-#: src/main.cpp:1151
+#: src/main.cpp:1152
 #, qt-format
 msgid "Running %1 instance rejected command line options transfered to it: %2."
 msgstr ""
 
-#: src/main.cpp:1155
+#: src/main.cpp:1156
 #, qt-format
 msgid "Can't communicate with running %1 instance via DBus: %2."
 msgstr ""

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2010-01-24 17:48+0300\n"
+"POT-Creation-Date: 2010-01-24 18:57+0300\n"
 "Last-Translator: Konishchev Dmitry <konishchev@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -77,9 +77,9 @@ msgid "Error while using epoll instance: %1."
 msgstr "Ошибка при использовании экземпляра epoll: %1."
 
 #: mlib/src/misc.cpp:540
-#, qt-format
+#, fuzzy, qt-format
 msgid "Can't read data from a file descriptor: %1."
-msgstr "Не удалось прочитать данные из файлового дескриптора: %1."
+msgstr "Не удалось прочитать данные из дескриптора inotify: %1."
 
 #: mlib/src/fs_watcher.cpp:163
 #, qt-format
@@ -111,24 +111,25 @@ msgid "%1 at line %2"
 msgstr "%1 в строке %2"
 
 #: mlib/src/sqlite.cpp:137
+#, fuzzy
 msgid "unknown error"
-msgstr "неизвестная ошибка"
+msgstr "Ошибка DBus."
 
 #: mlib/src/sqlite.cpp:219 mlib/src/sqlite.cpp:260
 msgid "Database is not opened yet."
-msgstr "База данных еще не открыта."
+msgstr ""
 
 #: mlib/src/sqlite.cpp:272
 msgid "Database is already opened."
-msgstr "База данных уже открыта."
+msgstr ""
 
 #: mlib/src/sqlite.cpp:369
 msgid "Query is already finalized."
-msgstr "Дескриптор запроса к БД уже закрыт."
+msgstr ""
 
 #: mlib/src/sqlite.cpp:450
 msgid "Operation on finalized query."
-msgstr "Операция над закрытым дескриптором запроса к БД."
+msgstr ""
 
 #: mlib/src/async_fs.cpp:245
 msgid ""
@@ -1062,8 +1063,8 @@ msgstr "Приостановка торрента(ов) завершилось �
 
 #: src/main_window.cpp:1095 src/main_window.cpp:1106
 #: src/client_cmd_options.cpp:196
-msgid "Konishchev Dmitry"
-msgstr "Конищев Дмитрий"
+msgid "Dmitry Konishchev"
+msgstr ""
 
 #: src/main_window.cpp:1104
 msgid "GTK-based BitTorrent client"
@@ -1439,7 +1440,7 @@ msgstr "Автоматическая очистка от старых торре
 #: src/daemon_session.cpp:1164
 #, fuzzy
 msgid "All torrents downloaded."
-msgstr "Пожалуйста, выберите директорию для скачивания торрентов"
+msgstr "Все торренты"
 
 #: src/daemon_session.cpp:1214
 msgid "Copying finished torrent's files failed"
@@ -1678,9 +1679,9 @@ msgid "invalid IP range %1-%2"
 msgstr "недопустимый диапазон IP-адресов %1-%2"
 
 #: src/common.cpp:318
-#, qt-format
+#, fuzzy, qt-format
 msgid "%1 - Download completed"
-msgstr ""
+msgstr "Скорость скачивания"
 
 #: src/common.cpp:322
 #, qt-format
@@ -2001,7 +2002,7 @@ msgstr "в данный момент приложение завершает с�
 
 #: src/application.cpp:406
 msgid "Unable to show libnotify message"
-msgstr "Не удалось отобразить libnotify-сообщение"
+msgstr ""
 
 #: src/application.cpp:407
 #, qt-format
@@ -2011,10 +2012,6 @@ msgid ""
 "Message text:\n"
 "%2"
 msgstr ""
-"Не удалось отобразить libnotify-сообщение: %1. Вы можете отключить "
-"оповещения в окне настроек.\n"
-"Текст сообщения:\n"
-"%2"
 
 #: src/application.cpp:458
 #, qt-format
@@ -2030,8 +2027,6 @@ msgid ""
 "Unable to initialize a libnotify instance. Notification's displaying is not "
 "possible."
 msgstr ""
-"Не удалось инициализировать экземпляр libnotify. Отображение оповещений "
-"будет не возможно."
 
 #: src/main.cpp:172
 msgid "Error"
@@ -2082,43 +2077,43 @@ msgstr "Критическая ошибка"
 msgid "Debug info:"
 msgstr "Отладочная информация:"
 
-#: src/main.cpp:782
+#: src/main.cpp:790
 #, qt-format
 msgid "Enable to set non-block mode for a pipe: %1."
 msgstr "Не удалось переключить канал (pipe) в неблокирующий режим: %1."
 
-#: src/main.cpp:844
+#: src/main.cpp:845
 #, qt-format
 msgid "Can't create config directory '%1': %2."
 msgstr "Ошибка при создании директории для конфигурационных файлов '%1': %2."
 
-#: src/main.cpp:864
+#: src/main.cpp:865
 #, qt-format
 msgid "Error while opening config directory '%1': %2."
 msgstr "Не удалось открыть директорию с конфигурационными файлами '%1': %2."
 
-#: src/main.cpp:876
+#: src/main.cpp:877
 #, qt-format
 msgid "Error! Can't stat config directory '%1': %2."
 msgstr ""
 "Ошибка! Не удается получить информацию о директории с конфигурационными "
 "файлами '%1': %2."
 
-#: src/main.cpp:882
+#: src/main.cpp:883
 #, qt-format
 msgid "Error! Config path '%1' is not a directory."
 msgstr ""
 "Ошибка! Путь к директории с конфигурационными файлами '%1' ссылается не на "
 "директорию."
 
-#: src/main.cpp:888
+#: src/main.cpp:889
 #, qt-format
 msgid "Error! Can't change current directory to config directory '%1': %2."
 msgstr ""
 "Ошибка! Не удалось сменить текущую директорию в директорию с "
 "конфигурационными файлами '%1': %2."
 
-#: src/main.cpp:913 src/main.cpp:929
+#: src/main.cpp:914 src/main.cpp:930
 #, qt-format
 msgid ""
 "Can't communicate with running %1 instance. Error while reading link '%2' "
@@ -2127,31 +2122,31 @@ msgstr ""
 "Не удалось связаться с запущенной копией %1. Ошибка при чтении ссылки '%2': %"
 "3."
 
-#: src/main.cpp:941
+#: src/main.cpp:942
 #, qt-format
 msgid "Can't set environment variable '%1'='%2': %3."
 msgstr "Не удалось установить переменную окружения '%1'='%2': %3."
 
-#: src/main.cpp:947 src/main.cpp:1160
+#: src/main.cpp:948 src/main.cpp:1161
 #, qt-format
 msgid "Can't communicate with running %1 instance. It is not running."
 msgstr "Не удалось связаться с запущенной копией %1. %1 не запущен."
 
-#: src/main.cpp:987
+#: src/main.cpp:988
 msgid "Unexpected DBus behavior"
 msgstr "Неожиданное поведение DBus"
 
-#: src/main.cpp:988
+#: src/main.cpp:989
 msgid "Name request has been added to queue, but queuing has been forbidden."
 msgstr ""
 "Запрос на захват имени был добавлен в очередь несмотря на то, что это было "
 "запрещено."
 
-#: src/main.cpp:994 src/main.cpp:1001
+#: src/main.cpp:995 src/main.cpp:1002
 msgid "Unexpected DBus behavior while requesting name"
 msgstr "Неожиданное поведение DBus при запросе на захват имени"
 
-#: src/main.cpp:995
+#: src/main.cpp:996
 msgid ""
 "DBus saying that application is already name owner, but name request has not "
 "been sent yet."
@@ -2159,68 +2154,68 @@ msgstr ""
 "DBus утверждает, что приложение уже захватило имя, несмотря на то, что "
 "запрос на захват имени не отправлялся."
 
-#: src/main.cpp:1002
+#: src/main.cpp:1003
 msgid "Unknown reply has been gotten."
 msgstr "Был получен ответ неизвестного типа."
 
-#: src/main.cpp:1013
+#: src/main.cpp:1014
 msgid "DBus error"
 msgstr "Ошибка DBus."
 
-#: src/main.cpp:1041
+#: src/main.cpp:1042
 #, qt-format
 msgid "Creating %1 session failed. Can't remove DBus session link '%2'. %3"
 msgstr ""
 "Создание сессии %1 завершилось неудачей. Ошибка при удалении ссылки '%2' на "
 "сессию DBus. %3"
 
-#: src/main.cpp:1050
+#: src/main.cpp:1051
 #, qt-format
 msgid ""
 "Creating %1 session failed. Error while reading link '%2' target path: %3."
 msgstr ""
 "Создание сессии %1 завершилось неудачей. Ошибка при чтении ссылки '%2': %3."
 
-#: src/main.cpp:1057
+#: src/main.cpp:1058
 #, qt-format
 msgid "Creating %1 session failed. Can't get DBus session bus address."
 msgstr ""
 "Создание сессии %1 завершилось неудачей. Не удалось получить адрес DBus "
 "сессии."
 
-#: src/main.cpp:1066
+#: src/main.cpp:1067
 #, qt-format
 msgid "Creating %1 session failed. Can't create DBus session link '%2': %3."
 msgstr ""
 "Создание сессии %1 завершилось неудачей. Не удалось создать ссылку на DBus "
 "сессию '%2': %3."
 
-#: src/main.cpp:1104 src/main.cpp:1120
+#: src/main.cpp:1105 src/main.cpp:1121
 #, qt-format
 msgid "Closing %1 session failed. Can't remove DBus session link '%2': %3."
 msgstr ""
 "Закрытие сессии %1 завершилось ошибкой. Не удалось удалить ссылку на DBus "
 "сессию '%2': %3."
 
-#: src/main.cpp:1139
+#: src/main.cpp:1140
 msgid "Nothing to process. Exiting..."
 msgstr "Нет действий, которые следовало бы обработать. Завершение работы..."
 
-#: src/main.cpp:1142
+#: src/main.cpp:1143
 msgid "Delivering command line options to working copy..."
 msgstr "Пересылаем опции командной строки работающей копии..."
 
-#: src/main.cpp:1151 src/main.cpp:1155 src/main.cpp:1160
+#: src/main.cpp:1152 src/main.cpp:1156 src/main.cpp:1161
 msgid "Transmitting command line options failed"
 msgstr "Пересылка опций командной строки завершилась неудачей"
 
-#: src/main.cpp:1151
+#: src/main.cpp:1152
 #, qt-format
 msgid "Running %1 instance rejected command line options transfered to it: %2."
 msgstr ""
 "Запущенная копия %1 отклонила переданные ей опции командной строки: %2."
 
-#: src/main.cpp:1155
+#: src/main.cpp:1156
 #, qt-format
 msgid "Can't communicate with running %1 instance via DBus: %2."
 msgstr "Не удалось связаться с запущенной копией %1 посредством DBus: %2."
@@ -2801,22 +2796,25 @@ msgstr "Закрывать в трей"
 
 #: ui/preferences.client.gui.misc.glade:266
 msgid "Download completed notification"
-msgstr "Оповещение о завершении скачивания торрента"
+msgstr ""
 
 #: ui/preferences.client.gui.misc.glade:279
 msgid "All downloads completed notification"
-msgstr "Оповещение о завершении скачивания всех торрентов"
+msgstr ""
 
 #: ui/dialog.open_magnet_link.glade:26
 #, fuzzy
 msgid "Magnet link:"
 msgstr "Максимальное количество строк в логе:"
 
-#~ msgid "_Open"
-#~ msgstr "_Открыть"
+#~ msgid "Error while closing epoll instance: %1."
+#~ msgstr "Ошибка при закрытии экземпляра epoll: %1."
+
+#~ msgid "Konishchev Dmitry"
+#~ msgstr "Конищев Дмитрий"
 
 #~ msgid "Bad files number: %1 vs %2."
 #~ msgstr "Неверное количество файлов: %1 вместо %2."
 
-#~ msgid "Error while closing epoll instance: %1."
-#~ msgstr "Ошибка при закрытии экземпляра epoll: %1."
+#~ msgid "_Open"
+#~ msgstr "_Открыть"
