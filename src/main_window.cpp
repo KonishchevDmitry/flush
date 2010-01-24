@@ -349,10 +349,6 @@ Main_window::Main_window(const Main_window_settings& settings)
 
 			action_group->add(Gtk::Action::create("edit", _("_Edit")));
 			action_group->add(
-				m::gtk::create_action_with_icon_name("rss", app_icons::app_icon("rss"), _("_RSS")),
-				sigc::mem_fun(*this, &Main_window::on_show_statistics_callback)
-			);
-			action_group->add(
 				app_icons::create_action("statistics", app_icons::ICON_STATISTICS, _("_Statistics")),
 				sigc::mem_fun(*this, &Main_window::on_show_statistics_callback)
 			);
@@ -636,9 +632,6 @@ Main_window::Main_window(const Main_window_settings& settings)
 			"		</menu>"
 
 			"		<menu action='edit'>"
-#ifdef DEVELOP_MODE
-			"			<menuitem action='rss'/>"
-#endif
 			"			<menuitem action='statistics'/>"
 			"			<menuitem action='preferences'/>"
 			"		</menu>"

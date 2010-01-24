@@ -862,7 +862,7 @@ loop:
 		\
 		if [ "$$files" != "$$new_files" ]; \
 		then \
-			make --no-print-directory --keep-going -j8 && echo "OK"; \
+			make --no-print-directory --keep-going -j4 && echo "OK"; \
 		fi; \
 		\
 		files="$$new_files"; \

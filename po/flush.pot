@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: flush 0.9\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2010-01-24 18:57+0300\n"
+"POT-Creation-Date: 2010-01-24 22:36+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -432,7 +432,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: src/settings_window.cpp:245 src/main_window.cpp:874 src/main_window.cpp:875
+#: src/settings_window.cpp:245 src/main_window.cpp:867 src/main_window.cpp:868
 msgid "Preferences"
 msgstr ""
 
@@ -511,7 +511,7 @@ msgid "none"
 msgstr ""
 
 #: src/statistics_window.cpp:52 src/statistics_window.cpp:138
-#: src/main_window.cpp:864 src/main_window.cpp:866
+#: src/main_window.cpp:857 src/main_window.cpp:859
 msgid "Statistics"
 msgstr ""
 
@@ -531,7 +531,7 @@ msgstr ""
 msgid "Statistics start time"
 msgstr ""
 
-#: src/statistics_window.cpp:162 src/main_window.cpp:1544
+#: src/statistics_window.cpp:162 src/main_window.cpp:1537
 #: ui/preferences.client.gui.status_bar.glade:108
 msgid "Downloaded"
 msgstr ""
@@ -548,7 +548,7 @@ msgstr ""
 msgid "Total payload download"
 msgstr ""
 
-#: src/statistics_window.cpp:167 src/main_window.cpp:1550
+#: src/statistics_window.cpp:167 src/main_window.cpp:1543
 #: ui/preferences.client.gui.status_bar.glade:136
 msgid "Uploaded"
 msgstr ""
@@ -565,7 +565,7 @@ msgstr ""
 msgid "Total payload upload"
 msgstr ""
 
-#: src/statistics_window.cpp:172 src/main_window.cpp:1556
+#: src/statistics_window.cpp:172 src/main_window.cpp:1549
 #: src/torrents_view.cpp:382 ui/preferences.client.gui.status_bar.glade:162
 msgid "Share ratio"
 msgstr ""
@@ -574,7 +574,7 @@ msgstr ""
 msgid "Total share ratio"
 msgstr ""
 
-#: src/statistics_window.cpp:175 src/main_window.cpp:1559
+#: src/statistics_window.cpp:175 src/main_window.cpp:1552
 #: ui/preferences.client.gui.status_bar.glade:149
 msgid "Failed"
 msgstr ""
@@ -583,7 +583,7 @@ msgstr ""
 msgid "Total failed"
 msgstr ""
 
-#: src/statistics_window.cpp:177 src/main_window.cpp:1562
+#: src/statistics_window.cpp:177 src/main_window.cpp:1555
 #: ui/preferences.client.gui.status_bar.glade:190
 msgid "Redundant"
 msgstr ""
@@ -791,22 +791,22 @@ msgstr ""
 msgid "IP address"
 msgstr ""
 
-#: src/torrent_peers_view.cpp:101 src/main_window.cpp:1532
+#: src/torrent_peers_view.cpp:101 src/main_window.cpp:1525
 #: src/torrents_view.cpp:377 ui/preferences.client.gui.status_bar.glade:58
 msgid "Download speed"
 msgstr ""
 
-#: src/torrent_peers_view.cpp:102 src/main_window.cpp:1535
+#: src/torrent_peers_view.cpp:102 src/main_window.cpp:1528
 #: src/torrents_view.cpp:378 ui/preferences.client.gui.status_bar.glade:95
 msgid "Download speed (payload)"
 msgstr ""
 
-#: src/torrent_peers_view.cpp:103 src/main_window.cpp:1538
+#: src/torrent_peers_view.cpp:103 src/main_window.cpp:1531
 #: src/torrents_view.cpp:379 ui/preferences.client.gui.status_bar.glade:82
 msgid "Upload speed"
 msgstr ""
 
-#: src/torrent_peers_view.cpp:104 src/main_window.cpp:1541
+#: src/torrent_peers_view.cpp:104 src/main_window.cpp:1534
 #: src/torrents_view.cpp:380 ui/preferences.client.gui.status_bar.glade:67
 msgid "Upload speed (payload)"
 msgstr ""
@@ -860,221 +860,217 @@ msgid "_Edit"
 msgstr ""
 
 #: src/main_window.cpp:352
-msgid "_RSS"
-msgstr ""
-
-#: src/main_window.cpp:356
 msgid "_Statistics"
 msgstr ""
 
-#: src/main_window.cpp:360
+#: src/main_window.cpp:356
 msgid "_Preferences"
 msgstr ""
 
-#: src/main_window.cpp:365
+#: src/main_window.cpp:361
 msgid "_View"
 msgstr ""
 
-#: src/main_window.cpp:368
+#: src/main_window.cpp:364
 msgid "_Toolbar"
 msgstr ""
 
-#: src/main_window.cpp:371 src/main_window.cpp:448
+#: src/main_window.cpp:367 src/main_window.cpp:444
 msgid "'Show ...' toggle|_Show"
 msgstr ""
 
-#: src/main_window.cpp:384
+#: src/main_window.cpp:380
 msgid "Toolbar _style"
 msgstr ""
 
-#: src/main_window.cpp:388
+#: src/main_window.cpp:384
 msgid "_Desktop default"
 msgstr ""
 
-#: src/main_window.cpp:398
+#: src/main_window.cpp:394
 msgid "_Icons"
 msgstr ""
 
-#: src/main_window.cpp:408
+#: src/main_window.cpp:404
 msgid "_Text"
 msgstr ""
 
-#: src/main_window.cpp:418
+#: src/main_window.cpp:414
 msgid "_Both"
 msgstr ""
 
-#: src/main_window.cpp:428
+#: src/main_window.cpp:424
 msgid "Both _horizontal"
 msgstr ""
 
-#: src/main_window.cpp:445
+#: src/main_window.cpp:441
 msgid "_Categories"
 msgstr ""
 
-#: src/main_window.cpp:458
+#: src/main_window.cpp:454
 msgid "Show _names"
 msgstr ""
 
-#: src/main_window.cpp:468
+#: src/main_window.cpp:464
 msgid "Show _counters"
 msgstr ""
 
-#: src/main_window.cpp:480
+#: src/main_window.cpp:476
 msgid "_Torrents"
 msgstr ""
 
-#: src/main_window.cpp:483
+#: src/main_window.cpp:479
 msgid "_Resume"
 msgstr ""
 
-#: src/main_window.cpp:485 src/main_window.cpp:509 src/main_window.cpp:537
-#: src/main_window.cpp:564
+#: src/main_window.cpp:481 src/main_window.cpp:505 src/main_window.cpp:533
+#: src/main_window.cpp:560
 msgid "_All"
 msgstr ""
 
-#: src/main_window.cpp:492 src/main_window.cpp:516 src/main_window.cpp:544
-#: src/main_window.cpp:571
+#: src/main_window.cpp:488 src/main_window.cpp:512 src/main_window.cpp:540
+#: src/main_window.cpp:567
 msgid "_Downloads"
 msgstr ""
 
-#: src/main_window.cpp:499 src/main_window.cpp:523 src/main_window.cpp:551
-#: src/main_window.cpp:578
+#: src/main_window.cpp:495 src/main_window.cpp:519 src/main_window.cpp:547
+#: src/main_window.cpp:574
 msgid "_Uploads"
 msgstr ""
 
-#: src/main_window.cpp:507
+#: src/main_window.cpp:503
 msgid "_Pause"
 msgstr ""
 
-#: src/main_window.cpp:533
+#: src/main_window.cpp:529
 msgid "R_esume temporary"
 msgstr ""
 
-#: src/main_window.cpp:560
+#: src/main_window.cpp:556
 msgid "P_ause temporary"
 msgstr ""
 
-#: src/main_window.cpp:586
+#: src/main_window.cpp:582
 msgid "C_omplete pending temporary action"
 msgstr ""
 
-#: src/main_window.cpp:593
+#: src/main_window.cpp:589
 msgid "_Cancel pending temporary action"
 msgstr ""
 
-#: src/main_window.cpp:603
+#: src/main_window.cpp:599
 msgid "Set _upload rate limit"
 msgstr ""
 
-#: src/main_window.cpp:611
+#: src/main_window.cpp:607
 msgid "Set _download rate limit"
 msgstr ""
 
-#: src/main_window.cpp:619
+#: src/main_window.cpp:615
 msgid "_Help"
 msgstr ""
 
-#: src/main_window.cpp:621
+#: src/main_window.cpp:617
 msgid "_About"
 msgstr ""
 
-#: src/main_window.cpp:788
+#: src/main_window.cpp:781
 msgid "Create"
 msgstr ""
 
-#: src/main_window.cpp:789
+#: src/main_window.cpp:782
 msgid "Create a new torrent"
 msgstr ""
 
-#: src/main_window.cpp:797
+#: src/main_window.cpp:790
 msgid "Open"
 msgstr ""
 
-#: src/main_window.cpp:798
+#: src/main_window.cpp:791
 msgid "Open a torrent"
 msgstr ""
 
-#: src/main_window.cpp:807
+#: src/main_window.cpp:800
 msgid "Magnet link"
 msgstr ""
 
-#: src/main_window.cpp:808 ui/dialog.open_magnet_link.glade:7
+#: src/main_window.cpp:801 ui/dialog.open_magnet_link.glade:7
 msgid "Open a magnet link"
 msgstr ""
 
-#: src/main_window.cpp:822 src/torrents_view.cpp:455
+#: src/main_window.cpp:815 src/torrents_view.cpp:455
 msgid "Resume"
 msgstr ""
 
-#: src/main_window.cpp:823
+#: src/main_window.cpp:816
 msgid "Resume torrent(s)"
 msgstr ""
 
-#: src/main_window.cpp:834 src/torrents_view.cpp:461
+#: src/main_window.cpp:827 src/torrents_view.cpp:461
 msgid "Pause"
 msgstr ""
 
-#: src/main_window.cpp:835
+#: src/main_window.cpp:828
 msgid "Pause torrent(s)"
 msgstr ""
 
-#: src/main_window.cpp:846 src/torrents_view.cpp:474 src/torrents_view.cpp:766
+#: src/main_window.cpp:839 src/torrents_view.cpp:474 src/torrents_view.cpp:766
 msgid "Remove"
 msgstr ""
 
-#: src/main_window.cpp:847
+#: src/main_window.cpp:840
 msgid "Remove torrent(s)"
 msgstr ""
 
-#: src/main_window.cpp:1030
+#: src/main_window.cpp:1023
 msgid "Interrupting the temporary action on torrents failed"
 msgstr ""
 
-#: src/main_window.cpp:1060 src/main_window.cpp:1074
+#: src/main_window.cpp:1053 src/main_window.cpp:1067
 msgid "Pausing torrents failed"
 msgstr ""
 
-#: src/main_window.cpp:1095 src/main_window.cpp:1106
+#: src/main_window.cpp:1088 src/main_window.cpp:1099
 #: src/client_cmd_options.cpp:196
 msgid "Dmitry Konishchev"
 msgstr ""
 
-#: src/main_window.cpp:1104
+#: src/main_window.cpp:1097
 msgid "GTK-based BitTorrent client"
 msgstr ""
 
-#: src/main_window.cpp:1238
+#: src/main_window.cpp:1231
 msgid "Processing the temporary action on torrents failed"
 msgstr ""
 
-#: src/main_window.cpp:1342 src/add_torrent_dialog.cpp:281
+#: src/main_window.cpp:1335 src/add_torrent_dialog.cpp:281
 msgid "Opening torrent failed"
 msgstr ""
 
-#: src/main_window.cpp:1342 src/add_torrent_dialog.cpp:283
+#: src/main_window.cpp:1335 src/add_torrent_dialog.cpp:283
 #, qt-format
 msgid "Opening torrent '%1' failed. %2"
 msgstr ""
 
-#: src/main_window.cpp:1503
+#: src/main_window.cpp:1496
 #, qt-format
 msgid "Download/Upload|D: %1, U: %2 - %3"
 msgstr ""
 
-#: src/main_window.cpp:1547
+#: src/main_window.cpp:1540
 msgid "Download (payload)"
 msgstr ""
 
-#: src/main_window.cpp:1553
+#: src/main_window.cpp:1546
 msgid "Upload (payload)"
 msgstr ""
 
-#: src/main_window.cpp:1581
+#: src/main_window.cpp:1574
 #, qt-format
 msgid "Download speed|Down: %1 (%2) / %3"
 msgstr ""
 
-#: src/main_window.cpp:1588
+#: src/main_window.cpp:1581
 #, qt-format
 msgid "Upload speed|Up: %1 (%2) / %3"
 msgstr ""
