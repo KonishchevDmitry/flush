@@ -259,11 +259,8 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-SUBDIRS = src
-EXTRA_DIST = \
-	include/mlib \
-	m4/mlib.m4
-
+SUBDIRS = mlib
+EXTRA_DIST = m4/mlib.m4
 all: all-recursive
 
 .SUFFIXES:

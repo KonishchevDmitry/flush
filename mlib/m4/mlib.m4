@@ -349,16 +349,16 @@ AC_DEFUN([MLIB_CONFIGURE],
 	dnl libraries -->
 
 		dnl mlib -->
-			MLIB_CPPFLAGS="$MLIB_CPPFLAGS -I \$(top_srcdir)/$mlib_path/include"
+			MLIB_CPPFLAGS="$MLIB_CPPFLAGS -I \$(top_srcdir)/$mlib_path"
 			mlib_libs=""
 
 			if test "X$mlib_enable_gtk" = "Xyes"
 			then
-				mlib_libs="$mlib_libs \$(top_builddir)/$mlib_path/src/gtk/libmlib_gtk.a"
+				mlib_libs="$mlib_libs \$(top_builddir)/$mlib_path/mlib/gtk/libmlib_gtk.a"
 			fi
 
-			mlib_libs="$mlib_libs \$(top_builddir)/$mlib_path/src/libmlib.a"
-			mlib_libs="$mlib_libs \$(top_builddir)/$mlib_path/src/base/libmlib_base.a"
+			mlib_libs="$mlib_libs \$(top_builddir)/$mlib_path/mlib/libmlib.a"
+			mlib_libs="$mlib_libs \$(top_builddir)/$mlib_path/mlib/base/libmlib_base.a"
 
 			MLIB_DEPENDENCIES="$MLIB_DEPENDENCIES $mlib_libs"
 			MLIB_LDADD="$MLIB_LDADD $mlib_libs"
@@ -497,10 +497,10 @@ AC_DEFUN([MLIB_CONFIGURE],
 
 
 	AC_CONFIG_FILES([
-		mlib/src/base/libs_forwards/Makefile
-		mlib/src/base/Makefile
-		mlib/src/gtk/Makefile
-		mlib/src/Makefile
+		mlib/mlib/base/libs_forwards/Makefile
+		mlib/mlib/base/Makefile
+		mlib/mlib/gtk/Makefile
+		mlib/mlib/Makefile
 		mlib/Makefile
 	])
 

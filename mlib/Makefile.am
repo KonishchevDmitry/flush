@@ -1,6 +1,4 @@
-SUBDIRS = src
+SUBDIRS = mlib
 
-EXTRA_DIST = \
-	include/mlib \
-	m4/mlib.m4
+EXTRA_DIST = m4/mlib.m4
 

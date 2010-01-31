@@ -9738,16 +9738,16 @@ $as_echo "$as_me: [mlib config] Enable SQLite: $mlib_enable_sqlite" >&6;}
 
 
 
-					MLIB_CPPFLAGS="$MLIB_CPPFLAGS -I \$(top_srcdir)/$mlib_path/include"
+					MLIB_CPPFLAGS="$MLIB_CPPFLAGS -I \$(top_srcdir)/$mlib_path"
 			mlib_libs=""
 
 			if test "X$mlib_enable_gtk" = "Xyes"
 			then
-				mlib_libs="$mlib_libs \$(top_builddir)/$mlib_path/src/gtk/libmlib_gtk.a"
+				mlib_libs="$mlib_libs \$(top_builddir)/$mlib_path/mlib/gtk/libmlib_gtk.a"
 			fi
 
-			mlib_libs="$mlib_libs \$(top_builddir)/$mlib_path/src/libmlib.a"
-			mlib_libs="$mlib_libs \$(top_builddir)/$mlib_path/src/base/libmlib_base.a"
+			mlib_libs="$mlib_libs \$(top_builddir)/$mlib_path/mlib/libmlib.a"
+			mlib_libs="$mlib_libs \$(top_builddir)/$mlib_path/mlib/base/libmlib_base.a"
 
 			MLIB_DEPENDENCIES="$MLIB_DEPENDENCIES $mlib_libs"
 			MLIB_LDADD="$MLIB_LDADD $mlib_libs"
@@ -11617,7 +11617,7 @@ fi
 
 
 
-	ac_config_files="$ac_config_files mlib/src/base/libs_forwards/Makefile mlib/src/base/Makefile mlib/src/gtk/Makefile mlib/src/Makefile mlib/Makefile"
+	ac_config_files="$ac_config_files mlib/mlib/base/libs_forwards/Makefile mlib/mlib/base/Makefile mlib/mlib/gtk/Makefile mlib/mlib/Makefile mlib/Makefile"
 
 
 
@@ -12446,10 +12446,10 @@ do
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "po-directories") CONFIG_COMMANDS="$CONFIG_COMMANDS po-directories" ;;
-    "mlib/src/base/libs_forwards/Makefile") CONFIG_FILES="$CONFIG_FILES mlib/src/base/libs_forwards/Makefile" ;;
-    "mlib/src/base/Makefile") CONFIG_FILES="$CONFIG_FILES mlib/src/base/Makefile" ;;
-    "mlib/src/gtk/Makefile") CONFIG_FILES="$CONFIG_FILES mlib/src/gtk/Makefile" ;;
-    "mlib/src/Makefile") CONFIG_FILES="$CONFIG_FILES mlib/src/Makefile" ;;
+    "mlib/mlib/base/libs_forwards/Makefile") CONFIG_FILES="$CONFIG_FILES mlib/mlib/base/libs_forwards/Makefile" ;;
+    "mlib/mlib/base/Makefile") CONFIG_FILES="$CONFIG_FILES mlib/mlib/base/Makefile" ;;
+    "mlib/mlib/gtk/Makefile") CONFIG_FILES="$CONFIG_FILES mlib/mlib/gtk/Makefile" ;;
+    "mlib/mlib/Makefile") CONFIG_FILES="$CONFIG_FILES mlib/mlib/Makefile" ;;
     "mlib/Makefile") CONFIG_FILES="$CONFIG_FILES mlib/Makefile" ;;
     "icons/Makefile") CONFIG_FILES="$CONFIG_FILES icons/Makefile" ;;
     "man/Makefile") CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;

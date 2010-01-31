@@ -13,5 +13,5 @@ libtorrent/config.h.in~
 
 po/*.gmo
 po/ru.po~
-src/mlib/.vim/ide.session
+mlib/mlib/.vim/ide.session
 src/.vim/ide.session
