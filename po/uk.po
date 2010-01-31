@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: flush\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2010-01-24 22:36+0300\n"
+"POT-Creation-Date: 2010-01-31 14:00+0300\n"
 "PO-Revision-Date: 2009-12-26 11:30+0000\n"
 "Last-Translator: StarWolf <Unknown>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -17,310 +17,310 @@ msgstr ""
 "X-Launchpad-Export-Date: 2010-01-24 14:32+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: mlib/src/misc.cpp:95 mlib/src/misc.cpp:157
+#: mlib/mlib/misc.cpp:95 mlib/mlib/misc.cpp:157
 msgid "Buffer positioning error."
 msgstr "Помилка позиціонування буфера."
 
-#: mlib/src/misc.cpp:226 mlib/src/sys.cpp:283
+#: mlib/mlib/misc.cpp:226 mlib/mlib/sys.cpp:283
 #, qt-format
 msgid "Can't create a pipe: %1."
 msgstr "Неможливо створити канал: %1."
 
-#: mlib/src/misc.cpp:235
+#: mlib/mlib/misc.cpp:235
 #, qt-format
 msgid "Can't set flags for a pipe: %1."
 msgstr "Неможливо встановити триггери для каналу: %1."
 
-#: mlib/src/misc.cpp:243 mlib/src/misc.cpp:246
+#: mlib/mlib/misc.cpp:243 mlib/mlib/misc.cpp:246
 #, qt-format
 msgid "Error while closing a pipe: %1."
 msgstr "Помилка під час закривання каналу: %1."
 
-#: mlib/src/misc.cpp:274
+#: mlib/mlib/misc.cpp:274
 #, qt-format
 msgid "Can't read from a pipe: %1."
 msgstr "Неможливо прочитати з каналу: %1."
 
-#: mlib/src/misc.cpp:306
+#: mlib/mlib/misc.cpp:306
 #, qt-format
 msgid "Can't write to a pipe: %1."
 msgstr "Неможливо записати до каналу: %1."
 
-#: mlib/src/misc.cpp:372
+#: mlib/mlib/misc.cpp:372
 #, qt-format
 msgid "Can't get max opened files limit: %1."
 msgstr ""
 
-#: mlib/src/misc.cpp:390
+#: mlib/mlib/misc.cpp:390
 #, qt-format
 msgid "Copyright (C) %1-%2 %3."
 msgstr "Авторські права (C) %1-%2 %3."
 
-#: mlib/src/misc.cpp:393
+#: mlib/mlib/misc.cpp:393
 #, qt-format
 msgid "Copyright (C) %1 %2."
 msgstr "Авторські права (C) %1 %2."
 
-#: mlib/src/misc.cpp:403
+#: mlib/mlib/misc.cpp:403
 #, qt-format
 msgid "Realloc failed: %1."
 msgstr ""
 
-#: mlib/src/misc.cpp:447
+#: mlib/mlib/misc.cpp:447
 #, qt-format
 msgid "Running command '%1' failed: %2."
 msgstr "Виконання команди '%1' не вдалося: %2."
 
-#: mlib/src/misc.cpp:479
+#: mlib/mlib/misc.cpp:479
 #, qt-format
 msgid "Error while creating epoll instance: %1."
 msgstr ""
 
-#: mlib/src/misc.cpp:498
+#: mlib/mlib/misc.cpp:498
 #, qt-format
 msgid "Error while using epoll instance: %1."
 msgstr ""
 
-#: mlib/src/misc.cpp:540
+#: mlib/mlib/misc.cpp:540
 #, fuzzy, qt-format
 msgid "Can't read data from a file descriptor: %1."
 msgstr "Неможливо прочитати з каналу: %1."
 
-#: mlib/src/fs_watcher.cpp:163
+#: mlib/mlib/fs_watcher.cpp:163
 #, qt-format
 msgid "Error while closing an inotify instance: %1."
 msgstr "Помилка під час закривання об’єкту inotify: %1."
 
-#: mlib/src/fs_watcher.cpp:226
+#: mlib/mlib/fs_watcher.cpp:226
 #, qt-format
 msgid "Can't create an inotify instance: %1."
 msgstr "Неможливо створити об’єкт inotify: %1."
 
-#: mlib/src/fs_watcher.cpp:359
+#: mlib/mlib/fs_watcher.cpp:359
 msgid "Program has been compiled without inotify support."
 msgstr "Програма відкомпільована без підтримки inotify."
 
-#: mlib/src/fs_watcher.cpp:378
+#: mlib/mlib/fs_watcher.cpp:378
 #, qt-format
 msgid "Error while removing an inotify watch instance: %1."
 msgstr ""
 
-#: mlib/src/fs_watcher.cpp:425
+#: mlib/mlib/fs_watcher.cpp:425
 #, qt-format
 msgid "Can't read data from inotify descriptor: %1."
 msgstr ""
 
-#: mlib/src/libconfig.cpp:50
+#: mlib/mlib/libconfig.cpp:50
 #, qt-format
 msgid "%1 at line %2"
 msgstr "%1 в рядку %2"
 
-#: mlib/src/sqlite.cpp:137
+#: mlib/mlib/sqlite.cpp:137
 msgid "unknown error"
 msgstr ""
 
-#: mlib/src/sqlite.cpp:219 mlib/src/sqlite.cpp:260
+#: mlib/mlib/sqlite.cpp:219 mlib/mlib/sqlite.cpp:260
 msgid "Database is not opened yet."
 msgstr ""
 
-#: mlib/src/sqlite.cpp:272
+#: mlib/mlib/sqlite.cpp:272
 msgid "Database is already opened."
 msgstr ""
 
-#: mlib/src/sqlite.cpp:369
+#: mlib/mlib/sqlite.cpp:369
 msgid "Query is already finalized."
 msgstr ""
 
-#: mlib/src/sqlite.cpp:450
+#: mlib/mlib/sqlite.cpp:450
 msgid "Operation on finalized query."
 msgstr ""
 
-#: mlib/src/async_fs.cpp:245
+#: mlib/mlib/async_fs.cpp:245
 msgid ""
 "Asynchronous filesystem finished it's work, but not all tasks are processed."
 msgstr ""
 "Асинхронна файлова система завершила робота, але не всі завдання виконано"
 
-#: mlib/src/gtk/misc.cpp:125 src/main.cpp:432
+#: mlib/mlib/gtk/misc.cpp:125 src/main.cpp:432
 msgid "Information"
 msgstr "Інформація"
 
-#: mlib/src/gtk/misc.cpp:131 src/main.cpp:426
+#: mlib/mlib/gtk/misc.cpp:131 src/main.cpp:426
 msgid "Warning"
 msgstr "Застереження"
 
-#: mlib/src/gtk/builder.hh:42
+#: mlib/mlib/gtk/builder.hh:42
 #, qt-format
 msgid "Can't get widget '%1' from glade file '%2'."
 msgstr "Неможливо прочитати віджет '%1' із glade-файлу '%2'."
 
-#: mlib/src/gtk/toolbar.cpp:103
+#: mlib/mlib/gtk/toolbar.cpp:103
 #, qt-format
 msgid "Invalid toolbar style name '%1'."
 msgstr "Неправильна назва стилю панелі інструментів '%1'."
 
-#: mlib/src/gtk/tree_view.hh:188
+#: mlib/mlib/gtk/tree_view.hh:188
 #, qt-format
 msgid "No such column: '%1'."
 msgstr "Немає такого стовпця: '%1'."
 
-#: mlib/src/libtorrent.cpp:90
+#: mlib/mlib/libtorrent.cpp:90
 #, fuzzy
 msgid "Invalid magnet URI."
 msgstr "Невірна адреса URL трекера"
 
-#: mlib/src/libtorrent.cpp:115
+#: mlib/mlib/libtorrent.cpp:115
 msgid "there is no 'xt=urn:btih:' field in it"
 msgstr ""
 
-#: mlib/src/libtorrent.cpp:155
+#: mlib/mlib/libtorrent.cpp:155
 #, fuzzy, qt-format
 msgid "Invalid magnet URI: %1."
 msgstr "Невірна адреса URL трекера"
 
-#: mlib/src/libtorrent.cpp:193
+#: mlib/mlib/libtorrent.cpp:193
 #, qt-format
 msgid "Invalid torrent file path '%1'."
 msgstr "Неправильний шлях до торрент-файла '%1'."
 
-#: mlib/src/libtorrent.cpp:460
+#: mlib/mlib/libtorrent.cpp:460
 msgid "invalid torrent file"
 msgstr "Неправильний торрент-файл"
 
-#: mlib/src/libtorrent.cpp:484 src/daemon_session.cpp:514
+#: mlib/mlib/libtorrent.cpp:484 src/daemon_session.cpp:514
 #: src/daemon_session.cpp:529 src/daemon_session.cpp:1595
 #: src/daemon_session.cpp:1612
 #, qt-format
 msgid "Error while reading torrent file '%1': %2."
 msgstr "Помилка під час читання торрент-файлу '%1': %2."
 
-#: mlib/src/libtorrent.cpp:548
+#: mlib/mlib/libtorrent.cpp:548
 msgid "torrent is already exists in this session"
 msgstr "такий торрент вже існує в цій сесії"
 
-#: mlib/src/libtorrent.cpp:555
+#: mlib/mlib/libtorrent.cpp:555
 msgid "bad torrent data"
 msgstr "неправильні дані торренту"
 
-#: mlib/src/libtorrent.cpp:562
+#: mlib/mlib/libtorrent.cpp:562
 msgid "this is not a torrent file"
 msgstr "це не торрент-файл"
 
-#: mlib/src/base/exception.cpp:94
+#: mlib/mlib/base/exception.cpp:94
 #, qt-format
 msgid "Exception: '%1'."
 msgstr ""
 
-#: mlib/src/base/messages.cpp:112
+#: mlib/mlib/base/messages.cpp:112
 msgid "[[gettimeofday time getting error]]"
 msgstr "[[gettimeofday time getting error]]"
 
-#: mlib/src/base/messages.cpp:222
+#: mlib/mlib/base/messages.cpp:222
 msgid "Logical error"
 msgstr "Помилка логіки"
 
-#: mlib/src/base/format.cpp:111 mlib/src/base/format.cpp:125
-#: mlib/src/base/format.cpp:183 mlib/src/base/format.cpp:241
-#: mlib/src/base/format.cpp:269 mlib/src/base/format.hh:61
-#: mlib/src/base/format.hh:76 mlib/src/base/format.hh:91
-#: mlib/src/base/format.hh:106 mlib/src/base/format.hh:121
-#: mlib/src/base/format.hh:136 mlib/src/base/format.hh:151
-#: mlib/src/base/format.hh:166 mlib/src/base/format.hh:181
-#: mlib/src/base/format.hh:201 mlib/src/base/format.hh:222
-#: mlib/src/base/format.hh:237 mlib/src/base/format.hh:252
-#: mlib/src/base/format.hh:267
+#: mlib/mlib/base/format.cpp:111 mlib/mlib/base/format.cpp:125
+#: mlib/mlib/base/format.cpp:183 mlib/mlib/base/format.cpp:241
+#: mlib/mlib/base/format.cpp:269 mlib/mlib/base/format.hh:61
+#: mlib/mlib/base/format.hh:76 mlib/mlib/base/format.hh:91
+#: mlib/mlib/base/format.hh:106 mlib/mlib/base/format.hh:121
+#: mlib/mlib/base/format.hh:136 mlib/mlib/base/format.hh:151
+#: mlib/mlib/base/format.hh:166 mlib/mlib/base/format.hh:181
+#: mlib/mlib/base/format.hh:201 mlib/mlib/base/format.hh:222
+#: mlib/mlib/base/format.hh:237 mlib/mlib/base/format.hh:252
+#: mlib/mlib/base/format.hh:267
 msgid "[[Invalid encoding]]"
 msgstr "[[Invalid encoding]]"
 
-#: mlib/src/sys.cpp:130 mlib/src/sys.cpp:140
+#: mlib/mlib/sys.cpp:130 mlib/mlib/sys.cpp:140
 #, qt-format
 msgid "Can't duplicate a file descriptor: %1."
 msgstr ""
 
-#: mlib/src/sys.cpp:211
+#: mlib/mlib/sys.cpp:211
 #, qt-format
 msgid "Can't fork the process: %1."
 msgstr ""
 
-#: mlib/src/sys.cpp:298
+#: mlib/mlib/sys.cpp:298
 msgid "too big link target path"
 msgstr ""
 
-#: mlib/src/string.cpp:60
+#: mlib/mlib/string.cpp:60
 msgid "0m"
 msgstr "0хв"
 
-#: mlib/src/string.cpp:77 mlib/src/string.cpp:118
+#: mlib/mlib/string.cpp:77 mlib/mlib/string.cpp:118
 msgid "M"
 msgstr ""
 
-#: mlib/src/string.cpp:80 mlib/src/string.cpp:121 mlib/src/string.cpp:130
+#: mlib/mlib/string.cpp:80 mlib/mlib/string.cpp:121 mlib/mlib/string.cpp:130
 msgid "d"
 msgstr ""
 
-#: mlib/src/string.cpp:83 mlib/src/string.cpp:133 mlib/src/string.cpp:141
+#: mlib/mlib/string.cpp:83 mlib/mlib/string.cpp:133 mlib/mlib/string.cpp:141
 msgid "h"
 msgstr "г"
 
-#: mlib/src/string.cpp:86 mlib/src/string.cpp:144 mlib/src/string.cpp:152
+#: mlib/mlib/string.cpp:86 mlib/mlib/string.cpp:144 mlib/mlib/string.cpp:152
 msgid "m"
 msgstr "хв."
 
-#: mlib/src/string.cpp:155 mlib/src/string.cpp:161
+#: mlib/mlib/string.cpp:155 mlib/mlib/string.cpp:161
 msgid "s"
 msgstr "с"
 
-#: mlib/src/string.cpp:174
+#: mlib/mlib/string.cpp:174
 msgid "minutes|m"
 msgstr "хв"
 
-#: mlib/src/string.cpp:175
+#: mlib/mlib/string.cpp:175
 msgid "seconds|s"
 msgstr "с"
 
-#: mlib/src/string.cpp:226
+#: mlib/mlib/string.cpp:226
 msgid "GB"
 msgstr "ГБ"
 
-#: mlib/src/string.cpp:233 mlib/src/string.cpp:243
+#: mlib/mlib/string.cpp:233 mlib/mlib/string.cpp:243
 #: src/create_torrent_dialog.cpp:580 src/create_torrent_dialog.cpp:584
 #: src/create_torrent_dialog.cpp:588 src/create_torrent_dialog.cpp:592
 msgid "MB"
 msgstr "Мб"
 
-#: mlib/src/string.cpp:250 mlib/src/string.cpp:260
+#: mlib/mlib/string.cpp:250 mlib/mlib/string.cpp:260
 #: src/create_torrent_dialog.cpp:560 src/create_torrent_dialog.cpp:564
 #: src/create_torrent_dialog.cpp:568 src/create_torrent_dialog.cpp:572
 #: src/create_torrent_dialog.cpp:576
 msgid "KB"
 msgstr "Kб"
 
-#: mlib/src/string.cpp:267 mlib/src/string.cpp:274
+#: mlib/mlib/string.cpp:267 mlib/mlib/string.cpp:274
 msgid "B"
 msgstr "Б"
 
-#: mlib/src/string.cpp:294
+#: mlib/mlib/string.cpp:294
 msgid "0 KB/s"
 msgstr "0 Кб/с"
 
-#: mlib/src/string.cpp:307 mlib/src/string.cpp:309 src/main_window.cpp:255
+#: mlib/mlib/string.cpp:307 mlib/mlib/string.cpp:309 src/main_window.cpp:255
 msgid "KB/s"
 msgstr "Kб/с"
 
-#: mlib/src/string.cpp:312
+#: mlib/mlib/string.cpp:312
 msgid "B/s"
 msgstr "Б/с"
 
-#: mlib/src/string.cpp:315
+#: mlib/mlib/string.cpp:315
 msgid "/s"
 msgstr "/с"
 
-#: mlib/src/fs.cpp:161
+#: mlib/mlib/fs.cpp:161
 #, qt-format
 msgid "Can't copy file '%1' to '%2': %3."
 msgstr "Неможливо скопіювати файл '%1' до '%2': %3."
 
-#: mlib/src/fs.cpp:194
+#: mlib/mlib/fs.cpp:194
 #, qt-format
 msgid ""
 "Error while changing directory '%1' access and modification times. Can't "
@@ -329,109 +329,109 @@ msgstr ""
 "Під час отримання часу модифікації та доступу каталогу '%1' виникла помилка. "
 "Неможливо переглянути статистику каталогу '%2': %3."
 
-#: mlib/src/fs.cpp:208
+#: mlib/mlib/fs.cpp:208
 #, qt-format
 msgid "Error while changing directory '%1' access and modification times: %2."
 msgstr ""
 "Під час отримання часу модифікації та доступу каталогу '%1' виникла помилка. "
 "Неможливо переглянути статистику каталогу '%2'."
 
-#: mlib/src/fs.cpp:223 mlib/src/fs.cpp:815 src/daemon_fs.cpp:43
+#: mlib/mlib/fs.cpp:223 mlib/mlib/fs.cpp:815 src/daemon_fs.cpp:43
 #, qt-format
 msgid "Can't create directory '%1': %2."
 msgstr "Неможливо створити каталог '%1': %2."
 
-#: mlib/src/fs.cpp:254
+#: mlib/mlib/fs.cpp:254
 #, qt-format
 msgid "Invalid file path '%1'."
 msgstr "Неправильний шлях до файлу '%1'."
 
-#: mlib/src/fs.cpp:303
+#: mlib/mlib/fs.cpp:303
 #, qt-format
 msgid "Invalid file path '%1' - file with such path is already exists."
 msgstr "Неправильний шлях до файлу '%1' - файл з таким шляхом вже існує."
 
-#: mlib/src/fs.cpp:312
+#: mlib/mlib/fs.cpp:312
 #, qt-format
 msgid "Invalid file path '%1' - file '%2' is already exits."
 msgstr "Неправильний шлях до файлу '%1' - файл '%2' фже існує."
 
-#: mlib/src/fs.cpp:356 mlib/src/fs.cpp:771 mlib/src/fs.cpp:781
+#: mlib/mlib/fs.cpp:356 mlib/mlib/fs.cpp:771 mlib/mlib/fs.cpp:781
 #, qt-format
 msgid "Can't stat '%1': %2."
 msgstr "Неможливо зібрати статистику '%1': %2."
 
-#: mlib/src/fs.cpp:370
+#: mlib/mlib/fs.cpp:370
 #, qt-format
 msgid "Can't remove file '%1': %2."
 msgstr "Неможливо видалити файл '%1': %2."
 
-#: mlib/src/fs.cpp:394
+#: mlib/mlib/fs.cpp:394
 #, qt-format
 msgid "Can't read directory '%1': %2."
 msgstr "Неможливо прочитати каталог '%1': %2."
 
-#: mlib/src/fs.cpp:398
+#: mlib/mlib/fs.cpp:398
 #, qt-format
 msgid "Can't remove directory '%1': %2."
 msgstr "Неможливо видалити каталог '%1': %2."
 
-#: mlib/src/fs.cpp:435
+#: mlib/mlib/fs.cpp:435
 msgid "parent directory is not exists"
 msgstr "батьківський каталог не існує"
 
-#: mlib/src/fs.cpp:735
+#: mlib/mlib/fs.cpp:735
 msgid "file is already exists"
 msgstr "файл вже існує"
 
-#: mlib/src/fs.cpp:752
+#: mlib/mlib/fs.cpp:752
 msgid "it is a directory"
 msgstr "це каталог"
 
-#: mlib/src/fs.cpp:756
+#: mlib/mlib/fs.cpp:756
 msgid "it is a special file"
 msgstr "це спеціальний файл"
 
-#: mlib/src/fs.cpp:767 mlib/src/fs.cpp:777
+#: mlib/mlib/fs.cpp:767 mlib/mlib/fs.cpp:777
 #, qt-format
 msgid "No such file or directory ('%1')."
 msgstr "Немає такого файлу чи каталога ('%1')."
 
-#: mlib/src/fs.cpp:846
+#: mlib/mlib/fs.cpp:846
 #, qt-format
 msgid "Error while copying '%1' to '%2': %3."
 msgstr "Помилка під час копіювання '%1' до '%2': %3."
 
-#: mlib/src/fs.cpp:852 mlib/src/fs.cpp:1007
+#: mlib/mlib/fs.cpp:852 mlib/mlib/fs.cpp:1007
 #, qt-format
 msgid "Error while reading '%1': %2."
 msgstr "Помилка під час читання '%1': %2."
 
-#: mlib/src/fs.cpp:888
+#: mlib/mlib/fs.cpp:888
 msgid "Can't get user home path."
 msgstr "Неможливо дізнатись шлях до домашньої теки користувача."
 
-#: mlib/src/fs.cpp:928
+#: mlib/mlib/fs.cpp:928
 #, qt-format
 msgid "file '%1' is already exists"
 msgstr "файл '%1' вже існує"
 
-#: mlib/src/fs.cpp:1000
+#: mlib/mlib/fs.cpp:1000
 #, qt-format
 msgid "Can't delete directory '%1': %2."
 msgstr "Неможливо видалити каталог '%1': %2."
 
-#: mlib/src/fs.cpp:1014
+#: mlib/mlib/fs.cpp:1014
 #, qt-format
 msgid "file or directory '%1' is not exists"
 msgstr "файл чи каталог  '%1' не існує"
 
-#: mlib/src/fs.cpp:1018
+#: mlib/mlib/fs.cpp:1018
 #, qt-format
 msgid "Can't delete file '%1': %2."
 msgstr "Неможливо видалити файл '%1': %2."
 
-#: mlib/src/fs.cpp:1064
+#: mlib/mlib/fs.cpp:1064
 #, qt-format
 msgid "Unable to synchronize data for file '%1' with storage device: %2."
 msgstr "Неможливо синхронізувати дані файлу '%1' із пристроєм збереження: %2."
