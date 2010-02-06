@@ -178,7 +178,7 @@
 					// Получаем уникальный идентификатор клиента -->
 						do
 						{
-							uid = it->ip + "_" + m::to_string(id);
+							uid = it->ip + "_" + m::to_string(id++);
 							peers_it = peers.find(uid);
 						}
 						while(peers_it != peers.end());

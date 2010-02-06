@@ -28,15 +28,6 @@
 namespace m {
 
 
-namespace libconfig {
-	const Setting::Type Size_type = ::libconfig::Setting::TypeInt64;
-	const Setting::Type Speed_type = ::libconfig::Setting::TypeInt64;
-	const Setting::Type Time_type = ::libconfig::Setting::TypeInt64;
-	const Setting::Type Version_type = ::libconfig::Setting::TypeInt64;
-}
-
-
-
 std::string EE(const libconfig::FileIOException& error)
 {
 	return EE();

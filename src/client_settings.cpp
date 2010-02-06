@@ -374,8 +374,8 @@ Config* get(smart_ptr& ptr)
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeInt, continue)
 
-				if(static_cast<int>(setting) < 0)
-					bad_option_value(setting, static_cast<int>(setting));
+				if(int(setting) < 0)
+					bad_option_value(setting, int(setting));
 				else
 					this->position = setting;
 			}
@@ -829,7 +829,7 @@ Config* get(smart_ptr& ptr)
 
 				if(this->update_interval < GUI_MIN_UPDATE_INTERVAL)
 				{
-					bad_option_value(setting, static_cast<int>(setting));
+					bad_option_value(setting, int(setting));
 					this->update_interval = GUI_MIN_UPDATE_INTERVAL;
 				}
 			}
@@ -1100,7 +1100,7 @@ Config* get(smart_ptr& ptr)
 			else if(m::is_eq(setting_name, "temporary_action_last_time"))
 			{
 				CHECK_OPTION_TYPE(setting, m::libconfig::Time_type, continue)
-				this->temporary_action_last_time = static_cast<m::libconfig::Time>(setting);
+				this->temporary_action_last_time = m::libconfig::Time(setting);
 			}
 			else
 				unknown_option(setting);
@@ -1122,7 +1122,7 @@ Config* get(smart_ptr& ptr)
 		config_root.add("temporary_action_last_time_is_predefined", libconfig::Setting::TypeBoolean)
 			= this->temporary_action_last_time_is_predefined;
 		config_root.add("temporary_action_last_time", m::libconfig::Time_type)
-			= static_cast<m::libconfig::Time>(this->temporary_action_last_time);
+			= m::libconfig::Time(this->temporary_action_last_time);
 	}
 // User_settings <--
 
@@ -1166,7 +1166,7 @@ Config* get(smart_ptr& ptr)
 				const libconfig::Setting& setting = config_root["version"];
 
 				CHECK_OPTION_TYPE(setting, m::libconfig::Version_type, M_THROW_EMPTY())
-				client_version = static_cast<m::libconfig::Version>(setting);
+				client_version = m::libconfig::Version(setting);
 			}
 			catch(m::Exception&)
 			{
@@ -1208,7 +1208,7 @@ Config* get(smart_ptr& ptr)
 		libconfig::Setting& config_root = config.getRoot();
 
 		// Пишем все необходимые настройки -->
-			config_root.add("version", m::libconfig::Version_type) = static_cast<m::libconfig::Version>(APP_VERSION);
+			config_root.add("version", m::libconfig::Version_type) = m::libconfig::Version(APP_VERSION);
 
 			this->gui.write_config(
 				config_root.add("gui", libconfig::Setting::TypeGroup)

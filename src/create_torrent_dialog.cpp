@@ -175,7 +175,7 @@ namespace
 
 			// Cancel -->
 			{
-				Gtk::HButtonBox* button_box = this->get_action_area();
+				Gtk::ButtonBox* button_box = this->get_action_area();
 				button_box->set_layout(Gtk::BUTTONBOX_CENTER);
 
 

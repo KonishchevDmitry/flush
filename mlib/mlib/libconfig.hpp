@@ -35,10 +35,10 @@ namespace libconfig {
 	using namespace ::libconfig;
 
 	// Т. к. libconfig писался без учета x86-64 систем -->
-		extern const Setting::Type Size_type;
-		extern const Setting::Type Speed_type;
-		extern const Setting::Type Time_type;
-		extern const Setting::Type Version_type;
+		const Setting::Type Size_type = ::libconfig::Setting::TypeInt64;
+		const Setting::Type Speed_type = ::libconfig::Setting::TypeInt64;
+		const Setting::Type Time_type = ::libconfig::Setting::TypeInt64;
+		const Setting::Type Version_type = ::libconfig::Setting::TypeInt64;
 
 		typedef long long	Size;
 		typedef long long	Speed;

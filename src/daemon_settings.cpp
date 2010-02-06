@@ -463,7 +463,7 @@ namespace
 
 		try
 		{
-			config_version = static_cast<m::libconfig::Version>(config_root["version"]);
+			config_version = m::libconfig::Version(config_root["version"]);
 		}
 		catch(libconfig::SettingNotFoundException)
 		{
@@ -510,24 +510,19 @@ namespace
 
 				// Для совместимости с версиями < 0.7
 				COMPATIBILITY
-				if(config_version < M_GET_VERSION(0, 7, 0) && static_cast<int>(setting[0]) == 0)
+				if(config_version < M_GET_VERSION(0, 7, 0) && int(setting[0]) == 0)
 					this->listen_random_port = true;
 				else if
 				(
-					static_cast<int>(setting[0]) < m::PORT_MIN || static_cast<int>(setting[0]) > m::PORT_MAX ||
-					static_cast<int>(setting[1]) < m::PORT_MIN || static_cast<int>(setting[1]) > m::PORT_MAX ||
-					static_cast<int>(setting[0]) > static_cast<int>(setting[1])
+					int(setting[0]) < m::PORT_MIN || int(setting[0]) > m::PORT_MAX ||
+					int(setting[1]) < m::PORT_MIN || int(setting[1]) > m::PORT_MAX ||
+					int(setting[0]) > int(setting[1])
 				)
 				{
 					this->listen_random_port = true;
 
-					bad_option_value(
-						setting,
-						_C(
-							"start_port = %1, end_port = %2",
-							static_cast<int>(setting[0]), static_cast<int>(setting[1])
-						)
-					);
+					bad_option_value(setting,
+						_C("start_port = %1, end_port = %2", int(setting[0]), int(setting[1])) );
 				}
 				else
 					this->listen_ports_range = std::pair<int, int>(setting[0], setting[1]);
@@ -578,26 +573,26 @@ namespace
 			{
 				CHECK_OPTION_TYPE(setting, m::libconfig::Speed_type, continue)
 
-				if(static_cast<Speed>( static_cast<m::libconfig::Speed>(setting) ) < -1)
-					bad_option_value(setting, static_cast<m::libconfig::Speed>(setting));
+				if(m::libconfig::Speed(setting) < -1)
+					bad_option_value(setting, m::libconfig::Speed(setting));
 				else
-					this->download_rate_limit = get_rate_limit_from_lt(static_cast<m::libconfig::Speed>(setting));
+					this->download_rate_limit = get_rate_limit_from_lt(m::libconfig::Speed(setting));
 			}
 			else if(m::is_eq(setting_name, "upload_rate_limit"))
 			{
 				CHECK_OPTION_TYPE(setting, m::libconfig::Speed_type, continue)
 
-				if(static_cast<Speed>( static_cast<m::libconfig::Speed>(setting) ) < -1)
-					bad_option_value(setting, static_cast<m::libconfig::Speed>(setting));
+				if(m::libconfig::Speed(setting) < -1)
+					bad_option_value(setting, m::libconfig::Speed(setting));
 				else
-					this->upload_rate_limit = get_rate_limit_from_lt(static_cast<m::libconfig::Speed>(setting));
+					this->upload_rate_limit = get_rate_limit_from_lt(m::libconfig::Speed(setting));
 			}
 			else if(m::is_eq(setting_name, "max_uploads"))
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeInt, continue)
 
-				if(static_cast<int>(setting) < -1)
-					bad_option_value(setting, static_cast<int>(setting));
+				if(int(setting) < -1)
+					bad_option_value(setting, int(setting));
 				else
 					this->max_uploads = setting;
 			}
@@ -605,8 +600,8 @@ namespace
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeInt, continue)
 
-				if(static_cast<int>(setting) < -1)
-					bad_option_value(setting, static_cast<int>(setting));
+				if(int(setting) < -1)
+					bad_option_value(setting, int(setting));
 				else
 					this->max_connections = setting;
 			}
@@ -620,7 +615,7 @@ namespace
 				CHECK_OPTION_TYPE(setting, m::libconfig::Time_type, continue)
 
 				const Time min_interval = 5 * 60;
-				m::libconfig::Time interval = static_cast<m::libconfig::Time>(setting);
+				m::libconfig::Time interval = m::libconfig::Time(setting);
 
 				if(interval < min_interval)
 				{
@@ -663,11 +658,11 @@ namespace
 					{
 						CHECK_OPTION_TYPE(setting, m::libconfig::Time_type, continue)
 
-						statistics->statistics_start_time = static_cast<m::libconfig::Time>(setting);
+						statistics->statistics_start_time = m::libconfig::Time(setting);
 
 						if(statistics->statistics_start_time < 0 || statistics->statistics_start_time > statistics->session_start_time)
 						{
-							bad_option_value(setting, static_cast<m::libconfig::Time>(setting));
+							bad_option_value(setting, m::libconfig::Time(setting));
 							statistics->statistics_start_time = statistics->session_start_time;
 						}
 					}
@@ -675,55 +670,55 @@ namespace
 					{
 						CHECK_OPTION_TYPE(setting, m::libconfig::Size_type, continue)
 
-						if(static_cast<Size>( static_cast<m::libconfig::Size>(setting) ) < -1)
-							bad_option_value(setting, static_cast<m::libconfig::Size>(setting));
+						if(m::libconfig::Size(setting) < -1)
+							bad_option_value(setting, m::libconfig::Size(setting));
 						else
-							statistics->total_download = static_cast<m::libconfig::Size>(setting);
+							statistics->total_download = m::libconfig::Size(setting);
 					}
 					else if(m::is_eq(setting_name, "total_payload_download"))
 					{
 						CHECK_OPTION_TYPE(setting, m::libconfig::Size_type, continue)
 
-						if(static_cast<Size>( static_cast<m::libconfig::Size>(setting) ) < -1)
-							bad_option_value(setting, static_cast<m::libconfig::Size>(setting));
+						if(m::libconfig::Size(setting) < -1)
+							bad_option_value(setting, m::libconfig::Size(setting));
 						else
-							statistics->total_payload_download = static_cast<m::libconfig::Size>(setting);
+							statistics->total_payload_download = m::libconfig::Size(setting);
 					}
 					else if(m::is_eq(setting_name, "total_upload"))
 					{
 						CHECK_OPTION_TYPE(setting, m::libconfig::Size_type, continue)
 
-						if(static_cast<Size>( static_cast<m::libconfig::Size>(setting) ) < -1)
-							bad_option_value(setting, static_cast<m::libconfig::Size>(setting));
+						if(m::libconfig::Size(setting) < -1)
+							bad_option_value(setting, m::libconfig::Size(setting));
 						else
-							statistics->total_upload = static_cast<m::libconfig::Size>(setting);
+							statistics->total_upload = m::libconfig::Size(setting);
 					}
 					else if(m::is_eq(setting_name, "total_payload_upload"))
 					{
 						CHECK_OPTION_TYPE(setting, m::libconfig::Size_type, continue)
 
-						if(static_cast<Size>( static_cast<m::libconfig::Size>(setting) ) < -1)
-							bad_option_value(setting, static_cast<m::libconfig::Size>(setting));
+						if(m::libconfig::Size(setting) < -1)
+							bad_option_value(setting, m::libconfig::Size(setting));
 						else
-							statistics->total_payload_upload = static_cast<m::libconfig::Size>(setting);
+							statistics->total_payload_upload = m::libconfig::Size(setting);
 					}
 					else if(m::is_eq(setting_name, "total_failed"))
 					{
 						CHECK_OPTION_TYPE(setting, m::libconfig::Size_type, continue)
 
-						if(static_cast<Size>( static_cast<m::libconfig::Size>(setting) ) < -1)
-							bad_option_value(setting, static_cast<m::libconfig::Size>(setting));
+						if(m::libconfig::Size(setting) < -1)
+							bad_option_value(setting, m::libconfig::Size(setting));
 						else
-							statistics->total_failed = static_cast<m::libconfig::Size>(setting);
+							statistics->total_failed = m::libconfig::Size(setting);
 					}
 					else if(m::is_eq(setting_name, "total_redundant"))
 					{
 						CHECK_OPTION_TYPE(setting, m::libconfig::Size_type, continue)
 
-						if(static_cast<Size>( static_cast<m::libconfig::Size>(setting) ) < -1)
-							bad_option_value(setting, static_cast<m::libconfig::Size>(setting));
+						if(m::libconfig::Size(setting) < -1)
+							bad_option_value(setting, m::libconfig::Size(setting));
 						else
-							statistics->total_redundant = static_cast<m::libconfig::Size>(setting);
+							statistics->total_redundant = m::libconfig::Size(setting);
 					}
 					else
 						unknown_option(setting);
@@ -852,14 +847,14 @@ namespace
 		libconfig::Setting& config_root = config.getRoot();
 
 		// Пишем все необходимые настройки -->
-			config_root.add("version", m::libconfig::Version_type) = static_cast<m::libconfig::Version>(APP_VERSION);
-			config_root.add("libtorrent_version", m::libconfig::Version_type) = static_cast<m::libconfig::Version>(M_LT_GET_VERSION());
+			config_root.add("version", m::libconfig::Version_type) = m::libconfig::Version(APP_VERSION);
+			config_root.add("libtorrent_version", m::libconfig::Version_type) = m::libconfig::Version(M_LT_GET_VERSION());
 
 			config_root.add("listen_random_port", libconfig::Setting::TypeBoolean) = this->listen_random_port;
 			{
 				libconfig::Setting& setting = config_root.add("listen_ports_range", libconfig::Setting::TypeArray);
-				setting.add(libconfig::Setting::TypeInt) = this->listen_ports_range.first;
-				setting.add(libconfig::Setting::TypeInt) = this->listen_ports_range.second;
+				setting.add(libconfig::Setting::TypeInt) = int(this->listen_ports_range.first);
+				setting.add(libconfig::Setting::TypeInt) = int(this->listen_ports_range.second);
 			}
 
 			config_root.add("dht", libconfig::Setting::TypeBoolean) = this->dht;
@@ -869,16 +864,14 @@ namespace
 			config_root.add("smart_ban", libconfig::Setting::TypeBoolean) = this->smart_ban;
 			config_root.add("pex", libconfig::Setting::TypeBoolean) = this->pex;
 
-			config_root.add("download_rate_limit", m::libconfig::Speed_type) = static_cast<m::libconfig::Speed>(get_lt_rate_limit(this->download_rate_limit));
-			config_root.add("upload_rate_limit", m::libconfig::Speed_type) = static_cast<m::libconfig::Speed>(get_lt_rate_limit(this->upload_rate_limit));
+			config_root.add("download_rate_limit", m::libconfig::Speed_type) = m::libconfig::Speed(get_lt_rate_limit(this->download_rate_limit));
+			config_root.add("upload_rate_limit", m::libconfig::Speed_type) = m::libconfig::Speed(get_lt_rate_limit(this->upload_rate_limit));
 
 			config_root.add("max_uploads", libconfig::Setting::TypeInt) = this->max_uploads;
 			config_root.add("max_connections", libconfig::Setting::TypeInt) = this->max_connections;
 
-			config_root.add("enable_max_announce_interval", libconfig::Setting::TypeBoolean) =
-				this->use_max_announce_interval;
-			config_root.add("max_announce_interval", m::libconfig::Time_type) =
-				static_cast<m::libconfig::Time>(this->max_announce_interval);
+			config_root.add("enable_max_announce_interval", libconfig::Setting::TypeBoolean) = this->use_max_announce_interval;
+			config_root.add("max_announce_interval", m::libconfig::Time_type) = m::libconfig::Time(this->max_announce_interval);
 
 			// IP фильтр -->
 				config_root.add("ip_filter_enabled", libconfig::Setting::TypeBoolean) = this->ip_filter_enabled;
@@ -922,20 +915,14 @@ namespace
 
 				libconfig::Setting& setting = config_root.add("auto_clean_torrents", libconfig::Setting::TypeGroup);
 
-				setting.add("max_seeding_time", libconfig::Setting::TypeInt) =
-					clean.max_seeding_time;
-				setting.add("max_seeding_time_type", libconfig::Setting::TypeString) =
-					clean.max_seeding_time_type.to_string();
+				setting.add("max_seeding_time", libconfig::Setting::TypeInt) = int(clean.max_seeding_time);
+				setting.add("max_seeding_time_type", libconfig::Setting::TypeString) = clean.max_seeding_time_type.to_string();
 
-				setting.add("max_share_ratio", libconfig::Setting::TypeFloat) =
-					static_cast<float>(clean.max_ratio);
-				setting.add("max_share_ratio_type", libconfig::Setting::TypeString) =
-					clean.max_ratio_type.to_string();
+				setting.add("max_share_ratio", libconfig::Setting::TypeFloat) = float(clean.max_ratio);
+				setting.add("max_share_ratio_type", libconfig::Setting::TypeString) = clean.max_ratio_type.to_string();
 
-				setting.add("max_seeding_torrents", libconfig::Setting::TypeInt) =
-					static_cast<int>(clean.max_seeding_torrents);
-				setting.add("max_seeding_torrents_type", libconfig::Setting::TypeString) =
-					clean.max_seeding_torrents_type.to_string();
+				setting.add("max_seeding_torrents", libconfig::Setting::TypeInt) = int(clean.max_seeding_torrents);
+				setting.add("max_seeding_torrents_type", libconfig::Setting::TypeString) = clean.max_seeding_torrents_type.to_string();
 			}
 			// Автоматическая "очистка" от старых торрентов <--
 
@@ -943,13 +930,13 @@ namespace
 			{
 				libconfig::Setting& setting = config_root.add("statistics", libconfig::Setting::TypeGroup);
 
-				setting.add("statistics_start_time", m::libconfig::Size_type) = session_status.statistics_start_time;
-				setting.add("total_download", m::libconfig::Size_type) = session_status.total_download;
-				setting.add("total_payload_download", m::libconfig::Size_type) = session_status.total_payload_download;
-				setting.add("total_upload", m::libconfig::Size_type) = session_status.total_upload;
-				setting.add("total_payload_upload", m::libconfig::Size_type) = session_status.total_payload_upload;
-				setting.add("total_failed", m::libconfig::Size_type) = session_status.total_failed;
-				setting.add("total_redundant", m::libconfig::Size_type) = session_status.total_redundant;
+				setting.add("statistics_start_time", m::libconfig::Time_type) = m::libconfig::Time(session_status.statistics_start_time);
+				setting.add("total_download", m::libconfig::Size_type) = m::libconfig::Size(session_status.total_download);
+				setting.add("total_payload_download", m::libconfig::Size_type) = m::libconfig::Size(session_status.total_payload_download);
+				setting.add("total_upload", m::libconfig::Size_type) = m::libconfig::Size(session_status.total_upload);
+				setting.add("total_payload_upload", m::libconfig::Size_type) = m::libconfig::Size(session_status.total_payload_upload);
+				setting.add("total_failed", m::libconfig::Size_type) = m::libconfig::Size(session_status.total_failed);
+				setting.add("total_redundant", m::libconfig::Size_type) = m::libconfig::Size(session_status.total_redundant);
 			}
 			// statistics <--
 		// Пишем все необходимые настройки <--
@@ -1187,7 +1174,7 @@ namespace
 				const libconfig::Setting& setting = config_root["version"];
 
 				CHECK_OPTION_TYPE(setting, m::libconfig::Version_type, M_THROW_EMPTY())
-				daemon_version = static_cast<m::libconfig::Version>(setting);
+				daemon_version = m::libconfig::Version(setting);
 			}
 			catch(m::Exception)
 			{
@@ -1255,12 +1242,12 @@ namespace
 			else if(m::is_eq(setting_name, "time_added"))
 			{
 				CHECK_OPTION_TYPE(setting, m::libconfig::Time_type, continue)
-				this->time_added = static_cast<m::libconfig::Time>(setting);
+				this->time_added = m::libconfig::Time(setting);
 			}
 			else if(m::is_eq(setting_name, "time_seeding"))
 			{
 				CHECK_OPTION_TYPE(setting, m::libconfig::Time_type, continue)
-				this->time_seeding = static_cast<m::libconfig::Time>(setting);
+				this->time_seeding = m::libconfig::Time(setting);
 			}
 			else if(m::is_eq(setting_name, "download_path"))
 			{
@@ -1342,7 +1329,7 @@ namespace
 					CHECK_OPTION_TYPE(setting[0], libconfig::Setting::TypeInt, continue)
 
 					for(int file_id = 0; file_id < setting.getLength(); file_id++)
-						files_settings[file_id].download = bool(static_cast<int>(setting[file_id]));
+						files_settings[file_id].download = int(setting[file_id]);
 				}
 
 				this->files_settings.swap(files_settings);
@@ -1472,42 +1459,42 @@ namespace
 			else if(m::is_eq(setting_name, "total_download"))
 			{
 				CHECK_OPTION_TYPE(setting, m::libconfig::Size_type, continue)
-				this->total_download = static_cast<m::libconfig::Size>(setting);
+				this->total_download = m::libconfig::Size(setting);
 			}
 			else if(m::is_eq(setting_name, "total_payload_download"))
 			{
 				CHECK_OPTION_TYPE(setting, m::libconfig::Size_type, continue)
-				this->total_payload_download = static_cast<m::libconfig::Size>(setting);
+				this->total_payload_download = m::libconfig::Size(setting);
 			}
 			else if(m::is_eq(setting_name, "total_upload"))
 			{
 				CHECK_OPTION_TYPE(setting, m::libconfig::Size_type, continue)
-				this->total_upload = static_cast<m::libconfig::Size>(setting);
+				this->total_upload = m::libconfig::Size(setting);
 			}
 			else if(m::is_eq(setting_name, "total_payload_upload"))
 			{
 				CHECK_OPTION_TYPE(setting, m::libconfig::Size_type, continue)
-				this->total_payload_upload = static_cast<m::libconfig::Size>(setting);
+				this->total_payload_upload = m::libconfig::Size(setting);
 			}
 			else if(m::is_eq(setting_name, "total_failed"))
 			{
 				CHECK_OPTION_TYPE(setting, m::libconfig::Size_type, continue)
-				this->total_failed = static_cast<m::libconfig::Size>(setting);
+				this->total_failed = m::libconfig::Size(setting);
 			}
 			else if(m::is_eq(setting_name, "total_redundant"))
 			{
 				CHECK_OPTION_TYPE(setting, m::libconfig::Size_type, continue)
-				this->total_redundant = static_cast<m::libconfig::Size>(setting);
+				this->total_redundant = m::libconfig::Size(setting);
 			}
 			else if(m::is_eq(setting_name, "bytes_done"))
 			{
 				CHECK_OPTION_TYPE(setting, m::libconfig::Size_type, continue)
-				this->bytes_done = static_cast<m::libconfig::Size>(setting);
+				this->bytes_done = m::libconfig::Size(setting);
 			}
 			else if(m::is_eq(setting_name, "bytes_done_on_last_torrent_finish"))
 			{
 				CHECK_OPTION_TYPE(setting, m::libconfig::Size_type, continue)
-				this->bytes_done_on_last_torrent_finish = static_cast<m::libconfig::Size>(setting);
+				this->bytes_done_on_last_torrent_finish = m::libconfig::Size(setting);
 			}
 			else
 				unknown_option(setting);
@@ -1646,15 +1633,15 @@ namespace
 		libconfig::Config config;
 		libconfig::Setting& config_root = config.getRoot();
 
-		config_root.add("version", m::libconfig::Version_type) = static_cast<m::libconfig::Version>(APP_VERSION);
-		config_root.add("libtorrent_version", m::libconfig::Version_type) = static_cast<m::libconfig::Version>(M_LT_GET_VERSION());
+		config_root.add("version", m::libconfig::Version_type) = m::libconfig::Version(APP_VERSION);
+		config_root.add("libtorrent_version", m::libconfig::Version_type) = m::libconfig::Version(M_LT_GET_VERSION());
 
 		if(!this->magnet.empty())
 			config_root.add("magnet", libconfig::Setting::TypeString) = this->magnet;
 		config_root.add("name", libconfig::Setting::TypeString) = this->name;
 
-		config_root.add("time_added", m::libconfig::Time_type) = static_cast<m::libconfig::Time>(this->time_added);
-		config_root.add("time_seeding", m::libconfig::Time_type) = static_cast<m::libconfig::Time>(this->time_seeding);
+		config_root.add("time_added", m::libconfig::Time_type) = m::libconfig::Time(this->time_added);
+		config_root.add("time_seeding", m::libconfig::Time_type) = m::libconfig::Time(this->time_seeding);
 
 		config_root.add("download_path", libconfig::Setting::TypeString) = this->download_path;
 
@@ -1693,16 +1680,16 @@ namespace
 		// trackers <--
 
 		config_root.add("is_paused", libconfig::Setting::TypeBoolean) = this->is_paused;
-		config_root.add("total_download", m::libconfig::Size_type) = static_cast<m::libconfig::Size>(this->total_download);
-		config_root.add("total_payload_download", m::libconfig::Size_type) = static_cast<m::libconfig::Size>(this->total_payload_download);
-		config_root.add("total_upload", m::libconfig::Size_type) = static_cast<m::libconfig::Size>(this->total_upload);
-		config_root.add("total_payload_upload", m::libconfig::Size_type) = static_cast<m::libconfig::Size>(this->total_payload_upload);
-		config_root.add("total_failed", m::libconfig::Size_type) = static_cast<m::libconfig::Size>(this->total_failed);
-		config_root.add("total_redundant", m::libconfig::Size_type) = static_cast<m::libconfig::Size>(this->total_redundant);
+		config_root.add("total_download", m::libconfig::Size_type) = m::libconfig::Size(this->total_download);
+		config_root.add("total_payload_download", m::libconfig::Size_type) = m::libconfig::Size(this->total_payload_download);
+		config_root.add("total_upload", m::libconfig::Size_type) = m::libconfig::Size(this->total_upload);
+		config_root.add("total_payload_upload", m::libconfig::Size_type) = m::libconfig::Size(this->total_payload_upload);
+		config_root.add("total_failed", m::libconfig::Size_type) = m::libconfig::Size(this->total_failed);
+		config_root.add("total_redundant", m::libconfig::Size_type) = m::libconfig::Size(this->total_redundant);
 
-		config_root.add("bytes_done", m::libconfig::Size_type) = static_cast<m::libconfig::Size>(this->bytes_done);
+		config_root.add("bytes_done", m::libconfig::Size_type) = m::libconfig::Size(this->bytes_done);
 		config_root.add("bytes_done_on_last_torrent_finish", m::libconfig::Size_type) =
-			static_cast<m::libconfig::Size>(this->bytes_done_on_last_torrent_finish);
+			m::libconfig::Size(this->bytes_done_on_last_torrent_finish);
 
 		// Сохраняем полученные настройки в файл -->
 		{
