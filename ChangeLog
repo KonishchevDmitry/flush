@@ -1,3 +1,4 @@
+0.9.1 (2010.02.07)
 -----
 [*] Fixed a bug, due to which GUI could freeze and do not to response when
 user watched peers list with clients which have the same IPs.

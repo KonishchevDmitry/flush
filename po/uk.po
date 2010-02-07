@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: flush\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2010-01-31 14:00+0300\n"
+"POT-Creation-Date: 2010-02-07 17:01+0300\n"
 "PO-Revision-Date: 2009-12-26 11:30+0000\n"
 "Last-Translator: StarWolf <Unknown>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -110,7 +110,7 @@ msgstr ""
 msgid "Can't read data from inotify descriptor: %1."
 msgstr ""
 
-#: mlib/mlib/libconfig.cpp:50
+#: mlib/mlib/libconfig.cpp:41
 #, qt-format
 msgid "%1 at line %2"
 msgstr "%1 в рядку %2"
@@ -662,101 +662,101 @@ msgstr ""
 msgid "Error while parsing configuration file '%1': %2."
 msgstr ""
 
-#: src/daemon_settings.cpp:768
+#: src/daemon_settings.cpp:763
 msgid "invalid DHT state data"
 msgstr ""
 
-#: src/daemon_settings.cpp:774
+#: src/daemon_settings.cpp:769
 #, qt-format
 msgid "Error while reading DHT state from file '%1': %2."
 msgstr ""
 
-#: src/daemon_settings.cpp:806
+#: src/daemon_settings.cpp:801
 #, qt-format
 msgid "Daemon config: Invalid IP filter rule at line %1: %2."
 msgstr ""
 
-#: src/daemon_settings.cpp:812
+#: src/daemon_settings.cpp:807
 #, qt-format
 msgid "Daemon config: Invalid IP filter rule at line %1."
 msgstr ""
 
-#: src/daemon_settings.cpp:970 src/client_settings.cpp:1233
+#: src/daemon_settings.cpp:957 src/client_settings.cpp:1233
 #, qt-format
 msgid "Writing configuration file '%1' failed. %2"
 msgstr "Невдала спроба запису до файлу налаштувань '%1' failed. %2"
 
-#: src/daemon_settings.cpp:974
+#: src/daemon_settings.cpp:961
 #, qt-format
 msgid "Can't write configuration file %1: %2."
 msgstr "Неможливо записати файл налаштувань %1: %2."
 
-#: src/daemon_settings.cpp:1011
+#: src/daemon_settings.cpp:998
 #, qt-format
 msgid "Can't write DHT state to file '%1': %2."
 msgstr ""
 
-#: src/daemon_settings.cpp:1022
+#: src/daemon_settings.cpp:1009
 #, qt-format
 msgid "Writing DHT state to file '%1' failed. %2"
 msgstr ""
 
-#: src/daemon_settings.cpp:1422
+#: src/daemon_settings.cpp:1409
 #, qt-format
 msgid "Daemon config: %1"
 msgstr ""
 
-#: src/daemon_settings.cpp:1530
+#: src/daemon_settings.cpp:1517
 #, qt-format
 msgid "Reading torrent configuration file '%1' failed. %2"
 msgstr ""
 
-#: src/daemon_settings.cpp:1534
+#: src/daemon_settings.cpp:1521
 #, qt-format
 msgid "Error while reading torrent configuration file '%1': %2."
 msgstr "Помилка читання файлу налаштувань '%1': %2."
 
-#: src/daemon_settings.cpp:1538
+#: src/daemon_settings.cpp:1525
 #, qt-format
 msgid "Error while parsing torrent configuration file '%1': %2."
 msgstr ""
 
-#: src/daemon_settings.cpp:1555 src/daemon_settings.cpp:1566
+#: src/daemon_settings.cpp:1542 src/daemon_settings.cpp:1553
 #, qt-format
 msgid "Can't read torrent resume data from file '%1': %2."
 msgstr ""
 
-#: src/daemon_settings.cpp:1576 src/daemon_settings.cpp:1582
+#: src/daemon_settings.cpp:1563 src/daemon_settings.cpp:1569
 #, qt-format
 msgid "Error while reading torrent resume data from file '%1': file broken."
 msgstr ""
 
-#: src/daemon_settings.cpp:1608
+#: src/daemon_settings.cpp:1595
 #, qt-format
 msgid "Can't read torrent resume data from file '%1': bad resume data."
 msgstr ""
 
-#: src/daemon_settings.cpp:1720
+#: src/daemon_settings.cpp:1707
 #, qt-format
 msgid "Writing torrent configuration file '%1' failed. %2"
 msgstr ""
 
-#: src/daemon_settings.cpp:1724
+#: src/daemon_settings.cpp:1711
 #, qt-format
 msgid "Can't write torrent configuration file %1: %2."
 msgstr ""
 
-#: src/daemon_settings.cpp:1742
+#: src/daemon_settings.cpp:1729
 #, qt-format
 msgid "Removing old resume data '%1' failed. %2"
 msgstr ""
 
-#: src/daemon_settings.cpp:1776
+#: src/daemon_settings.cpp:1763
 #, qt-format
 msgid "Can't write torrent resume data to file '%1': %2."
 msgstr ""
 
-#: src/daemon_settings.cpp:1787
+#: src/daemon_settings.cpp:1774
 #, qt-format
 msgid "Writing torrent resume data to file '%1' failed. %2"
 msgstr ""
