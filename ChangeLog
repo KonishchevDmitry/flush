@@ -1,3 +1,8 @@
+-----
+[*] Fixed a bug, due to which trackers reverted to original torrent's trackers
+after adding torrent to a session or after program restart.
+
+
 0.9.1 (2010.02.07)
 -----
 [*] Fixed a bug, due to which GUI could freeze and do not to response when

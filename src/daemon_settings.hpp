@@ -256,7 +256,7 @@
 
 			enum Read_flag {
 				/// Список трекеров прочитан из конфига
-				READ_FLAG_TRACKERS_GOTTEN
+				READ_FLAG_TRACKERS_GOTTEN = 1 << 0
 			};
 
 
