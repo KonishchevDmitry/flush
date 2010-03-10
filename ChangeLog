@@ -1,3 +1,4 @@
+0.9.2 (2010.03.10)
 -----
 [*] Fixed a bug, due to which trackers reverted to original torrent's trackers
 after adding torrent to a session or after program restart.
