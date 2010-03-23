@@ -408,6 +408,10 @@ public:
 	 */
 	PendingCall send_async( Message& msg, int timeout = -1);
 
+	// ------------------------------------------------------------
+	// Modified by Dmitry Konishchev <konishchev@gmail.com>:
+	// * added return value as in original dbus_bus_request_name()
+	// ------------------------------------------------------------
 	int request_name( const char* name, int flags = 0 );
 
 	/*!

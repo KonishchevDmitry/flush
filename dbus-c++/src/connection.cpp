@@ -378,6 +378,10 @@ PendingCall Connection::send_async(Message &msg, int timeout)
 	return PendingCall(new PendingCall::Private(pending));
 }
 
+// ------------------------------------------------------------
+// Modified by Dmitry Konishchev <konishchev@gmail.com>:
+// * added return value as in original dbus_bus_request_name()
+// ------------------------------------------------------------
 int Connection::request_name(const char *name, int flags)
 {
 	int rval;
