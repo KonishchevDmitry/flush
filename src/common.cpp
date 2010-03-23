@@ -606,6 +606,9 @@
 				return QUEUED_FOR_CHECKING;
 				break;
 
+		#if M_LT_GET_VERSION() >= M_GET_VERSION(0, 15, 0)
+			case lt::torrent_status::checking_resume_data:
+		#endif
 			case lt::torrent_status::checking_files:
 				return CHECKING_FILES;
 				break;

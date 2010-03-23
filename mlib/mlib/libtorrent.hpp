@@ -128,9 +128,13 @@ bool						is_magnet_uri(const std::string& uri);
 }
 
 
-std::string		EE(const libtorrent::duplicate_torrent& error);
-std::string		EE(const libtorrent::invalid_encoding& error);
-std::string		EE(const libtorrent::invalid_torrent_file& error);
+	std::string		EE(const libtorrent::invalid_encoding& error);
+#if M_LT_GET_VERSION() >= M_GET_VERSION(0, 15, 0)
+	std::string		EE(const libtorrent::libtorrent_exception& error);
+#else
+	std::string		EE(const libtorrent::duplicate_torrent& error);
+	std::string		EE(const libtorrent::invalid_torrent_file& error);
+#endif
 
 
 }

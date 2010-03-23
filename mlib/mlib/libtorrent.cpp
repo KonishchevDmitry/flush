@@ -20,25 +20,29 @@
 
 #ifdef MLIB_ENABLE_LIBTORRENT
 
-#include <algorithm>
-#include <exception>
+	#include <algorithm>
+	#include <exception>
 
-#include <boost/lexical_cast.hpp>
-#include <boost/optional.hpp>
+	#include <boost/lexical_cast.hpp>
+	#include <boost/optional.hpp>
 
-#include <libtorrent/bencode.hpp>
-#include <libtorrent/entry.hpp>
-#include <libtorrent/escape_string.hpp>
-#include <libtorrent/torrent_handle.hpp>
-#include <libtorrent/torrent_info.hpp>
-#include <libtorrent/version.hpp>
+	#include <libtorrent/bencode.hpp>
+	#include <libtorrent/entry.hpp>
+	#include <libtorrent/escape_string.hpp>
+	#include <libtorrent/torrent_handle.hpp>
+	#include <libtorrent/torrent_info.hpp>
+	#include <libtorrent/version.hpp>
 
-#include <mlib/fs.hpp>
-#include <mlib/main.hpp>
-#include <mlib/misc.hpp>
-#include <mlib/string.hpp>
+	#include <mlib/fs.hpp>
+	#include <mlib/main.hpp>
+	#include <mlib/misc.hpp>
+	#include <mlib/string.hpp>
 
-#include "libtorrent.hpp"
+	#include "libtorrent.hpp"
+
+#if M_LT_GET_VERSION() >= M_GET_VERSION(0, 15, 0)
+	#include <boost/system/error_code.hpp>
+#endif
 
 
 
@@ -125,11 +129,29 @@ Torrent_metadata get_magnet_metadata(const std::string& magnet)
 			{
 				boost::optional<std::string> name = lt::url_has_argument(magnet, "dn");
 
-				if(name)
-					info.files().set_name( lt::unescape_string(name->c_str()) );
-				else
-					info.files().set_name( info_hash_string);
+				#if M_LT_GET_VERSION() >= M_GET_VERSION(0, 15, 0)
+				{
+					boost::system::error_code error;
+					lt::file_storage files = info.files();
 
+					if(name)
+					{
+						files.set_name( lt::unescape_string(name->c_str(), error) );
+
+						if(error)
+							files.set_name(info_hash_string);
+					}
+					else
+						files.set_name(info_hash_string);
+
+					info.remap_files(files);
+				}
+				#else
+					if(name)
+						info.files().set_name( lt::unescape_string(name->c_str()) );
+					else
+						info.files().set_name(info_hash_string);
+				#endif
 			}
 
 			MLIB_D(_C("\tName: '%1'.", info.name()));
@@ -141,7 +163,12 @@ Torrent_metadata get_magnet_metadata(const std::string& magnet)
 
 			if(tracker)
 			{
+			#if M_LT_GET_VERSION() >= M_GET_VERSION(0, 15, 0)
+				boost::system::error_code error;
+				std::string tracker_url = unescape_string(tracker->c_str(), error);
+			#else
 				std::string tracker_url = unescape_string(tracker->c_str());
+			#endif
 				MLIB_D(_C("\tTracker: '%1'.", tracker_url));
 				info.add_tracker(tracker_url);
 			}
@@ -309,7 +336,15 @@ Torrent_metadata get_torrent_metadata(const m::Buffer& torrent_data, const std::
 				if(torrent_name.empty())
 					throw Invalid_torrent_file();
 
-				torrent_info.files().set_name(torrent_name);
+				#if M_LT_GET_VERSION() >= M_GET_VERSION(0, 15, 0)
+				{
+					lt::file_storage files = torrent_info.files();
+					files.set_name(torrent_name);
+					torrent_info.remap_files(files);
+				}
+				#else
+					torrent_info.files().set_name(torrent_name);
+				#endif
 			}
 			// Имя <--
 
@@ -543,13 +578,6 @@ bool is_magnet_uri(const std::string& uri)
 
 
 
-std::string EE(const libtorrent::duplicate_torrent& error)
-{
-	return _("torrent is already exists in this session");
-}
-
-
-
 std::string EE(const libtorrent::invalid_encoding& error)
 {
 	return _("bad torrent data");
@@ -557,10 +585,24 @@ std::string EE(const libtorrent::invalid_encoding& error)
 
 
 
-std::string EE(const libtorrent::invalid_torrent_file& error)
-{
-	return _("this is not a torrent file");
-}
+#if M_LT_GET_VERSION() >= M_GET_VERSION(0, 15, 0)
+	std::string EE(const libtorrent::libtorrent_exception& error)
+	{
+		return __("libtorrent error code [%1]", error.error());
+	}
+#else
+	std::string EE(const libtorrent::duplicate_torrent& error)
+	{
+		return _("torrent is already exists in this session");
+	}
+
+
+
+	std::string EE(const libtorrent::invalid_torrent_file& error)
+	{
+		return _("this is not a torrent file");
+	}
+#endif
 
 
 }

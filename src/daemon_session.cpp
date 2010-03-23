@@ -394,6 +394,11 @@ Daemon_session::Daemon_session(const std::string& config_dir_path)
 		// их количество до 999.
 		lt_settings.num_want = 10000;
 
+	#if M_LT_GET_VERSION() >= M_GET_VERSION(0, 15, 0)
+		lt_settings.announce_to_all_trackers = true;
+		lt_settings.announce_to_all_tiers = true;
+	#endif
+
 		priv->session.set_settings(lt_settings);
 	}
 	// Настройки libtorrent <--
@@ -656,7 +661,17 @@ void Daemon_session::add_torrent_to_session(m::lt::Torrent_metadata torrent_meta
 	// Меняем информацию о торренте в соответствии с требуемыми настройками
 	// -->
 		if(torrent_settings.name != "")
-			torrent_metadata.info.files().set_name(torrent_settings.name);
+		{
+			#if M_LT_GET_VERSION() >= M_GET_VERSION(0, 15, 0)
+			{
+				lt::file_storage files = torrent_metadata.info.files();
+				files.set_name(torrent_settings.name);
+				torrent_metadata.info.remap_files(files);
+			}
+			#else
+				torrent_metadata.info.files().set_name(torrent_settings.name);
+			#endif
+		}
 
 		for(size_t i = 0; i < torrent_settings.files_settings.size(); i++)
 		{

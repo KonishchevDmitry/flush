@@ -23,9 +23,7 @@
 
 namespace libtorrent {
 
-	class duplicate_torrent;
 	class invalid_encoding;
-	class invalid_torrent_file;
 
 	class alert;
 	class big_number;
