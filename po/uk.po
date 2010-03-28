@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: flush\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2010-02-07 17:01+0300\n"
+"POT-Creation-Date: 2010-03-23 21:42+0300\n"
 "PO-Revision-Date: 2009-12-26 11:30+0000\n"
 "Last-Translator: StarWolf <Unknown>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -164,45 +164,50 @@ msgstr "Неправильна назва стилю панелі інструм
 msgid "No such column: '%1'."
 msgstr "Немає такого стовпця: '%1'."
 
-#: mlib/mlib/libtorrent.cpp:90
+#: mlib/mlib/libtorrent.cpp:94
 #, fuzzy
 msgid "Invalid magnet URI."
 msgstr "Невірна адреса URL трекера"
 
-#: mlib/mlib/libtorrent.cpp:115
+#: mlib/mlib/libtorrent.cpp:119
 msgid "there is no 'xt=urn:btih:' field in it"
 msgstr ""
 
-#: mlib/mlib/libtorrent.cpp:155
+#: mlib/mlib/libtorrent.cpp:182
 #, fuzzy, qt-format
 msgid "Invalid magnet URI: %1."
 msgstr "Невірна адреса URL трекера"
 
-#: mlib/mlib/libtorrent.cpp:193
+#: mlib/mlib/libtorrent.cpp:220
 #, qt-format
 msgid "Invalid torrent file path '%1'."
 msgstr "Неправильний шлях до торрент-файла '%1'."
 
-#: mlib/mlib/libtorrent.cpp:460
+#: mlib/mlib/libtorrent.cpp:495
 msgid "invalid torrent file"
 msgstr "Неправильний торрент-файл"
 
-#: mlib/mlib/libtorrent.cpp:484 src/daemon_session.cpp:514
-#: src/daemon_session.cpp:529 src/daemon_session.cpp:1595
-#: src/daemon_session.cpp:1612
+#: mlib/mlib/libtorrent.cpp:519 src/daemon_session.cpp:519
+#: src/daemon_session.cpp:534 src/daemon_session.cpp:1610
+#: src/daemon_session.cpp:1627
 #, qt-format
 msgid "Error while reading torrent file '%1': %2."
 msgstr "Помилка під час читання торрент-файлу '%1': %2."
 
-#: mlib/mlib/libtorrent.cpp:548
-msgid "torrent is already exists in this session"
-msgstr "такий торрент вже існує в цій сесії"
-
-#: mlib/mlib/libtorrent.cpp:555
+#: mlib/mlib/libtorrent.cpp:583
 msgid "bad torrent data"
 msgstr "неправильні дані торренту"
 
-#: mlib/mlib/libtorrent.cpp:562
+#: mlib/mlib/libtorrent.cpp:591
+#, qt-format
+msgid "libtorrent error code [%1]"
+msgstr ""
+
+#: mlib/mlib/libtorrent.cpp:596
+msgid "torrent is already exists in this session"
+msgstr "такий торрент вже існує в цій сесії"
+
+#: mlib/mlib/libtorrent.cpp:603
 msgid "this is not a torrent file"
 msgstr "це не торрент-файл"
 
@@ -1343,191 +1348,191 @@ msgstr "Неможливо здійснити запис до конфігура
 msgid "%1 (%2). Errors: %3."
 msgstr "%1 (%2). Помилки: %3."
 
-#: src/daemon_session.cpp:542
+#: src/daemon_session.cpp:547
 msgid "This torrent is already exists in the current session."
 msgstr "Такий торрент вже існує в цьому сеансі."
 
-#: src/daemon_session.cpp:560
+#: src/daemon_session.cpp:565
 #, qt-format
 msgid "Can't create torrent configuration directory '%1': %2."
 msgstr ""
 
-#: src/daemon_session.cpp:584
+#: src/daemon_session.cpp:589
 #, qt-format
 msgid "Torrent '%1' has been changed while it's been processed."
 msgstr ""
 
-#: src/daemon_session.cpp:599
+#: src/daemon_session.cpp:604
 #, qt-format
 msgid "Can't copy torrent file '%1' to '%2': %3."
 msgstr ""
 
-#: src/daemon_session.cpp:789
+#: src/daemon_session.cpp:804
 #, qt-format
 msgid "Can't pause torrent '%1'. %2"
 msgstr "Неможливо зупинити торрент '%1'. %2"
 
-#: src/daemon_session.cpp:802
+#: src/daemon_session.cpp:817
 #, qt-format
 msgid "Can't remove torrent '%1'. %2"
 msgstr ""
 
-#: src/daemon_session.cpp:815
+#: src/daemon_session.cpp:830
 #, qt-format
 msgid "Can't remove with data torrent '%1'. %2"
 msgstr ""
 
-#: src/daemon_session.cpp:860
+#: src/daemon_session.cpp:875
 #, qt-format
 msgid "Can't stat torrent file: %1."
 msgstr ""
 
-#: src/daemon_session.cpp:900
+#: src/daemon_session.cpp:915
 msgid "Deleting automatically loaded *.torrent file failed"
 msgstr ""
 
-#: src/daemon_session.cpp:902
+#: src/daemon_session.cpp:917
 #, qt-format
 msgid "Can't delete automatically loaded *.torrent file '%1': %2."
 msgstr ""
 
-#: src/daemon_session.cpp:931 src/daemon_session.cpp:1691
+#: src/daemon_session.cpp:946 src/daemon_session.cpp:1706
 #, qt-format
 msgid "Automatic loading the torrent '%1' failed. %2"
 msgstr ""
 
-#: src/daemon_session.cpp:941 src/daemon_session.cpp:946
-#: src/daemon_session.cpp:965 src/daemon_session.cpp:2487
-#: src/daemon_session.cpp:2569
+#: src/daemon_session.cpp:956 src/daemon_session.cpp:961
+#: src/daemon_session.cpp:980 src/daemon_session.cpp:2502
+#: src/daemon_session.cpp:2584
 msgid "Automatic torrents loading failed"
 msgstr ""
 
-#: src/daemon_session.cpp:948
+#: src/daemon_session.cpp:963
 #, qt-format
 msgid "Directory '%1' has been deleted or moved."
 msgstr ""
 
-#: src/daemon_session.cpp:1069
+#: src/daemon_session.cpp:1084
 msgid "Automatic torrents cleaning failed"
 msgstr ""
 
-#: src/daemon_session.cpp:1164
+#: src/daemon_session.cpp:1179
 #, fuzzy
 msgid "All torrents downloaded."
 msgstr "Всі торренти"
 
-#: src/daemon_session.cpp:1214
+#: src/daemon_session.cpp:1229
 msgid "Copying finished torrent's files failed"
 msgstr "Копіювання завершених торрентів не вдалося"
 
-#: src/daemon_session.cpp:1216
+#: src/daemon_session.cpp:1231
 #, qt-format
 msgid "Copying finished torrent's '%1' files from '%2' to '%3' failed."
 msgstr ""
 
-#: src/daemon_session.cpp:1297 src/daemon_session.cpp:1309
-#: src/daemon_session.cpp:1320 src/daemon_session.cpp:1333
+#: src/daemon_session.cpp:1312 src/daemon_session.cpp:1324
+#: src/daemon_session.cpp:1335 src/daemon_session.cpp:1348
 #, qt-format
 msgid "Bad torrent id '%1'."
 msgstr ""
 
-#: src/daemon_session.cpp:1559
+#: src/daemon_session.cpp:1574
 #, qt-format
 msgid "Restoring torrent's previous session settings failed. %1"
 msgstr ""
 
-#: src/daemon_session.cpp:1642
+#: src/daemon_session.cpp:1657
 #, qt-format
 msgid "Invalid torrent '%1' files' settings. Rejecting them..."
 msgstr ""
 
-#: src/daemon_session.cpp:1653
+#: src/daemon_session.cpp:1668
 #, fuzzy
 msgid "Torrent added with errors"
 msgstr "Торренти з помилками трекерів"
 
-#: src/daemon_session.cpp:1654
+#: src/daemon_session.cpp:1669
 #, qt-format
 msgid "Torrent '%1' has been added with errors.%2"
 msgstr ""
 
-#: src/daemon_session.cpp:1703
+#: src/daemon_session.cpp:1718
 #, qt-format
 msgid "Can't read directory '%1' for automatic torrents loading: %2."
 msgstr ""
 
-#: src/daemon_session.cpp:1738
+#: src/daemon_session.cpp:1753
 msgid "Loading torrent failed"
 msgstr "Завантаження торренту не вдалося"
 
-#: src/daemon_session.cpp:1738
+#: src/daemon_session.cpp:1753
 #, qt-format
 msgid "Loading of the torrent '%1' failed. %2"
 msgstr ""
 
-#: src/daemon_session.cpp:1744
+#: src/daemon_session.cpp:1759
 #, qt-format
 msgid "Can't read directory with torrents configs '%1': %2."
 msgstr ""
 
-#: src/daemon_session.cpp:1750
+#: src/daemon_session.cpp:1765
 #, qt-format
 msgid "Loading torrents from previous session failed. %1"
 msgstr ""
 
-#: src/daemon_session.cpp:1766 src/daemon_session.cpp:2642
+#: src/daemon_session.cpp:1781 src/daemon_session.cpp:2657
 msgid "Saving session failed"
 msgstr "Збереження сеансу не вдалося"
 
-#: src/daemon_session.cpp:1766 src/daemon_session.cpp:2642
+#: src/daemon_session.cpp:1781 src/daemon_session.cpp:2657
 #, qt-format
 msgid "Saving session failed. %1"
 msgstr ""
 
-#: src/daemon_session.cpp:1980
+#: src/daemon_session.cpp:1995
 #, qt-format
 msgid "Bad torrent id: '%1'."
 msgstr ""
 
-#: src/daemon_session.cpp:2028 src/daemon_session.cpp:2044
+#: src/daemon_session.cpp:2043 src/daemon_session.cpp:2059
 msgid "Deleting torrent data failed"
 msgstr ""
 
-#: src/daemon_session.cpp:2029 src/daemon_session.cpp:2045
+#: src/daemon_session.cpp:2044 src/daemon_session.cpp:2060
 #, qt-format
 msgid "Deleting torrent '%1' data failed."
 msgstr ""
 
-#: src/daemon_session.cpp:2170
+#: src/daemon_session.cpp:2185
 msgid "Saving torrent settings failed"
 msgstr ""
 
-#: src/daemon_session.cpp:2172
+#: src/daemon_session.cpp:2187
 #, qt-format
 msgid "Saving torrent '%1' settings failed. %2"
 msgstr ""
 
-#: src/daemon_session.cpp:2203
+#: src/daemon_session.cpp:2218
 #, qt-format
 msgid "Invalid copy when finished to path '%1'."
 msgstr ""
 
-#: src/daemon_session.cpp:2225 src/daemon_session.cpp:2247
+#: src/daemon_session.cpp:2240 src/daemon_session.cpp:2262
 #, qt-format
 msgid "Bad file id: %1."
 msgstr ""
 
-#: src/daemon_session.cpp:2464
+#: src/daemon_session.cpp:2479
 msgid "Setting directory for automatic torrents loading failed"
 msgstr ""
 "Встановлення каталогу для автоматичного завантаження торрентів було невдалим"
 
-#: src/daemon_session.cpp:2466
+#: src/daemon_session.cpp:2481
 #, qt-format
 msgid "Setting directory '%1' for automatic torrents loading failed. %2"
 msgstr ""
 
-#: src/daemon_session.cpp:2532
+#: src/daemon_session.cpp:2547
 msgid "Setting torrent trackers failed: libtorrent internal error."
 msgstr ""
 
@@ -1662,60 +1667,60 @@ msgstr "неправильна назва пріоритету файлу: '%1'.
 msgid "[Invalid encoding]"
 msgstr "[Invalid encoding]"
 
-#: src/common.cpp:696 src/common.cpp:699 src/common.cpp:753
+#: src/common.cpp:699 src/common.cpp:702 src/common.cpp:756
 msgid "(short)|Paused"
 msgstr "Призупинено"
 
-#: src/common.cpp:707
+#: src/common.cpp:710
 msgid "(short)|Allocating"
 msgstr ""
 
-#: src/common.cpp:711
+#: src/common.cpp:714
 msgid "(short)|Queued for checking"
 msgstr "Запит на перевірку"
 
-#: src/common.cpp:715
+#: src/common.cpp:718
 msgid "(short)|Checking files"
 msgstr "Перевірка файлів"
 
-#: src/common.cpp:719
+#: src/common.cpp:722
 msgid "Waiting for metadata download (short)|Metadata down wait"
 msgstr "Очікування зав. метаданих"
 
-#: src/common.cpp:723
+#: src/common.cpp:726
 msgid "Downloading metadata (short)|Metadata down"
 msgstr "Завантаження метаданих"
 
-#: src/common.cpp:727
+#: src/common.cpp:730
 msgid "Waiting for download (short)|Download wait"
 msgstr "Очікування на завантаження"
 
-#: src/common.cpp:731
+#: src/common.cpp:734
 msgid "(short)|Downloading"
 msgstr "Завантаження"
 
-#: src/common.cpp:735
+#: src/common.cpp:738
 msgid "(short)|Seeding"
 msgstr "Роздача"
 
-#: src/common.cpp:739
+#: src/common.cpp:742
 msgid "(short)|Uploading"
 msgstr "Вивантаження"
 
-#: src/common.cpp:743
+#: src/common.cpp:746
 msgid "(short)|Unknown"
 msgstr "Невідомо"
 
-#: src/common.cpp:920
+#: src/common.cpp:923
 msgid "Tracker status is not given yet|Not given yet"
 msgstr ""
 
-#: src/common.cpp:923
+#: src/common.cpp:926
 #, qt-format
 msgid "OK (%1)"
 msgstr "OK (%1)"
 
-#: src/common.cpp:926
+#: src/common.cpp:929
 msgid "There are no trackers has been setted for this torrent"
 msgstr ""
 
