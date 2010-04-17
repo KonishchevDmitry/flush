@@ -1,4 +1,4 @@
-AC_INIT([Flush], [0.9.2], [konishchev@gmail.com])
+AC_INIT([Flush], [0.9.3], [konishchev@gmail.com])
 
 
 AC_CONFIG_SRCDIR([src/main.cpp])
