@@ -88,8 +88,8 @@ namespace
 		if(diff > 0)
 			file += diff;
 
-		std::snprintf(file_buf, max_file_path_string_size, "%*s", max_file_path_string_len, file);
-		std::snprintf(line_buf, max_line_string_size, "%04d", line);
+		snprintf(file_buf, max_file_path_string_size, "%*s", max_file_path_string_len, file);
+		snprintf(line_buf, max_line_string_size, "%04d", line);
 
 		return std::string(file_buf) + ":" + line_buf;
 	}
@@ -112,7 +112,7 @@ namespace
 			return _("[[gettimeofday time getting error]]");
 
 		strftime(time_string_buf, max_string_size, "%H:%M:%S", localtime_r(&tv.tv_sec, &tm_val));
-		std::snprintf(
+		snprintf(
 			time_string_buf + time_string_len,
 			max_string_size - time_string_len,
 			".%03d", int(tv.tv_usec / 1000)
