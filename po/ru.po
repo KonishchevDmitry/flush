@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2010-04-17 08:36+0400\n"
+"POT-Creation-Date: 2010-04-25 18:16+0400\n"
 "Last-Translator: Dmitry Konishchev <konishchev@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1658,102 +1658,102 @@ msgstr ""
 "Вы ввели недопустимое имя торрента. Пожалуйста, введите допустимое имя "
 "торрента (дожно содержать хотя бы один непробельный символ)."
 
-#: src/common.cpp:79
+#: src/common.cpp:81
 #, qt-format
 msgid "invalid auto clean action type '%1'"
 msgstr "неверное имя действия автоматической очистки торрентов ('%1')"
 
-#: src/common.cpp:268
+#: src/common.cpp:270
 #, qt-format
 msgid "invalid IP address '%1'"
 msgstr "недопустимый IP-адрес '%1'"
 
-#: src/common.cpp:272
+#: src/common.cpp:274
 #, qt-format
 msgid "invalid IP range %1-%2"
 msgstr "недопустимый диапазон IP-адресов %1-%2"
 
-#: src/common.cpp:318
+#: src/common.cpp:320
 #, qt-format
 msgid "%1 - Download completed"
 msgstr "%1 - Скачивание завершено"
 
-#: src/common.cpp:322
+#: src/common.cpp:324
 #, qt-format
 msgid "%1 - All downloads completed"
 msgstr "%1 - Скачивание завершено"
 
-#: src/common.cpp:407
+#: src/common.cpp:409
 msgid "normal"
 msgstr "нормальный"
 
-#: src/common.cpp:411
+#: src/common.cpp:413
 msgid "high"
 msgstr "высокий"
 
-#: src/common.cpp:447
+#: src/common.cpp:449
 #, qt-format
 msgid "Invalid file priority name: '%1'."
 msgstr "Неправильное имя приоритета: '%1'."
 
-#: src/common.cpp:566
+#: src/common.cpp:568
 msgid "[Invalid encoding]"
 msgstr "[Неверная кодировка]"
 
-#: src/common.cpp:699 src/common.cpp:702 src/common.cpp:756
+#: src/common.cpp:701 src/common.cpp:704 src/common.cpp:758
 msgid "(short)|Paused"
 msgstr "На паузе"
 
-#: src/common.cpp:710
+#: src/common.cpp:712
 msgid "(short)|Allocating"
 msgstr "Создание файлов"
 
-#: src/common.cpp:714
+#: src/common.cpp:716
 msgid "(short)|Queued for checking"
 msgstr "В очереди на проверку"
 
-#: src/common.cpp:718
+#: src/common.cpp:720
 msgid "(short)|Checking files"
 msgstr "Проверка файлов"
 
-#: src/common.cpp:722
+#: src/common.cpp:724
 msgid "Waiting for metadata download (short)|Metadata down wait"
 msgstr "Ожид. скач. метаданных"
 
-#: src/common.cpp:726
+#: src/common.cpp:728
 msgid "Downloading metadata (short)|Metadata down"
 msgstr "Скач. метаданных"
 
-#: src/common.cpp:730
+#: src/common.cpp:732
 msgid "Waiting for download (short)|Download wait"
 msgstr "Ожид. скач."
 
-#: src/common.cpp:734
+#: src/common.cpp:736
 msgid "(short)|Downloading"
 msgstr "Скачивание"
 
-#: src/common.cpp:738
+#: src/common.cpp:740
 msgid "(short)|Seeding"
 msgstr "Раздача"
 
-#: src/common.cpp:742
+#: src/common.cpp:744
 msgid "(short)|Uploading"
 msgstr "Отдача"
 
-#: src/common.cpp:746
+#: src/common.cpp:748
 msgid "(short)|Unknown"
 msgstr "Неизвестно"
 
-#: src/common.cpp:923
+#: src/common.cpp:925
 msgid "Tracker status is not given yet|Not given yet"
 msgstr "Еще не получен"
 
-#: src/common.cpp:926
+#: src/common.cpp:928
 #, qt-format
 msgid "OK (%1)"
 msgstr "ОК (%1)"
 
-#: src/common.cpp:929
+#: src/common.cpp:931
 msgid "There are no trackers has been setted for this torrent"
 msgstr "Для данного торрента не было задано ни одного трекера"
 

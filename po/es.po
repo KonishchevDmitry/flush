@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: flush\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2010-04-17 08:36+0400\n"
+"POT-Creation-Date: 2010-04-25 18:16+0400\n"
 "PO-Revision-Date: 2010-01-10 21:41+0000\n"
 "Last-Translator: Sortega <sebasop@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-24 15:08+0000\n"
+"X-Launchpad-Export-Date: 2010-04-25 14:04+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: mlib/mlib/misc.cpp:95 mlib/mlib/misc.cpp:157
@@ -82,9 +82,9 @@ msgid "Error while using epoll instance: %1."
 msgstr ""
 
 #: mlib/mlib/misc.cpp:540
-#, fuzzy, qt-format
+#, qt-format
 msgid "Can't read data from a file descriptor: %1."
-msgstr "No se puede leer los datos del descriptor inotify: %1."
+msgstr ""
 
 #: mlib/mlib/fs_watcher.cpp:163
 #, qt-format
@@ -174,9 +174,9 @@ msgid "there is no 'xt=urn:btih:' field in it"
 msgstr ""
 
 #: mlib/mlib/libtorrent.cpp:182
-#, fuzzy, qt-format
+#, qt-format
 msgid "Invalid magnet URI: %1."
-msgstr "Nombre de archivo no válido: '%1'."
+msgstr ""
 
 #: mlib/mlib/libtorrent.cpp:220
 #, qt-format
@@ -858,9 +858,8 @@ msgid "_Create"
 msgstr ""
 
 #: src/main_window.cpp:337
-#, fuzzy
 msgid "_Open a torrent"
-msgstr "Falló la apertura del torrent"
+msgstr ""
 
 #: src/main_window.cpp:341
 msgid "_Open a magnet link"
@@ -1277,14 +1276,13 @@ msgid "Libtorrent internal error."
 msgstr ""
 
 #: src/daemon_types.cpp:256
-#, fuzzy, qt-format
+#, qt-format
 msgid "Can't save torrent file '%1': %2."
-msgstr "No se puede borrar el archivo '%1': %2."
+msgstr ""
 
 #: src/daemon_types.cpp:266
-#, fuzzy
 msgid "Unable to save torrent's metadata"
-msgstr "datos del torrent inválidos"
+msgstr ""
 
 #: src/daemon_types.cpp:267
 #, qt-format
@@ -1618,102 +1616,102 @@ msgstr ""
 "Ha ingresado un nombre de torrent inválido. Por favor ingrese un nombre de "
 "torrent no vacío."
 
-#: src/common.cpp:79
+#: src/common.cpp:81
 #, qt-format
 msgid "invalid auto clean action type '%1'"
 msgstr ""
 
-#: src/common.cpp:268
+#: src/common.cpp:270
 #, qt-format
 msgid "invalid IP address '%1'"
 msgstr ""
 
-#: src/common.cpp:272
+#: src/common.cpp:274
 #, qt-format
 msgid "invalid IP range %1-%2"
 msgstr ""
 
-#: src/common.cpp:318
+#: src/common.cpp:320
 #, qt-format
 msgid "%1 - Download completed"
 msgstr ""
 
-#: src/common.cpp:322
+#: src/common.cpp:324
 #, qt-format
 msgid "%1 - All downloads completed"
 msgstr ""
 
-#: src/common.cpp:407
+#: src/common.cpp:409
 msgid "normal"
 msgstr ""
 
-#: src/common.cpp:411
+#: src/common.cpp:413
 msgid "high"
 msgstr ""
 
-#: src/common.cpp:447
+#: src/common.cpp:449
 #, qt-format
 msgid "Invalid file priority name: '%1'."
 msgstr ""
 
-#: src/common.cpp:566
+#: src/common.cpp:568
 msgid "[Invalid encoding]"
 msgstr ""
 
-#: src/common.cpp:699 src/common.cpp:702 src/common.cpp:756
+#: src/common.cpp:701 src/common.cpp:704 src/common.cpp:758
 msgid "(short)|Paused"
 msgstr ""
 
-#: src/common.cpp:710
+#: src/common.cpp:712
 msgid "(short)|Allocating"
 msgstr ""
 
-#: src/common.cpp:714
+#: src/common.cpp:716
 msgid "(short)|Queued for checking"
 msgstr ""
 
-#: src/common.cpp:718
+#: src/common.cpp:720
 msgid "(short)|Checking files"
 msgstr ""
 
-#: src/common.cpp:722
+#: src/common.cpp:724
 msgid "Waiting for metadata download (short)|Metadata down wait"
 msgstr ""
 
-#: src/common.cpp:726
+#: src/common.cpp:728
 msgid "Downloading metadata (short)|Metadata down"
 msgstr ""
 
-#: src/common.cpp:730
+#: src/common.cpp:732
 msgid "Waiting for download (short)|Download wait"
 msgstr ""
 
-#: src/common.cpp:734
+#: src/common.cpp:736
 msgid "(short)|Downloading"
 msgstr ""
 
-#: src/common.cpp:738
+#: src/common.cpp:740
 msgid "(short)|Seeding"
 msgstr ""
 
-#: src/common.cpp:742
+#: src/common.cpp:744
 msgid "(short)|Uploading"
 msgstr ""
 
-#: src/common.cpp:746
+#: src/common.cpp:748
 msgid "(short)|Unknown"
 msgstr ""
 
-#: src/common.cpp:923
+#: src/common.cpp:925
 msgid "Tracker status is not given yet|Not given yet"
 msgstr ""
 
-#: src/common.cpp:926
+#: src/common.cpp:928
 #, qt-format
 msgid "OK (%1)"
 msgstr ""
 
-#: src/common.cpp:929
+#: src/common.cpp:931
 msgid "There are no trackers has been setted for this torrent"
 msgstr ""
 

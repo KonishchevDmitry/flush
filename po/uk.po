@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: flush\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2010-04-17 08:36+0400\n"
-"PO-Revision-Date: 2009-12-26 11:30+0000\n"
+"POT-Creation-Date: 2010-04-25 18:16+0400\n"
+"PO-Revision-Date: 2010-03-26 12:45+0000\n"
 "Last-Translator: StarWolf <Unknown>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-24 14:32+0000\n"
+"X-Launchpad-Export-Date: 2010-04-25 14:00+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: mlib/mlib/misc.cpp:95 mlib/mlib/misc.cpp:157
@@ -34,7 +34,7 @@ msgstr "Неможливо встановити триггери для кана
 #: mlib/mlib/misc.cpp:243 mlib/mlib/misc.cpp:246
 #, qt-format
 msgid "Error while closing a pipe: %1."
-msgstr "Помилка під час закривання каналу: %1."
+msgstr "ПОмилка під час закривання каналу: %1."
 
 #: mlib/mlib/misc.cpp:274
 #, qt-format
@@ -49,7 +49,7 @@ msgstr "Неможливо записати до каналу: %1."
 #: mlib/mlib/misc.cpp:372
 #, qt-format
 msgid "Can't get max opened files limit: %1."
-msgstr ""
+msgstr "Неможливо дізнатись максимальне число відкритих файлів: %1."
 
 #: mlib/mlib/misc.cpp:390
 #, qt-format
@@ -64,7 +64,7 @@ msgstr "Авторські права (C) %1 %2."
 #: mlib/mlib/misc.cpp:403
 #, qt-format
 msgid "Realloc failed: %1."
-msgstr ""
+msgstr "Проблема перевиділення пам'яті: %1."
 
 #: mlib/mlib/misc.cpp:447
 #, qt-format
@@ -82,9 +82,9 @@ msgid "Error while using epoll instance: %1."
 msgstr ""
 
 #: mlib/mlib/misc.cpp:540
-#, fuzzy, qt-format
+#, qt-format
 msgid "Can't read data from a file descriptor: %1."
-msgstr "Неможливо прочитати з каналу: %1."
+msgstr "Неможливо прочитати дані з дескриптора файлуr: %1."
 
 #: mlib/mlib/fs_watcher.cpp:163
 #, qt-format
@@ -94,7 +94,7 @@ msgstr "Помилка під час закривання об’єкту inotif
 #: mlib/mlib/fs_watcher.cpp:226
 #, qt-format
 msgid "Can't create an inotify instance: %1."
-msgstr "Неможливо створити об’єкт inotify: %1."
+msgstr "НЕможливо створити об’єкт inotify: %1."
 
 #: mlib/mlib/fs_watcher.cpp:359
 msgid "Program has been compiled without inotify support."
@@ -103,12 +103,12 @@ msgstr "Програма відкомпільована без підтримк�
 #: mlib/mlib/fs_watcher.cpp:378
 #, qt-format
 msgid "Error while removing an inotify watch instance: %1."
-msgstr ""
+msgstr "Помилка під час видалення об'єкту спостерігання inotify: %1."
 
 #: mlib/mlib/fs_watcher.cpp:425
 #, qt-format
 msgid "Can't read data from inotify descriptor: %1."
-msgstr ""
+msgstr "Неможливо прочитати дані з дескриптору inotify: %1."
 
 #: mlib/mlib/libconfig.cpp:41
 #, qt-format
@@ -117,23 +117,23 @@ msgstr "%1 в рядку %2"
 
 #: mlib/mlib/sqlite.cpp:137
 msgid "unknown error"
-msgstr ""
+msgstr "невідома помилка"
 
 #: mlib/mlib/sqlite.cpp:219 mlib/mlib/sqlite.cpp:260
 msgid "Database is not opened yet."
-msgstr ""
+msgstr "Ще не відкрито базу даних."
 
 #: mlib/mlib/sqlite.cpp:272
 msgid "Database is already opened."
-msgstr ""
+msgstr "Базу даних вже відкрито."
 
 #: mlib/mlib/sqlite.cpp:369
 msgid "Query is already finalized."
-msgstr ""
+msgstr "Запит вже завершено."
 
 #: mlib/mlib/sqlite.cpp:450
 msgid "Operation on finalized query."
-msgstr ""
+msgstr "Операція при завершеному запиту."
 
 #: mlib/mlib/async_fs.cpp:245
 msgid ""
@@ -157,7 +157,7 @@ msgstr "Неможливо прочитати віджет '%1' із glade-фа�
 #: mlib/mlib/gtk/toolbar.cpp:103
 #, qt-format
 msgid "Invalid toolbar style name '%1'."
-msgstr "Неправильна назва стилю панелі інструментів '%1'."
+msgstr "НЕправильна назва стилю панелі інструментів '%1'."
 
 #: mlib/mlib/gtk/tree_view.hh:188
 #, qt-format
@@ -165,18 +165,17 @@ msgid "No such column: '%1'."
 msgstr "Немає такого стовпця: '%1'."
 
 #: mlib/mlib/libtorrent.cpp:94
-#, fuzzy
 msgid "Invalid magnet URI."
-msgstr "Невірна адреса URL трекера"
+msgstr "Неправильна адреса magnet."
 
 #: mlib/mlib/libtorrent.cpp:119
 msgid "there is no 'xt=urn:btih:' field in it"
 msgstr ""
 
 #: mlib/mlib/libtorrent.cpp:182
-#, fuzzy, qt-format
+#, qt-format
 msgid "Invalid magnet URI: %1."
-msgstr "Невірна адреса URL трекера"
+msgstr ""
 
 #: mlib/mlib/libtorrent.cpp:220
 #, qt-format
@@ -240,7 +239,7 @@ msgstr "[[Invalid encoding]]"
 #: mlib/mlib/sys.cpp:130 mlib/mlib/sys.cpp:140
 #, qt-format
 msgid "Can't duplicate a file descriptor: %1."
-msgstr ""
+msgstr "Неможливо скопіювати дескриптор файлу: %1."
 
 #: mlib/mlib/sys.cpp:211
 #, qt-format
@@ -249,7 +248,7 @@ msgstr ""
 
 #: mlib/mlib/sys.cpp:298
 msgid "too big link target path"
-msgstr ""
+msgstr "занадто великий шлях посилання"
 
 #: mlib/mlib/string.cpp:60
 msgid "0m"
@@ -257,11 +256,11 @@ msgstr "0хв"
 
 #: mlib/mlib/string.cpp:77 mlib/mlib/string.cpp:118
 msgid "M"
-msgstr ""
+msgstr "м"
 
 #: mlib/mlib/string.cpp:80 mlib/mlib/string.cpp:121 mlib/mlib/string.cpp:130
 msgid "d"
-msgstr ""
+msgstr "д"
 
 #: mlib/mlib/string.cpp:83 mlib/mlib/string.cpp:133 mlib/mlib/string.cpp:141
 msgid "h"
@@ -364,7 +363,7 @@ msgstr "Неправильний шлях до файлу '%1' - файл '%2' �
 #: mlib/mlib/fs.cpp:356 mlib/mlib/fs.cpp:771 mlib/mlib/fs.cpp:781
 #, qt-format
 msgid "Can't stat '%1': %2."
-msgstr "Неможливо зібрати статистику '%1': %2."
+msgstr "НЕможливо зібрати статистику '%1': %2."
 
 #: mlib/mlib/fs.cpp:370
 #, qt-format
@@ -457,7 +456,7 @@ msgstr "Виберіть каталог для завантаження торр
 
 #: src/settings_window.cpp:259
 msgid "Please select directory for finished downloads copying"
-msgstr ""
+msgstr "Виберіть каталог для збереження завершених завантажень."
 
 #: src/settings_window.cpp:299 src/settings_window.cpp:395
 #: src/torrent_peers_view.cpp:88 src/torrent_peers_view.cpp:99
@@ -503,11 +502,11 @@ msgstr "Клієнт::Основне"
 
 #: src/settings_window.cpp:446
 msgid "Show add torrent dialog when opening torrent file"
-msgstr ""
+msgstr "При відкритті торрент-файлу показувати діалог додавання торренту."
 
 #: src/settings_window.cpp:451
 msgid "Start torrent on adding"
-msgstr ""
+msgstr "Відразу завантажувати торрент при додаванні."
 
 #: src/settings_window.cpp:461 ui/preferences.daemon.automation.glade:119
 msgid "Download to:"
@@ -515,7 +514,7 @@ msgstr "Завантажити до:"
 
 #: src/settings_window.cpp:469 ui/preferences.daemon.automation.glade:140
 msgid "Copy finished to:"
-msgstr ""
+msgstr "Копіювати завершені торренти до:"
 
 #: src/settings_window.cpp:484
 msgid "Open command:"
@@ -540,11 +539,11 @@ msgstr "Ви дійсно бажаєте очистити статистику?"
 
 #: src/statistics_window.cpp:159
 msgid "Session start time"
-msgstr ""
+msgstr "Час початку сесії"
 
 #: src/statistics_window.cpp:160
 msgid "Statistics start time"
-msgstr ""
+msgstr "Час початку збору статистики"
 
 #: src/statistics_window.cpp:162 src/main_window.cpp:1537
 #: ui/preferences.client.gui.status_bar.glade:108
@@ -557,7 +556,7 @@ msgstr ""
 
 #: src/statistics_window.cpp:164 src/torrents_view.cpp:370
 msgid "Total download"
-msgstr ""
+msgstr "Загальне завантаження"
 
 #: src/statistics_window.cpp:165
 msgid "Total payload download"
@@ -570,7 +569,7 @@ msgstr "Роздано"
 
 #: src/statistics_window.cpp:168
 msgid "Payload upload"
-msgstr ""
+msgstr "Вивантаження"
 
 #: src/statistics_window.cpp:169 src/torrents_view.cpp:372
 msgid "Total upload"
@@ -587,7 +586,7 @@ msgstr "Рейтинг роздач"
 
 #: src/statistics_window.cpp:173
 msgid "Total share ratio"
-msgstr ""
+msgstr "Загальний рейтинг"
 
 #: src/statistics_window.cpp:175 src/main_window.cpp:1552
 #: ui/preferences.client.gui.status_bar.glade:149
@@ -596,7 +595,7 @@ msgstr "Невдача"
 
 #: src/statistics_window.cpp:176 src/torrents_view.cpp:374
 msgid "Total failed"
-msgstr ""
+msgstr "Загальна кількість помилок"
 
 #: src/statistics_window.cpp:177 src/main_window.cpp:1555
 #: ui/preferences.client.gui.status_bar.glade:190
@@ -609,7 +608,7 @@ msgstr ""
 
 #: src/statistics_window.cpp:187
 msgid "Reset"
-msgstr ""
+msgstr "Скинути"
 
 #: src/torrents_viewport.cpp:228
 msgid "Details"
@@ -635,7 +634,7 @@ msgstr "Журнал"
 #: src/daemon_settings.cpp:45
 #, qt-format
 msgid "Daemon config: Bad option '%1' type at line %2."
-msgstr ""
+msgstr "Конфігурація демона: Неправильна опція '%1' типу в рядку %2."
 
 #: src/daemon_settings.cpp:74
 #, qt-format
@@ -709,7 +708,7 @@ msgstr ""
 #: src/daemon_settings.cpp:1409
 #, qt-format
 msgid "Daemon config: %1"
-msgstr ""
+msgstr "Конфігурація демона: %1"
 
 #: src/daemon_settings.cpp:1517
 #, qt-format
@@ -772,7 +771,7 @@ msgstr "IP"
 
 #: src/torrent_peers_view.cpp:89 src/torrents_view.cpp:340
 msgid "Download speed|Down speed"
-msgstr ""
+msgstr "Швидкість завантаження"
 
 #: src/torrent_peers_view.cpp:90 src/torrents_view.cpp:341
 msgid "Download speed (payload)|Down speed (data)"
@@ -800,7 +799,7 @@ msgstr "Наявність"
 
 #: src/torrent_peers_view.cpp:96 src/torrent_peers_view.cpp:113
 msgid "Hash fails"
-msgstr ""
+msgstr "Неправильний хеш"
 
 #: src/torrent_peers_view.cpp:98
 msgid "IP address"
@@ -844,11 +843,11 @@ msgstr "Встановити ліміт швидкості роздачі"
 
 #: src/main_window.cpp:277
 msgid "Getting current rate limit failed"
-msgstr ""
+msgstr "Не вдалося отримати ліміт поточного рейтингу"
 
 #: src/main_window.cpp:289
 msgid "Setting current rate limit failed"
-msgstr ""
+msgstr "Не вдалось встановити ліміт поточного рейтингу"
 
 #: src/main_window.cpp:331
 msgid "_File"
@@ -859,13 +858,12 @@ msgid "_Create"
 msgstr "_Створити"
 
 #: src/main_window.cpp:337
-#, fuzzy
 msgid "_Open a torrent"
-msgstr "Відкрити торрент"
+msgstr "_Відкрити торрент"
 
 #: src/main_window.cpp:341
 msgid "_Open a magnet link"
-msgstr ""
+msgstr "_Відкрити magnet-адресу"
 
 #: src/main_window.cpp:345
 msgid "_Quit"
@@ -917,7 +915,7 @@ msgstr "_Піктограми та текст"
 
 #: src/main_window.cpp:424
 msgid "Both _horizontal"
-msgstr ""
+msgstr "Обидві _горизонтально"
 
 #: src/main_window.cpp:441
 msgid "_Categories"
@@ -929,7 +927,7 @@ msgstr "Показувати _назви"
 
 #: src/main_window.cpp:464
 msgid "Show _counters"
-msgstr ""
+msgstr "Показувати _лічильники"
 
 #: src/main_window.cpp:476
 msgid "_Torrents"
@@ -964,7 +962,7 @@ msgstr ""
 
 #: src/main_window.cpp:556
 msgid "P_ause temporary"
-msgstr ""
+msgstr "Тим_часово зупинити"
 
 #: src/main_window.cpp:582
 msgid "C_omplete pending temporary action"
@@ -1008,11 +1006,11 @@ msgstr "Відкрити торрент"
 
 #: src/main_window.cpp:800
 msgid "Magnet link"
-msgstr ""
+msgstr "Magnet-адреса"
 
 #: src/main_window.cpp:801 ui/dialog.open_magnet_link.glade:7
 msgid "Open a magnet link"
-msgstr ""
+msgstr "Відкрити magnet-адресу"
 
 #: src/main_window.cpp:815 src/torrents_view.cpp:455
 msgid "Resume"
@@ -1020,7 +1018,7 @@ msgstr "Продовжити"
 
 #: src/main_window.cpp:816
 msgid "Resume torrent(s)"
-msgstr ""
+msgstr "ПРодовжити торрент(и)"
 
 #: src/main_window.cpp:827 src/torrents_view.cpp:461
 msgid "Pause"
@@ -1028,7 +1026,7 @@ msgstr "Пауза"
 
 #: src/main_window.cpp:828
 msgid "Pause torrent(s)"
-msgstr ""
+msgstr "Призупинити торрент(и)"
 
 #: src/main_window.cpp:839 src/torrents_view.cpp:474 src/torrents_view.cpp:766
 msgid "Remove"
@@ -1036,7 +1034,7 @@ msgstr "Видалити"
 
 #: src/main_window.cpp:840
 msgid "Remove torrent(s)"
-msgstr ""
+msgstr "Видалити торрент(и)"
 
 #: src/main_window.cpp:1023
 msgid "Interrupting the temporary action on torrents failed"
@@ -1044,12 +1042,12 @@ msgstr ""
 
 #: src/main_window.cpp:1053 src/main_window.cpp:1067
 msgid "Pausing torrents failed"
-msgstr ""
+msgstr "Не вдалось призупинити торренти"
 
 #: src/main_window.cpp:1088 src/main_window.cpp:1099
 #: src/client_cmd_options.cpp:196
 msgid "Dmitry Konishchev"
-msgstr ""
+msgstr "Dmitry Konishchev"
 
 #: src/main_window.cpp:1097
 msgid "GTK-based BitTorrent client"
@@ -1057,7 +1055,7 @@ msgstr "BitTorrent-клієнт, написаний з використання�
 
 #: src/main_window.cpp:1231
 msgid "Processing the temporary action on torrents failed"
-msgstr ""
+msgstr "Невдале виконання тимчасових дій на торрентах"
 
 #: src/main_window.cpp:1335 src/add_torrent_dialog.cpp:281
 msgid "Opening torrent failed"
@@ -1191,7 +1189,7 @@ msgstr "Часу залишилось"
 
 #: src/torrents_view.cpp:389
 msgid "Time seeding"
-msgstr ""
+msgstr "Час роздачі"
 
 #: src/torrents_view.cpp:450
 msgid "Open directory"
@@ -1269,44 +1267,40 @@ msgid "Resuming torrent(s) failed. %1"
 msgstr ""
 
 #: src/daemon_types.cpp:218
-#, fuzzy, qt-format
+#, qt-format
 msgid "Unable to parse torrent '%1' magnet URI. %2"
-msgstr "Неможливо зупинити торрент '%1'. %2"
+msgstr ""
 
 #: src/daemon_types.cpp:232
-#, fuzzy
 msgid "Libtorrent internal error."
-msgstr "Торренти з помилками трекерів"
+msgstr ""
 
 #: src/daemon_types.cpp:256
-#, fuzzy, qt-format
+#, qt-format
 msgid "Can't save torrent file '%1': %2."
-msgstr "Неможливо видалити файл '%1': %2."
+msgstr ""
 
 #: src/daemon_types.cpp:266
-#, fuzzy
 msgid "Unable to save torrent's metadata"
-msgstr "неправильні дані торренту"
+msgstr ""
 
 #: src/daemon_types.cpp:267
-#, fuzzy, qt-format
+#, qt-format
 msgid "Saving torrent's '%1' downloaded metadata failed. %2"
-msgstr "Невдале відкриття торренту '%1'. %2"
+msgstr ""
 
 #: src/open_magnet_dialog.cpp:113 src/open_magnet_dialog.cpp:119
-#, fuzzy
 msgid "Invalid magnet URI"
-msgstr "Невірна адреса URL трекера"
+msgstr ""
 
 #: src/open_magnet_dialog.cpp:114
-#, fuzzy
 msgid "Please enter a magnet URI."
-msgstr "Неможливо зупинити торрент '%1'. %2"
+msgstr ""
 
 #: src/open_magnet_dialog.cpp:120
-#, fuzzy, qt-format
+#, qt-format
 msgid "'%1' is not a magnet URI."
-msgstr "Невірна адреса URL трекера"
+msgstr ""
 
 #: src/client_settings.cpp:41
 #, qt-format
@@ -1417,9 +1411,8 @@ msgid "Automatic torrents cleaning failed"
 msgstr ""
 
 #: src/daemon_session.cpp:1179
-#, fuzzy
 msgid "All torrents downloaded."
-msgstr "Всі торренти"
+msgstr ""
 
 #: src/daemon_session.cpp:1229
 msgid "Copying finished torrent's files failed"
@@ -1447,9 +1440,8 @@ msgid "Invalid torrent '%1' files' settings. Rejecting them..."
 msgstr ""
 
 #: src/daemon_session.cpp:1668
-#, fuzzy
 msgid "Torrent added with errors"
-msgstr "Торренти з помилками трекерів"
+msgstr ""
 
 #: src/daemon_session.cpp:1669
 #, qt-format
@@ -1625,102 +1617,102 @@ msgstr ""
 "Ви ввели неправильну назву для торренту. Будь ласка, введіть непорожню назву "
 "для торрента."
 
-#: src/common.cpp:79
+#: src/common.cpp:81
 #, qt-format
 msgid "invalid auto clean action type '%1'"
 msgstr ""
 
-#: src/common.cpp:268
+#: src/common.cpp:270
 #, qt-format
 msgid "invalid IP address '%1'"
 msgstr "направильна IP-адреса '%1'"
 
-#: src/common.cpp:272
+#: src/common.cpp:274
 #, qt-format
 msgid "invalid IP range %1-%2"
 msgstr "неправильний діапазон IP-адрес %1-%2"
 
-#: src/common.cpp:318
-#, fuzzy, qt-format
+#: src/common.cpp:320
+#, qt-format
 msgid "%1 - Download completed"
-msgstr "Швидкість завантаження"
+msgstr ""
 
-#: src/common.cpp:322
+#: src/common.cpp:324
 #, qt-format
 msgid "%1 - All downloads completed"
 msgstr ""
 
-#: src/common.cpp:407
+#: src/common.cpp:409
 msgid "normal"
 msgstr "звичайний"
 
-#: src/common.cpp:411
+#: src/common.cpp:413
 msgid "high"
 msgstr "високий"
 
-#: src/common.cpp:447
+#: src/common.cpp:449
 #, qt-format
 msgid "Invalid file priority name: '%1'."
 msgstr "неправильна назва пріоритету файлу: '%1'."
 
-#: src/common.cpp:566
+#: src/common.cpp:568
 msgid "[Invalid encoding]"
 msgstr "[Invalid encoding]"
 
-#: src/common.cpp:699 src/common.cpp:702 src/common.cpp:756
+#: src/common.cpp:701 src/common.cpp:704 src/common.cpp:758
 msgid "(short)|Paused"
 msgstr "Призупинено"
 
-#: src/common.cpp:710
+#: src/common.cpp:712
 msgid "(short)|Allocating"
 msgstr ""
 
-#: src/common.cpp:714
+#: src/common.cpp:716
 msgid "(short)|Queued for checking"
 msgstr "Запит на перевірку"
 
-#: src/common.cpp:718
+#: src/common.cpp:720
 msgid "(short)|Checking files"
 msgstr "Перевірка файлів"
 
-#: src/common.cpp:722
+#: src/common.cpp:724
 msgid "Waiting for metadata download (short)|Metadata down wait"
 msgstr "Очікування зав. метаданих"
 
-#: src/common.cpp:726
+#: src/common.cpp:728
 msgid "Downloading metadata (short)|Metadata down"
 msgstr "Завантаження метаданих"
 
-#: src/common.cpp:730
+#: src/common.cpp:732
 msgid "Waiting for download (short)|Download wait"
 msgstr "Очікування на завантаження"
 
-#: src/common.cpp:734
+#: src/common.cpp:736
 msgid "(short)|Downloading"
 msgstr "Завантаження"
 
-#: src/common.cpp:738
+#: src/common.cpp:740
 msgid "(short)|Seeding"
 msgstr "Роздача"
 
-#: src/common.cpp:742
+#: src/common.cpp:744
 msgid "(short)|Uploading"
 msgstr "Вивантаження"
 
-#: src/common.cpp:746
+#: src/common.cpp:748
 msgid "(short)|Unknown"
 msgstr "Невідомо"
 
-#: src/common.cpp:923
+#: src/common.cpp:925
 msgid "Tracker status is not given yet|Not given yet"
 msgstr ""
 
-#: src/common.cpp:926
+#: src/common.cpp:928
 #, qt-format
 msgid "OK (%1)"
 msgstr "OK (%1)"
 
-#: src/common.cpp:929
+#: src/common.cpp:931
 msgid "There are no trackers has been setted for this torrent"
 msgstr ""
 

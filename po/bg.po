@@ -1,198 +1,202 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Dmitry Konishchev
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
+# Bulgarian translation for Flush
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: flush 0.9.4\n"
+"Project-Id-Version: flush-0.9.2-bundle\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
 "POT-Creation-Date: 2010-04-25 18:16+0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Georgi Dobrev <gdd71@mail.bg>\n"
+"Language-Team: Georgi Dobrev <gdd71@abv.bg>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Bulgarian\n"
+"X-Poedit-Country: BULGARIA\n"
 
 #: mlib/mlib/misc.cpp:95 mlib/mlib/misc.cpp:157
 msgid "Buffer positioning error."
-msgstr ""
+msgstr "Грешка при позициониране на буфера."
 
 #: mlib/mlib/misc.cpp:226 mlib/mlib/sys.cpp:283
 #, qt-format
 msgid "Can't create a pipe: %1."
-msgstr ""
+msgstr "Неуспех при създаване на pipe: %1."
 
 #: mlib/mlib/misc.cpp:235
 #, qt-format
 msgid "Can't set flags for a pipe: %1."
-msgstr ""
+msgstr "Неуспех при задаване на флагове за pipe'а: %1."
 
 #: mlib/mlib/misc.cpp:243 mlib/mlib/misc.cpp:246
 #, qt-format
 msgid "Error while closing a pipe: %1."
-msgstr ""
+msgstr "Грешка при затваряне на pipe'а: %1."
 
 #: mlib/mlib/misc.cpp:274
 #, qt-format
 msgid "Can't read from a pipe: %1."
-msgstr ""
+msgstr "Неуспех при четене на данни в pipe'а: %1."
 
 #: mlib/mlib/misc.cpp:306
 #, qt-format
 msgid "Can't write to a pipe: %1."
-msgstr ""
+msgstr "Неуспех при запис на данни в pipe: %1."
 
 #: mlib/mlib/misc.cpp:372
 #, qt-format
 msgid "Can't get max opened files limit: %1."
 msgstr ""
+"Не може да се получи стойност на ограниченията за максималния брой "
+"едновременно отворени файлове: %1."
 
 #: mlib/mlib/misc.cpp:390
 #, qt-format
 msgid "Copyright (C) %1-%2 %3."
-msgstr ""
+msgstr "Copyright (C) %1-%2 %3."
 
 #: mlib/mlib/misc.cpp:393
 #, qt-format
 msgid "Copyright (C) %1 %2."
-msgstr ""
+msgstr "Copyright (C) %1 %2."
 
 #: mlib/mlib/misc.cpp:403
 #, qt-format
 msgid "Realloc failed: %1."
-msgstr ""
+msgstr "Грешка realloc: %1."
 
 #: mlib/mlib/misc.cpp:447
 #, qt-format
 msgid "Running command '%1' failed: %2."
-msgstr ""
+msgstr "Текущата команда '%1' се провали: %2."
 
 #: mlib/mlib/misc.cpp:479
 #, qt-format
 msgid "Error while creating epoll instance: %1."
-msgstr ""
+msgstr "Грешка при създаване на инстанция epoll: %1."
 
 #: mlib/mlib/misc.cpp:498
 #, qt-format
 msgid "Error while using epoll instance: %1."
-msgstr ""
+msgstr "Грешка при използване на инстанция epoll: %1."
 
 #: mlib/mlib/misc.cpp:540
 #, qt-format
 msgid "Can't read data from a file descriptor: %1."
-msgstr ""
+msgstr "Неуспех при четене на данните от файловия дескриптор: %1."
 
 #: mlib/mlib/fs_watcher.cpp:163
 #, qt-format
 msgid "Error while closing an inotify instance: %1."
-msgstr ""
+msgstr "Грешка при затваряне на инстанция inotify: %1."
 
 #: mlib/mlib/fs_watcher.cpp:226
 #, qt-format
 msgid "Can't create an inotify instance: %1."
-msgstr ""
+msgstr "Неуспех при създаване на инстанция inotify: %1."
 
 #: mlib/mlib/fs_watcher.cpp:359
 msgid "Program has been compiled without inotify support."
-msgstr ""
+msgstr "Програмата е била компилирана без подръжка на inotify."
 
 #: mlib/mlib/fs_watcher.cpp:378
 #, qt-format
 msgid "Error while removing an inotify watch instance: %1."
-msgstr ""
+msgstr "Грешка при премахване на инстанция inotify watch: %1."
 
 #: mlib/mlib/fs_watcher.cpp:425
 #, qt-format
 msgid "Can't read data from inotify descriptor: %1."
-msgstr ""
+msgstr "Неуспех при четене на данните от дескриптора inotify: %1."
 
 #: mlib/mlib/libconfig.cpp:41
 #, qt-format
 msgid "%1 at line %2"
-msgstr ""
+msgstr "%1 в ред %2"
 
 #: mlib/mlib/sqlite.cpp:137
 msgid "unknown error"
-msgstr ""
+msgstr "неизвестна грешка."
 
 #: mlib/mlib/sqlite.cpp:219 mlib/mlib/sqlite.cpp:260
 msgid "Database is not opened yet."
-msgstr ""
+msgstr "Базата с данни още не е отворена."
 
 #: mlib/mlib/sqlite.cpp:272
 msgid "Database is already opened."
-msgstr ""
+msgstr "Базата с данни вече е отворена."
 
 #: mlib/mlib/sqlite.cpp:369
 msgid "Query is already finalized."
-msgstr ""
+msgstr "Обекта на запитване към БД вече е унищожен."
 
 #: mlib/mlib/sqlite.cpp:450
 msgid "Operation on finalized query."
-msgstr ""
+msgstr "Опит да се изпълни запитване чрез вече унищожен обект."
 
 #: mlib/mlib/async_fs.cpp:245
-msgid "Asynchronous filesystem finished it's work, but not all tasks are processed."
+msgid ""
+"Asynchronous filesystem finished it's work, but not all tasks are processed."
 msgstr ""
+"Асинхронната файлова система завърши своята работа, но не всички задачи са "
+"обработени."
 
 #: mlib/mlib/gtk/misc.cpp:125 src/main.cpp:432
 msgid "Information"
-msgstr ""
+msgstr "Информация"
 
 #: mlib/mlib/gtk/misc.cpp:131 src/main.cpp:426
 msgid "Warning"
-msgstr ""
+msgstr "Предупреждение"
 
 #: mlib/mlib/gtk/builder.hh:42
 #, qt-format
 msgid "Can't get widget '%1' from glade file '%2'."
-msgstr ""
+msgstr "Неуспех при получаване на джаджа '%1' от *.glade файла '%2'."
 
 #: mlib/mlib/gtk/toolbar.cpp:103
 #, qt-format
 msgid "Invalid toolbar style name '%1'."
-msgstr ""
+msgstr "Невалидно име за стила на панела с инструменти: '%1'."
 
 #: mlib/mlib/gtk/tree_view.hh:188
 #, qt-format
 msgid "No such column: '%1'."
-msgstr ""
+msgstr "Няма такава колона: '%1'."
 
 #: mlib/mlib/libtorrent.cpp:94
 msgid "Invalid magnet URI."
-msgstr ""
+msgstr "Невалиден адрес на magnet-връзка."
 
 #: mlib/mlib/libtorrent.cpp:119
 msgid "there is no 'xt=urn:btih:' field in it"
-msgstr ""
+msgstr "тя не съдържа в себе си област 'xt=urn:btih:'"
 
 #: mlib/mlib/libtorrent.cpp:182
 #, qt-format
 msgid "Invalid magnet URI: %1."
-msgstr ""
+msgstr "Невалиден адрес на magnet-връзка: %1."
 
 #: mlib/mlib/libtorrent.cpp:220
 #, qt-format
 msgid "Invalid torrent file path '%1'."
-msgstr ""
+msgstr "Невалиден път към файла на торента: '%1'."
 
 #: mlib/mlib/libtorrent.cpp:495
 msgid "invalid torrent file"
-msgstr ""
+msgstr "торент-файла има невалидна структура"
 
 #: mlib/mlib/libtorrent.cpp:519 src/daemon_session.cpp:519
 #: src/daemon_session.cpp:534 src/daemon_session.cpp:1610
 #: src/daemon_session.cpp:1627
 #, qt-format
 msgid "Error while reading torrent file '%1': %2."
-msgstr ""
+msgstr "Грешка при четене на торент файла '%1': %2."
 
 #: mlib/mlib/libtorrent.cpp:583
 msgid "bad torrent data"
-msgstr ""
+msgstr "лоши торент данни"
 
 #: mlib/mlib/libtorrent.cpp:591
 #, qt-format
@@ -201,24 +205,24 @@ msgstr ""
 
 #: mlib/mlib/libtorrent.cpp:596
 msgid "torrent is already exists in this session"
-msgstr ""
+msgstr "торента вече съществува в текущата сесия"
 
 #: mlib/mlib/libtorrent.cpp:603
 msgid "this is not a torrent file"
-msgstr ""
+msgstr "това не е торент файл"
 
 #: mlib/mlib/base/exception.cpp:94
 #, qt-format
 msgid "Exception: '%1'."
-msgstr ""
+msgstr "Исключение: '%1'."
 
 #: mlib/mlib/base/messages.cpp:112
 msgid "[[gettimeofday time getting error]]"
-msgstr ""
+msgstr "[[грешка gettimeofday]]"
 
 #: mlib/mlib/base/messages.cpp:222
 msgid "Logical error"
-msgstr ""
+msgstr "Логическа грешка"
 
 #: mlib/mlib/base/format.cpp:111 mlib/mlib/base/format.cpp:125
 #: mlib/mlib/base/format.cpp:183 mlib/mlib/base/format.cpp:241
@@ -231,2432 +235,2582 @@ msgstr ""
 #: mlib/mlib/base/format.hh:237 mlib/mlib/base/format.hh:252
 #: mlib/mlib/base/format.hh:267
 msgid "[[Invalid encoding]]"
-msgstr ""
+msgstr "[[Невалидна кодировка]]"
 
 #: mlib/mlib/sys.cpp:130 mlib/mlib/sys.cpp:140
 #, qt-format
 msgid "Can't duplicate a file descriptor: %1."
-msgstr ""
+msgstr "Неуспех при създаване на копие на файловия дескриптор: %1."
 
 #: mlib/mlib/sys.cpp:211
 #, qt-format
 msgid "Can't fork the process: %1."
-msgstr ""
+msgstr "Неуспех при клониране на процес: %1."
 
 #: mlib/mlib/sys.cpp:298
 msgid "too big link target path"
-msgstr ""
+msgstr "твърде голям път на целевата връзка"
 
 #: mlib/mlib/string.cpp:60
 msgid "0m"
-msgstr ""
+msgstr "0м"
 
 #: mlib/mlib/string.cpp:77 mlib/mlib/string.cpp:118
 msgid "M"
-msgstr ""
+msgstr "М"
 
 #: mlib/mlib/string.cpp:80 mlib/mlib/string.cpp:121 mlib/mlib/string.cpp:130
 msgid "d"
-msgstr ""
+msgstr "д"
 
 #: mlib/mlib/string.cpp:83 mlib/mlib/string.cpp:133 mlib/mlib/string.cpp:141
 msgid "h"
-msgstr ""
+msgstr "ч"
 
 #: mlib/mlib/string.cpp:86 mlib/mlib/string.cpp:144 mlib/mlib/string.cpp:152
 msgid "m"
-msgstr ""
+msgstr "м"
 
 #: mlib/mlib/string.cpp:155 mlib/mlib/string.cpp:161
 msgid "s"
-msgstr ""
+msgstr "с"
 
 #: mlib/mlib/string.cpp:174
 msgid "minutes|m"
-msgstr ""
+msgstr "м"
 
 #: mlib/mlib/string.cpp:175
 msgid "seconds|s"
-msgstr ""
+msgstr "с"
 
 #: mlib/mlib/string.cpp:226
 msgid "GB"
-msgstr ""
+msgstr "ГБ"
 
 #: mlib/mlib/string.cpp:233 mlib/mlib/string.cpp:243
 #: src/create_torrent_dialog.cpp:580 src/create_torrent_dialog.cpp:584
 #: src/create_torrent_dialog.cpp:588 src/create_torrent_dialog.cpp:592
 msgid "MB"
-msgstr ""
+msgstr "МБ"
 
 #: mlib/mlib/string.cpp:250 mlib/mlib/string.cpp:260
 #: src/create_torrent_dialog.cpp:560 src/create_torrent_dialog.cpp:564
 #: src/create_torrent_dialog.cpp:568 src/create_torrent_dialog.cpp:572
 #: src/create_torrent_dialog.cpp:576
 msgid "KB"
-msgstr ""
+msgstr "КБ"
 
 #: mlib/mlib/string.cpp:267 mlib/mlib/string.cpp:274
 msgid "B"
-msgstr ""
+msgstr "Б"
 
 #: mlib/mlib/string.cpp:294
 msgid "0 KB/s"
-msgstr ""
+msgstr "0 КБ/с"
 
 #: mlib/mlib/string.cpp:307 mlib/mlib/string.cpp:309 src/main_window.cpp:255
 msgid "KB/s"
-msgstr ""
+msgstr "КБ/с"
 
 #: mlib/mlib/string.cpp:312
 msgid "B/s"
-msgstr ""
+msgstr "Б/с"
 
 #: mlib/mlib/string.cpp:315
 msgid "/s"
-msgstr ""
+msgstr "/с"
 
 #: mlib/mlib/fs.cpp:161
 #, qt-format
 msgid "Can't copy file '%1' to '%2': %3."
-msgstr ""
+msgstr "Неуспех при копиране на файл '%1' в '%2': %3."
 
 #: mlib/mlib/fs.cpp:194
 #, qt-format
-msgid "Error while changing directory '%1' access and modification times. Can't stat directory '%2': %3."
+msgid ""
+"Error while changing directory '%1' access and modification times. Can't "
+"stat directory '%2': %3."
 msgstr ""
+"При промяна на времето за последен достъп и времето за модификация на "
+"директорията '%1' се получи грешка. Неуспех при получаване на информация "
+"(stat) за директорията '%2': %3."
 
 #: mlib/mlib/fs.cpp:208
 #, qt-format
 msgid "Error while changing directory '%1' access and modification times: %2."
 msgstr ""
+"При промяна на времето за последен достъп и времето за модификация на "
+"директорията '%1' се получи грешка: %2."
 
 #: mlib/mlib/fs.cpp:223 mlib/mlib/fs.cpp:815 src/daemon_fs.cpp:43
 #, qt-format
 msgid "Can't create directory '%1': %2."
-msgstr ""
+msgstr "Неуспех при създаване на директория '%1': %2."
 
 #: mlib/mlib/fs.cpp:254
 #, qt-format
 msgid "Invalid file path '%1'."
-msgstr ""
+msgstr "Невалиден път на файла: %1."
 
 #: mlib/mlib/fs.cpp:303
 #, qt-format
 msgid "Invalid file path '%1' - file with such path is already exists."
-msgstr ""
+msgstr "Невалиден път на файла '%1': файл с такова име вече съществува."
 
 #: mlib/mlib/fs.cpp:312
 #, qt-format
 msgid "Invalid file path '%1' - file '%2' is already exits."
-msgstr ""
+msgstr "Невалиден път на файла '%1': файл '%2' вече съществува."
 
 #: mlib/mlib/fs.cpp:356 mlib/mlib/fs.cpp:771 mlib/mlib/fs.cpp:781
 #, qt-format
 msgid "Can't stat '%1': %2."
-msgstr ""
+msgstr "Неуспех при получаване на информация (stat) за '%1': %2."
 
 #: mlib/mlib/fs.cpp:370
 #, qt-format
 msgid "Can't remove file '%1': %2."
-msgstr ""
+msgstr "Неуспех при премахване на файл '%1': %2."
 
 #: mlib/mlib/fs.cpp:394
 #, qt-format
 msgid "Can't read directory '%1': %2."
-msgstr ""
+msgstr "Неуспех при четене на директория '%1': %2."
 
 #: mlib/mlib/fs.cpp:398
 #, qt-format
 msgid "Can't remove directory '%1': %2."
-msgstr ""
+msgstr "Неуспех при премахване на директория '%1': %2."
 
 #: mlib/mlib/fs.cpp:435
 msgid "parent directory is not exists"
-msgstr ""
+msgstr "директорията източник не съществува"
 
 #: mlib/mlib/fs.cpp:735
 msgid "file is already exists"
-msgstr ""
+msgstr "файла вече съществува"
 
 #: mlib/mlib/fs.cpp:752
 msgid "it is a directory"
-msgstr ""
+msgstr "това е директория"
 
 #: mlib/mlib/fs.cpp:756
 msgid "it is a special file"
-msgstr ""
+msgstr "това е специален файл"
 
 #: mlib/mlib/fs.cpp:767 mlib/mlib/fs.cpp:777
 #, qt-format
 msgid "No such file or directory ('%1')."
-msgstr ""
+msgstr "Няма такъв файл или директория ('%1')."
 
 #: mlib/mlib/fs.cpp:846
 #, qt-format
 msgid "Error while copying '%1' to '%2': %3."
-msgstr ""
+msgstr "Грешка при копирането на '%1' в '%2': %3."
 
 #: mlib/mlib/fs.cpp:852 mlib/mlib/fs.cpp:1007
 #, qt-format
 msgid "Error while reading '%1': %2."
-msgstr ""
+msgstr "Грешка при четене  '%1': %2."
 
 #: mlib/mlib/fs.cpp:888
 msgid "Can't get user home path."
-msgstr ""
+msgstr "Неуспех при получаване на път към домашния каталог на ползвателя."
 
 #: mlib/mlib/fs.cpp:928
 #, qt-format
 msgid "file '%1' is already exists"
-msgstr ""
+msgstr "файла '%1' вече съществува"
 
 #: mlib/mlib/fs.cpp:1000
 #, qt-format
 msgid "Can't delete directory '%1': %2."
-msgstr ""
+msgstr "Неуспех при създаване на директория '%1': %2."
 
 #: mlib/mlib/fs.cpp:1014
 #, qt-format
 msgid "file or directory '%1' is not exists"
-msgstr ""
+msgstr "файла или директорията '%1' не существува"
 
 #: mlib/mlib/fs.cpp:1018
 #, qt-format
 msgid "Can't delete file '%1': %2."
-msgstr ""
+msgstr "Неуспех при изтриване на файл '%1': %2."
 
 #: mlib/mlib/fs.cpp:1064
 #, qt-format
 msgid "Unable to synchronize data for file '%1' with storage device: %2."
 msgstr ""
+"Не може да се синхронизират данните за файла '%1' във файловата система: %2."
 
 #: src/settings_window.cpp:235 src/settings_window.cpp:237
 #: src/torrents_view.cpp:325 src/torrents_view.cpp:358
 #: src/torrent_files_view.cpp:180 src/torrent_files_view.cpp:185
 msgid "Name"
-msgstr ""
+msgstr "Име"
 
 #: src/settings_window.cpp:245 src/main_window.cpp:867 src/main_window.cpp:868
 msgid "Preferences"
-msgstr ""
+msgstr "Настройки"
 
 #: src/settings_window.cpp:253
 msgid "Please select torrents download directory"
-msgstr ""
+msgstr "Моля, изберете директория за сваляне на торента"
 
 #: src/settings_window.cpp:259
 msgid "Please select directory for finished downloads copying"
 msgstr ""
+"Моля, изберете директория, в която ще бъдат копирани файловете на торента "
+"след завършване на свалянето"
 
 #: src/settings_window.cpp:299 src/settings_window.cpp:395
 #: src/torrent_peers_view.cpp:88 src/torrent_peers_view.cpp:99
 msgid "Client"
-msgstr ""
+msgstr "Клиент"
 
 #: src/settings_window.cpp:305 src/settings_window.cpp:404
 msgid "Main"
-msgstr ""
+msgstr "Основни"
 
 #: src/settings_window.cpp:315 src/settings_window.cpp:421
 msgid "GUI"
-msgstr ""
+msgstr "GUI"
 
 #: src/settings_window.cpp:321 src/settings_window.cpp:354
 #: ui/preferences.client.gui.glade:62 ui/preferences.daemon.network.glade:62
 msgid "Misc"
-msgstr ""
+msgstr "Разни"
 
 #: src/settings_window.cpp:327 ui/preferences.client.gui.glade:78
 msgid "Status bar"
-msgstr ""
+msgstr "Статус бар"
 
 #: src/settings_window.cpp:338 src/settings_window.cpp:605
 msgid "Daemon"
-msgstr ""
+msgstr "Демон"
 
 #: src/settings_window.cpp:348 src/settings_window.cpp:614
 msgid "Network"
-msgstr ""
+msgstr "Мрежа"
 
 #: src/settings_window.cpp:360 ui/preferences.daemon.network.glade:78
 msgid "IP filter"
-msgstr ""
+msgstr "IP-филтър"
 
 #: src/settings_window.cpp:368 src/settings_window.cpp:631
 msgid "Automation"
-msgstr ""
+msgstr "Автоматизация"
 
 #: src/settings_window.cpp:443
 msgid "Client::Main"
-msgstr ""
+msgstr "Клиент::Основни"
 
 #: src/settings_window.cpp:446
 msgid "Show add torrent dialog when opening torrent file"
 msgstr ""
+"Показване на прозорец за добавяне на торент при отваряне на *.torrent файл"
 
 #: src/settings_window.cpp:451
 msgid "Start torrent on adding"
-msgstr ""
+msgstr "Стартиране на торента при добавяне"
 
 #: src/settings_window.cpp:461 ui/preferences.daemon.automation.glade:119
 msgid "Download to:"
-msgstr ""
+msgstr "Сваляне в:"
 
 #: src/settings_window.cpp:469 ui/preferences.daemon.automation.glade:140
 msgid "Copy finished to:"
-msgstr ""
+msgstr "След завършване копиране в:"
 
 #: src/settings_window.cpp:484
 msgid "Open command:"
-msgstr ""
+msgstr "Команда за преглед на файлове:"
 
 #: src/settings_window.cpp:972
 msgid "none"
-msgstr ""
+msgstr "не"
 
 #: src/statistics_window.cpp:52 src/statistics_window.cpp:138
 #: src/main_window.cpp:857 src/main_window.cpp:859
 msgid "Statistics"
-msgstr ""
+msgstr "Статистика"
 
 #: src/statistics_window.cpp:121
 msgid "Reset statistics?"
-msgstr ""
+msgstr "Зануляване на статистиката?"
 
 #: src/statistics_window.cpp:121
 msgid "Are you sure want to reset statistics?"
-msgstr ""
+msgstr "Сигурни ли сте, че искате да занулите статистиката?"
 
 #: src/statistics_window.cpp:159
 msgid "Session start time"
-msgstr ""
+msgstr "Начало на сесията"
 
 #: src/statistics_window.cpp:160
 msgid "Statistics start time"
-msgstr ""
+msgstr "Начало на статистиката"
 
 #: src/statistics_window.cpp:162 src/main_window.cpp:1537
 #: ui/preferences.client.gui.status_bar.glade:108
 msgid "Downloaded"
-msgstr ""
+msgstr "Свалени"
 
 #: src/statistics_window.cpp:163
 msgid "Payload download"
-msgstr ""
+msgstr "Свалени данни"
 
 #: src/statistics_window.cpp:164 src/torrents_view.cpp:370
 msgid "Total download"
-msgstr ""
+msgstr "Общо свалени"
 
 #: src/statistics_window.cpp:165
 msgid "Total payload download"
-msgstr ""
+msgstr "Общо свалени данни"
 
 #: src/statistics_window.cpp:167 src/main_window.cpp:1543
 #: ui/preferences.client.gui.status_bar.glade:136
 msgid "Uploaded"
-msgstr ""
+msgstr "Качени"
 
 #: src/statistics_window.cpp:168
 msgid "Payload upload"
-msgstr ""
+msgstr "Качени данни"
 
 #: src/statistics_window.cpp:169 src/torrents_view.cpp:372
 msgid "Total upload"
-msgstr ""
+msgstr "Общо качени"
 
 #: src/statistics_window.cpp:170
 msgid "Total payload upload"
-msgstr ""
+msgstr "Общо качени данни"
 
 #: src/statistics_window.cpp:172 src/main_window.cpp:1549
 #: src/torrents_view.cpp:382 ui/preferences.client.gui.status_bar.glade:162
 msgid "Share ratio"
-msgstr ""
+msgstr "Рейтинг"
 
 #: src/statistics_window.cpp:173
 msgid "Total share ratio"
-msgstr ""
+msgstr "Общ рейтинг"
 
 #: src/statistics_window.cpp:175 src/main_window.cpp:1552
 #: ui/preferences.client.gui.status_bar.glade:149
 msgid "Failed"
-msgstr ""
+msgstr "Грешки"
 
 #: src/statistics_window.cpp:176 src/torrents_view.cpp:374
 msgid "Total failed"
-msgstr ""
+msgstr "Общо грешки"
 
 #: src/statistics_window.cpp:177 src/main_window.cpp:1555
 #: ui/preferences.client.gui.status_bar.glade:190
 msgid "Redundant"
-msgstr ""
+msgstr "Излишни данни"
 
 #: src/statistics_window.cpp:178 src/torrents_view.cpp:375
 msgid "Total redundant"
-msgstr ""
+msgstr "Общо излишни данни"
 
 #: src/statistics_window.cpp:187
 msgid "Reset"
-msgstr ""
+msgstr "Нулиране"
 
 #: src/torrents_viewport.cpp:228
 msgid "Details"
-msgstr ""
+msgstr "Детайли"
 
 #: src/torrents_viewport.cpp:245
 msgid "Files"
-msgstr ""
+msgstr "Файлове"
 
 #: src/torrents_viewport.cpp:262 src/torrents_view.cpp:346
 #: src/torrents_view.cpp:384
 msgid "Peers"
-msgstr ""
+msgstr "Пиъри"
 
 #: src/torrents_viewport.cpp:278
 msgid "Options"
-msgstr ""
+msgstr "Опций"
 
 #: src/torrents_viewport.cpp:295
 msgid "Log"
-msgstr ""
+msgstr "Лог"
 
 #: src/daemon_settings.cpp:45
 #, qt-format
 msgid "Daemon config: Bad option '%1' type at line %2."
-msgstr ""
+msgstr "Конфигурационен файл на демона: Невалидна опция '%1' в ред %2."
 
 #: src/daemon_settings.cpp:74
 #, qt-format
 msgid "Daemon config: Bad option '%1' value '%2' at line %3."
 msgstr ""
+"Конфигурационен файл на демона: Невалидна опция '%2' стойност '%1' в ред %3."
 
 #: src/daemon_settings.cpp:104
 #, qt-format
 msgid "Daemon config: Invalid option '%1' UTF-8 value at line %2."
 msgstr ""
+"Конфигурационен файл на демона: Невярна UTF-8 стойност на опция '%1' в ред %"
+"2."
 
 #: src/daemon_settings.cpp:114
 #, qt-format
 msgid "Daemon config: Unknown option '%1' at line %2."
-msgstr ""
+msgstr "Конфигурационен файл на демона: Неизвестна опция '%1' в ред %2."
 
 #: src/daemon_settings.cpp:451 src/client_settings.cpp:1147
 #, qt-format
 msgid "Reading configuration file '%1' failed. %2"
-msgstr ""
+msgstr "Четенето на конфигурационния файл '%1' се провали. %2"
 
 #: src/daemon_settings.cpp:455
 #, qt-format
 msgid "Error while reading configuration file '%1': %2."
-msgstr ""
+msgstr "Грешка при четене на конфигурационния файл '%1': %2."
 
 #: src/daemon_settings.cpp:459
 #, qt-format
 msgid "Error while parsing configuration file '%1': %2."
-msgstr ""
+msgstr "Грешка при анализа на конфигурационния файл '%1': %2."
 
 #: src/daemon_settings.cpp:763
 msgid "invalid DHT state data"
-msgstr ""
+msgstr "съхранените данни за DHT сесията са повредени"
 
 #: src/daemon_settings.cpp:769
 #, qt-format
 msgid "Error while reading DHT state from file '%1': %2."
-msgstr ""
+msgstr "Грешка при четене на данните за DHT сесията от файла '%1': %2."
 
 #: src/daemon_settings.cpp:801
 #, qt-format
 msgid "Daemon config: Invalid IP filter rule at line %1: %2."
 msgstr ""
+"Конфигурационен файл на демона: Невярно сформировано правило на IP-филтъра в "
+"ред %1: %2."
 
 #: src/daemon_settings.cpp:807
 #, qt-format
 msgid "Daemon config: Invalid IP filter rule at line %1."
 msgstr ""
+"Конфигурационен файл на демона: Невярно сформировано правило на IP-филтъра в "
+"ред %1."
 
 #: src/daemon_settings.cpp:957 src/client_settings.cpp:1233
 #, qt-format
 msgid "Writing configuration file '%1' failed. %2"
-msgstr ""
+msgstr "Записа на конфигурационния файл '%1' се провали. %2"
 
 #: src/daemon_settings.cpp:961
 #, qt-format
 msgid "Can't write configuration file %1: %2."
-msgstr ""
+msgstr "Грешка при записа на конфигурационния файл %1: %2."
 
 #: src/daemon_settings.cpp:998
 #, qt-format
 msgid "Can't write DHT state to file '%1': %2."
-msgstr ""
+msgstr "Неуспех при записа на DHT сесиата във файл '%1': %2."
 
 #: src/daemon_settings.cpp:1009
 #, qt-format
 msgid "Writing DHT state to file '%1' failed. %2"
-msgstr ""
+msgstr "Записа на DHT сесиата във файл '%1' се провали. %2"
 
 #: src/daemon_settings.cpp:1409
 #, qt-format
 msgid "Daemon config: %1"
-msgstr ""
+msgstr "Конфигурационен файл на демона: %1"
 
 #: src/daemon_settings.cpp:1517
 #, qt-format
 msgid "Reading torrent configuration file '%1' failed. %2"
-msgstr ""
+msgstr "Четенето на конфигурационния файл на торента ('%1') се провали. %2"
 
 #: src/daemon_settings.cpp:1521
 #, qt-format
 msgid "Error while reading torrent configuration file '%1': %2."
-msgstr ""
+msgstr "Грешка при четене на конфигурационния файл на торента '%1': %2."
 
 #: src/daemon_settings.cpp:1525
 #, qt-format
 msgid "Error while parsing torrent configuration file '%1': %2."
-msgstr ""
+msgstr "Грешка при четене на конфигурационния файл на торента '%1': %2."
 
 #: src/daemon_settings.cpp:1542 src/daemon_settings.cpp:1553
 #, qt-format
 msgid "Can't read torrent resume data from file '%1': %2."
 msgstr ""
+"Грешка при четене на файла '%1' с информация за възстановяване сесията на "
+"торента: %2."
 
 #: src/daemon_settings.cpp:1563 src/daemon_settings.cpp:1569
 #, qt-format
 msgid "Error while reading torrent resume data from file '%1': file broken."
 msgstr ""
+"Грешка при четене данните за сесията на торента от файла '%1': файла е "
+"повреден."
 
 #: src/daemon_settings.cpp:1595
 #, qt-format
 msgid "Can't read torrent resume data from file '%1': bad resume data."
 msgstr ""
+"Грешка при четене на файла '%1' с информация за възстановяване сесията на "
+"торента: невярни данни."
 
 #: src/daemon_settings.cpp:1707
 #, qt-format
 msgid "Writing torrent configuration file '%1' failed. %2"
-msgstr ""
+msgstr "Записа на конфигурационния файл '%1' се провали. %2"
 
 #: src/daemon_settings.cpp:1711
 #, qt-format
 msgid "Can't write torrent configuration file %1: %2."
-msgstr ""
+msgstr "Ошибка при записа на конфигурационния файл на торента '%1': %2."
 
 #: src/daemon_settings.cpp:1729
 #, qt-format
 msgid "Removing old resume data '%1' failed. %2"
-msgstr ""
+msgstr "Премахването на старите данни за сесията '%1' се провали. %2"
 
 #: src/daemon_settings.cpp:1763
 #, qt-format
 msgid "Can't write torrent resume data to file '%1': %2."
 msgstr ""
+"Грешка при запис на файла '%1' с информация за възстановяване сесията на "
+"торента: %2."
 
 #: src/daemon_settings.cpp:1774
 #, qt-format
 msgid "Writing torrent resume data to file '%1' failed. %2"
 msgstr ""
+"Записа на файла '%1' с информация за възстановяване сесията на торента се "
+"провали. %2"
 
 #: src/torrent_peers_view.cpp:87
 msgid "IP"
-msgstr ""
+msgstr "IP"
 
 #: src/torrent_peers_view.cpp:89 src/torrents_view.cpp:340
 msgid "Download speed|Down speed"
-msgstr ""
+msgstr "Ск.СВ"
 
 #: src/torrent_peers_view.cpp:90 src/torrents_view.cpp:341
 msgid "Download speed (payload)|Down speed (data)"
-msgstr ""
+msgstr "Ск.СВ данни"
 
 #: src/torrent_peers_view.cpp:91 src/torrents_view.cpp:342
 msgid "Upload speed|Up speed"
-msgstr ""
+msgstr "Ск.КЧ"
 
 #: src/torrent_peers_view.cpp:92 src/torrents_view.cpp:343
 msgid "Upload speed (payload)|Up speed (data)"
-msgstr ""
+msgstr "Ск.КЧ данни"
 
 #: src/torrent_peers_view.cpp:93 src/torrents_view.cpp:334
 msgid "Total download (payload)|Down data"
-msgstr ""
+msgstr "Свалени данни"
 
 #: src/torrent_peers_view.cpp:94 src/torrents_view.cpp:336
 msgid "Total upload (payload)|Up data"
-msgstr ""
+msgstr "Качени даннини"
 
 #: src/torrent_peers_view.cpp:95 src/torrent_peers_view.cpp:108
 msgid "Availability"
-msgstr ""
+msgstr "Наличност"
 
 #: src/torrent_peers_view.cpp:96 src/torrent_peers_view.cpp:113
 msgid "Hash fails"
-msgstr ""
+msgstr "Хеш грешки"
 
 #: src/torrent_peers_view.cpp:98
 msgid "IP address"
-msgstr ""
+msgstr "IP-адрес"
 
 #: src/torrent_peers_view.cpp:101 src/main_window.cpp:1525
 #: src/torrents_view.cpp:377 ui/preferences.client.gui.status_bar.glade:58
 msgid "Download speed"
-msgstr ""
+msgstr "Скорост на сваляне"
 
 #: src/torrent_peers_view.cpp:102 src/main_window.cpp:1528
 #: src/torrents_view.cpp:378 ui/preferences.client.gui.status_bar.glade:95
 msgid "Download speed (payload)"
-msgstr ""
+msgstr "Скорост на сваляне данни"
 
 #: src/torrent_peers_view.cpp:103 src/main_window.cpp:1531
 #: src/torrents_view.cpp:379 ui/preferences.client.gui.status_bar.glade:82
 msgid "Upload speed"
-msgstr ""
+msgstr "Скорост на качване"
 
 #: src/torrent_peers_view.cpp:104 src/main_window.cpp:1534
 #: src/torrents_view.cpp:380 ui/preferences.client.gui.status_bar.glade:67
 msgid "Upload speed (payload)"
-msgstr ""
+msgstr "Скорост на качване данни"
 
 #: src/torrent_peers_view.cpp:105 src/torrents_view.cpp:371
 msgid "Total download (payload)"
-msgstr ""
+msgstr "Общо свалени данни"
 
 #: src/torrent_peers_view.cpp:106 src/torrents_view.cpp:373
 msgid "Total upload (payload)"
-msgstr ""
+msgstr "Общо качени данни"
 
 #: src/main_window.cpp:226
 msgid "Set download rate limit"
-msgstr ""
+msgstr "Максимална скорост на сваляне"
 
 #: src/main_window.cpp:226
 msgid "Set upload rate limit"
-msgstr ""
+msgstr "Максимална скорост на качване"
 
 #: src/main_window.cpp:277
 msgid "Getting current rate limit failed"
-msgstr ""
+msgstr "Неуспех при получаване на текущото ограничение на скоростта"
 
 #: src/main_window.cpp:289
 msgid "Setting current rate limit failed"
-msgstr ""
+msgstr "Неуспех при задаване на текущото ограничение на скоростта"
 
 #: src/main_window.cpp:331
 msgid "_File"
-msgstr ""
+msgstr "_Файл"
 
 #: src/main_window.cpp:333
 msgid "_Create"
-msgstr ""
+msgstr "_Създаване"
 
 #: src/main_window.cpp:337
 msgid "_Open a torrent"
-msgstr ""
+msgstr "_Отваряне на торент"
 
 #: src/main_window.cpp:341
 msgid "_Open a magnet link"
-msgstr ""
+msgstr "Отваряне на _magent-връзка"
 
 #: src/main_window.cpp:345
 msgid "_Quit"
-msgstr ""
+msgstr "_Изход"
 
 #: src/main_window.cpp:350
 msgid "_Edit"
-msgstr ""
+msgstr "_Редактиране"
 
 #: src/main_window.cpp:352
 msgid "_Statistics"
-msgstr ""
+msgstr "_Статистика"
 
 #: src/main_window.cpp:356
 msgid "_Preferences"
-msgstr ""
+msgstr "_Настройки"
 
 #: src/main_window.cpp:361
 msgid "_View"
-msgstr ""
+msgstr "_Изглед"
 
 #: src/main_window.cpp:364
 msgid "_Toolbar"
-msgstr ""
+msgstr "_Панел с инструменти"
 
 #: src/main_window.cpp:367 src/main_window.cpp:444
 msgid "'Show ...' toggle|_Show"
-msgstr ""
+msgstr "_Показване"
 
 #: src/main_window.cpp:380
 msgid "Toolbar _style"
-msgstr ""
+msgstr "_Стил на панелите с инструменти"
 
 #: src/main_window.cpp:384
 msgid "_Desktop default"
-msgstr ""
+msgstr "_По подразбиране"
 
 #: src/main_window.cpp:394
 msgid "_Icons"
-msgstr ""
+msgstr "_Икони"
 
 #: src/main_window.cpp:404
 msgid "_Text"
-msgstr ""
+msgstr "_Текст"
 
 #: src/main_window.cpp:414
 msgid "_Both"
-msgstr ""
+msgstr "Икони _и текст"
 
 #: src/main_window.cpp:424
 msgid "Both _horizontal"
-msgstr ""
+msgstr "Икони и текст _хоризонтално"
 
 #: src/main_window.cpp:441
 msgid "_Categories"
-msgstr ""
+msgstr "_Категорий"
 
 #: src/main_window.cpp:454
 msgid "Show _names"
-msgstr ""
+msgstr "Показване на _имена"
 
 #: src/main_window.cpp:464
 msgid "Show _counters"
-msgstr ""
+msgstr "Показване на _броячи"
 
 #: src/main_window.cpp:476
 msgid "_Torrents"
-msgstr ""
+msgstr "_Торенти"
 
 #: src/main_window.cpp:479
 msgid "_Resume"
-msgstr ""
+msgstr "_Подновяване"
 
 #: src/main_window.cpp:481 src/main_window.cpp:505 src/main_window.cpp:533
 #: src/main_window.cpp:560
 msgid "_All"
-msgstr ""
+msgstr "_Всички"
 
 #: src/main_window.cpp:488 src/main_window.cpp:512 src/main_window.cpp:540
 #: src/main_window.cpp:567
 msgid "_Downloads"
-msgstr ""
+msgstr "_Сваляния"
 
 #: src/main_window.cpp:495 src/main_window.cpp:519 src/main_window.cpp:547
 #: src/main_window.cpp:574
 msgid "_Uploads"
-msgstr ""
+msgstr "_Качвания"
 
 #: src/main_window.cpp:503
 msgid "_Pause"
-msgstr ""
+msgstr "_Пауза"
 
 #: src/main_window.cpp:529
 msgid "R_esume temporary"
-msgstr ""
+msgstr "В_ременно подновяване"
 
 #: src/main_window.cpp:556
 msgid "P_ause temporary"
-msgstr ""
+msgstr "В_ременно спиране"
 
 #: src/main_window.cpp:582
 msgid "C_omplete pending temporary action"
-msgstr ""
+msgstr "_Завършване на текущото временно действие"
 
 #: src/main_window.cpp:589
 msgid "_Cancel pending temporary action"
-msgstr ""
+msgstr "О_тмяна на текущото временно действие"
 
 #: src/main_window.cpp:599
 msgid "Set _upload rate limit"
-msgstr ""
+msgstr "Задаване макс. скорост на ка_чване"
 
 #: src/main_window.cpp:607
 msgid "Set _download rate limit"
-msgstr ""
+msgstr "Задаване макс. скорост на св_аляне"
 
 #: src/main_window.cpp:615
 msgid "_Help"
-msgstr ""
+msgstr "_Помощ"
 
 #: src/main_window.cpp:617
 msgid "_About"
-msgstr ""
+msgstr "_Относно"
 
 #: src/main_window.cpp:781
 msgid "Create"
-msgstr ""
+msgstr "Съзадаване"
 
 #: src/main_window.cpp:782
 msgid "Create a new torrent"
-msgstr ""
+msgstr "Създаване на торент"
 
 #: src/main_window.cpp:790
 msgid "Open"
-msgstr ""
+msgstr "Отваряне"
 
 #: src/main_window.cpp:791
 msgid "Open a torrent"
-msgstr ""
+msgstr "Отваряне на торент"
 
 #: src/main_window.cpp:800
 msgid "Magnet link"
-msgstr ""
+msgstr "Magnet-връзка"
 
 #: src/main_window.cpp:801 ui/dialog.open_magnet_link.glade:7
 msgid "Open a magnet link"
-msgstr ""
+msgstr "Отваряне на magnet-връзка"
 
 #: src/main_window.cpp:815 src/torrents_view.cpp:455
 msgid "Resume"
-msgstr ""
+msgstr "Подновяване"
 
 #: src/main_window.cpp:816
 msgid "Resume torrent(s)"
-msgstr ""
+msgstr "Подновяване на торент(и)"
 
 #: src/main_window.cpp:827 src/torrents_view.cpp:461
 msgid "Pause"
-msgstr ""
+msgstr "Пауза"
 
 #: src/main_window.cpp:828
 msgid "Pause torrent(s)"
-msgstr ""
+msgstr "Пауза на торент(и)"
 
 #: src/main_window.cpp:839 src/torrents_view.cpp:474 src/torrents_view.cpp:766
 msgid "Remove"
-msgstr ""
+msgstr "Премахване"
 
 #: src/main_window.cpp:840
 msgid "Remove torrent(s)"
-msgstr ""
+msgstr "Премахване на торент(и)"
 
 #: src/main_window.cpp:1023
 msgid "Interrupting the temporary action on torrents failed"
-msgstr ""
+msgstr "Не може да спре изпълнението на настоящото временно действие"
 
 #: src/main_window.cpp:1053 src/main_window.cpp:1067
 msgid "Pausing torrents failed"
-msgstr ""
+msgstr "Спирането на торента(ите) се провали"
 
 #: src/main_window.cpp:1088 src/main_window.cpp:1099
 #: src/client_cmd_options.cpp:196
 msgid "Dmitry Konishchev"
-msgstr ""
+msgstr "Дмитрий Конищев"
 
 #: src/main_window.cpp:1097
 msgid "GTK-based BitTorrent client"
-msgstr ""
+msgstr "GTK BitTorrent клиент"
 
 #: src/main_window.cpp:1231
 msgid "Processing the temporary action on torrents failed"
-msgstr ""
+msgstr "Обработката на временните действия за торентите се провали"
 
 #: src/main_window.cpp:1335 src/add_torrent_dialog.cpp:281
 msgid "Opening torrent failed"
-msgstr ""
+msgstr "Отварянето на торента се провали"
 
 #: src/main_window.cpp:1335 src/add_torrent_dialog.cpp:283
 #, qt-format
 msgid "Opening torrent '%1' failed. %2"
-msgstr ""
+msgstr "Отварянето на торента '%1' се провали. %2"
 
 #: src/main_window.cpp:1496
 #, qt-format
 msgid "Download/Upload|D: %1, U: %2 - %3"
-msgstr ""
+msgstr "D: %1, U: %2 - %3"
 
 #: src/main_window.cpp:1540
 msgid "Download (payload)"
-msgstr ""
+msgstr "Свалени данни"
 
 #: src/main_window.cpp:1546
 msgid "Upload (payload)"
-msgstr ""
+msgstr "Качени данни"
 
 #: src/main_window.cpp:1574
 #, qt-format
 msgid "Download speed|Down: %1 (%2) / %3"
-msgstr ""
+msgstr "Сваляне: %1 (%2) / %3"
 
 #: src/main_window.cpp:1581
 #, qt-format
 msgid "Upload speed|Up: %1 (%2) / %3"
-msgstr ""
+msgstr "Качване: %1 (%2) / %3"
 
 #: src/open_torrent_dialog.cpp:94
 msgid "Please choose a torrent file"
-msgstr ""
+msgstr "Моля, изберете *.torrent файл"
 
 #: src/open_torrent_dialog.cpp:110
 msgid "Torrent file encoding:"
-msgstr ""
+msgstr "Кодировка на торент-файла:"
 
 #: src/open_torrent_dialog.cpp:137 src/create_torrent_dialog.cpp:699
 msgid "Torrent files"
-msgstr ""
+msgstr "*.torrent файлове"
 
 #: src/open_torrent_dialog.cpp:142 src/create_torrent_dialog.cpp:704
 msgid "Any files"
-msgstr ""
+msgstr "Всички файлове"
 
 #: src/torrents_view.cpp:326 src/torrents_view.cpp:360
 msgid "Status"
-msgstr ""
+msgstr "Състояние"
 
 #: src/torrents_view.cpp:328 src/torrents_view.cpp:365
 #: src/torrent_files_view.cpp:181 src/torrent_files_view.cpp:205
 msgid "Size"
-msgstr ""
+msgstr "Размер"
 
 #: src/torrents_view.cpp:329
 msgid "Requested size|Requested"
-msgstr ""
+msgstr "Зададени"
 
 #: src/torrents_view.cpp:330
 msgid "Downloaded requested size|Downloaded"
-msgstr ""
+msgstr "Получени"
 
 #: src/torrents_view.cpp:331 src/torrents_view.cpp:368
 #, c-format
 msgid "%% Complete"
-msgstr ""
+msgstr "Завършени (%%)"
 
 #: src/torrents_view.cpp:333
 msgid "Total download|Download"
-msgstr ""
+msgstr "Свалени"
 
 #: src/torrents_view.cpp:335
 msgid "Total upload|Upload"
-msgstr ""
+msgstr "Качени"
 
 #: src/torrents_view.cpp:337
 msgid "Total failed|Failed"
-msgstr ""
+msgstr "Грешки"
 
 #: src/torrents_view.cpp:338
 msgid "Total redundant|Redundant"
-msgstr ""
+msgstr "Изл. данни"
 
 #: src/torrents_view.cpp:345
 msgid "Share ratio|Ratio"
-msgstr ""
+msgstr "Рейтинг"
 
 #: src/torrents_view.cpp:347 src/torrents_view.cpp:385
 msgid "Seeds"
-msgstr ""
+msgstr "Сийдъри"
 
 #: src/torrents_view.cpp:349
 msgid "Time added|Added"
-msgstr ""
+msgstr "Добавен"
 
 #: src/torrents_view.cpp:350
 msgid "Time left|ETA"
-msgstr ""
+msgstr "Време"
 
 #: src/torrents_view.cpp:351
 msgid "Time seeding|Seeding"
-msgstr ""
+msgstr "Сийдване"
 
 #: src/torrents_view.cpp:353 src/torrents_view.cpp:391
 msgid "Tracker"
-msgstr ""
+msgstr "Тракер"
 
 #: src/torrents_view.cpp:355
 msgid "Status icon"
-msgstr ""
+msgstr "Статус икона"
 
 #: src/torrents_view.cpp:366
 msgid "Requested size"
-msgstr ""
+msgstr "Зададен размер"
 
 #: src/torrents_view.cpp:367
 msgid "Downloaded requested size"
-msgstr ""
+msgstr "Свалено от зададеното"
 
 #: src/torrents_view.cpp:387
 msgid "Time added"
-msgstr ""
+msgstr "Време на добавяне"
 
 #: src/torrents_view.cpp:388
 msgid "Time left"
-msgstr ""
+msgstr "Оставащо време"
 
 #: src/torrents_view.cpp:389
 msgid "Time seeding"
-msgstr ""
+msgstr "Време на сийдване"
 
 #: src/torrents_view.cpp:450
 msgid "Open directory"
-msgstr ""
+msgstr "Отваряне на папка"
 
 #: src/torrents_view.cpp:467
 msgid "Recheck"
-msgstr ""
+msgstr "Повторна проверка"
 
 #: src/torrents_view.cpp:636
 #, qt-format
 msgid "Opening torrent '%1' directory failed. %2"
-msgstr ""
+msgstr "Неуспех при отваряне на папката, в която беше свален торента '%1'. %2"
 
 #: src/torrents_view.cpp:660
 #, qt-format
 msgid "Opening torrent '%1' file(s) failed. %2"
-msgstr ""
+msgstr "Неуспех при отваряне на торента(ите) ('%1') . %2"
 
 #: src/torrents_view.cpp:754
 msgid "Remove torrent"
-msgstr ""
+msgstr "Премахване на торент"
 
 #: src/torrents_view.cpp:755
 msgid "Remove torrents"
-msgstr ""
+msgstr "Премахване на торентите"
 
 #: src/torrents_view.cpp:760
 #, qt-format
 msgid "Are you sure want to remove torrent '%1'?"
-msgstr ""
+msgstr "Сигурни ли сте че, искате да премахнете торента '%1'?"
 
 #: src/torrents_view.cpp:761
 msgid "Are you sure want to remove following torrents?"
-msgstr ""
+msgstr "Сигурни ли сте че, искате да премахнете следните торенти?"
 
 #: src/torrents_view.cpp:767
 msgid "Remove with data"
-msgstr ""
+msgstr "Премахване с данните"
 
 #: src/torrents_view.cpp:830
 msgid "Removing torrent(s) failed."
-msgstr ""
+msgstr "Премахването на торента(ите) се провали."
 
 #: src/torrents_view.cpp:830
 #, qt-format
 msgid "Removing torrent(s) failed. %1"
-msgstr ""
+msgstr "Премахването на торента(ите) се провали. %1"
 
 #: src/torrents_view.cpp:834
 msgid "Removing torrent(s) with data failed."
-msgstr ""
+msgstr "Премахването на торента(ите) заедно с данните се провали."
 
 #: src/torrents_view.cpp:834
 #, qt-format
 msgid "Removing torrent(s) with data failed. %1"
-msgstr ""
+msgstr "Премахването на торента(ите) с данните се провали. %1"
 
 #: src/torrents_view.cpp:838
 msgid "Pausing torrent(s) failed."
-msgstr ""
+msgstr "Спирането на торента(ите) се провали."
 
 #: src/torrents_view.cpp:838
 #, qt-format
 msgid "Pausing torrent(s) failed. %1"
-msgstr ""
+msgstr "Спирането на торента(ите) се провали. %1"
 
 #: src/torrents_view.cpp:842
 msgid "Resuming torrent(s) failed."
-msgstr ""
+msgstr "Подновяването на свалянето на торента(ите) се провали."
 
 #: src/torrents_view.cpp:842
 #, qt-format
 msgid "Resuming torrent(s) failed. %1"
-msgstr ""
+msgstr "Подновяването на торента(ите) се провали. %1"
 
 #: src/daemon_types.cpp:218
 #, qt-format
 msgid "Unable to parse torrent '%1' magnet URI. %2"
-msgstr ""
+msgstr "Невярно сформирана magent-връзка за торента '%1'. %2"
 
 #: src/daemon_types.cpp:232
 msgid "Libtorrent internal error."
-msgstr ""
+msgstr "Вътрешна грешка на libtorrent."
 
 #: src/daemon_types.cpp:256
 #, qt-format
 msgid "Can't save torrent file '%1': %2."
-msgstr ""
+msgstr "Неуспех при запазване файла на торента '%1': %2."
 
 #: src/daemon_types.cpp:266
 msgid "Unable to save torrent's metadata"
-msgstr ""
+msgstr "Не е възможно запазване метаданните на торрента"
 
 #: src/daemon_types.cpp:267
 #, qt-format
 msgid "Saving torrent's '%1' downloaded metadata failed. %2"
-msgstr ""
+msgstr "Запазването на свалените за торента '%1' метаданни се провали. %2"
 
 #: src/open_magnet_dialog.cpp:113 src/open_magnet_dialog.cpp:119
 msgid "Invalid magnet URI"
-msgstr ""
+msgstr "Невалиден адрес на magnet-връзка"
 
 #: src/open_magnet_dialog.cpp:114
 msgid "Please enter a magnet URI."
-msgstr ""
+msgstr "Моля, въведете адрес на magent-връзка."
 
 #: src/open_magnet_dialog.cpp:120
 #, qt-format
 msgid "'%1' is not a magnet URI."
-msgstr ""
+msgstr "'%1' не е magnet-връзка."
 
 #: src/client_settings.cpp:41
 #, qt-format
 msgid "Client config: Bad option '%1' type at line %2."
 msgstr ""
+"Конфигурационен файл на клиента: Неправилен тип на опция '%1' в ред %2."
 
 #: src/client_settings.cpp:68
 #, qt-format
 msgid "Client config: Bad option '%1' value '%2' at line %3."
 msgstr ""
+"Конфигурационен файл на клиента: Невярна стойност '%2' на опцията '%1' в ред "
+"%3"
 
 #: src/client_settings.cpp:78
 #, qt-format
 msgid "Client config: Invalid option '%1' UTF-8 value at line %2."
 msgstr ""
+"Конфигурационен файл на клиента: Невярна UTF-8 стойност на опция '%1' в ред %"
+"2."
 
 #: src/client_settings.cpp:88
 #, qt-format
 msgid "Client config: Unknown option '%1' at line %2."
-msgstr ""
+msgstr "Конфигурационен файл на клиента: Неизвестна опция '%1' в ред %2."
 
 #: src/client_settings.cpp:1153
 #, qt-format
 msgid "Can't read configuration file '%1': %2."
-msgstr ""
+msgstr "Не може да прочете конфигурационния файл '%1': %2."
 
 #: src/client_settings.cpp:1157
 #, qt-format
 msgid "Can't parse configuration file '%1': %2."
-msgstr ""
+msgstr "Не може да се анализира конфигурационния файл '%1': %2."
 
 #: src/client_settings.cpp:1240
 #, qt-format
 msgid "Can't write configuration file '%1': %2."
-msgstr ""
+msgstr "Не може да се запише конфигурационния файл '%1': %2."
 
 #: src/daemon_session.cpp:210
 #, qt-format
 msgid "%1 (%2). Errors: %3."
-msgstr ""
+msgstr "%1 (%2). Грешки: %3."
 
 #: src/daemon_session.cpp:547
 msgid "This torrent is already exists in the current session."
-msgstr ""
+msgstr "Този торент вече присъства в текущата сесия"
 
 #: src/daemon_session.cpp:565
 #, qt-format
 msgid "Can't create torrent configuration directory '%1': %2."
 msgstr ""
+"Не може да се създаде директория '%1' за конфигурационните файлове на "
+"торента: %2%."
 
 #: src/daemon_session.cpp:589
 #, qt-format
 msgid "Torrent '%1' has been changed while it's been processed."
-msgstr ""
+msgstr "Торента '%1' беше изменен по време на неговата обработка."
 
 #: src/daemon_session.cpp:604
 #, qt-format
 msgid "Can't copy torrent file '%1' to '%2': %3."
-msgstr ""
+msgstr "Не може да се копира торент файла '%1' в '%2': %3."
 
 #: src/daemon_session.cpp:804
 #, qt-format
 msgid "Can't pause torrent '%1'. %2"
-msgstr ""
+msgstr "Не може да се спре торента '%1'. %2"
 
 #: src/daemon_session.cpp:817
 #, qt-format
 msgid "Can't remove torrent '%1'. %2"
-msgstr ""
+msgstr "Не може да се премахне торента '%1'. %2"
 
 #: src/daemon_session.cpp:830
 #, qt-format
 msgid "Can't remove with data torrent '%1'. %2"
-msgstr ""
+msgstr "Не може да се премахне заедно с данните торента '%1'. %2"
 
 #: src/daemon_session.cpp:875
 #, qt-format
 msgid "Can't stat torrent file: %1."
-msgstr ""
+msgstr "Не може да се получи информация за файла на торента: %1."
 
 #: src/daemon_session.cpp:915
 msgid "Deleting automatically loaded *.torrent file failed"
-msgstr ""
+msgstr "Автоматичното изтриване на заредения *.torrent файл се провали"
 
 #: src/daemon_session.cpp:917
 #, qt-format
 msgid "Can't delete automatically loaded *.torrent file '%1': %2."
-msgstr ""
+msgstr "Не може да се изтрие автоматично заредения *.torrent файл '%1': %2."
 
 #: src/daemon_session.cpp:946 src/daemon_session.cpp:1706
 #, qt-format
 msgid "Automatic loading the torrent '%1' failed. %2"
-msgstr ""
+msgstr "Автоматичното зареждане на торента '%1' се провали. %2"
 
 #: src/daemon_session.cpp:956 src/daemon_session.cpp:961
 #: src/daemon_session.cpp:980 src/daemon_session.cpp:2502
 #: src/daemon_session.cpp:2584
 msgid "Automatic torrents loading failed"
-msgstr ""
+msgstr "Автоматичното зареждане на торента се провали."
 
 #: src/daemon_session.cpp:963
 #, qt-format
 msgid "Directory '%1' has been deleted or moved."
-msgstr ""
+msgstr "Директорията '%1' е била изтрита или преместена."
 
 #: src/daemon_session.cpp:1084
 msgid "Automatic torrents cleaning failed"
-msgstr ""
+msgstr "Автоматичното почистване от стари торенти се провали"
 
 #: src/daemon_session.cpp:1179
 msgid "All torrents downloaded."
-msgstr ""
+msgstr "Свалянето на торентите завърши."
 
 #: src/daemon_session.cpp:1229
 msgid "Copying finished torrent's files failed"
-msgstr ""
+msgstr "Копирането на файловете на сваления торент се провали"
 
 #: src/daemon_session.cpp:1231
 #, qt-format
 msgid "Copying finished torrent's '%1' files from '%2' to '%3' failed."
 msgstr ""
+"Копирането на файловете на сваления торент '%1' от '%2' в '%3' се провали."
 
 #: src/daemon_session.cpp:1312 src/daemon_session.cpp:1324
 #: src/daemon_session.cpp:1335 src/daemon_session.cpp:1348
 #, qt-format
 msgid "Bad torrent id '%1'."
-msgstr ""
+msgstr "Невалиден идентификатор на торента: '%1'."
 
 #: src/daemon_session.cpp:1574
 #, qt-format
 msgid "Restoring torrent's previous session settings failed. %1"
 msgstr ""
+"Възстановяването на настройките на торента от предишната сесия се провали. %1"
 
 #: src/daemon_session.cpp:1657
 #, qt-format
 msgid "Invalid torrent '%1' files' settings. Rejecting them..."
 msgstr ""
+"Невалидни настройки за сваляне на файлове на торента '%1'. Не се вземат под "
+"внимание..."
 
 #: src/daemon_session.cpp:1668
 msgid "Torrent added with errors"
-msgstr ""
+msgstr "При добавяне на торента се получи грешка"
 
 #: src/daemon_session.cpp:1669
 #, qt-format
 msgid "Torrent '%1' has been added with errors.%2"
-msgstr ""
+msgstr "При добавяне на торента '%1' се получи грешка.%2"
 
 #: src/daemon_session.cpp:1718
 #, qt-format
 msgid "Can't read directory '%1' for automatic torrents loading: %2."
 msgstr ""
+"Не може да се прочете директорията '%1' за автоматично зареждане на "
+"торентите: %2."
 
 #: src/daemon_session.cpp:1753
 msgid "Loading torrent failed"
-msgstr ""
+msgstr "Зареждането на торента се провали"
 
 #: src/daemon_session.cpp:1753
 #, qt-format
 msgid "Loading of the torrent '%1' failed. %2"
-msgstr ""
+msgstr "Зареждането на торента '%1' се провали. %2"
 
 #: src/daemon_session.cpp:1759
 #, qt-format
 msgid "Can't read directory with torrents configs '%1': %2."
 msgstr ""
+"Не може да се прочете директорията с конфигурационните файлове на торентите "
+"'%1': %2."
 
 #: src/daemon_session.cpp:1765
 #, qt-format
 msgid "Loading torrents from previous session failed. %1"
-msgstr ""
+msgstr "Зареждането на торентите от предишната сесия се провали. %1"
 
 #: src/daemon_session.cpp:1781 src/daemon_session.cpp:2657
 msgid "Saving session failed"
-msgstr ""
+msgstr "Запазването на сесията се провали"
 
 #: src/daemon_session.cpp:1781 src/daemon_session.cpp:2657
 #, qt-format
 msgid "Saving session failed. %1"
-msgstr ""
+msgstr "Запазването на сесията се провали. %1"
 
 #: src/daemon_session.cpp:1995
 #, qt-format
 msgid "Bad torrent id: '%1'."
-msgstr ""
+msgstr "Невалиден идентификатор на торента: '%1'."
 
 #: src/daemon_session.cpp:2043 src/daemon_session.cpp:2059
 msgid "Deleting torrent data failed"
-msgstr ""
+msgstr "Удаление данных торрента се провали"
 
 #: src/daemon_session.cpp:2044 src/daemon_session.cpp:2060
 #, qt-format
 msgid "Deleting torrent '%1' data failed."
-msgstr ""
+msgstr "Изтриването на данните на торента '%1' се провали."
 
 #: src/daemon_session.cpp:2185
 msgid "Saving torrent settings failed"
-msgstr ""
+msgstr "Запазването на настройките на торента се провали."
 
 #: src/daemon_session.cpp:2187
 #, qt-format
 msgid "Saving torrent '%1' settings failed. %2"
-msgstr ""
+msgstr "Запазването на настройките на торента '%1' се провали. %2"
 
 #: src/daemon_session.cpp:2218
 #, qt-format
 msgid "Invalid copy when finished to path '%1'."
-msgstr ""
+msgstr "Невалиден път за копиране файловете на сваления торент: '%1'."
 
 #: src/daemon_session.cpp:2240 src/daemon_session.cpp:2262
 #, qt-format
 msgid "Bad file id: %1."
-msgstr ""
+msgstr "Неверен идентификатор на файла: %1."
 
 #: src/daemon_session.cpp:2479
 msgid "Setting directory for automatic torrents loading failed"
 msgstr ""
+"Задаването на директория за автоматично зареждане на торентите се провали"
 
 #: src/daemon_session.cpp:2481
 #, qt-format
 msgid "Setting directory '%1' for automatic torrents loading failed. %2"
 msgstr ""
+"Задаването на директория '%1' в качество на директория за автоматично "
+"зареждане на торентите се провали. %2"
 
 #: src/daemon_session.cpp:2547
 msgid "Setting torrent trackers failed: libtorrent internal error."
 msgstr ""
+"Задаването на списък с тракери на торента се провали: получи се вътрешна "
+"грешка на libtorrent."
 
 #: src/daemon.cpp:195
 #, qt-format
 msgid "Can't start daemon. Creating config directories failed. %1"
 msgstr ""
+"Не може да се стартира демона. Създаването на директория за конфигурационни "
+"файлове се провали. %1"
 
 #: src/torrent_files_view.cpp:82 src/torrent_files_view.cpp:93
 msgid "Change file or directory path"
-msgstr ""
+msgstr "Промяна на разположението на файла или директорията"
 
 #: src/torrent_files_view.cpp:125 src/torrent_files_view.cpp:533
 #: src/torrent_files_view.cpp:550
 msgid "Changing file or directory path failed"
-msgstr ""
+msgstr "Промяната на разположението на файла или директорията се провали"
 
 #: src/torrent_files_view.cpp:126
-msgid "Changing file or directory path failed. Invalid path has been gotten. Please enter a valid path."
+msgid ""
+"Changing file or directory path failed. Invalid path has been gotten. Please "
+"enter a valid path."
 msgstr ""
+"Промяната на разположението на файла или директорията се провали. Бил е "
+"зададен невалиден път. Моля, въведете подходящ път."
 
 #: src/torrent_files_view.cpp:182 src/torrent_files_view.cpp:200
 msgid "Priority"
-msgstr ""
+msgstr "Приоритет"
 
 #: src/torrent_files_view.cpp:183 src/torrent_files_view.cpp:207
 msgid "Progress"
-msgstr ""
+msgstr "Прогрес"
 
 #: src/torrent_files_view.cpp:241
 msgid "Download"
-msgstr ""
+msgstr "Сваляне"
 
 #: src/torrent_files_view.cpp:247
 msgid "Do not download"
-msgstr ""
+msgstr "Да не се изтегля"
 
 #: src/torrent_files_view.cpp:253
 msgid "Normal priority"
-msgstr ""
+msgstr "Нормален приоритет"
 
 #: src/torrent_files_view.cpp:259
 msgid "High priority"
-msgstr ""
+msgstr "Висок приоритет"
 
 #: src/torrent_files_view.cpp:265
 msgid "Change path"
-msgstr ""
+msgstr "Промяна на пътя"
 
 #: src/torrent_files_view.cpp:395
 #, qt-format
 msgid "Changing torrent files download status failed. %1"
-msgstr ""
+msgstr "Промяната на статуса за сваляне на файловете на торента се провали. %1"
 
 #: src/torrent_files_view.cpp:434
 #, qt-format
 msgid "Changing torrent files priorities failed. %1"
-msgstr ""
+msgstr "Задаването на приоритет за файловете на торента се провали. %1"
 
 #: src/torrent_files_view.cpp:502
 msgid "Changing file path failed"
-msgstr ""
+msgstr "Промяната на разположението на файла се провали"
 
 #: src/torrent_files_view.cpp:503
-msgid "Changing file path failed. Invalid file path has been gotten. Please enter a valid path."
+msgid ""
+"Changing file path failed. Invalid file path has been gotten. Please enter a "
+"valid path."
 msgstr ""
+"Промяната на разположението на файла се провали. Бил е зададен невалиден "
+"път. Моля, въведете подходящ път."
 
 #: src/torrent_files_view.cpp:534 src/torrent_files_view.cpp:551
 #, qt-format
 msgid "Changing file or directory path failed. %1"
-msgstr ""
+msgstr "Промяната на разположението на файла или директорията се провали. %1"
 
 #: src/torrent_files_view.cpp:630
 #, qt-format
 msgid "Changing download status for '%1' failed. %2"
-msgstr ""
+msgstr "Промяната на статуса за сваляне на '%1' се провали. %2"
 
 #: src/add_torrent_dialog.cpp:248
 msgid "Invalid torrent name"
-msgstr ""
+msgstr "Невалидно име на торента"
 
 #: src/add_torrent_dialog.cpp:249
-msgid "You have entered invalid torrent name. Please enter non-empty torrent name."
+msgid ""
+"You have entered invalid torrent name. Please enter non-empty torrent name."
 msgstr ""
+"Въвели сте невалидно име на торента. Моля, въведете валидно... (трябва да "
+"съдържа поне един символ)."
 
 #: src/common.cpp:81
 #, qt-format
 msgid "invalid auto clean action type '%1'"
 msgstr ""
+"невалидно име на действие за автоматично почистване на торентите ('%1')"
 
 #: src/common.cpp:270
 #, qt-format
 msgid "invalid IP address '%1'"
-msgstr ""
+msgstr "невалиден IP-адрес '%1'"
 
 #: src/common.cpp:274
 #, qt-format
 msgid "invalid IP range %1-%2"
-msgstr ""
+msgstr "невалиден диапазон за IP-адреси %1-%2"
 
 #: src/common.cpp:320
 #, qt-format
 msgid "%1 - Download completed"
-msgstr ""
+msgstr "%1 - Свалянето завърши"
 
 #: src/common.cpp:324
 #, qt-format
 msgid "%1 - All downloads completed"
-msgstr ""
+msgstr "%1 - Всички сваляния завършиха"
 
 #: src/common.cpp:409
 msgid "normal"
-msgstr ""
+msgstr "нормален"
 
 #: src/common.cpp:413
 msgid "high"
-msgstr ""
+msgstr "висок"
 
 #: src/common.cpp:449
 #, qt-format
 msgid "Invalid file priority name: '%1'."
-msgstr ""
+msgstr "Недалидно име на приоритета: '%1'."
 
 #: src/common.cpp:568
 msgid "[Invalid encoding]"
-msgstr ""
+msgstr "[Невалидна кодировка]"
 
 #: src/common.cpp:701 src/common.cpp:704 src/common.cpp:758
 msgid "(short)|Paused"
-msgstr ""
+msgstr "На пауза"
 
 #: src/common.cpp:712
 msgid "(short)|Allocating"
-msgstr ""
+msgstr "Създаване на файлове"
 
 #: src/common.cpp:716
 msgid "(short)|Queued for checking"
-msgstr ""
+msgstr "На опашката за проверка"
 
 #: src/common.cpp:720
 msgid "(short)|Checking files"
-msgstr ""
+msgstr "Проверка на файлове"
 
 #: src/common.cpp:724
 msgid "Waiting for metadata download (short)|Metadata down wait"
-msgstr ""
+msgstr "Очакв. св. метаданни"
 
 #: src/common.cpp:728
 msgid "Downloading metadata (short)|Metadata down"
-msgstr ""
+msgstr "Св. метаданни"
 
 #: src/common.cpp:732
 msgid "Waiting for download (short)|Download wait"
-msgstr ""
+msgstr "Очакв. св."
 
 #: src/common.cpp:736
 msgid "(short)|Downloading"
-msgstr ""
+msgstr "Сваляне"
 
 #: src/common.cpp:740
 msgid "(short)|Seeding"
-msgstr ""
+msgstr "Сийдване"
 
 #: src/common.cpp:744
 msgid "(short)|Uploading"
-msgstr ""
+msgstr "Качване"
 
 #: src/common.cpp:748
 msgid "(short)|Unknown"
-msgstr ""
+msgstr "Неизвестно"
 
 #: src/common.cpp:925
 msgid "Tracker status is not given yet|Not given yet"
-msgstr ""
+msgstr "Още не е получен"
 
 #: src/common.cpp:928
 #, qt-format
 msgid "OK (%1)"
-msgstr ""
+msgstr "ОК (%1)"
 
 #: src/common.cpp:931
 msgid "There are no trackers has been setted for this torrent"
-msgstr ""
+msgstr "За този торент не е зададен нито един тракер"
 
 #: src/client_cmd_options.cpp:67
 #, qt-format
 msgid "Bad option '%1' value '%2'."
-msgstr ""
+msgstr "Невярна стойност '%2' опция '%1'."
 
 #: src/client_cmd_options.cpp:75
 msgid "torrent_path"
-msgstr ""
+msgstr "път_към_файла_на_торента"
 
 #: src/client_cmd_options.cpp:84
 msgid "Main options"
-msgstr ""
+msgstr "Основни опции"
 
 #: src/client_cmd_options.cpp:90
 msgid "Show program version"
-msgstr ""
+msgstr "Показване версията на програмата"
 
 #: src/client_cmd_options.cpp:106
 #, qt-format
 msgid "Configuration directory path (default: ~/%1)"
 msgstr ""
+"Път към директорията с конфигурационните файлове (по подразбиране - ~/%1)"
 
 #: src/client_cmd_options.cpp:107
 msgid "DIRECTORY"
-msgstr ""
+msgstr "ДИРЕКТОРИЯ"
 
 #: src/client_cmd_options.cpp:114
 msgid "Set download rate limit (KB/s)"
-msgstr ""
+msgstr "Задаване на максимална скорост за сваляне (КБ/с)"
 
 #: src/client_cmd_options.cpp:115 src/client_cmd_options.cpp:123
 msgid "SPEED"
-msgstr ""
+msgstr "СКОРОСТ"
 
 #: src/client_cmd_options.cpp:122
 msgid "Set upload rate limit (KB/s)"
-msgstr ""
+msgstr "Задаване на максимална скорост за качване (КБ/с)"
 
 #: src/client_cmd_options.cpp:130
 msgid "Set maximum uploads"
-msgstr ""
+msgstr "Задаване на максимално количество слотове за качване"
 
 #: src/client_cmd_options.cpp:131 src/client_cmd_options.cpp:139
 msgid "NUMBER"
-msgstr ""
+msgstr "НОМЕР"
 
 #: src/client_cmd_options.cpp:138
 msgid "Set maximum connections"
-msgstr ""
+msgstr "Задаване на максимално количество отворени връзки"
 
 #: src/client_cmd_options.cpp:147
 msgid "Start torrents"
-msgstr ""
+msgstr "Стартиране на торентите"
 
 #: src/client_cmd_options.cpp:148 src/client_cmd_options.cpp:157
 msgid "{all,downloads,uploads}"
-msgstr ""
+msgstr "{all,downloads,uploads}"
 
 #: src/client_cmd_options.cpp:156
 msgid "Stop torrents"
-msgstr ""
+msgstr "Спиране на торентите"
 
 #: src/client_cmd_options.cpp:166
 #, qt-format
-msgid "Only pass commands to already running %1 instance. Does not start new instance if it is not running yet"
+msgid ""
+"Only pass commands to already running %1 instance. Does not start new "
+"instance if it is not running yet"
 msgstr ""
+"Само предавам команди към вече работещо копие %1 и не стартирам ново копие, "
+"даже ако програмата още не е стартирана."
 
 #: src/client_cmd_options.cpp:239
 #, qt-format
 msgid "Error while processing torrent '%1'"
-msgstr ""
+msgstr "Грешка при обработката на торента '%1'"
 
 #: src/client_cmd_options.cpp:240
 #, qt-format
 msgid "Can't get '%1' absolute path: %2."
-msgstr ""
+msgstr "Не може да се получи аблолютен път '%1': %2."
 
 #: src/client_cmd_options.cpp:260
 #, qt-format
 msgid "Bad option '%1' value '%2'. Allowed values: all, downloads, uploads."
 msgstr ""
+"Невярна стойност '%2' на опция '%1'. Позволени стойности: all, downloads, "
+"uploads."
 
 #: src/create_torrent_dialog.cpp:161
 msgid "Hashing files..."
-msgstr ""
+msgstr "Хеширане на файловете..."
 
 #: src/create_torrent_dialog.cpp:170
 msgid "Hashing files. Please wait..."
-msgstr ""
+msgstr "Хеширане на файловете. Моля, изчакайте..."
 
 #: src/create_torrent_dialog.cpp:279 src/create_torrent_dialog.cpp:326
 #, qt-format
 msgid "Error while reading torrent files. File '%1': %2."
-msgstr ""
+msgstr "Грешка при четене файловете на торента. Файл '%1': %2."
 
 #: src/create_torrent_dialog.cpp:285
 msgid "Libtorrent internal error happened while reading torrent files."
 msgstr ""
+"При четене файловете на торента се получи вътрешна грешка на libtorrent."
 
 #: src/create_torrent_dialog.cpp:302
 msgid "Libtorrent internal error happened while creating torrent."
-msgstr ""
+msgstr "При създаване на торента се получи вътрешна грешка на libtorrent."
 
 #: src/create_torrent_dialog.cpp:338
 msgid "Libtorrent internal error happened while hashing torrent files."
 msgstr ""
+"При хеширане файловете на торента се получи вътрешна грешка на libtorrent."
 
 #: src/create_torrent_dialog.cpp:387
 msgid "Libtorrent return invalid torrent file."
-msgstr ""
+msgstr "Libtorrent създаде торент файл с неизвестен формат."
 
 #: src/create_torrent_dialog.cpp:416
 #, qt-format
 msgid "Can't write torrent file '%1': %2."
-msgstr ""
+msgstr "Не може да се запази файла на торента '%1': %2."
 
 #: src/create_torrent_dialog.cpp:423
 #, qt-format
 msgid "Libtorrent internal error happened while creating torrent file '%1'."
-msgstr ""
+msgstr "При създаване на торента '%1' се получи вътрешна грешка на libtorrent."
 
 #: src/create_torrent_dialog.cpp:435
 msgid "Torrent created"
-msgstr ""
+msgstr "Торента е създаден"
 
 #: src/create_torrent_dialog.cpp:437
 #, qt-format
 msgid "Torrent '%1' has been created successfully."
-msgstr ""
+msgstr "Торента '%1' е създаден."
 
 #: src/create_torrent_dialog.cpp:461
 msgid "Creating torrent failed"
-msgstr ""
+msgstr "Създаването на торента се провали"
 
 #: src/create_torrent_dialog.cpp:462
 #, qt-format
 msgid "Creating torrent '%1' failed. %2"
-msgstr ""
+msgstr "Създаването на торента '%1' се провали. %2"
 
 #: src/create_torrent_dialog.cpp:488
 msgid "Creating torrent"
-msgstr ""
+msgstr "Създаване на торент"
 
 #: src/create_torrent_dialog.cpp:503
 msgid "Torrent:"
-msgstr ""
+msgstr "Торент:"
 
 #: src/create_torrent_dialog.cpp:508
 msgid "File or directory to create torrent from:"
-msgstr ""
+msgstr "Файл или директория, от която трябва да се създаде торент:"
 
 #: src/create_torrent_dialog.cpp:543
 msgid "Private torrent (DHT is not allowed)"
-msgstr ""
+msgstr "Частен торент (DHT не е разрешен)"
 
 #: src/create_torrent_dialog.cpp:601
 msgid "Piece size:"
-msgstr ""
+msgstr "Размер на една част:"
 
 #: src/create_torrent_dialog.cpp:607
 msgid "Trackers:"
-msgstr ""
+msgstr "Тракери:"
 
 #: src/create_torrent_dialog.cpp:670
 msgid "File or directory to create torrent from is not setted"
-msgstr ""
+msgstr "Файл или директория, за създаване на торент:"
 
 #: src/create_torrent_dialog.cpp:671
 msgid "Please choose file or directory to create torrent from."
-msgstr ""
+msgstr "Моля, изберете файл или директория, от която да се създаде торент."
 
 #: src/create_torrent_dialog.cpp:680
 msgid "Please choose a file to save the torrent"
-msgstr ""
+msgstr "Моля, изберете файл, в който да се запази торента"
 
 #: src/create_torrent_dialog.cpp:740
 msgid "Please choose a directory to create torrent from"
-msgstr ""
+msgstr "Моля, изберете директория, от която  да се създаде торент."
 
 #: src/create_torrent_dialog.cpp:741
 msgid "Please choose a file to create torrent from"
-msgstr ""
+msgstr "Моля, изберете файл, от който да се създаде торент."
 
 #: src/torrent_options_view.cpp:73
 msgid "Downloading"
-msgstr ""
+msgstr "Сваляне"
 
 #: src/torrent_options_view.cpp:76
 msgid "Sequential download"
-msgstr ""
+msgstr "Последователно сваляне"
 
 #: src/torrent_options_view.cpp:84 ui/dialog.add_torrent.glade:162
 msgid "Copy when finished to:"
-msgstr ""
+msgstr "След завършване копирай в:"
 
 #: src/torrent_options_view.cpp:118
 msgid "Trackers"
-msgstr ""
+msgstr "Тракери"
 
 #: src/torrent_options_view.cpp:201
 #, qt-format
 msgid "Error while getting torrent download settings. %1"
-msgstr ""
+msgstr "Грешка при получаване на настройките за сваляне на торента. %1."
 
 #: src/torrent_options_view.cpp:228 src/torrent_options_view.cpp:274
 #, qt-format
 msgid "Error while setting torrent download settings. %1"
-msgstr ""
+msgstr "Грешка при задаване на настройките за сваляне на торента. %1"
 
 #: src/torrent_options_view.cpp:241
 msgid "Please choose a directory for torrent finished files copying"
 msgstr ""
+"Моля, изберете директория, в която ще бъдат копирани файловете на торента "
+"след завършване на свалянето"
 
 #: src/torrent_options_view.cpp:292
 #, qt-format
 msgid "Can't set torrent trackers. %1"
-msgstr ""
+msgstr "Задаването на списък с тракери за торента се провали. %1."
 
 #: src/application.cpp:78
 msgid "Silent warning"
-msgstr ""
+msgstr "Дискретно предупреждение"
 
 #: src/application.cpp:290
 msgid "application is now ending it's work"
-msgstr ""
+msgstr "в дадения момент приложението завършва своята работа"
 
 #: src/application.cpp:406
 msgid "Unable to show libnotify message"
-msgstr ""
+msgstr "Не може да се покаже съобщение libnotify"
 
 #: src/application.cpp:407
 #, qt-format
 msgid ""
-"Unable to show libnotify message: %1. You can disable notifications in the Preferences dialog.\n"
+"Unable to show libnotify message: %1. You can disable notifications in the "
+"Preferences dialog.\n"
 "Message text:\n"
 "%2"
 msgstr ""
+"Не може да се покаже съобщение libnotify: %1. Можете да изключите "
+"нотификациите в прозореца \"Настройки\".\n"
+"Текст на съобщението:\n"
+"%2"
 
 #: src/application.cpp:458
 #, qt-format
 msgid "Running open command failed. %1."
-msgstr ""
+msgstr "Стартирането на програмата за преглед на файлове се провали. %1"
 
 #: src/application.cpp:533
 msgid "Error while saving settings"
-msgstr ""
+msgstr "Грешка при съхраняване на настройките"
 
 #: src/application.cpp:607
-msgid "Unable to initialize a libnotify instance. Notification's displaying is not possible."
+msgid ""
+"Unable to initialize a libnotify instance. Notification's displaying is not "
+"possible."
 msgstr ""
+"Не може да се изпълни инициализация libnotify. Показването на уведомителни "
+"съобщения ще бъде невъзможно."
 
 #: src/main.cpp:172
 msgid "Error"
-msgstr ""
+msgstr "Грешка"
 
 #: src/main.cpp:174
 #, qt-format
 msgid "Starting %1 failed:"
-msgstr ""
+msgstr "Стартирането на %1 се провали:"
 
 #: src/main.cpp:214
 msgid "Error at"
-msgstr ""
+msgstr "Грешка в: "
 
 #: src/main.cpp:215
 msgid ""
 "\n"
 "Locale settings:\n"
 msgstr ""
+"\n"
+"Регионални настройки:\n"
 
 #: src/main.cpp:228
 msgid ""
 "\n"
 "Compiled with native language support.\n"
 msgstr ""
+"\n"
+"Компилиран с подръжка на национални езици.\n"
 
 #: src/main.cpp:230
 msgid ""
 "\n"
 "Compiled without native language support.\n"
 msgstr ""
+"\n"
+"Компилиран без подръжка на национални езици.\n"
 
 #: src/main.cpp:259
 msgid "Logical error."
-msgstr ""
+msgstr "Логическа грешка."
 
 #: src/main.cpp:265 src/main.cpp:283
 msgid "Critical error"
-msgstr ""
+msgstr "Критична грешка"
 
 #: src/main.cpp:301 src/main.cpp:355
 msgid "Debug info:"
-msgstr ""
+msgstr "Debug информация:"
 
 #: src/main.cpp:790
 #, qt-format
 msgid "Enable to set non-block mode for a pipe: %1."
-msgstr ""
+msgstr "Не може да се превключи канал (pipe) в неблокиращ режим: %1."
 
 #: src/main.cpp:845
 #, qt-format
 msgid "Can't create config directory '%1': %2."
 msgstr ""
+"Грешка при създаване на директория за конфигурационните файлове '%1': %2."
 
 #: src/main.cpp:865
 #, qt-format
 msgid "Error while opening config directory '%1': %2."
 msgstr ""
+"Не може да се отвори директорията с конфигурационните файлове '%1': %2."
 
 #: src/main.cpp:877
 #, qt-format
 msgid "Error! Can't stat config directory '%1': %2."
 msgstr ""
+"Грешка! Не може да се получи информация за директорията с конфигурационните "
+"файлове '%1': %2."
 
 #: src/main.cpp:883
 #, qt-format
 msgid "Error! Config path '%1' is not a directory."
 msgstr ""
+"Грешка! Пътя към директорията с конфигурационните файлове '%1' не е "
+"директория."
 
 #: src/main.cpp:889
 #, qt-format
 msgid "Error! Can't change current directory to config directory '%1': %2."
 msgstr ""
+"Грешка! Не може да се смени текущата директория в директория с "
+"конфигурационни файлове '%1': %2."
 
 #: src/main.cpp:914 src/main.cpp:930
 #, qt-format
-msgid "Can't communicate with running %1 instance. Error while reading link '%2' target path: %3."
+msgid ""
+"Can't communicate with running %1 instance. Error while reading link '%2' "
+"target path: %3."
 msgstr ""
+"Не може да се комуникира с работещото копие %1. Грешка при четене на "
+"връзката '%2': %3."
 
 #: src/main.cpp:942
 #, qt-format
 msgid "Can't set environment variable '%1'='%2': %3."
-msgstr ""
+msgstr "Не може да се установят променливите среди '%1'='%2': %3."
 
 #: src/main.cpp:948 src/main.cpp:1161
 #, qt-format
 msgid "Can't communicate with running %1 instance. It is not running."
-msgstr ""
+msgstr "Няма комуникация с работещото копие %1. %1 не е стартирано."
 
 #: src/main.cpp:988
 msgid "Unexpected DBus behavior"
-msgstr ""
+msgstr "Неочаквано поведение на DBus"
 
 #: src/main.cpp:989
 msgid "Name request has been added to queue, but queuing has been forbidden."
 msgstr ""
+"Заявката за захват на името беше добавена в опашката въпреки че, тя е била "
+"забранена."
 
 #: src/main.cpp:995 src/main.cpp:1002
 msgid "Unexpected DBus behavior while requesting name"
-msgstr ""
+msgstr "Неочаквано поведение на DBus при заявка за захват на името"
 
 #: src/main.cpp:996
-msgid "DBus saying that application is already name owner, but name request has not been sent yet."
+msgid ""
+"DBus saying that application is already name owner, but name request has not "
+"been sent yet."
 msgstr ""
+"DBus потвърждава че, приложението вече има собствено име, въпреки че, "
+"запитването за име още не е изпратено."
 
 #: src/main.cpp:1003
 msgid "Unknown reply has been gotten."
-msgstr ""
+msgstr "Беше получен отговор от неизвестен тип."
 
 #: src/main.cpp:1014
 msgid "DBus error"
-msgstr ""
+msgstr "Грешка на DBus."
 
 #: src/main.cpp:1042
 #, qt-format
 msgid "Creating %1 session failed. Can't remove DBus session link '%2'. %3"
 msgstr ""
+"Създаването на сесията %1 се провали. Грешка при премахване на връзката '%2' "
+"на сесията DBus. %3"
 
 #: src/main.cpp:1051
 #, qt-format
-msgid "Creating %1 session failed. Error while reading link '%2' target path: %3."
+msgid ""
+"Creating %1 session failed. Error while reading link '%2' target path: %3."
 msgstr ""
+"Създаването на сесията %1 се провали. Грешка при четене на връзката '%2': %3."
 
 #: src/main.cpp:1058
 #, qt-format
 msgid "Creating %1 session failed. Can't get DBus session bus address."
 msgstr ""
+"Създаването на сесията %1 се провали. Не може да се получи адрес на DBus "
+"сесията."
 
 #: src/main.cpp:1067
 #, qt-format
 msgid "Creating %1 session failed. Can't create DBus session link '%2': %3."
 msgstr ""
+"Създаването на сесията %1 се провали. Не успя да се създаде връзка на DBus "
+"сесията '%2': %3."
 
 #: src/main.cpp:1105 src/main.cpp:1121
 #, qt-format
 msgid "Closing %1 session failed. Can't remove DBus session link '%2': %3."
 msgstr ""
+"Затварянето на сесията %1 се провали. Не успя да се пренахне връзката на "
+"DBus сесията '%2': %3."
 
 #: src/main.cpp:1140
 msgid "Nothing to process. Exiting..."
-msgstr ""
+msgstr "Няма дейстия, които да се обработват. Изход..."
 
 #: src/main.cpp:1143
 msgid "Delivering command line options to working copy..."
-msgstr ""
+msgstr "Ппедоставяне на опцийте от командния ред на работещото копие..."
 
 #: src/main.cpp:1152 src/main.cpp:1156 src/main.cpp:1161
 msgid "Transmitting command line options failed"
-msgstr ""
+msgstr "Препратените опций от командния ред завършиха с неуспех"
 
 #: src/main.cpp:1152
 #, qt-format
 msgid "Running %1 instance rejected command line options transfered to it: %2."
-msgstr ""
+msgstr "Стартираното копие %1 отклони переданите му опции в командния ред: %2."
 
 #: src/main.cpp:1156
 #, qt-format
 msgid "Can't communicate with running %1 instance via DBus: %2."
-msgstr ""
+msgstr "Няма комуникация със стартираното копие %1 чрез DBus: %2."
 
 #: src/trackers_view.cpp:169
 #, qt-format
-msgid "Gotten invalid tracker URL ('%1'). Please inter a valid URL started from 'http://'."
+msgid ""
+"Gotten invalid tracker URL ('%1'). Please inter a valid URL started from "
+"'http://'."
 msgstr ""
+"Получен е невалиден URL на тракера ('%1'). Моля, въведетв валиден URL "
+"(трябва да започва с 'http://')."
 
 #: src/trackers_view.cpp:187
 #, qt-format
-msgid "Gotten invalid tracker URL ('%1'). This URL is already exists in the tracker list."
+msgid ""
+"Gotten invalid tracker URL ('%1'). This URL is already exists in the tracker "
+"list."
 msgstr ""
+"Получен е невалиден URL на тракера ('%1'). Този URL вече присъства в списъка "
+"с тракери за торента."
 
 #: src/trackers_view.cpp:234 src/trackers_view.cpp:236
 msgid "Invalid tracker URL"
-msgstr ""
+msgstr "Невалиден URL на тракера"
 
 #: src/categories_view.cpp:294
 msgid "invalid category name"
-msgstr ""
+msgstr "невалидно име на категорията"
 
 #: src/categories_view.cpp:341
 msgid "All torrents (as short as possible)|All"
-msgstr ""
+msgstr "Всички"
 
 #: src/categories_view.cpp:342
 msgid "Paused torrents (as short as possible)|Paused"
-msgstr ""
+msgstr "На пауза"
 
 #: src/categories_view.cpp:343
 msgid "Checking torrents (as short as possible)|Checking"
-msgstr ""
+msgstr "Проверка"
 
 #: src/categories_view.cpp:344
 msgid "Waiting for download torrents (as short as possible)|Down. wait"
-msgstr ""
+msgstr "Очакв. св."
 
 #: src/categories_view.cpp:345
 msgid "Downloading torrents (as short as possible)|Downloading"
-msgstr ""
+msgstr "Сваляне"
 
 #: src/categories_view.cpp:346
 msgid "Seeding torrents (as short as possible)|Seeding"
-msgstr ""
+msgstr "Сийдване"
 
 #: src/categories_view.cpp:347
 msgid "Uploading torrents (as short as possible)|Uploading"
-msgstr ""
+msgstr "Качване"
 
 #: src/categories_view.cpp:348
 msgid "Torrents with tracker error (as short as possible)|Tracker error"
-msgstr ""
+msgstr "Грешка на тракера"
 
 #: src/categories_view.cpp:363
 #, qt-format
 msgid "Can't select torrent category '%1': %2."
-msgstr ""
+msgstr "Не успя да се избере категория на торента '%1': %2."
 
 #: src/categories_view.cpp:373
 msgid "All torrents"
-msgstr ""
+msgstr "Всички торенти"
 
 #: src/categories_view.cpp:378
 msgid "Paused torrents"
-msgstr ""
+msgstr "Торенти на пауза"
 
 #: src/categories_view.cpp:384
 msgid "Checking torrents"
-msgstr ""
+msgstr "Проверяващи се торенти"
 
 #: src/categories_view.cpp:390
 msgid "Waiting for download torrents"
-msgstr ""
+msgstr "Торенти чакащи за сваляне"
 
 #: src/categories_view.cpp:396
 msgid "Downloading torrents"
-msgstr ""
+msgstr "Сваляни торенти"
 
 #: src/categories_view.cpp:402
 msgid "Finished (seeding) torrents"
-msgstr ""
+msgstr "Завършени (раздаващи се) торенти"
 
 #: src/categories_view.cpp:408
 msgid "Uploading torrents"
-msgstr ""
+msgstr "Раздавани торенти"
 
 #: src/categories_view.cpp:414
 msgid "Torrents with tracker error"
-msgstr ""
+msgstr "Торенти с грешка на тракера"
 
 #: src/ip_filter.cpp:262
 msgid "Error while adding rule to IP filter"
-msgstr ""
+msgstr "Грешка при добавяне на правило в IP-филтъра"
 
 #: src/ip_filter.cpp:263
 #, qt-format
 msgid "Error while adding rule to IP filter: %1."
-msgstr ""
+msgstr "Грешка при добавяне на правило в IP-филтъра: %1."
 
 #: src/temporary_action_dialog.cpp:122
 msgid "1 minute"
-msgstr ""
+msgstr "1 минута"
 
 #: src/temporary_action_dialog.cpp:123
 msgid "5 minutes"
-msgstr ""
+msgstr "5 минути"
 
 #: src/temporary_action_dialog.cpp:124
 msgid "10 minutes"
-msgstr ""
+msgstr "10 минути"
 
 #: src/temporary_action_dialog.cpp:125
 msgid "15 minutes"
-msgstr ""
+msgstr "15 минути"
 
 #: src/temporary_action_dialog.cpp:126
 msgid "30 minutes"
-msgstr ""
+msgstr "30 минути"
 
 #: src/temporary_action_dialog.cpp:127
 msgid "45 minutes"
-msgstr ""
+msgstr "45 минути"
 
 #: src/temporary_action_dialog.cpp:128
 msgid "1 hour"
-msgstr ""
+msgstr "1 час"
 
 #: src/temporary_action_dialog.cpp:129
 msgid "2 hours"
-msgstr ""
+msgstr "2 часа"
 
 #: src/temporary_action_dialog.cpp:130
 msgid "4 hours"
-msgstr ""
+msgstr "4 часа"
 
 #: src/temporary_action_dialog.cpp:131
 msgid "8 hours"
-msgstr ""
+msgstr "8 часа"
 
 #: src/temporary_action_dialog.cpp:132
 msgid "12 hours"
-msgstr ""
+msgstr "12 часа"
 
 #: src/temporary_action_dialog.cpp:133
 msgid "1 day"
-msgstr ""
+msgstr "1 ден"
 
 #: src/temporary_action_dialog.cpp:208
 msgid "Temporary resume downloads|resume"
-msgstr ""
+msgstr "подновяване"
 
 #: src/temporary_action_dialog.cpp:212
 msgid "Temporary pause downloads|pause"
-msgstr ""
+msgstr "спиране"
 
 #: src/temporary_action_dialog.cpp:223
 msgid "Temporary pause all torrents|all torrents"
-msgstr ""
+msgstr "на всички торенти"
 
 #: src/temporary_action_dialog.cpp:227
 msgid "Temporary pause downloads|downloads"
-msgstr ""
+msgstr "на сваляни"
 
 #: src/temporary_action_dialog.cpp:231
 msgid "Temporary pause uploads|uploads"
-msgstr ""
+msgstr "на качвани"
 
 #: src/temporary_action_dialog.cpp:239
 #, qt-format
 msgid "Temporary pause downloads|Temporary %1 %2"
-msgstr ""
+msgstr "Временно %1 %2"
 
 #: ui/dialog.temporary_action.glade:42
 msgid "Time:"
-msgstr ""
+msgstr "Задаване на време:"
 
 #: ui/dialog.temporary_action.glade:61
 msgid "Custom time (m)|Custom (m)"
-msgstr ""
+msgstr "Задай ръчно (мин)"
 
 #: ui/dialog.temporary_action.glade:75
 msgid "Predefined time|Predefined"
-msgstr ""
+msgstr "За :"
 
 #: ui/preferences.client.gui.status_bar.glade:19
 msgid "<big><b>Client::GUI::Status bar</b></big>"
-msgstr ""
+msgstr "<big><b>Клиент::GUI::Панел за състоянието</b></big>"
 
 #: ui/preferences.client.gui.status_bar.glade:121
 msgid "Downloaded (payload)"
-msgstr ""
+msgstr "Свалени данни"
 
 #: ui/preferences.client.gui.status_bar.glade:175
 msgid "Uploaded (payload)"
-msgstr ""
+msgstr "Качени данни"
 
 #: ui/dialog.add_torrent.glade:7
 msgid "Add torrent"
-msgstr ""
+msgstr "Добавяне на торрент"
 
 #: ui/dialog.add_torrent.glade:28
 msgid "<b>Torrent</b>"
-msgstr ""
+msgstr "<b>Торент</b>"
 
 #: ui/dialog.add_torrent.glade:45
 msgid "Path:"
-msgstr ""
+msgstr "Път:"
 
 #: ui/dialog.add_torrent.glade:76
 msgid "Name:"
-msgstr ""
+msgstr "Име:"
 
 #: ui/dialog.add_torrent.glade:100
 msgid "Start torrent"
-msgstr ""
+msgstr "Старт на торрента"
 
 #: ui/dialog.add_torrent.glade:133
 msgid "Download path:"
-msgstr ""
+msgstr "Сваляне в:"
 
 #: ui/dialog.add_torrent.glade:145
 msgid "Please select torrent's download directory"
-msgstr ""
+msgstr "Моля, изберете директория за сваляне на торента"
 
 #: ui/dialog.add_torrent.glade:179 ui/preferences.daemon.automation.glade:158
 msgid "Please select a directory for finished downloads copying"
 msgstr ""
+"Моля, изберете директория, в която ще се копират файловете на торента след "
+"приключване на свалането"
 
 #: ui/dialog.add_torrent.glade:195
 msgid "<b>Paths</b>"
-msgstr ""
+msgstr "<b>Пътища</b>"
 
 #: ui/dialog.add_torrent.glade:227
 msgid "<b>Files</b>"
-msgstr ""
+msgstr "<b>Файлове</b>"
 
 #: ui/dialog.add_torrent.glade:250
 #: ui/preferences.daemon.network.misc.glade:501
 msgid "<b>Trackers</b>"
-msgstr ""
+msgstr "<b>Тракери</b>"
 
 #: ui/preferences.daemon.network.misc.glade:19
 msgid "<big><b>Daemon::Network::Misc</b></big>"
-msgstr ""
+msgstr "<big><b>Демон::Мрежа::Разни</b></big>"
 
 #: ui/preferences.daemon.network.misc.glade:54
 msgid "<b>Listen port</b>"
-msgstr ""
+msgstr "<b>Прослушван порт</b>"
 
 #: ui/preferences.daemon.network.misc.glade:63
 msgid "Random port"
-msgstr ""
+msgstr "Случаен порт"
 
 #: ui/preferences.daemon.network.misc.glade:79
 msgid "Custom port range:"
-msgstr ""
+msgstr "В диапазона:"
 
 #: ui/preferences.daemon.network.misc.glade:110
 msgid "From port to port|from"
-msgstr ""
+msgstr "от"
 
 #: ui/preferences.daemon.network.misc.glade:134
 msgid "From port to port|to"
-msgstr ""
+msgstr "до"
 
 #: ui/preferences.daemon.network.misc.glade:182
 msgid "Current listen port:"
-msgstr ""
+msgstr "Прослушван в момента порт:"
 
 #: ui/preferences.daemon.network.misc.glade:230
 msgid "<b>Extras</b>"
-msgstr ""
+msgstr "<b>Допълнителни възможности</b>"
 
 #: ui/preferences.daemon.network.misc.glade:251
 msgid "DHT"
-msgstr ""
+msgstr "DHT"
 
 #: ui/preferences.daemon.network.misc.glade:260
 msgid "UPnP"
-msgstr ""
+msgstr "UPnP"
 
 #: ui/preferences.daemon.network.misc.glade:273
 msgid "LSD"
-msgstr ""
+msgstr "LSD"
 
 #: ui/preferences.daemon.network.misc.glade:277
-msgid "Local Service Discovery. This service will broadcast the infohashes of all the non-private torrents on the local network to look for peers on the same swarm within multicast reach."
+msgid ""
+"Local Service Discovery. This service will broadcast the infohashes of all "
+"the non-private torrents on the local network to look for peers on the same "
+"swarm within multicast reach."
 msgstr ""
+"Local Service Discovery. Тази услуга разпространява хешовете на всички не-"
+"частни торенти в локалната мрежа с цел, намиране на пиъри за сваляне на "
+"торентите. "
 
 #: ui/preferences.daemon.network.misc.glade:287
 msgid "NAT-PMP"
-msgstr ""
+msgstr "NAT-PMP"
 
 #: ui/preferences.daemon.network.misc.glade:302
 msgid "Peer exchange"
-msgstr ""
+msgstr "Обмен на потребители"
 
 #: ui/preferences.daemon.network.misc.glade:306
 msgid "Exchanges peers between clients."
-msgstr ""
+msgstr "Обмен на потребители между BitTorrent клиентите."
 
 #: ui/preferences.daemon.network.misc.glade:316
 msgid "Smart ban"
-msgstr ""
+msgstr "Smart ban"
 
 #: ui/preferences.daemon.network.misc.glade:320
 msgid "Ban peers that sends bad data with very high accuracy."
-msgstr ""
+msgstr "Бан на потребители, които регулярно подават грешни  данни."
 
 #: ui/preferences.daemon.network.misc.glade:364
 msgid "<b>Bandwidth</b>"
-msgstr ""
+msgstr "<b>Пропускателна способност на канала</b>"
 
 #: ui/preferences.daemon.network.misc.glade:382
 msgid "Download rate limit (KB/s):"
-msgstr ""
+msgstr "Максимална скорост на сваляне (КБ/с):"
 
 #: ui/preferences.daemon.network.misc.glade:389
 msgid "Upload rate limit (KB/s):"
-msgstr ""
+msgstr "Максимална скорост на качване (КБ/с):"
 
 #: ui/preferences.daemon.network.misc.glade:400
 msgid "Max uploads:"
-msgstr ""
+msgstr "Максимално количество слотове за качване:"
 
 #: ui/preferences.daemon.network.misc.glade:411
 msgid "Max connections:"
-msgstr ""
+msgstr "Максимално количество отворени връзки:"
 
 #: ui/preferences.daemon.network.misc.glade:515
 msgid "Max announce interval (m):"
-msgstr ""
+msgstr "Максимален интервал между анонсите (мин):"
 
 #: ui/preferences.daemon.network.misc.glade:519
 msgid ""
-"This option is very usable if you have no real IP address, and trackers sets too big announce interval for it's torrents, because in this case you receive new peers only one time per this interval.\n"
+"This option is very usable if you have no real IP address, and trackers sets "
+"too big announce interval for it's torrents, because in this case you "
+"receive new peers only one time per this interval.\n"
 "\n"
-"Please do not set this option, if you have real IP address! In this case you do not make torrent client work better, but this option increase trackers overload."
+"Please do not set this option, if you have real IP address! In this case you "
+"do not make torrent client work better, but this option increase trackers "
+"overload."
 msgstr ""
+"Тази опция може да бъде много полезна, ако не разполагате с реален IP адрес, "
+"и тракерите настройват твърде голям интервал между анонсите за своите "
+"торенти, т. к. в този случай клиента ще получава нови пиъри много рядко "
+"(само тогава, когато се изпраща поредния анонс към тракера).\n"
+"\n"
+"Моля, не влючвайте тази опция, ако сте с реален IP адрес! Т. к. в този "
+"случай с нищо няма да помогнете на торент-клиента, и само ще увеличите "
+"натоварването на тракера."
 
 #: ui/preferences.daemon.network.ip_filter.glade:14
 msgid "<big><b>Daemon::Network::IP filter</b></big>"
-msgstr ""
+msgstr "<big><b>Демон::Мрежа::IP-филтър</b></big>"
 
 #: ui/preferences.daemon.network.ip_filter.glade:52
-msgid "This list is fully scanned from top to bottom. In a case of overlapping ranges the last one applied takes precedence. The list has one implicit rule at the top, which allows all IPs."
+msgid ""
+"This list is fully scanned from top to bottom. In a case of overlapping "
+"ranges the last one applied takes precedence. The list has one implicit rule "
+"at the top, which allows all IPs."
 msgstr ""
+"Този списък се вижда напълно от горе до долу. В случай на препокриващи се "
+"диапазони с IP-адреси се избира последното подходящо правило. Най-отгоре в "
+"списъка се намира неявно правило, което разрешава всички IP-адреси."
 
 #: ui/preferences.daemon.network.ip_filter.glade:226
 msgid "Enable IP filter|Enable"
-msgstr ""
+msgstr "Включен"
 
 #: ui/torrent_info_tabs.details.glade:39
 #: ui/torrent_info_tabs.details_compact.glade:39
 msgid "Size:"
-msgstr ""
+msgstr "Размер:"
 
 #: ui/torrent_info_tabs.details.glade:46
 #: ui/torrent_info_tabs.details_compact.glade:46
 msgid "Requested size:"
-msgstr ""
+msgstr "Зададен размер:"
 
 #: ui/torrent_info_tabs.details.glade:57
 #: ui/torrent_info_tabs.details_compact.glade:57
 msgid "Downloaded requested size:"
-msgstr ""
+msgstr "Свалени от зададеното:"
 
 #: ui/torrent_info_tabs.details.glade:68
 msgid "Total download:"
-msgstr ""
+msgstr "Общо свалени:"
 
 #: ui/torrent_info_tabs.details.glade:79
 #: ui/torrent_info_tabs.details_compact.glade:68
 msgid "Total payload download:"
-msgstr ""
+msgstr "Общо свалени данни:"
 
 #: ui/torrent_info_tabs.details.glade:92
 msgid "Total upload:"
-msgstr ""
+msgstr "Общо качени:"
 
 #: ui/torrent_info_tabs.details.glade:105
 #: ui/torrent_info_tabs.details_compact.glade:195
 msgid "Total payload upload:"
-msgstr ""
+msgstr "Общо качени данни:"
 
 #: ui/torrent_info_tabs.details.glade:118
 msgid "Total failed:"
-msgstr ""
+msgstr "Грешки:"
 
 #: ui/torrent_info_tabs.details.glade:131
 msgid "Total redundant:"
-msgstr ""
+msgstr "Общо излишни данни:"
 
 #: ui/torrent_info_tabs.details.glade:310
 msgid "Download speed:"
-msgstr ""
+msgstr "Скорост на сваляне:"
 
 #: ui/torrent_info_tabs.details.glade:321
 #: ui/torrent_info_tabs.details_compact.glade:171
 msgid "Download payload speed:"
-msgstr ""
+msgstr "Скорост на сваляне данни:"
 
 #: ui/torrent_info_tabs.details.glade:334
 msgid "Upload speed:"
-msgstr ""
+msgstr "Скорост на качване:"
 
 #: ui/torrent_info_tabs.details.glade:347
 #: ui/torrent_info_tabs.details_compact.glade:182
 msgid "Upload payload speed:"
-msgstr ""
+msgstr "Скорост на качване данни:"
 
 #: ui/torrent_info_tabs.details.glade:396
 #: ui/torrent_info_tabs.details_compact.glade:220
 msgid "Share ratio:"
-msgstr ""
+msgstr "Рейтинг:"
 
 #: ui/torrent_info_tabs.details.glade:407
 msgid "Peers:"
-msgstr ""
+msgstr "Потребители:"
 
 #: ui/torrent_info_tabs.details.glade:418
 msgid "Seeds:"
-msgstr ""
+msgstr "Сийдъри:"
 
 #: ui/torrent_info_tabs.details.glade:429
 #: ui/torrent_info_tabs.details_compact.glade:257
 msgid "Time left:"
-msgstr ""
+msgstr "Оставащо време:"
 
 #: ui/torrent_info_tabs.details.glade:454
 msgid "Time seeding:"
-msgstr ""
+msgstr "Време на сийдване:"
 
 #: ui/torrent_info_tabs.details.glade:493
 msgid "Time added:"
-msgstr ""
+msgstr "Време на добавяне:"
 
 #: ui/torrent_info_tabs.details.glade:519
 msgid "Next announce:"
-msgstr ""
+msgstr "Следващ анонс:"
 
 #: ui/torrent_info_tabs.details.glade:532
 msgid "Announce interval:"
-msgstr ""
+msgstr "Интервал на анонса:"
 
 #: ui/torrent_info_tabs.details.glade:646
 #: ui/torrent_info_tabs.details_compact.glade:323
 msgid "Tracker status:"
-msgstr ""
+msgstr "Статус на тракера:"
 
 #: ui/torrent_info_tabs.details.glade:653
 #: ui/torrent_info_tabs.details_compact.glade:330
 msgid "Publisher URL:"
-msgstr ""
+msgstr "URL на източника:"
 
 #: ui/preferences.client.gui.glade:14
 msgid "<big><b>Client::GUI</b></big>"
-msgstr ""
+msgstr "<big><b>Клиент::GUI</b></big>"
 
 #: ui/preferences.daemon.automation.glade:19
 msgid "<big><b>Daemon::Automation</b></big>"
-msgstr ""
+msgstr "<big><b>Демон::Автоматизация</b></big>"
 
 #: ui/preferences.daemon.automation.glade:54
 msgid "<b>Torrents auto load</b>"
-msgstr ""
+msgstr "<b>Автоматично зареждане на торентите</b>"
 
 #: ui/preferences.daemon.automation.glade:72
 msgid "Load torrents from"
-msgstr ""
+msgstr "Зареждане на торенти от"
 
 #: ui/preferences.daemon.automation.glade:90
 msgid "Please select a directory for torrents auto load"
-msgstr ""
+msgstr "Моля, изберете директория за автоматично сваляне на торентите"
 
 #: ui/preferences.daemon.automation.glade:131
 msgid "Please select a torrents download directory"
-msgstr ""
+msgstr "Моля, изберете директория за сваляне на торентите"
 
 #: ui/preferences.daemon.automation.glade:169
 msgid "Delete loaded *.torrent files"
-msgstr ""
+msgstr "Изтриване на заредените *.torrent файлове"
 
 #: ui/preferences.daemon.automation.glade:226
 msgid "<b>Torrents auto cleaning</b>"
-msgstr ""
+msgstr "<b>Автоматично почистване на стари торенти</b>"
 
 #: ui/preferences.daemon.automation.glade:248
 msgid "Max ratio:"
-msgstr ""
+msgstr "Максимален рейтинг:"
 
 #: ui/preferences.daemon.automation.glade:261
 msgid "Max seeding torrents:"
-msgstr ""
+msgstr "Максимално количество сийдвани торенти:"
 
 #: ui/preferences.daemon.automation.glade:358
 msgid "Max seeding time (m):"
-msgstr ""
+msgstr "Максимално време за сийдване (мин):"
 
 #: ui/preferences.daemon.network.glade:14
 msgid "<big><b>Daemon::Network</b></big>"
-msgstr ""
+msgstr "<big><b>Демон::Мрежа</b></big>"
 
 #: ui/preferences.client.gui.misc.glade:19
 msgid "<big><b>Client::GUI::Misc</b></big>"
-msgstr ""
+msgstr "<big><b>Клиент::GUI::Разни</b></big>"
 
 #: ui/preferences.client.gui.misc.glade:51
 msgid "Show speed in window title"
-msgstr ""
+msgstr "Показване на текущата скорост в заглавието на прозореца"
 
 #: ui/preferences.client.gui.misc.glade:64
 msgid "Show zero values in torrents info columns"
-msgstr ""
+msgstr "Показване на нулевите стойности в колоните с информация за торентите"
 
 #: ui/preferences.client.gui.misc.glade:77
 msgid "Compact details tab"
-msgstr ""
+msgstr "Компактен изглед на детайлите за торента"
 
 #: ui/preferences.client.gui.misc.glade:110
 msgid "GUI update interval (ms):"
-msgstr ""
+msgstr "Интервал за обновяване на GUI (ms):"
 
 #: ui/preferences.client.gui.misc.glade:117
 msgid "Max log lines:"
-msgstr ""
+msgstr "Максимално количество редове в лога:"
 
 #: ui/preferences.client.gui.misc.glade:168
 msgid "Show tray icon"
-msgstr ""
+msgstr "Показване на икона в \"Oбласт за уведомяване\" (tray)"
 
 #: ui/preferences.client.gui.misc.glade:194
 msgid "Minimize to tray"
-msgstr ""
+msgstr "Минимизиране в (tray)"
 
 #: ui/preferences.client.gui.misc.glade:215
 msgid "Hide main window to tray at startup"
-msgstr ""
+msgstr "Стартиране в (tray)"
 
 #: ui/preferences.client.gui.misc.glade:228
 msgid "Close to tray"
-msgstr ""
+msgstr "Затваряне в (tray)"
 
 #: ui/preferences.client.gui.misc.glade:266
 msgid "Download completed notification"
-msgstr ""
+msgstr "Известявяне при завършване свалянето на всеки торент"
 
 #: ui/preferences.client.gui.misc.glade:279
 msgid "All downloads completed notification"
-msgstr ""
+msgstr "Известявяне при завършване свалянето на всички торенти"
 
 #: ui/dialog.open_magnet_link.glade:26
 msgid "Magnet link:"
-msgstr ""
+msgstr "Magnet-връзка:"
