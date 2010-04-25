@@ -40,7 +40,9 @@
 #include "common.hpp"
 #include "daemon_types.hpp"
 
-#if M_BOOST_GET_VERSION() > M_GET_VERSION(1, 35, 0)
+#if M_BOOST_GET_VERSION() >= M_GET_VERSION(1, 40, 0)
+	#include <boost/exception/all.hpp>
+#elif M_BOOST_GET_VERSION() > M_GET_VERSION(1, 35, 0)
 	#include <boost/exception.hpp>
 #elif M_BOOST_GET_VERSION() == M_GET_VERSION(1, 35, 0)
 	#include <boost/system/system_error.hpp>
