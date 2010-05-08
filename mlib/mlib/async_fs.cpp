@@ -410,7 +410,7 @@ namespace
 
 	void Async_fs::operator()(void)
 	{
-		Task::Task task;
+		Task task;
 
 		while(1)
 		{
