@@ -325,7 +325,7 @@ void Add_torrent_dialog::process(Gtk::Window& parent_window, const std::string& 
 
 			priv->download_to->set_title(
 				format_window_title(priv->download_to->get_title()) );
-			priv->download_to->set_filename(U2L(user_settings.download_to));
+			priv->download_to->set_current_folder(U2L(user_settings.download_to));
 
 
 			priv->copy_when_finished->signal_toggled().connect(
