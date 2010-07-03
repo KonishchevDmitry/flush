@@ -1,0 +1,17 @@
+Flush is a GTK-based BitTorrent client. You can use it to download files from
+the BitTorrent network.
+
+Features:
+ * Controlling running instance by command line interface.
+ * Running many instances with different configs from the same user.
+ * Automatic copying finished downloads to specified directory.
+ * Setting custom download path for each file of the torrent.
+ * Ability to choose torrent file's character set encoding.
+ * Automatic torrents loading from specified directory.
+ * Automatic pausing and removing old torrents.
+ * Temporary pausing and resuming torrents.
+ * Overall and current session statistics.
+ * Creating your own torrent files.
+ * IP filter.
+
+Flush uses Rasterbar's version of libtorrent.
