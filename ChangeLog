@@ -1,3 +1,9 @@
+0.9.7 (2010.07.03)
+-----
+[*] Fixed a bug in add torrent dialog - on some distributives torrents always
+downloaded in the home directory.
+
+
 0.9.6 (2010.05.08)
 -----
 [*] Build error fix (http://aur.archlinux.org/packages.php?ID=25114).
