@@ -25,9 +25,9 @@
 
 #ifndef MLIB_ENABLE_LIBS_FORWARDS
 	#include <libtorrent/bencode.hpp>
-	#include <libtorrent/torrent_handle.hpp>
 #endif
 
+#include <libtorrent/torrent_handle.hpp>
 #include <libtorrent/torrent_info.hpp>
 
 #include <mlib/main.hpp>
