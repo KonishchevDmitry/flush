@@ -5,12 +5,10 @@
   <widget class="GtkVBox" id="network_misc_settings">
     <property name="visible">True</property>
     <property name="border_width">15</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">20</property>
     <child>
       <widget class="GtkVBox" id="header">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <widget class="GtkLabel" id="label4">
@@ -45,7 +43,6 @@
     <child>
       <widget class="GtkVBox" id="listen_port_range">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <widget class="GtkLabel" id="label6">
@@ -221,7 +218,6 @@
     <child>
       <widget class="GtkVBox" id="extras">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">5</property>
         <child>
           <widget class="GtkLabel" id="label1">
@@ -350,12 +346,10 @@
         <child>
           <widget class="GtkVBox" id="vbox1">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">20</property>
             <child>
               <widget class="GtkVBox" id="bandwidth">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <widget class="GtkLabel" id="label8">
@@ -482,6 +476,22 @@
                     <property name="position">1</property>
                   </packing>
                 </child>
+                <child>
+                  <widget class="GtkCheckButton" id="ignore_limits_on_local_network">
+                    <property name="label" translatable="yes">Ignore rate limits on local network</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="has_tooltip">True</property>
+                    <property name="tooltip" translatable="yes">This option is very usable if you have no real IP address, and trackers sets too big announce interval for it's torrents, because in this case you receive new peers only one time per this interval.
+
+Please do not set this option, if you have real IP address! In this case you do not make torrent client work better, but this option increase trackers overload.</property>
+                    <property name="draw_indicator">True</property>
+                  </widget>
+                  <packing>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -492,7 +502,6 @@
             <child>
               <widget class="GtkVBox" id="trackers">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <property name="spacing">5</property>
                 <child>
                   <widget class="GtkLabel" id="label12">

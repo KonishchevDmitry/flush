@@ -199,7 +199,8 @@ namespace
 		dht(true),
 
 		download_rate_limit(-1),
-		upload_rate_limit(-1)
+		upload_rate_limit(-1),
+		ignore_limits_on_local_network(true)
 	{
 	}
 
@@ -605,6 +606,11 @@ namespace
 				else
 					this->max_connections = setting;
 			}
+			else if(m::is_eq(setting_name, "ignore_limits_on_local_network"))
+			{
+				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
+				this->ignore_limits_on_local_network = setting;
+			}
 			else if(m::is_eq(setting_name, "enable_max_announce_interval"))
 			{
 				CHECK_OPTION_TYPE(setting, libconfig::Setting::TypeBoolean, continue)
@@ -866,6 +872,7 @@ namespace
 
 			config_root.add("download_rate_limit", m::libconfig::Speed_type) = m::libconfig::Speed(get_lt_rate_limit(this->download_rate_limit));
 			config_root.add("upload_rate_limit", m::libconfig::Speed_type) = m::libconfig::Speed(get_lt_rate_limit(this->upload_rate_limit));
+			config_root.add("ignore_limits_on_local_network", libconfig::Setting::TypeBoolean) = this->ignore_limits_on_local_network;
 
 			config_root.add("max_uploads", libconfig::Setting::TypeInt) = this->max_uploads;
 			config_root.add("max_connections", libconfig::Setting::TypeInt) = this->max_connections;

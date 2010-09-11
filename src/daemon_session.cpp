@@ -385,9 +385,7 @@ Daemon_session::Daemon_session(const std::string& config_dir_path)
 	// Настройки libtorrent -->
 	{
 		lt::session_settings lt_settings = priv->session.settings();
-
 		lt_settings.user_agent = _C("%1 %2", APP_NAME, APP_VERSION_STRING);
-		lt_settings.ignore_limits_on_local_network = false;
 
 		// Увеличиваем количество пиров, которые клиент запрашивает у трекера.
 		// Если говорить о версии 0.14.3, то libtorrent все равно ограничивает
@@ -1296,6 +1294,7 @@ Daemon_settings Daemon_session::get_settings(void) const
 
 	settings.download_rate_limit = this->get_rate_limit(DOWNLOAD);
 	settings.upload_rate_limit = this->get_rate_limit(UPLOAD);
+	settings.ignore_limits_on_local_network = priv->session.settings().ignore_limits_on_local_network;
 
 	return settings;
 }
@@ -2384,6 +2383,12 @@ void Daemon_session::set_settings(const Daemon_settings& settings, const bool in
 	// Ограничение на скорость отдачи.
 	if(this->get_rate_limit(UPLOAD) != settings.upload_rate_limit || init_settings)
 		this->set_rate_limit(UPLOAD, settings.upload_rate_limit);
+
+	/// Нужно ли игнорировать ограничения скорости при передаче данных внутри
+	/// локальной сети.
+	lt::session_settings lt_settings = priv->session.settings();
+	lt_settings.ignore_limits_on_local_network = settings.ignore_limits_on_local_network;
+	priv->session.set_settings(lt_settings);
 
 	// Максимальное количество соединений для раздачи,
 	// которое может быть открыто.

@@ -131,6 +131,7 @@ namespace Settings_window_aux
 				Gtk::SpinButton*	upload_rate_limit;
 				Gtk::SpinButton*	max_uploads;
 				Gtk::SpinButton*	max_connections;
+				Gtk::CheckButton*	ignore_limits_on_local_network;
 
 				Gtk::CheckButton*	use_max_announce_interval;
 				Gtk::SpinButton*	max_announce_interval;
@@ -715,6 +716,7 @@ Settings_window::Settings_window(Gtk::Window& parent_window, Client_settings* cl
 		MLIB_GTK_BUILDER_GET_WIDGET(builder, "upload_rate_limit", misc.upload_rate_limit);
 		MLIB_GTK_BUILDER_GET_WIDGET(builder, "max_uploads", misc.max_uploads);
 		MLIB_GTK_BUILDER_GET_WIDGET(builder, "max_connections", misc.max_connections);
+		MLIB_GTK_BUILDER_GET_WIDGET(builder, "ignore_limits_on_local_network", misc.ignore_limits_on_local_network);
 
 		MLIB_GTK_BUILDER_GET_WIDGET(builder, "use_max_announce_interval", misc.use_max_announce_interval);
 		MLIB_GTK_BUILDER_GET_WIDGET(builder, "max_announce_interval", misc.max_announce_interval);
@@ -978,10 +980,11 @@ void Settings_window::load_settings(void)
 				misc.pex		->set_active(settings.pex);
 				misc.smart_ban	->set_active(settings.smart_ban);
 
-				misc.download_rate_limit->set_value(settings.download_rate_limit);
-				misc.upload_rate_limit	->set_value(settings.upload_rate_limit);
-				misc.max_uploads		->set_value(settings.max_uploads);
-				misc.max_connections	->set_value(settings.max_connections);
+				misc.download_rate_limit			->set_value(settings.download_rate_limit);
+				misc.upload_rate_limit				->set_value(settings.upload_rate_limit);
+				misc.max_uploads					->set_value(settings.max_uploads);
+				misc.max_connections				->set_value(settings.max_connections);
+				misc.ignore_limits_on_local_network	->set_active(settings.ignore_limits_on_local_network);
 
 				misc.use_max_announce_interval	->set_active(settings.use_max_announce_interval);
 				misc.max_announce_interval		->set_value(settings.max_announce_interval / 60);
@@ -1276,10 +1279,11 @@ void Settings_window::save_settings(void)
 				settings.smart_ban	= misc.smart_ban->get_active();
 				settings.pex		= misc.pex->get_active();
 
-				settings.download_rate_limit	= misc.download_rate_limit->get_value();
-				settings.upload_rate_limit		= misc.upload_rate_limit->get_value();
-				settings.max_uploads			= misc.max_uploads->get_value();
-				settings.max_connections		= misc.max_connections->get_value();
+				settings.download_rate_limit			= misc.download_rate_limit->get_value();
+				settings.upload_rate_limit				= misc.upload_rate_limit->get_value();
+				settings.max_uploads					= misc.max_uploads->get_value();
+				settings.max_connections				= misc.max_connections->get_value();
+				settings.ignore_limits_on_local_network	= misc.ignore_limits_on_local_network->get_active();
 
 				settings.use_max_announce_interval	= misc.use_max_announce_interval->get_active();
 				settings.max_announce_interval		= misc.max_announce_interval->get_value() * 60;
