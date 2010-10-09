@@ -48,18 +48,17 @@ using namespace boost::filesystem;
 using namespace libtorrent;
 
 // proxy: 0=none, 1=socks4, 2=socks5, 3=socks5_pw 4=http 5=http_pw
-void test_transfer(boost::intrusive_ptr<torrent_info> torrent_file, int proxy)
+void test_transfer(boost::intrusive_ptr<torrent_info> torrent_file, int proxy, int port)
 {
 	using namespace libtorrent;
 
-	session ses;
+	session ses(fingerprint("  ", 0,0,0,0), 0);
 	session_settings settings;
-	settings.ignore_limits_on_local_network = false;
+	settings.max_queued_disk_bytes = 256 * 1024;
 	ses.set_settings(settings);
 	ses.set_alert_mask(~alert::progress_notification);
 	ses.listen_on(std::make_pair(51000, 52000));
-	ses.set_download_rate_limit(torrent_file->total_size() / 10);
-	remove_all("./tmp1");
+	remove_all("./tmp2_web_seed");
 
 	char const* test_name[] = {"no", "SOCKS4", "SOCKS5", "SOCKS5 password", "HTTP", "HTTP password"};
 
@@ -77,7 +76,10 @@ void test_transfer(boost::intrusive_ptr<torrent_info> torrent_file, int proxy)
 		ses.set_web_seed_proxy(ps);
 	}
 
-	torrent_handle th = ses.add_torrent(*torrent_file, "./tmp1");
+	add_torrent_params p;
+	p.save_path = "./tmp2_web_seed";
+	p.ti = torrent_file;
+	torrent_handle th = ses.add_torrent(p);
 
 	std::vector<announce_entry> empty;
 	th.replace_trackers(empty);
@@ -93,44 +95,60 @@ void test_transfer(boost::intrusive_ptr<torrent_info> torrent_file, int proxy)
 	{
 		torrent_status s = th.status();
 		session_status ss = ses.status();
+		rate_sum += s.download_payload_rate;
+		ses_rate_sum += ss.payload_download_rate;
+
+		cs = ses.get_cache_status();
+		if (cs.blocks_read < 1) cs.blocks_read = 1;
+		if (cs.blocks_written < 1) cs.blocks_written = 1;
+
 		std::cerr << (s.progress * 100.f) << " %"
 			<< " torrent rate: " << (s.download_rate / 1000.f) << " kB/s"
 			<< " session rate: " << (ss.download_rate / 1000.f) << " kB/s"
 			<< " session total: " << ss.total_payload_download
 			<< " torrent total: " << s.total_payload_download
+			<< " rate sum:" << ses_rate_sum
+			<< " cache: " << cs.cache_size
+			<< " rcache: " << cs.read_cache_size
+			<< " buffers: " << cs.total_used_buffers
 			<< std::endl;
-		rate_sum += s.download_payload_rate;
-		ses_rate_sum += ss.payload_download_rate;
-		cs = ses.get_cache_status();
 
-		print_alerts(ses, "ses");
+		print_alerts(ses, "  >>  ses");
 
-		if (th.is_seed() && ss.download_rate == 0.f)
+		if (th.is_seed()/* && ss.download_rate == 0.f*/)
 		{
-			TEST_CHECK(ses.status().total_payload_download == total_size);
-			TEST_CHECK(th.status().total_payload_download == total_size);
+			torrent_status st = th.status();
+			TEST_CHECK(st.total_payload_download - st.total_redundant_bytes == total_size);
+			// we need to sleep here a bit to let the session sync with the torrent stats
+			test_sleep(1000);
+			TEST_CHECK(ses.status().total_payload_download - ses.status().total_redundant_bytes
+				== total_size);
 			break;
 		}
-		test_sleep(1000);
+		test_sleep(500);
 	}
 
 	TEST_CHECK(cs.cache_size == 0);
+	TEST_CHECK(cs.total_used_buffers == 0);
 
 	std::cerr << "total_size: " << total_size
 		<< " rate_sum: " << rate_sum
 		<< " session_rate_sum: " << ses_rate_sum
+		<< " session total download: " << ses.status().total_payload_download
+		<< " torrent total download: " << th.status().total_payload_download
+		<< " redundant: " << th.status().total_redundant_bytes
 		<< std::endl;
 
 	// the rates for each second should sum up to the total, with a 10% error margin
-	TEST_CHECK(fabs(rate_sum - total_size) < total_size * .1f);
-	TEST_CHECK(fabs(ses_rate_sum - total_size) < total_size * .1f);
+//	TEST_CHECK(fabs(rate_sum - total_size) < total_size * .1f);
+//	TEST_CHECK(fabs(ses_rate_sum - total_size) < total_size * .1f);
 
 	TEST_CHECK(th.is_seed());
 
 	if (proxy) stop_proxy(8002);
 
-	TEST_CHECK(exists("./tmp1" / torrent_file->file_at(0).path));
-	remove_all("./tmp1");
+	TEST_CHECK(exists("./tmp2_web_seed" / torrent_file->file_at(0).path));
+	remove_all("./tmp2_web_seed");
 }
 
 int test_main()
@@ -139,53 +157,67 @@ int test_main()
 	using namespace boost::filesystem;
 
 	try {
-		create_directory("test_torrent_dir");
+		create_directory("./tmp1_web_seed");
 	} catch (std::exception&) {}
 
+	try {
+		create_directory("./tmp1_web_seed/test_torrent_dir");
+	} catch (std::exception&) {}
+
+	int file_sizes[] =
+	{ 5, 16 - 5, 16, 17, 10, 30, 30, 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+		,1,1,1,1,1,1,13,65,34,75,2,3,4,5,23,9,43,4,43,6, 4};
+
 	char random_data[300000];
-	std::srand(std::time(0));
-	std::generate(random_data, random_data + sizeof(random_data), &std::rand);
-	std::ofstream("./test_torrent_dir/test1").write(random_data, 35);
-	std::ofstream("./test_torrent_dir/test2").write(random_data, 16536 - 35);
-	std::ofstream("./test_torrent_dir/test3").write(random_data, 16536);
-	std::ofstream("./test_torrent_dir/test4").write(random_data, 17);
-	std::ofstream("./test_torrent_dir/test5").write(random_data, 16536);
-	std::ofstream("./test_torrent_dir/test6").write(random_data, 300000);
-	std::ofstream("./test_torrent_dir/test7").write(random_data, 300000);
+	std::srand(10);
+	for (int i = 0; i != sizeof(file_sizes)/sizeof(file_sizes[0]); ++i)
+	{
+		std::generate(random_data, random_data + sizeof(random_data), &std::rand);
+		char filename[200];
+		snprintf(filename, sizeof(filename), "./tmp1_web_seed/test_torrent_dir/test%d", i);
+		error_code ec;
+		file out(filename, file::write_only, ec);
+		TEST_CHECK(!ec);
+		if (ec)
+		{
+			fprintf(stderr, "ERROR opening file '%s': %s\n", filename, ec.message().c_str());
+			return 1;
+		}
+		file::iovec_t b = { random_data, file_sizes[i]};
+		out.writev(0, &b, 1, ec);
+		TEST_CHECK(!ec);
+		if (ec)
+		{
+			fprintf(stderr, "ERROR writing file '%s': %s\n", filename, ec.message().c_str());
+			return 1;
+		}
+	}
 
 	file_storage fs;
-	add_files(fs, path("test_torrent_dir"));
+	add_files(fs, path("./tmp1_web_seed/test_torrent_dir"));
 
-	libtorrent::create_torrent t(fs, 16 * 1024);
-	t.add_url_seed("http://127.0.0.1:8000/");
+	int port = start_web_server();
 
-	start_web_server(8000);
+	libtorrent::create_torrent t(fs, 16);
+	char tmp[512];
+	snprintf(tmp, sizeof(tmp), "http://127.0.0.1:%d/tmp1_web_seed", port);
+	t.add_url_seed(tmp);
 
 	// calculate the hash for all pieces
-	int num = t.num_pieces();
-	std::vector<char> buf(t.piece_length());
-
-	file_pool fp;
-	boost::scoped_ptr<storage_interface> s(default_storage_constructor(
-		fs, 0, ".", fp));
-
-	for (int i = 0; i < num; ++i)
-	{
-		s->read(&buf[0], i, 0, fs.piece_size(i));
-		hasher h(&buf[0], fs.piece_size(i));
-		t.set_hash(i, h.final());
-	}
-	
-	boost::intrusive_ptr<torrent_info> torrent_file(new torrent_info(t.generate()));
+	set_piece_hashes(t, "./tmp1_web_seed");
+	std::vector<char> buf;
+	error_code ec;
+	bencode(std::back_inserter(buf), t.generate());
+	boost::intrusive_ptr<torrent_info> torrent_file(new torrent_info(&buf[0], buf.size(), ec));
 
 	for (int i = 0; i < 6; ++i)
-		test_transfer(torrent_file, i);
+		test_transfer(torrent_file, i, port);
 	
-	torrent_file->rename_file(0, "./test_torrent_dir/renamed_test1");
-	test_transfer(torrent_file, 0);
+	torrent_file->rename_file(0, "./tmp2_web_seed/test_torrent_dir/renamed_test1");
+	test_transfer(torrent_file, 0, port);
 
-	stop_web_server(8000);
-	remove_all("./test_torrent_dir");
+	stop_web_server();
+	remove_all("./tmp1_web_seed");
 	return 0;
 }
 

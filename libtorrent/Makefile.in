@@ -34,34 +34,44 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+target_triplet = @target@
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(srcdir)/libtorrent-rasterbar.pc.in \
-	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
-	config.guess config.sub depcomp install-sh ltmain.sh missing
+	$(srcdir)/Makefile.in \
+	$(srcdir)/libtorrent-rasterbar-cmake.pc.in \
+	$(srcdir)/libtorrent-rasterbar.pc.in $(top_srcdir)/configure \
+	AUTHORS COPYING ChangeLog NEWS build-aux/config.guess \
+	build-aux/config.sub build-aux/depcomp build-aux/install-sh \
+	build-aux/ltmain.sh build-aux/missing config.guess config.sub \
+	depcomp install-sh ltmain.sh missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/acx_pthread.m4 \
-	$(top_srcdir)/m4/ax_boost_asio-fixed.m4 \
-	$(top_srcdir)/m4/ax_boost_base-fixed.m4 \
-	$(top_srcdir)/m4/ax_boost_filesystem-fixed.m4 \
-	$(top_srcdir)/m4/ax_boost_program_options.m4 \
-	$(top_srcdir)/m4/ax_boost_python-fixed.m4 \
-	$(top_srcdir)/m4/ax_boost_regex.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/ax_boost_base.m4 \
+	$(top_srcdir)/m4/ax_boost_filesystem.m4 \
+	$(top_srcdir)/m4/ax_boost_python.m4 \
 	$(top_srcdir)/m4/ax_boost_system.m4 \
 	$(top_srcdir)/m4/ax_boost_thread.m4 \
 	$(top_srcdir)/m4/ax_check_geoip.m4 \
-	$(top_srcdir)/m4/ax_python-fixed.m4 \
-	$(top_srcdir)/m4/check_ssl.m4 $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/m4/pkgconfig.m4 $(top_srcdir)/configure.in
+	$(top_srcdir)/m4/ax_check_openssl.m4 \
+	$(top_srcdir)/m4/ax_pthread.m4 \
+	$(top_srcdir)/m4/ax_python_devel.m4 \
+	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
+	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
+	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/m4/pkgconfig.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
-CONFIG_CLEAN_FILES = libtorrent-rasterbar.pc
+CONFIG_CLEAN_FILES = libtorrent-rasterbar.pc \
+	libtorrent-rasterbar-cmake.pc
 CONFIG_CLEAN_VPATH_FILES =
+AM_V_GEN = $(am__v_GEN_$(V))
+am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
+am__v_GEN_0 = @echo "  GEN   " $@;
+AM_V_at = $(am__v_at_$(V))
+am__v_at_ = $(am__v_at_$(AM_DEFAULT_VERBOSITY))
+am__v_at_0 = @
 SOURCES =
 DIST_SOURCES =
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
@@ -118,24 +128,22 @@ distuninstallcheck_listfiles = find . -type f -print
 distcleancheck_listfiles = find . -type f -print
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
+AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
-BOOST_ASIO_LIB = @BOOST_ASIO_LIB@
 BOOST_CPPFLAGS = @BOOST_CPPFLAGS@
 BOOST_FILESYSTEM_LIB = @BOOST_FILESYSTEM_LIB@
 BOOST_LDFLAGS = @BOOST_LDFLAGS@
-BOOST_PROGRAM_OPTIONS_LIB = @BOOST_PROGRAM_OPTIONS_LIB@
 BOOST_PYTHON_LIB = @BOOST_PYTHON_LIB@
-BOOST_REGEX_LIB = @BOOST_REGEX_LIB@
 BOOST_SYSTEM_LIB = @BOOST_SYSTEM_LIB@
 BOOST_THREAD_LIB = @BOOST_THREAD_LIB@
+BOOST_VERSION = @BOOST_VERSION@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
-CLIENT_TEST_BIN = @CLIENT_TEST_BIN@
 COMPILETIME_OPTIONS = @COMPILETIME_OPTIONS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
@@ -158,7 +166,6 @@ FGREP = @FGREP@
 GEOIP_CFLAGS = @GEOIP_CFLAGS@
 GEOIP_LIBS = @GEOIP_LIBS@
 GREP = @GREP@
-HAVE_SSL = @HAVE_SSL@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -179,6 +186,9 @@ NM = @NM@
 NMEDIT = @NMEDIT@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
+OPENSSL_INCLUDES = @OPENSSL_INCLUDES@
+OPENSSL_LDFLAGS = @OPENSSL_LDFLAGS@
+OPENSSL_LIBS = @OPENSSL_LIBS@
 OTOOL = @OTOOL@
 OTOOL64 = @OTOOL64@
 PACKAGE = @PACKAGE@
@@ -194,25 +204,22 @@ PTHREAD_CC = @PTHREAD_CC@
 PTHREAD_CFLAGS = @PTHREAD_CFLAGS@
 PTHREAD_LIBS = @PTHREAD_LIBS@
 PYTHON = @PYTHON@
+PYTHON_CPPFLAGS = @PYTHON_CPPFLAGS@
 PYTHON_EXEC_PREFIX = @PYTHON_EXEC_PREFIX@
-PYTHON_INCLUDE_DIR = @PYTHON_INCLUDE_DIR@
+PYTHON_EXTRA_LDFLAGS = @PYTHON_EXTRA_LDFLAGS@
+PYTHON_EXTRA_LIBS = @PYTHON_EXTRA_LIBS@
 PYTHON_INSTALL_PARAMS = @PYTHON_INSTALL_PARAMS@
-PYTHON_LIB = @PYTHON_LIB@
+PYTHON_LDFLAGS = @PYTHON_LDFLAGS@
 PYTHON_PLATFORM = @PYTHON_PLATFORM@
 PYTHON_PREFIX = @PYTHON_PREFIX@
+PYTHON_SITE_PKG = @PYTHON_SITE_PKG@
 PYTHON_VERSION = @PYTHON_VERSION@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
-SSL_CFLAGS = @SSL_CFLAGS@
-SSL_CXXFLAGS = @SSL_CXXFLAGS@
-SSL_LDFLAGS = @SSL_LDFLAGS@
-SSL_LIBS = @SSL_LIBS@
 STRIP = @STRIP@
 VERSION = @VERSION@
-ZLIB = @ZLIB@
-ZLIBINCL = @ZLIBINCL@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -220,12 +227,12 @@ abs_top_srcdir = @abs_top_srcdir@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
-acx_pthread_config = @acx_pthread_config@
 am__include = @am__include@
 am__leading_dot = @am__leading_dot@
 am__quote = @am__quote@
 am__tar = @am__tar@
 am__untar = @am__untar@
+ax_pthread_config = @ax_pthread_config@
 bindir = @bindir@
 build = @build@
 build_alias = @build_alias@
@@ -267,87 +274,109 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
+target = @target@
 target_alias = @target_alias@
+target_cpu = @target_cpu@
+target_os = @target_os@
+target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
+
 #DISTCHECK_CONFIGURE_FLAGS = --enable-tests
-SUBDIRS = include zlib src examples test bindings/python
-EXTRA_DIST = autotool.sh docs/manual.html docs/manual.rst docs/extension_protocol.rst \
-docs/extension_protocol.html \
-docs/projects.rst docs/projects.html \
-docs/building.rst docs/building.html \
-docs/running_tests.rst docs/running_tests.html \
-docs/index.rst docs/index.html \
-docs/python_binding.rst docs/python_binding.html \
-docs/udp_tracker_protocol.rst docs/udp_tracker_protocol.html \
-docs/client_test.rst docs/client_test.html \
-docs/dht_extensions.html docs/dht_extensions.rst \
-docs/make_torrent.html docs/make_torrent.rst \
-docs/examples.html docs/examples.rst \
-docs/features.html docs/features.rst \
-docs/libtorrent_plugins.html docs/libtorrent_plugins.rst \
-docs/arctic_thumb.png \
-docs/fdm.png \
-docs/tvitty.jpg \
-docs/leechcraft.png \
-docs/lince.png \
-docs/fatrat.png \
-docs/miro.jpg \
-docs/bitbuddy_thumb.jpg \
-docs/bitscast_thumb.png \
-docs/bitslug_thumb.png \
-docs/bitrocket_thumb.png \
-docs/btg_thumb.jpg \
-docs/bitfox.png \
-docs/acquasition.jpg \
-docs/im_thumb.jpg \
-docs/Linkage.png \
-docs/deluge.png \
-docs/halite_thumb.png \
-docs/electric_sheep_thumb.jpg \
-docs/moopolice_thumb.gif \
-docs/qbittorrent_thumb.jpg \
-docs/ziptorrent_thumb.gif \
-docs/flush.jpg \
-docs/pump.png \
-docs/bubba.png \
-docs/firetorrent.png \
-docs/unicode_support.png docs/client_test.png docs/style.css Jamfile project-root.jam \
-libtorrent-rasterbar.pc \
-bindings/README.txt \
-bindings/python/Jamfile \
-bindings/python/setup.py \
-bindings/python/client.py \
-bindings/python/simple_client.py \
-bindings/python/src/alert.cpp \
-bindings/python/src/big_number.cpp \
-bindings/python/src/converters.cpp \
-bindings/python/src/create_torrent.cpp \
-bindings/python/src/datetime.cpp \
-bindings/python/src/entry.cpp \
-bindings/python/src/extensions.cpp \
-bindings/python/src/filesystem.cpp \
-bindings/python/src/fingerprint.cpp \
-bindings/python/src/gil.hpp \
-bindings/python/src/ip_filter.cpp \
-bindings/python/src/magnet_uri.cpp \
-bindings/python/src/module.cpp \
-bindings/python/src/optional.hpp \
-bindings/python/src/peer_info.cpp \
-bindings/python/src/peer_plugin.cpp \
-bindings/python/src/session.cpp \
-bindings/python/src/session_settings.cpp \
-bindings/python/src/torrent.cpp \
-bindings/python/src/torrent_handle.cpp \
-bindings/python/src/torrent_info.cpp \
-bindings/python/src/torrent_status.cpp \
-bindings/python/src/utility.cpp \
-bindings/python/src/version.cpp
+SUBDIRS = include/libtorrent zlib src examples test bindings
+DOCS_IMAGES = \
+  docs/arctic_thumb.png           \
+  docs/bitbuddy_thumb.jpg         \
+  docs/bitfox.png                 \
+  docs/bitrocket_thumb.png        \
+  docs/bitscast_thumb.png         \
+  docs/bitslug_thumb.png          \
+  docs/btg_thumb.jpg              \
+  docs/bubba.png                  \
+  docs/client_test.png            \
+  docs/deluge.png                 \
+  docs/disk_access.png            \
+  docs/disk_buffer_before_optimization.png  \
+  docs/disk_buffer.png            \
+  docs/disk_buffer_sample.png     \
+  docs/disk_io.png                \
+  docs/electric_sheep_thumb.jpg   \
+  docs/fatrat.png                 \
+  docs/fdm.png                    \
+  docs/firetorrent.png            \
+  docs/flush.jpg                  \
+  docs/halite_thumb.png           \
+  docs/im_thumb.jpg               \
+  docs/leechcraft.png             \
+  docs/libtorrent_screen.png      \
+  docs/limewire.png               \
+  docs/lince.png                  \
+  docs/Linkage.png                \
+  docs/merkle_tree.graffle        \
+  docs/merkle_tree.png            \
+  docs/miro.jpg                   \
+  docs/moopolice_thumb.gif        \
+  docs/pump.png                   \
+  docs/qbittorrent_thumb.jpg      \
+  docs/read_disk_buffers.dot      \
+  docs/read_disk_buffers.graffle  \
+  docs/read_disk_buffers.png      \
+  docs/session_stats_peers.png    \
+  docs/storage.graffle            \
+  docs/storage.png                \
+  docs/style.css                  \
+  docs/tvblob.jpg                 \
+  docs/tvitty.jpg                 \
+  docs/unicode_support.png        \
+  docs/write_disk_buffers.dot     \
+  docs/write_disk_buffers.graffle \
+  docs/write_disk_buffers.png     \
+  docs/ziptorrent_thumb.gif
 
+DOCS_PAGES = \
+  docs/building.html              \
+  docs/building.rst               \
+  docs/client_test.html           \
+  docs/client_test.rst            \
+  docs/dht_extensions.html        \
+  docs/dht_extensions.rst         \
+  docs/examples.html              \
+  docs/examples.rst               \
+  docs/extension_protocol.html    \
+  docs/extension_protocol.rst     \
+  docs/features.html              \
+  docs/features.rst               \
+  docs/index.html                 \
+  docs/index.rst                  \
+  docs/libtorrent_plugins.html    \
+  docs/libtorrent_plugins.rst     \
+  docs/make_torrent.html          \
+  docs/make_torrent.rst           \
+  docs/manual.html                \
+  docs/manual.rst                 \
+  docs/projects.html              \
+  docs/projects.rst               \
+  docs/python_binding.html        \
+  docs/python_binding.rst         \
+  docs/running_tests.html         \
+  docs/running_tests.rst          \
+  docs/tuning.html                \
+  docs/tuning.rst                 \
+  docs/udp_tracker_protocol.html  \
+  docs/udp_tracker_protocol.rst
 
-#pkgconfigdir   = $(libdir)/pkgconfig
+EXTRA_DIST = \
+  Jamfile \
+  project-root.jam \
+  CMakeLists.txt \
+  libtorrent-rasterbar.pc  \
+  libtorrent-rasterbar-cmake.pc  \
+  $(DOCS_PAGES) \
+  $(DOCS_IMAGES)
+
+pkgconfigdir = $(libdir)/pkgconfig
 noinst_DATA = libtorrent-rasterbar.pc
 all: all-recursive
 
@@ -387,6 +416,8 @@ $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	$(am__cd) $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 $(am__aclocal_m4_deps):
 libtorrent-rasterbar.pc: $(top_builddir)/config.status $(srcdir)/libtorrent-rasterbar.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+libtorrent-rasterbar-cmake.pc: $(top_builddir)/config.status $(srcdir)/libtorrent-rasterbar-cmake.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 
 mostlyclean-libtool:

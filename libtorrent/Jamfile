@@ -5,6 +5,8 @@ import modules ;
 import os ;
 import errors ;
 import feature : feature ;
+import package ;
+import virtual-target ;
 
 BOOST_ROOT = [ modules.peek : BOOST_ROOT ] ;
 CXXFLAGS = [ modules.peek : CXXFLAGS ] ;
@@ -17,6 +19,8 @@ if $(BOOST_ROOT)
 {
 	use-project /boost : $(BOOST_ROOT) ;
 }
+
+VERSION = 0.15.4 ;
 
 # rule for linking the correct libraries depending
 # on features and target-os
@@ -115,22 +119,35 @@ rule linking ( properties * )
 	{
 		if <boost-link>static in $(properties)
 		{
-			result += <library>/boost/thread//boost_thread/<link>static
-				<library>/boost/filesystem//boost_filesystem/<link>static
+			if <toolset>gcc in $(properties) && <link>shared in $(properties)
+			{
+				result += <fpic>on ;
+			}
+
+			result += <library>/boost/filesystem//boost_filesystem/<link>static
 				<library>/boost/system//boost_system/<link>static
-				<include>$(BOOST_ROOT)
-				<define>BOOST_ALL_NO_LIB
 				;
+
+			# if we're building a shared library
+			# we need to link dynamically against the
+			# pthread library
+			if <fpic>on in $(properties) && <target-os>linux in $(properties)
+			{
+				result += <library>/boost/thread//boost_thread/<link>shared ;
+			}
+			else
+			{
+				result += <library>/boost/thread//boost_thread/<link>static ;
+			}
 		}
 		else
 		{
 			result += <library>/boost/thread//boost_thread/<link>shared
 				<library>/boost/filesystem//boost_filesystem/<link>shared
 				<library>/boost/system//boost_system/<link>shared
-				<include>$(BOOST_ROOT)
-				<define>BOOST_ALL_NO_LIB
 				;
 		}
+		result += <include>$(BOOST_ROOT) <define>BOOST_ALL_NO_LIB ;
 	}
 
 	if <boost>system in $(properties)
@@ -138,7 +155,7 @@ rule linking ( properties * )
 		# on mac the boost headers are installed in
 		# a directory that isn't automatically accessable
 		result += <include>/opt/local/include/boost-1_35
-			<include>/opt/local/include/boost
+			<include>/opt/local/include
 			;
 	}
 
@@ -191,12 +208,32 @@ rule building ( properties * )
 	return $(result) ;
 }
 
+rule tag ( name : type  ? : property-set )
+{
+	name = [ virtual-target.add-prefix-and-suffix $(name) : $(type) : $(property-set) ] ;
+
+	if $(type) = SHARED_LIB &&
+		( ! ( [ $(property-set).get <target-os> ] in windows cygwin ) )
+	{
+		name = $(name).$(VERSION) ;
+	}
+
+	return $(name) ;
+}
+
 feature tcmalloc : no yes : composite propagated link-incompatible ;
 
 feature need-librt : no yes : composite propagated link-incompatible ;
 
+feature fiemap : off on : composite propagated ;
+feature.compose <fiemap>on : <define>HAVE_LINUX_FIEMAP_H ;
+
 feature pool-allocators : on off : composite propagated link-incompatible ;
 feature.compose <pool-allocators>off : <define>TORRENT_DISABLE_POOL_ALLOCATOR ;
+
+feature piece-allocator : valloc memalign posix_memalign : composite propagated ;
+feature.compose <piece-allocator>memalign : <define>TORRENT_USE_MEMALIGN=1 ;
+feature.compose <piece-allocator>posix_memalign : <define>TORRENT_USE_POSIX_MEMALIGN=1 ;
 
 feature geoip : off static shared : composite propagated link-incompatible ;
 feature.compose <geoip>off : <define>TORRENT_DISABLE_GEO_IP ;
@@ -213,6 +250,9 @@ feature.compose <disk-stats>on : <define>TORRENT_DISK_STATS ;
 
 feature memdebug : off on : composite propagated ;
 feature.compose <memdebug>on : <define>TORRENT_MEMDEBUG ;
+
+feature simulate-slow-read : off on : composite propagated ;
+feature.compose <simulate-slow-read>on : <define>TORRENT_SIMULATE_SLOW_READ ;
 
 feature logging : none default errors verbose : composite propagated link-incompatible ;
 feature.compose <logging>default : <define>TORRENT_LOGGING ;
@@ -233,6 +273,7 @@ feature.compose <resolve-countries>off : <define>TORRENT_DISABLE_RESOLVE_COUNTRI
 
 feature character-set : unicode ansi : composite propagated link-incompatible ;
 feature.compose <character-set>unicode : <define>_UNICODE <define>UNICODE ;
+feature.compose <character-set>ansi : <define>BOOST_FILESYSTEM_NARROW_ONLY=1 ;
 
 feature zlib : shipped system : composite propagated link-incompatible ;
 
@@ -252,6 +293,13 @@ feature debug-iterators : off on : composite propagated link-incompatible ;
 feature.compose <debug-iterators>on : <define>_SCL_SECURE=1 <define>_GLIBCXX_DEBUG ;
 
 feature test-coverage : off on : composite propagated ;
+
+feature fpic : off on : composite propagated link-incompatible ;
+feature.compose <fpic>on : <cflags>-fPIC ;
+feature.compose <fpic>off : <toolset>darwin:<cflags>-mdynamic-no-pic ;
+
+feature visibility : default hidden : composite propagated link-incompatible ;
+feature.compose <visibility>hidden : <cflags>-fvisibility=hidden ;
 
 # required for openssl on windows
 lib ssleay32 : : <name>ssleay32 ;
@@ -300,6 +348,7 @@ lib ws2_32 : : <name>ws2_32 ;
 
 SOURCES =
 	alert
+	allocator
 	assert
 	connection_queue
 	create_torrent
@@ -319,17 +368,16 @@ SOURCES =
 	peer_connection
 	bt_peer_connection
 	web_peer_connection
+	http_seed_connection
 	instantiate_connection
 	natpmp
 	piece_picker
 	policy
 	session
 	session_impl
-	socks4_stream
 	socks5_stream
 	stat
 	storage
-#	mapped_storage
 	torrent
 	torrent_handle
 	torrent_info
@@ -347,24 +395,26 @@ SOURCES =
 	broadcast_socket
 	magnet_uri
 	parse_url
+	ConvertUTF
 
 # -- extensions --
 	metadata_transfer
 	ut_pex
 	ut_metadata
+	lt_trackers
 	smart_ban
 	;
 
 KADEMLIA_SOURCES =
-	kademlia/closest_nodes
-	kademlia/dht_tracker
-	kademlia/node
-	kademlia/refresh
-	kademlia/rpc_manager
-	kademlia/find_data
-	kademlia/node_id
-	kademlia/routing_table
-	kademlia/traversal_algorithm
+	closest_nodes
+	dht_tracker
+	node
+	refresh
+	rpc_manager
+	find_data
+	node_id
+	routing_table
+	traversal_algorithm
 	;
 
 ZLIB_SOURCES = 
@@ -390,13 +440,12 @@ local usage-requirements =
 	<variant>release:<define>NDEBUG
 	<variant>debug:<define>TORRENT_DEBUG
 	<define>_FILE_OFFSET_BITS=64
-	<define>BOOST_MULTI_INDEX_DISABLE_SERIALIZATION
 	<define>BOOST_EXCEPTION_DISABLE
 	<conditional>@linking
 	<zlib>system:<library>zlib-target
 # these compiler settings just makes the compiler standard conforming
-	<toolset>msvc:<cxxflags>/Zc:wchar_t
-	<toolset>msvc:<cxxflags>/Zc:forScope
+	<toolset>msvc:<cflags>/Zc:wchar_t
+	<toolset>msvc:<cflags>/Zc:forScope
 # disable bogus deprecation warnings on msvc8
 	<toolset>msvc:<define>_SCL_SECURE_NO_DEPRECATE
 	<toolset>msvc:<define>_CRT_SECURE_NO_DEPRECATE
@@ -405,13 +454,18 @@ local usage-requirements =
 	<toolset>msvc,<variant>release:<linkflags>/OPT:REF
 # disable warning C4503: decorated name length exceeded, name was truncated
 	<toolset>msvc:<cxxflags>/wd4503
+# disable warning C4275: non-dll interface class 'x' used as base for dll-interface struct 'y'
+	<toolset>msvc:<cxxflags>/wd4275
+# disable warning C4251: 'x' needs to have dll-interface to be used by clients of class 'y'
+	<toolset>msvc:<cxxflags>/wd4251
 # disable some warnings for gcc
-	<toolset>gcc:<cxxflags>-fno-strict-aliasing
-	<toolset>gcc:<cxxflags>-Wno-missing-braces
+	<toolset>gcc:<cflags>-fno-strict-aliasing
+	<toolset>gcc:<cflags>-Wno-missing-braces
 	<boost>system:<cxxflags>$(CXXFLAGS)
 	<boost>system:<linkflags>$(LDFLAGS)
 # this works around a bug in asio in boost-1.39
 	<define>BOOST_ASIO_HASH_MAP_BUCKETS=1021
+	<tag>@tag
 	;
 
 project torrent ;
@@ -425,8 +479,8 @@ lib torrent
 	<define>BOOST_THREAD_USE_LIB
 	<threading>multi
 	<link>shared:<define>TORRENT_BUILDING_SHARED
-	<dht-support>on:<source>src/$(KADEMLIA_SOURCES).cpp
-	<dht-support>logging:<source>src/$(KADEMLIA_SOURCES).cpp
+	<dht-support>on:<source>src/kademlia/$(KADEMLIA_SOURCES).cpp
+	<dht-support>logging:<source>src/kademlia/$(KADEMLIA_SOURCES).cpp
 	<zlib>shipped:<source>zlib/$(ZLIB_SOURCES).c
 	<conditional>@building
 	<boost>system:<cxxflags>$(CXXFLAGS)
@@ -434,8 +488,20 @@ lib torrent
 
 	: # default build
 	<link>static
+	<threading>multi
 
 	: # usage requirements
 	$(usage-requirements)
 	;
+
+headers = [ path.glob-tree include/libtorrent : *.hpp ] ;
+
+package.install install
+ : <install-header-subdir>libtorrent
+   <install-source-root>libtorrent
+   <install-no-version-symlinks>on
+ :
+ : torrent
+ : $(headers)
+ ;
 

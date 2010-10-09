@@ -1,0 +1,6 @@
+Name: libtorrent-rasterbar
+Description: Bittorrent library.
+Version: 0.15.4
+Libs: -L${CMAKE_INSTALL_PREFIX}/lib -ltorrent-rasterbar
+Cflags: -I${CMAKE_INSTALL_PREFIX}/include -I${CMAKE_INSTALL_PREFIX}/include/libtorrent -DTORRENT_USE_OPENSSL -DWITH_SHIPPED_GEOIP_H -DBOOST_ASIO_HASH_MAP_BUCKETS=1021 -DBOOST_EXCEPTION_DISABLE -DTORRENT_LINKING_SHARED  @CXX_DEFINES@
+

@@ -27,20 +27,34 @@ namespace
     {
         set_piece_hashes(c, p, boost::bind(call_python_object, cb, _1));
     }
+
+    void add_node(create_torrent& ct, std::string const& addr, int port)
+    {
+        ct.add_node(std::make_pair(addr, port));
+    }
 }
 
 void bind_create_torrent()
 {
     void (file_storage::*add_file0)(file_entry const&) = &file_storage::add_file;
-    void (file_storage::*add_file1)(fs::path const&, size_type) = &file_storage::add_file;
+    void (file_storage::*add_file1)(fs::path const&, size_type, int, std::time_t, fs::path const&) = &file_storage::add_file;
+#ifndef BOOST_FILESYSTEM_NARROW_ONLY
+    void (file_storage::*add_file2)(fs::wpath const&, size_type, int, std::time_t, fs::path const&) = &file_storage::add_file;
+#endif
+
+    void (file_storage::*set_name0)(std::string const&) = &file_storage::set_name;
+    void (file_storage::*set_name1)(std::wstring const&) = &file_storage::set_name;
 
     void (*set_piece_hashes0)(create_torrent&, boost::filesystem::path const&) = &set_piece_hashes;
-    void (*add_files0)(file_storage&, boost::filesystem::path const&) = add_files;
+    void (*add_files0)(file_storage&, boost::filesystem::path const&, boost::uint32_t) = add_files;
 
     class_<file_storage>("file_storage")
         .def("is_valid", &file_storage::is_valid)
         .def("add_file", add_file0)
-        .def("add_file", add_file1)
+        .def("add_file", add_file1, (arg("path"), arg("size"), arg("flags") = 0, arg("mtime") = 0, arg("linkpath") = ""))
+#ifndef BOOST_FILESYSTEM_NARROW_ONLY
+        .def("add_file", add_file2, (arg("path"), arg("size"), arg("flags") = 0, arg("mtime") = 0, arg("linkpath") = ""))
+#endif
         .def("num_files", &file_storage::num_files)
         .def("at", &file_storage::at, return_internal_reference<>())
         .def("total_size", &file_storage::total_size)
@@ -49,7 +63,8 @@ void bind_create_torrent()
         .def("set_piece_length", &file_storage::set_piece_length)
         .def("piece_length", &file_storage::piece_length)
         .def("piece_size", &file_storage::piece_size)
-        .def("set_name", &file_storage::set_name)
+        .def("set_name", set_name0)
+        .def("set_name", set_name1)
         .def("name", &file_storage::name, return_internal_reference<>())
         ;
 
@@ -64,7 +79,7 @@ void bind_create_torrent()
         .def("set_creator", &create_torrent::set_creator)
         .def("set_hash", &set_hash)
         .def("add_url_seed", &create_torrent::add_url_seed)
-        .def("add_node", &create_torrent::add_node)
+        .def("add_node", &add_node)
         .def("add_tracker", &create_torrent::add_tracker)
         .def("set_priv", &create_torrent::set_priv)
         .def("num_pieces", &create_torrent::num_pieces)

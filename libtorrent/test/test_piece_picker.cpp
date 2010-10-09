@@ -69,7 +69,7 @@ boost::shared_ptr<piece_picker> setup_picker(
 	assert(int(strlen(have_str)) == num_pieces);
 
 	boost::shared_ptr<piece_picker> p(new piece_picker);
-	p->init(blocks_per_piece, num_pieces * blocks_per_piece);
+	p->init(blocks_per_piece, blocks_per_piece, num_pieces);
 
 	for (int i = 0; i < num_pieces; ++i)
 	{
@@ -225,7 +225,7 @@ int test_main()
 	int tmp3;
 	tcp::endpoint endp;
 	piece_picker::downloading_piece st;
-	policy::peer peer_struct(endp, policy::peer::connectable, 0);
+	policy::ipv4_peer peer_struct(endp, true, 0);
 	std::vector<piece_block> picked;
 	boost::shared_ptr<piece_picker> p;
 	const std::vector<int> empty_vector;
@@ -380,8 +380,8 @@ int test_main()
 	// there are 2 pieces with availability 2 and 5 with availability 3
 	print_title("test distributed copies");
 	p = setup_picker("1233333", "*      ", "", "");
-	float dc = p->distributed_copies();
-	TEST_CHECK(fabs(dc - (2.f + 5.f / 7.f)) < 0.01f);
+	std::pair<int, int> dc = p->distributed_copies();
+	TEST_CHECK(dc == std::make_pair(2, 5000 / 7));
 
 // ========================================================
 	
@@ -429,7 +429,7 @@ int test_main()
 	TEST_CHECK(p->num_have_filtered() == 1);
 	TEST_CHECK(p->num_have() == 1);
 
-	p->init(blocks_per_piece, blocks_per_piece * 7);
+	p->init(blocks_per_piece, blocks_per_piece, blocks_per_piece * 7);
 	TEST_CHECK(p->piece_priority(0) == 0);
 	TEST_CHECK(p->num_filtered() == 1);
 	TEST_CHECK(p->num_have_filtered() == 0);
@@ -659,7 +659,7 @@ int test_main()
 	p = setup_picker("1111111", "       ", "", "");
 	p->mark_as_downloading(piece_block(2,2), &tmp1, piece_picker::slow);
 	picked = pick_pieces(p, "*******", 7 * blocks_per_piece - 1, 0, &tmp2
-		, piece_picker::fast, options, empty_vector);
+		, piece_picker::fast, options | piece_picker::speed_affinity, empty_vector);
 	TEST_CHECK(picked.size() == 7 * blocks_per_piece - 1);
 	TEST_CHECK(std::find(picked.begin(), picked.end(), piece_block(2,2)) == picked.end());
 	// piece 2 sould be the last one (least matching piece to pick)
@@ -673,7 +673,8 @@ int test_main()
 	p->mark_as_downloading(piece_block(2,2), &tmp1, piece_picker::medium);
 	p->mark_as_downloading(piece_block(4,2), &tmp1, piece_picker::fast);
 	picked = pick_pieces(p, "*******", 2 * blocks_per_piece, 0, 0
-		, piece_picker::fast, piece_picker::prioritize_partials, empty_vector);
+		, piece_picker::fast, piece_picker::prioritize_partials | piece_picker::speed_affinity
+		, empty_vector);
 	TEST_CHECK(picked.size() == 2 * blocks_per_piece);
 	TEST_CHECK(picked[0].piece_index == 4);
 	TEST_CHECK(picked[blocks_per_piece - 1].piece_index == 2);
@@ -747,21 +748,20 @@ int test_main()
 	print_title("test have_all and have_none");
 	p = setup_picker("0123333", "*      ", "", "");
 	dc = p->distributed_copies();
-	std::cout << "distributed copies: " << dc << std::endl;
-	TEST_CHECK(fabs(dc - (1.f + 5.f / 7.f)) < 0.01f);
+	std::cout << "distributed copies: " << dc.first << "." << (dc.second / 1000.f) << std::endl;
+	TEST_CHECK(dc == std::make_pair(1, 5000 / 7));
 	p->inc_refcount_all();
 	dc = p->distributed_copies();
-	std::cout << "distributed copies: " << dc << std::endl;
-	TEST_CHECK(fabs(dc - (2.f + 5.f / 7.f)) < 0.01f);
+	TEST_CHECK(dc == std::make_pair(2, 5000 / 7));
 	p->dec_refcount_all();
 	dc = p->distributed_copies();
-	std::cout << "distributed copies: " << dc << std::endl;
-	TEST_CHECK(fabs(dc - (1.f + 5.f / 7.f)) < 0.01f);
+	std::cout << "distributed copies: " << dc.first << "." << (dc.second / 1000.f) << std::endl;
+	TEST_CHECK(dc == std::make_pair(1, 5000 / 7));
 	p->inc_refcount(0);
 	p->dec_refcount_all();
 	dc = p->distributed_copies();
-	std::cout << "distributed copies: " << dc << std::endl;
-	TEST_CHECK(fabs(dc - (0.f + 6.f / 7.f)) < 0.01f);
+	std::cout << "distributed copies: " << dc.first << "." << (dc.second / 1000.f) << std::endl;
+	TEST_CHECK(dc == std::make_pair(0, 6000 / 7));
 	TEST_CHECK(test_pick(p) == 2);
 
 // ========================================================
@@ -770,12 +770,12 @@ int test_main()
 	print_title("test have_all and have_none with sequential download");
 	p = setup_picker("0123333", "*      ", "", "");
 	dc = p->distributed_copies();
-	std::cout << "distributed copies: " << dc << std::endl;
-	TEST_CHECK(fabs(dc - (1.f + 5.f / 7.f)) < 0.01f);
+	std::cout << "distributed copies: " << dc.first << "." << (dc.second / 1000.f) << std::endl;
+	TEST_CHECK(dc == std::make_pair(1, 5000 / 7));
 	p->inc_refcount_all();
 	dc = p->distributed_copies();
-	std::cout << "distributed copies: " << dc << std::endl;
-	TEST_CHECK(fabs(dc - (2.f + 5.f / 7.f)) < 0.01f);
+	std::cout << "distributed copies: " << dc.first << "." << (dc.second / 1000.f) << std::endl;
+	TEST_CHECK(dc == std::make_pair(2, 5000 / 7));
 	TEST_CHECK(test_pick(p) == 1);
 
 // ========================================================

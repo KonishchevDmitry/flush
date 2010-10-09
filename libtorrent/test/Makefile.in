@@ -35,27 +35,26 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+target_triplet = @target@
 @ENABLE_TESTS_TRUE@check_PROGRAMS = $(am__EXEEXT_1)
 EXTRA_PROGRAMS = $(am__EXEEXT_1)
 subdir = test
 DIST_COMMON = $(noinst_HEADERS) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/acx_pthread.m4 \
-	$(top_srcdir)/m4/ax_boost_asio-fixed.m4 \
-	$(top_srcdir)/m4/ax_boost_base-fixed.m4 \
-	$(top_srcdir)/m4/ax_boost_filesystem-fixed.m4 \
-	$(top_srcdir)/m4/ax_boost_program_options.m4 \
-	$(top_srcdir)/m4/ax_boost_python-fixed.m4 \
-	$(top_srcdir)/m4/ax_boost_regex.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/ax_boost_base.m4 \
+	$(top_srcdir)/m4/ax_boost_filesystem.m4 \
+	$(top_srcdir)/m4/ax_boost_python.m4 \
 	$(top_srcdir)/m4/ax_boost_system.m4 \
 	$(top_srcdir)/m4/ax_boost_thread.m4 \
 	$(top_srcdir)/m4/ax_check_geoip.m4 \
-	$(top_srcdir)/m4/ax_python-fixed.m4 \
-	$(top_srcdir)/m4/check_ssl.m4 $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/m4/pkgconfig.m4 $(top_srcdir)/configure.in
+	$(top_srcdir)/m4/ax_check_openssl.m4 \
+	$(top_srcdir)/m4/ax_pthread.m4 \
+	$(top_srcdir)/m4/ax_python_devel.m4 \
+	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
+	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
+	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/m4/pkgconfig.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -65,20 +64,39 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 libtest_la_LIBADD =
 am_libtest_la_OBJECTS = main.lo setup_transfer.lo
 libtest_la_OBJECTS = $(am_libtest_la_OBJECTS)
+AM_V_lt = $(am__v_lt_$(V))
+am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
+am__v_lt_0 = --silent
 @ENABLE_TESTS_TRUE@am_libtest_la_rpath =
-am__EXEEXT_1 = test_hasher$(EXEEXT) test_bencoding$(EXEEXT) \
-	test_ip_filter$(EXEEXT) test_piece_picker$(EXEEXT) \
-	test_storage$(EXEEXT) test_metadata_extension$(EXEEXT) \
-	test_buffer$(EXEEXT) test_swarm$(EXEEXT) \
-	test_pe_crypto$(EXEEXT) test_primitives$(EXEEXT) \
-	test_bandwidth_limiter$(EXEEXT) test_fast_extension$(EXEEXT) \
-	test_pex$(EXEEXT) test_web_seed$(EXEEXT) \
-	test_http_connection$(EXEEXT) test_torrent$(EXEEXT) \
-	test_transfer$(EXEEXT) test_lsd$(EXEEXT)
+am__EXEEXT_1 = test_auto_unchoke$(EXEEXT) \
+	test_bandwidth_limiter$(EXEEXT) \
+	test_bdecode_performance$(EXEEXT) test_bencoding$(EXEEXT) \
+	test_buffer$(EXEEXT) test_fast_extension$(EXEEXT) \
+	test_hasher$(EXEEXT) test_http_connection$(EXEEXT) \
+	test_ip_filter$(EXEEXT) test_lsd$(EXEEXT) \
+	test_metadata_extension$(EXEEXT) test_natpmp$(EXEEXT) \
+	test_pe_crypto$(EXEEXT) test_pex$(EXEEXT) \
+	test_piece_picker$(EXEEXT) test_primitives$(EXEEXT) \
+	test_storage$(EXEEXT) test_swarm$(EXEEXT) \
+	test_torrent$(EXEEXT) test_trackers_extension$(EXEEXT) \
+	test_transfer$(EXEEXT) test_upnp$(EXEEXT) \
+	test_web_seed$(EXEEXT)
+am_test_auto_unchoke_OBJECTS = test_auto_unchoke.$(OBJEXT)
+test_auto_unchoke_OBJECTS = $(am_test_auto_unchoke_OBJECTS)
+test_auto_unchoke_LDADD = $(LDADD)
+test_auto_unchoke_DEPENDENCIES =  \
+	$(top_builddir)/src/libtorrent-rasterbar.la libtest.la
 am_test_bandwidth_limiter_OBJECTS = test_bandwidth_limiter.$(OBJEXT)
 test_bandwidth_limiter_OBJECTS = $(am_test_bandwidth_limiter_OBJECTS)
 test_bandwidth_limiter_LDADD = $(LDADD)
 test_bandwidth_limiter_DEPENDENCIES =  \
+	$(top_builddir)/src/libtorrent-rasterbar.la libtest.la
+am_test_bdecode_performance_OBJECTS =  \
+	test_bdecode_performance.$(OBJEXT)
+test_bdecode_performance_OBJECTS =  \
+	$(am_test_bdecode_performance_OBJECTS)
+test_bdecode_performance_LDADD = $(LDADD)
+test_bdecode_performance_DEPENDENCIES =  \
 	$(top_builddir)/src/libtorrent-rasterbar.la libtest.la
 am_test_bencoding_OBJECTS = test_bencoding.$(OBJEXT)
 test_bencoding_OBJECTS = $(am_test_bencoding_OBJECTS)
@@ -122,6 +140,11 @@ test_metadata_extension_OBJECTS =  \
 test_metadata_extension_LDADD = $(LDADD)
 test_metadata_extension_DEPENDENCIES =  \
 	$(top_builddir)/src/libtorrent-rasterbar.la libtest.la
+am_test_natpmp_OBJECTS = test_natpmp.$(OBJEXT)
+test_natpmp_OBJECTS = $(am_test_natpmp_OBJECTS)
+test_natpmp_LDADD = $(LDADD)
+test_natpmp_DEPENDENCIES =  \
+	$(top_builddir)/src/libtorrent-rasterbar.la libtest.la
 am_test_pe_crypto_OBJECTS = test_pe_crypto.$(OBJEXT)
 test_pe_crypto_OBJECTS = $(am_test_pe_crypto_OBJECTS)
 test_pe_crypto_LDADD = $(LDADD)
@@ -157,48 +180,79 @@ test_torrent_OBJECTS = $(am_test_torrent_OBJECTS)
 test_torrent_LDADD = $(LDADD)
 test_torrent_DEPENDENCIES =  \
 	$(top_builddir)/src/libtorrent-rasterbar.la libtest.la
+am_test_trackers_extension_OBJECTS =  \
+	test_trackers_extension.$(OBJEXT)
+test_trackers_extension_OBJECTS =  \
+	$(am_test_trackers_extension_OBJECTS)
+test_trackers_extension_LDADD = $(LDADD)
+test_trackers_extension_DEPENDENCIES =  \
+	$(top_builddir)/src/libtorrent-rasterbar.la libtest.la
 am_test_transfer_OBJECTS = test_transfer.$(OBJEXT)
 test_transfer_OBJECTS = $(am_test_transfer_OBJECTS)
 test_transfer_LDADD = $(LDADD)
 test_transfer_DEPENDENCIES =  \
 	$(top_builddir)/src/libtorrent-rasterbar.la libtest.la
+am_test_upnp_OBJECTS = test_upnp.$(OBJEXT)
+test_upnp_OBJECTS = $(am_test_upnp_OBJECTS)
+test_upnp_LDADD = $(LDADD)
+test_upnp_DEPENDENCIES = $(top_builddir)/src/libtorrent-rasterbar.la \
+	libtest.la
 am_test_web_seed_OBJECTS = test_web_seed.$(OBJEXT)
 test_web_seed_OBJECTS = $(am_test_web_seed_OBJECTS)
 test_web_seed_LDADD = $(LDADD)
 test_web_seed_DEPENDENCIES =  \
 	$(top_builddir)/src/libtorrent-rasterbar.la libtest.la
 DEFAULT_INCLUDES = -I.@am__isrc@
-depcomp = $(SHELL) $(top_srcdir)/depcomp
+depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
-LTCXXCOMPILE = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+LTCXXCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CXXFLAGS) $(CXXFLAGS)
+AM_V_CXX = $(am__v_CXX_$(V))
+am__v_CXX_ = $(am__v_CXX_$(AM_DEFAULT_VERBOSITY))
+am__v_CXX_0 = @echo "  CXX   " $@;
+AM_V_at = $(am__v_at_$(V))
+am__v_at_ = $(am__v_at_$(AM_DEFAULT_VERBOSITY))
+am__v_at_0 = @
 CXXLD = $(CXX)
-CXXLINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
-	$(LDFLAGS) -o $@
-SOURCES = $(libtest_la_SOURCES) $(test_bandwidth_limiter_SOURCES) \
-	$(test_bencoding_SOURCES) $(test_buffer_SOURCES) \
-	$(test_fast_extension_SOURCES) $(test_hasher_SOURCES) \
-	$(test_http_connection_SOURCES) $(test_ip_filter_SOURCES) \
-	$(test_lsd_SOURCES) $(test_metadata_extension_SOURCES) \
+CXXLINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+AM_V_CXXLD = $(am__v_CXXLD_$(V))
+am__v_CXXLD_ = $(am__v_CXXLD_$(AM_DEFAULT_VERBOSITY))
+am__v_CXXLD_0 = @echo "  CXXLD " $@;
+AM_V_GEN = $(am__v_GEN_$(V))
+am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
+am__v_GEN_0 = @echo "  GEN   " $@;
+SOURCES = $(libtest_la_SOURCES) $(test_auto_unchoke_SOURCES) \
+	$(test_bandwidth_limiter_SOURCES) \
+	$(test_bdecode_performance_SOURCES) $(test_bencoding_SOURCES) \
+	$(test_buffer_SOURCES) $(test_fast_extension_SOURCES) \
+	$(test_hasher_SOURCES) $(test_http_connection_SOURCES) \
+	$(test_ip_filter_SOURCES) $(test_lsd_SOURCES) \
+	$(test_metadata_extension_SOURCES) $(test_natpmp_SOURCES) \
 	$(test_pe_crypto_SOURCES) $(test_pex_SOURCES) \
 	$(test_piece_picker_SOURCES) $(test_primitives_SOURCES) \
 	$(test_storage_SOURCES) $(test_swarm_SOURCES) \
-	$(test_torrent_SOURCES) $(test_transfer_SOURCES) \
+	$(test_torrent_SOURCES) $(test_trackers_extension_SOURCES) \
+	$(test_transfer_SOURCES) $(test_upnp_SOURCES) \
 	$(test_web_seed_SOURCES)
-DIST_SOURCES = $(libtest_la_SOURCES) $(test_bandwidth_limiter_SOURCES) \
-	$(test_bencoding_SOURCES) $(test_buffer_SOURCES) \
-	$(test_fast_extension_SOURCES) $(test_hasher_SOURCES) \
-	$(test_http_connection_SOURCES) $(test_ip_filter_SOURCES) \
-	$(test_lsd_SOURCES) $(test_metadata_extension_SOURCES) \
+DIST_SOURCES = $(libtest_la_SOURCES) $(test_auto_unchoke_SOURCES) \
+	$(test_bandwidth_limiter_SOURCES) \
+	$(test_bdecode_performance_SOURCES) $(test_bencoding_SOURCES) \
+	$(test_buffer_SOURCES) $(test_fast_extension_SOURCES) \
+	$(test_hasher_SOURCES) $(test_http_connection_SOURCES) \
+	$(test_ip_filter_SOURCES) $(test_lsd_SOURCES) \
+	$(test_metadata_extension_SOURCES) $(test_natpmp_SOURCES) \
 	$(test_pe_crypto_SOURCES) $(test_pex_SOURCES) \
 	$(test_piece_picker_SOURCES) $(test_primitives_SOURCES) \
 	$(test_storage_SOURCES) $(test_swarm_SOURCES) \
-	$(test_torrent_SOURCES) $(test_transfer_SOURCES) \
+	$(test_torrent_SOURCES) $(test_trackers_extension_SOURCES) \
+	$(test_transfer_SOURCES) $(test_upnp_SOURCES) \
 	$(test_web_seed_SOURCES)
 HEADERS = $(noinst_HEADERS)
 ETAGS = etags
@@ -208,24 +262,22 @@ red=; grn=; lgn=; blu=; std=
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
+AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
-BOOST_ASIO_LIB = @BOOST_ASIO_LIB@
 BOOST_CPPFLAGS = @BOOST_CPPFLAGS@
 BOOST_FILESYSTEM_LIB = @BOOST_FILESYSTEM_LIB@
 BOOST_LDFLAGS = @BOOST_LDFLAGS@
-BOOST_PROGRAM_OPTIONS_LIB = @BOOST_PROGRAM_OPTIONS_LIB@
 BOOST_PYTHON_LIB = @BOOST_PYTHON_LIB@
-BOOST_REGEX_LIB = @BOOST_REGEX_LIB@
 BOOST_SYSTEM_LIB = @BOOST_SYSTEM_LIB@
 BOOST_THREAD_LIB = @BOOST_THREAD_LIB@
+BOOST_VERSION = @BOOST_VERSION@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
-CLIENT_TEST_BIN = @CLIENT_TEST_BIN@
 COMPILETIME_OPTIONS = @COMPILETIME_OPTIONS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
@@ -248,7 +300,6 @@ FGREP = @FGREP@
 GEOIP_CFLAGS = @GEOIP_CFLAGS@
 GEOIP_LIBS = @GEOIP_LIBS@
 GREP = @GREP@
-HAVE_SSL = @HAVE_SSL@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -269,6 +320,9 @@ NM = @NM@
 NMEDIT = @NMEDIT@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
+OPENSSL_INCLUDES = @OPENSSL_INCLUDES@
+OPENSSL_LDFLAGS = @OPENSSL_LDFLAGS@
+OPENSSL_LIBS = @OPENSSL_LIBS@
 OTOOL = @OTOOL@
 OTOOL64 = @OTOOL64@
 PACKAGE = @PACKAGE@
@@ -284,25 +338,22 @@ PTHREAD_CC = @PTHREAD_CC@
 PTHREAD_CFLAGS = @PTHREAD_CFLAGS@
 PTHREAD_LIBS = @PTHREAD_LIBS@
 PYTHON = @PYTHON@
+PYTHON_CPPFLAGS = @PYTHON_CPPFLAGS@
 PYTHON_EXEC_PREFIX = @PYTHON_EXEC_PREFIX@
-PYTHON_INCLUDE_DIR = @PYTHON_INCLUDE_DIR@
+PYTHON_EXTRA_LDFLAGS = @PYTHON_EXTRA_LDFLAGS@
+PYTHON_EXTRA_LIBS = @PYTHON_EXTRA_LIBS@
 PYTHON_INSTALL_PARAMS = @PYTHON_INSTALL_PARAMS@
-PYTHON_LIB = @PYTHON_LIB@
+PYTHON_LDFLAGS = @PYTHON_LDFLAGS@
 PYTHON_PLATFORM = @PYTHON_PLATFORM@
 PYTHON_PREFIX = @PYTHON_PREFIX@
+PYTHON_SITE_PKG = @PYTHON_SITE_PKG@
 PYTHON_VERSION = @PYTHON_VERSION@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
-SSL_CFLAGS = @SSL_CFLAGS@
-SSL_CXXFLAGS = @SSL_CXXFLAGS@
-SSL_LDFLAGS = @SSL_LDFLAGS@
-SSL_LIBS = @SSL_LIBS@
 STRIP = @STRIP@
 VERSION = @VERSION@
-ZLIB = @ZLIB@
-ZLIBINCL = @ZLIBINCL@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -310,12 +361,12 @@ abs_top_srcdir = @abs_top_srcdir@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
-acx_pthread_config = @acx_pthread_config@
 am__include = @am__include@
 am__leading_dot = @am__leading_dot@
 am__quote = @am__quote@
 am__tar = @am__tar@
 am__untar = @am__untar@
+ax_pthread_config = @ax_pthread_config@
 bindir = @bindir@
 build = @build@
 build_alias = @build_alias@
@@ -357,41 +408,71 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
+target = @target@
 target_alias = @target_alias@
+target_cpu = @target_cpu@
+target_os = @target_os@
+target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-test_programs = test_hasher test_bencoding test_ip_filter test_piece_picker \
-test_storage test_metadata_extension test_buffer test_swarm test_pe_crypto test_primitives \
-test_bandwidth_limiter test_fast_extension test_pex test_web_seed \
-test_http_connection test_torrent test_transfer test_lsd
+test_programs = \
+  test_auto_unchoke          \
+  test_bandwidth_limiter     \
+  test_bdecode_performance   \
+  test_bencoding             \
+  test_buffer                \
+  test_fast_extension        \
+  test_hasher                \
+  test_http_connection       \
+  test_ip_filter             \
+  test_lsd                   \
+  test_metadata_extension    \
+  test_natpmp                \
+  test_pe_crypto             \
+  test_pex                   \
+  test_piece_picker          \
+  test_primitives            \
+  test_storage               \
+  test_swarm                 \
+  test_torrent               \
+  test_trackers_extension    \
+  test_transfer              \
+  test_upnp                  \
+  test_web_seed
 
 @ENABLE_TESTS_TRUE@noinst_LTLIBRARIES = libtest.la
 TESTS = $(check_PROGRAMS)
 EXTRA_DIST = Jamfile
 noinst_HEADERS = test.hpp setup_transfer.hpp
 libtest_la_SOURCES = main.cpp setup_transfer.cpp
-test_lsd_SOURCES = test_lsd.cpp
-test_http_connection_SOURCES = test_http_connection.cpp
-test_web_seed_SOURCES = test_web_seed.cpp
-test_pex_SOURCES = test_pex.cpp
+test_auto_unchoke_SOURCES = test_auto_unchoke.cpp
+test_bandwidth_limiter_SOURCES = test_bandwidth_limiter.cpp
+test_bdecode_performance_SOURCES = test_bdecode_performance.cpp
+test_bencoding_SOURCES = test_bencoding.cpp
+test_buffer_SOURCES = test_buffer.cpp
 test_fast_extension_SOURCES = test_fast_extension.cpp
 test_hasher_SOURCES = test_hasher.cpp
-test_bencoding_SOURCES = test_bencoding.cpp
+test_http_connection_SOURCES = test_http_connection.cpp
 test_ip_filter_SOURCES = test_ip_filter.cpp
-test_piece_picker_SOURCES = test_piece_picker.cpp
-test_storage_SOURCES = test_storage.cpp
-test_buffer_SOURCES = test_buffer.cpp
+test_lsd_SOURCES = test_lsd.cpp
 test_metadata_extension_SOURCES = test_metadata_extension.cpp
-test_swarm_SOURCES = test_swarm.cpp
+test_natpmp_SOURCES = test_natpmp.cpp
 test_pe_crypto_SOURCES = test_pe_crypto.cpp
+test_pex_SOURCES = test_pex.cpp
+test_piece_picker_SOURCES = test_piece_picker.cpp
 test_primitives_SOURCES = test_primitives.cpp
-test_bandwidth_limiter_SOURCES = test_bandwidth_limiter.cpp
+test_storage_SOURCES = test_storage.cpp
+test_swarm_SOURCES = test_swarm.cpp
 test_torrent_SOURCES = test_torrent.cpp
+test_trackers_extension_SOURCES = test_trackers_extension.cpp
 test_transfer_SOURCES = test_transfer.cpp
+test_upnp_SOURCES = test_upnp.cpp
+test_web_seed_SOURCES = test_web_seed.cpp
 LDADD = $(top_builddir)/src/libtorrent-rasterbar.la libtest.la
-AM_CXXFLAGS = -ftemplate-depth-50 -I$(top_srcdir)/include -I$(top_srcdir)/include/libtorrent @DEBUGFLAGS@ @PTHREAD_CFLAGS@ -DBOOST_MULTI_INDEX_DISABLE_SERIALIZATION
-AM_LDFLAGS = @BOOST_SYSTEM_LIB@ @BOOST_FILESYSTEM_LIB@ @BOOST_THREAD_LIB@ @PTHREAD_LIBS@ @SSL_LDFLAGS@ @SSL_LIBS@
+
+#AM_CXXFLAGS=-ftemplate-depth-50 -I$(top_srcdir)/include -I$(top_srcdir)/include/libtorrent @DEBUGFLAGS@ @PTHREAD_CFLAGS@
+AM_CPPFLAGS = -ftemplate-depth-50 -I$(top_srcdir)/include @DEBUGFLAGS@
 all: all-am
 
 .SUFFIXES:
@@ -436,7 +517,7 @@ clean-noinstLTLIBRARIES:
 	  rm -f "$${dir}/so_locations"; \
 	done
 libtest.la: $(libtest_la_OBJECTS) $(libtest_la_DEPENDENCIES) 
-	$(CXXLINK) $(am_libtest_la_rpath) $(libtest_la_OBJECTS) $(libtest_la_LIBADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(am_libtest_la_rpath) $(libtest_la_OBJECTS) $(libtest_la_LIBADD) $(LIBS)
 
 clean-checkPROGRAMS:
 	@list='$(check_PROGRAMS)'; test -n "$$list" || exit 0; \
@@ -446,60 +527,75 @@ clean-checkPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
+test_auto_unchoke$(EXEEXT): $(test_auto_unchoke_OBJECTS) $(test_auto_unchoke_DEPENDENCIES) 
+	@rm -f test_auto_unchoke$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_auto_unchoke_OBJECTS) $(test_auto_unchoke_LDADD) $(LIBS)
 test_bandwidth_limiter$(EXEEXT): $(test_bandwidth_limiter_OBJECTS) $(test_bandwidth_limiter_DEPENDENCIES) 
 	@rm -f test_bandwidth_limiter$(EXEEXT)
-	$(CXXLINK) $(test_bandwidth_limiter_OBJECTS) $(test_bandwidth_limiter_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_bandwidth_limiter_OBJECTS) $(test_bandwidth_limiter_LDADD) $(LIBS)
+test_bdecode_performance$(EXEEXT): $(test_bdecode_performance_OBJECTS) $(test_bdecode_performance_DEPENDENCIES) 
+	@rm -f test_bdecode_performance$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_bdecode_performance_OBJECTS) $(test_bdecode_performance_LDADD) $(LIBS)
 test_bencoding$(EXEEXT): $(test_bencoding_OBJECTS) $(test_bencoding_DEPENDENCIES) 
 	@rm -f test_bencoding$(EXEEXT)
-	$(CXXLINK) $(test_bencoding_OBJECTS) $(test_bencoding_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_bencoding_OBJECTS) $(test_bencoding_LDADD) $(LIBS)
 test_buffer$(EXEEXT): $(test_buffer_OBJECTS) $(test_buffer_DEPENDENCIES) 
 	@rm -f test_buffer$(EXEEXT)
-	$(CXXLINK) $(test_buffer_OBJECTS) $(test_buffer_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_buffer_OBJECTS) $(test_buffer_LDADD) $(LIBS)
 test_fast_extension$(EXEEXT): $(test_fast_extension_OBJECTS) $(test_fast_extension_DEPENDENCIES) 
 	@rm -f test_fast_extension$(EXEEXT)
-	$(CXXLINK) $(test_fast_extension_OBJECTS) $(test_fast_extension_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_fast_extension_OBJECTS) $(test_fast_extension_LDADD) $(LIBS)
 test_hasher$(EXEEXT): $(test_hasher_OBJECTS) $(test_hasher_DEPENDENCIES) 
 	@rm -f test_hasher$(EXEEXT)
-	$(CXXLINK) $(test_hasher_OBJECTS) $(test_hasher_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_hasher_OBJECTS) $(test_hasher_LDADD) $(LIBS)
 test_http_connection$(EXEEXT): $(test_http_connection_OBJECTS) $(test_http_connection_DEPENDENCIES) 
 	@rm -f test_http_connection$(EXEEXT)
-	$(CXXLINK) $(test_http_connection_OBJECTS) $(test_http_connection_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_http_connection_OBJECTS) $(test_http_connection_LDADD) $(LIBS)
 test_ip_filter$(EXEEXT): $(test_ip_filter_OBJECTS) $(test_ip_filter_DEPENDENCIES) 
 	@rm -f test_ip_filter$(EXEEXT)
-	$(CXXLINK) $(test_ip_filter_OBJECTS) $(test_ip_filter_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_ip_filter_OBJECTS) $(test_ip_filter_LDADD) $(LIBS)
 test_lsd$(EXEEXT): $(test_lsd_OBJECTS) $(test_lsd_DEPENDENCIES) 
 	@rm -f test_lsd$(EXEEXT)
-	$(CXXLINK) $(test_lsd_OBJECTS) $(test_lsd_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_lsd_OBJECTS) $(test_lsd_LDADD) $(LIBS)
 test_metadata_extension$(EXEEXT): $(test_metadata_extension_OBJECTS) $(test_metadata_extension_DEPENDENCIES) 
 	@rm -f test_metadata_extension$(EXEEXT)
-	$(CXXLINK) $(test_metadata_extension_OBJECTS) $(test_metadata_extension_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_metadata_extension_OBJECTS) $(test_metadata_extension_LDADD) $(LIBS)
+test_natpmp$(EXEEXT): $(test_natpmp_OBJECTS) $(test_natpmp_DEPENDENCIES) 
+	@rm -f test_natpmp$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_natpmp_OBJECTS) $(test_natpmp_LDADD) $(LIBS)
 test_pe_crypto$(EXEEXT): $(test_pe_crypto_OBJECTS) $(test_pe_crypto_DEPENDENCIES) 
 	@rm -f test_pe_crypto$(EXEEXT)
-	$(CXXLINK) $(test_pe_crypto_OBJECTS) $(test_pe_crypto_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_pe_crypto_OBJECTS) $(test_pe_crypto_LDADD) $(LIBS)
 test_pex$(EXEEXT): $(test_pex_OBJECTS) $(test_pex_DEPENDENCIES) 
 	@rm -f test_pex$(EXEEXT)
-	$(CXXLINK) $(test_pex_OBJECTS) $(test_pex_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_pex_OBJECTS) $(test_pex_LDADD) $(LIBS)
 test_piece_picker$(EXEEXT): $(test_piece_picker_OBJECTS) $(test_piece_picker_DEPENDENCIES) 
 	@rm -f test_piece_picker$(EXEEXT)
-	$(CXXLINK) $(test_piece_picker_OBJECTS) $(test_piece_picker_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_piece_picker_OBJECTS) $(test_piece_picker_LDADD) $(LIBS)
 test_primitives$(EXEEXT): $(test_primitives_OBJECTS) $(test_primitives_DEPENDENCIES) 
 	@rm -f test_primitives$(EXEEXT)
-	$(CXXLINK) $(test_primitives_OBJECTS) $(test_primitives_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_primitives_OBJECTS) $(test_primitives_LDADD) $(LIBS)
 test_storage$(EXEEXT): $(test_storage_OBJECTS) $(test_storage_DEPENDENCIES) 
 	@rm -f test_storage$(EXEEXT)
-	$(CXXLINK) $(test_storage_OBJECTS) $(test_storage_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_storage_OBJECTS) $(test_storage_LDADD) $(LIBS)
 test_swarm$(EXEEXT): $(test_swarm_OBJECTS) $(test_swarm_DEPENDENCIES) 
 	@rm -f test_swarm$(EXEEXT)
-	$(CXXLINK) $(test_swarm_OBJECTS) $(test_swarm_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_swarm_OBJECTS) $(test_swarm_LDADD) $(LIBS)
 test_torrent$(EXEEXT): $(test_torrent_OBJECTS) $(test_torrent_DEPENDENCIES) 
 	@rm -f test_torrent$(EXEEXT)
-	$(CXXLINK) $(test_torrent_OBJECTS) $(test_torrent_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_torrent_OBJECTS) $(test_torrent_LDADD) $(LIBS)
+test_trackers_extension$(EXEEXT): $(test_trackers_extension_OBJECTS) $(test_trackers_extension_DEPENDENCIES) 
+	@rm -f test_trackers_extension$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_trackers_extension_OBJECTS) $(test_trackers_extension_LDADD) $(LIBS)
 test_transfer$(EXEEXT): $(test_transfer_OBJECTS) $(test_transfer_DEPENDENCIES) 
 	@rm -f test_transfer$(EXEEXT)
-	$(CXXLINK) $(test_transfer_OBJECTS) $(test_transfer_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_transfer_OBJECTS) $(test_transfer_LDADD) $(LIBS)
+test_upnp$(EXEEXT): $(test_upnp_OBJECTS) $(test_upnp_DEPENDENCIES) 
+	@rm -f test_upnp$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_upnp_OBJECTS) $(test_upnp_LDADD) $(LIBS)
 test_web_seed$(EXEEXT): $(test_web_seed_OBJECTS) $(test_web_seed_DEPENDENCIES) 
 	@rm -f test_web_seed$(EXEEXT)
-	$(CXXLINK) $(test_web_seed_OBJECTS) $(test_web_seed_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(test_web_seed_OBJECTS) $(test_web_seed_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -509,7 +605,9 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/setup_transfer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_auto_unchoke.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_bandwidth_limiter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_bdecode_performance.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_bencoding.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_buffer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_fast_extension.Po@am__quote@
@@ -518,6 +616,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_ip_filter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_lsd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_metadata_extension.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_natpmp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_pe_crypto.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_pex.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_piece_picker.Po@am__quote@
@@ -525,26 +624,31 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_storage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_swarm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_torrent.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_trackers_extension.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_transfer.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_upnp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_web_seed.Po@am__quote@
 
 .cpp.o:
-@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCXX_FALSE@	$(AM_V_CXX) @AM_BACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ $<
 
 .cpp.obj:
-@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCXX_FALSE@	$(AM_V_CXX) @AM_BACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
 .cpp.lo:
-@am__fastdepCXX_TRUE@	$(LTCXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LTCXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
+@am__fastdepCXX_FALSE@	$(AM_V_CXX) @AM_BACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LTCXXCOMPILE) -c -o $@ $<
@@ -847,6 +951,8 @@ uninstall-am:
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
 	tags uninstall uninstall-am
 
+
+#AM_LDFLAGS= @BOOST_SYSTEM_LIB@ @BOOST_FILESYSTEM_LIB@ @BOOST_THREAD_LIB@ @PTHREAD_LIBS@ @SSL_LDFLAGS@ @SSL_LIBS@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -50,8 +50,8 @@ void test_transfer(bool clear_files, bool disconnect
 {
 	using namespace libtorrent;
 
-	session ses1(fingerprint("LT", 0, 1, 0, 0), std::make_pair(48100, 49000));
-	session ses2(fingerprint("LT", 0, 1, 0, 0), std::make_pair(49100, 50000));
+	session ses1(fingerprint("LT", 0, 1, 0, 0), std::make_pair(48100, 49000), "0.0.0.0", 0);
+	session ses2(fingerprint("LT", 0, 1, 0, 0), std::make_pair(49100, 50000), "0.0.0.0", 0);
 	ses1.add_extension(constructor);
 	ses2.add_extension(constructor);
 	torrent_handle tor1;
@@ -66,7 +66,7 @@ void test_transfer(bool clear_files, bool disconnect
 
 	boost::tie(tor1, tor2, ignore) = setup_transfer(&ses1, &ses2, 0, clear_files, true, true, "_meta");	
 
-	for (int i = 0; i < 50; ++i)
+	for (int i = 0; i < 80; ++i)
 	{
 		// make sure this function can be called on
 		// torrents without metadata

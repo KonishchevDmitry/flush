@@ -1028,6 +1028,33 @@ Check your system clock])
 fi
 AC_MSG_RESULT(yes)])
 
+# Copyright (C) 2009  Free Software Foundation, Inc.
+#
+# This file is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# serial 1
+
+# AM_SILENT_RULES([DEFAULT])
+# --------------------------
+# Enable less verbose build rules; with the default set to DEFAULT
+# (`yes' being less verbose, `no' or empty being verbose).
+AC_DEFUN([AM_SILENT_RULES],
+[AC_ARG_ENABLE([silent-rules],
+[  --enable-silent-rules          less verbose build output (undo: `make V=1')
+  --disable-silent-rules         verbose build output (undo: `make V=0')])
+case $enable_silent_rules in
+yes) AM_DEFAULT_VERBOSITY=0;;
+no)  AM_DEFAULT_VERBOSITY=1;;
+*)   AM_DEFAULT_VERBOSITY=m4_if([$1], [yes], [0], [1]);;
+esac
+AC_SUBST([AM_DEFAULT_VERBOSITY])dnl
+AM_BACKSLASH='\'
+AC_SUBST([AM_BACKSLASH])dnl
+_AM_SUBST_NOTMAKE([AM_BACKSLASH])dnl
+])
+
 # Copyright (C) 2001, 2003, 2005  Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
@@ -1171,18 +1198,15 @@ AC_SUBST([am__tar])
 AC_SUBST([am__untar])
 ]) # _AM_PROG_TAR
 
-m4_include([m4/acx_pthread.m4])
-m4_include([m4/ax_boost_asio-fixed.m4])
-m4_include([m4/ax_boost_base-fixed.m4])
-m4_include([m4/ax_boost_filesystem-fixed.m4])
-m4_include([m4/ax_boost_program_options.m4])
-m4_include([m4/ax_boost_python-fixed.m4])
-m4_include([m4/ax_boost_regex.m4])
+m4_include([m4/ax_boost_base.m4])
+m4_include([m4/ax_boost_filesystem.m4])
+m4_include([m4/ax_boost_python.m4])
 m4_include([m4/ax_boost_system.m4])
 m4_include([m4/ax_boost_thread.m4])
 m4_include([m4/ax_check_geoip.m4])
-m4_include([m4/ax_python-fixed.m4])
-m4_include([m4/check_ssl.m4])
+m4_include([m4/ax_check_openssl.m4])
+m4_include([m4/ax_pthread.m4])
+m4_include([m4/ax_python_devel.m4])
 m4_include([m4/libtool.m4])
 m4_include([m4/ltoptions.m4])
 m4_include([m4/ltsugar.m4])

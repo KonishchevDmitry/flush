@@ -34,68 +34,86 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@ENABLE_EXAMPLES_TRUE@noinst_PROGRAMS = @CLIENT_TEST_BIN@ \
-@ENABLE_EXAMPLES_TRUE@	dump_torrent$(EXEEXT) \
-@ENABLE_EXAMPLES_TRUE@	make_torrent$(EXEEXT) \
-@ENABLE_EXAMPLES_TRUE@	simple_client$(EXEEXT) enum_if$(EXEEXT)
-EXTRA_PROGRAMS = client_test$(EXEEXT) dump_torrent$(EXEEXT) \
-	make_torrent$(EXEEXT) simple_client$(EXEEXT) enum_if$(EXEEXT)
+target_triplet = @target@
+@ENABLE_EXAMPLES_TRUE@noinst_PROGRAMS = $(am__EXEEXT_1)
+EXTRA_PROGRAMS = $(am__EXEEXT_1)
 subdir = examples
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/acx_pthread.m4 \
-	$(top_srcdir)/m4/ax_boost_asio-fixed.m4 \
-	$(top_srcdir)/m4/ax_boost_base-fixed.m4 \
-	$(top_srcdir)/m4/ax_boost_filesystem-fixed.m4 \
-	$(top_srcdir)/m4/ax_boost_program_options.m4 \
-	$(top_srcdir)/m4/ax_boost_python-fixed.m4 \
-	$(top_srcdir)/m4/ax_boost_regex.m4 \
+am__aclocal_m4_deps = $(top_srcdir)/m4/ax_boost_base.m4 \
+	$(top_srcdir)/m4/ax_boost_filesystem.m4 \
+	$(top_srcdir)/m4/ax_boost_python.m4 \
 	$(top_srcdir)/m4/ax_boost_system.m4 \
 	$(top_srcdir)/m4/ax_boost_thread.m4 \
 	$(top_srcdir)/m4/ax_check_geoip.m4 \
-	$(top_srcdir)/m4/ax_python-fixed.m4 \
-	$(top_srcdir)/m4/check_ssl.m4 $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/m4/pkgconfig.m4 $(top_srcdir)/configure.in
+	$(top_srcdir)/m4/ax_check_openssl.m4 \
+	$(top_srcdir)/m4/ax_pthread.m4 \
+	$(top_srcdir)/m4/ax_python_devel.m4 \
+	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
+	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
+	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/m4/pkgconfig.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
+am__EXEEXT_1 = client_test$(EXEEXT) dump_torrent$(EXEEXT) \
+	enum_if$(EXEEXT) make_torrent$(EXEEXT) simple_client$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 am_client_test_OBJECTS = client_test.$(OBJEXT)
 client_test_OBJECTS = $(am_client_test_OBJECTS)
+client_test_LDADD = $(LDADD)
 client_test_DEPENDENCIES =  \
 	$(top_builddir)/src/libtorrent-rasterbar.la
+AM_V_lt = $(am__v_lt_$(V))
+am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
+am__v_lt_0 = --silent
 am_dump_torrent_OBJECTS = dump_torrent.$(OBJEXT)
 dump_torrent_OBJECTS = $(am_dump_torrent_OBJECTS)
+dump_torrent_LDADD = $(LDADD)
 dump_torrent_DEPENDENCIES =  \
 	$(top_builddir)/src/libtorrent-rasterbar.la
 am_enum_if_OBJECTS = enum_if.$(OBJEXT)
 enum_if_OBJECTS = $(am_enum_if_OBJECTS)
+enum_if_LDADD = $(LDADD)
 enum_if_DEPENDENCIES = $(top_builddir)/src/libtorrent-rasterbar.la
 am_make_torrent_OBJECTS = make_torrent.$(OBJEXT)
 make_torrent_OBJECTS = $(am_make_torrent_OBJECTS)
+make_torrent_LDADD = $(LDADD)
 make_torrent_DEPENDENCIES =  \
 	$(top_builddir)/src/libtorrent-rasterbar.la
 am_simple_client_OBJECTS = simple_client.$(OBJEXT)
 simple_client_OBJECTS = $(am_simple_client_OBJECTS)
+simple_client_LDADD = $(LDADD)
 simple_client_DEPENDENCIES =  \
 	$(top_builddir)/src/libtorrent-rasterbar.la
 DEFAULT_INCLUDES = -I.@am__isrc@
-depcomp = $(SHELL) $(top_srcdir)/depcomp
+depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
-LTCXXCOMPILE = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+LTCXXCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CXXFLAGS) $(CXXFLAGS)
+AM_V_CXX = $(am__v_CXX_$(V))
+am__v_CXX_ = $(am__v_CXX_$(AM_DEFAULT_VERBOSITY))
+am__v_CXX_0 = @echo "  CXX   " $@;
+AM_V_at = $(am__v_at_$(V))
+am__v_at_ = $(am__v_at_$(AM_DEFAULT_VERBOSITY))
+am__v_at_0 = @
 CXXLD = $(CXX)
-CXXLINK = $(LIBTOOL) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) \
-	$(LDFLAGS) -o $@
+CXXLINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
+	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+AM_V_CXXLD = $(am__v_CXXLD_$(V))
+am__v_CXXLD_ = $(am__v_CXXLD_$(AM_DEFAULT_VERBOSITY))
+am__v_CXXLD_0 = @echo "  CXXLD " $@;
+AM_V_GEN = $(am__v_GEN_$(V))
+am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
+am__v_GEN_0 = @echo "  GEN   " $@;
 SOURCES = $(client_test_SOURCES) $(dump_torrent_SOURCES) \
 	$(enum_if_SOURCES) $(make_torrent_SOURCES) \
 	$(simple_client_SOURCES)
@@ -107,24 +125,22 @@ CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
+AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
-BOOST_ASIO_LIB = @BOOST_ASIO_LIB@
 BOOST_CPPFLAGS = @BOOST_CPPFLAGS@
 BOOST_FILESYSTEM_LIB = @BOOST_FILESYSTEM_LIB@
 BOOST_LDFLAGS = @BOOST_LDFLAGS@
-BOOST_PROGRAM_OPTIONS_LIB = @BOOST_PROGRAM_OPTIONS_LIB@
 BOOST_PYTHON_LIB = @BOOST_PYTHON_LIB@
-BOOST_REGEX_LIB = @BOOST_REGEX_LIB@
 BOOST_SYSTEM_LIB = @BOOST_SYSTEM_LIB@
 BOOST_THREAD_LIB = @BOOST_THREAD_LIB@
+BOOST_VERSION = @BOOST_VERSION@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
-CLIENT_TEST_BIN = @CLIENT_TEST_BIN@
 COMPILETIME_OPTIONS = @COMPILETIME_OPTIONS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
@@ -147,7 +163,6 @@ FGREP = @FGREP@
 GEOIP_CFLAGS = @GEOIP_CFLAGS@
 GEOIP_LIBS = @GEOIP_LIBS@
 GREP = @GREP@
-HAVE_SSL = @HAVE_SSL@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -168,6 +183,9 @@ NM = @NM@
 NMEDIT = @NMEDIT@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
+OPENSSL_INCLUDES = @OPENSSL_INCLUDES@
+OPENSSL_LDFLAGS = @OPENSSL_LDFLAGS@
+OPENSSL_LIBS = @OPENSSL_LIBS@
 OTOOL = @OTOOL@
 OTOOL64 = @OTOOL64@
 PACKAGE = @PACKAGE@
@@ -183,25 +201,22 @@ PTHREAD_CC = @PTHREAD_CC@
 PTHREAD_CFLAGS = @PTHREAD_CFLAGS@
 PTHREAD_LIBS = @PTHREAD_LIBS@
 PYTHON = @PYTHON@
+PYTHON_CPPFLAGS = @PYTHON_CPPFLAGS@
 PYTHON_EXEC_PREFIX = @PYTHON_EXEC_PREFIX@
-PYTHON_INCLUDE_DIR = @PYTHON_INCLUDE_DIR@
+PYTHON_EXTRA_LDFLAGS = @PYTHON_EXTRA_LDFLAGS@
+PYTHON_EXTRA_LIBS = @PYTHON_EXTRA_LIBS@
 PYTHON_INSTALL_PARAMS = @PYTHON_INSTALL_PARAMS@
-PYTHON_LIB = @PYTHON_LIB@
+PYTHON_LDFLAGS = @PYTHON_LDFLAGS@
 PYTHON_PLATFORM = @PYTHON_PLATFORM@
 PYTHON_PREFIX = @PYTHON_PREFIX@
+PYTHON_SITE_PKG = @PYTHON_SITE_PKG@
 PYTHON_VERSION = @PYTHON_VERSION@
 RANLIB = @RANLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
-SSL_CFLAGS = @SSL_CFLAGS@
-SSL_CXXFLAGS = @SSL_CXXFLAGS@
-SSL_LDFLAGS = @SSL_LDFLAGS@
-SSL_LIBS = @SSL_LIBS@
 STRIP = @STRIP@
 VERSION = @VERSION@
-ZLIB = @ZLIB@
-ZLIBINCL = @ZLIBINCL@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -209,12 +224,12 @@ abs_top_srcdir = @abs_top_srcdir@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
-acx_pthread_config = @acx_pthread_config@
 am__include = @am__include@
 am__leading_dot = @am__leading_dot@
 am__quote = @am__quote@
 am__tar = @am__tar@
 am__untar = @am__untar@
+ax_pthread_config = @ax_pthread_config@
 bindir = @bindir@
 build = @build@
 build_alias = @build_alias@
@@ -256,23 +271,34 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
 sysconfdir = @sysconfdir@
+target = @target@
 target_alias = @target_alias@
+target_cpu = @target_cpu@
+target_os = @target_os@
+target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+example_programs = \
+  client_test      \
+  dump_torrent     \
+  enum_if          \
+  make_torrent     \
+  simple_client
+
 EXTRA_DIST = Jamfile
 client_test_SOURCES = client_test.cpp
-client_test_LDADD = $(top_builddir)/src/libtorrent-rasterbar.la @BOOST_REGEX_LIB@ @BOOST_PROGRAM_OPTIONS_LIB@
+#client_test_LDADD = $(top_builddir)/src/libtorrent-rasterbar.la
 dump_torrent_SOURCES = dump_torrent.cpp
-dump_torrent_LDADD = $(top_builddir)/src/libtorrent-rasterbar.la
+#dump_torrent_LDADD = $(top_builddir)/src/libtorrent-rasterbar.la
 make_torrent_SOURCES = make_torrent.cpp
-make_torrent_LDADD = $(top_builddir)/src/libtorrent-rasterbar.la
+#make_torrent_LDADD = $(top_builddir)/src/libtorrent-rasterbar.la
 simple_client_SOURCES = simple_client.cpp
-simple_client_LDADD = $(top_builddir)/src/libtorrent-rasterbar.la
+#simple_client_LDADD = $(top_builddir)/src/libtorrent-rasterbar.la
 enum_if_SOURCES = enum_if.cpp
-enum_if_LDADD = $(top_builddir)/src/libtorrent-rasterbar.la
-AM_CXXFLAGS = -ftemplate-depth-50 -I$(top_srcdir)/include -I$(top_srcdir)/include/libtorrent @DEBUGFLAGS@ @PTHREAD_CFLAGS@ -DBOOST_MULTI_INDEX_DISABLE_SERIALIZATION
-AM_LDFLAGS = ${LDLAGS} -L./ @BOOST_SYSTEM_LIB@ @BOOST_FILESYSTEM_LIB@ @BOOST_THREAD_LIB@ @PTHREAD_LIBS@ -DBOOST_MULTI_INDEX_DISABLE_SERIALIZATION @SSL_LDFLAGS@ @SSL_LIBS@
+#enum_if_LDADD = $(top_builddir)/src/libtorrent-rasterbar.la
+LDADD = $(top_builddir)/src/libtorrent-rasterbar.la
+AM_CPPFLAGS = -ftemplate-depth-50 -I$(top_srcdir)/include @DEBUGFLAGS@
 all: all-am
 
 .SUFFIXES:
@@ -318,19 +344,19 @@ clean-noinstPROGRAMS:
 	rm -f $$list
 client_test$(EXEEXT): $(client_test_OBJECTS) $(client_test_DEPENDENCIES) 
 	@rm -f client_test$(EXEEXT)
-	$(CXXLINK) $(client_test_OBJECTS) $(client_test_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(client_test_OBJECTS) $(client_test_LDADD) $(LIBS)
 dump_torrent$(EXEEXT): $(dump_torrent_OBJECTS) $(dump_torrent_DEPENDENCIES) 
 	@rm -f dump_torrent$(EXEEXT)
-	$(CXXLINK) $(dump_torrent_OBJECTS) $(dump_torrent_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(dump_torrent_OBJECTS) $(dump_torrent_LDADD) $(LIBS)
 enum_if$(EXEEXT): $(enum_if_OBJECTS) $(enum_if_DEPENDENCIES) 
 	@rm -f enum_if$(EXEEXT)
-	$(CXXLINK) $(enum_if_OBJECTS) $(enum_if_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(enum_if_OBJECTS) $(enum_if_LDADD) $(LIBS)
 make_torrent$(EXEEXT): $(make_torrent_OBJECTS) $(make_torrent_DEPENDENCIES) 
 	@rm -f make_torrent$(EXEEXT)
-	$(CXXLINK) $(make_torrent_OBJECTS) $(make_torrent_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(make_torrent_OBJECTS) $(make_torrent_LDADD) $(LIBS)
 simple_client$(EXEEXT): $(simple_client_OBJECTS) $(simple_client_DEPENDENCIES) 
 	@rm -f simple_client$(EXEEXT)
-	$(CXXLINK) $(simple_client_OBJECTS) $(simple_client_LDADD) $(LIBS)
+	$(AM_V_CXXLD)$(CXXLINK) $(simple_client_OBJECTS) $(simple_client_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -345,22 +371,25 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/simple_client.Po@am__quote@
 
 .cpp.o:
-@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCXX_FALSE@	$(AM_V_CXX) @AM_BACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ $<
 
 .cpp.obj:
-@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCXX_FALSE@	$(AM_V_CXX) @AM_BACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
 .cpp.lo:
-@am__fastdepCXX_TRUE@	$(LTCXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCXX_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LTCXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
+@am__fastdepCXX_FALSE@	$(AM_V_CXX) @AM_BACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(LTCXXCOMPILE) -c -o $@ $<
@@ -568,6 +597,10 @@ uninstall-am:
 	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
 	pdf pdf-am ps ps-am tags uninstall uninstall-am
 
+
+#AM_LDFLAGS = ${LDLAGS} -L./ @BOOST_SYSTEM_LIB@ @BOOST_FILESYSTEM_LIB@ @BOOST_THREAD_LIB@ @OPENSSL_LDFLAGS@ @OPENSSL_LIBS@
+#AM_LDFLAGS = $(LDFLAGS) @BOOST_SYSTEM_LIB@ @BOOST_FILESYSTEM_LIB@ @BOOST_THREAD_LIB@ @OPENSSL_LDFLAGS@ @OPENSSL_LIBS@
+#AM_LDFLAGS = @OPENSSL_LDFLAGS@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
