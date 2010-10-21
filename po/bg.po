@@ -5,16 +5,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: flush-0.9.2-bundle\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2010-10-10 11:13+0400\n"
-"PO-Revision-Date: \n"
-"Last-Translator: Georgi Dobrev <gdd71@mail.bg>\n"
+"POT-Creation-Date: 2010-10-21 23:06+0400\n"
+"PO-Revision-Date: 2010-04-25 14:54+0000\n"
+"Last-Translator: Georgi Dobrev <Unknown>\n"
 "Language-Team: Georgi Dobrev <gdd71@abv.bg>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Bulgarian\n"
+"X-Launchpad-Export-Date: 2010-10-21 18:36+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: BULGARIA\n"
+"X-Poedit-Language: Bulgarian\n"
 
 #: mlib/mlib/misc.cpp:95 mlib/mlib/misc.cpp:157
 msgid "Buffer positioning error."
@@ -99,7 +101,7 @@ msgstr "Неуспех при създаване на инстанция inotify
 
 #: mlib/mlib/fs_watcher.cpp:359
 msgid "Program has been compiled without inotify support."
-msgstr "Програмата е била компилирана без поддръжка на inotify."
+msgstr "Програмата е била компилирана без подръжка на inotify."
 
 #: mlib/mlib/fs_watcher.cpp:378
 #, qt-format
@@ -215,7 +217,7 @@ msgstr "това не е торент файл"
 #: mlib/mlib/base/exception.cpp:94
 #, qt-format
 msgid "Exception: '%1'."
-msgstr "Изключение: '%1'."
+msgstr "Исключение: '%1'."
 
 #: mlib/mlib/base/messages.cpp:112
 msgid "[[gettimeofday time getting error]]"
@@ -431,7 +433,7 @@ msgstr "Неуспех при създаване на директория '%1':
 #: mlib/mlib/fs.cpp:1014
 #, qt-format
 msgid "file or directory '%1' is not exists"
-msgstr "файла или директорията '%1' не съществува"
+msgstr "файла или директорията '%1' не существува"
 
 #: mlib/mlib/fs.cpp:1018
 #, qt-format
@@ -689,14 +691,14 @@ msgstr "Грешка при четене на данните за DHT сесия
 #, qt-format
 msgid "Daemon config: Invalid IP filter rule at line %1: %2."
 msgstr ""
-"Конфигурационен файл на демона: Невярно сформирано правило на IP-филтъра в "
+"Конфигурационен файл на демона: Невярно сформировано правило на IP-филтъра в "
 "ред %1: %2."
 
 #: src/daemon_settings.cpp:813
 #, qt-format
 msgid "Daemon config: Invalid IP filter rule at line %1."
 msgstr ""
-"Конфигурационен файл на демона: Невярно сформирано правило на IP-филтъра в "
+"Конфигурационен файл на демона: Невярно сформировано правило на IP-филтъра в "
 "ред %1."
 
 #: src/daemon_settings.cpp:964 src/client_settings.cpp:1233
@@ -712,12 +714,12 @@ msgstr "Грешка при записа на конфигурационния �
 #: src/daemon_settings.cpp:1005
 #, qt-format
 msgid "Can't write DHT state to file '%1': %2."
-msgstr "Неуспех при записа на DHT сесията във файл '%1': %2."
+msgstr "Неуспех при записа на DHT сесиата във файл '%1': %2."
 
 #: src/daemon_settings.cpp:1016
 #, qt-format
 msgid "Writing DHT state to file '%1' failed. %2"
-msgstr "Записа на DHT сесията във файл '%1' се провали. %2"
+msgstr "Записа на DHT сесиата във файл '%1' се провали. %2"
 
 #: src/daemon_settings.cpp:1416
 #, qt-format
@@ -758,7 +760,7 @@ msgstr ""
 msgid "Can't read torrent resume data from file '%1': bad resume data."
 msgstr ""
 "Грешка при четене на файла '%1' с информация за възстановяване сесията на "
-"торента: неверни данни."
+"торента: невярни данни."
 
 #: src/daemon_settings.cpp:1714
 #, qt-format
@@ -768,7 +770,7 @@ msgstr "Записа на конфигурационния файл '%1' се п
 #: src/daemon_settings.cpp:1718
 #, qt-format
 msgid "Can't write torrent configuration file %1: %2."
-msgstr "Грешка при записа на конфигурационния файл на торента '%1': %2."
+msgstr "Ошибка при записа на конфигурационния файл на торента '%1': %2."
 
 #: src/daemon_settings.cpp:1736
 #, qt-format
@@ -815,7 +817,7 @@ msgstr "Свалени данни"
 
 #: src/torrent_peers_view.cpp:94 src/torrents_view.cpp:336
 msgid "Total upload (payload)|Up data"
-msgstr "Качени данни"
+msgstr "Качени даннини"
 
 #: src/torrent_peers_view.cpp:95 src/torrent_peers_view.cpp:108
 msgid "Availability"
@@ -943,7 +945,7 @@ msgstr "Икони и текст _хоризонтално"
 
 #: src/main_window.cpp:441
 msgid "_Categories"
-msgstr "_Категории"
+msgstr "_Категорий"
 
 #: src/main_window.cpp:454
 msgid "Show _names"
@@ -1014,7 +1016,7 @@ msgstr "_Относно"
 
 #: src/main_window.cpp:781
 msgid "Create"
-msgstr "Създаване"
+msgstr "Съзадаване"
 
 #: src/main_window.cpp:782
 msgid "Create a new torrent"
@@ -1306,7 +1308,7 @@ msgstr "Неуспех при запазване файла на торента 
 
 #: src/daemon_types.cpp:266
 msgid "Unable to save torrent's metadata"
-msgstr "Не е възможно запазване мета-данните на торрента"
+msgstr "Не е възможно запазване метаданните на торрента"
 
 #: src/daemon_types.cpp:267
 #, qt-format
@@ -1527,7 +1529,7 @@ msgstr "Невалиден идентификатор на торента: '%1'.
 
 #: src/daemon_session.cpp:2042 src/daemon_session.cpp:2058
 msgid "Deleting torrent data failed"
-msgstr "Изтриването на данните на торрента се провали"
+msgstr "Удаление данных торрента се провали"
 
 #: src/daemon_session.cpp:2043 src/daemon_session.cpp:2059
 #, qt-format
@@ -1703,7 +1705,7 @@ msgstr "висок"
 #: src/common.cpp:449
 #, qt-format
 msgid "Invalid file priority name: '%1'."
-msgstr "Невалидно име на приоритета: '%1'."
+msgstr "Недалидно име на приоритета: '%1'."
 
 #: src/common.cpp:568
 msgid "[Invalid encoding]"
@@ -1846,7 +1848,7 @@ msgstr "Грешка при обработката на торента '%1'"
 #: src/client_cmd_options.cpp:240
 #, qt-format
 msgid "Can't get '%1' absolute path: %2."
-msgstr "Не може да се получи абсолютен път '%1': %2."
+msgstr "Не може да се получи аблолютен път '%1': %2."
 
 #: src/client_cmd_options.cpp:260
 #, qt-format
@@ -2048,7 +2050,7 @@ msgstr "Стартирането на %1 се провали:"
 
 #: src/main.cpp:214
 msgid "Error at"
-msgstr "Грешка в: "
+msgstr "Грешка в:"
 
 #: src/main.cpp:215
 msgid ""
@@ -2064,7 +2066,7 @@ msgid ""
 "Compiled with native language support.\n"
 msgstr ""
 "\n"
-"Компилиран с поддръжка на национални езици.\n"
+"Компилиран с подръжка на национални езици.\n"
 
 #: src/main.cpp:230
 msgid ""
@@ -2072,7 +2074,7 @@ msgid ""
 "Compiled without native language support.\n"
 msgstr ""
 "\n"
-"Компилиран без поддръжка на национални езици.\n"
+"Компилиран без подръжка на национални езици.\n"
 
 #: src/main.cpp:259
 msgid "Logical error."
@@ -2089,7 +2091,7 @@ msgstr "Debug информация:"
 #: src/main.cpp:790
 #, qt-format
 msgid "Enable to set non-block mode for a pipe: %1."
-msgstr "Не може да се превключи канал (pipe) в не-блокиращ режим: %1."
+msgstr "Не може да се превключи канал (pipe) в неблокиращ режим: %1."
 
 #: src/main.cpp:845
 #, qt-format
@@ -2205,25 +2207,25 @@ msgstr ""
 #, qt-format
 msgid "Closing %1 session failed. Can't remove DBus session link '%2': %3."
 msgstr ""
-"Затварянето на сесията %1 се провали. Не успя да се премахне връзката на "
+"Затварянето на сесията %1 се провали. Не успя да се пренахне връзката на "
 "DBus сесията '%2': %3."
 
 #: src/main.cpp:1140
 msgid "Nothing to process. Exiting..."
-msgstr "Няма действия, които да се обработват. Изход..."
+msgstr "Няма дейстия, които да се обработват. Изход..."
 
 #: src/main.cpp:1143
 msgid "Delivering command line options to working copy..."
-msgstr "Предоставяне на опциите от командния ред на работещото копие..."
+msgstr "Ппедоставяне на опцийте от командния ред на работещото копие..."
 
 #: src/main.cpp:1152 src/main.cpp:1156 src/main.cpp:1161
 msgid "Transmitting command line options failed"
-msgstr "Препратените опции от командния ред завършиха с неуспех"
+msgstr "Препратените опций от командния ред завършиха с неуспех"
 
 #: src/main.cpp:1152
 #, qt-format
 msgid "Running %1 instance rejected command line options transfered to it: %2."
-msgstr "Стартираното копие %1 отклони преданите му опции в командния ред: %2."
+msgstr "Стартираното копие %1 отклони переданите му опции в командния ред: %2."
 
 #: src/main.cpp:1156
 #, qt-format
@@ -2236,7 +2238,7 @@ msgid ""
 "Gotten invalid tracker URL ('%1'). Please inter a valid URL started from "
 "'http://'."
 msgstr ""
-"Получен е невалиден URL на тракера ('%1'). Моля, въведете валиден URL "
+"Получен е невалиден URL на тракера ('%1'). Моля, въведетв валиден URL "
 "(трябва да започва с 'http://')."
 
 #: src/trackers_view.cpp:187
@@ -2433,7 +2435,7 @@ msgstr "Качени данни"
 
 #: ui/dialog.add_torrent.glade:7
 msgid "Add torrent"
-msgstr "Добавяне на торент"
+msgstr "Добавяне на торрент"
 
 #: ui/dialog.add_torrent.glade:28
 msgid "<b>Torrent</b>"
@@ -2449,7 +2451,7 @@ msgstr "Име:"
 
 #: ui/dialog.add_torrent.glade:100
 msgid "Start torrent"
-msgstr "Старт на торента"
+msgstr "Старт на торрента"
 
 #: ui/dialog.add_torrent.glade:133
 msgid "Download path:"
@@ -2463,7 +2465,7 @@ msgstr "Моля, изберете директория за сваляне на
 msgid "Please select a directory for finished downloads copying"
 msgstr ""
 "Моля, изберете директория, в която ще се копират файловете на торента след "
-"приключване на свалянето"
+"приключване на свалането"
 
 #: ui/dialog.add_torrent.glade:195
 msgid "<b>Paths</b>"
@@ -2530,7 +2532,7 @@ msgid ""
 msgstr ""
 "Local Service Discovery. Тази услуга разпространява хешовете на всички не-"
 "частни торенти в локалната мрежа с цел, намиране на пиъри за сваляне на "
-"торентите. "
+"торентите."
 
 #: ui/preferences.daemon.network.misc.glade:283
 msgid "NAT-PMP"
@@ -2592,7 +2594,7 @@ msgstr ""
 "торенти, т. к. в този случай клиента ще получава нови пиъри много рядко "
 "(само тогава, когато се изпраща поредния анонс към тракера).\n"
 "\n"
-"Моля, не включвайте тази опция, ако сте с реален IP адрес! Т. к. в този "
+"Моля, не влючвайте тази опция, ако сте с реален IP адрес! Т. к. в този "
 "случай с нищо няма да помогнете на торент-клиента, и само ще увеличите "
 "натоварването на тракера."
 
@@ -2811,11 +2813,11 @@ msgstr "Затваряне в (tray)"
 
 #: ui/preferences.client.gui.misc.glade:266
 msgid "Download completed notification"
-msgstr "Известяване при завършване свалянето на всеки торент"
+msgstr "Известявяне при завършване свалянето на всеки торент"
 
 #: ui/preferences.client.gui.misc.glade:279
 msgid "All downloads completed notification"
-msgstr "Известяване при завършване свалянето на всички торенти"
+msgstr "Известявяне при завършване свалянето на всички торенти"
 
 #: ui/dialog.open_magnet_link.glade:26
 msgid "Magnet link:"

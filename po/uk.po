@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: flush\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2010-10-10 11:13+0400\n"
-"PO-Revision-Date: 2010-03-26 12:45+0000\n"
-"Last-Translator: StarWolf <Unknown>\n"
+"POT-Creation-Date: 2010-10-21 23:06+0400\n"
+"PO-Revision-Date: 2010-08-01 21:42+0000\n"
+"Last-Translator: Volodymyr Fedyk <Unknown>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-25 14:00+0000\n"
+"X-Launchpad-Export-Date: 2010-10-21 18:36+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: mlib/mlib/misc.cpp:95 mlib/mlib/misc.cpp:157
@@ -171,12 +171,12 @@ msgstr "Неправильна адреса magnet."
 
 #: mlib/mlib/libtorrent.cpp:119
 msgid "there is no 'xt=urn:btih:' field in it"
-msgstr ""
+msgstr "поле 'xt=urn:btih:' відсутнє"
 
 #: mlib/mlib/libtorrent.cpp:182
 #, qt-format
 msgid "Invalid magnet URI: %1."
-msgstr ""
+msgstr "Неправильна magnet URI: %1."
 
 #: mlib/mlib/libtorrent.cpp:220
 #, qt-format
@@ -214,7 +214,7 @@ msgstr "це не торрент-файл"
 #: mlib/mlib/base/exception.cpp:94
 #, qt-format
 msgid "Exception: '%1'."
-msgstr ""
+msgstr "Виключення: '%1'."
 
 #: mlib/mlib/base/messages.cpp:112
 msgid "[[gettimeofday time getting error]]"
@@ -574,7 +574,7 @@ msgstr "Вивантаження"
 
 #: src/statistics_window.cpp:169 src/torrents_view.cpp:372
 msgid "Total upload"
-msgstr ""
+msgstr "Загальна віддача"
 
 #: src/statistics_window.cpp:170
 msgid "Total payload upload"
@@ -650,7 +650,7 @@ msgstr ""
 #: src/daemon_settings.cpp:114
 #, qt-format
 msgid "Daemon config: Unknown option '%1' at line %2."
-msgstr ""
+msgstr "Конфігурація демона: Невідомий параметр '%1' в рядку %2."
 
 #: src/daemon_settings.cpp:452 src/client_settings.cpp:1147
 #, qt-format
@@ -660,16 +660,16 @@ msgstr "Читання конфігураційного файлу '%1' було
 #: src/daemon_settings.cpp:456
 #, qt-format
 msgid "Error while reading configuration file '%1': %2."
-msgstr ""
+msgstr "Помилка під час зчитування конфігураційного файлу '%1': %2."
 
 #: src/daemon_settings.cpp:460
 #, qt-format
 msgid "Error while parsing configuration file '%1': %2."
-msgstr ""
+msgstr "Помилка під час розбору конфігураційного файла '%1': %2."
 
 #: src/daemon_settings.cpp:769
 msgid "invalid DHT state data"
-msgstr ""
+msgstr "неправильні дані статистики DHT"
 
 #: src/daemon_settings.cpp:775
 #, qt-format

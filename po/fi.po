@@ -1,21 +1,22 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Dmitry Konishchev
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Finnish translation for flush
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the flush package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: flush 0.9.9\n"
+"Project-Id-Version: flush\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
 "POT-Creation-Date: 2010-10-21 23:06+0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2010-05-05 22:30+0000\n"
+"Last-Translator: Jouni Mikkola <Unknown>\n"
+"Language-Team: Finnish <fi@li.org>\n"
+"Language: fi\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-10-21 18:36+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
 
 #: mlib/mlib/misc.cpp:95 mlib/mlib/misc.cpp:157
 msgid "Buffer positioning error."
@@ -24,7 +25,7 @@ msgstr ""
 #: mlib/mlib/misc.cpp:226 mlib/mlib/sys.cpp:283
 #, qt-format
 msgid "Can't create a pipe: %1."
-msgstr ""
+msgstr "Ei voida luoda putkea: %1."
 
 #: mlib/mlib/misc.cpp:235
 #, qt-format
@@ -39,12 +40,12 @@ msgstr ""
 #: mlib/mlib/misc.cpp:274
 #, qt-format
 msgid "Can't read from a pipe: %1."
-msgstr ""
+msgstr "Ei voida lukea putkea: %1."
 
 #: mlib/mlib/misc.cpp:306
 #, qt-format
 msgid "Can't write to a pipe: %1."
-msgstr ""
+msgstr "Ei voida kirjoittaa putkeen: %1."
 
 #: mlib/mlib/misc.cpp:372
 #, qt-format
@@ -64,12 +65,12 @@ msgstr ""
 #: mlib/mlib/misc.cpp:403
 #, qt-format
 msgid "Realloc failed: %1."
-msgstr ""
+msgstr "Uudelleenvaraus epäonnistui: %1."
 
 #: mlib/mlib/misc.cpp:447
 #, qt-format
 msgid "Running command '%1' failed: %2."
-msgstr ""
+msgstr "Komennon '%1' suorittaminen epäonnistui: %2."
 
 #: mlib/mlib/misc.cpp:479
 #, qt-format
@@ -136,7 +137,8 @@ msgid "Operation on finalized query."
 msgstr ""
 
 #: mlib/mlib/async_fs.cpp:245
-msgid "Asynchronous filesystem finished it's work, but not all tasks are processed."
+msgid ""
+"Asynchronous filesystem finished it's work, but not all tasks are processed."
 msgstr ""
 
 #: mlib/mlib/gtk/misc.cpp:125 src/main.cpp:432
@@ -324,7 +326,9 @@ msgstr ""
 
 #: mlib/mlib/fs.cpp:194
 #, qt-format
-msgid "Error while changing directory '%1' access and modification times. Can't stat directory '%2': %3."
+msgid ""
+"Error while changing directory '%1' access and modification times. Can't "
+"stat directory '%2': %3."
 msgstr ""
 
 #: mlib/mlib/fs.cpp:208
@@ -1534,7 +1538,9 @@ msgid "Changing file or directory path failed"
 msgstr ""
 
 #: src/torrent_files_view.cpp:126
-msgid "Changing file or directory path failed. Invalid path has been gotten. Please enter a valid path."
+msgid ""
+"Changing file or directory path failed. Invalid path has been gotten. Please "
+"enter a valid path."
 msgstr ""
 
 #: src/torrent_files_view.cpp:182 src/torrent_files_view.cpp:200
@@ -1580,7 +1586,9 @@ msgid "Changing file path failed"
 msgstr ""
 
 #: src/torrent_files_view.cpp:503
-msgid "Changing file path failed. Invalid file path has been gotten. Please enter a valid path."
+msgid ""
+"Changing file path failed. Invalid file path has been gotten. Please enter a "
+"valid path."
 msgstr ""
 
 #: src/torrent_files_view.cpp:534 src/torrent_files_view.cpp:551
@@ -1598,7 +1606,8 @@ msgid "Invalid torrent name"
 msgstr ""
 
 #: src/add_torrent_dialog.cpp:249
-msgid "You have entered invalid torrent name. Please enter non-empty torrent name."
+msgid ""
+"You have entered invalid torrent name. Please enter non-empty torrent name."
 msgstr ""
 
 #: src/common.cpp:81
@@ -1764,7 +1773,9 @@ msgstr ""
 
 #: src/client_cmd_options.cpp:166
 #, qt-format
-msgid "Only pass commands to already running %1 instance. Does not start new instance if it is not running yet"
+msgid ""
+"Only pass commands to already running %1 instance. Does not start new "
+"instance if it is not running yet"
 msgstr ""
 
 #: src/client_cmd_options.cpp:239
@@ -1933,7 +1944,8 @@ msgstr ""
 #: src/application.cpp:407
 #, qt-format
 msgid ""
-"Unable to show libnotify message: %1. You can disable notifications in the Preferences dialog.\n"
+"Unable to show libnotify message: %1. You can disable notifications in the "
+"Preferences dialog.\n"
 "Message text:\n"
 "%2"
 msgstr ""
@@ -1948,7 +1960,9 @@ msgid "Error while saving settings"
 msgstr ""
 
 #: src/application.cpp:607
-msgid "Unable to initialize a libnotify instance. Notification's displaying is not possible."
+msgid ""
+"Unable to initialize a libnotify instance. Notification's displaying is not "
+"possible."
 msgstr ""
 
 #: src/main.cpp:172
@@ -2026,7 +2040,9 @@ msgstr ""
 
 #: src/main.cpp:914 src/main.cpp:930
 #, qt-format
-msgid "Can't communicate with running %1 instance. Error while reading link '%2' target path: %3."
+msgid ""
+"Can't communicate with running %1 instance. Error while reading link '%2' "
+"target path: %3."
 msgstr ""
 
 #: src/main.cpp:942
@@ -2052,7 +2068,9 @@ msgid "Unexpected DBus behavior while requesting name"
 msgstr ""
 
 #: src/main.cpp:996
-msgid "DBus saying that application is already name owner, but name request has not been sent yet."
+msgid ""
+"DBus saying that application is already name owner, but name request has not "
+"been sent yet."
 msgstr ""
 
 #: src/main.cpp:1003
@@ -2070,7 +2088,8 @@ msgstr ""
 
 #: src/main.cpp:1051
 #, qt-format
-msgid "Creating %1 session failed. Error while reading link '%2' target path: %3."
+msgid ""
+"Creating %1 session failed. Error while reading link '%2' target path: %3."
 msgstr ""
 
 #: src/main.cpp:1058
@@ -2112,12 +2131,16 @@ msgstr ""
 
 #: src/trackers_view.cpp:169
 #, qt-format
-msgid "Gotten invalid tracker URL ('%1'). Please inter a valid URL started from 'http://'."
+msgid ""
+"Gotten invalid tracker URL ('%1'). Please inter a valid URL started from "
+"'http://'."
 msgstr ""
 
 #: src/trackers_view.cpp:187
 #, qt-format
-msgid "Gotten invalid tracker URL ('%1'). This URL is already exists in the tracker list."
+msgid ""
+"Gotten invalid tracker URL ('%1'). This URL is already exists in the tracker "
+"list."
 msgstr ""
 
 #: src/trackers_view.cpp:234 src/trackers_view.cpp:236
@@ -2393,7 +2416,10 @@ msgid "LSD"
 msgstr ""
 
 #: ui/preferences.daemon.network.misc.glade:273
-msgid "Local Service Discovery. This service will broadcast the infohashes of all the non-private torrents on the local network to look for peers on the same swarm within multicast reach."
+msgid ""
+"Local Service Discovery. This service will broadcast the infohashes of all "
+"the non-private torrents on the local network to look for peers on the same "
+"swarm within multicast reach."
 msgstr ""
 
 #: ui/preferences.daemon.network.misc.glade:283
@@ -2443,9 +2469,13 @@ msgstr ""
 #: ui/preferences.daemon.network.misc.glade:486
 #: ui/preferences.daemon.network.misc.glade:528
 msgid ""
-"This option is very usable if you have no real IP address, and trackers sets too big announce interval for it's torrents, because in this case you receive new peers only one time per this interval.\n"
+"This option is very usable if you have no real IP address, and trackers sets "
+"too big announce interval for it's torrents, because in this case you "
+"receive new peers only one time per this interval.\n"
 "\n"
-"Please do not set this option, if you have real IP address! In this case you do not make torrent client work better, but this option increase trackers overload."
+"Please do not set this option, if you have real IP address! In this case you "
+"do not make torrent client work better, but this option increase trackers "
+"overload."
 msgstr ""
 
 #: ui/preferences.daemon.network.misc.glade:524
@@ -2457,7 +2487,10 @@ msgid "<big><b>Daemon::Network::IP filter</b></big>"
 msgstr ""
 
 #: ui/preferences.daemon.network.ip_filter.glade:52
-msgid "This list is fully scanned from top to bottom. In a case of overlapping ranges the last one applied takes precedence. The list has one implicit rule at the top, which allows all IPs."
+msgid ""
+"This list is fully scanned from top to bottom. In a case of overlapping "
+"ranges the last one applied takes precedence. The list has one implicit rule "
+"at the top, which allows all IPs."
 msgstr ""
 
 #: ui/preferences.daemon.network.ip_filter.glade:226
