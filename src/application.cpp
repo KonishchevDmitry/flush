@@ -399,7 +399,15 @@ void Application::on_daemon_notify_message_cb(const Notify_message& message)
 			const char *icon_path = APP_ICONS_PATH "/hicolor/48x48/apps/" APP_UNIX_NAME ".png";
 
 			NotifyNotification *notify = notify_notification_new(
-				message.get_title().c_str(), message.get_message().c_str(), icon_path, NULL);
+				message.get_title().c_str(), message.get_message().c_str(), icon_path
+				#if defined(NOTIFY_CHECK_VERSION)
+					#if !NOTIFY_CHECK_VERSION(0, 7, 0)
+						, NULL
+					#endif
+				#else
+					, NULL
+				#endif
+			);
 
 			if(!notify_notification_show(notify, &gerror))
 			{
