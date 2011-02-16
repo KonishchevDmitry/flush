@@ -249,6 +249,13 @@ dnl Compiler flags -->
 				AC_MSG_ERROR([Unable to find Boost.Thread library.])
 			fi
 			APP_LDADD="$APP_LDADD $BOOST_THREAD_LIB"
+
+			AX_BOOST_SYSTEM
+			if test -z "$BOOST_SYSTEM_LIB"
+			then
+				AC_MSG_ERROR([Unable to find Boost.System library.])
+			fi
+			APP_LDADD="$APP_LDADD $BOOST_SYSTEM_LIB"
 		dnl boost <--
 
 		dnl DBus -->
