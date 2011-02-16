@@ -345,6 +345,12 @@ dnl Compiler flags -->
 			fi
 		dnl libtorrent <--
 
+		dnl openssl -->
+		CHECK_SSL
+		APP_CPPFLAGS="$APP_CPPFLAGS $SSL_CXXFLAGS"
+		APP_LDADD="$APP_LDADD $SSL_LDFLAGS $SSL_LIBS"
+		dnl openssl <--
+
 	dnl Libraries <--
 
 	MLIB_CPPFLAGS="$COMMON_CPPFLAGS $MLIB_CPPFLAGS"
