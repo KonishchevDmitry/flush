@@ -28,33 +28,7 @@ AM_GNU_GETTEXT([external])
 MLIB_INIT
 
 
-dnl libconfig -->
-	libconfig_dir_name="libconfig"
-	libconfig_package_dir="$srcdir/$libconfig_dir_name"
-
-	if test -d "$libconfig_package_dir"
-	then
-		package_libconfig=yes
-	else
-		package_libconfig=no
-	fi
-dnl libconfig <--
-
-dnl libtorrent -->
-	libtorrent_dir_name="libtorrent"
-	libtorrent_package_dir="$srcdir/$libtorrent_dir_name"
-
-	if test -d "$libtorrent_package_dir"
-	then
-		package_libtorrent=yes
-	else
-		package_libtorrent=no
-	fi
-dnl libtorrent <--
-
-
 dnl Configuring command line options -->
-
 	AC_ARG_ENABLE(debug_mode,
 		[AS_HELP_STRING([--enable-debug-mode],
 			[enable debug mode for application])],
@@ -69,47 +43,6 @@ dnl Configuring command line options -->
 		[develop_mode=no]
 	)
 
-	AC_ARG_ENABLE(bundle_package,
-		[AS_HELP_STRING([--disable-bundle-package],
-			[disable creating bundle package which includes libconfig and libtorrent-rasterbar (only for package creating)])],
-		[
-			if test "X$enableval" = "Xyes"
-			then
-				disable_bundle_package=no
-			else
-				disable_bundle_package=yes
-			fi
-		],
-		[disable_bundle_package=no]
-	)
-
-	AC_ARG_ENABLE([system_libconfig],
-		[AS_HELP_STRING([--enable-system-libconfig],
-			[use system libconfig library (only for bundle package)])],
-		[
-			if test "X$enableval" = "Xyes"
-			then
-				package_libconfig=no
-			else
-				package_libconfig=yes
-			fi
-		]
-	)
-
-	AC_ARG_ENABLE([system_libtorrent],
-		[AS_HELP_STRING([--enable-system-libtorrent],
-			[use system libtorrent-rasterbar library (only for bundle package)])],
-		[
-			if test "X$enableval" = "Xyes"
-			then
-				package_libtorrent=no
-			else
-				package_libtorrent=yes
-			fi
-		]
-	)
-
-
 	if test "X$develop_mode" = "Xyes"
 	then
 		MLIB_FEATURE_ENABLE([[develop_mode]])
@@ -122,18 +55,10 @@ dnl Configuring command line options -->
 	then
 		MLIB_FEATURE_ENABLE([[debug_mode]])
 	fi
-
-	if test "X$disable_bundle_package" = "Xyes"
-	then
-		package_libconfig=no
-		package_libtorrent=no
-	fi
-
 dnl Configuring command line options <--
 
 
 dnl config.h -->
-
 	AH_TOP([
 #ifndef HEADER_CONFIG
 #define HEADER_CONFIG
@@ -181,12 +106,10 @@ dnl config.h -->
 	AH_BOTTOM([
 #endif
 	])
-
 dnl config.h <--
 
 
 dnl Compiler flags -->
-
 	dnl Clearing all flags -->
 		COMMON_CPPFLAGS=''
 		COMMON_CFLAGS=''
@@ -200,12 +123,10 @@ dnl Compiler flags -->
 		APP_LDADD=''
 	dnl Clearing all flags <--
 
-
 	dnl Including config.h anywhere
 	COMMON_CPPFLAGS="$COMMON_CPPFLAGS -include \$(top_builddir)/config.h"
 
 	APP_CPPFLAGS="$APP_CPPFLAGS -I \$(top_srcdir)/src"
-
 
 	dnl Develop mode flags -->
 		if test "X$develop_mode" = "Xyes"
@@ -224,9 +145,7 @@ dnl Compiler flags -->
 		fi
 	dnl Develop mode flags <--
 
-
 	dnl Libraries -->
-
 		dnl boost -->
 			AX_BOOST_BASE([1.34])
 			if test -z "$BOOST_LDFLAGS"
@@ -288,21 +207,9 @@ dnl Compiler flags -->
 		dnl GTK <--
 
 		dnl libconfig -->
-			if test "X$package_libconfig" = "Xyes"
-			then
-				LIBCONFIG_CPPFLAGS="-I \$(top_srcdir)/$libconfig_dir_name"
-				LIBCONFIG_LIBRARIES="\$(top_builddir)/$libconfig_dir_name/.libs/libconfig++.a"
-
-				APP_CPPFLAGS="$APP_CPPFLAGS $LIBCONFIG_CPPFLAGS"
-				APP_DEPENDENCIES="$APP_DEPENDENCIES $LIBCONFIG_LIBRARIES"
-				APP_LDADD="$APP_LDADD $LIBCONFIG_LIBRARIES"
-
-				MLIB_SET_CUSTOM_LIBRARY([[libconfig]], [[$LIBCONFIG_CPPFLAGS]], [[$LIBCONFIG_LIBRARIES]])
-			else
-				PKG_CHECK_MODULES([libconfig], [libconfig++ >= 1.3])
-				APP_CPPFLAGS="$APP_CPPFLAGS $libconfig_CFLAGS"
-				APP_LDADD="$APP_LDADD $libconfig_LIBS"
-			fi
+			PKG_CHECK_MODULES([libconfig], [libconfig++ >= 1.3])
+			APP_CPPFLAGS="$APP_CPPFLAGS $libconfig_CFLAGS"
+			APP_LDADD="$APP_LDADD $libconfig_LIBS"
 		dnl libconfig <--
 
 		dnl libnotify -->
@@ -312,37 +219,9 @@ dnl Compiler flags -->
 		dnl libnotify <--
 
 		dnl libtorrent -->
-			if test "X$package_libtorrent" = "Xyes"
-			then
-				CHECK_SSL
-				LIBTORRENT_CPPFLAGS="$SSL_CXXFLAGS"
-				LIBTORRENT_LDADD="$SSL_LDFLAGS $SSL_LIBS"
-
-				ACX_PTHREAD
-				LIBTORRENT_CPPFLAGS="$LIBTORRENT_CPPFLAGS $PTHREAD_CFLAGS"
-				LIBTORRENT_LDADD="$LIBTORRENT_LDADD $PTHREAD_LIBS"
-
-				LIBTORRENT_CPPFLAGS="$LIBTORRENT_CPPFLAGS -DTORRENT_USE_OPENSSL"
-				LIBTORRENT_CPPFLAGS="$LIBTORRENT_CPPFLAGS -I \$(top_srcdir)/$libtorrent_dir_name/include"
-				LIBTORRENT_CPPFLAGS="$LIBTORRENT_CPPFLAGS -I \$(top_srcdir)/$libtorrent_dir_name/include/libtorrent"
-				LIBTORRENT_LIBRARIES="\$(top_builddir)/$libtorrent_dir_name/src/.libs/libtorrent-rasterbar.a"
-				LIBTORRENT_LDADD="$LIBTORRENT_LDADD $LIBTORRENT_LIBRARIES -lrt"
-
-				APP_CPPFLAGS="$APP_CPPFLAGS $LIBTORRENT_CPPFLAGS"
-				APP_DEPENDENCIES="$APP_DEPENDENCIES $LIBTORRENT_LIBRARIES"
-				APP_LDADD="$APP_LDADD $LIBTORRENT_LDADD"
-
-				MLIB_SET_CUSTOM_LIBRARY([[libtorrent]], [[$LIBTORRENT_CPPFLAGS]], [[$LIBTORRENT_LDADD]])
-			else
-				dnl TODO: remove bad named libtorrent-rasterbar-0.14 when it package
-				dnl will become obsolete
-				PKG_CHECK_MODULES([libtorrent_rasterbar], [libtorrent-rasterbar-0.14 >= 0.14], [], [
-					PKG_CHECK_MODULES([libtorrent_rasterbar], [libtorrent-rasterbar >= 0.14])
-				])
-
-				APP_CPPFLAGS="$APP_CPPFLAGS $libtorrent_rasterbar_CFLAGS"
-				APP_LDADD="$APP_LDADD $libtorrent_rasterbar_LIBS"
-			fi
+			PKG_CHECK_MODULES([libtorrent_rasterbar], [libtorrent-rasterbar >= 0.14])
+			APP_CPPFLAGS="$APP_CPPFLAGS $libtorrent_rasterbar_CFLAGS"
+			APP_LDADD="$APP_LDADD $libtorrent_rasterbar_LIBS"
 		dnl libtorrent <--
 
 		dnl openssl -->
@@ -350,7 +229,6 @@ dnl Compiler flags -->
 		APP_CPPFLAGS="$APP_CPPFLAGS $SSL_CXXFLAGS"
 		APP_LDADD="$APP_LDADD $SSL_LDFLAGS $SSL_LIBS"
 		dnl openssl <--
-
 	dnl Libraries <--
 
 	MLIB_CPPFLAGS="$COMMON_CPPFLAGS $MLIB_CPPFLAGS"
@@ -358,10 +236,8 @@ dnl Compiler flags -->
 	MLIB_CXXFLAGS="$COMMON_CXXFLAGS $MLIB_CXXFLAGS"
 dnl Compiler flags <--
 
-
 dnl Conditionals
 AM_CONDITIONAL([DEVELOP_MODE], [test "X$develop_mode" = "Xyes"])
-
 
 dnl Configuring mlib -->
 	MLIB_FEATURE_ENABLE([[async_fs]])
@@ -372,10 +248,8 @@ dnl Configuring mlib -->
 	MLIB_FEATURE_ENABLE([[gtk_builder_emulation]])
 	MLIB_FEATURE_ENABLE([[libconfig]])
 	MLIB_FEATURE_ENABLE([[libtorrent]])
-
 	MLIB_CONFIGURE
 dnl Configuring mlib <--
-
 
 dnl Application flags -->
 	APP_CPPFLAGS="$MLIB_CPPFLAGS $APP_CPPFLAGS"
@@ -391,35 +265,14 @@ dnl Application flags -->
 	AC_SUBST([APP_LDADD])
 dnl Application flags <--
 
+dnl Libraries inside of the package
+PACKAGE_LIBRARIES_SUBDIRS="dbus-c++"
+AC_CONFIG_SUBDIRS([dbus-c++])
+AC_SUBST([PACKAGE_LIBRARIES_SUBDIRS])
 
-dnl Libraries inside of package -->
-	PACKAGE_LIBRARIES_SUBDIRS="dbus-c++"
-	AC_CONFIG_SUBDIRS([dbus-c++])
-
-	if test "X$package_libconfig" = "Xyes"
-	then
-		PACKAGE_LIBRARIES_SUBDIRS="$PACKAGE_LIBRARIES_SUBDIRS $libconfig_dir_name"
-		AC_CONFIG_SUBDIRS([libconfig])
-	fi
-
-	if test "X$package_libtorrent" = "Xyes"
-	then
-		PACKAGE_LIBRARIES_SUBDIRS="$PACKAGE_LIBRARIES_SUBDIRS $libtorrent_dir_name"
-		AC_CONFIG_SUBDIRS([libtorrent])
-	fi
-
-	AC_SUBST([PACKAGE_LIBRARIES_SUBDIRS])
-dnl Libraries inside of package <--
-
-
-dnl Summary report -->
-	AC_MSG_NOTICE([debug mode: $debug_mode])
-	AC_MSG_NOTICE([develop mode: $develop_mode])
-	AC_MSG_NOTICE([disable bundle package: $disable_bundle_package])
-	AC_MSG_NOTICE([using package libconfig: $package_libconfig])
-	AC_MSG_NOTICE([using package libtorrent: $package_libtorrent])
-dnl Summary report <--
-
+dnl Summary report
+AC_MSG_NOTICE([debug mode: $debug_mode])
+AC_MSG_NOTICE([develop mode: $develop_mode])
 
 AC_CONFIG_FILES([
 	icons/Makefile
@@ -431,7 +284,6 @@ AC_CONFIG_FILES([
 	flush.desktop
 	Makefile
 ])
-
 
 AC_OUTPUT
 

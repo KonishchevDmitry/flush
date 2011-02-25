@@ -1,4 +1,6 @@
 [+] Support of libnotify 0.7.1.
+[-] Removed bundled libconfig and libtorrent which are not needed anymore,
+because every modern distributive has them.
 
 
 0.9.9 (2010.10.21)
