@@ -472,7 +472,7 @@ namespace
 
 
 	Path::Path(const Glib::ustring& path_string)
-	: boost_fs::path(path_string)
+	: boost_fs::path(path_string.raw())
 	{
 	}
 
@@ -603,7 +603,11 @@ namespace
 
 				for(; it != this->end(); it++)
 					if(*it != "/" && *it != "." && *it != "")
+					#if BOOST_FILESYSTEM_VERSION < 3
 						path_components.push_back(*it);
+					#else
+						path_components.push_back(it->string());
+					#endif
 			}
 
 			{
@@ -824,7 +828,7 @@ void cp(const std::string& from, const std::string& to)
 						#if BOOST_VERSION / 100 <= 1035
 							cp( L2U((from_path / it->leaf()).string()), L2U((to_path / it->leaf()).string()) );
 						#else
-							cp( L2U((from_path / it->filename()).string()), L2U((to_path / it->filename()).string()) );
+							cp( L2U(it->path().string()), L2U((to_path / it->path().filename()).string()) );
 						#endif
 					}
 					catch(m::Exception& e)
@@ -982,7 +986,7 @@ void rm(const std::string& path)
 								#if BOOST_VERSION / 100 <= 1035
 									rm( L2U((dir_path / it->leaf()).string()) );
 								#else
-									rm( L2U((dir_path / it->filename()).string()) );
+									rm( L2U(it->path().string()) );
 								#endif
 							}
 							catch(m::Exception& e)

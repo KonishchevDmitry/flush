@@ -26,7 +26,7 @@
 
 #include <map>
 
-#include <boost/filesystem/path.hpp>
+#include <boost/filesystem.hpp>
 #include <boost/shared_ptr.hpp>
 
 #include <mlib/main.hpp>
