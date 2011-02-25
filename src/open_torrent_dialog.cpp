@@ -64,8 +64,7 @@ class Open_torrent_dialog::Private
 
 Open_torrent_dialog::Private::Private(void)
 :
-	encoding_model( Gtk::ListStore::create(this->encoding_columns) ),
-	encoding_combo(encoding_model)
+	encoding_model( Gtk::ListStore::create(this->encoding_columns) )
 {
 	const m::Charset* charset = m::AVAILABLE_CHARSETS;
 
@@ -76,6 +75,8 @@ Open_torrent_dialog::Private::Private(void)
 		row[this->encoding_columns.title] = charset->title;
 		charset++;
 	}
+
+	this->encoding_combo.set_model(encoding_model);
 }
 
 

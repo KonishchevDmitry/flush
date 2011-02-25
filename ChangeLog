@@ -1,4 +1,5 @@
 [+] Support of Boost 1.46.
+[+] Support of gtkmm 2.24.
 [+] Support of libnotify 0.7.1.
 [-] Removed bundled libconfig and libtorrent which are not needed anymore,
 because every modern distributive has them.
