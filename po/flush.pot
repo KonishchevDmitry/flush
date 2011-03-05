@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: flush 0.9.9\n"
+"Project-Id-Version: flush 0.9.10\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2010-10-21 23:06+0400\n"
+"POT-Creation-Date: 2011-03-05 17:47+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -332,7 +332,7 @@ msgstr ""
 msgid "Error while changing directory '%1' access and modification times: %2."
 msgstr ""
 
-#: mlib/mlib/fs.cpp:223 mlib/mlib/fs.cpp:815 src/daemon_fs.cpp:43
+#: mlib/mlib/fs.cpp:223 mlib/mlib/fs.cpp:819 src/daemon_fs.cpp:43
 #, qt-format
 msgid "Can't create directory '%1': %2."
 msgstr ""
@@ -352,7 +352,7 @@ msgstr ""
 msgid "Invalid file path '%1' - file '%2' is already exits."
 msgstr ""
 
-#: mlib/mlib/fs.cpp:356 mlib/mlib/fs.cpp:771 mlib/mlib/fs.cpp:781
+#: mlib/mlib/fs.cpp:356 mlib/mlib/fs.cpp:775 mlib/mlib/fs.cpp:785
 #, qt-format
 msgid "Can't stat '%1': %2."
 msgstr ""
@@ -376,58 +376,58 @@ msgstr ""
 msgid "parent directory is not exists"
 msgstr ""
 
-#: mlib/mlib/fs.cpp:735
+#: mlib/mlib/fs.cpp:739
 msgid "file is already exists"
 msgstr ""
 
-#: mlib/mlib/fs.cpp:752
+#: mlib/mlib/fs.cpp:756
 msgid "it is a directory"
 msgstr ""
 
-#: mlib/mlib/fs.cpp:756
+#: mlib/mlib/fs.cpp:760
 msgid "it is a special file"
 msgstr ""
 
-#: mlib/mlib/fs.cpp:767 mlib/mlib/fs.cpp:777
+#: mlib/mlib/fs.cpp:771 mlib/mlib/fs.cpp:781
 #, qt-format
 msgid "No such file or directory ('%1')."
 msgstr ""
 
-#: mlib/mlib/fs.cpp:846
+#: mlib/mlib/fs.cpp:850
 #, qt-format
 msgid "Error while copying '%1' to '%2': %3."
 msgstr ""
 
-#: mlib/mlib/fs.cpp:852 mlib/mlib/fs.cpp:1007
+#: mlib/mlib/fs.cpp:856 mlib/mlib/fs.cpp:1011
 #, qt-format
 msgid "Error while reading '%1': %2."
 msgstr ""
 
-#: mlib/mlib/fs.cpp:888
+#: mlib/mlib/fs.cpp:892
 msgid "Can't get user home path."
 msgstr ""
 
-#: mlib/mlib/fs.cpp:928
+#: mlib/mlib/fs.cpp:932
 #, qt-format
 msgid "file '%1' is already exists"
 msgstr ""
 
-#: mlib/mlib/fs.cpp:1000
+#: mlib/mlib/fs.cpp:1004
 #, qt-format
 msgid "Can't delete directory '%1': %2."
 msgstr ""
 
-#: mlib/mlib/fs.cpp:1014
+#: mlib/mlib/fs.cpp:1018
 #, qt-format
 msgid "file or directory '%1' is not exists"
 msgstr ""
 
-#: mlib/mlib/fs.cpp:1018
+#: mlib/mlib/fs.cpp:1022
 #, qt-format
 msgid "Can't delete file '%1': %2."
 msgstr ""
 
-#: mlib/mlib/fs.cpp:1064
+#: mlib/mlib/fs.cpp:1068
 #, qt-format
 msgid "Unable to synchronize data for file '%1' with storage device: %2."
 msgstr ""
@@ -1081,19 +1081,19 @@ msgstr ""
 msgid "Upload speed|Up: %1 (%2) / %3"
 msgstr ""
 
-#: src/open_torrent_dialog.cpp:94
+#: src/open_torrent_dialog.cpp:95
 msgid "Please choose a torrent file"
 msgstr ""
 
-#: src/open_torrent_dialog.cpp:110
+#: src/open_torrent_dialog.cpp:111
 msgid "Torrent file encoding:"
 msgstr ""
 
-#: src/open_torrent_dialog.cpp:137 src/create_torrent_dialog.cpp:699
+#: src/open_torrent_dialog.cpp:138 src/create_torrent_dialog.cpp:699
 msgid "Torrent files"
 msgstr ""
 
-#: src/open_torrent_dialog.cpp:142 src/create_torrent_dialog.cpp:704
+#: src/open_torrent_dialog.cpp:143 src/create_torrent_dialog.cpp:704
 msgid "Any files"
 msgstr ""
 
@@ -1926,11 +1926,11 @@ msgstr ""
 msgid "application is now ending it's work"
 msgstr ""
 
-#: src/application.cpp:406
+#: src/application.cpp:414
 msgid "Unable to show libnotify message"
 msgstr ""
 
-#: src/application.cpp:407
+#: src/application.cpp:415
 #, qt-format
 msgid ""
 "Unable to show libnotify message: %1. You can disable notifications in the Preferences dialog.\n"
@@ -1938,16 +1938,16 @@ msgid ""
 "%2"
 msgstr ""
 
-#: src/application.cpp:458
+#: src/application.cpp:466
 #, qt-format
 msgid "Running open command failed. %1."
 msgstr ""
 
-#: src/application.cpp:533
+#: src/application.cpp:541
 msgid "Error while saving settings"
 msgstr ""
 
-#: src/application.cpp:607
+#: src/application.cpp:615
 msgid "Unable to initialize a libnotify instance. Notification's displaying is not possible."
 msgstr ""
 

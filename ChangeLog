@@ -1,6 +1,9 @@
+0.9.10 (2010.03.05)
+-----
 [+] Support of Boost 1.46.
 [+] Support of gtkmm 2.24.
 [+] Support of libnotify 0.7.1.
+[+] Updated Spanish and added German translations.
 [-] Removed bundled libconfig and libtorrent which are not needed anymore,
 because every modern distributive has them.
 

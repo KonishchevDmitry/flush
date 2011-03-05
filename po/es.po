@@ -1,28 +1,28 @@
 # Spanish translation for flush
 # Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
 # This file is distributed under the same license as the flush package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+# Dmitry Konishchev <konishchev@gmail.com>, 2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: flush\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2010-10-21 23:06+0400\n"
-"PO-Revision-Date: 2010-08-26 13:24+0000\n"
-"Last-Translator: Francisco Luque Contreras <Unknown>\n"
+"POT-Creation-Date: 2011-03-05 17:47+0300\n"
+"PO-Revision-Date: 2010-12-13 01:26+0000\n"
+"Last-Translator: Fitoschido <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-21 18:36+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-03-05 14:08+0000\n"
+"X-Generator: Launchpad (build 12515)\n"
 "X-Language: es_ES\n"
 "X-Source-Language: C\n"
 
 #: mlib/mlib/misc.cpp:95 mlib/mlib/misc.cpp:157
 msgid "Buffer positioning error."
-msgstr "Error posicionamiento de búfer."
+msgstr "Error de posicionamiento de búfer."
 
 #: mlib/mlib/misc.cpp:226 mlib/mlib/sys.cpp:283
 #, qt-format
@@ -67,7 +67,7 @@ msgstr "Derechos reservados, © %1 %2."
 #: mlib/mlib/misc.cpp:403
 #, qt-format
 msgid "Realloc failed: %1."
-msgstr "Falló en la asignación de memoría:%1."
+msgstr "Error en la asignación de memoria: %1."
 
 #: mlib/mlib/misc.cpp:447
 #, qt-format
@@ -101,7 +101,7 @@ msgstr "No se puede crear una instancia inotify: %1."
 
 #: mlib/mlib/fs_watcher.cpp:359
 msgid "Program has been compiled without inotify support."
-msgstr "El programa fué compilado sin soporte para inotify."
+msgstr "El programa fue compilado sin soporte para inotify."
 
 #: mlib/mlib/fs_watcher.cpp:378
 #, qt-format
@@ -111,7 +111,7 @@ msgstr "Error mientras se borraba una instancia observadora de inotify: %1."
 #: mlib/mlib/fs_watcher.cpp:425
 #, qt-format
 msgid "Can't read data from inotify descriptor: %1."
-msgstr "No se puede leer los datos del descriptor inotify: %1."
+msgstr "No se pueden leer los datos del descriptor inotify: %1."
 
 #: mlib/mlib/libconfig.cpp:41
 #, qt-format
@@ -124,15 +124,15 @@ msgstr "error desconocido"
 
 #: mlib/mlib/sqlite.cpp:219 mlib/mlib/sqlite.cpp:260
 msgid "Database is not opened yet."
-msgstr "La base de datos aun no esta abierta"
+msgstr "La base de datos aún no esta abierta."
 
 #: mlib/mlib/sqlite.cpp:272
 msgid "Database is already opened."
-msgstr "La base de datos ya está abierta."
+msgstr "La base de datos ya estaba abierta."
 
 #: mlib/mlib/sqlite.cpp:369
 msgid "Query is already finalized."
-msgstr "Consulta de la Base de datos finalizada."
+msgstr "La consulta ya había finalizado."
 
 #: mlib/mlib/sqlite.cpp:450
 msgid "Operation on finalized query."
@@ -142,8 +142,8 @@ msgstr "Operación finalizada de la base de datos."
 msgid ""
 "Asynchronous filesystem finished it's work, but not all tasks are processed."
 msgstr ""
-"El sistema de archivos asíncrono ha terminado su trabajo, pero no han sido "
-"procesadas todas las tareas."
+"El sistema de archivos asíncrono ha terminado su trabajo, pero no se han "
+"procesado todas las tareas."
 
 #: mlib/mlib/gtk/misc.cpp:125 src/main.cpp:432
 msgid "Information"
@@ -204,7 +204,7 @@ msgstr "datos del torrent no válidos"
 #: mlib/mlib/libtorrent.cpp:591
 #, qt-format
 msgid "libtorrent error code [%1]"
-msgstr ""
+msgstr "código de error de libtorrent [%1]"
 
 #: mlib/mlib/libtorrent.cpp:596
 msgid "torrent is already exists in this session"
@@ -343,7 +343,7 @@ msgid "Error while changing directory '%1' access and modification times: %2."
 msgstr ""
 "Error al cambiar el directorio '%1' tiempo de acceso y modificación: %2."
 
-#: mlib/mlib/fs.cpp:223 mlib/mlib/fs.cpp:815 src/daemon_fs.cpp:43
+#: mlib/mlib/fs.cpp:223 mlib/mlib/fs.cpp:819 src/daemon_fs.cpp:43
 #, qt-format
 msgid "Can't create directory '%1': %2."
 msgstr "No se puedo crear el directorio '%1': %2."
@@ -363,7 +363,7 @@ msgstr "Ruta de archivo no válida '%1' - El archivo con esa ruta ya existe."
 msgid "Invalid file path '%1' - file '%2' is already exits."
 msgstr "Ruta de archivo no válida '%1' - El archivo '%2'  ya existe."
 
-#: mlib/mlib/fs.cpp:356 mlib/mlib/fs.cpp:771 mlib/mlib/fs.cpp:781
+#: mlib/mlib/fs.cpp:356 mlib/mlib/fs.cpp:775 mlib/mlib/fs.cpp:785
 #, qt-format
 msgid "Can't stat '%1': %2."
 msgstr "No se puede crear '%1': %2."
@@ -387,58 +387,58 @@ msgstr "No se puede borrar la carpeta '%1': %2."
 msgid "parent directory is not exists"
 msgstr "no existe la carpeta contenedora"
 
-#: mlib/mlib/fs.cpp:735
+#: mlib/mlib/fs.cpp:739
 msgid "file is already exists"
 msgstr "el archivo ya existe"
 
-#: mlib/mlib/fs.cpp:752
+#: mlib/mlib/fs.cpp:756
 msgid "it is a directory"
 msgstr "es un directorio"
 
-#: mlib/mlib/fs.cpp:756
+#: mlib/mlib/fs.cpp:760
 msgid "it is a special file"
 msgstr "es un archivo especial"
 
-#: mlib/mlib/fs.cpp:767 mlib/mlib/fs.cpp:777
+#: mlib/mlib/fs.cpp:771 mlib/mlib/fs.cpp:781
 #, qt-format
 msgid "No such file or directory ('%1')."
 msgstr "No existe el fichero o directorio ('%1')."
 
-#: mlib/mlib/fs.cpp:846
+#: mlib/mlib/fs.cpp:850
 #, qt-format
 msgid "Error while copying '%1' to '%2': %3."
 msgstr "Error al copiar '%1' a '%2': %3."
 
-#: mlib/mlib/fs.cpp:852 mlib/mlib/fs.cpp:1007
+#: mlib/mlib/fs.cpp:856 mlib/mlib/fs.cpp:1011
 #, qt-format
 msgid "Error while reading '%1': %2."
 msgstr "Error de lectura '%1': %2."
 
-#: mlib/mlib/fs.cpp:888
+#: mlib/mlib/fs.cpp:892
 msgid "Can't get user home path."
 msgstr "No se puede obtener la ruta de la carpeta de usuario."
 
-#: mlib/mlib/fs.cpp:928
+#: mlib/mlib/fs.cpp:932
 #, qt-format
 msgid "file '%1' is already exists"
 msgstr "El archivo '%1' ya existe"
 
-#: mlib/mlib/fs.cpp:1000
+#: mlib/mlib/fs.cpp:1004
 #, qt-format
 msgid "Can't delete directory '%1': %2."
 msgstr "No se puede borrar la carpeta '%1': %2."
 
-#: mlib/mlib/fs.cpp:1014
+#: mlib/mlib/fs.cpp:1018
 #, qt-format
 msgid "file or directory '%1' is not exists"
 msgstr "el archivo o carpeta '%1' no existe"
 
-#: mlib/mlib/fs.cpp:1018
+#: mlib/mlib/fs.cpp:1022
 #, qt-format
 msgid "Can't delete file '%1': %2."
 msgstr "No se puede borrar el archivo '%1': %2."
 
-#: mlib/mlib/fs.cpp:1064
+#: mlib/mlib/fs.cpp:1068
 #, qt-format
 msgid "Unable to synchronize data for file '%1' with storage device: %2."
 msgstr ""
@@ -558,7 +558,7 @@ msgstr "Descargados"
 
 #: src/statistics_window.cpp:163
 msgid "Payload download"
-msgstr "Descarga real"
+msgstr "Descarga (real)"
 
 #: src/statistics_window.cpp:164 src/torrents_view.cpp:370
 msgid "Total download"
@@ -566,7 +566,7 @@ msgstr "Descarga total"
 
 #: src/statistics_window.cpp:165
 msgid "Total payload download"
-msgstr "Descarga real total"
+msgstr "Descarga total (real)"
 
 #: src/statistics_window.cpp:167 src/main_window.cpp:1543
 #: ui/preferences.client.gui.status_bar.glade:136
@@ -575,7 +575,7 @@ msgstr "Subido"
 
 #: src/statistics_window.cpp:168
 msgid "Payload upload"
-msgstr "Subida real"
+msgstr "Subida (real)"
 
 #: src/statistics_window.cpp:169 src/torrents_view.cpp:372
 msgid "Total upload"
@@ -583,7 +583,7 @@ msgstr "Subida total"
 
 #: src/statistics_window.cpp:170
 msgid "Total payload upload"
-msgstr "Subida real total"
+msgstr "Subida total (real)"
 
 #: src/statistics_window.cpp:172 src/main_window.cpp:1549
 #: src/torrents_view.cpp:382 ui/preferences.client.gui.status_bar.glade:162
@@ -610,7 +610,7 @@ msgstr "Redundante"
 
 #: src/statistics_window.cpp:178 src/torrents_view.cpp:375
 msgid "Total redundant"
-msgstr "Total Redundante"
+msgstr "Total Redundantes"
 
 #: src/statistics_window.cpp:187
 msgid "Reset"
@@ -782,7 +782,7 @@ msgstr "Vel Bajada"
 
 #: src/torrent_peers_view.cpp:90 src/torrents_view.cpp:341
 msgid "Download speed (payload)|Down speed (data)"
-msgstr "Vel Bajada (datos)"
+msgstr "Vel Bajada (real)"
 
 #: src/torrent_peers_view.cpp:91 src/torrents_view.cpp:342
 msgid "Upload speed|Up speed"
@@ -790,15 +790,15 @@ msgstr "Vel Subida"
 
 #: src/torrent_peers_view.cpp:92 src/torrents_view.cpp:343
 msgid "Upload speed (payload)|Up speed (data)"
-msgstr "Vel Subida (datos)"
+msgstr "Vel Subida (real)"
 
 #: src/torrent_peers_view.cpp:93 src/torrents_view.cpp:334
 msgid "Total download (payload)|Down data"
-msgstr "Datos Bajada"
+msgstr "Total Descargado (real)"
 
 #: src/torrent_peers_view.cpp:94 src/torrents_view.cpp:336
 msgid "Total upload (payload)|Up data"
-msgstr "Datos Subida"
+msgstr "Total Subido (real)"
 
 #: src/torrent_peers_view.cpp:95 src/torrent_peers_view.cpp:108
 msgid "Availability"
@@ -894,7 +894,7 @@ msgstr "_Ver"
 
 #: src/main_window.cpp:364
 msgid "_Toolbar"
-msgstr "_Barra de estado"
+msgstr "Barra de _herramientas"
 
 #: src/main_window.cpp:367 src/main_window.cpp:444
 msgid "'Show ...' toggle|_Show"
@@ -1096,19 +1096,19 @@ msgstr "Baj: %1 (%2) / %3"
 msgid "Upload speed|Up: %1 (%2) / %3"
 msgstr "Sub: %1 (%2) / %3"
 
-#: src/open_torrent_dialog.cpp:94
+#: src/open_torrent_dialog.cpp:95
 msgid "Please choose a torrent file"
 msgstr "Por favor, elija un archivo torrent"
 
-#: src/open_torrent_dialog.cpp:110
+#: src/open_torrent_dialog.cpp:111
 msgid "Torrent file encoding:"
 msgstr "Codificación archivo Torrent:"
 
-#: src/open_torrent_dialog.cpp:137 src/create_torrent_dialog.cpp:699
+#: src/open_torrent_dialog.cpp:138 src/create_torrent_dialog.cpp:699
 msgid "Torrent files"
 msgstr "Archivo torrent"
 
-#: src/open_torrent_dialog.cpp:142 src/create_torrent_dialog.cpp:704
+#: src/open_torrent_dialog.cpp:143 src/create_torrent_dialog.cpp:704
 msgid "Any files"
 msgstr "Cualquier archivo"
 
@@ -1123,7 +1123,7 @@ msgstr "Tamaño"
 
 #: src/torrents_view.cpp:329
 msgid "Requested size|Requested"
-msgstr "Requerido"
+msgstr "Solicitado"
 
 #: src/torrents_view.cpp:330
 msgid "Downloaded requested size|Downloaded"
@@ -1180,11 +1180,11 @@ msgstr "Icono de estado"
 
 #: src/torrents_view.cpp:366
 msgid "Requested size"
-msgstr "Tamaño requerido"
+msgstr "Tamaño solicitado"
 
 #: src/torrents_view.cpp:367
 msgid "Downloaded requested size"
-msgstr "Tamaño descargado requerido"
+msgstr "Bajado tamaño solicitado"
 
 #: src/torrents_view.cpp:387
 msgid "Time added"
@@ -1411,7 +1411,7 @@ msgstr "Error en la cargar automática de archivos torrents"
 #: src/daemon_session.cpp:961
 #, qt-format
 msgid "Directory '%1' has been deleted or moved."
-msgstr "El directorio '%1' ha sido eliminado o movido."
+msgstr "El directorio '%1' a sido eliminado o movido."
 
 #: src/daemon_session.cpp:1082
 msgid "Automatic torrents cleaning failed"
@@ -1546,7 +1546,7 @@ msgstr "La configuración de trackers torrent falló: error interno libtorrent."
 msgid "Can't start daemon. Creating config directories failed. %1"
 msgstr ""
 "No se puede iniciar los ajustes. La creación del directorio de configuración "
-"ha fallado.%1"
+"a fallado.%1"
 
 #: src/torrent_files_view.cpp:82 src/torrent_files_view.cpp:93
 msgid "Change file or directory path"
@@ -1926,7 +1926,7 @@ msgstr "Por favor, elija un archivo para crear torrente"
 
 #: src/torrent_options_view.cpp:73
 msgid "Downloading"
-msgstr "Descargar"
+msgstr "Descargando"
 
 #: src/torrent_options_view.cpp:76
 msgid "Sequential download"
@@ -1934,7 +1934,7 @@ msgstr "Descarga secuencial"
 
 #: src/torrent_options_view.cpp:84 ui/dialog.add_torrent.glade:162
 msgid "Copy when finished to:"
-msgstr "Copiar al terminar para:"
+msgstr "Al terminar copiar en:"
 
 #: src/torrent_options_view.cpp:118
 msgid "Trackers"
@@ -1968,11 +1968,11 @@ msgstr "Alerta silenciosa"
 msgid "application is now ending it's work"
 msgstr "El programa terminará ahora su trabajo"
 
-#: src/application.cpp:406
+#: src/application.cpp:414
 msgid "Unable to show libnotify message"
 msgstr "Imposible mostrar mesage de notificación"
 
-#: src/application.cpp:407
+#: src/application.cpp:415
 #, qt-format
 msgid ""
 "Unable to show libnotify message: %1. You can disable notifications in the "
@@ -1985,16 +1985,16 @@ msgstr ""
 "Mensaje de texto:\n"
 "%2"
 
-#: src/application.cpp:458
+#: src/application.cpp:466
 #, qt-format
 msgid "Running open command failed. %1."
 msgstr "Error en la ejecución de comandos. %1."
 
-#: src/application.cpp:533
+#: src/application.cpp:541
 msgid "Error while saving settings"
 msgstr "Error al guardar los ajustes"
 
-#: src/application.cpp:607
+#: src/application.cpp:615
 msgid ""
 "Unable to initialize a libnotify instance. Notification's displaying is not "
 "possible."
@@ -2110,7 +2110,7 @@ msgstr "Error inesperado DBus"
 
 #: src/main.cpp:989
 msgid "Name request has been added to queue, but queuing has been forbidden."
-msgstr "Nombre ha sido añadido a la cola, pero en la cola a sido restringido."
+msgstr "Nombre añadido a la cola, pero a sido restringido."
 
 #: src/main.cpp:995 src/main.cpp:1002
 msgid "Unexpected DBus behavior while requesting name"
@@ -2222,31 +2222,31 @@ msgstr "Todos"
 
 #: src/categories_view.cpp:342
 msgid "Paused torrents (as short as possible)|Paused"
-msgstr "Pausar"
+msgstr "Pausados"
 
 #: src/categories_view.cpp:343
 msgid "Checking torrents (as short as possible)|Checking"
-msgstr "Verificar"
+msgstr "Verificando"
 
 #: src/categories_view.cpp:344
 msgid "Waiting for download torrents (as short as possible)|Down. wait"
-msgstr "Descargar. esperar"
+msgstr "Comprobando...espere"
 
 #: src/categories_view.cpp:345
 msgid "Downloading torrents (as short as possible)|Downloading"
-msgstr "Descargar"
+msgstr "Descargandos"
 
 #: src/categories_view.cpp:346
 msgid "Seeding torrents (as short as possible)|Seeding"
-msgstr "Sembrar"
+msgstr "Sembrando"
 
 #: src/categories_view.cpp:347
 msgid "Uploading torrents (as short as possible)|Uploading"
-msgstr "Subir"
+msgstr "Subiendo"
 
 #: src/categories_view.cpp:348
 msgid "Torrents with tracker error (as short as possible)|Tracker error"
-msgstr "Error de trackers"
+msgstr "Error de Trackers"
 
 #: src/categories_view.cpp:363
 #, qt-format
@@ -2267,7 +2267,7 @@ msgstr "Verificar torrents"
 
 #: src/categories_view.cpp:390
 msgid "Waiting for download torrents"
-msgstr "Ruta para descargar torrents"
+msgstr "Comprobando de descarga"
 
 #: src/categories_view.cpp:396
 msgid "Downloading torrents"
@@ -2532,7 +2532,7 @@ msgstr "Max conexiones:"
 
 #: ui/preferences.daemon.network.misc.glade:481
 msgid "Ignore rate limits on local network"
-msgstr ""
+msgstr "No hacer caso de los límites de velocidad de la red local"
 
 #: ui/preferences.daemon.network.misc.glade:486
 #: ui/preferences.daemon.network.misc.glade:528
@@ -2545,11 +2545,11 @@ msgid ""
 "do not make torrent client work better, but this option increase trackers "
 "overload."
 msgstr ""
-"Esta opción es muy útil si no tiene dirección IP real, los trackers usan un "
-"intervalo muy amplio para que los torrents, ya que en este caso recibe "
-"nuevos pares sólo una vez por este intervalo. Por favor, no establece esta "
-"opción, si ustedno  tiene dirección IP real! En este caso usted no descagará "
-"más rápido,y sobrecargará a los trackers."
+"Esta opción es muy útil si no tiene dirección IP fija, los trackers usan un "
+"intervalo muy amplio para los torrents, ya que en este caso recibe nuevos "
+"pares sólo una vez por intervalo. Por favor, no establezca esta opción, si "
+"usted no  tiene dirección IP fija! En este caso usted no descagará más "
+"rápido,y sobrecargará a los trackers."
 
 #: ui/preferences.daemon.network.misc.glade:524
 msgid "Max announce interval (m):"
@@ -2581,12 +2581,12 @@ msgstr "Tamaño:"
 #: ui/torrent_info_tabs.details.glade:46
 #: ui/torrent_info_tabs.details_compact.glade:46
 msgid "Requested size:"
-msgstr "Tamaño requerido:"
+msgstr "Tamaño solicitado:"
 
 #: ui/torrent_info_tabs.details.glade:57
 #: ui/torrent_info_tabs.details_compact.glade:57
 msgid "Downloaded requested size:"
-msgstr "Tamaño de descarga requerido:"
+msgstr "Bajado tamaño solicitado:"
 
 #: ui/torrent_info_tabs.details.glade:68
 msgid "Total download:"
@@ -2595,7 +2595,7 @@ msgstr "Total descargado:"
 #: ui/torrent_info_tabs.details.glade:79
 #: ui/torrent_info_tabs.details_compact.glade:68
 msgid "Total payload download:"
-msgstr "Total real descargado:"
+msgstr "Total (real) descargado:"
 
 #: ui/torrent_info_tabs.details.glade:92
 msgid "Total upload:"
@@ -2604,7 +2604,7 @@ msgstr "Total subido:"
 #: ui/torrent_info_tabs.details.glade:105
 #: ui/torrent_info_tabs.details_compact.glade:195
 msgid "Total payload upload:"
-msgstr "Total subido real:"
+msgstr "Total subido (real):"
 
 #: ui/torrent_info_tabs.details.glade:118
 msgid "Total failed:"
@@ -2621,7 +2621,7 @@ msgstr "Velocidad de descarga:"
 #: ui/torrent_info_tabs.details.glade:321
 #: ui/torrent_info_tabs.details_compact.glade:171
 msgid "Download payload speed:"
-msgstr "Velocidad de descarga real:"
+msgstr "Velocidad de descarga (real):"
 
 #: ui/torrent_info_tabs.details.glade:334
 msgid "Upload speed:"
@@ -2630,7 +2630,7 @@ msgstr "Velocidad de subida:"
 #: ui/torrent_info_tabs.details.glade:347
 #: ui/torrent_info_tabs.details_compact.glade:182
 msgid "Upload payload speed:"
-msgstr "Velocidad de subida real:"
+msgstr "Velocidad de subida (real):"
 
 #: ui/torrent_info_tabs.details.glade:396
 #: ui/torrent_info_tabs.details_compact.glade:220

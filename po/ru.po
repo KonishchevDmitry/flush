@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2010-10-21 23:06+0400\n"
+"POT-Creation-Date: 2011-03-05 17:47+0300\n"
 "Last-Translator: Dmitry Konishchev <konishchev@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -337,7 +337,7 @@ msgstr ""
 "При изменении времени последнего доступа и времени модификации для "
 "директории '%1' произошла ошибка: %2."
 
-#: mlib/mlib/fs.cpp:223 mlib/mlib/fs.cpp:815 src/daemon_fs.cpp:43
+#: mlib/mlib/fs.cpp:223 mlib/mlib/fs.cpp:819 src/daemon_fs.cpp:43
 #, qt-format
 msgid "Can't create directory '%1': %2."
 msgstr "Не удалось создать директорию '%1': %2."
@@ -357,7 +357,7 @@ msgstr "Недопустимый путь файла '%1': файл с таки�
 msgid "Invalid file path '%1' - file '%2' is already exits."
 msgstr "Недопустимый путь файла '%1': файл '%2' уже существует."
 
-#: mlib/mlib/fs.cpp:356 mlib/mlib/fs.cpp:771 mlib/mlib/fs.cpp:781
+#: mlib/mlib/fs.cpp:356 mlib/mlib/fs.cpp:775 mlib/mlib/fs.cpp:785
 #, qt-format
 msgid "Can't stat '%1': %2."
 msgstr "Не удалось получить информацию (stat) о '%1': %2."
@@ -381,58 +381,58 @@ msgstr "Не удалось удалить директорию '%1': %2."
 msgid "parent directory is not exists"
 msgstr "родительской директории не существует"
 
-#: mlib/mlib/fs.cpp:735
+#: mlib/mlib/fs.cpp:739
 msgid "file is already exists"
 msgstr "файл уже существует"
 
-#: mlib/mlib/fs.cpp:752
+#: mlib/mlib/fs.cpp:756
 msgid "it is a directory"
 msgstr "это директория"
 
-#: mlib/mlib/fs.cpp:756
+#: mlib/mlib/fs.cpp:760
 msgid "it is a special file"
 msgstr "это специальный файл"
 
-#: mlib/mlib/fs.cpp:767 mlib/mlib/fs.cpp:777
+#: mlib/mlib/fs.cpp:771 mlib/mlib/fs.cpp:781
 #, qt-format
 msgid "No such file or directory ('%1')."
 msgstr "Нет такого файла или директории ('%1')."
 
-#: mlib/mlib/fs.cpp:846
+#: mlib/mlib/fs.cpp:850
 #, qt-format
 msgid "Error while copying '%1' to '%2': %3."
 msgstr "Ошибка при копировании '%1' в '%2': %3."
 
-#: mlib/mlib/fs.cpp:852 mlib/mlib/fs.cpp:1007
+#: mlib/mlib/fs.cpp:856 mlib/mlib/fs.cpp:1011
 #, qt-format
 msgid "Error while reading '%1': %2."
 msgstr "Ошибка при чтении '%1': %2."
 
-#: mlib/mlib/fs.cpp:888
+#: mlib/mlib/fs.cpp:892
 msgid "Can't get user home path."
 msgstr "Не удалось получить путь к домашнему каталогу пользователя."
 
-#: mlib/mlib/fs.cpp:928
+#: mlib/mlib/fs.cpp:932
 #, qt-format
 msgid "file '%1' is already exists"
 msgstr "файл '%1' уже существует"
 
-#: mlib/mlib/fs.cpp:1000
+#: mlib/mlib/fs.cpp:1004
 #, qt-format
 msgid "Can't delete directory '%1': %2."
 msgstr "Не удалось создать директорию '%1': %2."
 
-#: mlib/mlib/fs.cpp:1014
+#: mlib/mlib/fs.cpp:1018
 #, qt-format
 msgid "file or directory '%1' is not exists"
 msgstr "файл или директория '%1' не существуют"
 
-#: mlib/mlib/fs.cpp:1018
+#: mlib/mlib/fs.cpp:1022
 #, qt-format
 msgid "Can't delete file '%1': %2."
 msgstr "Не удалось удалить файл '%1': %2."
 
-#: mlib/mlib/fs.cpp:1064
+#: mlib/mlib/fs.cpp:1068
 #, qt-format
 msgid "Unable to synchronize data for file '%1' with storage device: %2."
 msgstr "Не удалось сбросить данные файла '%1' в файловую систему: %2."
@@ -1104,19 +1104,19 @@ msgstr "Скачивание: %1 (%2) / %3"
 msgid "Upload speed|Up: %1 (%2) / %3"
 msgstr "Отдача: %1 (%2) / %3"
 
-#: src/open_torrent_dialog.cpp:94
+#: src/open_torrent_dialog.cpp:95
 msgid "Please choose a torrent file"
 msgstr "Пожалуйста, выберите *.torrent файл"
 
-#: src/open_torrent_dialog.cpp:110
+#: src/open_torrent_dialog.cpp:111
 msgid "Torrent file encoding:"
 msgstr "Кодировка торрент-файла:"
 
-#: src/open_torrent_dialog.cpp:137 src/create_torrent_dialog.cpp:699
+#: src/open_torrent_dialog.cpp:138 src/create_torrent_dialog.cpp:699
 msgid "Torrent files"
 msgstr "*.torrent файлы"
 
-#: src/open_torrent_dialog.cpp:142 src/create_torrent_dialog.cpp:704
+#: src/open_torrent_dialog.cpp:143 src/create_torrent_dialog.cpp:704
 msgid "Any files"
 msgstr "Все файлы"
 
@@ -1995,11 +1995,11 @@ msgstr "Ненавязчивое предупреждение"
 msgid "application is now ending it's work"
 msgstr "в данный момент приложение завершает свою работу"
 
-#: src/application.cpp:406
+#: src/application.cpp:414
 msgid "Unable to show libnotify message"
 msgstr "Не удалось отобразить сообщение libnotify"
 
-#: src/application.cpp:407
+#: src/application.cpp:415
 #, qt-format
 msgid ""
 "Unable to show libnotify message: %1. You can disable notifications in the "
@@ -2012,16 +2012,16 @@ msgstr ""
 "Текст сообщения:\n"
 "%2"
 
-#: src/application.cpp:458
+#: src/application.cpp:466
 #, qt-format
 msgid "Running open command failed. %1."
 msgstr "Запуск программы просмотра файлов завершился неудачей. %1"
 
-#: src/application.cpp:533
+#: src/application.cpp:541
 msgid "Error while saving settings"
 msgstr "Ошибка при сохранении настроек"
 
-#: src/application.cpp:607
+#: src/application.cpp:615
 msgid ""
 "Unable to initialize a libnotify instance. Notification's displaying is not "
 "possible."
