@@ -49,6 +49,9 @@ enum Flags
 
 enum Id
 {
+	/// Иконка приложения.
+	ICON_APP,
+
 	/// Скачивание.
 	ICON_DOWNLOAD,
 

@@ -74,6 +74,10 @@ namespace
 
 		switch(id & ~ICON_FLAG_PAUSE & ~ICON_FLAG_TRACKER_ERROR)
 		{
+			case ICON_APP:
+				name = APP_UNIX_NAME;
+				break;
+
 			case ICON_DOWNLOAD:
 				name = "download";
 				break;

@@ -669,6 +669,8 @@ BOOST_THREAD_LIB
 BOOST_FILESYSTEM_LIB
 BOOST_LDFLAGS
 BOOST_CPPFLAGS
+appindicator_LIBS
+appindicator_CFLAGS
 POSUB
 LTLIBINTL
 LIBINTL
@@ -793,6 +795,7 @@ with_libiconv_prefix
 with_libintl_prefix
 enable_debug_mode
 enable_develop_mode
+enable_appindicator
 with_boost
 with_boost_libdir
 with_boost_filesystem
@@ -815,6 +818,8 @@ PKG_CONFIG_PATH
 PKG_CONFIG_LIBDIR
 CC
 CFLAGS
+appindicator_CFLAGS
+appindicator_LIBS
 dbus_CFLAGS
 dbus_LIBS
 gthread_CFLAGS
@@ -1461,6 +1466,8 @@ Optional Features:
   --enable-debug-mode     enable debug mode for application
   --enable-develop-mode   enable develop mode for application (this mode is
                           only for developer usage)
+  --enable-appindicator=[no/auto/yes]
+                          application indicator support
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -1514,6 +1521,10 @@ Some influential environment variables:
               path overriding pkg-config's built-in search path
   CC          C compiler command
   CFLAGS      C compiler flags
+  appindicator_CFLAGS
+              C compiler flags for appindicator, overriding pkg-config
+  appindicator_LIBS
+              linker flags for appindicator, overriding pkg-config
   dbus_CFLAGS C compiler flags for dbus, overriding pkg-config
   dbus_LIBS   linker flags for dbus, overriding pkg-config
   gthread_CFLAGS
@@ -6521,8 +6532,7 @@ else
 fi
 
 
-	if test "X$develop_mode" = "Xyes"
-	then
+	if test "X$develop_mode" = "Xyes"; then
 
 	if test "1" != "1"
 	then
@@ -6565,8 +6575,7 @@ fi
 				debug_mode=yes
 	fi
 
-	if test "X$debug_mode" = "Xyes"
-	then
+	if test "X$debug_mode" = "Xyes"; then
 
 	if test "1" != "1"
 	then
@@ -6650,15 +6659,13 @@ _ACEOF
 
 
 
-	if test "X$debug_mode" = "Xyes"
-	then
+	if test "X$debug_mode" = "Xyes"; then
 		$as_echo "#define DEBUG_MODE 1" >>confdefs.h
 
 	fi
 
 
-	if test "X$develop_mode" = "Xyes"
-	then
+	if test "X$develop_mode" = "Xyes"; then
 		$as_echo "#define DEVELOP_MODE 1" >>confdefs.h
 
 	fi
@@ -6689,8 +6696,7 @@ _ACEOF
 
 	APP_CPPFLAGS="$APP_CPPFLAGS -I \$(top_srcdir)/src"
 
-			if test "X$develop_mode" = "Xyes"
-		then
+			if test "X$develop_mode" = "Xyes"; then
 			CXXFLAGS="$CXXFLAGS -O0 -g"
 
 						COMMON_CXXFLAGS="$COMMON_CXXFLAGS -fdiagnostics-show-option"
@@ -6700,6 +6706,140 @@ _ACEOF
 
 						COMMON_CXXFLAGS="$COMMON_CXXFLAGS -Wextra -Wno-unused-parameter -Wno-ignored-qualifiers -Wno-empty-body"
 		fi
+
+						APPINDICATOR_REQUIRED=0.0.7
+
+			# Check whether --enable-appindicator was given.
+if test "${enable_appindicator+set}" = set; then :
+  enableval=$enable_appindicator; enable_appindicator=$enableval
+else
+  enable_appindicator="auto"
+
+fi
+
+
+			if test "x$enable_appindicator" = "xauto"; then
+				if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"appindicator-0.1 >= \$APPINDICATOR_REQUIRED\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "appindicator-0.1 >= $APPINDICATOR_REQUIRED") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  enable_appindicator="yes"
+else
+  enable_appindicator="no"
+
+fi
+			fi
+
+			if test "x$enable_appindicator" = "xyes"; then
+				if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"appindicator-0.1 >= \$APPINDICATOR_REQUIRED\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "appindicator-0.1 >= $APPINDICATOR_REQUIRED") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  :
+else
+  as_fn_error $? "appindicator-0.1 is not installed" "$LINENO" 5
+fi
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for appindicator" >&5
+$as_echo_n "checking for appindicator... " >&6; }
+
+if test -n "$appindicator_CFLAGS"; then
+    pkg_cv_appindicator_CFLAGS="$appindicator_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"appindicator-0.1 >= \$APPINDICATOR_REQUIRED\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "appindicator-0.1 >= $APPINDICATOR_REQUIRED") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_appindicator_CFLAGS=`$PKG_CONFIG --cflags "appindicator-0.1 >= $APPINDICATOR_REQUIRED" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$appindicator_LIBS"; then
+    pkg_cv_appindicator_LIBS="$appindicator_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"appindicator-0.1 >= \$APPINDICATOR_REQUIRED\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "appindicator-0.1 >= $APPINDICATOR_REQUIRED") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_appindicator_LIBS=`$PKG_CONFIG --libs "appindicator-0.1 >= $APPINDICATOR_REQUIRED" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        appindicator_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors "appindicator-0.1 >= $APPINDICATOR_REQUIRED" 2>&1`
+        else
+	        appindicator_PKG_ERRORS=`$PKG_CONFIG --print-errors "appindicator-0.1 >= $APPINDICATOR_REQUIRED" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$appindicator_PKG_ERRORS" >&5
+
+	as_fn_error $? "Package requirements (appindicator-0.1 >= $APPINDICATOR_REQUIRED) were not met:
+
+$appindicator_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables appindicator_CFLAGS
+and appindicator_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details." "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables appindicator_CFLAGS
+and appindicator_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See \`config.log' for more details" "$LINENO" 5 ; }
+else
+	appindicator_CFLAGS=$pkg_cv_appindicator_CFLAGS
+	appindicator_LIBS=$pkg_cv_appindicator_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+fi
+
+				APP_CPPFLAGS="$APP_CPPFLAGS $appindicator_CFLAGS"
+				APP_LDADD="$APP_LDADD $appindicator_LIBS"
+
+
+$as_echo "#define HAVE_APP_INDICATOR 1" >>confdefs.h
+
+			fi
 
 
 
@@ -6754,7 +6894,8 @@ $as_echo_n "checking for boostlib >= $boost_lib_version_req... " >&6; }
     succeeded=no
 
                         libsubdirs="lib"
-    if test `uname -m` = x86_64; then
+    ax_arch=`uname -m`
+    if test $ax_arch = x86_64 -o $ax_arch = ppc64 -o $ax_arch = s390x -o $ax_arch = sparc64; then
         libsubdirs="lib64 lib lib64"
     fi
 
@@ -6960,8 +7101,7 @@ $as_echo "#define HAVE_BOOST /**/" >>confdefs.h
 fi
 
 
-			if test -z "$BOOST_LDFLAGS"
-			then
+			if test -z "$BOOST_LDFLAGS"; then
 				as_fn_error $? "Unable to find Boost library." "$LINENO" 5
 			fi
 			APP_CPPFLAGS="$APP_CPPFLAGS $BOOST_CPPFLAGS"
@@ -7206,8 +7346,7 @@ fi
 		LIBS="$LIBS_SAVED"
 	fi
 
-			if test -z "$BOOST_FILESYSTEM_LIB"
-			then
+			if test -z "$BOOST_FILESYSTEM_LIB"; then
 				as_fn_error $? "Unable to find Boost.Filesystem library." "$LINENO" 5
 			fi
 			APP_LDADD="$APP_LDADD $BOOST_FILESYSTEM_LIB"
@@ -7483,8 +7622,7 @@ fi
 	LDFLAGS="$LDFLAGS_SAVED"
 	fi
 
-			if test -z "$BOOST_THREAD_LIB"
-			then
+			if test -z "$BOOST_THREAD_LIB"; then
 				as_fn_error $? "Unable to find Boost.Thread library." "$LINENO" 5
 			fi
 			APP_LDADD="$APP_LDADD $BOOST_THREAD_LIB"
@@ -7730,8 +7868,7 @@ fi
 	LDFLAGS="$LDFLAGS_SAVED"
 	fi
 
-			if test -z "$BOOST_SYSTEM_LIB"
-			then
+			if test -z "$BOOST_SYSTEM_LIB"; then
 				as_fn_error $? "Unable to find Boost.System library." "$LINENO" 5
 			fi
 			APP_LDADD="$APP_LDADD $BOOST_SYSTEM_LIB"
@@ -9400,7 +9537,8 @@ $as_echo_n "checking for boostlib >= $boost_lib_version_req... " >&6; }
     succeeded=no
 
                         libsubdirs="lib"
-    if test `uname -m` = x86_64; then
+    ax_arch=`uname -m`
+    if test $ax_arch = x86_64 -o $ax_arch = ppc64 -o $ax_arch = s390x -o $ax_arch = sparc64; then
         libsubdirs="lib64 lib lib64"
     fi
 

@@ -33,6 +33,9 @@
    language is requested. */
 #undef ENABLE_NLS
 
+/* Have AppIndicator */
+#undef HAVE_APP_INDICATOR
+
 /* define if the Boost library is available */
 #undef HAVE_BOOST
 

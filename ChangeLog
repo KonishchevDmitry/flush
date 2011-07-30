@@ -1,3 +1,7 @@
+-----
+[+] AppIndicator support.
+
+
 0.9.10 (2010.03.05)
 -----
 [+] Support of Boost 1.46.
@@ -171,8 +175,8 @@ not paused torrent.
 -----
 [*] Fixed bug which caused program terminating on x86-64 architectures with
 following output:
-	terminate called after throwing an instance of 'libconfig::SettingTypeException' 
-	what(): SettingTypeException 
+	terminate called after throwing an instance of 'libconfig::SettingTypeException'
+	what(): SettingTypeException
 	Aborted
 [*] Fixed compatibility bug, due to which program compilation fails under
 glibmm-2.16.

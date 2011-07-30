@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2011-03-05 17:47+0300\n"
+"POT-Creation-Date: 2011-07-30 09:04+0400\n"
 "Last-Translator: Dmitry Konishchev <konishchev@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -303,7 +303,7 @@ msgstr "Б"
 msgid "0 KB/s"
 msgstr "0 КБ/с"
 
-#: mlib/mlib/string.cpp:307 mlib/mlib/string.cpp:309 src/main_window.cpp:255
+#: mlib/mlib/string.cpp:307 mlib/mlib/string.cpp:309 src/main_window.cpp:276
 msgid "KB/s"
 msgstr "КБ/с"
 
@@ -443,7 +443,7 @@ msgstr "Не удалось сбросить данные файла '%1' в ф�
 msgid "Name"
 msgstr "Имя"
 
-#: src/settings_window.cpp:246 src/main_window.cpp:867 src/main_window.cpp:868
+#: src/settings_window.cpp:246 src/main_window.cpp:953 src/main_window.cpp:954
 msgid "Preferences"
 msgstr "Настройки"
 
@@ -524,7 +524,7 @@ msgid "none"
 msgstr "нет"
 
 #: src/statistics_window.cpp:52 src/statistics_window.cpp:138
-#: src/main_window.cpp:857 src/main_window.cpp:859
+#: src/main_window.cpp:943 src/main_window.cpp:945
 msgid "Statistics"
 msgstr "Статистика"
 
@@ -544,7 +544,7 @@ msgstr "Время начала сессии"
 msgid "Statistics start time"
 msgstr "Время начала сбора статистики"
 
-#: src/statistics_window.cpp:162 src/main_window.cpp:1537
+#: src/statistics_window.cpp:162 src/main_window.cpp:1643
 #: ui/preferences.client.gui.status_bar.glade:108
 msgid "Downloaded"
 msgstr "Скачано"
@@ -561,7 +561,7 @@ msgstr "Всего скачано"
 msgid "Total payload download"
 msgstr "Всего скачано данных"
 
-#: src/statistics_window.cpp:167 src/main_window.cpp:1543
+#: src/statistics_window.cpp:167 src/main_window.cpp:1649
 #: ui/preferences.client.gui.status_bar.glade:136
 msgid "Uploaded"
 msgstr "Роздано"
@@ -578,7 +578,7 @@ msgstr "Всего роздано"
 msgid "Total payload upload"
 msgstr "Всего роздано данных"
 
-#: src/statistics_window.cpp:172 src/main_window.cpp:1549
+#: src/statistics_window.cpp:172 src/main_window.cpp:1655
 #: src/torrents_view.cpp:382 ui/preferences.client.gui.status_bar.glade:162
 msgid "Share ratio"
 msgstr "Рейтинг"
@@ -587,7 +587,7 @@ msgstr "Рейтинг"
 msgid "Total share ratio"
 msgstr "Общий рейтинг"
 
-#: src/statistics_window.cpp:175 src/main_window.cpp:1552
+#: src/statistics_window.cpp:175 src/main_window.cpp:1658
 #: ui/preferences.client.gui.status_bar.glade:149
 msgid "Failed"
 msgstr "Ошибки"
@@ -596,7 +596,7 @@ msgstr "Ошибки"
 msgid "Total failed"
 msgstr "Всего ошибок"
 
-#: src/statistics_window.cpp:177 src/main_window.cpp:1555
+#: src/statistics_window.cpp:177 src/main_window.cpp:1661
 #: ui/preferences.client.gui.status_bar.glade:190
 msgid "Redundant"
 msgstr "Избыточные данные"
@@ -820,22 +820,22 @@ msgstr "Ошибки проверки хэша"
 msgid "IP address"
 msgstr "IP-адрес"
 
-#: src/torrent_peers_view.cpp:101 src/main_window.cpp:1525
+#: src/torrent_peers_view.cpp:101 src/main_window.cpp:1631
 #: src/torrents_view.cpp:377 ui/preferences.client.gui.status_bar.glade:58
 msgid "Download speed"
 msgstr "Скорость скачивания"
 
-#: src/torrent_peers_view.cpp:102 src/main_window.cpp:1528
+#: src/torrent_peers_view.cpp:102 src/main_window.cpp:1634
 #: src/torrents_view.cpp:378 ui/preferences.client.gui.status_bar.glade:95
 msgid "Download speed (payload)"
 msgstr "Скорость скачивания данных"
 
-#: src/torrent_peers_view.cpp:103 src/main_window.cpp:1531
+#: src/torrent_peers_view.cpp:103 src/main_window.cpp:1637
 #: src/torrents_view.cpp:379 ui/preferences.client.gui.status_bar.glade:82
 msgid "Upload speed"
 msgstr "Скорость отдачи"
 
-#: src/torrent_peers_view.cpp:104 src/main_window.cpp:1534
+#: src/torrent_peers_view.cpp:104 src/main_window.cpp:1640
 #: src/torrents_view.cpp:380 ui/preferences.client.gui.status_bar.glade:67
 msgid "Upload speed (payload)"
 msgstr "Скорость отдачи данных"
@@ -848,258 +848,258 @@ msgstr "Всего скачано данных"
 msgid "Total upload (payload)"
 msgstr "Всего роздано данных"
 
-#: src/main_window.cpp:226
+#: src/main_window.cpp:247
 msgid "Set download rate limit"
 msgstr "Максимальная скорость скачивания"
 
-#: src/main_window.cpp:226
+#: src/main_window.cpp:247
 msgid "Set upload rate limit"
 msgstr "Максимальная скорость отдачи"
 
-#: src/main_window.cpp:277
+#: src/main_window.cpp:298
 msgid "Getting current rate limit failed"
 msgstr "Не удалось получить текущее ограничение на скорость"
 
-#: src/main_window.cpp:289
+#: src/main_window.cpp:310
 msgid "Setting current rate limit failed"
 msgstr "Не удалось установить текущее ограничение на скорость"
 
-#: src/main_window.cpp:331
+#: src/main_window.cpp:356
 msgid "_File"
 msgstr "_Файл"
 
-#: src/main_window.cpp:333
+#: src/main_window.cpp:358
 msgid "_Create"
 msgstr "_Создать"
 
-#: src/main_window.cpp:337
+#: src/main_window.cpp:362
 msgid "_Open a torrent"
 msgstr "_Открыть торрент"
 
-#: src/main_window.cpp:341
+#: src/main_window.cpp:366
 msgid "_Open a magnet link"
 msgstr "Открыть _magent-ссылку"
 
-#: src/main_window.cpp:345
+#: src/main_window.cpp:370
 msgid "_Quit"
 msgstr "_Выход"
 
-#: src/main_window.cpp:350
+#: src/main_window.cpp:375
 msgid "_Edit"
 msgstr "_Правка"
 
-#: src/main_window.cpp:352
+#: src/main_window.cpp:377
 msgid "_Statistics"
 msgstr "_Статистика"
 
-#: src/main_window.cpp:356
+#: src/main_window.cpp:381
 msgid "_Preferences"
 msgstr "_Настройки"
 
-#: src/main_window.cpp:361
+#: src/main_window.cpp:386
 msgid "_View"
 msgstr "_Вид"
 
-#: src/main_window.cpp:364
+#: src/main_window.cpp:389
 msgid "_Toolbar"
 msgstr "_Панель инструментов"
 
-#: src/main_window.cpp:367 src/main_window.cpp:444
+#: src/main_window.cpp:392 src/main_window.cpp:469
 msgid "'Show ...' toggle|_Show"
 msgstr "_Отображать"
 
-#: src/main_window.cpp:380
+#: src/main_window.cpp:405
 msgid "Toolbar _style"
 msgstr "_Стиль панели инструментов"
 
-#: src/main_window.cpp:384
+#: src/main_window.cpp:409
 msgid "_Desktop default"
 msgstr "_По умолчанию"
 
-#: src/main_window.cpp:394
+#: src/main_window.cpp:419
 msgid "_Icons"
 msgstr "_Значки"
 
-#: src/main_window.cpp:404
+#: src/main_window.cpp:429
 msgid "_Text"
 msgstr "_Текст"
 
-#: src/main_window.cpp:414
+#: src/main_window.cpp:439
 msgid "_Both"
 msgstr "Значки _и текст"
 
-#: src/main_window.cpp:424
+#: src/main_window.cpp:449
 msgid "Both _horizontal"
 msgstr "Значки и текст по _горизонтали"
 
-#: src/main_window.cpp:441
+#: src/main_window.cpp:466
 msgid "_Categories"
 msgstr "_Категории"
 
-#: src/main_window.cpp:454
+#: src/main_window.cpp:479
 msgid "Show _names"
 msgstr "Отображать _имена"
 
-#: src/main_window.cpp:464
+#: src/main_window.cpp:489
 msgid "Show _counters"
 msgstr "Отображать _счетчики"
 
-#: src/main_window.cpp:476
+#: src/main_window.cpp:501
 msgid "_Torrents"
 msgstr "_Торренты"
 
-#: src/main_window.cpp:479
+#: src/main_window.cpp:504
 msgid "_Resume"
 msgstr "_Возобновить"
 
-#: src/main_window.cpp:481 src/main_window.cpp:505 src/main_window.cpp:533
-#: src/main_window.cpp:560
+#: src/main_window.cpp:506 src/main_window.cpp:530 src/main_window.cpp:558
+#: src/main_window.cpp:585
 msgid "_All"
 msgstr "_Все"
 
-#: src/main_window.cpp:488 src/main_window.cpp:512 src/main_window.cpp:540
-#: src/main_window.cpp:567
+#: src/main_window.cpp:513 src/main_window.cpp:537 src/main_window.cpp:565
+#: src/main_window.cpp:592
 msgid "_Downloads"
 msgstr "_Закачки"
 
-#: src/main_window.cpp:495 src/main_window.cpp:519 src/main_window.cpp:547
-#: src/main_window.cpp:574
+#: src/main_window.cpp:520 src/main_window.cpp:544 src/main_window.cpp:572
+#: src/main_window.cpp:599
 msgid "_Uploads"
 msgstr "_Раздачи"
 
-#: src/main_window.cpp:503
+#: src/main_window.cpp:528
 msgid "_Pause"
 msgstr "_Приостановить"
 
-#: src/main_window.cpp:529
+#: src/main_window.cpp:554
 msgid "R_esume temporary"
 msgstr "В_озобновить временно"
 
-#: src/main_window.cpp:556
+#: src/main_window.cpp:581
 msgid "P_ause temporary"
 msgstr "П_риостановить временно"
 
-#: src/main_window.cpp:582
+#: src/main_window.cpp:607
 msgid "C_omplete pending temporary action"
 msgstr "_Завершить текущее временное действие"
 
-#: src/main_window.cpp:589
+#: src/main_window.cpp:614
 msgid "_Cancel pending temporary action"
 msgstr "О_тменить текущее временное действие"
 
-#: src/main_window.cpp:599
+#: src/main_window.cpp:624
 msgid "Set _upload rate limit"
 msgstr "Задать макс. скорость от_дачи"
 
-#: src/main_window.cpp:607
+#: src/main_window.cpp:632
 msgid "Set _download rate limit"
 msgstr "Задать макс. скорость _скачивания"
 
-#: src/main_window.cpp:615
+#: src/main_window.cpp:640
 msgid "_Help"
 msgstr "_Помощь"
 
-#: src/main_window.cpp:617
+#: src/main_window.cpp:642
 msgid "_About"
 msgstr "_О Программе"
 
-#: src/main_window.cpp:781
+#: src/main_window.cpp:867
 msgid "Create"
 msgstr "Создать"
 
-#: src/main_window.cpp:782
+#: src/main_window.cpp:868
 msgid "Create a new torrent"
 msgstr "Создать торрент"
 
-#: src/main_window.cpp:790
+#: src/main_window.cpp:876
 msgid "Open"
 msgstr "Открыть"
 
-#: src/main_window.cpp:791
+#: src/main_window.cpp:877
 msgid "Open a torrent"
 msgstr "Открыть торрент"
 
-#: src/main_window.cpp:800
+#: src/main_window.cpp:886
 msgid "Magnet link"
 msgstr "Magnet-ссылка"
 
-#: src/main_window.cpp:801 ui/dialog.open_magnet_link.glade:7
+#: src/main_window.cpp:887 ui/dialog.open_magnet_link.glade:7
 msgid "Open a magnet link"
 msgstr "Открыть magnet-ссылку"
 
-#: src/main_window.cpp:815 src/torrents_view.cpp:455
+#: src/main_window.cpp:901 src/torrents_view.cpp:455
 msgid "Resume"
 msgstr "Возобновить"
 
-#: src/main_window.cpp:816
+#: src/main_window.cpp:902
 msgid "Resume torrent(s)"
 msgstr "Возобновить торрент(ы)"
 
-#: src/main_window.cpp:827 src/torrents_view.cpp:461
+#: src/main_window.cpp:913 src/torrents_view.cpp:461
 msgid "Pause"
 msgstr "Приостановить"
 
-#: src/main_window.cpp:828
+#: src/main_window.cpp:914
 msgid "Pause torrent(s)"
 msgstr "Приостановить торрент(ы)"
 
-#: src/main_window.cpp:839 src/torrents_view.cpp:474 src/torrents_view.cpp:766
+#: src/main_window.cpp:925 src/torrents_view.cpp:474 src/torrents_view.cpp:766
 msgid "Remove"
 msgstr "Удалить"
 
-#: src/main_window.cpp:840
+#: src/main_window.cpp:926
 msgid "Remove torrent(s)"
 msgstr "Удалить торрент(ы)"
 
-#: src/main_window.cpp:1023
+#: src/main_window.cpp:1120
 msgid "Interrupting the temporary action on torrents failed"
 msgstr "Не удалось прервать выполнение текущего временного действия"
 
-#: src/main_window.cpp:1053 src/main_window.cpp:1067
+#: src/main_window.cpp:1150 src/main_window.cpp:1164
 msgid "Pausing torrents failed"
 msgstr "Приостановка торрента(ов) завершилось неудачей"
 
-#: src/main_window.cpp:1088 src/main_window.cpp:1099
+#: src/main_window.cpp:1185 src/main_window.cpp:1196
 #: src/client_cmd_options.cpp:196
 msgid "Dmitry Konishchev"
 msgstr "Дмитрий Конищев"
 
-#: src/main_window.cpp:1097
+#: src/main_window.cpp:1194
 msgid "GTK-based BitTorrent client"
 msgstr "GTK BitTorrent клиент"
 
-#: src/main_window.cpp:1231
+#: src/main_window.cpp:1328
 msgid "Processing the temporary action on torrents failed"
 msgstr "Выполнение над торрентами временного действия завершилось неудачей"
 
-#: src/main_window.cpp:1335 src/add_torrent_dialog.cpp:281
+#: src/main_window.cpp:1432 src/add_torrent_dialog.cpp:281
 msgid "Opening torrent failed"
 msgstr "Открытие торрента завершилось неудачей"
 
-#: src/main_window.cpp:1335 src/add_torrent_dialog.cpp:283
+#: src/main_window.cpp:1432 src/add_torrent_dialog.cpp:283
 #, qt-format
 msgid "Opening torrent '%1' failed. %2"
 msgstr "Открытие торрента '%1' завершилось неудачей. %2"
 
-#: src/main_window.cpp:1496
+#: src/main_window.cpp:1602
 #, qt-format
 msgid "Download/Upload|D: %1, U: %2 - %3"
 msgstr "D: %1, U: %2 - %3"
 
-#: src/main_window.cpp:1540
+#: src/main_window.cpp:1646
 msgid "Download (payload)"
 msgstr "Скачано данных"
 
-#: src/main_window.cpp:1546
+#: src/main_window.cpp:1652
 msgid "Upload (payload)"
 msgstr "Роздано данных"
 
-#: src/main_window.cpp:1574
+#: src/main_window.cpp:1680
 #, qt-format
 msgid "Download speed|Down: %1 (%2) / %3"
 msgstr "Скачивание: %1 (%2) / %3"
 
-#: src/main_window.cpp:1581
+#: src/main_window.cpp:1687
 #, qt-format
 msgid "Upload speed|Up: %1 (%2) / %3"
 msgstr "Отдача: %1 (%2) / %3"

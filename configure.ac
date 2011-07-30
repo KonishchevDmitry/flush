@@ -43,16 +43,14 @@ dnl Configuring command line options -->
 		[develop_mode=no]
 	)
 
-	if test "X$develop_mode" = "Xyes"
-	then
+	if test "X$develop_mode" = "Xyes"; then
 		MLIB_FEATURE_ENABLE([[develop_mode]])
 
 		dnl Debug mode always enabled in develop mode
 		debug_mode=yes
 	fi
 
-	if test "X$debug_mode" = "Xyes"
-	then
+	if test "X$debug_mode" = "Xyes"; then
 		MLIB_FEATURE_ENABLE([[debug_mode]])
 	fi
 dnl Configuring command line options <--
@@ -86,14 +84,12 @@ dnl config.h -->
 	AC_DEFINE_UNQUOTED([APP_VERSION_STRING], ["$PACKAGE_VERSION"])
 
 	AH_TEMPLATE([DEBUG_MODE], [Is application compiling in the debug mode])
-	if test "X$debug_mode" = "Xyes"
-	then
+	if test "X$debug_mode" = "Xyes"; then
 		AC_DEFINE([DEBUG_MODE])
 	fi
 
 	AH_TEMPLATE([DEVELOP_MODE], [Is application compiling in the develop mode])
-	if test "X$develop_mode" = "Xyes"
-	then
+	if test "X$develop_mode" = "Xyes"; then
 		AC_DEFINE([DEVELOP_MODE])
 	fi
 
@@ -129,8 +125,7 @@ dnl Compiler flags -->
 	APP_CPPFLAGS="$APP_CPPFLAGS -I \$(top_srcdir)/src"
 
 	dnl Develop mode flags -->
-		if test "X$develop_mode" = "Xyes"
-		then
+		if test "X$develop_mode" = "Xyes"; then
 			CXXFLAGS="$CXXFLAGS -O0 -g"
 
 			dnl Some of this options are not supported by older versions of GCC
@@ -146,32 +141,56 @@ dnl Compiler flags -->
 	dnl Develop mode flags <--
 
 	dnl Libraries -->
+		dnl appindicator -->
+			APPINDICATOR_REQUIRED=0.0.7
+
+			AC_ARG_ENABLE(appindicator,
+				AS_HELP_STRING([--enable-appindicator[=@<:@no/auto/yes@:>@]], [application indicator support]),
+				[enable_appindicator=$enableval],
+				[enable_appindicator="auto"]
+			)
+
+			if test "x$enable_appindicator" = "xauto"; then
+				PKG_CHECK_EXISTS([appindicator-0.1 >= $APPINDICATOR_REQUIRED],
+					enable_appindicator="yes",
+					enable_appindicator="no"
+				)
+			fi
+
+			if test "x$enable_appindicator" = "xyes"; then
+				PKG_CHECK_EXISTS([appindicator-0.1 >= $APPINDICATOR_REQUIRED],,
+					 AC_MSG_ERROR([appindicator-0.1 is not installed]))
+				PKG_CHECK_MODULES(appindicator, appindicator-0.1 >= $APPINDICATOR_REQUIRED)
+
+				APP_CPPFLAGS="$APP_CPPFLAGS $appindicator_CFLAGS"
+				APP_LDADD="$APP_LDADD $appindicator_LIBS"
+
+				AC_DEFINE(HAVE_APP_INDICATOR, 1, [Have AppIndicator])
+			fi
+		dnl appindicator <--
+
 		dnl boost -->
 			AX_BOOST_BASE([1.34])
-			if test -z "$BOOST_LDFLAGS"
-			then
+			if test -z "$BOOST_LDFLAGS"; then
 				AC_MSG_ERROR([Unable to find Boost library.])
 			fi
 			APP_CPPFLAGS="$APP_CPPFLAGS $BOOST_CPPFLAGS"
 			APP_LDADD="$APP_LDADD $BOOST_LDFLAGS"
 
 			AX_BOOST_FILESYSTEM
-			if test -z "$BOOST_FILESYSTEM_LIB"
-			then
+			if test -z "$BOOST_FILESYSTEM_LIB"; then
 				AC_MSG_ERROR([Unable to find Boost.Filesystem library.])
 			fi
 			APP_LDADD="$APP_LDADD $BOOST_FILESYSTEM_LIB"
 
 			AX_BOOST_THREAD
-			if test -z "$BOOST_THREAD_LIB"
-			then
+			if test -z "$BOOST_THREAD_LIB"; then
 				AC_MSG_ERROR([Unable to find Boost.Thread library.])
 			fi
 			APP_LDADD="$APP_LDADD $BOOST_THREAD_LIB"
 
 			AX_BOOST_SYSTEM
-			if test -z "$BOOST_SYSTEM_LIB"
-			then
+			if test -z "$BOOST_SYSTEM_LIB"; then
 				AC_MSG_ERROR([Unable to find Boost.System library.])
 			fi
 			APP_LDADD="$APP_LDADD $BOOST_SYSTEM_LIB"

@@ -47,116 +47,121 @@
 
 
 		private:
-			Gui*				gui;
+			Gui* gui;
 
 
 		public:
 			/// Добавляет сообщение демона в виджет, занимащийся отображанием
 			/// этих сообщений.
-			void	add_daemon_message(const Daemon_message& message) const;
+			void		add_daemon_message(const Daemon_message& message) const;
 
 			/// Выполняет все необходимые действия по подготовке главного окна
 			/// приложения к завершению работы.
-			void	close(void);
+			void		close(void);
 
 			/// Производит все необходимые в зависимости от настроек действия
 			/// по открытию торрента.
-			void	open_torrent(const std::string& torrent_uri, const std::string& torrent_encoding = MLIB_UTF_CHARSET_NAME);
+			void		open_torrent(const std::string& torrent_uri, const std::string& torrent_encoding = MLIB_UTF_CHARSET_NAME);
 
 			/// Cохраняет текущие настройки клиента.
-			void	save_settings(void);
+			void		save_settings(void);
 
 			/// Инициирует обновление GUI.
-			void	update_gui(bool force = true);
+			void		update_gui(bool force = true);
 
 		private:
 			/// Изменяет стиль панели инструментов.
-			void	change_toolbar_style(m::gtk::toolbar::Style style);
+			void		change_toolbar_style(m::gtk::toolbar::Style style);
 
 			/// Скрывает окно.
-			void	hide(void);
+			void		hide(void);
 
 			/// Определяет, отображается ли окно в элементах оконного
 			/// менеджера (в панели задач и меню, вызываемом по Alt+Tab).
-			bool	is_visible_in_wm(void);
+			bool		is_visible_in_wm(void);
+
+		#if HAVE_APP_INDICATOR
+			/// Вызывается при изменении статуса соединения с AppIndicator'ом.
+			static void	on_appindicator_connection_changed(gpointer appindicator, gboolean connected, gpointer user_data);
+		#endif
 
 			/// При выборе пункта меню "Изменить максимальную скорость скачивания/отдачи".
-			void	on_change_rate_limit_callback(Traffic_type traffic_type);
+			void		on_change_rate_limit_callback(Traffic_type traffic_type);
 
 			/// Обработчик сигнала на закрытие окна.
-			bool	on_close_callback(GdkEventAny* event);
+			bool		on_close_callback(GdkEventAny* event);
 
 			/// Обработчик сигнала на создание торрент файла.
-			void	on_create_callback(void);
+			void		on_create_callback(void);
 
 			/// Обработчик сигнала на обновление GUI.
-			bool	on_gui_update_timeout(void);
+			bool		on_gui_update_timeout(void);
 
 			/// Прерывает выполнение текущего "временного действия".
 			/// @param complete - если false, то действие отменяется, если true
 			/// - выполняется досрочно.
-			void	on_interrupt_temporary_action_cb(bool complete);
+			void		on_interrupt_temporary_action_cb(bool complete);
 
 			/// Обработчик сигнала на открытие торрент файла.
-			void	on_open_callback(void);
+			void		on_open_callback(void);
 
 			/// Обработчик сигнала на открытие magnet-ссылки.
-			void	on_open_magnet_callback(void);
+			void		on_open_magnet_callback(void);
 
 			/// При выборе пункта меню "Приостановить все торренты".
-			void	on_pause_torrents_callback(Torrents_group group);
+			void		on_pause_torrents_callback(Torrents_group group);
 
 			/// При выборе пункта меню "Возобновить все торренты".
-			void	on_resume_torrents_callback(Torrents_group group);
+			void		on_resume_torrents_callback(Torrents_group group);
 
 			/// Обработчик сигнала на автоматическое сохранение настроек.
-			bool	on_save_settings_timeout(void);
+			bool		on_save_settings_timeout(void);
 
 			/// Обработчик сигнала на отображение About диалога.
-			void	on_show_about_dialog_callback(void);
+			void		on_show_about_dialog_callback(void);
 
 			/// Обработчик сигнала на открытие окна настроек.
-			void	on_show_settings_window_callback(void);
+			void		on_show_settings_window_callback(void);
 
 			/// Обработчик сигнала на отображение статистики.
-			void	on_show_statistics_callback(void);
+			void		on_show_statistics_callback(void);
 
 			/// Обработчик сигнала на переключение флажка меню "Отображать
 			/// панель инструментов".
-			void	on_show_toolbar_toggled_callback(void);
+			void		on_show_toolbar_toggled_callback(void);
 
 			/// Обработчик сигнала на временное возобновление/приостановку
 			/// торрентов.
-			void	on_temporary_process_torrents_cb(const std::pair<Temporary_action,Torrents_group>& data);
+			void		on_temporary_process_torrents_cb(const std::pair<Temporary_action,Torrents_group>& data);
 
 			/// Обработчик сигнала на изменение списка действий, которые можно
 			/// выполнить над торрентом(ами), выделенным(ми) в данный момент.
-			void	on_torrent_process_actions_changed_callback(Torrent_process_actions actions);
+			void		on_torrent_process_actions_changed_callback(Torrent_process_actions actions);
 
 			/// Обработчик нажатия левой кнопки мыши по значку в трее.
-			void	on_tray_activated(void);
+			void		on_tray_activated(void);
 
 			/// Обработчик нажатия правой кнопки мыши по значку в трее.
-			void	on_tray_popup_menu(int button, int activate_time);
+			void		on_tray_popup_menu(int button, int activate_time);
 
 			/// Обработчик сигнала на изменение состояния окна.
-			bool	on_window_state_changed_callback(const GdkEventWindowState* state);
+			bool		on_window_state_changed_callback(const GdkEventWindowState* state);
 
 			/// Задает интервал обновления GUI.
-			void	set_gui_update_interval(int interval);
+			void		set_gui_update_interval(int interval);
 
 			/// Отображает окно.
-			void	show(void);
+			void		show(void);
 
 			/// Отображает окно и все дочерние виджеты.
-			void	show_all(void);
+			void		show_all(void);
 
 			/// Отображает или скрывает иконку из трея.
-			void	show_tray_icon(bool show);
+			void		show_tray_icon(bool show);
 
 			/// Включает/отключает отображение окна в элементах оконного
 			/// менеджера (в панели задач и меню, вызываемом по Alt+Tab).
-			void	set_visible_in_wm(bool visible = true);
+			void		set_visible_in_wm(bool visible = true);
 	};
 
 #endif
