@@ -1,8 +1,9 @@
+0.9.11 (2011.07.31)
 -----
 [+] AppIndicator support.
 
 
-0.9.10 (2010.03.05)
+0.9.10 (2011.03.05)
 -----
 [+] Support of Boost 1.46.
 [+] Support of gtkmm 2.24.
