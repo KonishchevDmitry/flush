@@ -681,12 +681,16 @@ void Daemon_session::add_torrent_to_session(m::lt::Torrent_metadata torrent_meta
 
 				// Лучше не делать лишних переименований - в какой-то версии
 				// libtorrent эти пути не проверялись на соответствие.
+			#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
 				if(torrent_metadata.info.file_at(i).path.string() != new_path)
-				#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
 					torrent_metadata.info.files().rename_file(i, new_path);
-				#else
+			#elif M_LT_GET_VERSION() < M_GET_VERSION(0, 16, 0)
+				if(torrent_metadata.info.file_at(i).path.string() != new_path)
 					torrent_metadata.info.rename_file(i, new_path);
-				#endif
+			#else
+				if(torrent_metadata.info.file_at(i).path != new_path)
+					torrent_metadata.info.rename_file(i, new_path);
+			#endif
 			}
 		}
 	// <--

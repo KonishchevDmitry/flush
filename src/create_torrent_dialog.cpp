@@ -255,7 +255,7 @@ namespace
 		{
 			try
 			{
-				lt::file_storage fs;
+				lt::file_storage file_storage;
 				std::auto_ptr<lt::create_torrent> torrent;
 
 				MLIB_D(_C("Creating torrent '%1'...", this->torrent_source.save_path));
@@ -265,7 +265,7 @@ namespace
 					try
 					{
 						add_files(
-							fs, U2L(this->torrent_source.files),
+							file_storage, U2L(this->torrent_source.files),
 							sigc::mem_fun(*this, &Progress_dialog::check_added_file)
 						);
 					}
@@ -273,7 +273,11 @@ namespace
 					{
 						throw;
 					}
+				#if M_LT_GET_VERSION() < M_GET_VERSION(0, 16, 0)
 					catch(fs::basic_filesystem_error<fs::path>& e)
+				#else
+					catch(fs::filesystem_error& e)
+				#endif
 					{
 						M_THROW(__(
 							"Error while reading torrent files. File '%1': %2.",
@@ -288,7 +292,7 @@ namespace
 					try
 					{
 						torrent = std::auto_ptr<lt::create_torrent>(
-							new lt::create_torrent(fs, this->torrent_source.piece_size)
+							new lt::create_torrent(file_storage, this->torrent_source.piece_size)
 						);
 
 						for(size_t i = 0; i < this->torrent_source.trackers.size(); i++)
@@ -320,7 +324,11 @@ namespace
 					{
 						throw;
 					}
+				#if M_LT_GET_VERSION() < M_GET_VERSION(0, 16, 0)
 					catch(fs::basic_filesystem_error<fs::path>& e)
+				#else
+					catch(fs::filesystem_error& e)
+				#endif
 					{
 						M_THROW(__(
 							"Error while reading torrent files. File '%1': %2.",

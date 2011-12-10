@@ -102,7 +102,11 @@
 	{
 		try
 		{
+		#if M_LT_GET_VERSION() < M_GET_VERSION(0, 16, 0)
 			return LT2U(this->handle.save_path().string());
+		#else
+			return LT2U(this->handle.save_path());
+		#endif
 		}
 		catch(lt::invalid_handle)
 		{

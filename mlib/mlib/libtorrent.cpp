@@ -204,7 +204,11 @@ std::vector<std::string> get_torrent_downloaded_files_paths(const libtorrent::to
 
 	for(size_t i = 0; it != end_it; it++, i++)
 		if(interested_files[i] && files_progress[i] == it->size)
+		#if M_LT_GET_VERSION() >= M_GET_VERSION(0, 16, 0)
+			torrent_files.push_back( LT2U(it->filename()) );
+		#else
 			torrent_files.push_back( LT2U(it->path.string()) );
+		#endif
 
 	return torrent_files;
 }
@@ -237,7 +241,11 @@ std::vector<Torrent_file> get_torrent_files(const lt::torrent_info& torrent_info
 	{
 		torrent_file.id = i;
 		// m::Exception
+	#if M_LT_GET_VERSION() >= M_GET_VERSION(0, 16, 0)
+		torrent_file.path = get_torrent_file_path( LT2U(it->filename()) );
+	#else
 		torrent_file.path = get_torrent_file_path( LT2U(it->path.string()) );
+	#endif
 		torrent_file.size = it->size;
 		torrent_files.push_back(torrent_file);
 	}
@@ -263,7 +271,11 @@ std::vector<std::string> get_torrent_files_paths(const libtorrent::torrent_info&
 	torrent_files_paths.reserve(torrent_info.num_files());
 
 	for(; it != end_it; it++)
+	#if M_LT_GET_VERSION() >= M_GET_VERSION(0, 16, 0)
+		torrent_files_paths.push_back( LT2U(it->filename()) );
+	#else
 		torrent_files_paths.push_back( LT2U(it->path.string()) );
+	#endif
 
 	return torrent_files_paths;
 }
@@ -301,7 +313,7 @@ Torrent_metadata get_torrent_metadata(const m::Buffer& torrent_data, const std::
 		// publisher_url -->
 		{
 			const lazy_entry* entry;
-			
+
 			entry = torrent_entry.dict_find_string("publisher-url");
 
 			if(!entry)
@@ -417,10 +429,14 @@ Torrent_metadata get_torrent_metadata(const m::Buffer& torrent_data, const std::
 						// какой-то версии libtorrent эти пути не
 						// проверялись на соответствие и впоследствии
 						// возникала ошибка.
-						if(storage.at(0).path.string() != path)
 						#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
+						if(storage.at(0).path.string() != path)
 							storage.rename_file(file_id, path);
+						#elif M_LT_GET_VERSION() < M_GET_VERSION(0, 16, 0)
+						if(storage.at(0).path.string() != path)
+							torrent_info.rename_file(file_id, path);
 						#else
+						if(storage.at(0).path != path)
 							torrent_info.rename_file(file_id, path);
 						#endif
 					}
@@ -436,10 +452,14 @@ Torrent_metadata get_torrent_metadata(const m::Buffer& torrent_data, const std::
 					// какой-то версии libtorrent эти пути не
 					// проверялись на соответствие и впоследствии
 					// возникала ошибка.
-					if(storage.at(0).path.string() != path)
 					#if M_LT_GET_VERSION() < M_GET_VERSION(0, 14, 3)
+					if(storage.at(0).path.string() != path)
 						storage.rename_file(0, path);
+					#elif M_LT_GET_VERSION() < M_GET_VERSION(0, 16, 0)
+					if(storage.at(0).path.string() != path)
+						torrent_info.rename_file(0, path);
 					#else
+					if(storage.at(0).path != path)
 						torrent_info.rename_file(0, path);
 					#endif
 				}
@@ -463,8 +483,13 @@ Torrent_metadata get_torrent_metadata(const m::Buffer& torrent_data, const std::
 
 				for(size_t i = 0; it != end_it; ++it, ++i)
 				{
+				#if M_LT_GET_VERSION() >= M_GET_VERSION(0, 16, 0)
+					const std::string path = it->filename();
+					const std::string new_path = U2LT(it->filename());
+				#else
 					const std::string path = it->path.string();
 					const std::string new_path = U2LT(it->path.string());
+				#endif
 
 					// Лучше не делать лишних переименований - в какой-то
 					// версии libtorrent эти пути не проверялись на
