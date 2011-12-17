@@ -144,7 +144,11 @@ void Log_view::update(const Torrent_id& torrent_id)
 					end_iter.set_line_offset(0);
 
 					this->buffer->move_mark(this->end_mark, end_iter);
+				#if GTK_CHECK_VERSION(3, 0, 0)
+					this->scroll_to(this->end_mark);
+				#else
 					this->scroll_mark_onscreen(this->end_mark);
+				#endif
 				}
 				// Используем функции TextBuffer'а <--
 

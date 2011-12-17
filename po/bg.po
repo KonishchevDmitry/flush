@@ -2617,7 +2617,7 @@ msgstr ""
 "списъка се намира неявно правило, което разрешава всички IP-адреси."
 
 #: ui/preferences.daemon.network.ip_filter.glade:226
-msgid "Enable IP filter|Enable"
+msgid "Enable IP filter"
 msgstr "Включен"
 
 #: ui/torrent_info_tabs.details.glade:39

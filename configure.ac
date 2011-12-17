@@ -165,9 +165,15 @@ dnl Compiler flags -->
 			fi
 
 			if test "x$enable_appindicator" = "xyes"; then
-				PKG_CHECK_EXISTS([appindicator-0.1 >= $APPINDICATOR_REQUIRED],,
-					 AC_MSG_ERROR([appindicator-0.1 is not installed]))
-				PKG_CHECK_MODULES(appindicator, appindicator-0.1 >= $APPINDICATOR_REQUIRED)
+				if test "X$gtk2" = "Xyes"; then
+					appindicator_version="-0.1"
+				else
+					appindicator_version="3-0.1"
+				fi
+
+				PKG_CHECK_EXISTS([appindicator$appindicator_version >= $APPINDICATOR_REQUIRED],,
+					 AC_MSG_ERROR([appindicator$appindicator_version is not installed]))
+				PKG_CHECK_MODULES(appindicator, appindicator$appindicator_version >= $APPINDICATOR_REQUIRED)
 
 				APP_CPPFLAGS="$APP_CPPFLAGS $appindicator_CFLAGS"
 				APP_LDADD="$APP_LDADD $appindicator_LIBS"
@@ -275,8 +281,12 @@ dnl Configuring mlib -->
 	MLIB_FEATURE_ENABLE([[dbus]])
 	MLIB_FEATURE_ENABLE([[fs_watcher]])
 	MLIB_FEATURE_ENABLE([[gtk]])
+	if test "X$gtk2" = "Xyes"; then
+		MLIB_FEATURE_ENABLE([[gtk2]])
+	fi
 	MLIB_FEATURE_ENABLE([[gtk_builder]])
-	MLIB_FEATURE_ENABLE([[gtk_builder_emulation]])
+	dnl TODO FIXME
+dnl	MLIB_FEATURE_ENABLE([[gtk_builder_emulation]])
 	MLIB_FEATURE_ENABLE([[libconfig]])
 	MLIB_FEATURE_ENABLE([[libtorrent]])
 	MLIB_CONFIGURE

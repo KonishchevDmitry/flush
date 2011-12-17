@@ -27,8 +27,6 @@
 	#include <gtkmm/dialog.h>
 	#include <gtkmm/window.h>
 
-	#include <libglademm/xml.h>
-
 	#include <mlib/gtk/dialog.hpp>
 
 	#include "common.hpp"

@@ -2461,7 +2461,7 @@ msgid "This list is fully scanned from top to bottom. In a case of overlapping r
 msgstr ""
 
 #: ui/preferences.daemon.network.ip_filter.glade:226
-msgid "Enable IP filter|Enable"
+msgid "Enable IP filter"
 msgstr ""
 
 #: ui/torrent_info_tabs.details.glade:39

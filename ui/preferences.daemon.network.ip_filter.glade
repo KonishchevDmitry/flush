@@ -244,7 +244,7 @@
                 </child>
                 <child type="label">
                   <object class="GtkCheckButton" id="ip_filter_enabled">
-                    <property name="label" translatable="yes">Enable IP filter|Enable</property>
+                    <property name="label" translatable="yes">Enable IP filter</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>

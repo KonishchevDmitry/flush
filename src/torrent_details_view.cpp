@@ -136,7 +136,13 @@
 		Glib::RefPtr<Gdk::Window> gdk_window = this->publisher_url_event_box->get_window();
 
 		if(gdk_window)
+		{
+		#if GTK_CHECK_VERSION(3, 0, 0)
+			gdk_window->set_cursor(Gdk::Cursor::create(Gdk::HAND2));
+		#else
 			gdk_window->set_cursor(Gdk::Cursor(Gdk::HAND2));
+		#endif
+		}
 
 		return FALSE;
 	}

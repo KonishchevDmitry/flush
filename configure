@@ -6759,15 +6759,21 @@ fi
 			fi
 
 			if test "x$enable_appindicator" = "xyes"; then
+				if test "X$gtk2" = "Xyes"; then
+					appindicator_version="-0.1"
+				else
+					appindicator_version="3-0.1"
+				fi
+
 				if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"appindicator-0.1 >= \$APPINDICATOR_REQUIRED\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "appindicator-0.1 >= $APPINDICATOR_REQUIRED") 2>&5
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"appindicator\$appindicator_version >= \$APPINDICATOR_REQUIRED\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "appindicator$appindicator_version >= $APPINDICATOR_REQUIRED") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   :
 else
-  as_fn_error $? "appindicator-0.1 is not installed" "$LINENO" 5
+  as_fn_error $? "appindicator$appindicator_version is not installed" "$LINENO" 5
 fi
 
 pkg_failed=no
@@ -6778,12 +6784,12 @@ if test -n "$appindicator_CFLAGS"; then
     pkg_cv_appindicator_CFLAGS="$appindicator_CFLAGS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"appindicator-0.1 >= \$APPINDICATOR_REQUIRED\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "appindicator-0.1 >= $APPINDICATOR_REQUIRED") 2>&5
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"appindicator\$appindicator_version >= \$APPINDICATOR_REQUIRED\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "appindicator$appindicator_version >= $APPINDICATOR_REQUIRED") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_appindicator_CFLAGS=`$PKG_CONFIG --cflags "appindicator-0.1 >= $APPINDICATOR_REQUIRED" 2>/dev/null`
+  pkg_cv_appindicator_CFLAGS=`$PKG_CONFIG --cflags "appindicator$appindicator_version >= $APPINDICATOR_REQUIRED" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
@@ -6795,12 +6801,12 @@ if test -n "$appindicator_LIBS"; then
     pkg_cv_appindicator_LIBS="$appindicator_LIBS"
  elif test -n "$PKG_CONFIG"; then
     if test -n "$PKG_CONFIG" && \
-    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"appindicator-0.1 >= \$APPINDICATOR_REQUIRED\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "appindicator-0.1 >= $APPINDICATOR_REQUIRED") 2>&5
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"appindicator\$appindicator_version >= \$APPINDICATOR_REQUIRED\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "appindicator$appindicator_version >= $APPINDICATOR_REQUIRED") 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
-  pkg_cv_appindicator_LIBS=`$PKG_CONFIG --libs "appindicator-0.1 >= $APPINDICATOR_REQUIRED" 2>/dev/null`
+  pkg_cv_appindicator_LIBS=`$PKG_CONFIG --libs "appindicator$appindicator_version >= $APPINDICATOR_REQUIRED" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
@@ -6821,14 +6827,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        appindicator_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "appindicator-0.1 >= $APPINDICATOR_REQUIRED" 2>&1`
+	        appindicator_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "appindicator$appindicator_version >= $APPINDICATOR_REQUIRED" 2>&1`
         else
-	        appindicator_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "appindicator-0.1 >= $APPINDICATOR_REQUIRED" 2>&1`
+	        appindicator_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "appindicator$appindicator_version >= $APPINDICATOR_REQUIRED" 2>&1`
         fi
 	# Put the nasty error message in config.log where it belongs
 	echo "$appindicator_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (appindicator-0.1 >= $APPINDICATOR_REQUIRED) were not met:
+	as_fn_error $? "Package requirements (appindicator$appindicator_version >= $APPINDICATOR_REQUIRED) were not met:
 
 $appindicator_PKG_ERRORS
 
@@ -8796,12 +8802,13 @@ fi
 			as_fn_error $? "MLIB_FEATURE_ENABLE usage error at line $LINENO: unknown feature name '$mlib_feature'." "$LINENO" 5
 	esac
 
+	if test "X$gtk2" = "Xyes"; then
 
 	if test "1" != "1"
 	then
 		as_fn_error $? "MLIB_FEATURE_ENABLE usage error at line $LINENO: macros takes one argument." "$LINENO" 5
 	else
-		mlib_feature="gtk_builder"
+		mlib_feature="gtk2"
 		mlib_feature_value="yes"
 	fi
 
@@ -8836,12 +8843,13 @@ fi
 			as_fn_error $? "MLIB_FEATURE_ENABLE usage error at line $LINENO: unknown feature name '$mlib_feature'." "$LINENO" 5
 	esac
 
+	fi
 
 	if test "1" != "1"
 	then
 		as_fn_error $? "MLIB_FEATURE_ENABLE usage error at line $LINENO: macros takes one argument." "$LINENO" 5
 	else
-		mlib_feature="gtk_builder_emulation"
+		mlib_feature="gtk_builder"
 		mlib_feature_value="yes"
 	fi
 

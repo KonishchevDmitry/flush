@@ -22,6 +22,8 @@
 #define HEADER_MLIB_GTK_MAIN
 
 #include <mlib/main.hpp>
+// TODO FIXME
+#include <gtkmm.h>
 
 
 namespace m { namespace gtk {

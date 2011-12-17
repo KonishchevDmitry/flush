@@ -203,7 +203,11 @@ namespace
 
 		this->add("priority", &this->priority, _("Priority"));
 		this->priority.set_sort_column(model_columns.priority);
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		this->priority.get_first_cell()->property_xalign().set_value(0.5);
+	#else
 		this->priority.get_first_cell_renderer()->property_xalign().set_value(0.5);
+	#endif
 
 
 		M_GTK_TREE_VIEW_ADD_INTEGER_COLUMN(size, _("Size"))

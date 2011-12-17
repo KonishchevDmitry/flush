@@ -314,7 +314,11 @@ namespace
 					main_vbox.pack_start(ok_button_hbox, false, false);
 
 					Gtk::Button ok_button(Gtk::Stock::OK);
+				#if GTK_CHECK_VERSION(3, 0, 0)
+					ok_button.set_can_default();
+				#else
 					ok_button.set_flags(ok_button.get_flags() | Gtk::CAN_DEFAULT);
+				#endif
 					error_window.set_default(ok_button);
 					ok_button.signal_clicked().connect(sigc::ptr_fun(on_error_window_ok_button_callback));
 					ok_button_hbox.pack_end(ok_button, false, false);
@@ -1075,7 +1079,12 @@ int main(int argc, char *argv[])
 		/// Устанавливаем собственный обработчик сигнала для кнопок-ссылок,
 		/// чтобы мы могли назначать им какой-угодно URL, и GTK при этом не сыпал
 		/// Warning'ами.
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		// TODO FIXME
+		//Gtk::LinkButton::signal_activate_link().connect(sigc::ptr_fun(on_linkbutton_uri_callback));
+	#else
 		Gtk::LinkButton::set_uri_hook(sigc::ptr_fun(on_linkbutton_uri_callback));
+	#endif
 
 		/// Активизируем "режим дерева" для GtkCellRendererToggle.
 		m::gtk::activate_cell_renderer_toggle_tree_mode();

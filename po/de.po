@@ -2595,7 +2595,7 @@ msgstr ""
 "die alle IP's erlaubt."
 
 #: ui/preferences.daemon.network.ip_filter.glade:226
-msgid "Enable IP filter|Enable"
+msgid "Enable IP filter"
 msgstr "Einschalten"
 
 #: ui/torrent_info_tabs.details.glade:39

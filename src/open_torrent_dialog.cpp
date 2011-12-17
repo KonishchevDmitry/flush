@@ -99,7 +99,7 @@ Open_torrent_dialog::Open_torrent_dialog(Gtk::Window& parent_window)
 {
 	// Выбор кодировки *.torrent файла -->
 	{
-		Gtk::VBox* vbox = this->get_vbox();
+		Gtk::Box* vbox = this->get_vbox();
 
 		Gtk::HBox* hbox = Gtk::manage( new Gtk::HBox(false, m::gtk::HBOX_SPACING) );
 		vbox->pack_start(*hbox, false, false);
@@ -134,14 +134,26 @@ Open_torrent_dialog::Open_torrent_dialog(Gtk::Window& parent_window)
 
 	// Добавляем фильтры по типам файлов -->
 	{
+	#if GTK_CHECK_VERSION(3, 0, 0)
 		Glib::RefPtr<Gtk::FileFilter> torrents_filter = Gtk::FileFilter::create();
 		torrents_filter->set_name(_("Torrent files"));
 		torrents_filter->add_mime_type("application/x-bittorrent");
+	#else
+		Gtk::FileFilter torrents_filter;
+		torrents_filter.set_name(_("Torrent files"));
+		torrents_filter.add_mime_type("application/x-bittorrent");
+	#endif
 		this->add_filter(torrents_filter);
 
+	#if GTK_CHECK_VERSION(3, 0, 0)
 		Glib::RefPtr<Gtk::FileFilter> any_filter = Gtk::FileFilter::create();
 		any_filter->set_name(_("Any files"));
 		any_filter->add_pattern("*");
+	#else
+		Gtk::FileFilter any_filter;
+		any_filter.set_name(_("Any files"));
+		any_filter.add_pattern("*");
+	#endif
 		this->add_filter(any_filter);
 	}
 	// Добавляем фильтры по типам файлов <--

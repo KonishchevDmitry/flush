@@ -61,7 +61,11 @@ void Window::init(GtkWindow* parent_window, const std::string& title, const Sett
 	{
 		gtk_window_set_transient_for(this->gobj(), parent_window);
 
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		if(gtk_widget_get_visible(GTK_WIDGET(parent_window)))
+	#else
 		if(GTK_WIDGET_VISIBLE(GTK_WIDGET(parent_window)))
+	#endif
 			this->set_position(Gtk::WIN_POS_CENTER_ON_PARENT);
 		else
 			this->set_position(Gtk::WIN_POS_CENTER);

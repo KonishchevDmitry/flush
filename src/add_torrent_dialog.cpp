@@ -121,12 +121,22 @@ namespace Add_torrent_dialog_aux
 
 	void Private::fit_window(void)
 	{
+		int dialog_width;
+		int dialog_height;
+
 		int window_width;
 		int window_height;
+
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		this->dialog->get_size_request(dialog_width, dialog_height);
+	#else
 		GtkRequisition request = this->dialog->size_request();
+		dialog_width = request.width;
+		dialog_height = request.height;
+	#endif
 
 		this->dialog->get_size(window_width, window_height);
-		this->dialog->resize(window_width, request.height);
+		this->dialog->resize(window_width, dialog_height);
 	}
 
 
@@ -391,12 +401,21 @@ void Add_torrent_dialog::process(Gtk::Window& parent_window, const std::string& 
 				// Запрашиваем место под Torrent_files_view (иначе GTK выделит ему
 				// самый минимум, который только возможен для ScrolledWindow).
 
+				int width;
+				int height;
 				int max_height = 200;
-				GtkRequisition request = priv->torrent_files_view->size_request();
 
-				if(request.height > max_height)
-					request.height = max_height;
-				priv->files_scrolled_window->set_size_request(-1, request.height);
+			#if GTK_CHECK_VERSION(3, 0, 0)
+				priv->torrent_files_view->get_size_request(width, height);
+			#else
+				GtkRequisition request = priv->torrent_files_view->size_request();
+				width = request.width;
+				height = request.height;
+			#endif
+
+				if(height > max_height)
+					height = max_height;
+				priv->files_scrolled_window->set_size_request(-1, height);
 			}
 
 			priv->files_scrolled_window->add(*priv->torrent_files_view);

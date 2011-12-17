@@ -164,7 +164,7 @@ namespace
 		{
 			this->set_resizable(false);
 
-			Gtk::VBox* main_vbox = this->get_vbox();
+			Gtk::Box* main_vbox = this->get_vbox();
 			main_vbox->set_spacing(m::gtk::VBOX_SPACING);
 
 			Gtk::Label* label = Gtk::manage(new Gtk::Label(_("Hashing files. Please wait...")));
@@ -711,15 +711,27 @@ namespace
 
 				// Добавляем фильтры по типам файлов -->
 				{
+				#if GTK_CHECK_VERSION(3, 0, 0)
 					Glib::RefPtr<Gtk::FileFilter> torrents_filter = Gtk::FileFilter::create();
 					torrents_filter->set_name(_("Torrent files"));
 					torrents_filter->add_mime_type("application/x-bittorrent");
-					dialog->add_filter(torrents_filter);
+				#else
+					Gtk::FileFilter torrents_filter;
+					torrents_filter.set_name(_("Torrent files"));
+					torrents_filter.add_mime_type("application/x-bittorrent");
+				#endif
+					dialog.add_filter(torrents_filter);
 
+				#if GTK_CHECK_VERSION(3, 0, 0)
 					Glib::RefPtr<Gtk::FileFilter> any_filter = Gtk::FileFilter::create();
 					any_filter->set_name(_("Any files"));
 					any_filter->add_pattern("*");
-					dialog->add_filter(any_filter);
+				#else
+					Gtk::FileFilter any_filter;
+					any_filter.set_name(_("Any files"));
+					any_filter.add_pattern("*");
+				#endif
+					dialog.add_filter(any_filter);
 				}
 				// Добавляем фильтры по типам файлов <--
 			// Запрашиваем путь для сохранения *.torrent файла <--

@@ -587,7 +587,11 @@ namespace
 
 	bool Torrents_view::on_key_press_event_cb(const GdkEventKey* event)
 	{
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		if(event->keyval == GDK_KEY_Delete || event->keyval == GDK_KEY_KP_Delete)
+	#else
 		if(event->keyval == GDK_Delete || event->keyval == GDK_KP_Delete)
+	#endif
 			this->process_torrents(REMOVE);
 
 		return false;

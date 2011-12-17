@@ -21,7 +21,8 @@
 #if !MLIB_ENABLE_GTK_BUILDER_EMULATION
 	#include <gtk/gtk.h>
 
-	#error Not tested yet
+// TODO FIXME
+//	#error Not tested yet
 #endif
 
 #include <mlib/main.hpp>
@@ -61,7 +62,8 @@ Glib::ustring get_file_name(const Builder& builder)
 	#if MLIB_ENABLE_GTK_BUILDER_EMULATION
 		return builder->get_filename();
 	#else
-		#error TODO
+		// TODO FIXME
+		return "";
 	#endif
 }
 

@@ -1184,7 +1184,12 @@ void Main_window::on_show_about_dialog_callback(void)
 {
 	Gtk::AboutDialog dialog;
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+	std::vector<Glib::ustring> authors;
+#else
 	std::vector<std::string> authors;
+#endif
+
 	authors.push_back(
 		_("Dmitry Konishchev") + std::string(" <konishchev@gmail.com>\n") +
 		std::string("http://konishchevdmitry.blogspot.com/")
@@ -1689,7 +1694,12 @@ void Main_window::update_gui(bool force)
 				// Трей -->
 					if(update_flags & UPDATE_TRAY)
 					{
-						this->gui->tray->set_tooltip(
+					#if GTK_CHECK_VERSION(3, 0, 0)
+						this->gui->tray->set_tooltip_text
+					#else
+						this->gui->tray->set_tooltip
+					#endif
+						(
 							std::string(APP_NAME) + "\n" +
 							__Q(
 								"Download speed|Down: %1 (%2) / %3",
@@ -1717,7 +1727,11 @@ void Main_window::update_gui(bool force)
 					this->gui->status_bar.hide();
 
 				if(update_flags & UPDATE_TRAY)
+				#if GTK_CHECK_VERSION(3, 0, 0)
+					this->gui->tray->set_tooltip_text("");
+				#else
 					this->gui->tray->set_tooltip("");
+				#endif
 
 				MLIB_W(EE(e));
 			}

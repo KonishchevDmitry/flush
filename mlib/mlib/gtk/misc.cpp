@@ -83,7 +83,11 @@ namespace
 	{
 		GtkCellRendererToggle* celltoggle = GTK_CELL_RENDERER_TOGGLE(cell);
 
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		if(gtk_cell_renderer_toggle_get_activatable(celltoggle))
+	#else
 		if(celltoggle->activatable)
+	#endif
 		{
 			if
 			(
@@ -290,13 +294,14 @@ namespace
 
 void activate_cell_renderer_toggle_tree_mode(void)
 {
-	GtkCellRendererClass *cell_class;
-	GtkCellRendererToggle *toggle_renderer;
-
-	toggle_renderer = GTK_CELL_RENDERER_TOGGLE(gtk_cell_renderer_toggle_new());
-	cell_class = GTK_CELL_RENDERER_CLASS(GTK_WIDGET_GET_CLASS(toggle_renderer));
-	cell_class->activate = gtk_cell_renderer_toggle_activate;
-	gtk_object_destroy(GTK_OBJECT(toggle_renderer));
+// TODO FIXME
+//	GtkCellRendererClass *cell_class;
+//	GtkCellRendererToggle *toggle_renderer;
+//
+//	toggle_renderer = GTK_CELL_RENDERER_TOGGLE(gtk_cell_renderer_toggle_new());
+//	cell_class = GTK_CELL_RENDERER_CLASS(GTK_WIDGET_GET_CLASS(toggle_renderer));
+//	cell_class->activate = gtk_cell_renderer_toggle_activate;
+//	gtk_object_destroy(GTK_OBJECT(toggle_renderer));
 }
 
 

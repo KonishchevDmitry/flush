@@ -2570,7 +2570,7 @@ msgstr ""
 "tiene una regla implícita en la parte superior, que permite a todas las IPs."
 
 #: ui/preferences.daemon.network.ip_filter.glade:226
-msgid "Enable IP filter|Enable"
+msgid "Enable IP filter"
 msgstr "Habilitar"
 
 #: ui/torrent_info_tabs.details.glade:39
