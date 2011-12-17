@@ -134,14 +134,14 @@ Open_torrent_dialog::Open_torrent_dialog(Gtk::Window& parent_window)
 
 	// Добавляем фильтры по типам файлов -->
 	{
-		Gtk::FileFilter torrents_filter;
-		torrents_filter.set_name(_("Torrent files"));
-		torrents_filter.add_mime_type("application/x-bittorrent");
+		Glib::RefPtr<Gtk::FileFilter> torrents_filter = Gtk::FileFilter::create();
+		torrents_filter->set_name(_("Torrent files"));
+		torrents_filter->add_mime_type("application/x-bittorrent");
 		this->add_filter(torrents_filter);
 
-		Gtk::FileFilter any_filter;
-		any_filter.set_name(_("Any files"));
-		any_filter.add_pattern("*");
+		Glib::RefPtr<Gtk::FileFilter> any_filter = Gtk::FileFilter::create();
+		any_filter->set_name(_("Any files"));
+		any_filter->add_pattern("*");
 		this->add_filter(any_filter);
 	}
 	// Добавляем фильтры по типам файлов <--
