@@ -1,24 +1,26 @@
-<?xml version="1.0"?>
-<glade-interface>
-  <!-- interface-requires gtk+ 2.8 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
-  <widget class="GtkVBox" id="details">
+  <object class="GtkVBox" id="details">
     <property name="visible">True</property>
+    <property name="can_focus">False</property>
     <property name="border_width">5</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">5</property>
     <child>
-      <widget class="GtkHBox" id="hbox2">
+      <object class="GtkHBox" id="hbox2">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <child>
-          <widget class="GtkVBox" id="vbox2">
+          <object class="GtkVBox" id="vbox2">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
+            <property name="can_focus">False</property>
             <property name="spacing">7</property>
             <child>
-              <widget class="GtkProgressBar" id="status">
+              <object class="GtkProgressBar" id="status">
                 <property name="visible">True</property>
-              </widget>
+                <property name="can_focus">False</property>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
@@ -26,58 +28,64 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkTable" id="table2">
+              <object class="GtkTable" id="table2">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="n_rows">7</property>
                 <property name="n_columns">8</property>
                 <property name="column_spacing">10</property>
                 <property name="row_spacing">5</property>
                 <child>
-                  <widget class="GtkLabel" id="size_label">
+                  <object class="GtkLabel" id="size_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Size:</property>
-                  </widget>
+                  </object>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="requested_size_label">
+                  <object class="GtkLabel" id="requested_size_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Requested size:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="downloaded_requested_size_label">
+                  <object class="GtkLabel" id="downloaded_requested_size_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Downloaded requested size:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="top_attach">2</property>
                     <property name="bottom_attach">3</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="total_download_label">
+                  <object class="GtkLabel" id="total_download_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Total download:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">3</property>
                     <property name="right_attach">4</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="total_payload_download_label">
+                  <object class="GtkLabel" id="total_payload_download_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Total payload download:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">3</property>
                     <property name="right_attach">4</property>
@@ -86,11 +94,12 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="total_upload_label">
+                  <object class="GtkLabel" id="total_upload_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Total upload:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">3</property>
                     <property name="right_attach">4</property>
@@ -99,11 +108,12 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="total_payload_upload_label">
+                  <object class="GtkLabel" id="total_payload_upload_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Total payload upload:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">3</property>
                     <property name="right_attach">4</property>
@@ -112,11 +122,12 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="total_failed_label">
+                  <object class="GtkLabel" id="total_failed_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Total failed:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">3</property>
                     <property name="right_attach">4</property>
@@ -125,11 +136,12 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="total_redundant_label">
+                  <object class="GtkLabel" id="total_redundant_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Total redundant:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">3</property>
                     <property name="right_attach">4</property>
@@ -138,10 +150,11 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="requested_size">
+                  <object class="GtkLabel" id="requested_size">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
@@ -150,10 +163,11 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="downloaded_requested_size">
+                  <object class="GtkLabel" id="downloaded_requested_size">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
@@ -162,20 +176,22 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="total_download">
+                  <object class="GtkLabel" id="total_download">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">4</property>
                     <property name="right_attach">5</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="total_payload_download">
+                  <object class="GtkLabel" id="total_payload_download">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">4</property>
                     <property name="right_attach">5</property>
@@ -184,10 +200,11 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="total_upload">
+                  <object class="GtkLabel" id="total_upload">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">4</property>
                     <property name="right_attach">5</property>
@@ -196,10 +213,11 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="total_payload_upload">
+                  <object class="GtkLabel" id="total_payload_upload">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">4</property>
                     <property name="right_attach">5</property>
@@ -208,10 +226,11 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="total_failed">
+                  <object class="GtkLabel" id="total_failed">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">4</property>
                     <property name="right_attach">5</property>
@@ -220,10 +239,11 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="total_redundant">
+                  <object class="GtkLabel" id="total_redundant">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">4</property>
                     <property name="right_attach">5</property>
@@ -232,46 +252,50 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkHBox" id="hbox3">
+                  <object class="GtkHBox" id="hbox3">
                     <property name="width_request">20</property>
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <child>
                       <placeholder/>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">2</property>
                     <property name="right_attach">3</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkHBox" id="hbox5">
+                  <object class="GtkHBox" id="hbox5">
                     <property name="width_request">20</property>
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <child>
                       <placeholder/>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">5</property>
                     <property name="right_attach">6</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="download_speed">
+                  <object class="GtkLabel" id="download_speed">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">7</property>
                     <property name="right_attach">8</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="download_payload_speed">
+                  <object class="GtkLabel" id="download_payload_speed">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">7</property>
                     <property name="right_attach">8</property>
@@ -280,10 +304,11 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="upload_speed">
+                  <object class="GtkLabel" id="upload_speed">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">7</property>
                     <property name="right_attach">8</property>
@@ -292,10 +317,11 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="upload_payload_speed">
+                  <object class="GtkLabel" id="upload_payload_speed">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">7</property>
                     <property name="right_attach">8</property>
@@ -304,22 +330,24 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="download_speed_label">
+                  <object class="GtkLabel" id="download_speed_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Download speed:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">6</property>
                     <property name="right_attach">7</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="download_payload_label">
+                  <object class="GtkLabel" id="download_payload_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Download payload speed:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">6</property>
                     <property name="right_attach">7</property>
@@ -328,11 +356,12 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="upload_speed_label">
+                  <object class="GtkLabel" id="upload_speed_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Upload speed:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">6</property>
                     <property name="right_attach">7</property>
@@ -341,11 +370,12 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="upload_payload_speed_label">
+                  <object class="GtkLabel" id="upload_payload_speed_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Upload payload speed:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">6</property>
                     <property name="right_attach">7</property>
@@ -354,10 +384,11 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="share_ratio">
+                  <object class="GtkLabel" id="share_ratio">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
@@ -366,10 +397,11 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="peers">
+                  <object class="GtkLabel" id="peers">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
@@ -378,10 +410,11 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="seeds">
+                  <object class="GtkLabel" id="seeds">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
@@ -390,44 +423,48 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="share_ratio_label">
+                  <object class="GtkLabel" id="share_ratio_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Share ratio:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="top_attach">3</property>
                     <property name="bottom_attach">4</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="peers_label">
+                  <object class="GtkLabel" id="peers_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Peers:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="top_attach">4</property>
                     <property name="bottom_attach">5</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="seeds_label">
+                  <object class="GtkLabel" id="seeds_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Seeds:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="top_attach">5</property>
                     <property name="bottom_attach">6</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="time_left_label">
+                  <object class="GtkLabel" id="time_left_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Time left:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">3</property>
                     <property name="right_attach">4</property>
@@ -436,10 +473,11 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="time_left">
+                  <object class="GtkLabel" id="time_left">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">4</property>
                     <property name="right_attach">5</property>
@@ -448,11 +486,12 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="time_seeding_label">
+                  <object class="GtkLabel" id="time_seeding_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Time seeding:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">6</property>
                     <property name="right_attach">7</property>
@@ -461,10 +500,11 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="time_seeding">
+                  <object class="GtkLabel" id="time_seeding">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">7</property>
                     <property name="right_attach">8</property>
@@ -473,39 +513,47 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="size">
+                  <object class="GtkLabel" id="size">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkHBox" id="hbox6">
+                  <object class="GtkHBox" id="hbox6">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="spacing">10</property>
                     <child>
-                      <widget class="GtkLabel" id="time_added_label">
+                      <object class="GtkLabel" id="time_added_label">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Time added:</property>
-                      </widget>
+                      </object>
                       <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="time_added">
+                      <object class="GtkLabel" id="time_added">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="xalign">1</property>
-                      </widget>
+                      </object>
                       <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="right_attach">2</property>
                     <property name="top_attach">6</property>
@@ -513,11 +561,12 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="next_announce_label">
+                  <object class="GtkLabel" id="next_announce_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Next announce:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">6</property>
                     <property name="right_attach">7</property>
@@ -526,11 +575,12 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="announce_interval_label">
+                  <object class="GtkLabel" id="announce_interval_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Announce interval:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">6</property>
                     <property name="right_attach">7</property>
@@ -539,10 +589,11 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="next_announce">
+                  <object class="GtkLabel" id="next_announce">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">7</property>
                     <property name="right_attach">8</property>
@@ -551,10 +602,11 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="announce_interval">
+                  <object class="GtkLabel" id="announce_interval">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">7</property>
                     <property name="right_attach">8</property>
@@ -598,7 +650,7 @@
                 <child>
                   <placeholder/>
                 </child>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
@@ -606,23 +658,24 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkHSeparator" id="hseparator2">
+              <object class="GtkHSeparator" id="hseparator2">
                 <property name="visible">True</property>
-              </widget>
+                <property name="can_focus">False</property>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="position">2</property>
               </packing>
             </child>
-          </widget>
+          </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="position">0</property>
           </packing>
         </child>
-      </widget>
+      </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">False</property>
@@ -630,64 +683,72 @@
       </packing>
     </child>
     <child>
-      <widget class="GtkHBox" id="hbox1">
+      <object class="GtkHBox" id="hbox1">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <child>
-          <widget class="GtkTable" id="table1">
+          <object class="GtkTable" id="table1">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="n_rows">2</property>
             <property name="n_columns">2</property>
             <property name="column_spacing">10</property>
             <property name="row_spacing">5</property>
             <child>
-              <widget class="GtkLabel" id="label1">
+              <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Tracker status:</property>
-              </widget>
+              </object>
             </child>
             <child>
-              <widget class="GtkLabel" id="label4">
+              <object class="GtkLabel" id="label4">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="label" translatable="yes">Publisher URL:</property>
-              </widget>
+              </object>
               <packing>
                 <property name="top_attach">1</property>
                 <property name="bottom_attach">2</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="tracker_status">
+              <object class="GtkLabel" id="tracker_status">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="xalign">0</property>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkHBox" id="hbox4">
+              <object class="GtkHBox" id="hbox4">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <child>
-                  <widget class="GtkEventBox" id="publisher_url_event_box">
+                  <object class="GtkEventBox" id="publisher_url_event_box">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <child>
-                      <widget class="GtkLabel" id="publisher_url">
+                      <object class="GtkLabel" id="publisher_url">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="use_markup">True</property>
-                      </widget>
+                      </object>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
@@ -695,19 +756,19 @@
                 <property name="bottom_attach">2</property>
               </packing>
             </child>
-          </widget>
+          </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="position">0</property>
           </packing>
         </child>
-      </widget>
+      </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">False</property>
         <property name="position">1</property>
       </packing>
     </child>
-  </widget>
-</glade-interface>
+  </object>
+</interface>

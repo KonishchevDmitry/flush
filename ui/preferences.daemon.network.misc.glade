@@ -1,22 +1,74 @@
-<?xml version="1.0"?>
-<glade-interface>
-  <!-- interface-requires gtk+ 2.8 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
-  <widget class="GtkVBox" id="network_misc_settings">
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="lower">1</property>
+    <property name="upper">65535</property>
+    <property name="value">6000</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">1000</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment2">
+    <property name="lower">1</property>
+    <property name="upper">65535</property>
+    <property name="value">8000</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">1000</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment3">
+    <property name="lower">-1</property>
+    <property name="upper">1048576</property>
+    <property name="value">-1</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">100</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment4">
+    <property name="lower">-1</property>
+    <property name="upper">1048576</property>
+    <property name="value">-1</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">100</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment5">
+    <property name="lower">-1</property>
+    <property name="upper">1000000</property>
+    <property name="value">-1</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment6">
+    <property name="lower">-1</property>
+    <property name="upper">1048576</property>
+    <property name="value">-1</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment7">
+    <property name="lower">5</property>
+    <property name="upper">1080</property>
+    <property name="value">30</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkVBox" id="network_misc_settings">
     <property name="visible">True</property>
+    <property name="can_focus">False</property>
     <property name="border_width">15</property>
     <property name="spacing">20</property>
     <child>
-      <widget class="GtkVBox" id="header">
+      <object class="GtkVBox" id="header">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="spacing">5</property>
         <child>
-          <widget class="GtkLabel" id="label4">
+          <object class="GtkLabel" id="label4">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">&lt;big&gt;&lt;b&gt;Daemon::Network::Misc&lt;/b&gt;&lt;/big&gt;</property>
             <property name="use_markup">True</property>
-          </widget>
+          </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
@@ -24,16 +76,17 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkHSeparator" id="hseparator1">
+          <object class="GtkHSeparator" id="hseparator1">
             <property name="visible">True</property>
-          </widget>
+            <property name="can_focus">False</property>
+          </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
-      </widget>
+      </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">False</property>
@@ -41,174 +94,214 @@
       </packing>
     </child>
     <child>
-      <widget class="GtkVBox" id="listen_port_range">
+      <object class="GtkVBox" id="listen_port_range">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="spacing">5</property>
         <child>
-          <widget class="GtkLabel" id="label6">
+          <object class="GtkLabel" id="label6">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">&lt;b&gt;Listen port&lt;/b&gt;</property>
             <property name="use_markup">True</property>
-          </widget>
+          </object>
           <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
             <property name="position">0</property>
           </packing>
         </child>
         <child>
-          <widget class="GtkRadioButton" id="random_port">
+          <object class="GtkRadioButton" id="random_port">
             <property name="label" translatable="yes">Random port</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
+            <property name="use_action_appearance">False</property>
             <property name="active">True</property>
             <property name="draw_indicator">True</property>
-          </widget>
+          </object>
           <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
         </child>
         <child>
-          <widget class="GtkHBox" id="hbox1">
+          <object class="GtkHBox" id="hbox1">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <child>
-              <widget class="GtkRadioButton" id="custom_port">
+              <object class="GtkRadioButton" id="custom_port">
                 <property name="label" translatable="yes">Custom port range:</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
+                <property name="use_action_appearance">False</property>
                 <property name="active">True</property>
                 <property name="draw_indicator">True</property>
                 <property name="group">random_port</property>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
+                <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label14">
+              <object class="GtkLabel" id="label14">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="label"> </property>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
+                <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkHBox" id="custom_port_box">
+              <object class="GtkHBox" id="custom_port_box">
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
+                <property name="can_focus">False</property>
                 <property name="spacing">5</property>
                 <child>
-                  <widget class="GtkLabel" id="label2">
+                  <object class="GtkLabel" id="label2">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes" context="yes">From port to port|from</property>
-                  </widget>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">From port to port|from</property>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="fill">True</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkSpinButton" id="from_port">
+                  <object class="GtkSpinButton" id="from_port">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                     <property name="width_chars">5</property>
                     <property name="xalign">1</property>
-                    <property name="adjustment">6000 1 65535 1 1000 0</property>
-                  </widget>
+                    <property name="primary_icon_activatable">False</property>
+                    <property name="secondary_icon_activatable">False</property>
+                    <property name="primary_icon_sensitive">True</property>
+                    <property name="secondary_icon_sensitive">True</property>
+                    <property name="adjustment">adjustment1</property>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="label3">
+                  <object class="GtkLabel" id="label3">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes" context="yes">From port to port|to</property>
-                  </widget>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">From port to port|to</property>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="fill">True</property>
                     <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkSpinButton" id="to_port">
+                  <object class="GtkSpinButton" id="to_port">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                     <property name="width_chars">5</property>
                     <property name="xalign">1</property>
-                    <property name="adjustment">8000 1 65535 1 1000 0</property>
-                  </widget>
+                    <property name="primary_icon_activatable">False</property>
+                    <property name="secondary_icon_activatable">False</property>
+                    <property name="primary_icon_sensitive">True</property>
+                    <property name="secondary_icon_sensitive">True</property>
+                    <property name="adjustment">adjustment2</property>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="fill">True</property>
                     <property name="position">3</property>
                   </packing>
                 </child>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
+                <property name="fill">True</property>
                 <property name="position">2</property>
               </packing>
             </child>
-          </widget>
+          </object>
           <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
             <property name="position">2</property>
           </packing>
         </child>
         <child>
-          <widget class="GtkHBox" id="hbox3">
+          <object class="GtkHBox" id="hbox3">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <child>
-              <widget class="GtkLabel" id="label13">
+              <object class="GtkLabel" id="label13">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="label"> </property>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
+                <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label5">
+              <object class="GtkLabel" id="label5">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Current listen port:</property>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
+                <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label15">
+              <object class="GtkLabel" id="label15">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="label"> </property>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
+                <property name="fill">True</property>
                 <property name="position">2</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="current_port">
+              <object class="GtkLabel" id="current_port">
                 <property name="visible">True</property>
-              </widget>
+                <property name="can_focus">False</property>
+              </object>
               <packing>
                 <property name="expand">False</property>
+                <property name="fill">True</property>
                 <property name="position">3</property>
               </packing>
             </child>
-          </widget>
+          </object>
           <packing>
             <property name="expand">False</property>
+            <property name="fill">True</property>
             <property name="position">3</property>
           </packing>
         </child>
-      </widget>
+      </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">False</property>
@@ -216,76 +309,85 @@
       </packing>
     </child>
     <child>
-      <widget class="GtkVBox" id="extras">
+      <object class="GtkVBox" id="extras">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="spacing">5</property>
         <child>
-          <widget class="GtkLabel" id="label1">
+          <object class="GtkLabel" id="label1">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">&lt;b&gt;Extras&lt;/b&gt;</property>
             <property name="use_markup">True</property>
-          </widget>
+          </object>
           <packing>
             <property name="expand">False</property>
+            <property name="fill">True</property>
             <property name="position">0</property>
           </packing>
         </child>
         <child>
-          <widget class="GtkAlignment" id="alignment2">
+          <object class="GtkAlignment" id="alignment2">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0</property>
             <property name="xscale">0</property>
             <child>
-              <widget class="GtkTable" id="table1">
+              <object class="GtkTable" id="table1">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="n_rows">2</property>
                 <property name="n_columns">3</property>
                 <property name="column_spacing">5</property>
                 <child>
-                  <widget class="GtkCheckButton" id="dht">
+                  <object class="GtkCheckButton" id="dht">
                     <property name="label" translatable="yes">DHT</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="draw_indicator">True</property>
-                  </widget>
+                  </object>
                 </child>
                 <child>
-                  <widget class="GtkCheckButton" id="upnp">
+                  <object class="GtkCheckButton" id="upnp">
                     <property name="label" translatable="yes">UPnP</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="draw_indicator">True</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkCheckButton" id="lsd">
+                  <object class="GtkCheckButton" id="lsd">
                     <property name="label" translatable="yes">LSD</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="tooltip" translatable="yes">Local Service Discovery. This service will broadcast the infohashes of all the non-private torrents on the local network to look for peers on the same swarm within multicast reach.</property>
+                    <property name="tooltip_text" translatable="yes">Local Service Discovery. This service will broadcast the infohashes of all the non-private torrents on the local network to look for peers on the same swarm within multicast reach.</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="draw_indicator">True</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkCheckButton" id="natpmp">
+                  <object class="GtkCheckButton" id="natpmp">
                     <property name="label" translatable="yes">NAT-PMP</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="draw_indicator">True</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
@@ -294,28 +396,30 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkCheckButton" id="pex">
+                  <object class="GtkCheckButton" id="pex">
                     <property name="label" translatable="yes">Peer exchange</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="tooltip" translatable="yes">Exchanges peers between clients.</property>
+                    <property name="tooltip_text" translatable="yes">Exchanges peers between clients.</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="draw_indicator">True</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">2</property>
                     <property name="right_attach">3</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkCheckButton" id="smart_ban">
+                  <object class="GtkCheckButton" id="smart_ban">
                     <property name="label" translatable="yes">Smart ban</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
-                    <property name="tooltip" translatable="yes">Ban peers that sends bad data with very high accuracy.</property>
+                    <property name="tooltip_text" translatable="yes">Ban peers that sends bad data with very high accuracy.</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="draw_indicator">True</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">2</property>
                     <property name="right_attach">3</property>
@@ -323,15 +427,16 @@
                     <property name="bottom_attach">2</property>
                   </packing>
                 </child>
-              </widget>
+              </object>
             </child>
-          </widget>
+          </object>
           <packing>
             <property name="expand">False</property>
+            <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
         </child>
-      </widget>
+      </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">False</property>
@@ -339,99 +444,117 @@
       </packing>
     </child>
     <child>
-      <widget class="GtkAlignment" id="alignment1">
+      <object class="GtkAlignment" id="alignment1">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="xalign">0</property>
         <property name="xscale">0</property>
         <child>
-          <widget class="GtkVBox" id="vbox1">
+          <object class="GtkVBox" id="vbox1">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="spacing">20</property>
             <child>
-              <widget class="GtkVBox" id="bandwidth">
+              <object class="GtkVBox" id="bandwidth">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="spacing">5</property>
                 <child>
-                  <widget class="GtkLabel" id="label8">
+                  <object class="GtkLabel" id="label8">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">&lt;b&gt;Bandwidth&lt;/b&gt;</property>
                     <property name="use_markup">True</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="fill">True</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkTable" id="table2">
+                  <object class="GtkTable" id="table2">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="n_rows">4</property>
                     <property name="n_columns">2</property>
                     <property name="column_spacing">5</property>
                     <child>
-                      <widget class="GtkLabel" id="label7">
+                      <object class="GtkLabel" id="label7">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Download rate limit (KB/s):</property>
-                      </widget>
+                      </object>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label9">
+                      <object class="GtkLabel" id="label9">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Upload rate limit (KB/s):</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">1</property>
                         <property name="bottom_attach">2</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label10">
+                      <object class="GtkLabel" id="label10">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Max uploads:</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">2</property>
                         <property name="bottom_attach">3</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label11">
+                      <object class="GtkLabel" id="label11">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Max connections:</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="top_attach">3</property>
                         <property name="bottom_attach">4</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkSpinButton" id="download_rate_limit">
+                      <object class="GtkSpinButton" id="download_rate_limit">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="invisible_char">&#x25CF;</property>
+                        <property name="invisible_char">●</property>
                         <property name="width_chars">3</property>
                         <property name="xalign">1</property>
-                        <property name="adjustment">-1 -1 1048576 1 100 0</property>
-                      </widget>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                        <property name="adjustment">adjustment3</property>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkSpinButton" id="upload_rate_limit">
+                      <object class="GtkSpinButton" id="upload_rate_limit">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="invisible_char">&#x25CF;</property>
+                        <property name="invisible_char">●</property>
                         <property name="width_chars">3</property>
                         <property name="xalign">1</property>
-                        <property name="adjustment">-1 -1 1048576 1 100 0</property>
-                      </widget>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                        <property name="adjustment">adjustment4</property>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -440,14 +563,18 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkSpinButton" id="max_uploads">
+                      <object class="GtkSpinButton" id="max_uploads">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="invisible_char">&#x25CF;</property>
+                        <property name="invisible_char">●</property>
                         <property name="width_chars">3</property>
                         <property name="xalign">1</property>
-                        <property name="adjustment">-1 -1 1000000 1 10 0</property>
-                      </widget>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                        <property name="adjustment">adjustment5</property>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -456,14 +583,18 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkSpinButton" id="max_connections">
+                      <object class="GtkSpinButton" id="max_connections">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="invisible_char">&#x25CF;</property>
+                        <property name="invisible_char">●</property>
                         <property name="width_chars">3</property>
                         <property name="xalign">1</property>
-                        <property name="adjustment">-1 -1 1048576 1 10 0</property>
-                      </widget>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                        <property name="adjustment">adjustment6</property>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -471,28 +602,33 @@
                         <property name="bottom_attach">4</property>
                       </packing>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkCheckButton" id="ignore_limits_on_local_network">
+                  <object class="GtkCheckButton" id="ignore_limits_on_local_network">
                     <property name="label" translatable="yes">Ignore rate limits on local network</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="has_tooltip">True</property>
-                    <property name="tooltip" translatable="yes">This option is very usable if you have no real IP address, and trackers sets too big announce interval for it's torrents, because in this case you receive new peers only one time per this interval.
+                    <property name="tooltip_text" translatable="yes">This option is very usable if you have no real IP address, and trackers sets too big announce interval for it's torrents, because in this case you receive new peers only one time per this interval.
 
 Please do not set this option, if you have real IP address! In this case you do not make torrent client work better, but this option increase trackers overload.</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="draw_indicator">True</property>
-                  </widget>
+                  </object>
                   <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
                     <property name="position">2</property>
                   </packing>
                 </child>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
@@ -500,75 +636,89 @@ Please do not set this option, if you have real IP address! In this case you do 
               </packing>
             </child>
             <child>
-              <widget class="GtkVBox" id="trackers">
+              <object class="GtkVBox" id="trackers">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="spacing">5</property>
                 <child>
-                  <widget class="GtkLabel" id="label12">
+                  <object class="GtkLabel" id="label12">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">&lt;b&gt;Trackers&lt;/b&gt;</property>
                     <property name="use_markup">True</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="fill">True</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkHBox" id="hbox5">
+                  <object class="GtkHBox" id="hbox5">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="spacing">5</property>
                     <child>
-                      <widget class="GtkCheckButton" id="use_max_announce_interval">
+                      <object class="GtkCheckButton" id="use_max_announce_interval">
                         <property name="label" translatable="yes">Max announce interval (m):</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
-                        <property name="tooltip" translatable="yes">This option is very usable if you have no real IP address, and trackers sets too big announce interval for it's torrents, because in this case you receive new peers only one time per this interval.
+                        <property name="tooltip_text" translatable="yes">This option is very usable if you have no real IP address, and trackers sets too big announce interval for it's torrents, because in this case you receive new peers only one time per this interval.
 
 Please do not set this option, if you have real IP address! In this case you do not make torrent client work better, but this option increase trackers overload.</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="draw_indicator">True</property>
-                      </widget>
+                      </object>
                       <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkSpinButton" id="max_announce_interval">
+                      <object class="GtkSpinButton" id="max_announce_interval">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="invisible_char">&#x25CF;</property>
+                        <property name="invisible_char">●</property>
                         <property name="width_chars">3</property>
                         <property name="xalign">1</property>
-                        <property name="adjustment">30 5 1080 1 10 0</property>
-                      </widget>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                        <property name="adjustment">adjustment7</property>
+                      </object>
                       <packing>
                         <property name="expand">False</property>
+                        <property name="fill">True</property>
                         <property name="pack_type">end</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="position">1</property>
               </packing>
             </child>
-          </widget>
+          </object>
         </child>
-      </widget>
+      </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">False</property>
         <property name="position">3</property>
       </packing>
     </child>
-  </widget>
-</glade-interface>
+  </object>
+</interface>

@@ -1,24 +1,40 @@
-<?xml version="1.0"?>
-<glade-interface>
-  <!-- interface-requires gtk+ 2.8 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
-  <widget class="GtkVBox" id="automation_settings">
+  <object class="GtkAdjustment" id="adjustment1">
+    <property name="upper">1000</property>
+    <property name="step_increment">0.10000000000000001</property>
+    <property name="page_increment">1</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment2">
+    <property name="upper">10000</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment3">
+    <property name="upper">5256000</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">60</property>
+  </object>
+  <object class="GtkVBox" id="automation_settings">
     <property name="visible">True</property>
+    <property name="can_focus">False</property>
     <property name="border_width">15</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">20</property>
     <child>
-      <widget class="GtkVBox" id="header">
+      <object class="GtkVBox" id="header">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
+        <property name="can_focus">False</property>
         <property name="spacing">5</property>
         <child>
-          <widget class="GtkLabel" id="label4">
+          <object class="GtkLabel" id="label4">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">&lt;big&gt;&lt;b&gt;Daemon::Automation&lt;/b&gt;&lt;/big&gt;</property>
             <property name="use_markup">True</property>
-          </widget>
+          </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
@@ -26,16 +42,17 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkHSeparator" id="hseparator1">
+          <object class="GtkHSeparator" id="hseparator1">
             <property name="visible">True</property>
-          </widget>
+            <property name="can_focus">False</property>
+          </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
-      </widget>
+      </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">False</property>
@@ -43,39 +60,44 @@
       </packing>
     </child>
     <child>
-      <widget class="GtkVBox" id="_auto_load">
+      <object class="GtkVBox" id="_auto_load">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
+        <property name="can_focus">False</property>
         <property name="spacing">5</property>
         <child>
-          <widget class="GtkLabel" id="label6">
+          <object class="GtkLabel" id="label6">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">&lt;b&gt;Torrents auto load&lt;/b&gt;</property>
             <property name="use_markup">True</property>
-          </widget>
+          </object>
           <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
             <property name="position">0</property>
           </packing>
         </child>
         <child>
-          <widget class="GtkVBox" id="vbox1">
+          <object class="GtkVBox" id="vbox1">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
+            <property name="can_focus">False</property>
             <property name="spacing">5</property>
             <child>
-              <widget class="GtkHBox" id="hbox1">
+              <object class="GtkHBox" id="hbox1">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="spacing">5</property>
                 <child>
-                  <widget class="GtkCheckButton" id="auto_load">
+                  <object class="GtkCheckButton" id="auto_load">
                     <property name="label" translatable="yes">Load torrents from</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="active">True</property>
                     <property name="draw_indicator">True</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
@@ -83,66 +105,74 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkFileChooserButton" id="auto_load_from">
+                  <object class="GtkFileChooserButton" id="auto_load_from">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="action">select-folder</property>
                     <property name="show_hidden">True</property>
                     <property name="title" translatable="yes">Please select a directory for torrents auto load</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
-              </widget>
+              </object>
               <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkAlignment" id="auto_load_container">
+              <object class="GtkAlignment" id="auto_load_container">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="xalign">0</property>
                 <property name="xscale">0</property>
                 <child>
-                  <widget class="GtkTable" id="table1">
+                  <object class="GtkTable" id="table1">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="n_rows">3</property>
                     <property name="n_columns">3</property>
                     <property name="column_spacing">5</property>
                     <property name="row_spacing">5</property>
                     <child>
-                      <widget class="GtkLabel" id="label1">
+                      <object class="GtkLabel" id="label1">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Download to:</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkFileChooserButton" id="auto_load_to">
+                      <object class="GtkFileChooserButton" id="auto_load_to">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="action">select-folder</property>
                         <property name="show_hidden">True</property>
                         <property name="title" translatable="yes">Please select a torrents download directory</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">2</property>
                         <property name="right_attach">3</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkCheckButton" id="auto_load_copy">
+                      <object class="GtkCheckButton" id="auto_load_copy">
                         <property name="label" translatable="yes">Copy finished to:</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="draw_indicator">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -151,12 +181,13 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkFileChooserButton" id="auto_load_copy_to">
+                      <object class="GtkFileChooserButton" id="auto_load_copy_to">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="action">select-folder</property>
                         <property name="show_hidden">True</property>
                         <property name="title" translatable="yes">Please select a directory for finished downloads copying</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">2</property>
                         <property name="right_attach">3</property>
@@ -165,13 +196,14 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkCheckButton" id="auto_load_delete_loaded">
+                      <object class="GtkCheckButton" id="auto_load_delete_loaded">
                         <property name="label" translatable="yes">Delete loaded *.torrent files</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="draw_indicator">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">3</property>
@@ -180,10 +212,11 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="tabulation">
+                      <object class="GtkLabel" id="tabulation">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="label">    </property>
-                      </widget>
+                      </object>
                     </child>
                     <child>
                       <placeholder/>
@@ -191,23 +224,23 @@
                     <child>
                       <placeholder/>
                     </child>
-                  </widget>
+                  </object>
                 </child>
-              </widget>
+              </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
                 <property name="position">1</property>
               </packing>
             </child>
-          </widget>
+          </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
-      </widget>
+      </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">False</property>
@@ -215,38 +248,44 @@
       </packing>
     </child>
     <child>
-      <widget class="GtkVBox" id="_auto_clean">
+      <object class="GtkVBox" id="_auto_clean">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
+        <property name="can_focus">False</property>
         <property name="spacing">7</property>
         <child>
-          <widget class="GtkLabel" id="label7">
+          <object class="GtkLabel" id="label7">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">&lt;b&gt;Torrents auto cleaning&lt;/b&gt;</property>
             <property name="use_markup">True</property>
-          </widget>
+          </object>
           <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
             <property name="position">0</property>
           </packing>
         </child>
         <child>
-          <widget class="GtkAlignment" id="alignment1">
+          <object class="GtkAlignment" id="alignment1">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0</property>
             <property name="xscale">0</property>
             <child>
-              <widget class="GtkTable" id="table3">
+              <object class="GtkTable" id="table3">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="n_rows">3</property>
                 <property name="n_columns">3</property>
                 <property name="column_spacing">5</property>
                 <child>
-                  <widget class="GtkLabel" id="auto_clean_max_ratio_label">
+                  <object class="GtkLabel" id="auto_clean_max_ratio_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Max ratio:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
@@ -255,11 +294,12 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="auto_clean_max_seeding_torrents_label">
+                  <object class="GtkLabel" id="auto_clean_max_seeding_torrents_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Max seeding torrents:</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
@@ -268,15 +308,19 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkSpinButton" id="auto_clean_max_ratio">
+                  <object class="GtkSpinButton" id="auto_clean_max_ratio">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                     <property name="xalign">1</property>
-                    <property name="adjustment">0 0 1000 0.10000000000000001 1 0</property>
+                    <property name="primary_icon_activatable">False</property>
+                    <property name="secondary_icon_activatable">False</property>
+                    <property name="primary_icon_sensitive">True</property>
+                    <property name="secondary_icon_sensitive">True</property>
+                    <property name="adjustment">adjustment1</property>
                     <property name="digits">1</property>
                     <property name="numeric">True</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">2</property>
                     <property name="right_attach">3</property>
@@ -285,14 +329,18 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkSpinButton" id="auto_clean_max_seeding_torrents">
+                  <object class="GtkSpinButton" id="auto_clean_max_seeding_torrents">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                     <property name="xalign">1</property>
-                    <property name="adjustment">0 0 10000 1 10 0</property>
+                    <property name="primary_icon_activatable">False</property>
+                    <property name="secondary_icon_activatable">False</property>
+                    <property name="primary_icon_sensitive">True</property>
+                    <property name="secondary_icon_sensitive">True</property>
+                    <property name="adjustment">adjustment2</property>
                     <property name="numeric">True</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">2</property>
                     <property name="right_attach">3</property>
@@ -301,82 +349,90 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkButton" id="auto_clean_max_seeding_time_type">
+                  <object class="GtkButton" id="auto_clean_max_seeding_time_type">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
                     <child>
                       <placeholder/>
                     </child>
-                  </widget>
+                  </object>
                 </child>
                 <child>
-                  <widget class="GtkButton" id="auto_clean_max_ratio_type">
+                  <object class="GtkButton" id="auto_clean_max_ratio_type">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
                     <child>
                       <placeholder/>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkButton" id="auto_clean_max_seeding_torrents_type">
+                  <object class="GtkButton" id="auto_clean_max_seeding_torrents_type">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="use_action_appearance">False</property>
                     <child>
                       <placeholder/>
                     </child>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="top_attach">2</property>
                     <property name="bottom_attach">3</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkSpinButton" id="auto_clean_max_seeding_time">
+                  <object class="GtkSpinButton" id="auto_clean_max_seeding_time">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
+                    <property name="invisible_char">●</property>
                     <property name="xalign">1</property>
-                    <property name="adjustment">0 0 5256000 1 60 0</property>
-                  </widget>
+                    <property name="primary_icon_activatable">False</property>
+                    <property name="secondary_icon_activatable">False</property>
+                    <property name="primary_icon_sensitive">True</property>
+                    <property name="secondary_icon_sensitive">True</property>
+                    <property name="adjustment">adjustment3</property>
+                  </object>
                   <packing>
                     <property name="left_attach">2</property>
                     <property name="right_attach">3</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkLabel" id="auto_clean_max_seeding_time_label">
+                  <object class="GtkLabel" id="auto_clean_max_seeding_time_label">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="xalign">0</property>
                     <property name="label" translatable="yes">Max seeding time (m):</property>
-                  </widget>
+                  </object>
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
                   </packing>
                 </child>
-              </widget>
+              </object>
             </child>
-          </widget>
+          </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
-      </widget>
+      </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">False</property>
         <property name="position">2</property>
       </packing>
     </child>
-  </widget>
-</glade-interface>
+  </object>
+</interface>

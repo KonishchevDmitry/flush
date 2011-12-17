@@ -1,24 +1,25 @@
-<?xml version="1.0"?>
-<glade-interface>
-  <!-- interface-requires gtk+ 2.8 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
-  <widget class="GtkVBox" id="status_bar_settings">
+  <object class="GtkVBox" id="status_bar_settings">
     <property name="visible">True</property>
+    <property name="can_focus">False</property>
     <property name="border_width">15</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">20</property>
     <child>
-      <widget class="GtkVBox" id="header">
+      <object class="GtkVBox" id="header">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
+        <property name="can_focus">False</property>
         <property name="spacing">5</property>
         <child>
-          <widget class="GtkLabel" id="label4">
+          <object class="GtkLabel" id="label4">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">&lt;big&gt;&lt;b&gt;Client::GUI::Status bar&lt;/b&gt;&lt;/big&gt;</property>
             <property name="use_markup">True</property>
-          </widget>
+          </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
@@ -26,16 +27,17 @@
           </packing>
         </child>
         <child>
-          <widget class="GtkHSeparator" id="hseparator1">
+          <object class="GtkHSeparator" id="hseparator1">
             <property name="visible">True</property>
-          </widget>
+            <property name="can_focus">False</property>
+          </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
-      </widget>
+      </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">False</property>
@@ -43,33 +45,37 @@
       </packing>
     </child>
     <child>
-      <widget class="GtkAlignment" id="alignment2">
+      <object class="GtkAlignment" id="alignment2">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="xalign">0</property>
         <property name="xscale">0</property>
         <child>
-          <widget class="GtkTable" id="table1">
+          <object class="GtkTable" id="table1">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="n_rows">6</property>
             <property name="n_columns">2</property>
             <property name="column_spacing">5</property>
             <child>
-              <widget class="GtkCheckButton" id="download_speed">
+              <object class="GtkCheckButton" id="download_speed">
                 <property name="label" translatable="yes">Download speed</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
+                <property name="use_action_appearance">False</property>
                 <property name="draw_indicator">True</property>
-              </widget>
+              </object>
             </child>
             <child>
-              <widget class="GtkCheckButton" id="upload_payload_speed">
+              <object class="GtkCheckButton" id="upload_payload_speed">
                 <property name="label" translatable="yes">Upload speed (payload)</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
+                <property name="use_action_appearance">False</property>
                 <property name="draw_indicator">True</property>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
@@ -78,52 +84,56 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkCheckButton" id="upload_speed">
+              <object class="GtkCheckButton" id="upload_speed">
                 <property name="label" translatable="yes">Upload speed</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
+                <property name="use_action_appearance">False</property>
                 <property name="draw_indicator">True</property>
-              </widget>
+              </object>
               <packing>
                 <property name="top_attach">1</property>
                 <property name="bottom_attach">2</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkCheckButton" id="download_payload_speed">
+              <object class="GtkCheckButton" id="download_payload_speed">
                 <property name="label" translatable="yes">Download speed (payload)</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
+                <property name="use_action_appearance">False</property>
                 <property name="draw_indicator">True</property>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkCheckButton" id="download">
+              <object class="GtkCheckButton" id="download">
                 <property name="label" translatable="yes">Downloaded</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
+                <property name="use_action_appearance">False</property>
                 <property name="draw_indicator">True</property>
-              </widget>
+              </object>
               <packing>
                 <property name="top_attach">2</property>
                 <property name="bottom_attach">3</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkCheckButton" id="payload_download">
+              <object class="GtkCheckButton" id="payload_download">
                 <property name="label" translatable="yes">Downloaded (payload)</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
+                <property name="use_action_appearance">False</property>
                 <property name="draw_indicator">True</property>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
@@ -132,52 +142,56 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkCheckButton" id="upload">
+              <object class="GtkCheckButton" id="upload">
                 <property name="label" translatable="yes">Uploaded</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
+                <property name="use_action_appearance">False</property>
                 <property name="draw_indicator">True</property>
-              </widget>
+              </object>
               <packing>
                 <property name="top_attach">3</property>
                 <property name="bottom_attach">4</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkCheckButton" id="failed">
+              <object class="GtkCheckButton" id="failed">
                 <property name="label" translatable="yes">Failed</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
+                <property name="use_action_appearance">False</property>
                 <property name="draw_indicator">True</property>
-              </widget>
+              </object>
               <packing>
                 <property name="top_attach">4</property>
                 <property name="bottom_attach">5</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkCheckButton" id="share_ratio">
+              <object class="GtkCheckButton" id="share_ratio">
                 <property name="label" translatable="yes">Share ratio</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
+                <property name="use_action_appearance">False</property>
                 <property name="draw_indicator">True</property>
-              </widget>
+              </object>
               <packing>
                 <property name="top_attach">5</property>
                 <property name="bottom_attach">6</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkCheckButton" id="payload_upload">
+              <object class="GtkCheckButton" id="payload_upload">
                 <property name="label" translatable="yes">Uploaded (payload)</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
+                <property name="use_action_appearance">False</property>
                 <property name="draw_indicator">True</property>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
@@ -186,13 +200,14 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkCheckButton" id="redundant">
+              <object class="GtkCheckButton" id="redundant">
                 <property name="label" translatable="yes">Redundant</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
+                <property name="use_action_appearance">False</property>
                 <property name="draw_indicator">True</property>
-              </widget>
+              </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
@@ -203,13 +218,14 @@
             <child>
               <placeholder/>
             </child>
-          </widget>
+          </object>
         </child>
-      </widget>
+      </object>
       <packing>
         <property name="expand">False</property>
+        <property name="fill">True</property>
         <property name="position">1</property>
       </packing>
     </child>
-  </widget>
-</glade-interface>
+  </object>
+</interface>

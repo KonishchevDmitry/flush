@@ -1,19 +1,20 @@
-<?xml version="1.0"?>
-<glade-interface>
-  <!-- interface-requires gtk+ 2.8 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
-  <widget class="GtkVBox" id="ip_filter_settings">
+  <object class="GtkVBox" id="ip_filter_settings">
     <property name="visible">True</property>
+    <property name="can_focus">False</property>
     <property name="border_width">15</property>
-    <property name="orientation">vertical</property>
     <property name="spacing">5</property>
     <child>
-      <widget class="GtkLabel" id="label4">
+      <object class="GtkLabel" id="label4">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="xalign">0</property>
         <property name="label" translatable="yes">&lt;big&gt;&lt;b&gt;Daemon::Network::IP filter&lt;/b&gt;&lt;/big&gt;</property>
         <property name="use_markup">True</property>
-      </widget>
+      </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">False</property>
@@ -21,9 +22,10 @@
       </packing>
     </child>
     <child>
-      <widget class="GtkHSeparator" id="hseparator1">
+      <object class="GtkHSeparator" id="hseparator1">
         <property name="visible">True</property>
-      </widget>
+        <property name="can_focus">False</property>
+      </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">False</property>
@@ -31,14 +33,14 @@
       </packing>
     </child>
     <child>
-      <widget class="GtkVBox" id="vbox2">
+      <object class="GtkVBox" id="vbox2">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="border_width">5</property>
-        <property name="orientation">vertical</property>
         <child>
           <placeholder/>
         </child>
-      </widget>
+      </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">False</property>
@@ -46,12 +48,13 @@
       </packing>
     </child>
     <child>
-      <widget class="GtkLabel" id="label1">
+      <object class="GtkLabel" id="label1">
         <property name="visible">True</property>
+        <property name="can_focus">False</property>
         <property name="xalign">0</property>
         <property name="label" translatable="yes">This list is fully scanned from top to bottom. In a case of overlapping ranges the last one applied takes precedence. The list has one implicit rule at the top, which allows all IPs.</property>
         <property name="wrap">True</property>
-      </widget>
+      </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">False</property>
@@ -59,35 +62,39 @@
       </packing>
     </child>
     <child>
-      <widget class="GtkVBox" id="ip_filter">
+      <object class="GtkVBox" id="ip_filter">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
+        <property name="can_focus">False</property>
         <child>
-          <widget class="GtkAlignment" id="alignment1">
+          <object class="GtkAlignment" id="alignment1">
             <property name="visible">True</property>
+            <property name="can_focus">False</property>
             <property name="xalign">0</property>
             <property name="xscale">0</property>
             <child>
-              <widget class="GtkFrame" id="frame1">
+              <object class="GtkFrame" id="frame1">
                 <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <property name="label_xalign">0</property>
                 <child>
-                  <widget class="GtkTable" id="ip_filter_widgets_container">
+                  <object class="GtkTable" id="ip_filter_widgets_container">
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
+                    <property name="can_focus">False</property>
                     <property name="border_width">2</property>
                     <property name="n_rows">5</property>
                     <property name="n_columns">5</property>
                     <property name="column_spacing">2</property>
                     <child>
-                      <widget class="GtkButton" id="ip_filter_remove">
+                      <object class="GtkButton" id="ip_filter_remove">
                         <property name="label">gtk-remove</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="use_stock">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">4</property>
                         <property name="right_attach">5</property>
@@ -96,14 +103,15 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkButton" id="ip_filter_up">
+                      <object class="GtkButton" id="ip_filter_up">
                         <property name="label">gtk-go-up</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="use_stock">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">4</property>
                         <property name="right_attach">5</property>
@@ -112,14 +120,15 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkButton" id="ip_filter_down">
+                      <object class="GtkButton" id="ip_filter_down">
                         <property name="label">gtk-go-down</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="use_stock">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">4</property>
                         <property name="right_attach">5</property>
@@ -128,47 +137,57 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkEntry" id="ip_filter_from">
+                      <object class="GtkEntry" id="ip_filter_from">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="max_length">15</property>
-                        <property name="invisible_char">&#x25CF;</property>
+                        <property name="invisible_char">●</property>
                         <property name="width_chars">15</property>
                         <property name="text">0.0.0.0</property>
                         <property name="xalign">1</property>
-                      </widget>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                      </object>
                     </child>
                     <child>
-                      <widget class="GtkEntry" id="ip_filter_to">
+                      <object class="GtkEntry" id="ip_filter_to">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="invisible_char">&#x25CF;</property>
+                        <property name="invisible_char">●</property>
                         <property name="width_chars">15</property>
                         <property name="text">255.255.255.255</property>
-                      </widget>
+                        <property name="primary_icon_activatable">False</property>
+                        <property name="secondary_icon_activatable">False</property>
+                        <property name="primary_icon_sensitive">True</property>
+                        <property name="secondary_icon_sensitive">True</property>
+                      </object>
                       <packing>
                         <property name="left_attach">2</property>
                         <property name="right_attach">3</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkButton" id="ip_filter_add">
+                      <object class="GtkButton" id="ip_filter_add">
                         <property name="label">gtk-add</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="use_stock">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">4</property>
                         <property name="right_attach">5</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label8">
+                      <object class="GtkLabel" id="label8">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="label">-</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="right_attach">2</property>
@@ -176,25 +195,27 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkToggleButton" id="ip_filter_block">
+                      <object class="GtkToggleButton" id="ip_filter_block">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                      </widget>
+                        <property name="use_action_appearance">False</property>
+                      </object>
                       <packing>
                         <property name="left_attach">3</property>
                         <property name="right_attach">4</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkButton" id="ip_filter_edit">
+                      <object class="GtkButton" id="ip_filter_edit">
                         <property name="label">gtk-edit</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="use_action_appearance">False</property>
                         <property name="use_stock">True</property>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="left_attach">4</property>
                         <property name="right_attach">5</property>
@@ -203,7 +224,7 @@
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkScrolledWindow" id="ip_filter_scrolled_window">
+                      <object class="GtkScrolledWindow" id="ip_filter_scrolled_window">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="hscrollbar_policy">automatic</property>
@@ -212,42 +233,40 @@
                         <child>
                           <placeholder/>
                         </child>
-                      </widget>
+                      </object>
                       <packing>
                         <property name="right_attach">4</property>
                         <property name="top_attach">1</property>
                         <property name="bottom_attach">5</property>
                       </packing>
                     </child>
-                  </widget>
+                  </object>
                 </child>
-                <child>
-                  <widget class="GtkCheckButton" id="ip_filter_enabled">
-                    <property name="label" translatable="yes" context="yes">Enable IP filter|Enable</property>
+                <child type="label">
+                  <object class="GtkCheckButton" id="ip_filter_enabled">
+                    <property name="label" translatable="yes">Enable IP filter|Enable</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
+                    <property name="use_action_appearance">False</property>
                     <property name="draw_indicator">True</property>
-                  </widget>
-                  <packing>
-                    <property name="type">label_item</property>
-                  </packing>
+                  </object>
                 </child>
-              </widget>
+              </object>
             </child>
-          </widget>
+          </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
             <property name="position">0</property>
           </packing>
         </child>
-      </widget>
+      </object>
       <packing>
         <property name="expand">False</property>
         <property name="fill">False</property>
         <property name="position">4</property>
       </packing>
     </child>
-  </widget>
-</glade-interface>
+  </object>
+</interface>
