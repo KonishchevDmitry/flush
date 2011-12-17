@@ -39,6 +39,13 @@
 
 
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+	typedef std::vector<Gtk::TreeModel::Path> TreeSelectionPathList;
+#else
+	typedef Gtk::TreeSelection::ListHandle_Path TreeSelectionPathList;
+#endif
+
+
 // Private <--
 	class Ip_filter::Private
 	{
@@ -290,7 +297,7 @@ void Ip_filter::on_block_button_clicked_cb(void)
 void Ip_filter::on_edit_button_clicked_cb(void)
 {
 	Glib::RefPtr<Gtk::TreeSelection> selection = priv->list->get_selection();
-	Gtk::TreeSelection::ListHandle_Path selected_paths = selection->get_selected_rows();
+	TreeSelectionPathList selected_paths = selection->get_selected_rows();
 
 	if(selected_paths.empty())
 		return;
@@ -316,7 +323,7 @@ void Ip_filter::on_enabled_toggled_cb(void)
 void Ip_filter::on_selection_changed_cb(void)
 {
 	Glib::RefPtr<Gtk::TreeSelection> selection = priv->list->get_selection();
-	Gtk::TreeSelection::ListHandle_Path selected_paths = selection->get_selected_rows();
+	TreeSelectionPathList selected_paths = selection->get_selected_rows();
 
 	priv->edit_button->set_sensitive(!selected_paths.empty());
 

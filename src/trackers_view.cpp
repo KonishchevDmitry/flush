@@ -37,6 +37,13 @@
 
 
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+	typedef std::vector<Gtk::TreeModel::Path> TreeSelectionPathList;
+#else
+	typedef Gtk::TreeSelection::ListHandle_Path TreeSelectionPathList;
+#endif
+
+
 // Gui <--
 	class Trackers_view::Gui
 	{
@@ -263,7 +270,7 @@ void Trackers_view::on_up_callback(void)
 void Trackers_view::push(Direction direction)
 {
 	Gtk::TreeModel::Children rows = this->gui->model->children();
-	Gtk::TreeSelection::ListHandle_Path selected_paths = this->gui->list.get_selection()->get_selected_rows();
+	TreeSelectionPathList selected_paths = this->gui->list.get_selection()->get_selected_rows();
 
 	if(selected_paths.empty())
 		return;
@@ -296,7 +303,7 @@ void Trackers_view::push(Direction direction)
 
 void Trackers_view::remove(void)
 {
-	Gtk::TreeSelection::ListHandle_Path selected_paths = this->gui->list.get_selection()->get_selected_rows();
+	TreeSelectionPathList selected_paths = this->gui->list.get_selection()->get_selected_rows();
 
 	if(selected_paths.empty())
 		return;
@@ -317,7 +324,7 @@ void Trackers_view::set(const std::vector<std::string>& trackers)
 
 	// Получаем выделенный в данный момент трекер -->
 	{
-		Gtk::TreeSelection::ListHandle_Path selected_paths = selection->get_selected_rows();
+		TreeSelectionPathList selected_paths = selection->get_selected_rows();
 
 		if(!selected_paths.empty())
 		{

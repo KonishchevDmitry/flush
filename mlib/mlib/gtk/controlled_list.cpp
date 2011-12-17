@@ -32,6 +32,13 @@
 
 namespace m { namespace gtk {
 
+#if GTK_CHECK_VERSION(3, 0, 0)
+	typedef std::vector<Gtk::TreeModel::Path> TreeSelectionPathList;
+#else
+	typedef Gtk::TreeSelection::ListHandle_Path TreeSelectionPathList;
+#endif
+
+
 Controlled_list::Controlled_list(
 	Glib::RefPtr<Gtk::ListStore>	model,
 	Gtk::Button*					remove_button,
@@ -70,8 +77,7 @@ void Controlled_list::on_selection_changed_cb(void)
 
 void Controlled_list::push(Direction direction)
 {
-	Gtk::TreeSelection::ListHandle_Path selected_paths =
-		this->get_selection()->get_selected_rows();
+	TreeSelectionPathList selected_paths = this->get_selection()->get_selected_rows();
 
 	if(selected_paths.empty())
 		return;
@@ -99,7 +105,7 @@ void Controlled_list::push(Direction direction)
 void Controlled_list::remove(void)
 {
 	Glib::RefPtr<Gtk::TreeSelection> selection = this->get_selection();
-	Gtk::TreeSelection::ListHandle_Path selected_paths = selection->get_selected_rows();
+	TreeSelectionPathList selected_paths = selection->get_selected_rows();
 
 	if(selected_paths.empty())
 		return;
@@ -142,7 +148,7 @@ void Controlled_list::update_buttons(void)
 {
 	Gtk::TreeModel::Children rows = this->model->children();
 	Glib::RefPtr<Gtk::TreeSelection> selection = this->get_selection();
-	Gtk::TreeSelection::ListHandle_Path selected_paths = selection->get_selected_rows();
+	TreeSelectionPathList selected_paths = selection->get_selected_rows();
 
 	if(selected_paths.empty())
 	{

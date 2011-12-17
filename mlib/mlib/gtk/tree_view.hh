@@ -213,7 +213,13 @@ std::deque<Gtk::TreeModel::iterator> Tree_view<Tree_view_columns, Model_columns,
 get_selected_rows(void)
 {
 	std::deque<Gtk::TreeModel::iterator> iters;
-	Gtk::TreeView::Selection::ListHandle_Path rows_paths = this->get_selection()->get_selected_rows();
+
+#if GTK_CHECK_VERSION(3, 0, 0)
+	std::vector<Gtk::TreeModel::Path>
+#else
+	Gtk::TreeView::Selection::ListHandle_Path
+#endif
+		rows_paths = this->get_selection()->get_selected_rows();
 	
 	M_FOR_CONST_IT(rows_paths, it)
 		iters.push_back(this->model->get_iter(*it));

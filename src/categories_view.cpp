@@ -39,6 +39,13 @@
 
 namespace Categories_view_aux
 {
+#if GTK_CHECK_VERSION(3, 0, 0)
+	typedef std::vector<Gtk::TreeModel::Path> TreeSelectionPathList;
+#else
+	typedef Gtk::TreeSelection::ListHandle_Path TreeSelectionPathList;
+#endif
+
+
 	enum Torrent_category
 	{
 		/// На паузе.
@@ -439,7 +446,7 @@ namespace Categories_view_aux
 	Categories_filter Impl::get_filter(void) const
 	{
 		int categories = 0;
-		Gtk::TreeSelection::ListHandle_Path rows_paths = this->selection->get_selected_rows();
+		TreeSelectionPathList rows_paths = this->selection->get_selected_rows();
 
 		M_FOR_CONST_IT(rows_paths, it)
 			categories |= this->model->get_iter(*it)->get_value(this->columns.id);
@@ -452,7 +459,7 @@ namespace Categories_view_aux
 	std::vector<std::string> Impl::get_selected_items(void) const
 	{
 		std::vector<std::string> items;
-		Gtk::TreeSelection::ListHandle_Path rows_paths = this->selection->get_selected_rows();
+		TreeSelectionPathList rows_paths = this->selection->get_selected_rows();
 
 		M_FOR_CONST_IT(rows_paths, it)
 		{
