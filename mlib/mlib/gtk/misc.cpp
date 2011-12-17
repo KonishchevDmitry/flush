@@ -314,7 +314,11 @@ Glib::ustring format_window_title(const Glib::ustring& title)
 Glib::RefPtr<Gdk::Pixbuf> get_stock_icon(const Gtk::StockID& id, const Gtk::IconSize& size)
 {
 	static Gtk::HBox some_widget;
+#if GTK_CHECK_VERSION(3, 0, 0)
+	return some_widget.render_icon_pixbuf(id, size);
+#else
 	return some_widget.render_icon(id, size);
+#endif
 }
 
 

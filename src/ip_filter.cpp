@@ -218,7 +218,11 @@ void Ip_filter::add(const Ip_filter_rule& rule)
 	row[priv->columns.from] = rule.from;
 	row[priv->columns.to] = rule.to;
 	row[priv->columns.block] = rule.block;
+#if GTK_CHECK_VERSION(3, 0, 0)
+	row[priv->columns.icon] = this->render_icon_pixbuf(
+#else
 	row[priv->columns.icon] = this->render_icon(
+#endif
 		rule.block ? Gtk::Stock::CANCEL : Gtk::Stock::YES, Gtk::ICON_SIZE_MENU
 	);
 }
@@ -306,7 +310,11 @@ void Ip_filter::on_edit_button_clicked_cb(void)
 	row[priv->columns.from] = priv->from_entry->get_text();
 	row[priv->columns.to] = priv->to_entry->get_text();
 	row[priv->columns.block] = priv->block_button->get_active();
+#if GTK_CHECK_VERSION(3, 0, 0)
+	row[priv->columns.icon] = this->render_icon_pixbuf(
+#else
 	row[priv->columns.icon] = this->render_icon(
+#endif
 		row[priv->columns.block] ? Gtk::Stock::CANCEL : Gtk::Stock::YES, Gtk::ICON_SIZE_MENU
 	);
 }
