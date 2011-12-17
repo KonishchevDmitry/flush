@@ -83,7 +83,11 @@ namespace
 		{
 			this->set_resizable(false);
 
+		#if GTK_CHECK_VERSION(3, 0, 0)
+			if(!parent.get_visible())
+		#else
 			if(!parent.is_visible())
+		#endif
 				this->set_position(Gtk::WIN_POS_CENTER);
 
 			Gtk::VBox* main_vbox = Gtk::manage(new Gtk::VBox(false, m::gtk::VBOX_SPACING));

@@ -249,7 +249,11 @@
 		this->set_title(title);
 		this->set_resizable(false);
 
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		if(!parent.get_visible())
+	#else
 		if(!parent.is_visible())
+	#endif
 			this->set_position(Gtk::WIN_POS_CENTER);
 
 		Gtk::VBox* main_vbox = Gtk::manage(new Gtk::VBox(false, m::gtk::VBOX_SPACING));
@@ -1345,7 +1349,14 @@ void Main_window::on_torrent_process_actions_changed_callback(Torrent_process_ac
 
 void Main_window::on_tray_activated(void)
 {
-	if(this->is_visible() && !this->gui->iconified && !this->gui->use_appindicator)
+	if(
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		this->get_visible() &&
+	#else
+		this->is_visible() &&
+	#endif
+		!this->gui->iconified && !this->gui->use_appindicator
+	)
 		this->hide();
 	else
 	{
@@ -1562,7 +1573,11 @@ void Main_window::update_gui(bool force)
 	// Определяем, какие элементы нам необходимо обновить -->
 		if(!force)
 		{
+		#if GTK_CHECK_VERSION(3, 0, 0)
+			if(!this->get_visible())
+		#else
 			if(!this->is_visible())
+		#endif
 				update_flags &= ~(UPDATE_WINDOW_TITLE | UPDATE_WIDGETS);
 
 			if(this->gui->iconified)

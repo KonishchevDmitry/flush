@@ -869,7 +869,11 @@ void Settings_window::auto_clean_widgets_update_for(const Auto_clean_type& type,
 
 void Settings_window::close(void)
 {
+#if GTK_CHECK_VERSION(3, 0, 0)
+	if(this->download_to_dialog.get_visible())
+#else
 	if(this->download_to_dialog.is_visible())
+#endif
 		this->download_to_dialog.response(Gtk::RESPONSE_CANCEL);
 
 	this->hide();

@@ -143,8 +143,14 @@ namespace Add_torrent_dialog_aux
 		// Если данный Gtk::Expander свернули и Gtk::Expander файловых виджетов
 		// не может занять освободившееся место.
 		if(
-			!expander->get_expanded()
-			&& ( !this->files_expander->get_expanded() || !this->files_expander->is_visible() )
+			!expander->get_expanded() && (
+				!this->files_expander->get_expanded() ||
+			#if GTK_CHECK_VERSION(3, 0, 0)
+				!this->files_expander->get_visible()
+			#else
+				!this->files_expander->is_visible()
+			#endif
+			)
 		)
 		{
 			Gtk::Widget* widget = *expander->get_children().begin();
@@ -166,7 +172,14 @@ namespace Add_torrent_dialog_aux
 	void Private::on_files_expanded_cb(void)
 	{
 		// Если Gtk::Expander с файловыми виджетами свернули, или он скрыт
-		if(!this->files_expander->get_expanded() || !this->files_expander->is_visible())
+		if(
+			!this->files_expander->get_expanded() ||
+		#if GTK_CHECK_VERSION(3, 0, 0)
+			!this->files_expander->get_visible()
+		#else
+			!this->files_expander->is_visible()
+		#endif
+		)
 		{
 			// Временно удаляем из него виджеты, чтобы он выставил реально
 			// необходимый ему size request.
@@ -177,12 +190,24 @@ namespace Add_torrent_dialog_aux
 		gtk_box_set_child_packing(
 			GTK_BOX(this->files_expander->get_parent()->gobj()),
 			GTK_WIDGET(this->files_expander->gobj()),
-			this->files_expander->get_expanded() && this->files_expander->is_visible(),
+			this->files_expander->get_expanded() &&
+			#if GTK_CHECK_VERSION(3, 0, 0)
+				this->files_expander->get_visible(),
+			#else
+				this->files_expander->is_visible(),
+			#endif
 			TRUE, 0, GTK_PACK_START
 		);
 
 		// Если Gtk::Expander с файловыми виджетами свернули, или он скрыт
-		if(!this->files_expander->get_expanded() || !this->files_expander->is_visible())
+		if(
+			!this->files_expander->get_expanded() ||
+		#if GTK_CHECK_VERSION(3, 0, 0)
+			!this->files_expander->get_visible()
+		#else
+			!this->files_expander->is_visible()
+		#endif
+		)
 		{
 			// Подгоняем размер окна
 			this->fit_window();
@@ -357,7 +382,11 @@ void Add_torrent_dialog::process(Gtk::Window& parent_window, const std::string& 
 			);
 			priv->torrent_files_view->show_all();
 
+		#if GTK_CHECK_VERSION(3, 0, 0)
+			if(priv->files_expander->get_visible())
+		#else
 			if(priv->files_expander->is_visible())
+		#endif
 			{
 				// Запрашиваем место под Torrent_files_view (иначе GTK выделит ему
 				// самый минимум, который только возможен для ScrolledWindow).

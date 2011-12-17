@@ -59,7 +59,11 @@ namespace m { namespace gtk {
 	{
 		this->set_transient_for(parent_window);
 
+	#if GTK_CHECK_VERSION(3, 0, 0)
+		if(parent_window.get_visible())
+	#else
 		if(parent_window.is_visible())
+	#endif
 			this->set_position(Gtk::WIN_POS_CENTER_ON_PARENT);
 		else
 			this->set_position(Gtk::WIN_POS_CENTER);

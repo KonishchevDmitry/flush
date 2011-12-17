@@ -684,7 +684,11 @@ Categories_view::Categories_view(const Settings& settings)
 
 Categories_filter Categories_view::get_filter(void) const
 {
+#if GTK_CHECK_VERSION(3, 0, 0)
+	if(this->get_visible())
+#else
 	if(this->is_visible())
+#endif
 		return impl->get_filter();
 	else
 		return Categories_filter(CATEGORY_ALL);
@@ -694,7 +698,11 @@ Categories_filter Categories_view::get_filter(void) const
 
 void Categories_view::save_settings(Settings* settings) const
 {
+#if GTK_CHECK_VERSION(3, 0, 0)
+	settings->visible = this->get_visible();
+#else
 	settings->visible = this->is_visible();
+#endif
 	settings->show_names = impl->get_show_names();
 	settings->show_counters = impl->get_show_counters();
 	settings->selected_items = impl->get_selected_items();
@@ -732,7 +740,11 @@ m::gtk::Signal_proxy<void> Categories_view::signal_needs_update(void)
 
 void Categories_view::update(const std::vector<Torrent_info>& torrents)
 {
+#if GTK_CHECK_VERSION(3, 0, 0)
+	if(this->get_visible())
+#else
 	if(this->is_visible())
+#endif
 		impl->update(torrents);
 }
 
