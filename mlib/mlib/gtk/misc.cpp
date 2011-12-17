@@ -18,9 +18,7 @@
 **************************************************************************/
 
 
-#include <gtk/gtkcellrenderertoggle.h>
-#include <gtk/gtkversion.h>
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 
 #include <gdkmm/pixbuf.h>
 

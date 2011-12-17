@@ -24,7 +24,7 @@
 
 	#include <boost/shared_ptr.hpp>
 
-	#include <gdk/gdkevents.h>
+	#include <gdk/gdk.h>
 
 	#include <gtkmm/cellrendererprogress.h>
 	#include <gtkmm/liststore.h>

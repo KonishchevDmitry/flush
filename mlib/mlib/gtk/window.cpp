@@ -18,7 +18,7 @@
 **************************************************************************/
 
 
-#include <gtk/gtkwindow.h>
+#include <gtk/gtk.h>
 
 #include <gtkmm/window.h>
 

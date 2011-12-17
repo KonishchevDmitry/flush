@@ -30,8 +30,7 @@
 	#include <map>
 #endif
 
-#include <gdk/gdkevents.h>
-#include <gdk/gdkkeysyms.h>
+#include <gdk/gdk.h>
 
 #include <gtkmm/actiongroup.h>
 #include <gtkmm/button.h>

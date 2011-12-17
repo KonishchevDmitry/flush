@@ -21,7 +21,7 @@
 #ifndef HEADER_MLIB_GTK_WINDOW
 	#define HEADER_MLIB_GTK_WINDOW
 
-	#include <gtk/gtkwindow.h>
+	#include <gtk/gtk.h>
 
 	#include <gtkmm/window.h>
 

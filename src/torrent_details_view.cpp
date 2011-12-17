@@ -19,7 +19,7 @@
 **************************************************************************/
 
 
-#include <gdk/gdkevents.h>
+#include <gdk/gdk.h>
 
 #include <glibmm/markup.h>
 

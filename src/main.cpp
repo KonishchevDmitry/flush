@@ -43,7 +43,7 @@
 
 #include <gdk/gdk.h>
 
-#include <gtk/gtkicontheme.h>
+#include <gtk/gtk.h>
 
 #include <glibmm/markup.h>
 

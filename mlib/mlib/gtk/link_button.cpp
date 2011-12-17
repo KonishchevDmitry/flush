@@ -18,7 +18,7 @@
 **************************************************************************/
 
 
-#include <gtk/gtkversion.h>
+#include <gtk/gtk.h>
 
 #include <gtkmm/linkbutton.h>
 

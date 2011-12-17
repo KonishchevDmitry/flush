@@ -24,7 +24,7 @@
 #include <iterator>
 #include <stack>
 
-#include <gtk/gtktreeviewcolumn.h>
+#include <gtk/gtk.h>
 
 #include <gtkmm/alignment.h>
 #include <gtkmm/dialog.h>

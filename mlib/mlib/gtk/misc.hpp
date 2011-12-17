@@ -23,7 +23,7 @@
 
 
 #ifndef MLIB_ENABLE_LIBS_FORWARDS
-	#include <gtk/gtkwindow.h>
+	#include <gtk/gtk.h>
 
 	#include <gdkmm/pixbuf.h>
 

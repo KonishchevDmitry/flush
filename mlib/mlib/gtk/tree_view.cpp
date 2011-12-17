@@ -18,7 +18,7 @@
 **************************************************************************/
 
 
-#include <gtk/gtkcellrenderertoggle.h>
+#include <gtk/gtk.h>
 
 #include <gtkmm/treeviewcolumn.h>
 

@@ -21,7 +21,7 @@
 
 #include <libtorrent/torrent_info.hpp>
 
-#include <gtk/gtkbox.h>
+#include <gtk/gtk.h>
 
 #include <gtkmm/box.h>
 #include <gtkmm/button.h>

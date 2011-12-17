@@ -19,7 +19,7 @@
 
 
 #if !MLIB_ENABLE_GTK_BUILDER_EMULATION
-	#include <gtk/gtkbuilder.h>
+	#include <gtk/gtk.h>
 
 	#error Not tested yet
 #endif
