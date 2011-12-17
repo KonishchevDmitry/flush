@@ -37,7 +37,11 @@ void add_big_header(Gtk::VBox& parent_vbox, const std::string& header_string, bo
 
 	Gtk::Label* label = Gtk::manage(new Gtk::Label());
 	label->set_markup("<b><big>" + Glib::Markup::escape_text(header_string) + "</big></b>");
+#if GTK_CHECK_VERSION(3, 0, 0)
+	label->set_alignment( centered ? Gtk::ALIGN_CENTER : Gtk::ALIGN_START );
+#else
 	label->set_alignment( centered ? Gtk::ALIGN_CENTER : Gtk::ALIGN_LEFT );
+#endif
 	hbox->pack_start(*label, true, true);
 
 	if(add_separator)
@@ -56,7 +60,11 @@ void add_header(Gtk::VBox& parent_vbox, const std::string& header_string, bool c
 
 	Gtk::Label* label = Gtk::manage(new Gtk::Label());
 	label->set_markup("<b>" + Glib::Markup::escape_text(header_string) + "</b>");
+#if GTK_CHECK_VERSION(3, 0, 0)
+	label->set_alignment( centered ? Gtk::ALIGN_CENTER : Gtk::ALIGN_START );
+#else
 	label->set_alignment( centered ? Gtk::ALIGN_CENTER : Gtk::ALIGN_LEFT );
+#endif
 	hbox->pack_start(*label, true, true);
 }
 

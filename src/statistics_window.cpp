@@ -106,11 +106,19 @@ void Statistics_window::attach_value(const std::string& name, const std::string&
 	this->add_row();
 
 	label = Gtk::manage( new Gtk::Label(name + ":  ") );
+#if GTK_CHECK_VERSION(3, 0, 0)
+	label->set_alignment(Gtk::ALIGN_START);
+#else
 	label->set_alignment(Gtk::ALIGN_LEFT);
+#endif
 	this->table.attach(*label, 0, 1, this->rows_num - 1, this->rows_num);
 
 	label = Gtk::manage( new Gtk::Label(value) );
+#if GTK_CHECK_VERSION(3, 0, 0)
+	label->set_alignment(Gtk::ALIGN_END);
+#else
 	label->set_alignment(Gtk::ALIGN_RIGHT);
+#endif
 	this->table.attach(*label, 1, 2, this->rows_num - 1, this->rows_num);
 }
 

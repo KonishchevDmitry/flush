@@ -514,7 +514,11 @@ namespace
 		{
 			Gtk::Label* label = Gtk::manage(new Gtk::Label());
 			label->set_label(_("File or directory to create torrent from:"));
+		#if GTK_CHECK_VERSION(3, 0, 0)
+			label->set_alignment(Gtk::ALIGN_START);
+		#else
 			label->set_alignment(Gtk::ALIGN_LEFT);
+		#endif
 			main_vbox->pack_start(*label, false, false);
 
 			Gtk::HBox* hbox = Gtk::manage(new Gtk::HBox(false, m::gtk::HBOX_SPACING));
@@ -544,7 +548,11 @@ namespace
 		// Private torrent -->
 		{
 			Gtk::Alignment* alignment = Gtk::manage(
+			#if GTK_CHECK_VERSION(3, 0, 0)
+				new Gtk::Alignment(Gtk::ALIGN_END, Gtk::ALIGN_CENTER, 0, 0)
+			#else
 				new Gtk::Alignment(Gtk::ALIGN_RIGHT, Gtk::ALIGN_CENTER, 0, 0)
+			#endif
 			);
 			main_vbox->pack_start(*alignment, false, false);
 
