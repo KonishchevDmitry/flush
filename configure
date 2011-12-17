@@ -640,6 +640,8 @@ MLIB_ENABLE_GTK_BUILDER_EMULATION_FALSE
 MLIB_ENABLE_GTK_BUILDER_EMULATION_TRUE
 MLIB_ENABLE_GTK_BUILDER_FALSE
 MLIB_ENABLE_GTK_BUILDER_TRUE
+MLIB_ENABLE_GTK2_FALSE
+MLIB_ENABLE_GTK2_TRUE
 MLIB_ENABLE_GTK_FALSE
 MLIB_ENABLE_GTK_TRUE
 MLIB_ENABLE_FS_WATCHER_FALSE
@@ -803,6 +805,7 @@ with_libiconv_prefix
 with_libintl_prefix
 enable_debug_mode
 enable_develop_mode
+enable_gtk2
 enable_appindicator
 with_boost
 with_boost_libdir
@@ -1474,6 +1477,7 @@ Optional Features:
   --enable-debug-mode     enable debug mode for application
   --enable-develop-mode   enable develop mode for application (this mode is
                           only for developer usage)
+  --enable-gtk2           build against GTK+ 2 instead of GTK+ 3
   --enable-appindicator=[no/auto/yes]
                           application indicator support
 
@@ -6541,6 +6545,15 @@ else
 fi
 
 
+	# Check whether --enable-gtk2 was given.
+if test "${enable_gtk2+set}" = set; then :
+  enableval=$enable_gtk2; gtk2=$enableval
+else
+  gtk2=no
+
+fi
+
+
 	if test "X$develop_mode" = "Xyes"; then
 
 	if test "1" != "1"
@@ -6565,6 +6578,8 @@ fi
 			mlib_enable_fs_watcher="$mlib_feature_value";;
 		"gtk")
 			mlib_enable_gtk="$mlib_feature_value";;
+		"gtk2")
+			mlib_enable_gtk2="$mlib_feature_value";;
 		"gtk_builder")
 			mlib_enable_gtk_builder="$mlib_feature_value";;
 		"gtk_builder_emulation")
@@ -6608,6 +6623,8 @@ fi
 			mlib_enable_fs_watcher="$mlib_feature_value";;
 		"gtk")
 			mlib_enable_gtk="$mlib_feature_value";;
+		"gtk2")
+			mlib_enable_gtk2="$mlib_feature_value";;
 		"gtk_builder")
 			mlib_enable_gtk_builder="$mlib_feature_value";;
 		"gtk_builder_emulation")
@@ -8000,6 +8017,7 @@ fi
 
 				APP_LDADD="$APP_LDADD $LIBINTL"
 
+					if test "X$gtk2" = "Xyes"; then
 
 pkg_failed=no
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for gthread" >&5
@@ -8091,8 +8109,8 @@ else
 $as_echo "yes" >&6; }
 
 fi
-			APP_CPPFLAGS="$APP_CPPFLAGS $gthread_CFLAGS"
-			APP_LDADD="$APP_LDADD $gthread_LIBS"
+				APP_CPPFLAGS="$APP_CPPFLAGS $gthread_CFLAGS"
+				APP_LDADD="$APP_LDADD $gthread_LIBS"
 
 
 pkg_failed=no
@@ -8185,6 +8203,100 @@ else
 $as_echo "yes" >&6; }
 
 fi
+			else
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for gtkmm" >&5
+$as_echo_n "checking for gtkmm... " >&6; }
+
+if test -n "$gtkmm_CFLAGS"; then
+    pkg_cv_gtkmm_CFLAGS="$gtkmm_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gtkmm-3.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "gtkmm-3.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_gtkmm_CFLAGS=`$PKG_CONFIG --cflags "gtkmm-3.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$gtkmm_LIBS"; then
+    pkg_cv_gtkmm_LIBS="$gtkmm_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gtkmm-3.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "gtkmm-3.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_gtkmm_LIBS=`$PKG_CONFIG --libs "gtkmm-3.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        gtkmm_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "gtkmm-3.0" 2>&1`
+        else
+	        gtkmm_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "gtkmm-3.0" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$gtkmm_PKG_ERRORS" >&5
+
+	as_fn_error $? "Package requirements (gtkmm-3.0) were not met:
+
+$gtkmm_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables gtkmm_CFLAGS
+and gtkmm_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details." "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables gtkmm_CFLAGS
+and gtkmm_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See \`config.log' for more details" "$LINENO" 5; }
+else
+	gtkmm_CFLAGS=$pkg_cv_gtkmm_CFLAGS
+	gtkmm_LIBS=$pkg_cv_gtkmm_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+fi
+			fi
+
 			APP_CPPFLAGS="$APP_CPPFLAGS $gtkmm_CFLAGS"
 			APP_LDADD="$APP_LDADD $gtkmm_LIBS"
 
@@ -8547,6 +8659,8 @@ fi
 			mlib_enable_fs_watcher="$mlib_feature_value";;
 		"gtk")
 			mlib_enable_gtk="$mlib_feature_value";;
+		"gtk2")
+			mlib_enable_gtk2="$mlib_feature_value";;
 		"gtk_builder")
 			mlib_enable_gtk_builder="$mlib_feature_value";;
 		"gtk_builder_emulation")
@@ -8585,6 +8699,8 @@ fi
 			mlib_enable_fs_watcher="$mlib_feature_value";;
 		"gtk")
 			mlib_enable_gtk="$mlib_feature_value";;
+		"gtk2")
+			mlib_enable_gtk2="$mlib_feature_value";;
 		"gtk_builder")
 			mlib_enable_gtk_builder="$mlib_feature_value";;
 		"gtk_builder_emulation")
@@ -8623,6 +8739,8 @@ fi
 			mlib_enable_fs_watcher="$mlib_feature_value";;
 		"gtk")
 			mlib_enable_gtk="$mlib_feature_value";;
+		"gtk2")
+			mlib_enable_gtk2="$mlib_feature_value";;
 		"gtk_builder")
 			mlib_enable_gtk_builder="$mlib_feature_value";;
 		"gtk_builder_emulation")
@@ -8661,6 +8779,8 @@ fi
 			mlib_enable_fs_watcher="$mlib_feature_value";;
 		"gtk")
 			mlib_enable_gtk="$mlib_feature_value";;
+		"gtk2")
+			mlib_enable_gtk2="$mlib_feature_value";;
 		"gtk_builder")
 			mlib_enable_gtk_builder="$mlib_feature_value";;
 		"gtk_builder_emulation")
@@ -8699,6 +8819,8 @@ fi
 			mlib_enable_fs_watcher="$mlib_feature_value";;
 		"gtk")
 			mlib_enable_gtk="$mlib_feature_value";;
+		"gtk2")
+			mlib_enable_gtk2="$mlib_feature_value";;
 		"gtk_builder")
 			mlib_enable_gtk_builder="$mlib_feature_value";;
 		"gtk_builder_emulation")
@@ -8737,6 +8859,8 @@ fi
 			mlib_enable_fs_watcher="$mlib_feature_value";;
 		"gtk")
 			mlib_enable_gtk="$mlib_feature_value";;
+		"gtk2")
+			mlib_enable_gtk2="$mlib_feature_value";;
 		"gtk_builder")
 			mlib_enable_gtk_builder="$mlib_feature_value";;
 		"gtk_builder_emulation")
@@ -8775,6 +8899,8 @@ fi
 			mlib_enable_fs_watcher="$mlib_feature_value";;
 		"gtk")
 			mlib_enable_gtk="$mlib_feature_value";;
+		"gtk2")
+			mlib_enable_gtk2="$mlib_feature_value";;
 		"gtk_builder")
 			mlib_enable_gtk_builder="$mlib_feature_value";;
 		"gtk_builder_emulation")
@@ -8813,6 +8939,8 @@ fi
 			mlib_enable_fs_watcher="$mlib_feature_value";;
 		"gtk")
 			mlib_enable_gtk="$mlib_feature_value";;
+		"gtk2")
+			mlib_enable_gtk2="$mlib_feature_value";;
 		"gtk_builder")
 			mlib_enable_gtk_builder="$mlib_feature_value";;
 		"gtk_builder_emulation")
@@ -9364,6 +9492,27 @@ fi
 
 			{ $as_echo "$as_me:${as_lineno-$LINENO}: [mlib config] Enable GTK: $mlib_enable_gtk" >&5
 $as_echo "$as_me: [mlib config] Enable GTK: $mlib_enable_gtk" >&6;}
+
+					 if test "X$mlib_enable_gtk2" = "Xyes"; then
+  MLIB_ENABLE_GTK2_TRUE=
+  MLIB_ENABLE_GTK2_FALSE='#'
+else
+  MLIB_ENABLE_GTK2_TRUE='#'
+  MLIB_ENABLE_GTK2_FALSE=
+fi
+
+
+
+			if test "X$mlib_enable_gtk2" = "Xyes"
+			then
+				$as_echo "#define MLIB_ENABLE_GTK2 1" >>confdefs.h
+
+			else
+				mlib_enable_gtk2="no"
+			fi
+
+			{ $as_echo "$as_me:${as_lineno-$LINENO}: [mlib config] Build against GTK+ 2: $mlib_enable_gtk2" >&5
+$as_echo "$as_me: [mlib config] Build against GTK+ 2: $mlib_enable_gtk2" >&6;}
 
 					 if test "X$mlib_enable_gtk_builder" = "Xyes"; then
   MLIB_ENABLE_GTK_BUILDER_TRUE=
@@ -10733,6 +10882,8 @@ fi
 
 					if test "X$mlib_enable_gtk" = "Xyes"
 			then
+                if test "X$mlib_enable_gtk2" = "Xyes"
+                then
 
 pkg_failed=no
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for gtkmm" >&5
@@ -10824,6 +10975,100 @@ else
 $as_echo "yes" >&6; }
 
 fi
+                else
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for gtkmm" >&5
+$as_echo_n "checking for gtkmm... " >&6; }
+
+if test -n "$gtkmm_CFLAGS"; then
+    pkg_cv_gtkmm_CFLAGS="$gtkmm_CFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gtkmm-3.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "gtkmm-3.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_gtkmm_CFLAGS=`$PKG_CONFIG --cflags "gtkmm-3.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$gtkmm_LIBS"; then
+    pkg_cv_gtkmm_LIBS="$gtkmm_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"gtkmm-3.0\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "gtkmm-3.0") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_gtkmm_LIBS=`$PKG_CONFIG --libs "gtkmm-3.0" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        gtkmm_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "gtkmm-3.0" 2>&1`
+        else
+	        gtkmm_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "gtkmm-3.0" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$gtkmm_PKG_ERRORS" >&5
+
+	as_fn_error $? "Package requirements (gtkmm-3.0) were not met:
+
+$gtkmm_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables gtkmm_CFLAGS
+and gtkmm_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details." "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables gtkmm_CFLAGS
+and gtkmm_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See \`config.log' for more details" "$LINENO" 5; }
+else
+	gtkmm_CFLAGS=$pkg_cv_gtkmm_CFLAGS
+	gtkmm_LIBS=$pkg_cv_gtkmm_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+fi
+                fi
+
 				MLIB_CPPFLAGS="$MLIB_CPPFLAGS $gtkmm_CFLAGS"
 				MLIB_LDADD="$MLIB_LDADD $gtkmm_LIBS"
 
@@ -11597,6 +11842,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${MLIB_ENABLE_GTK_TRUE}" && test -z "${MLIB_ENABLE_GTK_FALSE}"; then
   as_fn_error $? "conditional \"MLIB_ENABLE_GTK\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${MLIB_ENABLE_GTK2_TRUE}" && test -z "${MLIB_ENABLE_GTK2_FALSE}"; then
+  as_fn_error $? "conditional \"MLIB_ENABLE_GTK2\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${MLIB_ENABLE_GTK_BUILDER_TRUE}" && test -z "${MLIB_ENABLE_GTK_BUILDER_FALSE}"; then

@@ -43,6 +43,13 @@ dnl Configuring command line options -->
 		[develop_mode=no]
 	)
 
+	AC_ARG_ENABLE(gtk2,
+		[AS_HELP_STRING([--enable-gtk2],
+			[build against GTK+ 2 instead of GTK+ 3])],
+		[gtk2=$enableval],
+		[gtk2=no]
+	)
+
 	if test "X$develop_mode" = "Xyes"; then
 		MLIB_FEATURE_ENABLE([[develop_mode]])
 
@@ -216,11 +223,16 @@ dnl Compiler flags -->
 		APP_LDADD="$APP_LDADD $LIBINTL"
 
 		dnl GTK -->
-			PKG_CHECK_MODULES([gthread], [gthread-2.0])
-			APP_CPPFLAGS="$APP_CPPFLAGS $gthread_CFLAGS"
-			APP_LDADD="$APP_LDADD $gthread_LIBS"
+			if test "X$gtk2" = "Xyes"; then
+				PKG_CHECK_MODULES([gthread], [gthread-2.0])
+				APP_CPPFLAGS="$APP_CPPFLAGS $gthread_CFLAGS"
+				APP_LDADD="$APP_LDADD $gthread_LIBS"
 
-			PKG_CHECK_MODULES([gtkmm], [gtkmm-2.4])
+				PKG_CHECK_MODULES([gtkmm], [gtkmm-2.4])
+			else
+				PKG_CHECK_MODULES([gtkmm], [gtkmm-3.0])
+			fi
+
 			APP_CPPFLAGS="$APP_CPPFLAGS $gtkmm_CFLAGS"
 			APP_LDADD="$APP_LDADD $gtkmm_LIBS"
 		dnl GTK <--

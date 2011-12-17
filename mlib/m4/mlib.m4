@@ -111,6 +111,8 @@ AC_DEFUN([MLIB_FEATURE_ENABLE],
 			mlib_enable_fs_watcher="$mlib_feature_value";;
 		"gtk")
 			mlib_enable_gtk="$mlib_feature_value";;
+		"gtk2")
+			mlib_enable_gtk2="$mlib_feature_value";;
 		"gtk_builder")
 			mlib_enable_gtk_builder="$mlib_feature_value";;
 		"gtk_builder_emulation")
@@ -257,6 +259,20 @@ AC_DEFUN([MLIB_CONFIGURE],
 
 			AC_MSG_NOTICE([[[mlib config] Enable GTK: $mlib_enable_gtk]])
 		dnl GTK <--
+
+		dnl GTK+ 2 -->
+			AM_CONDITIONAL([MLIB_ENABLE_GTK2], [test "X$mlib_enable_gtk2" = "Xyes"])
+			AH_TEMPLATE([MLIB_ENABLE_GTK2], [Enable building against GTK+ 2 instead of GTK+ 3 for mlib])
+
+			if test "X$mlib_enable_gtk2" = "Xyes"
+			then
+				AC_DEFINE([MLIB_ENABLE_GTK2])
+			else
+				mlib_enable_gtk2="no"
+			fi
+
+			AC_MSG_NOTICE([[[mlib config] Build against GTK+ 2: $mlib_enable_gtk2]])
+		dnl GTK+ 2 <--
 
 		dnl GtkBuilder -->
 			AM_CONDITIONAL([MLIB_ENABLE_GTK_BUILDER], [test "X$mlib_enable_gtk_builder" = "Xyes"])
@@ -420,7 +436,13 @@ AC_DEFUN([MLIB_CONFIGURE],
 		dnl GTK -->
 			if test "X$mlib_enable_gtk" = "Xyes"
 			then
-				PKG_CHECK_MODULES([gtkmm], [gtkmm-2.4])
+                if test "X$mlib_enable_gtk2" = "Xyes"
+                then
+                    PKG_CHECK_MODULES([gtkmm], [gtkmm-2.4])
+                else
+                    PKG_CHECK_MODULES([gtkmm], [gtkmm-3.0])
+                fi
+
 				MLIB_CPPFLAGS="$MLIB_CPPFLAGS $gtkmm_CFLAGS"
 				MLIB_LDADD="$MLIB_LDADD $gtkmm_LIBS"
 

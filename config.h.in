@@ -114,6 +114,9 @@
 /* Enable GTK support for mlib */
 #undef MLIB_ENABLE_GTK
 
+/* Enable building against GTK+ 2 instead of GTK+ 3 for mlib */
+#undef MLIB_ENABLE_GTK2
+
 /* Enable GtkBuilder support for mlib */
 #undef MLIB_ENABLE_GTK_BUILDER
 
