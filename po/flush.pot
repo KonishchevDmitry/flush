@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: flush 0.9.11\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2011-07-31 18:26+0400\n"
+"POT-Creation-Date: 2012-01-08 14:36+0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -175,36 +175,36 @@ msgstr ""
 msgid "Invalid magnet URI: %1."
 msgstr ""
 
-#: mlib/mlib/libtorrent.cpp:220
+#: mlib/mlib/libtorrent.cpp:224
 #, qt-format
 msgid "Invalid torrent file path '%1'."
 msgstr ""
 
-#: mlib/mlib/libtorrent.cpp:495
+#: mlib/mlib/libtorrent.cpp:520
 msgid "invalid torrent file"
 msgstr ""
 
-#: mlib/mlib/libtorrent.cpp:519 src/daemon_session.cpp:517
-#: src/daemon_session.cpp:532 src/daemon_session.cpp:1609
-#: src/daemon_session.cpp:1626
+#: mlib/mlib/libtorrent.cpp:544 src/daemon_session.cpp:517
+#: src/daemon_session.cpp:532 src/daemon_session.cpp:1613
+#: src/daemon_session.cpp:1630
 #, qt-format
 msgid "Error while reading torrent file '%1': %2."
 msgstr ""
 
-#: mlib/mlib/libtorrent.cpp:583
+#: mlib/mlib/libtorrent.cpp:608
 msgid "bad torrent data"
 msgstr ""
 
-#: mlib/mlib/libtorrent.cpp:591
+#: mlib/mlib/libtorrent.cpp:616
 #, qt-format
 msgid "libtorrent error code [%1]"
 msgstr ""
 
-#: mlib/mlib/libtorrent.cpp:596
+#: mlib/mlib/libtorrent.cpp:621
 msgid "torrent is already exists in this session"
 msgstr ""
 
-#: mlib/mlib/libtorrent.cpp:603
+#: mlib/mlib/libtorrent.cpp:628
 msgid "this is not a torrent file"
 msgstr ""
 
@@ -285,15 +285,15 @@ msgid "GB"
 msgstr ""
 
 #: mlib/mlib/string.cpp:233 mlib/mlib/string.cpp:243
-#: src/create_torrent_dialog.cpp:580 src/create_torrent_dialog.cpp:584
 #: src/create_torrent_dialog.cpp:588 src/create_torrent_dialog.cpp:592
+#: src/create_torrent_dialog.cpp:596 src/create_torrent_dialog.cpp:600
 msgid "MB"
 msgstr ""
 
 #: mlib/mlib/string.cpp:250 mlib/mlib/string.cpp:260
-#: src/create_torrent_dialog.cpp:560 src/create_torrent_dialog.cpp:564
 #: src/create_torrent_dialog.cpp:568 src/create_torrent_dialog.cpp:572
-#: src/create_torrent_dialog.cpp:576
+#: src/create_torrent_dialog.cpp:576 src/create_torrent_dialog.cpp:580
+#: src/create_torrent_dialog.cpp:584
 msgid "KB"
 msgstr ""
 
@@ -1089,11 +1089,11 @@ msgstr ""
 msgid "Torrent file encoding:"
 msgstr ""
 
-#: src/open_torrent_dialog.cpp:138 src/create_torrent_dialog.cpp:699
+#: src/open_torrent_dialog.cpp:138 src/create_torrent_dialog.cpp:707
 msgid "Torrent files"
 msgstr ""
 
-#: src/open_torrent_dialog.cpp:143 src/create_torrent_dialog.cpp:704
+#: src/open_torrent_dialog.cpp:143 src/create_torrent_dialog.cpp:712
 msgid "Any files"
 msgstr ""
 
@@ -1258,25 +1258,25 @@ msgstr ""
 msgid "Resuming torrent(s) failed. %1"
 msgstr ""
 
-#: src/daemon_types.cpp:218
+#: src/daemon_types.cpp:222
 #, qt-format
 msgid "Unable to parse torrent '%1' magnet URI. %2"
 msgstr ""
 
-#: src/daemon_types.cpp:232
+#: src/daemon_types.cpp:236
 msgid "Libtorrent internal error."
 msgstr ""
 
-#: src/daemon_types.cpp:256
+#: src/daemon_types.cpp:260
 #, qt-format
 msgid "Can't save torrent file '%1': %2."
 msgstr ""
 
-#: src/daemon_types.cpp:266
+#: src/daemon_types.cpp:270
 msgid "Unable to save torrent's metadata"
 msgstr ""
 
-#: src/daemon_types.cpp:267
+#: src/daemon_types.cpp:271
 #, qt-format
 msgid "Saving torrent's '%1' downloaded metadata failed. %2"
 msgstr ""
@@ -1353,169 +1353,169 @@ msgstr ""
 msgid "Can't copy torrent file '%1' to '%2': %3."
 msgstr ""
 
-#: src/daemon_session.cpp:802
+#: src/daemon_session.cpp:806
 #, qt-format
 msgid "Can't pause torrent '%1'. %2"
 msgstr ""
 
-#: src/daemon_session.cpp:815
+#: src/daemon_session.cpp:819
 #, qt-format
 msgid "Can't remove torrent '%1'. %2"
 msgstr ""
 
-#: src/daemon_session.cpp:828
+#: src/daemon_session.cpp:832
 #, qt-format
 msgid "Can't remove with data torrent '%1'. %2"
 msgstr ""
 
-#: src/daemon_session.cpp:873
+#: src/daemon_session.cpp:877
 #, qt-format
 msgid "Can't stat torrent file: %1."
 msgstr ""
 
-#: src/daemon_session.cpp:913
+#: src/daemon_session.cpp:917
 msgid "Deleting automatically loaded *.torrent file failed"
 msgstr ""
 
-#: src/daemon_session.cpp:915
+#: src/daemon_session.cpp:919
 #, qt-format
 msgid "Can't delete automatically loaded *.torrent file '%1': %2."
 msgstr ""
 
-#: src/daemon_session.cpp:944 src/daemon_session.cpp:1705
+#: src/daemon_session.cpp:948 src/daemon_session.cpp:1709
 #, qt-format
 msgid "Automatic loading the torrent '%1' failed. %2"
 msgstr ""
 
-#: src/daemon_session.cpp:954 src/daemon_session.cpp:959
-#: src/daemon_session.cpp:978 src/daemon_session.cpp:2507
-#: src/daemon_session.cpp:2589
+#: src/daemon_session.cpp:958 src/daemon_session.cpp:963
+#: src/daemon_session.cpp:982 src/daemon_session.cpp:2511
+#: src/daemon_session.cpp:2593
 msgid "Automatic torrents loading failed"
 msgstr ""
 
-#: src/daemon_session.cpp:961
+#: src/daemon_session.cpp:965
 #, qt-format
 msgid "Directory '%1' has been deleted or moved."
 msgstr ""
 
-#: src/daemon_session.cpp:1082
+#: src/daemon_session.cpp:1086
 msgid "Automatic torrents cleaning failed"
 msgstr ""
 
-#: src/daemon_session.cpp:1177
+#: src/daemon_session.cpp:1181
 msgid "All torrents downloaded."
 msgstr ""
 
-#: src/daemon_session.cpp:1227
+#: src/daemon_session.cpp:1231
 msgid "Copying finished torrent's files failed"
 msgstr ""
 
-#: src/daemon_session.cpp:1229
+#: src/daemon_session.cpp:1233
 #, qt-format
 msgid "Copying finished torrent's '%1' files from '%2' to '%3' failed."
 msgstr ""
 
-#: src/daemon_session.cpp:1311 src/daemon_session.cpp:1323
-#: src/daemon_session.cpp:1334 src/daemon_session.cpp:1347
+#: src/daemon_session.cpp:1315 src/daemon_session.cpp:1327
+#: src/daemon_session.cpp:1338 src/daemon_session.cpp:1351
 #, qt-format
 msgid "Bad torrent id '%1'."
 msgstr ""
 
-#: src/daemon_session.cpp:1573
+#: src/daemon_session.cpp:1577
 #, qt-format
 msgid "Restoring torrent's previous session settings failed. %1"
 msgstr ""
 
-#: src/daemon_session.cpp:1656
+#: src/daemon_session.cpp:1660
 #, qt-format
 msgid "Invalid torrent '%1' files' settings. Rejecting them..."
 msgstr ""
 
-#: src/daemon_session.cpp:1667
+#: src/daemon_session.cpp:1671
 msgid "Torrent added with errors"
 msgstr ""
 
-#: src/daemon_session.cpp:1668
+#: src/daemon_session.cpp:1672
 #, qt-format
 msgid "Torrent '%1' has been added with errors.%2"
 msgstr ""
 
-#: src/daemon_session.cpp:1717
+#: src/daemon_session.cpp:1721
 #, qt-format
 msgid "Can't read directory '%1' for automatic torrents loading: %2."
 msgstr ""
 
-#: src/daemon_session.cpp:1752
+#: src/daemon_session.cpp:1756
 msgid "Loading torrent failed"
 msgstr ""
 
-#: src/daemon_session.cpp:1752
+#: src/daemon_session.cpp:1756
 #, qt-format
 msgid "Loading of the torrent '%1' failed. %2"
 msgstr ""
 
-#: src/daemon_session.cpp:1758
+#: src/daemon_session.cpp:1762
 #, qt-format
 msgid "Can't read directory with torrents configs '%1': %2."
 msgstr ""
 
-#: src/daemon_session.cpp:1764
+#: src/daemon_session.cpp:1768
 #, qt-format
 msgid "Loading torrents from previous session failed. %1"
 msgstr ""
 
-#: src/daemon_session.cpp:1780 src/daemon_session.cpp:2662
+#: src/daemon_session.cpp:1784 src/daemon_session.cpp:2666
 msgid "Saving session failed"
 msgstr ""
 
-#: src/daemon_session.cpp:1780 src/daemon_session.cpp:2662
+#: src/daemon_session.cpp:1784 src/daemon_session.cpp:2666
 #, qt-format
 msgid "Saving session failed. %1"
 msgstr ""
 
-#: src/daemon_session.cpp:1994
+#: src/daemon_session.cpp:1998
 #, qt-format
 msgid "Bad torrent id: '%1'."
 msgstr ""
 
-#: src/daemon_session.cpp:2042 src/daemon_session.cpp:2058
+#: src/daemon_session.cpp:2046 src/daemon_session.cpp:2062
 msgid "Deleting torrent data failed"
 msgstr ""
 
-#: src/daemon_session.cpp:2043 src/daemon_session.cpp:2059
+#: src/daemon_session.cpp:2047 src/daemon_session.cpp:2063
 #, qt-format
 msgid "Deleting torrent '%1' data failed."
 msgstr ""
 
-#: src/daemon_session.cpp:2184
+#: src/daemon_session.cpp:2188
 msgid "Saving torrent settings failed"
 msgstr ""
 
-#: src/daemon_session.cpp:2186
+#: src/daemon_session.cpp:2190
 #, qt-format
 msgid "Saving torrent '%1' settings failed. %2"
 msgstr ""
 
-#: src/daemon_session.cpp:2217
+#: src/daemon_session.cpp:2221
 #, qt-format
 msgid "Invalid copy when finished to path '%1'."
 msgstr ""
 
-#: src/daemon_session.cpp:2239 src/daemon_session.cpp:2261
+#: src/daemon_session.cpp:2243 src/daemon_session.cpp:2265
 #, qt-format
 msgid "Bad file id: %1."
 msgstr ""
 
-#: src/daemon_session.cpp:2484
+#: src/daemon_session.cpp:2488
 msgid "Setting directory for automatic torrents loading failed"
 msgstr ""
 
-#: src/daemon_session.cpp:2486
+#: src/daemon_session.cpp:2490
 #, qt-format
 msgid "Setting directory '%1' for automatic torrents loading failed. %2"
 msgstr ""
 
-#: src/daemon_session.cpp:2552
+#: src/daemon_session.cpp:2556
 msgid "Setting torrent trackers failed: libtorrent internal error."
 msgstr ""
 
@@ -1790,96 +1790,96 @@ msgstr ""
 msgid "Hashing files. Please wait..."
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:279 src/create_torrent_dialog.cpp:326
+#: src/create_torrent_dialog.cpp:283 src/create_torrent_dialog.cpp:334
 #, qt-format
 msgid "Error while reading torrent files. File '%1': %2."
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:285
+#: src/create_torrent_dialog.cpp:289
 msgid "Libtorrent internal error happened while reading torrent files."
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:302
+#: src/create_torrent_dialog.cpp:306
 msgid "Libtorrent internal error happened while creating torrent."
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:338
+#: src/create_torrent_dialog.cpp:346
 msgid "Libtorrent internal error happened while hashing torrent files."
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:387
+#: src/create_torrent_dialog.cpp:395
 msgid "Libtorrent return invalid torrent file."
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:416
+#: src/create_torrent_dialog.cpp:424
 #, qt-format
 msgid "Can't write torrent file '%1': %2."
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:423
+#: src/create_torrent_dialog.cpp:431
 #, qt-format
 msgid "Libtorrent internal error happened while creating torrent file '%1'."
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:435
+#: src/create_torrent_dialog.cpp:443
 msgid "Torrent created"
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:437
+#: src/create_torrent_dialog.cpp:445
 #, qt-format
 msgid "Torrent '%1' has been created successfully."
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:461
+#: src/create_torrent_dialog.cpp:469
 msgid "Creating torrent failed"
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:462
+#: src/create_torrent_dialog.cpp:470
 #, qt-format
 msgid "Creating torrent '%1' failed. %2"
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:488
+#: src/create_torrent_dialog.cpp:496
 msgid "Creating torrent"
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:503
+#: src/create_torrent_dialog.cpp:511
 msgid "Torrent:"
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:508
+#: src/create_torrent_dialog.cpp:516
 msgid "File or directory to create torrent from:"
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:543
+#: src/create_torrent_dialog.cpp:551
 msgid "Private torrent (DHT is not allowed)"
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:601
+#: src/create_torrent_dialog.cpp:609
 msgid "Piece size:"
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:607
+#: src/create_torrent_dialog.cpp:615
 msgid "Trackers:"
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:670
+#: src/create_torrent_dialog.cpp:678
 msgid "File or directory to create torrent from is not setted"
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:671
+#: src/create_torrent_dialog.cpp:679
 msgid "Please choose file or directory to create torrent from."
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:680
+#: src/create_torrent_dialog.cpp:688
 msgid "Please choose a file to save the torrent"
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:740
+#: src/create_torrent_dialog.cpp:748
 msgid "Please choose a directory to create torrent from"
 msgstr ""
 
-#: src/create_torrent_dialog.cpp:741
+#: src/create_torrent_dialog.cpp:749
 msgid "Please choose a file to create torrent from"
 msgstr ""
 

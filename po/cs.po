@@ -1,227 +1,233 @@
-# Finnish translation for flush
+# German translation for flush
 # Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the flush package.
-# Dmitry Konishchev <konishchev@gmail.com>, 2010.
 #
+# Dmitry Konishchev <konishchev@gmail.com>, 2010.
+# Pavel Fric <pavelfric@seznam.cz>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: flush\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
 "POT-Creation-Date: 2012-01-08 14:36+0400\n"
-"PO-Revision-Date: 2010-05-05 22:30+0000\n"
-"Last-Translator: Jouni Mikkola <Unknown>\n"
-"Language-Team: Finnish <fi@li.org>\n"
-"Language: fi\n"
+"PO-Revision-Date: 2012-01-08 06:30+0100\n"
+"Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
+"Language-Team: German <de@li.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-10-21 18:36+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-03-05 14:08+0000\n"
+"X-Generator: Lokalize 1.1\n"
+"Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
+"X-Language: cs_CZ\n"
+"X-Source-Language: C\n"
 
 #: mlib/mlib/misc.cpp:95 mlib/mlib/misc.cpp:157
 msgid "Buffer positioning error."
-msgstr ""
+msgstr "Chyba řazení vyrovnávací paměti."
 
 #: mlib/mlib/misc.cpp:226 mlib/mlib/sys.cpp:283
 #, qt-format
 msgid "Can't create a pipe: %1."
-msgstr "Ei voida luoda putkea: %1."
+msgstr "Nepodařilo se vytvořit přenos dat: %1."
 
 #: mlib/mlib/misc.cpp:235
 #, qt-format
 msgid "Can't set flags for a pipe: %1."
-msgstr ""
+msgstr "Nepodařilo se nastavit žádné příznaky pro přenos dat: %1."
 
 #: mlib/mlib/misc.cpp:243 mlib/mlib/misc.cpp:246
 #, qt-format
 msgid "Error while closing a pipe: %1."
-msgstr ""
+msgstr "Chyba při zavírání přenosu dat: %1."
 
 #: mlib/mlib/misc.cpp:274
 #, qt-format
 msgid "Can't read from a pipe: %1."
-msgstr "Ei voida lukea putkea: %1."
+msgstr "Nepodařilo se číst z přenosu dat: %1."
 
 #: mlib/mlib/misc.cpp:306
 #, qt-format
 msgid "Can't write to a pipe: %1."
-msgstr "Ei voida kirjoittaa putkeen: %1."
+msgstr "Nepodařilo se zapisovat do přenosu dat: %1."
 
 #: mlib/mlib/misc.cpp:372
 #, qt-format
 msgid "Can't get max opened files limit: %1."
-msgstr ""
+msgstr "Nepodařilo se dostat největší omezení otevřených souborů: %1."
 
 #: mlib/mlib/misc.cpp:390
 #, qt-format
 msgid "Copyright (C) %1-%2 %3."
-msgstr ""
+msgstr "Autorské právo (C) %1-%2 %3."
 
 #: mlib/mlib/misc.cpp:393
 #, qt-format
 msgid "Copyright (C) %1 %2."
-msgstr ""
+msgstr "Autorské právo (C) %1 %2."
 
 #: mlib/mlib/misc.cpp:403
 #, qt-format
 msgid "Realloc failed: %1."
-msgstr "Uudelleenvaraus epäonnistui: %1."
+msgstr "Přerozdělení se nezdařilo: %1."
 
 #: mlib/mlib/misc.cpp:447
 #, qt-format
 msgid "Running command '%1' failed: %2."
-msgstr "Komennon '%1' suorittaminen epäonnistui: %2."
+msgstr "Běžící příkaz '%1' se nezdařil: %2."
 
 #: mlib/mlib/misc.cpp:479
 #, qt-format
 msgid "Error while creating epoll instance: %1."
-msgstr ""
+msgstr "Chyba při vytváření instance epoll: %1."
 
 #: mlib/mlib/misc.cpp:498
 #, qt-format
 msgid "Error while using epoll instance: %1."
-msgstr ""
+msgstr "Chyba při používání instance epoll: %1."
 
 #: mlib/mlib/misc.cpp:540
 #, qt-format
 msgid "Can't read data from a file descriptor: %1."
-msgstr ""
+msgstr "Nepodařilo se přečíst žádná data z popisu souboru: %1."
 
 #: mlib/mlib/fs_watcher.cpp:163
 #, qt-format
 msgid "Error while closing an inotify instance: %1."
-msgstr ""
+msgstr "Chyba při zavírání instance inotify: %1."
 
 #: mlib/mlib/fs_watcher.cpp:226
 #, qt-format
 msgid "Can't create an inotify instance: %1."
-msgstr ""
+msgstr "Nepodařilo se vytvořit žádnou instanci inotify: %1."
 
 #: mlib/mlib/fs_watcher.cpp:359
 msgid "Program has been compiled without inotify support."
-msgstr ""
+msgstr "Program byl sestaven bez podpory pro inotify."
 
 #: mlib/mlib/fs_watcher.cpp:378
 #, qt-format
 msgid "Error while removing an inotify watch instance: %1."
-msgstr ""
+msgstr "Chyba při odstraňování dohlížecí instance inotify: %1."
 
 #: mlib/mlib/fs_watcher.cpp:425
 #, qt-format
 msgid "Can't read data from inotify descriptor: %1."
-msgstr ""
+msgstr "Nepodařilo se přečíst žádná data z popisu inotify: %1."
 
 #: mlib/mlib/libconfig.cpp:41
 #, qt-format
 msgid "%1 at line %2"
-msgstr ""
+msgstr "%1 na řádku %2"
 
 #: mlib/mlib/sqlite.cpp:137
 msgid "unknown error"
-msgstr ""
+msgstr "Neznámá chyba"
 
 #: mlib/mlib/sqlite.cpp:219 mlib/mlib/sqlite.cpp:260
 msgid "Database is not opened yet."
-msgstr ""
+msgstr "Databáze ještě není otevřena."
 
 #: mlib/mlib/sqlite.cpp:272
 msgid "Database is already opened."
-msgstr ""
+msgstr "Databáze je již otevřena."
 
 #: mlib/mlib/sqlite.cpp:369
 msgid "Query is already finalized."
-msgstr ""
+msgstr "Dotaz je už vyřešen."
 
 #: mlib/mlib/sqlite.cpp:450
 msgid "Operation on finalized query."
-msgstr ""
+msgstr "Operace na vyřešeném dotazu."
 
 #: mlib/mlib/async_fs.cpp:245
 msgid ""
 "Asynchronous filesystem finished it's work, but not all tasks are processed."
 msgstr ""
+"Asynchronní souborový systém dokončil svou práci, ale ne všechny úkoly byly "
+"udělány."
 
 #: mlib/mlib/gtk/misc.cpp:125 src/main.cpp:432
 msgid "Information"
-msgstr ""
+msgstr "Informace"
 
 #: mlib/mlib/gtk/misc.cpp:131 src/main.cpp:426
 msgid "Warning"
-msgstr ""
+msgstr "Varování"
 
 #: mlib/mlib/gtk/builder.hh:42
 #, qt-format
 msgid "Can't get widget '%1' from glade file '%2'."
-msgstr ""
+msgstr "Nepodařilo se dostat objekt '%1' ze souboru glade '%2'."
 
 #: mlib/mlib/gtk/toolbar.cpp:103
 #, qt-format
 msgid "Invalid toolbar style name '%1'."
-msgstr ""
+msgstr "Neplatný název stylu pro nástrojový pruh '%1'."
 
 #: mlib/mlib/gtk/tree_view.hh:188
 #, qt-format
 msgid "No such column: '%1'."
-msgstr ""
+msgstr "'%1' není žádný sloupec."
 
 #: mlib/mlib/libtorrent.cpp:94
 msgid "Invalid magnet URI."
-msgstr ""
+msgstr "Neplatný magnetický URI."
 
 #: mlib/mlib/libtorrent.cpp:119
 msgid "there is no 'xt=urn:btih:' field in it"
-msgstr ""
+msgstr "Zde není začleněno žádné pole 'xt=urn:bith:'"
 
 #: mlib/mlib/libtorrent.cpp:182
 #, qt-format
 msgid "Invalid magnet URI: %1."
-msgstr ""
+msgstr "Neplatný magnetický URI: %1."
 
 #: mlib/mlib/libtorrent.cpp:224
 #, qt-format
 msgid "Invalid torrent file path '%1'."
-msgstr ""
+msgstr "Neplatná cesta k souboru torrentu '%1'."
 
 #: mlib/mlib/libtorrent.cpp:520
 msgid "invalid torrent file"
-msgstr ""
+msgstr "Neplatný soubor torrentu"
 
 #: mlib/mlib/libtorrent.cpp:544 src/daemon_session.cpp:517
 #: src/daemon_session.cpp:532 src/daemon_session.cpp:1613
 #: src/daemon_session.cpp:1630
 #, qt-format
 msgid "Error while reading torrent file '%1': %2."
-msgstr ""
+msgstr "Chyba při čtení souboru s torrentem '%1': %2."
 
 #: mlib/mlib/libtorrent.cpp:608
 msgid "bad torrent data"
-msgstr ""
+msgstr "Poškozená data torrentu"
 
 #: mlib/mlib/libtorrent.cpp:616
 #, qt-format
 msgid "libtorrent error code [%1]"
-msgstr ""
+msgstr "Kód chyby libtorrent [%1]"
 
 #: mlib/mlib/libtorrent.cpp:621
 msgid "torrent is already exists in this session"
-msgstr ""
+msgstr "Torrent již v tomto sezení existuje"
 
 #: mlib/mlib/libtorrent.cpp:628
 msgid "this is not a torrent file"
-msgstr ""
+msgstr "Toto není soubor torrentu"
 
 #: mlib/mlib/base/exception.cpp:94
 #, qt-format
 msgid "Exception: '%1'."
-msgstr ""
+msgstr "Výjimka: '%1'."
 
 #: mlib/mlib/base/messages.cpp:112
 msgid "[[gettimeofday time getting error]]"
-msgstr ""
+msgstr "[[Chyba při získávání času gettimeofday]]"
 
 #: mlib/mlib/base/messages.cpp:222
 msgid "Logical error"
-msgstr ""
+msgstr "Logická chyba"
 
 #: mlib/mlib/base/format.cpp:111 mlib/mlib/base/format.cpp:125
 #: mlib/mlib/base/format.cpp:183 mlib/mlib/base/format.cpp:241
@@ -234,95 +240,95 @@ msgstr ""
 #: mlib/mlib/base/format.hh:237 mlib/mlib/base/format.hh:252
 #: mlib/mlib/base/format.hh:267
 msgid "[[Invalid encoding]]"
-msgstr ""
+msgstr "[[Neplatné kódování]]"
 
 #: mlib/mlib/sys.cpp:130 mlib/mlib/sys.cpp:140
 #, qt-format
 msgid "Can't duplicate a file descriptor: %1."
-msgstr ""
+msgstr "Nelze zdvojit popis souboru: %1."
 
 #: mlib/mlib/sys.cpp:211
 #, qt-format
 msgid "Can't fork the process: %1."
-msgstr ""
+msgstr "Nelze rozvětvit proces '%1' (fork)."
 
 #: mlib/mlib/sys.cpp:298
 msgid "too big link target path"
-msgstr ""
+msgstr "Příliš velká cesta k cíli odkazu"
 
 #: mlib/mlib/string.cpp:60
 msgid "0m"
-msgstr ""
+msgstr "0m"
 
 #: mlib/mlib/string.cpp:77 mlib/mlib/string.cpp:118
 msgid "M"
-msgstr ""
+msgstr "M"
 
 #: mlib/mlib/string.cpp:80 mlib/mlib/string.cpp:121 mlib/mlib/string.cpp:130
 msgid "d"
-msgstr ""
+msgstr "d"
 
 #: mlib/mlib/string.cpp:83 mlib/mlib/string.cpp:133 mlib/mlib/string.cpp:141
 msgid "h"
-msgstr ""
+msgstr "h"
 
 #: mlib/mlib/string.cpp:86 mlib/mlib/string.cpp:144 mlib/mlib/string.cpp:152
 msgid "m"
-msgstr ""
+msgstr "m"
 
 #: mlib/mlib/string.cpp:155 mlib/mlib/string.cpp:161
 msgid "s"
-msgstr ""
+msgstr "s"
 
 #: mlib/mlib/string.cpp:174
 msgid "minutes|m"
-msgstr ""
+msgstr "m"
 
 #: mlib/mlib/string.cpp:175
 msgid "seconds|s"
-msgstr ""
+msgstr "s"
 
 #: mlib/mlib/string.cpp:226
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: mlib/mlib/string.cpp:233 mlib/mlib/string.cpp:243
 #: src/create_torrent_dialog.cpp:588 src/create_torrent_dialog.cpp:592
 #: src/create_torrent_dialog.cpp:596 src/create_torrent_dialog.cpp:600
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: mlib/mlib/string.cpp:250 mlib/mlib/string.cpp:260
 #: src/create_torrent_dialog.cpp:568 src/create_torrent_dialog.cpp:572
 #: src/create_torrent_dialog.cpp:576 src/create_torrent_dialog.cpp:580
 #: src/create_torrent_dialog.cpp:584
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 #: mlib/mlib/string.cpp:267 mlib/mlib/string.cpp:274
 msgid "B"
-msgstr ""
+msgstr "B"
 
 #: mlib/mlib/string.cpp:294
 msgid "0 KB/s"
-msgstr ""
+msgstr "0 KB"
 
 #: mlib/mlib/string.cpp:307 mlib/mlib/string.cpp:309 src/main_window.cpp:276
 msgid "KB/s"
-msgstr ""
+msgstr "KB/s"
 
 #: mlib/mlib/string.cpp:312
 msgid "B/s"
-msgstr ""
+msgstr "B/s"
 
 #: mlib/mlib/string.cpp:315
 msgid "/s"
-msgstr ""
+msgstr "/s"
 
 #: mlib/mlib/fs.cpp:161
 #, qt-format
 msgid "Can't copy file '%1' to '%2': %3."
-msgstr ""
+msgstr "Nepodařilo se zkopírovat soubor '%1' do '%2': %3."
 
 #: mlib/mlib/fs.cpp:194
 #, qt-format
@@ -330,1446 +336,1463 @@ msgid ""
 "Error while changing directory '%1' access and modification times. Can't "
 "stat directory '%2': %3."
 msgstr ""
+"Chyba při změně časů přístupů a změn adresáře '%1'. Nepodařilo se najít "
+"adresář '%2': %3."
 
 #: mlib/mlib/fs.cpp:208
 #, qt-format
 msgid "Error while changing directory '%1' access and modification times: %2."
-msgstr ""
+msgstr "Chyba při změně časů přístupů a změn adresáře '%1': %2."
 
 #: mlib/mlib/fs.cpp:223 mlib/mlib/fs.cpp:819 src/daemon_fs.cpp:43
 #, qt-format
 msgid "Can't create directory '%1': %2."
-msgstr ""
+msgstr "Nepodařilo se vytvořit adresář '%1': %2."
 
 #: mlib/mlib/fs.cpp:254
 #, qt-format
 msgid "Invalid file path '%1'."
-msgstr ""
+msgstr "Neplatná cesta k souboru '%1'."
 
 #: mlib/mlib/fs.cpp:303
 #, qt-format
 msgid "Invalid file path '%1' - file with such path is already exists."
 msgstr ""
+"Neplatná cesta k souboru '%1' - Jeden soubor s touto cestou již existuje."
 
 #: mlib/mlib/fs.cpp:312
 #, qt-format
 msgid "Invalid file path '%1' - file '%2' is already exits."
-msgstr ""
+msgstr "Neplatná cesta k souboru '%1' - Soubor '%2' již existuje."
 
 #: mlib/mlib/fs.cpp:356 mlib/mlib/fs.cpp:775 mlib/mlib/fs.cpp:785
 #, qt-format
 msgid "Can't stat '%1': %2."
-msgstr ""
+msgstr "Nepodařilo se najít '%1': %2."
 
 #: mlib/mlib/fs.cpp:370
 #, qt-format
 msgid "Can't remove file '%1': %2."
-msgstr ""
+msgstr "Nepodařilo se odstranit soubor '%1': %2."
 
 #: mlib/mlib/fs.cpp:394
 #, qt-format
 msgid "Can't read directory '%1': %2."
-msgstr ""
+msgstr "Nepodařilo se přečíst adresář '%1': %2."
 
 #: mlib/mlib/fs.cpp:398
 #, qt-format
 msgid "Can't remove directory '%1': %2."
-msgstr ""
+msgstr "Nepodařilo se odstranit adresář '%1': %2."
 
 #: mlib/mlib/fs.cpp:435
 msgid "parent directory is not exists"
-msgstr ""
+msgstr "Rodičovský adresář neexistuje"
 
 #: mlib/mlib/fs.cpp:739
 msgid "file is already exists"
-msgstr ""
+msgstr "Soubor již existuje"
 
 #: mlib/mlib/fs.cpp:756
 msgid "it is a directory"
-msgstr ""
+msgstr "Je adresář"
 
 #: mlib/mlib/fs.cpp:760
 msgid "it is a special file"
-msgstr ""
+msgstr "Je zvláštní soubor"
 
 #: mlib/mlib/fs.cpp:771 mlib/mlib/fs.cpp:781
 #, qt-format
 msgid "No such file or directory ('%1')."
-msgstr ""
+msgstr "Žádný takový soubor nebo adresář ('%1')."
 
 #: mlib/mlib/fs.cpp:850
 #, qt-format
 msgid "Error while copying '%1' to '%2': %3."
-msgstr ""
+msgstr "Chyba při kopírování '%1' do '%2': %3."
 
 #: mlib/mlib/fs.cpp:856 mlib/mlib/fs.cpp:1011
 #, qt-format
 msgid "Error while reading '%1': %2."
-msgstr ""
+msgstr "Chyba při čtení '%1': %2."
 
 #: mlib/mlib/fs.cpp:892
 msgid "Can't get user home path."
-msgstr ""
+msgstr "Nepodařilo se získat cestu k domovskému adresáři."
 
 #: mlib/mlib/fs.cpp:932
 #, qt-format
 msgid "file '%1' is already exists"
-msgstr ""
+msgstr "Soubor '%1' již existuje"
 
 #: mlib/mlib/fs.cpp:1004
 #, qt-format
 msgid "Can't delete directory '%1': %2."
-msgstr ""
+msgstr "Nepodařilo se smazat adresář '%1': %2."
 
 #: mlib/mlib/fs.cpp:1018
 #, qt-format
 msgid "file or directory '%1' is not exists"
-msgstr ""
+msgstr "Soubor nebo adresář '%1' neexistuje"
 
 #: mlib/mlib/fs.cpp:1022
 #, qt-format
 msgid "Can't delete file '%1': %2."
-msgstr ""
+msgstr "Nepodařilo se smazat soubor '%1': %2."
 
 #: mlib/mlib/fs.cpp:1068
 #, qt-format
 msgid "Unable to synchronize data for file '%1' with storage device: %2."
-msgstr ""
+msgstr "Nelze seřídit data pro soubor '%1' s úložným zařízením: %2."
 
 #: src/settings_window.cpp:236 src/settings_window.cpp:238
 #: src/torrents_view.cpp:325 src/torrents_view.cpp:358
 #: src/torrent_files_view.cpp:180 src/torrent_files_view.cpp:185
 msgid "Name"
-msgstr ""
+msgstr "Název"
 
 #: src/settings_window.cpp:246 src/main_window.cpp:953 src/main_window.cpp:954
 msgid "Preferences"
-msgstr ""
+msgstr "Nastavení"
 
 #: src/settings_window.cpp:254
 msgid "Please select torrents download directory"
-msgstr ""
+msgstr "Vyberte, prosím, adresář pro stahování torrentu"
 
 #: src/settings_window.cpp:260
 msgid "Please select directory for finished downloads copying"
-msgstr ""
+msgstr "Vyberte, prosím, adresář pro dokončené kopie stahování"
 
 #: src/settings_window.cpp:300 src/settings_window.cpp:396
 #: src/torrent_peers_view.cpp:88 src/torrent_peers_view.cpp:99
 msgid "Client"
-msgstr ""
+msgstr "Klient"
 
 #: src/settings_window.cpp:306 src/settings_window.cpp:405
 msgid "Main"
-msgstr ""
+msgstr "Hlavní"
 
 #: src/settings_window.cpp:316 src/settings_window.cpp:422
 msgid "GUI"
-msgstr ""
+msgstr "Rozhraní"
 
 #: src/settings_window.cpp:322 src/settings_window.cpp:355
 #: ui/preferences.client.gui.glade:62 ui/preferences.daemon.network.glade:62
 msgid "Misc"
-msgstr ""
+msgstr "Různé"
 
 #: src/settings_window.cpp:328 ui/preferences.client.gui.glade:78
 msgid "Status bar"
-msgstr ""
+msgstr "Stavový řádek"
 
 #: src/settings_window.cpp:339 src/settings_window.cpp:606
 msgid "Daemon"
-msgstr ""
+msgstr "Démon"
 
 #: src/settings_window.cpp:349 src/settings_window.cpp:615
 msgid "Network"
-msgstr ""
+msgstr "Síť"
 
 #: src/settings_window.cpp:361 ui/preferences.daemon.network.glade:78
 msgid "IP filter"
-msgstr ""
+msgstr "Filtr IP"
 
 #: src/settings_window.cpp:369 src/settings_window.cpp:632
 msgid "Automation"
-msgstr ""
+msgstr "Automatizace"
 
 #: src/settings_window.cpp:444
 msgid "Client::Main"
-msgstr ""
+msgstr "Klient::Hlavní"
 
 #: src/settings_window.cpp:447
 msgid "Show add torrent dialog when opening torrent file"
-msgstr ""
+msgstr "Ukázat dialog pro přidání torrentu, když je soubor s torrentem otevřen"
 
 #: src/settings_window.cpp:452
 msgid "Start torrent on adding"
-msgstr ""
+msgstr "Spustit torrent, když je přidán"
 
 #: src/settings_window.cpp:462 ui/preferences.daemon.automation.glade:119
 msgid "Download to:"
-msgstr ""
+msgstr "Stáhnout do:"
 
 #: src/settings_window.cpp:470 ui/preferences.daemon.automation.glade:140
 msgid "Copy finished to:"
-msgstr ""
+msgstr "Kopírovat dokončené do:"
 
 #: src/settings_window.cpp:485
 msgid "Open command:"
-msgstr ""
+msgstr "Otevřít příkaz:"
 
 #: src/settings_window.cpp:974
 msgid "none"
-msgstr ""
+msgstr "žádné"
 
 #: src/statistics_window.cpp:52 src/statistics_window.cpp:138
 #: src/main_window.cpp:943 src/main_window.cpp:945
 msgid "Statistics"
-msgstr ""
+msgstr "Statistika"
 
 #: src/statistics_window.cpp:121
 msgid "Reset statistics?"
-msgstr ""
+msgstr "Nastavit statistiku znovu?"
 
 #: src/statistics_window.cpp:121
 msgid "Are you sure want to reset statistics?"
-msgstr ""
+msgstr "Opravdu chcete statistiku nastavit znovu?"
 
 #: src/statistics_window.cpp:159
 msgid "Session start time"
-msgstr ""
+msgstr "Začáteční čas sezení"
 
 #: src/statistics_window.cpp:160
 msgid "Statistics start time"
-msgstr ""
+msgstr "Začáteční čas statistiky"
 
 #: src/statistics_window.cpp:162 src/main_window.cpp:1643
 #: ui/preferences.client.gui.status_bar.glade:108
 msgid "Downloaded"
-msgstr ""
+msgstr "Staženo"
 
 #: src/statistics_window.cpp:163
 msgid "Payload download"
-msgstr ""
+msgstr "Užitečné zatížení při stahování"
 
 #: src/statistics_window.cpp:164 src/torrents_view.cpp:370
 msgid "Total download"
-msgstr ""
+msgstr "Úhrn stahování"
 
 #: src/statistics_window.cpp:165
 msgid "Total payload download"
-msgstr ""
+msgstr "Celkové užitečné zatížení při stahování"
 
 #: src/statistics_window.cpp:167 src/main_window.cpp:1649
 #: ui/preferences.client.gui.status_bar.glade:136
 msgid "Uploaded"
-msgstr ""
+msgstr "Nahráno"
 
 #: src/statistics_window.cpp:168
 msgid "Payload upload"
-msgstr ""
+msgstr "Užitečné zatížení při nahrávání"
 
 #: src/statistics_window.cpp:169 src/torrents_view.cpp:372
 msgid "Total upload"
-msgstr ""
+msgstr "Úhrn nahrávání"
 
 #: src/statistics_window.cpp:170
 msgid "Total payload upload"
-msgstr ""
+msgstr "Celkové užitečné zatížení při nahrávání"
 
 #: src/statistics_window.cpp:172 src/main_window.cpp:1655
 #: src/torrents_view.cpp:382 ui/preferences.client.gui.status_bar.glade:162
 msgid "Share ratio"
-msgstr ""
+msgstr "Poměr sdílení"
 
 #: src/statistics_window.cpp:173
 msgid "Total share ratio"
-msgstr ""
+msgstr "Celkový poměr sdílení"
 
 #: src/statistics_window.cpp:175 src/main_window.cpp:1658
 #: ui/preferences.client.gui.status_bar.glade:149
 msgid "Failed"
-msgstr ""
+msgstr "Nepodařilo se"
 
 #: src/statistics_window.cpp:176 src/torrents_view.cpp:374
 msgid "Total failed"
-msgstr ""
+msgstr "Úhrn nepodařeného"
 
 #: src/statistics_window.cpp:177 src/main_window.cpp:1661
 #: ui/preferences.client.gui.status_bar.glade:190
 msgid "Redundant"
-msgstr ""
+msgstr "Nadbytečné"
 
 #: src/statistics_window.cpp:178 src/torrents_view.cpp:375
 msgid "Total redundant"
-msgstr ""
+msgstr "Úhrn nadbytečného"
 
 #: src/statistics_window.cpp:187
 msgid "Reset"
-msgstr ""
+msgstr "Nastavit znovu"
 
 #: src/torrents_viewport.cpp:228
 msgid "Details"
-msgstr ""
+msgstr "Podrobnosti"
 
 #: src/torrents_viewport.cpp:245
 msgid "Files"
-msgstr ""
+msgstr "Soubory"
 
 #: src/torrents_viewport.cpp:262 src/torrents_view.cpp:346
 #: src/torrents_view.cpp:384
 msgid "Peers"
-msgstr ""
+msgstr "Vrstevníci"
 
 #: src/torrents_viewport.cpp:278
 msgid "Options"
-msgstr ""
+msgstr "Volby"
 
 #: src/torrents_viewport.cpp:295
 msgid "Log"
-msgstr ""
+msgstr "Zápis"
 
 #: src/daemon_settings.cpp:45
 #, qt-format
 msgid "Daemon config: Bad option '%1' type at line %2."
-msgstr ""
+msgstr "Daemon config: Poškozená volba '%1' typ na řádku %2."
 
 #: src/daemon_settings.cpp:74
 #, qt-format
 msgid "Daemon config: Bad option '%1' value '%2' at line %3."
-msgstr ""
+msgstr "Daemon config: Poškozená volba '%1' hodnota '%2' na řádku %3."
 
 #: src/daemon_settings.cpp:104
 #, qt-format
 msgid "Daemon config: Invalid option '%1' UTF-8 value at line %2."
-msgstr ""
+msgstr "Daemon config: Neplatná volba '%1' hodnota UTF-8 na řádku %2."
 
 #: src/daemon_settings.cpp:114
 #, qt-format
 msgid "Daemon config: Unknown option '%1' at line %2."
-msgstr ""
+msgstr "Daemon config: Neznámá volba '%1' na řádku %2."
 
 #: src/daemon_settings.cpp:452 src/client_settings.cpp:1147
 #, qt-format
 msgid "Reading configuration file '%1' failed. %2"
-msgstr ""
+msgstr "Čtení souboru s nastavením '%1' se nezdařilo. %2"
 
 #: src/daemon_settings.cpp:456
 #, qt-format
 msgid "Error while reading configuration file '%1': %2."
-msgstr ""
+msgstr "Chyba při čtení souboru s nastavením '%1': %2."
 
 #: src/daemon_settings.cpp:460
 #, qt-format
 msgid "Error while parsing configuration file '%1': %2."
-msgstr ""
+msgstr "Chyba při zpracování souboru s nastavením '%1': %2."
 
 #: src/daemon_settings.cpp:769
 msgid "invalid DHT state data"
-msgstr ""
+msgstr "Neplatná data o stavu DHT"
 
 #: src/daemon_settings.cpp:775
 #, qt-format
 msgid "Error while reading DHT state from file '%1': %2."
-msgstr ""
+msgstr "Chyba při čtení stavu DHT ze souboru '%1': %2."
 
 #: src/daemon_settings.cpp:807
 #, qt-format
 msgid "Daemon config: Invalid IP filter rule at line %1: %2."
-msgstr ""
+msgstr "Nastavení démona: Neplatné pravidlo pro filtr IP na řádku %1: %2."
 
 #: src/daemon_settings.cpp:813
 #, qt-format
 msgid "Daemon config: Invalid IP filter rule at line %1."
-msgstr ""
+msgstr "Nastavení démona: Neplatné pravidlo pro filtr IP na řádku %1."
 
 #: src/daemon_settings.cpp:964 src/client_settings.cpp:1233
 #, qt-format
 msgid "Writing configuration file '%1' failed. %2"
-msgstr ""
+msgstr "Zápis souboru s nastavením '%1' se nezdařil. %2"
 
 #: src/daemon_settings.cpp:968
 #, qt-format
 msgid "Can't write configuration file %1: %2."
-msgstr ""
+msgstr "Nepodařilo se zapsat soubor s nastavením '%1': %2."
 
 #: src/daemon_settings.cpp:1005
 #, qt-format
 msgid "Can't write DHT state to file '%1': %2."
-msgstr ""
+msgstr "Nepodařilo se zapsat stav DHT do souboru '%1': %2."
 
 #: src/daemon_settings.cpp:1016
 #, qt-format
 msgid "Writing DHT state to file '%1' failed. %2"
-msgstr ""
+msgstr "Zápis stavu DHT do souboru '%1' se nezdařil. %2"
 
 #: src/daemon_settings.cpp:1416
 #, qt-format
 msgid "Daemon config: %1"
-msgstr ""
+msgstr "Nastavení démona: %1"
 
 #: src/daemon_settings.cpp:1524
 #, qt-format
 msgid "Reading torrent configuration file '%1' failed. %2"
-msgstr ""
+msgstr "Čtení souboru s nastavením torrentu '%1' se nezdařilo. %2"
 
 #: src/daemon_settings.cpp:1528
 #, qt-format
 msgid "Error while reading torrent configuration file '%1': %2."
-msgstr ""
+msgstr "Chyba při čtení souboru s nastavením torrentu '%1': %2."
 
 #: src/daemon_settings.cpp:1532
 #, qt-format
 msgid "Error while parsing torrent configuration file '%1': %2."
-msgstr ""
+msgstr "Chyba při zpracování souboru s nastavením torrentu '%1': %2."
 
 #: src/daemon_settings.cpp:1549 src/daemon_settings.cpp:1560
 #, qt-format
 msgid "Can't read torrent resume data from file '%1': %2."
-msgstr ""
+msgstr "Nepodařilo se přečíst data o pokračování torrentu ze souboru '%1': %2."
 
 #: src/daemon_settings.cpp:1570 src/daemon_settings.cpp:1576
 #, qt-format
 msgid "Error while reading torrent resume data from file '%1': file broken."
 msgstr ""
+"Chyba při čtení dat o pokračování torrentu ze souboru '%1': Soubor poškozen."
 
 #: src/daemon_settings.cpp:1602
 #, qt-format
 msgid "Can't read torrent resume data from file '%1': bad resume data."
 msgstr ""
+"Nepodařilo se přečíst data o pokračování torrentu ze souboru '%1': Poškozená "
+"data o pokračování."
 
 #: src/daemon_settings.cpp:1714
 #, qt-format
 msgid "Writing torrent configuration file '%1' failed. %2"
-msgstr ""
+msgstr "Zápis souboru s nastavením torrentu '%1' se nezdařil. %2"
 
 #: src/daemon_settings.cpp:1718
 #, qt-format
 msgid "Can't write torrent configuration file %1: %2."
-msgstr ""
+msgstr "Nepodařilo se zapsat soubor s nastavením torrentu '%1': %2."
 
 #: src/daemon_settings.cpp:1736
 #, qt-format
 msgid "Removing old resume data '%1' failed. %2"
-msgstr ""
+msgstr "Odstranění starých dat o pokračování '%1' se nezdařilo. %2"
 
 #: src/daemon_settings.cpp:1770
 #, qt-format
 msgid "Can't write torrent resume data to file '%1': %2."
-msgstr ""
+msgstr "Nepodařilo se zapsat data o pokračování torrentu do souboru '%1': %2."
 
 #: src/daemon_settings.cpp:1781
 #, qt-format
 msgid "Writing torrent resume data to file '%1' failed. %2"
-msgstr ""
+msgstr "Zápis dat o pokračování torrentu do souboru '%1' se nezdařil: %2"
 
 #: src/torrent_peers_view.cpp:87
 msgid "IP"
-msgstr ""
+msgstr "IP"
 
 #: src/torrent_peers_view.cpp:89 src/torrents_view.cpp:340
 msgid "Download speed|Down speed"
-msgstr ""
+msgstr "Rychlost stahování"
 
 #: src/torrent_peers_view.cpp:90 src/torrents_view.cpp:341
 msgid "Download speed (payload)|Down speed (data)"
-msgstr ""
+msgstr "Rychlost stahování (data)"
 
 #: src/torrent_peers_view.cpp:91 src/torrents_view.cpp:342
 msgid "Upload speed|Up speed"
-msgstr ""
+msgstr "Rychlost nahrávání"
 
 #: src/torrent_peers_view.cpp:92 src/torrents_view.cpp:343
 msgid "Upload speed (payload)|Up speed (data)"
-msgstr ""
+msgstr "Rychlost nahrávání (data)"
 
 #: src/torrent_peers_view.cpp:93 src/torrents_view.cpp:334
 msgid "Total download (payload)|Down data"
-msgstr ""
+msgstr "Stažená data"
 
 #: src/torrent_peers_view.cpp:94 src/torrents_view.cpp:336
 msgid "Total upload (payload)|Up data"
-msgstr ""
+msgstr "Nahraná data"
 
 #: src/torrent_peers_view.cpp:95 src/torrent_peers_view.cpp:108
 msgid "Availability"
-msgstr ""
+msgstr "Dostupnost"
 
 #: src/torrent_peers_view.cpp:96 src/torrent_peers_view.cpp:113
 msgid "Hash fails"
-msgstr ""
+msgstr "Hash se nepodařil"
 
 #: src/torrent_peers_view.cpp:98
 msgid "IP address"
-msgstr ""
+msgstr "IP adresa"
 
 #: src/torrent_peers_view.cpp:101 src/main_window.cpp:1631
 #: src/torrents_view.cpp:377 ui/preferences.client.gui.status_bar.glade:58
 msgid "Download speed"
-msgstr ""
+msgstr "Rychlost stahování"
 
 #: src/torrent_peers_view.cpp:102 src/main_window.cpp:1634
 #: src/torrents_view.cpp:378 ui/preferences.client.gui.status_bar.glade:95
 msgid "Download speed (payload)"
-msgstr ""
+msgstr "Rychlost stahování (užitečné zatížení)"
 
 #: src/torrent_peers_view.cpp:103 src/main_window.cpp:1637
 #: src/torrents_view.cpp:379 ui/preferences.client.gui.status_bar.glade:82
 msgid "Upload speed"
-msgstr ""
+msgstr "Rychlost nahrávání"
 
 #: src/torrent_peers_view.cpp:104 src/main_window.cpp:1640
 #: src/torrents_view.cpp:380 ui/preferences.client.gui.status_bar.glade:67
 msgid "Upload speed (payload)"
-msgstr ""
+msgstr "Rychlost nahrávání (užitečné zatížení)"
 
 #: src/torrent_peers_view.cpp:105 src/torrents_view.cpp:371
 msgid "Total download (payload)"
-msgstr ""
+msgstr "Úhrn stahování (užitečné zatížení)"
 
 #: src/torrent_peers_view.cpp:106 src/torrents_view.cpp:373
 msgid "Total upload (payload)"
-msgstr ""
+msgstr "Úhrn nahrávání (užitečné zatížení)"
 
 #: src/main_window.cpp:247
 msgid "Set download rate limit"
-msgstr ""
+msgstr "Nastavit omezení pro rychlost stahování"
 
 #: src/main_window.cpp:247
 msgid "Set upload rate limit"
-msgstr ""
+msgstr "Nastavit omezení pro rychlost nahrávání"
 
 #: src/main_window.cpp:298
 msgid "Getting current rate limit failed"
-msgstr ""
+msgstr "Získání omezení pro nynější rychlost spojení se nezdařilo"
 
 #: src/main_window.cpp:310
 msgid "Setting current rate limit failed"
-msgstr ""
+msgstr "Nastavení omezení pro nynější rychlost spojení se nezdařilo"
 
 #: src/main_window.cpp:356
 msgid "_File"
-msgstr ""
+msgstr "_Soubor"
 
 #: src/main_window.cpp:358
 msgid "_Create"
-msgstr ""
+msgstr "_Vytvořit"
 
 #: src/main_window.cpp:362
 msgid "_Open a torrent"
-msgstr ""
+msgstr "_Otevřít torrent"
 
 #: src/main_window.cpp:366
 msgid "_Open a magnet link"
-msgstr ""
+msgstr "_Otevřít odkaz na magnet"
 
 #: src/main_window.cpp:370
 msgid "_Quit"
-msgstr ""
+msgstr "_Ukončit"
 
 #: src/main_window.cpp:375
 msgid "_Edit"
-msgstr ""
+msgstr "Ú_pravy"
 
 #: src/main_window.cpp:377
 msgid "_Statistics"
-msgstr ""
+msgstr "_Statistika"
 
 #: src/main_window.cpp:381
 msgid "_Preferences"
-msgstr ""
+msgstr "_Nastavení"
 
 #: src/main_window.cpp:386
 msgid "_View"
-msgstr ""
+msgstr "_Pohled"
 
 #: src/main_window.cpp:389
 msgid "_Toolbar"
-msgstr ""
+msgstr "_Nástrojový pruh"
 
 #: src/main_window.cpp:392 src/main_window.cpp:469
 msgid "'Show ...' toggle|_Show"
-msgstr ""
+msgstr "_Ukázat"
 
 #: src/main_window.cpp:405
 msgid "Toolbar _style"
-msgstr ""
+msgstr "_Styl nástrojového pruhu"
 
 #: src/main_window.cpp:409
 msgid "_Desktop default"
-msgstr ""
+msgstr "_Výchozí pro plochu"
 
 #: src/main_window.cpp:419
 msgid "_Icons"
-msgstr ""
+msgstr "_Ikony"
 
 #: src/main_window.cpp:429
 msgid "_Text"
-msgstr ""
+msgstr "_Text"
 
 #: src/main_window.cpp:439
 msgid "_Both"
-msgstr ""
+msgstr "_Obojí"
 
 #: src/main_window.cpp:449
 msgid "Both _horizontal"
-msgstr ""
+msgstr "Obojí _vodorovně"
 
 #: src/main_window.cpp:466
 msgid "_Categories"
-msgstr ""
+msgstr "_Skupiny"
 
 #: src/main_window.cpp:479
 msgid "Show _names"
-msgstr ""
+msgstr "Ukázat _názvy"
 
 #: src/main_window.cpp:489
 msgid "Show _counters"
-msgstr ""
+msgstr "Ukázat _počítadla"
 
 #: src/main_window.cpp:501
 msgid "_Torrents"
-msgstr ""
+msgstr "_Torrenty"
 
 #: src/main_window.cpp:504
 msgid "_Resume"
-msgstr ""
+msgstr "_Obnovit"
 
 #: src/main_window.cpp:506 src/main_window.cpp:530 src/main_window.cpp:558
 #: src/main_window.cpp:585
 msgid "_All"
-msgstr ""
+msgstr "_Vše"
 
 #: src/main_window.cpp:513 src/main_window.cpp:537 src/main_window.cpp:565
 #: src/main_window.cpp:592
 msgid "_Downloads"
-msgstr ""
+msgstr "_Stahování"
 
 #: src/main_window.cpp:520 src/main_window.cpp:544 src/main_window.cpp:572
 #: src/main_window.cpp:599
 msgid "_Uploads"
-msgstr ""
+msgstr "_Nahrávání"
 
 #: src/main_window.cpp:528
 msgid "_Pause"
-msgstr ""
+msgstr "_Pozastavit"
 
 #: src/main_window.cpp:554
 msgid "R_esume temporary"
-msgstr ""
+msgstr "_Pokračovat dočasně"
 
 #: src/main_window.cpp:581
 msgid "P_ause temporary"
-msgstr ""
+msgstr "P_ozastavit dočasně"
 
 #: src/main_window.cpp:607
 msgid "C_omplete pending temporary action"
-msgstr ""
+msgstr "_Dokončit zbývající dočasnou činnost"
 
 #: src/main_window.cpp:614
 msgid "_Cancel pending temporary action"
-msgstr ""
+msgstr "_Zrušit čekající dočasnou činnost"
 
 #: src/main_window.cpp:624
 msgid "Set _upload rate limit"
-msgstr ""
+msgstr "Nastavit omezení pro rychlost _nahrávání"
 
 #: src/main_window.cpp:632
 msgid "Set _download rate limit"
-msgstr ""
+msgstr "Nastavit omezení pro rychlost _stahování"
 
 #: src/main_window.cpp:640
 msgid "_Help"
-msgstr ""
+msgstr "Ná_pověda"
 
 #: src/main_window.cpp:642
 msgid "_About"
-msgstr ""
+msgstr "_O"
 
 #: src/main_window.cpp:867
 msgid "Create"
-msgstr ""
+msgstr "Vytvořit"
 
 #: src/main_window.cpp:868
 msgid "Create a new torrent"
-msgstr ""
+msgstr "Vytvořit nový torrent"
 
 #: src/main_window.cpp:876
 msgid "Open"
-msgstr ""
+msgstr "Otevřít"
 
 #: src/main_window.cpp:877
 msgid "Open a torrent"
-msgstr ""
+msgstr "Otevřít torrent"
 
 #: src/main_window.cpp:886
 msgid "Magnet link"
-msgstr ""
+msgstr "Odkaz na magnet"
 
 #: src/main_window.cpp:887 ui/dialog.open_magnet_link.glade:7
 msgid "Open a magnet link"
-msgstr ""
+msgstr "Otevřít odkaz na magnet"
 
 #: src/main_window.cpp:901 src/torrents_view.cpp:455
 msgid "Resume"
-msgstr ""
+msgstr "Obnovit"
 
 #: src/main_window.cpp:902
 msgid "Resume torrent(s)"
-msgstr ""
+msgstr "Obnovit torrent(y)"
 
 #: src/main_window.cpp:913 src/torrents_view.cpp:461
 msgid "Pause"
-msgstr ""
+msgstr "Pozastavit"
 
 #: src/main_window.cpp:914
 msgid "Pause torrent(s)"
-msgstr ""
+msgstr "Pozastavit torrent(y)"
 
 #: src/main_window.cpp:925 src/torrents_view.cpp:474 src/torrents_view.cpp:766
 msgid "Remove"
-msgstr ""
+msgstr "Odstranit"
 
 #: src/main_window.cpp:926
 msgid "Remove torrent(s)"
-msgstr ""
+msgstr "Odstranit torrent(y)"
 
 #: src/main_window.cpp:1120
 msgid "Interrupting the temporary action on torrents failed"
-msgstr ""
+msgstr "Přerušení dočasné činnosti torrentů se nezdařilo"
 
 #: src/main_window.cpp:1150 src/main_window.cpp:1164
 msgid "Pausing torrents failed"
-msgstr ""
+msgstr "Pozastavení torrentů se nezdařilo"
 
 #: src/main_window.cpp:1185 src/main_window.cpp:1196
 #: src/client_cmd_options.cpp:196
 msgid "Dmitry Konishchev"
-msgstr ""
+msgstr "Dmitry Konishchev"
 
 #: src/main_window.cpp:1194
 msgid "GTK-based BitTorrent client"
-msgstr ""
+msgstr "Na GTK založený klient pro BitTorrent"
 
 #: src/main_window.cpp:1328
 msgid "Processing the temporary action on torrents failed"
-msgstr ""
+msgstr "Zpracování  dočasné činnosti torrentů se nezdařilo"
 
 #: src/main_window.cpp:1432 src/add_torrent_dialog.cpp:281
 msgid "Opening torrent failed"
-msgstr ""
+msgstr "Otevření torrentu se nezdařilo"
 
 #: src/main_window.cpp:1432 src/add_torrent_dialog.cpp:283
 #, qt-format
 msgid "Opening torrent '%1' failed. %2"
-msgstr ""
+msgstr "Otevření torrentu '%1' se nezdařilo. %2"
 
 #: src/main_window.cpp:1602
 #, qt-format
 msgid "Download/Upload|D: %1, U: %2 - %3"
-msgstr ""
+msgstr "Stahování: %1, Nahrávání:%2 - %3"
 
 #: src/main_window.cpp:1646
 msgid "Download (payload)"
-msgstr ""
+msgstr "Stahování (užitečné zatížení)"
 
 #: src/main_window.cpp:1652
 msgid "Upload (payload)"
-msgstr ""
+msgstr "Nahrávání (užitečné zatížení)"
 
 #: src/main_window.cpp:1680
 #, qt-format
 msgid "Download speed|Down: %1 (%2) / %3"
-msgstr ""
+msgstr "Rychlost stahování: %1 (%2) / %3"
 
 #: src/main_window.cpp:1687
 #, qt-format
 msgid "Upload speed|Up: %1 (%2) / %3"
-msgstr ""
+msgstr "Rychlost nahrávání: %1 (%2) / %3"
 
 #: src/open_torrent_dialog.cpp:95
 msgid "Please choose a torrent file"
-msgstr ""
+msgstr "Vyberte, prosím, soubor s torrentem"
 
 #: src/open_torrent_dialog.cpp:111
 msgid "Torrent file encoding:"
-msgstr ""
+msgstr "Kódování souboru s torrentem:"
 
 #: src/open_torrent_dialog.cpp:138 src/create_torrent_dialog.cpp:707
 msgid "Torrent files"
-msgstr ""
+msgstr "Soubory s torrenty"
 
 #: src/open_torrent_dialog.cpp:143 src/create_torrent_dialog.cpp:712
 msgid "Any files"
-msgstr ""
+msgstr "Všechny soubory"
 
 #: src/torrents_view.cpp:326 src/torrents_view.cpp:360
 msgid "Status"
-msgstr ""
+msgstr "Stav"
 
 #: src/torrents_view.cpp:328 src/torrents_view.cpp:365
 #: src/torrent_files_view.cpp:181 src/torrent_files_view.cpp:205
 msgid "Size"
-msgstr ""
+msgstr "Velikost"
 
 #: src/torrents_view.cpp:329
 msgid "Requested size|Requested"
-msgstr ""
+msgstr "Požadováno"
 
 #: src/torrents_view.cpp:330
 msgid "Downloaded requested size|Downloaded"
-msgstr ""
+msgstr "Staženo"
 
 #: src/torrents_view.cpp:331 src/torrents_view.cpp:368
 #, c-format
 msgid "%% Complete"
-msgstr ""
+msgstr "%% hotovo"
 
 #: src/torrents_view.cpp:333
 msgid "Total download|Download"
-msgstr ""
+msgstr "Stahování"
 
 #: src/torrents_view.cpp:335
 msgid "Total upload|Upload"
-msgstr ""
+msgstr "Nahrávání"
 
 #: src/torrents_view.cpp:337
 msgid "Total failed|Failed"
-msgstr ""
+msgstr "Nepodařené"
 
 #: src/torrents_view.cpp:338
 msgid "Total redundant|Redundant"
-msgstr ""
+msgstr "Nadbytečné"
 
 #: src/torrents_view.cpp:345
 msgid "Share ratio|Ratio"
-msgstr ""
+msgstr "Poměr"
 
 #: src/torrents_view.cpp:347 src/torrents_view.cpp:385
 msgid "Seeds"
-msgstr ""
+msgstr "Semena"
 
 #: src/torrents_view.cpp:349
 msgid "Time added|Added"
-msgstr ""
+msgstr "Přidáno"
 
 #: src/torrents_view.cpp:350
 msgid "Time left|ETA"
-msgstr ""
+msgstr "ETA"
 
 #: src/torrents_view.cpp:351
 msgid "Time seeding|Seeding"
-msgstr ""
+msgstr "Setí"
 
 #: src/torrents_view.cpp:353 src/torrents_view.cpp:391
 msgid "Tracker"
-msgstr ""
+msgstr "Rozdělovač"
 
 #: src/torrents_view.cpp:355
 msgid "Status icon"
-msgstr ""
+msgstr "Ikona stavu"
 
 #: src/torrents_view.cpp:366
 msgid "Requested size"
-msgstr ""
+msgstr "Požadovaná velikost"
 
 #: src/torrents_view.cpp:367
 msgid "Downloaded requested size"
-msgstr ""
+msgstr "Z požadované velikosti staženo"
 
 #: src/torrents_view.cpp:387
 msgid "Time added"
-msgstr ""
+msgstr "Čas přidání"
 
 #: src/torrents_view.cpp:388
 msgid "Time left"
-msgstr ""
+msgstr "Zbývající čas"
 
 #: src/torrents_view.cpp:389
 msgid "Time seeding"
-msgstr ""
+msgstr "Čas setí"
 
 #: src/torrents_view.cpp:450
 msgid "Open directory"
-msgstr ""
+msgstr "Otevřít adresář"
 
 #: src/torrents_view.cpp:467
 msgid "Recheck"
-msgstr ""
+msgstr "Přezkoušení"
 
 #: src/torrents_view.cpp:636
 #, qt-format
 msgid "Opening torrent '%1' directory failed. %2"
-msgstr ""
+msgstr "Otevření adresáře s torrentem '%1' se nezdařilo. %2"
 
 #: src/torrents_view.cpp:660
 #, qt-format
 msgid "Opening torrent '%1' file(s) failed. %2"
-msgstr ""
+msgstr "Otevření souboru(ů) s torrenty '%1' se nezdařilo. %2"
 
 #: src/torrents_view.cpp:754
 msgid "Remove torrent"
-msgstr ""
+msgstr "Odstranit torrent"
 
 #: src/torrents_view.cpp:755
 msgid "Remove torrents"
-msgstr ""
+msgstr "Odstranit torrenty"
 
 #: src/torrents_view.cpp:760
 #, qt-format
 msgid "Are you sure want to remove torrent '%1'?"
-msgstr ""
+msgstr "Opravdu chcete odstranit torrent '%1'?"
 
 #: src/torrents_view.cpp:761
 msgid "Are you sure want to remove following torrents?"
-msgstr ""
+msgstr "Opravdu chcete odstranit následující torrenty?"
 
 #: src/torrents_view.cpp:767
 msgid "Remove with data"
-msgstr ""
+msgstr "Odstranit s daty"
 
 #: src/torrents_view.cpp:830
 msgid "Removing torrent(s) failed."
-msgstr ""
+msgstr "Odstranění torrentu(ů) se nezdařilo."
 
 #: src/torrents_view.cpp:830
 #, qt-format
 msgid "Removing torrent(s) failed. %1"
-msgstr ""
+msgstr "Odstranění torrentu(ů) se nezdařilo. %1"
 
 #: src/torrents_view.cpp:834
 msgid "Removing torrent(s) with data failed."
-msgstr ""
+msgstr "Odstranění torrentu(ů) s daty se nezdařilo."
 
 #: src/torrents_view.cpp:834
 #, qt-format
 msgid "Removing torrent(s) with data failed. %1"
-msgstr ""
+msgstr "Odstranění torrentu(ů) s daty se nezdařilo. %1"
 
 #: src/torrents_view.cpp:838
 msgid "Pausing torrent(s) failed."
-msgstr ""
+msgstr "Pozastavení torrentu(ů) se nezdařilo."
 
 #: src/torrents_view.cpp:838
 #, qt-format
 msgid "Pausing torrent(s) failed. %1"
-msgstr ""
+msgstr "Pozastavení torrentu(ů) se nezdařilo. %1"
 
 #: src/torrents_view.cpp:842
 msgid "Resuming torrent(s) failed."
-msgstr ""
+msgstr "Obnovení torrentu(ů) se nezdařilo."
 
 #: src/torrents_view.cpp:842
 #, qt-format
 msgid "Resuming torrent(s) failed. %1"
-msgstr ""
+msgstr "Obnovení torrentu(ů) se nezdařilo. %1"
 
 #: src/daemon_types.cpp:222
 #, qt-format
 msgid "Unable to parse torrent '%1' magnet URI. %2"
-msgstr ""
+msgstr "Zpracování magnetického URI torrentu '%1' není možné. %2"
 
 #: src/daemon_types.cpp:236
 msgid "Libtorrent internal error."
-msgstr ""
+msgstr "Vnitřní chyba libtorrent."
 
 #: src/daemon_types.cpp:260
 #, qt-format
 msgid "Can't save torrent file '%1': %2."
-msgstr ""
+msgstr "Nepodařilo se uložit soubor s torrentem '%1': %2."
 
 #: src/daemon_types.cpp:270
 msgid "Unable to save torrent's metadata"
-msgstr ""
+msgstr "Nepodařilo se uložit metadata torrentu"
 
 #: src/daemon_types.cpp:271
 #, qt-format
 msgid "Saving torrent's '%1' downloaded metadata failed. %2"
-msgstr ""
+msgstr "Uložení stažených metadat k torrentu(ům) '%1' se nezdařilo. %2"
 
 #: src/open_magnet_dialog.cpp:113 src/open_magnet_dialog.cpp:119
 msgid "Invalid magnet URI"
-msgstr ""
+msgstr "Neplatný magnetický URI"
 
 #: src/open_magnet_dialog.cpp:114
 msgid "Please enter a magnet URI."
-msgstr ""
+msgstr "Zadejte, prosím, magnetický URI."
 
 #: src/open_magnet_dialog.cpp:120
 #, qt-format
 msgid "'%1' is not a magnet URI."
-msgstr ""
+msgstr "'%1' není magnetický URI."
 
 #: src/client_settings.cpp:41
 #, qt-format
 msgid "Client config: Bad option '%1' type at line %2."
-msgstr ""
+msgstr "Nastavení klienta: Špatný typ volby '%1' na řádku %2."
 
 #: src/client_settings.cpp:68
 #, qt-format
 msgid "Client config: Bad option '%1' value '%2' at line %3."
-msgstr ""
+msgstr "Nastavení klienta: Špatná hodnota volby '%1' '%2' na řádku %3."
 
 #: src/client_settings.cpp:78
 #, qt-format
 msgid "Client config: Invalid option '%1' UTF-8 value at line %2."
-msgstr ""
+msgstr "Nastavení klienta: Neplatná volba '%1' hodnota UTF-8 na řádku %2."
 
 #: src/client_settings.cpp:88
 #, qt-format
 msgid "Client config: Unknown option '%1' at line %2."
-msgstr ""
+msgstr "Nastavení klienta: Neznámá volba '%1' na řádku %2."
 
 #: src/client_settings.cpp:1153
 #, qt-format
 msgid "Can't read configuration file '%1': %2."
-msgstr ""
+msgstr "Nepodařilo se přečíst soubor s nastavením '%1': %2."
 
 #: src/client_settings.cpp:1157
 #, qt-format
 msgid "Can't parse configuration file '%1': %2."
-msgstr ""
+msgstr "Nepodařilo se zpracovat soubor s nastavením '%1': %2."
 
 #: src/client_settings.cpp:1240
 #, qt-format
 msgid "Can't write configuration file '%1': %2."
-msgstr ""
+msgstr "Nepodařilo se zapsat soubor s nastavením '%1': %2."
 
 #: src/daemon_session.cpp:210
 #, qt-format
 msgid "%1 (%2). Errors: %3."
-msgstr ""
+msgstr "%1 (%2). Chyby: %3."
 
 #: src/daemon_session.cpp:545
 msgid "This torrent is already exists in the current session."
-msgstr ""
+msgstr "Tento torrent v tomto sezení již existuje."
 
 #: src/daemon_session.cpp:563
 #, qt-format
 msgid "Can't create torrent configuration directory '%1': %2."
-msgstr ""
+msgstr "Nepodařilo se vytvořit adresář s nastavením torrentu '%1': %2."
 
 #: src/daemon_session.cpp:587
 #, qt-format
 msgid "Torrent '%1' has been changed while it's been processed."
-msgstr ""
+msgstr "Torrent '%1' byl během zpracování změněn."
 
 #: src/daemon_session.cpp:602
 #, qt-format
 msgid "Can't copy torrent file '%1' to '%2': %3."
-msgstr ""
+msgstr "Nepodařilo se zkopírovat soubor s torrentem '%1' do '%2': %3."
 
 #: src/daemon_session.cpp:806
 #, qt-format
 msgid "Can't pause torrent '%1'. %2"
-msgstr ""
+msgstr "Nepodařilo se pozastavit soubor s torrentem '%1': %2"
 
 #: src/daemon_session.cpp:819
 #, qt-format
 msgid "Can't remove torrent '%1'. %2"
-msgstr ""
+msgstr "Nepodařilo se odstranit torrent '%1': %2"
 
 #: src/daemon_session.cpp:832
 #, qt-format
 msgid "Can't remove with data torrent '%1'. %2"
-msgstr ""
+msgstr "Nepodařilo se odstranit torrent s daty '%1'. %2"
 
 #: src/daemon_session.cpp:877
 #, qt-format
 msgid "Can't stat torrent file: %1."
-msgstr ""
+msgstr "Nepodařilo se spustit soubor s torrentem: %1."
 
 #: src/daemon_session.cpp:917
 msgid "Deleting automatically loaded *.torrent file failed"
-msgstr ""
+msgstr "Automatické smazání souboru *.torrent se nezdařilo"
 
 #: src/daemon_session.cpp:919
 #, qt-format
 msgid "Can't delete automatically loaded *.torrent file '%1': %2."
-msgstr ""
+msgstr "Nepodařilo se automaticky smazat nahraný soubor *.torrent '%1': %2."
 
 #: src/daemon_session.cpp:948 src/daemon_session.cpp:1709
 #, qt-format
 msgid "Automatic loading the torrent '%1' failed. %2"
-msgstr ""
+msgstr "Automatické nahrání torrentu '%1' se nezdařilo. %2"
 
 #: src/daemon_session.cpp:958 src/daemon_session.cpp:963
 #: src/daemon_session.cpp:982 src/daemon_session.cpp:2511
 #: src/daemon_session.cpp:2593
 msgid "Automatic torrents loading failed"
-msgstr ""
+msgstr "Automatické nahrání torrentu se nezdařilo"
 
 #: src/daemon_session.cpp:965
 #, qt-format
 msgid "Directory '%1' has been deleted or moved."
-msgstr ""
+msgstr "Adresář '%1' byl přesunut nebo smazán."
 
 #: src/daemon_session.cpp:1086
 msgid "Automatic torrents cleaning failed"
-msgstr ""
+msgstr "Automatické uklizení torrentu se nezdařilo"
 
 #: src/daemon_session.cpp:1181
 msgid "All torrents downloaded."
-msgstr ""
+msgstr "Všechny torrenty staženy."
 
 #: src/daemon_session.cpp:1231
 msgid "Copying finished torrent's files failed"
-msgstr ""
+msgstr "Kopírování stažených torrentů se nezdařilo"
 
 #: src/daemon_session.cpp:1233
 #, qt-format
 msgid "Copying finished torrent's '%1' files from '%2' to '%3' failed."
 msgstr ""
+"Kopírování stažených souborů s torrenty '%1' z '%2' do '%3' se nezdařilo."
 
 #: src/daemon_session.cpp:1315 src/daemon_session.cpp:1327
 #: src/daemon_session.cpp:1338 src/daemon_session.cpp:1351
 #, qt-format
 msgid "Bad torrent id '%1'."
-msgstr ""
+msgstr "Poškozené ID torrentu '%1'."
 
 #: src/daemon_session.cpp:1577
 #, qt-format
 msgid "Restoring torrent's previous session settings failed. %1"
-msgstr ""
+msgstr "Obnova předchozího nastavení sezení torrentu se nezdařila. %1"
 
 #: src/daemon_session.cpp:1660
 #, qt-format
 msgid "Invalid torrent '%1' files' settings. Rejecting them..."
-msgstr ""
+msgstr "Neplatná nastavení souboru s torrentem '%1'. Jsou odmítána..."
 
 #: src/daemon_session.cpp:1671
 msgid "Torrent added with errors"
-msgstr ""
+msgstr "Torrent přidán s chybami"
 
 #: src/daemon_session.cpp:1672
 #, qt-format
 msgid "Torrent '%1' has been added with errors.%2"
-msgstr ""
+msgstr "Torrent '%1' byl přidán s chybami. %2"
 
 #: src/daemon_session.cpp:1721
 #, qt-format
 msgid "Can't read directory '%1' for automatic torrents loading: %2."
 msgstr ""
+"Nepodařilo se přečíst adresář '%1' pro automatické nahrání torrentu: %2."
 
 #: src/daemon_session.cpp:1756
 msgid "Loading torrent failed"
-msgstr ""
+msgstr "Nahrání torrentu se nezdařilo"
 
 #: src/daemon_session.cpp:1756
 #, qt-format
 msgid "Loading of the torrent '%1' failed. %2"
-msgstr ""
+msgstr "Nahrání torrentu '%1' se nezdařilo. %2"
 
 #: src/daemon_session.cpp:1762
 #, qt-format
 msgid "Can't read directory with torrents configs '%1': %2."
-msgstr ""
+msgstr "Nepodařilo se přečíst adresář s nastavením torrentu '%1': %2."
 
 #: src/daemon_session.cpp:1768
 #, qt-format
 msgid "Loading torrents from previous session failed. %1"
-msgstr ""
+msgstr "Nahrání torrentů z předchozího sezení se nezdařilo. %1"
 
 #: src/daemon_session.cpp:1784 src/daemon_session.cpp:2666
 msgid "Saving session failed"
-msgstr ""
+msgstr "Uložení sezení se nezdařilo"
 
 #: src/daemon_session.cpp:1784 src/daemon_session.cpp:2666
 #, qt-format
 msgid "Saving session failed. %1"
-msgstr ""
+msgstr "Uložení sezení se nezdařilo. %1"
 
 #: src/daemon_session.cpp:1998
 #, qt-format
 msgid "Bad torrent id: '%1'."
-msgstr ""
+msgstr "Poškozené ID torrentu: '%1'."
 
 #: src/daemon_session.cpp:2046 src/daemon_session.cpp:2062
 msgid "Deleting torrent data failed"
-msgstr ""
+msgstr "Smazání dat torrentu se nezdařilo"
 
 #: src/daemon_session.cpp:2047 src/daemon_session.cpp:2063
 #, qt-format
 msgid "Deleting torrent '%1' data failed."
-msgstr ""
+msgstr "Smazání dat torrentu '%1\" se nezdařilo."
 
 #: src/daemon_session.cpp:2188
 msgid "Saving torrent settings failed"
-msgstr ""
+msgstr "Uložení nastavení torrentu se nezdařilo"
 
 #: src/daemon_session.cpp:2190
 #, qt-format
 msgid "Saving torrent '%1' settings failed. %2"
-msgstr ""
+msgstr "Uložení nastavení torrentu '%1' se nezdařilo. %2"
 
 #: src/daemon_session.cpp:2221
 #, qt-format
 msgid "Invalid copy when finished to path '%1'."
-msgstr ""
+msgstr "Neplatná kopie, když dokončena do cesty '%1'."
 
 #: src/daemon_session.cpp:2243 src/daemon_session.cpp:2265
 #, qt-format
 msgid "Bad file id: %1."
-msgstr ""
+msgstr "Poškozené ID souboru: %1."
 
 #: src/daemon_session.cpp:2488
 msgid "Setting directory for automatic torrents loading failed"
-msgstr ""
+msgstr "Nastavení adresáře pro automatické nahrání torrentu se nezdařilo"
 
 #: src/daemon_session.cpp:2490
 #, qt-format
 msgid "Setting directory '%1' for automatic torrents loading failed. %2"
 msgstr ""
+"Nastavení adresáře '%1' pro automatické nahrání torrentu se nezdařilo. %2"
 
 #: src/daemon_session.cpp:2556
 msgid "Setting torrent trackers failed: libtorrent internal error."
-msgstr ""
+msgstr "Nastavení rozdělovače torrentů se nezdařilo: Vnitřní chyba libtorrent."
 
 #: src/daemon.cpp:195
 #, qt-format
 msgid "Can't start daemon. Creating config directories failed. %1"
 msgstr ""
+"Nepodařilo se spustit démona. Vytvoření adresářů s nastavením se nezdařilo. "
+"%1"
 
 #: src/torrent_files_view.cpp:82 src/torrent_files_view.cpp:93
 msgid "Change file or directory path"
-msgstr ""
+msgstr "Změnit cestu k souboru nebo adresáři"
 
 #: src/torrent_files_view.cpp:125 src/torrent_files_view.cpp:533
 #: src/torrent_files_view.cpp:550
 msgid "Changing file or directory path failed"
-msgstr ""
+msgstr "Změna cesty k souboru nebo adresáři se nezdařila"
 
 #: src/torrent_files_view.cpp:126
 msgid ""
 "Changing file or directory path failed. Invalid path has been gotten. Please "
 "enter a valid path."
 msgstr ""
+"Změna cesty k souboru nebo adresáři se nezdařila. Byla obdržena neplatná "
+"cesta. Zadejte, prosím, platnou cestu."
 
 #: src/torrent_files_view.cpp:182 src/torrent_files_view.cpp:200
 msgid "Priority"
-msgstr ""
+msgstr "Přednost"
 
 #: src/torrent_files_view.cpp:183 src/torrent_files_view.cpp:207
 msgid "Progress"
-msgstr ""
+msgstr "Postup"
 
 #: src/torrent_files_view.cpp:241
 msgid "Download"
-msgstr ""
+msgstr "Stahování"
 
 #: src/torrent_files_view.cpp:247
 msgid "Do not download"
-msgstr ""
+msgstr "Nestahovat"
 
 #: src/torrent_files_view.cpp:253
 msgid "Normal priority"
-msgstr ""
+msgstr "Obvyklá přednost"
 
 #: src/torrent_files_view.cpp:259
 msgid "High priority"
-msgstr ""
+msgstr "Vysoká přednost"
 
 #: src/torrent_files_view.cpp:265
 msgid "Change path"
-msgstr ""
+msgstr "Změnit cestu"
 
 #: src/torrent_files_view.cpp:395
 #, qt-format
 msgid "Changing torrent files download status failed. %1"
-msgstr ""
+msgstr "Změna stavu stahování souborů s torrenty se nezdařila. %1"
 
 #: src/torrent_files_view.cpp:434
 #, qt-format
 msgid "Changing torrent files priorities failed. %1"
-msgstr ""
+msgstr "Změna přednosti souborů s torrenty se nezdařila. %1"
 
 #: src/torrent_files_view.cpp:502
 msgid "Changing file path failed"
-msgstr ""
+msgstr "Změna cesty k souboru se nezdařila"
 
 #: src/torrent_files_view.cpp:503
 msgid ""
 "Changing file path failed. Invalid file path has been gotten. Please enter a "
 "valid path."
 msgstr ""
+"Změna cesty k souboru se nezdařila. Byla obdržena neplatná cesta k souboru. "
+"Zadejte, prosím, platnou cestu."
 
 #: src/torrent_files_view.cpp:534 src/torrent_files_view.cpp:551
 #, qt-format
 msgid "Changing file or directory path failed. %1"
-msgstr ""
+msgstr "Změna cesty k souboru nebo adresáři se nezdařila. %1"
 
 #: src/torrent_files_view.cpp:630
 #, qt-format
 msgid "Changing download status for '%1' failed. %2"
-msgstr ""
+msgstr "Změna stavu stahování pro '%1' se nezdařila. %2"
 
 #: src/add_torrent_dialog.cpp:248
 msgid "Invalid torrent name"
-msgstr ""
+msgstr "Neplatný název torrentu"
 
 #: src/add_torrent_dialog.cpp:249
 msgid ""
 "You have entered invalid torrent name. Please enter non-empty torrent name."
 msgstr ""
+"zadal jste neplatný název torrentu. Zadejte, prosím, název torrentu, který "
+"není prázdný."
 
 #: src/common.cpp:81
 #, qt-format
 msgid "invalid auto clean action type '%1'"
-msgstr ""
+msgstr "Neplatný typ automatické činnosti úklidu '%1'"
 
 #: src/common.cpp:270
 #, qt-format
 msgid "invalid IP address '%1'"
-msgstr ""
+msgstr "Neplatná adresa IP '%1'"
 
 #: src/common.cpp:274
 #, qt-format
 msgid "invalid IP range %1-%2"
-msgstr ""
+msgstr "Neplatná oblast IP %1-%2"
 
 #: src/common.cpp:320
 #, qt-format
 msgid "%1 - Download completed"
-msgstr ""
+msgstr "%1 - Stahování dokončeno"
 
 #: src/common.cpp:324
 #, qt-format
 msgid "%1 - All downloads completed"
-msgstr ""
+msgstr "%1 - Všechna stahování dokončena"
 
 #: src/common.cpp:409
 msgid "normal"
-msgstr ""
+msgstr "Normální"
 
 #: src/common.cpp:413
 msgid "high"
-msgstr ""
+msgstr "Vysoká"
 
 #: src/common.cpp:449
 #, qt-format
 msgid "Invalid file priority name: '%1'."
-msgstr ""
+msgstr "Neplatný název přednosti souboru: '%1'."
 
 #: src/common.cpp:568
 msgid "[Invalid encoding]"
-msgstr ""
+msgstr "[Neplatné kódování]"
 
 #: src/common.cpp:701 src/common.cpp:704 src/common.cpp:758
 msgid "(short)|Paused"
-msgstr ""
+msgstr "Pozastaveno"
 
 #: src/common.cpp:712
 msgid "(short)|Allocating"
-msgstr ""
+msgstr "Rozdělující"
 
 #: src/common.cpp:716
 msgid "(short)|Queued for checking"
-msgstr ""
+msgstr "Čeká na přezkoušení"
 
 #: src/common.cpp:720
 msgid "(short)|Checking files"
-msgstr ""
+msgstr "Přezkušují se soubory"
 
 #: src/common.cpp:724
 msgid "Waiting for metadata download (short)|Metadata down wait"
-msgstr ""
+msgstr "Čeká se na metadata"
 
 #: src/common.cpp:728
 msgid "Downloading metadata (short)|Metadata down"
-msgstr ""
+msgstr "Stahují se metadata"
 
 #: src/common.cpp:732
 msgid "Waiting for download (short)|Download wait"
-msgstr ""
+msgstr "Čeká se na stahování"
 
 #: src/common.cpp:736
 msgid "(short)|Downloading"
-msgstr ""
+msgstr "Stahuje se"
 
 #: src/common.cpp:740
 msgid "(short)|Seeding"
-msgstr ""
+msgstr "Seje se"
 
 #: src/common.cpp:744
 msgid "(short)|Uploading"
-msgstr ""
+msgstr "Nahrává se"
 
 #: src/common.cpp:748
 msgid "(short)|Unknown"
-msgstr ""
+msgstr "Neznámé"
 
 #: src/common.cpp:925
 msgid "Tracker status is not given yet|Not given yet"
-msgstr ""
+msgstr "Stav rozdělovače ještě neobdržen"
 
 #: src/common.cpp:928
 #, qt-format
 msgid "OK (%1)"
-msgstr ""
+msgstr "OK (%1)"
 
 #: src/common.cpp:931
 msgid "There are no trackers has been setted for this torrent"
-msgstr ""
+msgstr "Pro tento torrent nejsou nastaveni žádní rozdělovači"
 
 #: src/client_cmd_options.cpp:67
 #, qt-format
 msgid "Bad option '%1' value '%2'."
-msgstr ""
+msgstr "Poškozená volba '%1' hodnota '%2'."
 
 #: src/client_cmd_options.cpp:75
 msgid "torrent_path"
-msgstr ""
+msgstr "Torrent_Cesta"
 
 #: src/client_cmd_options.cpp:84
 msgid "Main options"
-msgstr ""
+msgstr "Hlavní volby"
 
 #: src/client_cmd_options.cpp:90
 msgid "Show program version"
-msgstr ""
+msgstr "Ukázat verzi programu"
 
 #: src/client_cmd_options.cpp:106
 #, qt-format
 msgid "Configuration directory path (default: ~/%1)"
-msgstr ""
+msgstr "Cesta k adresáři s nastavením (výchozí: ~/%1)"
 
 #: src/client_cmd_options.cpp:107
 msgid "DIRECTORY"
-msgstr ""
+msgstr "ADRESÁŘ"
 
 #: src/client_cmd_options.cpp:114
 msgid "Set download rate limit (KB/s)"
-msgstr ""
+msgstr "Nastavit omezení rychlosti stahování (KB/s)"
 
 #: src/client_cmd_options.cpp:115 src/client_cmd_options.cpp:123
 msgid "SPEED"
-msgstr ""
+msgstr "RYCHLOST"
 
 #: src/client_cmd_options.cpp:122
 msgid "Set upload rate limit (KB/s)"
-msgstr ""
+msgstr "Nastavit omezení rychlosti nahrávání (KB/s)"
 
 #: src/client_cmd_options.cpp:130
 msgid "Set maximum uploads"
-msgstr ""
+msgstr "Nastavit nejvyšší míru nahrávání"
 
 #: src/client_cmd_options.cpp:131 src/client_cmd_options.cpp:139
 msgid "NUMBER"
-msgstr ""
+msgstr "ČÍSLO"
 
 #: src/client_cmd_options.cpp:138
 msgid "Set maximum connections"
-msgstr ""
+msgstr "Nastavit nejvyšší míru spojení"
 
 #: src/client_cmd_options.cpp:147
 msgid "Start torrents"
-msgstr ""
+msgstr "Spustit torrenty"
 
 #: src/client_cmd_options.cpp:148 src/client_cmd_options.cpp:157
 msgid "{all,downloads,uploads}"
-msgstr ""
+msgstr "{vše,stahování,nahrávání}"
 
 #: src/client_cmd_options.cpp:156
 msgid "Stop torrents"
-msgstr ""
+msgstr "Zastavit torrenty"
 
 #: src/client_cmd_options.cpp:166
 #, qt-format
@@ -1777,169 +1800,179 @@ msgid ""
 "Only pass commands to already running %1 instance. Does not start new "
 "instance if it is not running yet"
 msgstr ""
+"Zadejte jen příkazy k již běžící instanci %1. Spouštějte novou instanci jen "
+"tehdy, když ještě neběží"
 
 #: src/client_cmd_options.cpp:239
 #, qt-format
 msgid "Error while processing torrent '%1'"
-msgstr ""
+msgstr "Chyba při zpracování torrentu '%1'"
 
 #: src/client_cmd_options.cpp:240
 #, qt-format
 msgid "Can't get '%1' absolute path: %2."
-msgstr ""
+msgstr "Nepodařilo se obdržet absolutní cestu '%1': %2."
 
 #: src/client_cmd_options.cpp:260
 #, qt-format
 msgid "Bad option '%1' value '%2'. Allowed values: all, downloads, uploads."
 msgstr ""
+"Poškozená volba '%1' hodnota '%2'. Dovolené hodnoty: vše, stahování, "
+"nahrávání."
 
 #: src/create_torrent_dialog.cpp:161
 msgid "Hashing files..."
-msgstr ""
+msgstr "Rozebírají se soubory..."
 
 #: src/create_torrent_dialog.cpp:170
 msgid "Hashing files. Please wait..."
-msgstr ""
+msgstr "Rozebírají se soubory. Počkejte, prosím..."
 
 #: src/create_torrent_dialog.cpp:283 src/create_torrent_dialog.cpp:334
 #, qt-format
 msgid "Error while reading torrent files. File '%1': %2."
-msgstr ""
+msgstr "Chyba při čtení souboru s torrentem. Soubor '%1': %2."
 
 #: src/create_torrent_dialog.cpp:289
 msgid "Libtorrent internal error happened while reading torrent files."
-msgstr ""
+msgstr "Při čtení souboru s torrentem se vyskytla vnitřní chyba libtorrent."
 
 #: src/create_torrent_dialog.cpp:306
 msgid "Libtorrent internal error happened while creating torrent."
 msgstr ""
+"Při vytváření souboru s torrentem se vyskytla vnitřní chyba libtorrent."
 
 #: src/create_torrent_dialog.cpp:346
 msgid "Libtorrent internal error happened while hashing torrent files."
 msgstr ""
+"Při rozebírání souboru s torrentem se vyskytla vnitřní chyba libtorrent."
 
 #: src/create_torrent_dialog.cpp:395
 msgid "Libtorrent return invalid torrent file."
-msgstr ""
+msgstr "Libtorrent vrací neplatný soubor s torrentem."
 
 #: src/create_torrent_dialog.cpp:424
 #, qt-format
 msgid "Can't write torrent file '%1': %2."
-msgstr ""
+msgstr "Nepodařilo se zapsat soubor s torrentem '%1': %2."
 
 #: src/create_torrent_dialog.cpp:431
 #, qt-format
 msgid "Libtorrent internal error happened while creating torrent file '%1'."
 msgstr ""
+"Při vytváření souboru s torrentem se vyskytla vnitřní chyba libtorrent '%1'."
 
 #: src/create_torrent_dialog.cpp:443
 msgid "Torrent created"
-msgstr ""
+msgstr "Torrent vytvořen"
 
 #: src/create_torrent_dialog.cpp:445
 #, qt-format
 msgid "Torrent '%1' has been created successfully."
-msgstr ""
+msgstr "Torrent '%1' byl úspěšně vytvořen."
 
 #: src/create_torrent_dialog.cpp:469
 msgid "Creating torrent failed"
-msgstr ""
+msgstr "Vytvoření torrentu se nezdařilo"
 
 #: src/create_torrent_dialog.cpp:470
 #, qt-format
 msgid "Creating torrent '%1' failed. %2"
-msgstr ""
+msgstr "Vytvoření torrentu '%1' se nezdařilo. %2"
 
 #: src/create_torrent_dialog.cpp:496
 msgid "Creating torrent"
-msgstr ""
+msgstr "Vytváří se torrent"
 
 #: src/create_torrent_dialog.cpp:511
 msgid "Torrent:"
-msgstr ""
+msgstr "Torrent:"
 
 #: src/create_torrent_dialog.cpp:516
 msgid "File or directory to create torrent from:"
-msgstr ""
+msgstr "Soubor nebo adresář, ze které chcete vytvořit torrent:"
 
 #: src/create_torrent_dialog.cpp:551
 msgid "Private torrent (DHT is not allowed)"
-msgstr ""
+msgstr "Soukromý torrent (DHT je zakázáno)"
 
 #: src/create_torrent_dialog.cpp:609
 msgid "Piece size:"
-msgstr ""
+msgstr "Velikost části:"
 
 #: src/create_torrent_dialog.cpp:615
 msgid "Trackers:"
-msgstr ""
+msgstr "Rozdělovače:"
 
 #: src/create_torrent_dialog.cpp:678
 msgid "File or directory to create torrent from is not setted"
-msgstr ""
+msgstr "Soubor nebo adresář, ze kterého se má torrent vytvořit, nebyl nastaven"
 
 #: src/create_torrent_dialog.cpp:679
 msgid "Please choose file or directory to create torrent from."
 msgstr ""
+"Vyberte, prosím, soubor nebo adresář, ze kterého se má torrent vytvořit."
 
 #: src/create_torrent_dialog.cpp:688
 msgid "Please choose a file to save the torrent"
-msgstr ""
+msgstr "Vyberte, prosím, soubor pro uložení torrentu"
 
 #: src/create_torrent_dialog.cpp:748
 msgid "Please choose a directory to create torrent from"
-msgstr ""
+msgstr "Vyberte, prosím, adresář, ze kterého se má torrent vytvořit"
 
 #: src/create_torrent_dialog.cpp:749
 msgid "Please choose a file to create torrent from"
-msgstr ""
+msgstr "Vyberte, prosím, soubor, ze kterého se má torrent vytvořit"
 
 #: src/torrent_options_view.cpp:73
 msgid "Downloading"
-msgstr ""
+msgstr "Stahuje se"
 
 #: src/torrent_options_view.cpp:76
 msgid "Sequential download"
-msgstr ""
+msgstr "Postupné stahování"
 
 #: src/torrent_options_view.cpp:84 ui/dialog.add_torrent.glade:162
 msgid "Copy when finished to:"
-msgstr ""
+msgstr "Po dokončení kopírovat do:"
 
 #: src/torrent_options_view.cpp:118
 msgid "Trackers"
-msgstr ""
+msgstr "Rozdělovače"
 
 #: src/torrent_options_view.cpp:201
 #, qt-format
 msgid "Error while getting torrent download settings. %1"
-msgstr ""
+msgstr "Chyba při získávání nastavení stahování torrentu. %1"
 
 #: src/torrent_options_view.cpp:228 src/torrent_options_view.cpp:274
 #, qt-format
 msgid "Error while setting torrent download settings. %1"
-msgstr ""
+msgstr "Chyba při nastavování nastavení stahování torrentu. %1"
 
 #: src/torrent_options_view.cpp:241
 msgid "Please choose a directory for torrent finished files copying"
 msgstr ""
+"Vyberte, prosím, adresář, do kterého se budou kopírovat dokončené soubory "
+"torrentu"
 
 #: src/torrent_options_view.cpp:292
 #, qt-format
 msgid "Can't set torrent trackers. %1"
-msgstr ""
+msgstr "Nepodařilo se nastavit žádné rozdělovače torrentu. %1"
 
 #: src/application.cpp:78
 msgid "Silent warning"
-msgstr ""
+msgstr "Tiché varování"
 
 #: src/application.cpp:290
 msgid "application is now ending it's work"
-msgstr ""
+msgstr "Program nyní končí svoji práci"
 
 #: src/application.cpp:414
 msgid "Unable to show libnotify message"
-msgstr ""
+msgstr "Nelze ukázat zprávu od libnotify"
 
 #: src/application.cpp:415
 #, qt-format
@@ -1949,94 +1982,106 @@ msgid ""
 "Message text:\n"
 "%2"
 msgstr ""
+"Nelze ukázat zprávu od libnotify: %1. Oznámení můžete zakázat v dialogu "
+"nastavení.\n"
+"Text zprávy: \n"
+"%2"
 
 #: src/application.cpp:466
 #, qt-format
 msgid "Running open command failed. %1."
-msgstr ""
+msgstr "Provedení příkazu pro otevření se nezdařilo. %1."
 
 #: src/application.cpp:541
 msgid "Error while saving settings"
-msgstr ""
+msgstr "Chyba při ukládání nastavení"
 
 #: src/application.cpp:615
 msgid ""
 "Unable to initialize a libnotify instance. Notification's displaying is not "
 "possible."
 msgstr ""
+"Nelze inicializovat instanci libnotify. Zobrazování oznámení není možné."
 
 #: src/main.cpp:172
 msgid "Error"
-msgstr ""
+msgstr "Chyba"
 
 #: src/main.cpp:174
 #, qt-format
 msgid "Starting %1 failed:"
-msgstr ""
+msgstr "Spuštění %1 se nezdařilo:"
 
 #: src/main.cpp:214
 msgid "Error at"
-msgstr ""
+msgstr "Chyba u"
 
 #: src/main.cpp:215
 msgid ""
 "\n"
 "Locale settings:\n"
 msgstr ""
+"\n"
+"Místní nastavení:\n"
 
 #: src/main.cpp:228
 msgid ""
 "\n"
 "Compiled with native language support.\n"
 msgstr ""
+"\n"
+"Sestaveno s původní podporou jazyka.\n"
 
 #: src/main.cpp:230
 msgid ""
 "\n"
 "Compiled without native language support.\n"
 msgstr ""
+"\n"
+"Sestaveno bez původní podpory jazyka.\n"
 
 #: src/main.cpp:259
 msgid "Logical error."
-msgstr ""
+msgstr "Logická chyba."
 
 #: src/main.cpp:265 src/main.cpp:283
 msgid "Critical error"
-msgstr ""
+msgstr "Vážná chyba"
 
 #: src/main.cpp:301 src/main.cpp:355
 msgid "Debug info:"
-msgstr ""
+msgstr "Informace o chybě:"
 
 #: src/main.cpp:790
 #, qt-format
 msgid "Enable to set non-block mode for a pipe: %1."
-msgstr ""
+msgstr "Povolit nastavení režimu non-block pro přenos dat: %1."
 
 #: src/main.cpp:845
 #, qt-format
 msgid "Can't create config directory '%1': %2."
-msgstr ""
+msgstr "Nepodařilo se vytvořit adresář s nastavením '%1': %2."
 
 #: src/main.cpp:865
 #, qt-format
 msgid "Error while opening config directory '%1': %2."
-msgstr ""
+msgstr "Chyba při otevírání adresáře s nastavením '%1': %2."
 
 #: src/main.cpp:877
 #, qt-format
 msgid "Error! Can't stat config directory '%1': %2."
-msgstr ""
+msgstr "Chyba! Nepodařilo se najít adresář s nastavením '%1': %2."
 
 #: src/main.cpp:883
 #, qt-format
 msgid "Error! Config path '%1' is not a directory."
-msgstr ""
+msgstr "Chyba! Cesta k nastavení '%1' není adresář."
 
 #: src/main.cpp:889
 #, qt-format
 msgid "Error! Can't change current directory to config directory '%1': %2."
 msgstr ""
+"Chyba! Nynější adresář nelze použít jako adresář s nastavením '%1': %2."
 
 #: src/main.cpp:914 src/main.cpp:930
 #, qt-format
@@ -2044,90 +2089,107 @@ msgid ""
 "Can't communicate with running %1 instance. Error while reading link '%2' "
 "target path: %3."
 msgstr ""
+"Nepodařilo se se spojit s běžící instancí %1. Chyba při čtení cílové cesty "
+"spojení '%2' : %3."
 
 #: src/main.cpp:942
 #, qt-format
 msgid "Can't set environment variable '%1'='%2': %3."
-msgstr ""
+msgstr "Nepodařilo se nastavit proměnnou prostředí '%1'='%2': %3."
 
 #: src/main.cpp:948 src/main.cpp:1161
 #, qt-format
 msgid "Can't communicate with running %1 instance. It is not running."
-msgstr ""
+msgstr "Nepodařilo se se spojit s běžící instancí %1. Neběží."
 
 #: src/main.cpp:988
 msgid "Unexpected DBus behavior"
-msgstr ""
+msgstr "Neočekávané chování DBus"
 
 #: src/main.cpp:989
 msgid "Name request has been added to queue, but queuing has been forbidden."
 msgstr ""
+"Požadavek na název byl přidán do řady čekajících, ale zařazování do řady "
+"bylo zakázáno."
 
 #: src/main.cpp:995 src/main.cpp:1002
 msgid "Unexpected DBus behavior while requesting name"
-msgstr ""
+msgstr "Neočekávané chování DBus při žádání o název"
 
 #: src/main.cpp:996
 msgid ""
 "DBus saying that application is already name owner, but name request has not "
 "been sent yet."
 msgstr ""
+"DBus hlásí, že program je již vlastníkem názvu, ale že požadavek na název "
+"ještě nebyl poslán."
 
 #: src/main.cpp:1003
 msgid "Unknown reply has been gotten."
-msgstr ""
+msgstr "Obdržena neznámá odpověď."
 
 #: src/main.cpp:1014
 msgid "DBus error"
-msgstr ""
+msgstr "Chyba DBus"
 
 #: src/main.cpp:1042
 #, qt-format
 msgid "Creating %1 session failed. Can't remove DBus session link '%2'. %3"
 msgstr ""
+"Vytvoření %1 sezení se nezdařilo. Nepodařilo se odstranit spojení sezení "
+"DBus '%2'. %3"
 
 #: src/main.cpp:1051
 #, qt-format
 msgid ""
 "Creating %1 session failed. Error while reading link '%2' target path: %3."
 msgstr ""
+"Vytvoření %1 sezení se nezdařilo. Chyba při čtení cílové cesty spojení '%2': "
+"%3."
 
 #: src/main.cpp:1058
 #, qt-format
 msgid "Creating %1 session failed. Can't get DBus session bus address."
 msgstr ""
+"Vytvoření %1 sezení se nezdařilo. Nepodařilo se dostat adresu sběrnice "
+"sezení DBus."
 
 #: src/main.cpp:1067
 #, qt-format
 msgid "Creating %1 session failed. Can't create DBus session link '%2': %3."
 msgstr ""
+"Vytvoření %1 sezení se nezdařilo. Nepodařilo se vytvořit spojení sezení DBus "
+"'%2': %3."
 
 #: src/main.cpp:1105 src/main.cpp:1121
 #, qt-format
 msgid "Closing %1 session failed. Can't remove DBus session link '%2': %3."
 msgstr ""
+"Zavření %1 sezení se nezdařilo. Nepodařilo se odstranit spojení sezení DBus "
+"'%2': %3."
 
 #: src/main.cpp:1140
 msgid "Nothing to process. Exiting..."
-msgstr ""
+msgstr "Nic ke zpracování. Ukončuje se..."
 
 #: src/main.cpp:1143
 msgid "Delivering command line options to working copy..."
-msgstr ""
+msgstr "Dodávají se volby příkazového řádku pro kopírování..."
 
 #: src/main.cpp:1152 src/main.cpp:1156 src/main.cpp:1161
 msgid "Transmitting command line options failed"
-msgstr ""
+msgstr "Přenášení voleb příkazového řádku se nezdařilo"
 
 #: src/main.cpp:1152
 #, qt-format
 msgid "Running %1 instance rejected command line options transfered to it: %2."
 msgstr ""
+"Běžící %1 instance odmítla volby příkazového řádku přenášené do ní: %2."
 
 #: src/main.cpp:1156
 #, qt-format
 msgid "Can't communicate with running %1 instance via DBus: %2."
-msgstr ""
+msgstr "Nepodařilo se spojit se s běžící %1 instancí přes DBus: %2."
 
 #: src/trackers_view.cpp:169
 #, qt-format
@@ -2135,6 +2197,8 @@ msgid ""
 "Gotten invalid tracker URL ('%1'). Please inter a valid URL started from "
 "'http://'."
 msgstr ""
+"Obdržena neplatná adresa (URL) rozdělovače ('%1'). Zadejte, prosím, platnou "
+"adresu (URL), začínající 'http://'."
 
 #: src/trackers_view.cpp:187
 #, qt-format
@@ -2142,278 +2206,280 @@ msgid ""
 "Gotten invalid tracker URL ('%1'). This URL is already exists in the tracker "
 "list."
 msgstr ""
+"Obdržena neplatná adresa (URL) rozdělovače ('%1'). Tato adresa (URL) již "
+"existuje v seznamu rozdělovače."
 
 #: src/trackers_view.cpp:234 src/trackers_view.cpp:236
 msgid "Invalid tracker URL"
-msgstr ""
+msgstr "Neplatná adresa (URL) rozdělovače"
 
 #: src/categories_view.cpp:294
 msgid "invalid category name"
-msgstr ""
+msgstr "Neplatný název skupiny"
 
 #: src/categories_view.cpp:341
 msgid "All torrents (as short as possible)|All"
-msgstr ""
+msgstr "Vše"
 
 #: src/categories_view.cpp:342
 msgid "Paused torrents (as short as possible)|Paused"
-msgstr ""
+msgstr "Pozastaveno"
 
 #: src/categories_view.cpp:343
 msgid "Checking torrents (as short as possible)|Checking"
-msgstr ""
+msgstr "Přezkušování"
 
 #: src/categories_view.cpp:344
 msgid "Waiting for download torrents (as short as possible)|Down. wait"
-msgstr ""
+msgstr "Čekání"
 
 #: src/categories_view.cpp:345
 msgid "Downloading torrents (as short as possible)|Downloading"
-msgstr ""
+msgstr "Stahování"
 
 #: src/categories_view.cpp:346
 msgid "Seeding torrents (as short as possible)|Seeding"
-msgstr ""
+msgstr "Setí"
 
 #: src/categories_view.cpp:347
 msgid "Uploading torrents (as short as possible)|Uploading"
-msgstr ""
+msgstr "Nahrávání"
 
 #: src/categories_view.cpp:348
 msgid "Torrents with tracker error (as short as possible)|Tracker error"
-msgstr ""
+msgstr "Chyba"
 
 #: src/categories_view.cpp:363
 #, qt-format
 msgid "Can't select torrent category '%1': %2."
-msgstr ""
+msgstr "Nepodařilo se vybrat skupinu torrentu '%1': %2."
 
 #: src/categories_view.cpp:373
 msgid "All torrents"
-msgstr ""
+msgstr "Všechny torrenty"
 
 #: src/categories_view.cpp:378
 msgid "Paused torrents"
-msgstr ""
+msgstr "Pozastavené torrenty"
 
 #: src/categories_view.cpp:384
 msgid "Checking torrents"
-msgstr ""
+msgstr "Přezkušované torrenty"
 
 #: src/categories_view.cpp:390
 msgid "Waiting for download torrents"
-msgstr ""
+msgstr "Čeká se na stahování torrentů"
 
 #: src/categories_view.cpp:396
 msgid "Downloading torrents"
-msgstr ""
+msgstr "Stahované torrenty"
 
 #: src/categories_view.cpp:402
 msgid "Finished (seeding) torrents"
-msgstr ""
+msgstr "Dokončené torrenty (setí)"
 
 #: src/categories_view.cpp:408
 msgid "Uploading torrents"
-msgstr ""
+msgstr "Nahrávané torrenty"
 
 #: src/categories_view.cpp:414
 msgid "Torrents with tracker error"
-msgstr ""
+msgstr "Torrenty s chybou rozdělovače"
 
 #: src/ip_filter.cpp:262
 msgid "Error while adding rule to IP filter"
-msgstr ""
+msgstr "Chyba při přidávání pravidla do filtru IP"
 
 #: src/ip_filter.cpp:263
 #, qt-format
 msgid "Error while adding rule to IP filter: %1."
-msgstr ""
+msgstr "Chyba při přidávání pravidla do filtru IP: %1."
 
 #: src/temporary_action_dialog.cpp:122
 msgid "1 minute"
-msgstr ""
+msgstr "1 minuta"
 
 #: src/temporary_action_dialog.cpp:123
 msgid "5 minutes"
-msgstr ""
+msgstr "5 minut"
 
 #: src/temporary_action_dialog.cpp:124
 msgid "10 minutes"
-msgstr ""
+msgstr "10 minut"
 
 #: src/temporary_action_dialog.cpp:125
 msgid "15 minutes"
-msgstr ""
+msgstr "15 minut"
 
 #: src/temporary_action_dialog.cpp:126
 msgid "30 minutes"
-msgstr ""
+msgstr "30 minut"
 
 #: src/temporary_action_dialog.cpp:127
 msgid "45 minutes"
-msgstr ""
+msgstr "45 minut"
 
 #: src/temporary_action_dialog.cpp:128
 msgid "1 hour"
-msgstr ""
+msgstr "1 hodina"
 
 #: src/temporary_action_dialog.cpp:129
 msgid "2 hours"
-msgstr ""
+msgstr "2 hodiny"
 
 #: src/temporary_action_dialog.cpp:130
 msgid "4 hours"
-msgstr ""
+msgstr "4 hodiny"
 
 #: src/temporary_action_dialog.cpp:131
 msgid "8 hours"
-msgstr ""
+msgstr "8 hodin"
 
 #: src/temporary_action_dialog.cpp:132
 msgid "12 hours"
-msgstr ""
+msgstr "12 hodin"
 
 #: src/temporary_action_dialog.cpp:133
 msgid "1 day"
-msgstr ""
+msgstr "1 den"
 
 #: src/temporary_action_dialog.cpp:208
 msgid "Temporary resume downloads|resume"
-msgstr ""
+msgstr "Obnovit"
 
 #: src/temporary_action_dialog.cpp:212
 msgid "Temporary pause downloads|pause"
-msgstr ""
+msgstr "Pozastavit"
 
 #: src/temporary_action_dialog.cpp:223
 msgid "Temporary pause all torrents|all torrents"
-msgstr ""
+msgstr "Všechny torrenty"
 
 #: src/temporary_action_dialog.cpp:227
 msgid "Temporary pause downloads|downloads"
-msgstr ""
+msgstr "Stahování"
 
 #: src/temporary_action_dialog.cpp:231
 msgid "Temporary pause uploads|uploads"
-msgstr ""
+msgstr "Nahrávání"
 
 #: src/temporary_action_dialog.cpp:239
 #, qt-format
 msgid "Temporary pause downloads|Temporary %1 %2"
-msgstr ""
+msgstr "Dočasně %1 %2"
 
 #: ui/dialog.temporary_action.glade:42
 msgid "Time:"
-msgstr ""
+msgstr "Čas:"
 
 #: ui/dialog.temporary_action.glade:61
 msgid "Custom time (m)|Custom (m)"
-msgstr ""
+msgstr "Vlastní (m)"
 
 #: ui/dialog.temporary_action.glade:75
 msgid "Predefined time|Predefined"
-msgstr ""
+msgstr "Předem stanovený"
 
 #: ui/preferences.client.gui.status_bar.glade:19
 msgid "<big><b>Client::GUI::Status bar</b></big>"
-msgstr ""
+msgstr "<big><b>Klient::Rozhraní::Stavový řádek</b></big>"
 
 #: ui/preferences.client.gui.status_bar.glade:121
 msgid "Downloaded (payload)"
-msgstr ""
+msgstr "Staženo (užitečné zatížení)"
 
 #: ui/preferences.client.gui.status_bar.glade:175
 msgid "Uploaded (payload)"
-msgstr ""
+msgstr "Nahráno (užitečné zatížení)"
 
 #: ui/dialog.add_torrent.glade:7
 msgid "Add torrent"
-msgstr ""
+msgstr "Přidat torrent"
 
 #: ui/dialog.add_torrent.glade:28
 msgid "<b>Torrent</b>"
-msgstr ""
+msgstr "<b>Torrent</b>"
 
 #: ui/dialog.add_torrent.glade:45
 msgid "Path:"
-msgstr ""
+msgstr "Cesta:"
 
 #: ui/dialog.add_torrent.glade:76
 msgid "Name:"
-msgstr ""
+msgstr "Název:"
 
 #: ui/dialog.add_torrent.glade:100
 msgid "Start torrent"
-msgstr ""
+msgstr "Spustit torrent"
 
 #: ui/dialog.add_torrent.glade:133
 msgid "Download path:"
-msgstr ""
+msgstr "Cesta pro stahování:"
 
 #: ui/dialog.add_torrent.glade:145
 msgid "Please select torrent's download directory"
-msgstr ""
+msgstr "Vyberte, prosím, adresář pro stahování torrentu"
 
 #: ui/dialog.add_torrent.glade:179 ui/preferences.daemon.automation.glade:158
 msgid "Please select a directory for finished downloads copying"
-msgstr ""
+msgstr "Vyberte, prosím, adresář pro dokončené kopie stahování"
 
 #: ui/dialog.add_torrent.glade:195
 msgid "<b>Paths</b>"
-msgstr ""
+msgstr "<b>Cesty</b>"
 
 #: ui/dialog.add_torrent.glade:227
 msgid "<b>Files</b>"
-msgstr ""
+msgstr "<b>Soubory</b>"
 
 #: ui/dialog.add_torrent.glade:250
 #: ui/preferences.daemon.network.misc.glade:510
 msgid "<b>Trackers</b>"
-msgstr ""
+msgstr "<b>Rozdělovače</b>"
 
 #: ui/preferences.daemon.network.misc.glade:17
 msgid "<big><b>Daemon::Network::Misc</b></big>"
-msgstr ""
+msgstr "<big><b>Démon::Síť::Různé</b></big>"
 
 #: ui/preferences.daemon.network.misc.glade:51
 msgid "<b>Listen port</b>"
-msgstr ""
+msgstr "<b>Naslouchací přípojka</b>"
 
 #: ui/preferences.daemon.network.misc.glade:60
 msgid "Random port"
-msgstr ""
+msgstr "Náhodná přípojka"
 
 #: ui/preferences.daemon.network.misc.glade:76
 msgid "Custom port range:"
-msgstr ""
+msgstr "Vlastní rozsah přípojky:"
 
 #: ui/preferences.daemon.network.misc.glade:107
 msgid "From port to port|from"
-msgstr ""
+msgstr "Od"
 
 #: ui/preferences.daemon.network.misc.glade:131
 msgid "From port to port|to"
-msgstr ""
+msgstr "do"
 
 #: ui/preferences.daemon.network.misc.glade:179
 msgid "Current listen port:"
-msgstr ""
+msgstr "Nynější naslouchací přípojka:"
 
 #: ui/preferences.daemon.network.misc.glade:226
 msgid "<b>Extras</b>"
-msgstr ""
+msgstr "<b>Doplňková výbava</b>"
 
 #: ui/preferences.daemon.network.misc.glade:247
 msgid "DHT"
-msgstr ""
+msgstr "DHT"
 
 #: ui/preferences.daemon.network.misc.glade:256
 msgid "UPnP"
-msgstr ""
+msgstr "UPnP"
 
 #: ui/preferences.daemon.network.misc.glade:269
 msgid "LSD"
-msgstr ""
+msgstr "LSD"
 
 #: ui/preferences.daemon.network.misc.glade:273
 msgid ""
@@ -2421,50 +2487,53 @@ msgid ""
 "the non-private torrents on the local network to look for peers on the same "
 "swarm within multicast reach."
 msgstr ""
+"Místní průzkumná služba. Tato služba přenáší informační rozbory všech "
+"nesoukromých torrentů v místní síti, aby našla vrstevníky z téhož roje v "
+"dosahu."
 
 #: ui/preferences.daemon.network.misc.glade:283
 msgid "NAT-PMP"
-msgstr ""
+msgstr "NAT-PMP"
 
 #: ui/preferences.daemon.network.misc.glade:298
 msgid "Peer exchange"
-msgstr ""
+msgstr "Výměna vrstevníků (PEX)"
 
 #: ui/preferences.daemon.network.misc.glade:302
 msgid "Exchanges peers between clients."
-msgstr ""
+msgstr "Vyměňuje vrstevníky mezi klienty."
 
 #: ui/preferences.daemon.network.misc.glade:312
 msgid "Smart ban"
-msgstr ""
+msgstr "Chytrý zákaz"
 
 #: ui/preferences.daemon.network.misc.glade:316
 msgid "Ban peers that sends bad data with very high accuracy."
-msgstr ""
+msgstr "Zakazuje s velkou přesností vrstevníky, kteří posílají poškozená data."
 
 #: ui/preferences.daemon.network.misc.glade:358
 msgid "<b>Bandwidth</b>"
-msgstr ""
+msgstr "<b>Šířka pásma</b>"
 
 #: ui/preferences.daemon.network.misc.glade:376
 msgid "Download rate limit (KB/s):"
-msgstr ""
+msgstr "Omezení rychlosti stahování (KB/s):"
 
 #: ui/preferences.daemon.network.misc.glade:383
 msgid "Upload rate limit (KB/s):"
-msgstr ""
+msgstr "Omezení rychlosti nahrávání (KB/s):"
 
 #: ui/preferences.daemon.network.misc.glade:394
 msgid "Max uploads:"
-msgstr ""
+msgstr "Největší možná míra nahrávání:"
 
 #: ui/preferences.daemon.network.misc.glade:405
 msgid "Max connections:"
-msgstr ""
+msgstr "Největší možná míra spojení:"
 
 #: ui/preferences.daemon.network.misc.glade:481
 msgid "Ignore rate limits on local network"
-msgstr ""
+msgstr "Přehlížet v místní síti omezení rychlosti"
 
 #: ui/preferences.daemon.network.misc.glade:486
 #: ui/preferences.daemon.network.misc.glade:528
@@ -2477,14 +2546,21 @@ msgid ""
 "do not make torrent client work better, but this option increase trackers "
 "overload."
 msgstr ""
+"Tato volba je velmi užitečná, když nemáte pravou adresu IP a rozdělovač pro "
+"své torrenty nastavuje příliš velké dotazovací intervaly, protože v tom "
+"případě dostanete nové vrstevníky jen jednou za období.\n"
+"\n"
+"Tuto volbu, prosím, nepoužívejte, pokud máte skutečnou adresu IP! V tomto "
+"případě by torrentový klient nepracoval lépe, ale tato volba zvyšuje "
+"přetížení rozdělovače."
 
 #: ui/preferences.daemon.network.misc.glade:524
 msgid "Max announce interval (m):"
-msgstr ""
+msgstr "Největší dotazovací interval (m):"
 
 #: ui/preferences.daemon.network.ip_filter.glade:14
 msgid "<big><b>Daemon::Network::IP filter</b></big>"
-msgstr ""
+msgstr "<big><b>Démon::Síť::Filtr IP</b></big>"
 
 #: ui/preferences.daemon.network.ip_filter.glade:52
 msgid ""
@@ -2492,210 +2568,213 @@ msgid ""
 "ranges the last one applied takes precedence. The list has one implicit rule "
 "at the top, which allows all IPs."
 msgstr ""
+"Tento seznam byl úplně prohledán odshora dolů. V případě překrývajícího se "
+"rozsahu má poslední použitý přednost. Seznam má nahoře nepřímé pravidlo, "
+"které povoluje všechny IP."
 
 #: ui/preferences.daemon.network.ip_filter.glade:226
 msgid "Enable IP filter|Enable"
-msgstr ""
+msgstr "Povolit"
 
 #: ui/torrent_info_tabs.details.glade:39
 #: ui/torrent_info_tabs.details_compact.glade:39
 msgid "Size:"
-msgstr ""
+msgstr "Velikost:"
 
 #: ui/torrent_info_tabs.details.glade:46
 #: ui/torrent_info_tabs.details_compact.glade:46
 msgid "Requested size:"
-msgstr ""
+msgstr "Požadovaná velikost:"
 
 #: ui/torrent_info_tabs.details.glade:57
 #: ui/torrent_info_tabs.details_compact.glade:57
 msgid "Downloaded requested size:"
-msgstr ""
+msgstr "Staženo z požadované velikosti:"
 
 #: ui/torrent_info_tabs.details.glade:68
 msgid "Total download:"
-msgstr ""
+msgstr "Úhrn stahování:"
 
 #: ui/torrent_info_tabs.details.glade:79
 #: ui/torrent_info_tabs.details_compact.glade:68
 msgid "Total payload download:"
-msgstr ""
+msgstr "Celkové užitečné zatížení při stahování:"
 
 #: ui/torrent_info_tabs.details.glade:92
 msgid "Total upload:"
-msgstr ""
+msgstr "Úhrn nahrávání:"
 
 #: ui/torrent_info_tabs.details.glade:105
 #: ui/torrent_info_tabs.details_compact.glade:195
 msgid "Total payload upload:"
-msgstr ""
+msgstr "Celkové užitečné zatížení při nahrávání:"
 
 #: ui/torrent_info_tabs.details.glade:118
 msgid "Total failed:"
-msgstr ""
+msgstr "Úhrn nepodařeného:"
 
 #: ui/torrent_info_tabs.details.glade:131
 msgid "Total redundant:"
-msgstr ""
+msgstr "Úhrn nadbytečného:"
 
 #: ui/torrent_info_tabs.details.glade:310
 msgid "Download speed:"
-msgstr ""
+msgstr "Rychlost stahování:"
 
 #: ui/torrent_info_tabs.details.glade:321
 #: ui/torrent_info_tabs.details_compact.glade:171
 msgid "Download payload speed:"
-msgstr ""
+msgstr "Rychlost užitečného zatížení při stahování:"
 
 #: ui/torrent_info_tabs.details.glade:334
 msgid "Upload speed:"
-msgstr ""
+msgstr "Rychlost nahrávání:"
 
 #: ui/torrent_info_tabs.details.glade:347
 #: ui/torrent_info_tabs.details_compact.glade:182
 msgid "Upload payload speed:"
-msgstr ""
+msgstr "Rychlost užitečného zatížení při nahrávání:"
 
 #: ui/torrent_info_tabs.details.glade:396
 #: ui/torrent_info_tabs.details_compact.glade:220
 msgid "Share ratio:"
-msgstr ""
+msgstr "Poměr sdílení:"
 
 #: ui/torrent_info_tabs.details.glade:407
 msgid "Peers:"
-msgstr ""
+msgstr "Vrstevníci:"
 
 #: ui/torrent_info_tabs.details.glade:418
 msgid "Seeds:"
-msgstr ""
+msgstr "Semena:"
 
 #: ui/torrent_info_tabs.details.glade:429
 #: ui/torrent_info_tabs.details_compact.glade:257
 msgid "Time left:"
-msgstr ""
+msgstr "Zbývající čas:"
 
 #: ui/torrent_info_tabs.details.glade:454
 msgid "Time seeding:"
-msgstr ""
+msgstr "Čas setí:"
 
 #: ui/torrent_info_tabs.details.glade:493
 msgid "Time added:"
-msgstr ""
+msgstr "Přidaný čas:"
 
 #: ui/torrent_info_tabs.details.glade:519
 msgid "Next announce:"
-msgstr ""
+msgstr "Další dotaz:"
 
 #: ui/torrent_info_tabs.details.glade:532
 msgid "Announce interval:"
-msgstr ""
+msgstr "Interval dotazu:"
 
 #: ui/torrent_info_tabs.details.glade:646
 #: ui/torrent_info_tabs.details_compact.glade:323
 msgid "Tracker status:"
-msgstr ""
+msgstr "Stav rozdělovače:"
 
 #: ui/torrent_info_tabs.details.glade:653
 #: ui/torrent_info_tabs.details_compact.glade:330
 msgid "Publisher URL:"
-msgstr ""
+msgstr "Adresa (URL) vydavatele:"
 
 #: ui/preferences.client.gui.glade:14
 msgid "<big><b>Client::GUI</b></big>"
-msgstr ""
+msgstr "<big><b>Klient::Rozhraní</b></big>"
 
 #: ui/preferences.daemon.automation.glade:19
 msgid "<big><b>Daemon::Automation</b></big>"
-msgstr ""
+msgstr "<big><b>Démon::Automatizace</b></big>"
 
 #: ui/preferences.daemon.automation.glade:54
 msgid "<b>Torrents auto load</b>"
-msgstr ""
+msgstr "<b>Automatické nahrání torrentů</b>"
 
 #: ui/preferences.daemon.automation.glade:72
 msgid "Load torrents from"
-msgstr ""
+msgstr "Nahrát torrenty z"
 
 #: ui/preferences.daemon.automation.glade:90
 msgid "Please select a directory for torrents auto load"
-msgstr ""
+msgstr "Vyberte, prosím, adresář, pro automatické nahrání torrentů"
 
 #: ui/preferences.daemon.automation.glade:131
 msgid "Please select a torrents download directory"
-msgstr ""
+msgstr "Vyberte, prosím, adresář, pro stahování torrentů"
 
 #: ui/preferences.daemon.automation.glade:169
 msgid "Delete loaded *.torrent files"
-msgstr ""
+msgstr "Smazat stažené soubory *.torrent"
 
 #: ui/preferences.daemon.automation.glade:226
 msgid "<b>Torrents auto cleaning</b>"
-msgstr ""
+msgstr "<b>Automatické uklizení torrentů</b>"
 
 #: ui/preferences.daemon.automation.glade:248
 msgid "Max ratio:"
-msgstr ""
+msgstr "Největší poměr:"
 
 #: ui/preferences.daemon.automation.glade:261
 msgid "Max seeding torrents:"
-msgstr ""
+msgstr "Největší míra výsevu torrentů:"
 
 #: ui/preferences.daemon.automation.glade:358
 msgid "Max seeding time (m):"
-msgstr ""
+msgstr "Největší doba setí (m):"
 
 #: ui/preferences.daemon.network.glade:14
 msgid "<big><b>Daemon::Network</b></big>"
-msgstr ""
+msgstr "<big><b>Démon::Síť</b></big>"
 
 #: ui/preferences.client.gui.misc.glade:19
 msgid "<big><b>Client::GUI::Misc</b></big>"
-msgstr ""
+msgstr "<big><b>Klient::Rozhraní::Různé</b></big>"
 
 #: ui/preferences.client.gui.misc.glade:51
 msgid "Show speed in window title"
-msgstr ""
+msgstr "Ukázat rychlost v záhlaví okna"
 
 #: ui/preferences.client.gui.misc.glade:64
 msgid "Show zero values in torrents info columns"
-msgstr ""
+msgstr "Ukázat nulové hodnoty v informačních sloupcích torrentů"
 
 #: ui/preferences.client.gui.misc.glade:77
 msgid "Compact details tab"
-msgstr ""
+msgstr "Karta s hutnými údaji"
 
 #: ui/preferences.client.gui.misc.glade:110
 msgid "GUI update interval (ms):"
-msgstr ""
+msgstr "Obnovovací interval rozhraní (ms):"
 
 #: ui/preferences.client.gui.misc.glade:117
 msgid "Max log lines:"
-msgstr ""
+msgstr "Nejvyšší počet řádků v zápisu:"
 
 #: ui/preferences.client.gui.misc.glade:168
 msgid "Show tray icon"
-msgstr ""
+msgstr "Ukázat ikonu v oznamovací oblasti panelu"
 
 #: ui/preferences.client.gui.misc.glade:194
 msgid "Minimize to tray"
-msgstr ""
+msgstr "Zmenšit do panelu"
 
 #: ui/preferences.client.gui.misc.glade:215
 msgid "Hide main window to tray at startup"
-msgstr ""
+msgstr "Skrýt hlavní okno při spuštění do panelu"
 
 #: ui/preferences.client.gui.misc.glade:228
 msgid "Close to tray"
-msgstr ""
+msgstr "Zavřít do panelu"
 
 #: ui/preferences.client.gui.misc.glade:266
 msgid "Download completed notification"
-msgstr ""
+msgstr "Oznámení o dokončení stahování"
 
 #: ui/preferences.client.gui.misc.glade:279
 msgid "All downloads completed notification"
-msgstr ""
+msgstr "Oznámení o dokončení všech stahování"
 
 #: ui/dialog.open_magnet_link.glade:26
 msgid "Magnet link:"
-msgstr ""
+msgstr "Odkaz na magnet:"
