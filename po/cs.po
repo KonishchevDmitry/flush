@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: flush\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2012-01-08 14:36+0400\n"
+"POT-Creation-Date: 2012-01-24 12:43+0400\n"
 "PO-Revision-Date: 2012-01-10 19:48+0100\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: German <de@li.org>\n"
@@ -623,9 +623,8 @@ msgstr "Podrobnosti"
 msgid "Files"
 msgstr "Soubory"
 
-#: src/torrents_viewport.cpp:262 src/torrents_view.cpp:346
-#: src/torrents_view.cpp:384
-msgid "Peers"
+#: src/torrents_viewport.cpp:262
+msgid "Peers|Peers tab"
 msgstr "Vrstevníci"
 
 #: src/torrents_viewport.cpp:278
@@ -1154,6 +1153,10 @@ msgstr "Nadbytečné"
 #: src/torrents_view.cpp:345
 msgid "Share ratio|Ratio"
 msgstr "Poměr"
+
+#: src/torrents_view.cpp:346 src/torrents_view.cpp:384
+msgid "Peers"
+msgstr "Vrstevníci"
 
 #: src/torrents_view.cpp:347 src/torrents_view.cpp:385
 msgid "Seeds"

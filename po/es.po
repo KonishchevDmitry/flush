@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: flush\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2012-01-08 14:36+0400\n"
+"POT-Creation-Date: 2012-01-24 12:43+0400\n"
 "PO-Revision-Date: 2010-12-13 01:26+0000\n"
 "Last-Translator: Fitoschido <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -624,9 +624,8 @@ msgstr "Detalles"
 msgid "Files"
 msgstr "Archivos"
 
-#: src/torrents_viewport.cpp:262 src/torrents_view.cpp:346
-#: src/torrents_view.cpp:384
-msgid "Peers"
+#: src/torrents_viewport.cpp:262
+msgid "Peers|Peers tab"
 msgstr "Pares"
 
 #: src/torrents_viewport.cpp:278
@@ -1153,6 +1152,10 @@ msgstr "Redundante"
 #: src/torrents_view.cpp:345
 msgid "Share ratio|Ratio"
 msgstr "Ratio"
+
+#: src/torrents_view.cpp:346 src/torrents_view.cpp:384
+msgid "Peers"
+msgstr "Pares"
 
 #: src/torrents_view.cpp:347 src/torrents_view.cpp:385
 msgid "Seeds"

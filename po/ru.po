@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
-"POT-Creation-Date: 2012-01-08 14:36+0400\n"
+"POT-Creation-Date: 2012-01-24 12:43+0400\n"
 "Last-Translator: Dmitry Konishchev <konishchev@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -617,9 +617,8 @@ msgstr "Детали"
 msgid "Files"
 msgstr "Файлы"
 
-#: src/torrents_viewport.cpp:262 src/torrents_view.cpp:346
-#: src/torrents_view.cpp:384
-msgid "Peers"
+#: src/torrents_viewport.cpp:262
+msgid "Peers|Peers tab"
 msgstr "Пиры"
 
 #: src/torrents_viewport.cpp:278
@@ -1161,6 +1160,10 @@ msgstr "Избыт. данных"
 #: src/torrents_view.cpp:345
 msgid "Share ratio|Ratio"
 msgstr "Рейтинг"
+
+#: src/torrents_view.cpp:346 src/torrents_view.cpp:384
+msgid "Peers"
+msgstr "Пиры"
 
 #: src/torrents_view.cpp:347 src/torrents_view.cpp:385
 msgid "Seeds"
