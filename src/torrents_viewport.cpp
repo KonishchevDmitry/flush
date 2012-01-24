@@ -259,7 +259,7 @@ Torrents_viewport::Torrents_viewport(const Torrents_viewport_settings& settings)
 			this->torrent_peers_view_scrolled_window.set_shadow_type(Gtk::SHADOW_IN);
 			this->torrent_peers_view_scrolled_window.add(*this->torrent_peers_view);
 
-			this->peers_list_toggle_button.set_label(_Q("Peers|Peers tab"));
+			this->peers_list_toggle_button.set_label(_Q("Peers tab|Peers"));
 			this->peers_list_toggle_button.set_image( *Gtk::manage( new Gtk::Image(Gtk::Stock::NETWORK, Gtk::ICON_SIZE_MENU) ));
 
 			this->add_info_widget(
