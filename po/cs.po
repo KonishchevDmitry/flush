@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: flush\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
 "POT-Creation-Date: 2012-01-24 12:43+0400\n"
-"PO-Revision-Date: 2012-01-10 19:48+0100\n"
+"PO-Revision-Date: 2012-01-24 13:03+0100\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
-"Language-Team: German <de@li.org>\n"
+"Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-03-05 14:08+0000\n"
-"X-Generator: Lokalize 1.1\n"
+"X-Generator: Lokalize 1.0\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "X-Language: cs_CZ\n"
 "X-Source-Language: C\n"
@@ -172,7 +172,7 @@ msgstr "'%1' není žádný sloupec."
 
 #: mlib/mlib/libtorrent.cpp:94
 msgid "Invalid magnet URI."
-msgstr "Neplatný magnetický URI."
+msgstr "Neplatný URI pro magnet."
 
 #: mlib/mlib/libtorrent.cpp:119
 msgid "there is no 'xt=urn:btih:' field in it"
@@ -181,7 +181,7 @@ msgstr "Zde není začleněno žádné pole 'xt=urn:bith:'"
 #: mlib/mlib/libtorrent.cpp:182
 #, qt-format
 msgid "Invalid magnet URI: %1."
-msgstr "Neplatný magnetický URI: %1."
+msgstr "Neplatný URI pro magnet: %1."
 
 #: mlib/mlib/libtorrent.cpp:224
 #, qt-format
@@ -625,7 +625,7 @@ msgstr "Soubory"
 
 #: src/torrents_viewport.cpp:262
 msgid "Peers|Peers tab"
-msgstr "Vrstevníci"
+msgstr "Zdroje"
 
 #: src/torrents_viewport.cpp:278
 msgid "Options"
@@ -870,7 +870,7 @@ msgstr "_Otevřít torrent"
 
 #: src/main_window.cpp:366
 msgid "_Open a magnet link"
-msgstr "_Otevřít odkaz na magnet"
+msgstr "_Otevřít magnet"
 
 #: src/main_window.cpp:370
 msgid "_Quit"
@@ -1013,11 +1013,11 @@ msgstr "Otevřít torrent"
 
 #: src/main_window.cpp:886
 msgid "Magnet link"
-msgstr "Odkaz na magnet"
+msgstr "Magnet"
 
 #: src/main_window.cpp:887 ui/dialog.open_magnet_link.glade:7
 msgid "Open a magnet link"
-msgstr "Otevřít odkaz na magnet"
+msgstr "Otevřít magnet"
 
 #: src/main_window.cpp:901 src/torrents_view.cpp:455
 msgid "Resume"
@@ -1156,11 +1156,11 @@ msgstr "Poměr"
 
 #: src/torrents_view.cpp:346 src/torrents_view.cpp:384
 msgid "Peers"
-msgstr "Vrstevníci"
+msgstr "Neúplné zdroje"
 
 #: src/torrents_view.cpp:347 src/torrents_view.cpp:385
 msgid "Seeds"
-msgstr "Semena"
+msgstr "Úplné zdroje"
 
 #: src/torrents_view.cpp:349
 msgid "Time added|Added"
@@ -1280,7 +1280,7 @@ msgstr "Obnovení torrentu(ů) se nezdařilo. %1"
 #: src/daemon_types.cpp:222
 #, qt-format
 msgid "Unable to parse torrent '%1' magnet URI. %2"
-msgstr "Zpracování magnetického URI torrentu '%1' není možné. %2"
+msgstr "Zpracování URI magnetu pro torrent '%1' není možné. %2"
 
 #: src/daemon_types.cpp:236
 msgid "Libtorrent internal error."
@@ -1302,16 +1302,16 @@ msgstr "Uložení stažených metadat k torrentu(ům) '%1' se nezdařilo. %2"
 
 #: src/open_magnet_dialog.cpp:113 src/open_magnet_dialog.cpp:119
 msgid "Invalid magnet URI"
-msgstr "Neplatný magnetický URI"
+msgstr "Neplatný URI pro magnet"
 
 #: src/open_magnet_dialog.cpp:114
 msgid "Please enter a magnet URI."
-msgstr "Zadejte, prosím, magnetický URI."
+msgstr "Zadejte, prosím, URI pro magnet."
 
 #: src/open_magnet_dialog.cpp:120
 #, qt-format
 msgid "'%1' is not a magnet URI."
-msgstr "'%1' není magnetický URI."
+msgstr "'%1' není URI pro magnet."
 
 #: src/client_settings.cpp:41
 #, qt-format
@@ -2491,7 +2491,7 @@ msgid ""
 "swarm within multicast reach."
 msgstr ""
 "Místní průzkumná služba. Tato služba přenáší informační rozbory všech "
-"nesoukromých torrentů v místní síti, aby našla vrstevníky z téhož roje v "
+"nesoukromých torrentů v místní síti, aby našla neúplné zdroje z téhož roje v "
 "dosahu."
 
 #: ui/preferences.daemon.network.misc.glade:283
@@ -2504,7 +2504,7 @@ msgstr "Výměna vrstevníků (PEX)"
 
 #: ui/preferences.daemon.network.misc.glade:302
 msgid "Exchanges peers between clients."
-msgstr "Vyměňuje vrstevníky mezi klienty."
+msgstr "Vyměňuje neúplné zdroje mezi klienty."
 
 #: ui/preferences.daemon.network.misc.glade:312
 msgid "Smart ban"
@@ -2512,7 +2512,8 @@ msgstr "Chytrý zákaz"
 
 #: ui/preferences.daemon.network.misc.glade:316
 msgid "Ban peers that sends bad data with very high accuracy."
-msgstr "Zakazuje s velkou přesností vrstevníky, kteří posílají poškozená data."
+msgstr ""
+"Zakazuje s velkou přesností neúplné zdroje, které posílají poškozená data."
 
 #: ui/preferences.daemon.network.misc.glade:358
 msgid "<b>Bandwidth</b>"
@@ -2551,7 +2552,7 @@ msgid ""
 msgstr ""
 "Tato volba je velmi užitečná, když nemáte pravou adresu IP a rozdělovač pro "
 "své torrenty nastavuje příliš velké dotazovací intervaly, protože v tom "
-"případě dostanete nové vrstevníky jen jednou za období.\n"
+"případě dostanete nové neúplné zdroje jen jednou za období.\n"
 "\n"
 "Tuto volbu, prosím, nepoužívejte, pokud máte skutečnou adresu IP! V tomto "
 "případě by torrentový klient nepracoval lépe, ale tato volba zvyšuje "
@@ -2645,11 +2646,11 @@ msgstr "Poměr sdílení:"
 
 #: ui/torrent_info_tabs.details.glade:407
 msgid "Peers:"
-msgstr "Vrstevníci:"
+msgstr "Neúplné zdroje:"
 
 #: ui/torrent_info_tabs.details.glade:418
 msgid "Seeds:"
-msgstr "Semena:"
+msgstr "Úplné zdroje:"
 
 #: ui/torrent_info_tabs.details.glade:429
 #: ui/torrent_info_tabs.details_compact.glade:257
@@ -2780,4 +2781,4 @@ msgstr "Oznámení o dokončení všech stahování"
 
 #: ui/dialog.open_magnet_link.glade:26
 msgid "Magnet link:"
-msgstr "Odkaz na magnet:"
+msgstr "Magnet:"
