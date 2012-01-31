@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: flush\n"
 "Report-Msgid-Bugs-To: konishchev@gmail.com\n"
 "POT-Creation-Date: 2012-01-24 19:41+0400\n"
-"PO-Revision-Date: 2012-01-24 13:03+0100\n"
+"PO-Revision-Date: 2012-01-25 19:53+0100\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-03-05 14:08+0000\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: Lokalize 1.1\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
 "X-Language: cs_CZ\n"
 "X-Source-Language: C\n"
@@ -624,6 +624,7 @@ msgid "Files"
 msgstr "Soubory"
 
 #: src/torrents_viewport.cpp:262
+#, fuzzy
 msgid "Peers tab|Peers"
 msgstr "Zdroje"
 
@@ -806,7 +807,7 @@ msgstr "Dostupnost"
 
 #: src/torrent_peers_view.cpp:96 src/torrent_peers_view.cpp:113
 msgid "Hash fails"
-msgstr "Hash se nepodařil"
+msgstr "Rozbor selhal"
 
 #: src/torrent_peers_view.cpp:98
 msgid "IP address"
@@ -993,7 +994,7 @@ msgstr "Ná_pověda"
 
 #: src/main_window.cpp:642
 msgid "_About"
-msgstr "_O"
+msgstr "_O programu"
 
 #: src/main_window.cpp:867
 msgid "Create"
@@ -1156,7 +1157,7 @@ msgstr "Poměr"
 
 #: src/torrents_view.cpp:346 src/torrents_view.cpp:384
 msgid "Peers"
-msgstr "Neúplné zdroje"
+msgstr "Zdroje"
 
 #: src/torrents_view.cpp:347 src/torrents_view.cpp:385
 msgid "Seeds"
@@ -2491,8 +2492,7 @@ msgid ""
 "swarm within multicast reach."
 msgstr ""
 "Místní průzkumná služba. Tato služba přenáší informační rozbory všech "
-"nesoukromých torrentů v místní síti, aby našla neúplné zdroje z téhož roje v "
-"dosahu."
+"nesoukromých torrentů v místní síti, aby našla zdroje z téhož roje v dosahu."
 
 #: ui/preferences.daemon.network.misc.glade:283
 msgid "NAT-PMP"
@@ -2500,11 +2500,11 @@ msgstr "NAT-PMP"
 
 #: ui/preferences.daemon.network.misc.glade:298
 msgid "Peer exchange"
-msgstr "Výměna vrstevníků (PEX)"
+msgstr "Výměna zdrojů (PEX)"
 
 #: ui/preferences.daemon.network.misc.glade:302
 msgid "Exchanges peers between clients."
-msgstr "Vyměňuje neúplné zdroje mezi klienty."
+msgstr "Vyměňuje zdroje mezi klienty."
 
 #: ui/preferences.daemon.network.misc.glade:312
 msgid "Smart ban"
@@ -2512,8 +2512,7 @@ msgstr "Chytrý zákaz"
 
 #: ui/preferences.daemon.network.misc.glade:316
 msgid "Ban peers that sends bad data with very high accuracy."
-msgstr ""
-"Zakazuje s velkou přesností neúplné zdroje, které posílají poškozená data."
+msgstr "Zakazuje s velkou přesností zdroje, které posílají poškozená data."
 
 #: ui/preferences.daemon.network.misc.glade:358
 msgid "<b>Bandwidth</b>"
@@ -2552,7 +2551,7 @@ msgid ""
 msgstr ""
 "Tato volba je velmi užitečná, když nemáte pravou adresu IP a rozdělovač pro "
 "své torrenty nastavuje příliš velké dotazovací intervaly, protože v tom "
-"případě dostanete nové neúplné zdroje jen jednou za období.\n"
+"případě dostanete nové zdroje jen jednou za období.\n"
 "\n"
 "Tuto volbu, prosím, nepoužívejte, pokud máte skutečnou adresu IP! V tomto "
 "případě by torrentový klient nepracoval lépe, ale tato volba zvyšuje "
@@ -2646,7 +2645,7 @@ msgstr "Poměr sdílení:"
 
 #: ui/torrent_info_tabs.details.glade:407
 msgid "Peers:"
-msgstr "Neúplné zdroje:"
+msgstr "Zdroje:"
 
 #: ui/torrent_info_tabs.details.glade:418
 msgid "Seeds:"
