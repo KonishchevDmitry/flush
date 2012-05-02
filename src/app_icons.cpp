@@ -212,6 +212,10 @@ Glib::RefPtr<Gdk::Pixbuf> get_pixbuf(Id id, const Gtk::IconSize& size)
 			MLIB_LE();
 		}
 	}
+	//Без этого исключения программа не запускается, если файл изображения повреждён
+	catch(const Gdk::PixbufError & e){
+		g_message("Gdk::PixbufError maybe some image files are corrupted");
+	}
 }
 
 
